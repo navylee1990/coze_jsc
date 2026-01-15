@@ -428,11 +428,11 @@ export default function WaterPurifierDashboard() {
                       <span className="text-gray-400 mx-1">/</span>
                     </>
                   )}
-                  <span className="text-sm font-normal text-gray-500">
+                  <span className="text-sm font-bold text-gray-900">
                     {viewLevel === 'city' ? `${selectedRegion}` : '区域达成情况'}
                   </span>
                   {viewLevel === 'region' && (
-                    <span className="text-sm font-normal text-gray-500 ml-1">({timeRange === 'month' ? '1月' : timeRange === 'quarter' ? 'Q1' : '2024年'})</span>
+                    <span className="text-sm font-bold text-gray-900 ml-1">({timeRange === 'month' ? '1月' : timeRange === 'quarter' ? 'Q1' : '2024年'})</span>
                   )}
                 </div>
               </div>
@@ -515,7 +515,7 @@ export default function WaterPurifierDashboard() {
               <div className="flex items-center justify-between mb-3">
                 <div className="text-sm font-bold text-gray-900 flex items-center gap-2">
                   <Activity className="w-4 h-4 text-blue-600" />
-                  <span className="text-sm font-normal text-gray-500">下钻分析</span>
+                  <span className="text-sm font-bold text-gray-900">下钻分析</span>
                 </div>
               </div>
               <div className="grid grid-cols-1 gap-2">
