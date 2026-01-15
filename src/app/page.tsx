@@ -213,7 +213,7 @@ export default function WaterPurifierDashboard() {
               </div>
             </div>
           </div>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-3">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-3">
           {/* 目标 */}
           <Card>
             <CardContent className="p-3">
@@ -270,6 +270,27 @@ export default function WaterPurifierDashboard() {
                   <ArrowDown className="w-3 h-3" />
                   <span>-54.5%</span>
                 </div>
+              </div>
+            </CardContent>
+          </Card>
+
+          {/* 项目储备 */}
+          <Card className="bg-gradient-to-br from-purple-50 to-pink-50 border-2 border-purple-200">
+            <CardContent className="p-3">
+              <div className="flex items-center gap-1.5 text-xs text-gray-500">
+                <Database className="w-3 h-3 text-purple-500" />
+                <span>项目储备</span>
+              </div>
+              <div className="text-2xl font-bold text-purple-600">1,200</div>
+              <div className="flex items-center justify-between">
+                <span className="text-xs text-gray-400">万元</span>
+                <div className="flex items-center gap-1 text-xs text-purple-700 font-medium">
+                  <AlertTriangle className="w-3 h-3 text-red-500" />
+                  <span>储备不足</span>
+                </div>
+              </div>
+              <div className="mt-1 text-xs text-gray-600">
+                缺口<span className="text-red-600 font-medium ml-1">¥1,200万</span>
               </div>
             </CardContent>
           </Card>
