@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { ArrowUp, ArrowDown, TrendingUp, AlertTriangle, Activity, Target, Heart, Shield, Clock, Database } from 'lucide-react';
+import { ArrowUp, ArrowDown, TrendingUp, AlertTriangle, Activity, Target, Heart, Shield, Clock, Database, ChevronRight } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Progress } from '@/components/ui/progress';
 import { AIInsight } from '@/components/ai-insight';
@@ -442,13 +442,19 @@ export default function WaterPurifierDashboard() {
                 <table className="w-full">
                   <thead>
                     <tr className="border-b border-gray-100">
-                      <th className="px-2 py-2 text-left text-sm font-medium text-gray-500">{viewLevel === 'city' ? '城市' : '大区'}</th>
+                      <th className="px-3 py-2 text-left text-sm font-medium text-gray-500">
+                        {viewLevel === 'city' ? '城市' : '大区'}
+                        {viewLevel === 'region' && (
+                          <span className="ml-1 text-xs text-blue-500 font-normal">（点击查看）</span>
+                        )}
+                      </th>
                       <th className="px-2 py-2 text-left text-sm font-medium text-gray-500">责任人</th>
                       <th className="px-2 py-2 text-right text-sm font-medium text-gray-500">目标</th>
                       <th className="px-2 py-2 text-right text-sm font-medium text-gray-500">已完成</th>
                       <th className="px-2 py-2 text-right text-sm font-medium text-gray-500">预计</th>
                       <th className="px-2 py-2 text-right text-sm font-medium text-gray-500">缺口</th>
                       <th className="px-2 py-2 text-center text-sm font-medium text-gray-500">达成率</th>
+                      <th className="px-1 py-2"></th>
                     </tr>
                   </thead>
                   <tbody>
@@ -456,9 +462,16 @@ export default function WaterPurifierDashboard() {
                       <tr
                         key={index}
                         onClick={() => viewLevel === 'region' ? handleRegionClick(item.name) : undefined}
-                        className={`hover:bg-blue-50/30 transition-colors border-b border-gray-50 last:border-0 ${viewLevel === 'region' ? 'cursor-pointer group' : ''}`}
+                        className={`group border-b border-gray-50 last:border-0 ${viewLevel === 'region' ? 'cursor-pointer hover:bg-blue-50 hover:border-l-4 hover:border-l-blue-500' : ''}`}
                       >
-                        <td className="px-2 py-2.5 text-sm font-medium text-gray-900">{item.name}</td>
+                        <td className="px-3 py-2.5 text-sm font-medium text-gray-900 group-hover:text-blue-600 transition-colors">
+                          <div className="flex items-center gap-2">
+                            {viewLevel === 'region' && (
+                              <ChevronRight className="w-4 h-4 text-gray-400 group-hover:text-blue-500 group-hover:translate-x-0.5 transition-all" />
+                            )}
+                            {item.name}
+                          </div>
+                        </td>
                         <td className="px-2 py-2.5 text-sm text-gray-500">{item.owner}</td>
                         <td className="px-2 py-2.5 text-sm text-right text-gray-600">{item.target.toLocaleString()}</td>
                         <td className="px-2 py-2.5 text-sm text-right text-gray-600">{item.completed.toLocaleString()}</td>
@@ -482,6 +495,11 @@ export default function WaterPurifierDashboard() {
                               />
                             </div>
                           </div>
+                        </td>
+                        <td className="px-1 py-2.5">
+                          {viewLevel === 'region' && (
+                            <ChevronRight className="w-4 h-4 text-gray-300 group-hover:text-blue-500 transition-colors" />
+                          )}
                         </td>
                       </tr>
                     ))}
