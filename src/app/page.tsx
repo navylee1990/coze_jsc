@@ -328,14 +328,14 @@ export default function WaterPurifierDashboard() {
           <Card className="bg-white border border-gray-200">
             <CardContent className="p-2.5">
               <div className="flex items-center justify-between">
-                <div className="flex items-center gap-1.5 text-xs font-medium text-gray-500">
+                <div className="flex items-center gap-1.5 text-sm font-medium text-gray-500">
                   <Target className="w-3 h-3 text-blue-500" />
                   <span>目标</span>
                 </div>
               </div>
               <div className="mt-2 flex items-baseline gap-1">
-                <span className="text-2xl font-bold text-gray-900">1,428</span>
-                <span className="text-xs text-gray-400">万元</span>
+                <span className="text-3xl font-bold text-gray-900">1,428</span>
+                <span className="text-sm text-gray-400">万元</span>
               </div>
             </CardContent>
           </Card>
@@ -343,12 +343,12 @@ export default function WaterPurifierDashboard() {
           {/* 已完成 */}
           <Card className="bg-white border border-gray-200">
             <CardContent className="p-2.5">
-              <div className="text-xs font-medium text-gray-500">已完成</div>
+              <div className="text-sm font-medium text-gray-500">已完成</div>
               <div className="mt-2 flex items-baseline gap-1">
-                <span className="text-2xl font-bold text-gray-900">677</span>
-                <span className="text-xs text-gray-400">万元</span>
+                <span className="text-3xl font-bold text-gray-900">677</span>
+                <span className="text-sm text-gray-400">万元</span>
               </div>
-              <div className="flex items-center gap-1 text-xs text-red-600">
+              <div className="flex items-center gap-1 text-sm text-red-600">
                 <ArrowDown className="w-3 h-3" />
                 <span>-8.3%</span>
               </div>
@@ -358,12 +358,12 @@ export default function WaterPurifierDashboard() {
           {/* 未来预计完成 */}
           <Card className="bg-white border border-blue-300 border-dashed">
             <CardContent className="p-2.5">
-              <div className="text-xs font-medium text-gray-500">未来预计完成</div>
+              <div className="text-sm font-medium text-gray-500">未来预计完成</div>
               <div className="mt-2 flex items-baseline gap-1">
-                <span className="text-2xl font-bold text-blue-600">650.3</span>
-                <span className="text-xs text-gray-400">万元</span>
+                <span className="text-3xl font-bold text-blue-600">650.3</span>
+                <span className="text-sm text-gray-400">万元</span>
               </div>
-              <div className="flex items-center gap-1 text-xs text-red-600">
+              <div className="flex items-center gap-1 text-sm text-red-600">
                 <ArrowDown className="w-3 h-3" />
                 <span>-12.2%</span>
               </div>
@@ -374,14 +374,14 @@ export default function WaterPurifierDashboard() {
           <Card className="bg-white border-2 border-red-200">
             <CardContent className="p-3">
               <div className="flex items-center justify-between">
-                <div className="text-xs font-medium text-gray-500">任务缺口</div>
+                <div className="text-sm font-medium text-gray-500">任务缺口</div>
                 <AlertTriangle className="w-3 h-3 text-red-500" />
               </div>
               <div className="mt-2 flex items-baseline gap-1">
-                <span className="text-2xl font-bold text-red-600">777.7</span>
-                <span className="text-xs text-gray-400">万元</span>
+                <span className="text-3xl font-bold text-red-600">777.7</span>
+                <span className="text-sm text-gray-400">万元</span>
               </div>
-              <div className="flex items-center gap-1 text-xs text-gray-500">
+              <div className="flex items-center gap-1 text-sm text-gray-500">
                 <ArrowDown className="w-3 h-3" />
                 <span>-54.5%</span>
               </div>
@@ -392,19 +392,19 @@ export default function WaterPurifierDashboard() {
           <Card className="bg-white border-2 border-purple-300">
             <CardContent className="p-2.5">
               <div className="flex items-center justify-between">
-                <div className="text-xs font-medium text-gray-500">项目储备</div>
+                <div className="text-sm font-medium text-gray-500">项目储备</div>
                 <Database className="w-3 h-3 text-purple-500" />
               </div>
               <div className="mt-2 flex items-baseline gap-1">
-                <span className="text-2xl font-bold text-purple-600">1,200</span>
-                <span className="text-xs text-gray-400">万元</span>
+                <span className="text-3xl font-bold text-purple-600">1,200</span>
+                <span className="text-sm text-gray-400">万元</span>
               </div>
               <div className="mt-1 flex items-center justify-between">
-                <div className="flex items-center gap-1 text-xs text-red-600 font-medium">
+                <div className="flex items-center gap-1 text-sm text-red-600 font-medium">
                   <AlertTriangle className="w-3 h-3" />
                   <span>储备不足</span>
                 </div>
-                <span className="text-xs text-gray-500">缺口¥1,200万</span>
+                <span className="text-sm text-gray-500">缺口¥1,200万</span>
               </div>
             </CardContent>
           </Card>
