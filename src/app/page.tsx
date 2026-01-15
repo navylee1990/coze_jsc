@@ -346,8 +346,8 @@ export default function WaterPurifierDashboard() {
                   <AlertTriangle className="w-4 h-4 text-yellow-600 flex-shrink-0 mt-0.5" />
                   <div className="text-sm text-gray-700">
                     <strong>关键洞察：</strong>
-                    在跟进项目总金额5,600万，但预计仅完成644万（转化率仅{(kpiData.followingProjectsPredicted / kpiData.followingProjectsTotal * 100).toFixed(1)}%），<span className="text-red-600 font-semibold">需大幅提升转化率</span>，
-                    建议优先跟进即将签约的12个项目，再攻坚127个高风险项目。
+                    未来预计完成4,100万（含已完成3,456万），缺口900万。在跟进项目5,600万中，预计仅贡献644万（占11.5%），<span className="text-red-600 font-semibold">转化率严重偏低</span>。
+                    建议优先跟进12个即将签约项目（约500万），再攻坚127个高风险项目（约400万）。
                   </div>
                 </div>
               </div>
