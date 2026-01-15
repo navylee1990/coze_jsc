@@ -146,7 +146,64 @@ export default function WaterPurifierDashboard() {
           </Card>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+        {/* 行动建议卡片 */}
+        <div className="mt-4 p-4 bg-gradient-to-r from-blue-50 to-indigo-50 rounded-lg border border-blue-200">
+          <div className="flex items-start gap-3">
+            <div className="p-2 bg-blue-600 rounded-lg">
+              <Target className="w-5 h-5 text-white" />
+            </div>
+            <div className="flex-1">
+              <h3 className="font-semibold text-gray-900 mb-2">行动建议</h3>
+              <div className="space-y-2 text-sm text-gray-700">
+                <div className="flex items-start gap-2">
+                  <span className="flex-shrink-0 w-5 h-5 bg-blue-600 text-white rounded-full flex items-center justify-center text-xs">1</span>
+                  <div>
+                    <strong>已有项目重点跟进</strong>：当前在跟进项目预计可完成 <span className="font-bold text-green-600">2,800万元</span>，可填补缺口 <span className="font-bold text-green-600">62%</span>
+                  </div>
+                </div>
+                <div className="flex items-start gap-2">
+                  <span className="flex-shrink-0 w-5 h-5 bg-orange-500 text-white rounded-full flex items-center justify-center text-xs">2</span>
+                  <div>
+                    <strong>开拓新项目</strong>：还需新开拓 <span className="font-bold text-orange-600">1,700万元</span>，建议餐饮行业再增加 <span className="font-bold text-orange-600">3-5个</span> A级项目
+                  </div>
+                </div>
+                <div className="flex items-start gap-2">
+                  <span className="flex-shrink-0 w-5 h-5 bg-red-500 text-white rounded-full flex items-center justify-center text-xs">3</span>
+                  <div>
+                    <strong>风险项目攻坚</strong>：<span className="font-bold text-red-600">127个</span> 高风险项目，重点关注餐饮/零售行业，预计可挽回 <span className="font-bold text-red-600">1,100万元</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* 项目转化预测 */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-3 mt-4">
+          <Card className="bg-green-50 border-green-200">
+            <CardContent className="p-4">
+              <div className="text-xs text-gray-600 mb-1">已签约项目</div>
+              <div className="text-2xl font-bold text-green-700">3,456</div>
+              <div className="text-xs text-gray-500 mt-1">万元（已完成）</div>
+            </CardContent>
+          </Card>
+          <Card className="bg-blue-50 border-blue-200">
+            <CardContent className="p-4">
+              <div className="text-xs text-gray-600 mb-1">在跟进项目（预计可完成）</div>
+              <div className="text-2xl font-bold text-blue-700">2,800</div>
+              <div className="text-xs text-gray-500 mt-1">万元（转化率70%）</div>
+            </CardContent>
+          </Card>
+          <Card className="bg-orange-50 border-orange-200">
+            <CardContent className="p-4">
+              <div className="text-xs text-gray-600 mb-1">还需新开拓</div>
+              <div className="text-2xl font-bold text-orange-700">1,700</div>
+              <div className="text-xs text-gray-500 mt-1">万元（约4-6个项目）</div>
+            </CardContent>
+          </Card>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-3 mt-4">
           {/* 当前健康指数 */}
           <Card>
             <CardContent className="p-4">
@@ -208,7 +265,154 @@ export default function WaterPurifierDashboard() {
           <TrendingUp className="w-5 h-5" />
           经营诊断
         </h2>
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 mb-4">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 mb-4">
+          {/* 缺口来源分析与填补方案 */}
+          <Card className="lg:col-span-1">
+            <CardHeader>
+              <CardTitle className="text-base flex items-center gap-2">
+                <Target className="w-4 h-4 text-orange-500" />
+                缺口分析与填补方案
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="space-y-3">
+                <div className="p-3 bg-orange-50 rounded-lg">
+                  <div className="flex justify-between items-center mb-1">
+                    <span className="text-sm font-medium text-orange-800">缺口来源</span>
+                    <span className="text-lg font-bold text-orange-700">900万</span>
+                  </div>
+                  <div className="text-xs text-orange-600">
+                    • 餐饮行业缺口：400万<br />
+                    • 零售行业缺口：300万<br />
+                    • 酒店行业缺口：200万
+                  </div>
+                </div>
+
+                <div className="p-3 bg-green-50 rounded-lg">
+                  <div className="text-sm font-medium text-green-800 mb-2">填补方案</div>
+                  <div className="space-y-1.5 text-xs text-green-700">
+                    <div className="flex items-center gap-2">
+                      <span className="w-1.5 h-1.5 bg-green-600 rounded-full"></span>
+                      <span>跟进项目转化：可填补560万（62%）</span>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <span className="w-1.5 h-1.5 bg-green-600 rounded-full"></span>
+                      <span>风险项目攻坚：可挽回220万（24%）</span>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <span className="w-1.5 h-1.5 bg-orange-500 rounded-full"></span>
+                      <span>新项目开拓：还需120万（14%）</span>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="p-3 bg-blue-50 rounded-lg">
+                  <div className="text-sm font-medium text-blue-800 mb-2">行动优先级</div>
+                  <div className="space-y-1.5 text-xs text-blue-700">
+                    <div className="flex items-center gap-2">
+                      <span className="flex-shrink-0 w-4 h-4 bg-red-500 text-white rounded text-[10px] flex items-center justify-center">1</span>
+                      <span>立即跟进12个即将签约项目（预计360万）</span>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <span className="flex-shrink-0 w-4 h-4 bg-orange-500 text-white rounded text-[10px] flex items-center justify-center">2</span>
+                      <span>攻坚127个高风险项目（预计挽回220万）</span>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <span className="flex-shrink-0 w-4 h-4 bg-yellow-500 text-white rounded text-[10px] flex items-center justify-center">3</span>
+                      <span>开拓餐饮行业3-5个A级项目</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <AIInsight
+                chartType="gap"
+                data={{ totalGap: 900, gapByIndustry: { catering: 400, retail: 300, hotel: 200 }, fillPlan: { followUp: 560, risk: 220, new: 120 } }}
+              />
+            </CardContent>
+          </Card>
+
+          <div className="lg:col-span-2 grid grid-cols-1 gap-4">
+            {/* 行业/渠道结构 */}
+            <Card>
+              <CardHeader>
+                <CardTitle className="text-base">行业/渠道结构</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div className="space-y-3">
+                  <div>
+                    <div className="flex justify-between text-sm mb-1">
+                      <span className="text-gray-600">餐饮行业</span>
+                      <span className="font-medium">1,200万元 (35%)</span>
+                    </div>
+                    <Progress value={35} className="h-2" />
+                  </div>
+                  <div>
+                    <div className="flex justify-between text-sm mb-1">
+                      <span className="text-gray-600">零售行业</span>
+                      <span className="font-medium">980万元 (28%)</span>
+                    </div>
+                    <Progress value={28} className="h-2" />
+                  </div>
+                  <div>
+                    <div className="flex justify-between text-sm mb-1">
+                      <span className="text-gray-600">酒店行业</span>
+                      <span className="font-medium">720万元 (21%)</span>
+                    </div>
+                    <Progress value={21} className="h-2" />
+                  </div>
+                  <div>
+                    <div className="flex justify-between text-sm mb-1">
+                      <span className="text-gray-600">办公楼</span>
+                      <span className="font-medium">556万元 (16%)</span>
+                    </div>
+                    <Progress value={16} className="h-2" />
+                  </div>
+                </div>
+                <AIInsight
+                  chartType="industry"
+                  data={{ catering: { name: '餐饮行业', value: 35, count: 1200 }, retail: { name: '零售行业', value: 28, count: 980 }, hotel: { name: '酒店行业', value: 21, count: 720 }, office: { name: '办公楼', value: 16, count: 556 } }}
+                />
+              </CardContent>
+            </Card>
+
+            {/* 项目等级结构 */}
+            <Card>
+              <CardHeader>
+                <CardTitle className="text-base">项目等级结构</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div className="space-y-3">
+                  <div className="flex items-center justify-between p-2 bg-gray-50 rounded">
+                    <span className="text-sm font-medium">地标项目</span>
+                    <Badge className="bg-green-500">15个</Badge>
+                  </div>
+                  <div className="flex items-center justify-between p-2 bg-gray-50 rounded">
+                    <span className="text-sm font-medium">VIP项目</span>
+                    <Badge className="bg-blue-500">68个</Badge>
+                  </div>
+                  <div className="flex items-center justify-between p-2 bg-gray-50 rounded">
+                    <span className="text-sm font-medium">A级项目</span>
+                    <Badge className="bg-yellow-500">150个</Badge>
+                  </div>
+                  <div className="flex items-center justify-between p-2 bg-gray-50 rounded">
+                    <span className="text-sm font-medium">B级项目</span>
+                    <Badge className="bg-gray-500">280个</Badge>
+                  </div>
+                  <div className="flex items-center justify-between p-2 bg-gray-50 rounded">
+                    <span className="text-sm font-medium">其他</span>
+                    <Badge className="bg-red-500">420个</Badge>
+                  </div>
+                </div>
+                <AIInsight
+                  chartType="grade"
+                  data={{ landmark: { name: '地标项目', count: 15 }, vip: { name: 'VIP项目', count: 68 }, a: { name: 'A级项目', count: 150 }, b: { name: 'B级项目', count: 280 }, other: { name: '其他', count: 420 } }}
+                />
+              </CardContent>
+            </Card>
+          </div>
+        </div>
+
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 mb-4">
           {/* 行业/渠道结构 */}
           <Card>
             <CardHeader>

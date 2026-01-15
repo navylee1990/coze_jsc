@@ -49,6 +49,14 @@ export async function POST(request: NextRequest) {
 2. 分析停滞原因
 3. 给出跟进建议
 4. 控制在80字以内，语言精炼`,
+
+      gap: `你是一位商用净水行业的专业经营数据分析师。
+请基于提供的数据，生成简洁、专业的缺口分析与行动建议。
+要求：
+1. 分析缺口的主要来源
+2. 评估填补方案的可行性
+3. 给出优先级最高的行动建议
+4. 控制在80字以内，语言精炼`,
     };
 
     const userPrompts: Record<string, string> = {
@@ -57,6 +65,7 @@ export async function POST(request: NextRequest) {
       node: `数据：${JSON.stringify(data)}\n请分析跟进节点分布数据，生成结论。`,
       risk: `数据：${JSON.stringify(data)}\n请分析高风险项目数据，生成结论。`,
       stagnant: `数据：${JSON.stringify(data)}\n请分析停滞项目数据，生成结论。`,
+      gap: `数据：${JSON.stringify(data)}\n请分析缺口来源与填补方案，生成行动建议。`,
     };
 
     const messages = [
