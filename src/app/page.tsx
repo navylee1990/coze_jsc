@@ -308,31 +308,19 @@ export default function WaterPurifierDashboard() {
 
                   {/* 风险识别 */}
                   {!timeRangeData[timeRange as keyof typeof timeRangeData].canComplete && (
-                    <div className="p-4 bg-gradient-to-r from-orange-50 to-yellow-50 rounded-xl border-2 border-orange-200 shadow-sm">
-                      <div className="flex items-center gap-2 mb-3">
-                        <div className="p-1.5 bg-orange-100 rounded-lg">
-                          <AlertTriangle className="w-5 h-5 text-orange-600" />
-                        </div>
-                        <span className="text-sm font-bold text-orange-800">风险因素</span>
+                    <div className="px-3 py-2.5 bg-gradient-to-r from-orange-50 to-yellow-50 rounded-lg border border-orange-200">
+                      <div className="flex items-center gap-2 mb-2">
+                        <AlertTriangle className="w-4 h-4 text-orange-600" />
+                        <span className="text-xs font-bold text-orange-800">风险因素</span>
                       </div>
-                      <div className="space-y-2.5 text-sm text-gray-700">
-                        <div className="flex items-start gap-3 p-3 bg-white rounded-lg border border-orange-200 shadow-sm">
-                          <div className="flex-shrink-0 w-6 h-6 bg-yellow-400 rounded-full flex items-center justify-center mt-0.5">
-                            <span className="text-xs font-bold text-white">1</span>
-                          </div>
-                          <div>
-                            <span className="font-bold text-yellow-700">整体达成率偏低：</span>
-                            7个大区仅1个达成（华中100%），平均达成率47.4%
-                          </div>
+                      <div className="space-y-1.5 text-xs text-gray-700">
+                        <div className="flex items-start gap-2">
+                          <span className="flex-shrink-0 w-4 h-4 bg-yellow-400 rounded-full flex items-center justify-center text-[10px] font-bold text-white mt-0.5">1</span>
+                          <span><span className="font-bold text-yellow-700">达成率偏低：</span>仅1个大区达标，平均47.4%</span>
                         </div>
-                        <div className="flex items-start gap-3 p-3 bg-white rounded-lg border border-orange-200 shadow-sm">
-                          <div className="flex-shrink-0 w-6 h-6 bg-orange-400 rounded-full flex items-center justify-center mt-0.5">
-                            <span className="text-xs font-bold text-white">2</span>
-                          </div>
-                          <div>
-                            <span className="font-bold text-yellow-700">任务缺口巨大：</span>
-                            月度缺口777.7万，需重点跟进6个未达标区域
-                          </div>
+                        <div className="flex items-start gap-2">
+                          <span className="flex-shrink-0 w-4 h-4 bg-orange-400 rounded-full flex items-center justify-center text-[10px] font-bold text-white mt-0.5">2</span>
+                          <span><span className="font-bold text-yellow-700">缺口巨大：</span>月度缺口777.7万，6个区域未达标</span>
                         </div>
                       </div>
                     </div>
