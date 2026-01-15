@@ -185,7 +185,7 @@ const cityData = {
   },
 };
 
-const riskLevel = kpiData.taskGap > 900 ? 'high' : kpiData.taskGap > 500 ? 'medium' : 'low';
+const riskLevel = kpiData.currentHealthIndex < 60 || kpiData.taskGap > 900 ? 'high' : kpiData.taskGap > 500 ? 'medium' : 'low';
 
 const getGapColor = () => {
   if (riskLevel === 'high') return { bg: 'bg-red-50', border: 'border-red-300', text: 'text-red-600' };
