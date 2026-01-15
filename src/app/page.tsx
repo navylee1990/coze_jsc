@@ -430,11 +430,11 @@ export default function WaterPurifierDashboard() {
                       <span className="text-gray-400 mx-1">/</span>
                     </>
                   )}
-                  <span className="text-xs font-normal text-gray-500">
+                  <span className="text-sm font-normal text-gray-500">
                     {viewLevel === 'city' ? `${selectedRegion}` : '区域达成情况'}
                   </span>
                   {viewLevel === 'region' && (
-                    <span className="text-xs font-normal text-gray-500 ml-1">({timeRange === 'month' ? '1月' : timeRange === 'quarter' ? 'Q1' : '2024年'})</span>
+                    <span className="text-sm font-normal text-gray-500 ml-1">({timeRange === 'month' ? '1月' : timeRange === 'quarter' ? 'Q1' : '2024年'})</span>
                   )}
                 </div>
               </div>
@@ -444,13 +444,13 @@ export default function WaterPurifierDashboard() {
                 <table className="w-full">
                   <thead>
                     <tr className="border-b border-gray-100">
-                      <th className="px-2 py-2 text-left text-xs font-medium text-gray-500">{viewLevel === 'city' ? '城市' : '大区'}</th>
-                      <th className="px-2 py-2 text-left text-xs font-medium text-gray-500">责任人</th>
-                      <th className="px-2 py-2 text-right text-xs font-medium text-gray-500">目标</th>
-                      <th className="px-2 py-2 text-right text-xs font-medium text-gray-500">已完成</th>
-                      <th className="px-2 py-2 text-right text-xs font-medium text-gray-500">预计</th>
-                      <th className="px-2 py-2 text-right text-xs font-medium text-gray-500">缺口</th>
-                      <th className="px-2 py-2 text-center text-xs font-medium text-gray-500">达成率</th>
+                      <th className="px-2 py-2 text-left text-sm font-medium text-gray-500">{viewLevel === 'city' ? '城市' : '大区'}</th>
+                      <th className="px-2 py-2 text-left text-sm font-medium text-gray-500">责任人</th>
+                      <th className="px-2 py-2 text-right text-sm font-medium text-gray-500">目标</th>
+                      <th className="px-2 py-2 text-right text-sm font-medium text-gray-500">已完成</th>
+                      <th className="px-2 py-2 text-right text-sm font-medium text-gray-500">预计</th>
+                      <th className="px-2 py-2 text-right text-sm font-medium text-gray-500">缺口</th>
+                      <th className="px-2 py-2 text-center text-sm font-medium text-gray-500">达成率</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -470,7 +470,7 @@ export default function WaterPurifierDashboard() {
                         </td>
                         <td className="px-2 py-2.5 text-center">
                           <div className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-gray-50 border border-gray-100">
-                            <span className={`text-xs font-bold ${
+                            <span className={`text-sm font-bold ${
                               item.rate >= 100 ? 'text-green-600' : item.rate >= 80 ? 'text-yellow-600' : 'text-red-600'
                             }`}>
                               {item.rate.toFixed(1)}%
@@ -508,13 +508,13 @@ export default function WaterPurifierDashboard() {
                     <div className="w-7 h-7 bg-indigo-100 rounded-lg flex items-center justify-center flex-shrink-0">
                       <Activity className="w-3.5 h-3.5 text-indigo-600" />
                     </div>
-                    <span className="text-xs font-semibold text-gray-700">按业务员</span>
+                    <span className="text-sm font-semibold text-gray-700">按业务员</span>
                   </div>
                   <div className="flex items-baseline gap-1">
-                    <span className="text-xl font-bold text-indigo-600">12</span>
-                    <span className="text-xs text-gray-500">业务员</span>
+                    <span className="text-lg font-bold text-indigo-600">12</span>
+                    <span className="text-sm text-gray-500">业务员</span>
                   </div>
-                  <div className="mt-1.5 inline-flex items-center gap-1 text-xs bg-red-100 text-red-700 px-2 py-0.5 rounded-full font-medium">
+                  <div className="mt-1.5 inline-flex items-center gap-1 text-sm bg-red-100 text-red-700 px-2 py-0.5 rounded-full font-medium">
                     <AlertTriangle className="w-2.5 h-2.5" />
                     3人未达标
                   </div>
@@ -524,13 +524,13 @@ export default function WaterPurifierDashboard() {
                     <div className="w-7 h-7 bg-green-100 rounded-lg flex items-center justify-center flex-shrink-0">
                       <Target className="w-3.5 h-3.5 text-green-600" />
                     </div>
-                    <span className="text-xs font-semibold text-gray-700">按经销商</span>
+                    <span className="text-sm font-semibold text-gray-700">按经销商</span>
                   </div>
                   <div className="flex items-baseline gap-1">
-                    <span className="text-xl font-bold text-green-600">8</span>
-                    <span className="text-xs text-gray-500">经销商</span>
+                    <span className="text-lg font-bold text-green-600">8</span>
+                    <span className="text-sm text-gray-500">经销商</span>
                   </div>
-                  <div className="mt-1.5 inline-flex items-center gap-1 text-xs bg-red-100 text-red-700 px-2 py-0.5 rounded-full font-medium">
+                  <div className="mt-1.5 inline-flex items-center gap-1 text-sm bg-red-100 text-red-700 px-2 py-0.5 rounded-full font-medium">
                     <AlertTriangle className="w-2.5 h-2.5" />
                     2家未达标
                   </div>
@@ -540,13 +540,13 @@ export default function WaterPurifierDashboard() {
                     <div className="w-7 h-7 bg-orange-100 rounded-lg flex items-center justify-center flex-shrink-0">
                       <AlertTriangle className="w-3.5 h-3.5 text-orange-600" />
                     </div>
-                    <span className="text-xs font-semibold text-gray-700">按项目</span>
+                    <span className="text-sm font-semibold text-gray-700">按项目</span>
                   </div>
                   <div className="flex items-baseline gap-1">
-                    <span className="text-xl font-bold text-orange-600">127</span>
-                    <span className="text-xs text-gray-500">高风险项目</span>
+                    <span className="text-lg font-bold text-orange-600">127</span>
+                    <span className="text-sm text-gray-500">高风险项目</span>
                   </div>
-                  <div className="mt-1.5 inline-flex items-center gap-1 text-xs bg-orange-100 text-orange-700 px-2 py-0.5 rounded-full font-medium">
+                  <div className="mt-1.5 inline-flex items-center gap-1 text-sm bg-orange-100 text-orange-700 px-2 py-0.5 rounded-full font-medium">
                     <Activity className="w-2.5 h-2.5" />
                     需优先跟进
                   </div>
