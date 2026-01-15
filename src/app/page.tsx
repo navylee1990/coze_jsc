@@ -213,27 +213,27 @@ export default function WaterPurifierDashboard() {
               </div>
             </div>
           </div>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-3">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
           {/* 目标 */}
-          <Card>
-            <CardContent className="p-3">
-              <div className="flex items-center gap-1.5 text-xs text-gray-500">
-                <Target className="w-3 h-3" />
+          <Card className="bg-white border border-gray-200 hover:shadow-lg transition-shadow">
+            <CardContent className="p-5">
+              <div className="flex items-center gap-2 text-xs font-medium text-gray-500 uppercase tracking-wider">
+                <Target className="w-3.5 h-3.5 text-blue-500" />
                 <span>目标</span>
               </div>
-              <div className="text-2xl font-bold text-blue-600">1,428</div>
-              <div className="text-xs text-gray-400">万元</div>
+              <div className="mt-3 text-3xl font-bold text-gray-900">1,428</div>
+              <div className="mt-1 text-sm text-gray-400">万元</div>
             </CardContent>
           </Card>
 
           {/* 已完成 */}
-          <Card>
-            <CardContent className="p-3">
-              <div className="text-xs text-gray-500">已完成</div>
-              <div className="text-2xl font-bold text-green-600">677</div>
-              <div className="flex items-center justify-between">
-                <span className="text-xs text-gray-400">万元</span>
-                <div className="flex items-center gap-1 text-xs text-red-600">
+          <Card className="bg-white border border-gray-200 hover:shadow-lg transition-shadow">
+            <CardContent className="p-5">
+              <div className="text-xs font-medium text-gray-500 uppercase tracking-wider">已完成</div>
+              <div className="mt-3 text-3xl font-bold text-gray-900">677</div>
+              <div className="flex items-center justify-between mt-1">
+                <span className="text-sm text-gray-400">万元</span>
+                <div className="flex items-center gap-1 px-2 py-1 bg-red-50 text-red-600 rounded text-xs font-semibold">
                   <ArrowDown className="w-3 h-3" />
                   <span>-8.3%</span>
                 </div>
@@ -242,13 +242,13 @@ export default function WaterPurifierDashboard() {
           </Card>
 
           {/* 未来预计完成 */}
-          <Card className="border-2 border-dashed border-blue-300">
-            <CardContent className="p-3">
-              <div className="text-xs text-gray-500">未来预计完成</div>
-              <div className="text-2xl font-bold text-blue-600">650.3</div>
-              <div className="flex items-center justify-between">
-                <span className="text-xs text-gray-400">万元</span>
-                <div className="flex items-center gap-1 text-xs text-red-600">
+          <Card className="bg-white border border-blue-300 border-dashed hover:shadow-lg transition-shadow">
+            <CardContent className="p-5">
+              <div className="text-xs font-medium text-gray-500 uppercase tracking-wider">未来预计完成</div>
+              <div className="mt-3 text-3xl font-bold text-blue-600">650.3</div>
+              <div className="flex items-center justify-between mt-1">
+                <span className="text-sm text-gray-400">万元</span>
+                <div className="flex items-center gap-1 px-2 py-1 bg-red-50 text-red-600 rounded text-xs font-semibold">
                   <ArrowDown className="w-3 h-3" />
                   <span>-12.2%</span>
                 </div>
@@ -257,16 +257,16 @@ export default function WaterPurifierDashboard() {
           </Card>
 
           {/* 任务缺口 */}
-          <Card className={`${getGapColor().bg} border-2 ${getGapColor().border}`}>
-            <CardContent className="p-3">
+          <Card className="bg-white border-2 border-red-200 hover:shadow-lg transition-shadow">
+            <CardContent className="p-5">
               <div className="flex items-center justify-between">
-                <div className="text-xs text-gray-700 font-medium">任务缺口</div>
-                <AlertTriangle className={`w-3 h-3 ${getGapColor().text}`} />
+                <div className="text-xs font-medium text-gray-500 uppercase tracking-wider">任务缺口</div>
+                <AlertTriangle className="w-3.5 h-3.5 text-red-500" />
               </div>
-              <div className={`text-2xl font-bold ${getGapColor().text}`}>777.7</div>
-              <div className="flex items-center justify-between">
-                <span className="text-xs text-gray-600">万元</span>
-                <div className="flex items-center gap-1 text-xs text-gray-600">
+              <div className="mt-3 text-3xl font-bold text-red-600">777.7</div>
+              <div className="flex items-center justify-between mt-1">
+                <span className="text-sm text-gray-400">万元</span>
+                <div className="flex items-center gap-1 px-2 py-1 bg-red-50 text-red-600 rounded text-xs font-semibold">
                   <ArrowDown className="w-3 h-3" />
                   <span>-54.5%</span>
                 </div>
@@ -275,22 +275,19 @@ export default function WaterPurifierDashboard() {
           </Card>
 
           {/* 项目储备 */}
-          <Card className="bg-gradient-to-br from-purple-50 to-pink-50 border-2 border-purple-200">
-            <CardContent className="p-3">
-              <div className="flex items-center gap-1.5 text-xs text-gray-500">
-                <Database className="w-3 h-3 text-purple-500" />
-                <span>项目储备</span>
-              </div>
-              <div className="text-2xl font-bold text-purple-600">1,200</div>
+          <Card className="bg-white border-2 border-purple-300 hover:shadow-lg transition-shadow">
+            <CardContent className="p-5">
               <div className="flex items-center justify-between">
-                <span className="text-xs text-gray-400">万元</span>
-                <div className="flex items-center gap-1 text-xs text-purple-700 font-medium">
-                  <AlertTriangle className="w-3 h-3 text-red-500" />
-                  <span>储备不足</span>
-                </div>
+                <div className="text-xs font-medium text-gray-500 uppercase tracking-wider">项目储备</div>
+                <Database className="w-3.5 h-3.5 text-purple-500" />
               </div>
-              <div className="mt-1 text-xs text-gray-600">
-                缺口<span className="text-red-600 font-medium ml-1">¥1,200万</span>
+              <div className="mt-3 text-3xl font-bold text-purple-600">1,200</div>
+              <div className="mt-2 flex items-center gap-1 px-2 py-1 bg-red-50 text-red-600 rounded text-xs font-semibold">
+                <AlertTriangle className="w-3 h-3" />
+                <span>储备不足</span>
+              </div>
+              <div className="mt-2 text-sm text-gray-500">
+                缺口 <span className="text-red-600 font-bold">¥1,200万</span>
               </div>
             </CardContent>
           </Card>
