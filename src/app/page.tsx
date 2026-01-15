@@ -221,10 +221,10 @@ export default function WaterPurifierDashboard() {
 
         {/* 目标达成分析 */}
         <div className="mt-4">
-          <Card className="border-0 shadow-lg bg-white">
-            <CardHeader className="pb-4 bg-gradient-to-r from-blue-600 to-indigo-600 rounded-t-lg">
-              <CardTitle className="text-base flex items-center gap-2 text-white">
-                <Target className="w-5 h-5" />
+          <Card className="border-2 border-blue-200 bg-gradient-to-r from-blue-50 to-indigo-50">
+            <CardHeader>
+              <CardTitle className="text-base flex items-center gap-2 text-gray-900">
+                <Target className="w-5 h-5 text-blue-600" />
                 目标达成分析（{timeRange === 'month' ? '1月' : timeRange === 'quarter' ? 'Q1' : '2024年'}）
               </CardTitle>
             </CardHeader>
