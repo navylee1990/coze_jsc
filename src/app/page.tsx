@@ -221,7 +221,6 @@ export default function WaterPurifierDashboard() {
                   </div>
                 </div>
               </div>
-              </div>
             </CardContent>
           </Card>
         </div>
