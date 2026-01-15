@@ -51,11 +51,11 @@ export async function POST(request: NextRequest) {
 4. 控制在80字以内，语言精炼`,
 
       gap: `你是一位商用净水行业的专业经营数据分析师。
-请基于提供的数据，生成简洁、专业的缺口分析与行动建议。
+请基于提供的数据，生成简洁、专业的转化率分析与提升建议。
 要求：
-1. 分析缺口的主要来源
-2. 评估填补方案的可行性
-3. 给出优先级最高的行动建议
+1. 分析当前转化率的问题
+2. 给出提升转化率的具体建议
+3. 评估提升到目标转化率的可行性
 4. 控制在80字以内，语言精炼`,
     };
 
@@ -65,7 +65,7 @@ export async function POST(request: NextRequest) {
       node: `数据：${JSON.stringify(data)}\n请分析跟进节点分布数据，生成结论。`,
       risk: `数据：${JSON.stringify(data)}\n请分析高风险项目数据，生成结论。`,
       stagnant: `数据：${JSON.stringify(data)}\n请分析停滞项目数据，生成结论。`,
-      gap: `数据：${JSON.stringify(data)}\n请分析缺口来源与填补方案，生成行动建议。`,
+      gap: `数据：${JSON.stringify(data)}\n请分析转化率数据，生成提升建议。`,
     };
 
     const messages = [
