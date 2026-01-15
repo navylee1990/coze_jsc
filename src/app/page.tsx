@@ -256,14 +256,7 @@ export default function WaterPurifierDashboard() {
                           className="hover:bg-indigo-50/50 transition-colors border-b border-gray-100 last:border-0"
                         >
                           <td className="px-4 py-3 text-sm font-semibold text-gray-900">{region.name}</td>
-                          <td className="px-4 py-3 text-sm text-gray-700 font-medium">
-                            <div className="flex items-center gap-2">
-                              <div className="w-7 h-7 bg-blue-100 rounded-full flex items-center justify-center">
-                                <span className="text-xs font-bold text-blue-600">{region.owner.charAt(0)}</span>
-                              </div>
-                              {region.owner}
-                            </div>
-                          </td>
+                          <td className="px-4 py-3 text-sm text-gray-700">{region.owner}</td>
                           <td className="px-4 py-3 text-sm text-right text-gray-600">{region.target.toLocaleString()}万</td>
                           <td className="px-4 py-3 text-sm text-right text-gray-900 font-medium">{region.completed.toLocaleString()}万</td>
                           <td className="px-4 py-3 text-sm text-right text-indigo-600 font-bold">{region.predicted.toLocaleString()}万</td>
