@@ -5,6 +5,7 @@ import { ArrowUp, ArrowDown, TrendingUp, AlertTriangle, Activity, Target, Heart,
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Progress } from '@/components/ui/progress';
 import { AIInsight } from '@/components/ai-insight';
+import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs';
 
 // 模拟数据（单位：万元）
 const kpiData = {
@@ -108,6 +109,7 @@ const getHealthColor = (value: number) => {
 export default function WaterPurifierDashboard() {
   const [filter, setFilter] = useState('all');
   const [timeRange, setTimeRange] = useState('month');
+  const [activeTab, setActiveTab] = useState('overview');
 
   return (
     <div className="min-h-screen bg-gray-50 p-4">
@@ -172,6 +174,16 @@ export default function WaterPurifierDashboard() {
             <span className="text-sm font-medium">{riskLevel === 'high' ? '高风险' : riskLevel === 'medium' ? '中风险' : '低风险'}</span>
           </div>
         </h2>
+
+        <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
+          <TabsList className="w-full">
+            <TabsTrigger value="overview">经营总览</TabsTrigger>
+            <TabsTrigger value="distributors">经销商</TabsTrigger>
+            <TabsTrigger value="projects">项目</TabsTrigger>
+            <TabsTrigger value="salesmen">业务员</TabsTrigger>
+          </TabsList>
+
+          <TabsContent value="overview">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-3">
           {/* 目标 */}
           <Card>
@@ -395,6 +407,38 @@ export default function WaterPurifierDashboard() {
             </div>
           </Card>
         </div>
+          </TabsContent>
+
+          <TabsContent value="distributors">
+            <div className="flex items-center justify-center py-20 text-gray-400">
+              <div className="text-center">
+                <Database className="w-16 h-16 mx-auto mb-4 opacity-50" />
+                <p className="text-lg font-medium">经销商数据</p>
+                <p className="text-sm mt-1">数据准备中...</p>
+              </div>
+            </div>
+          </TabsContent>
+
+          <TabsContent value="projects">
+            <div className="flex items-center justify-center py-20 text-gray-400">
+              <div className="text-center">
+                <Database className="w-16 h-16 mx-auto mb-4 opacity-50" />
+                <p className="text-lg font-medium">项目数据</p>
+                <p className="text-sm mt-1">数据准备中...</p>
+              </div>
+            </div>
+          </TabsContent>
+
+          <TabsContent value="salesmen">
+            <div className="flex items-center justify-center py-20 text-gray-400">
+              <div className="text-center">
+                <Database className="w-16 h-16 mx-auto mb-4 opacity-50" />
+                <p className="text-lg font-medium">业务员数据</p>
+                <p className="text-sm mt-1">数据准备中...</p>
+              </div>
+            </div>
+          </TabsContent>
+        </Tabs>
       </section>
 
       {/* 第二层：经营诊断 */}
