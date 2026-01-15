@@ -316,16 +316,16 @@ export default function WaterPurifierDashboard() {
 
               {/* 大区维度表格 */}
               <div className="bg-white rounded-lg border border-gray-200 overflow-hidden">
-                <table className="w-full">
+                <table className="w-full table-fixed">
                   <thead className="bg-gradient-to-r from-gray-50 to-blue-50 border-b border-gray-200">
                     <tr>
-                      <th className="px-3 py-2 text-left text-xs font-semibold text-gray-700">大区</th>
-                      <th className="px-3 py-2 text-left text-xs font-semibold text-gray-700">责任人</th>
-                      <th className="px-3 py-2 text-right text-xs font-semibold text-gray-700">目标</th>
-                      <th className="px-3 py-2 text-right text-xs font-semibold text-gray-700">已完成</th>
-                      <th className="px-3 py-2 text-right text-xs font-semibold text-gray-700">预计</th>
-                      <th className="px-3 py-2 text-right text-xs font-semibold text-gray-700">缺口</th>
-                      <th className="px-3 py-2 text-center text-xs font-semibold text-gray-700">达成率</th>
+                      <th className="w-[10%] px-3 py-2 text-left text-xs font-semibold text-gray-700">大区</th>
+                      <th className="w-[10%] px-3 py-2 text-left text-xs font-semibold text-gray-700">责任人</th>
+                      <th className="w-[12%] px-3 py-2 text-right text-xs font-semibold text-gray-700">目标</th>
+                      <th className="w-[12%] px-3 py-2 text-right text-xs font-semibold text-gray-700">已完成</th>
+                      <th className="w-[12%] px-3 py-2 text-right text-xs font-semibold text-gray-700">预计</th>
+                      <th className="w-[16%] px-3 py-2 text-right text-xs font-semibold text-gray-700">缺口</th>
+                      <th className="w-[28%] px-3 py-2 text-center text-xs font-semibold text-gray-700">达成率</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -334,28 +334,28 @@ export default function WaterPurifierDashboard() {
                         key={index}
                         className="hover:bg-blue-50/50 transition-colors border-b border-gray-100 last:border-0 cursor-pointer"
                       >
-                        <td className="px-3 py-2 text-sm font-medium text-gray-900">{region.name}</td>
-                        <td className="px-3 py-2 text-sm text-gray-600">{region.owner}</td>
+                        <td className="px-3 py-2 text-sm font-semibold text-gray-900 truncate">{region.name}</td>
+                        <td className="px-3 py-2 text-sm text-gray-600 truncate">{region.owner}</td>
                         <td className="px-3 py-2 text-sm text-right text-gray-700">{region.target.toLocaleString()}万</td>
                         <td className="px-3 py-2 text-sm text-right text-gray-700">{region.completed.toLocaleString()}万</td>
                         <td className="px-3 py-2 text-sm text-right text-gray-700">{region.predicted.toLocaleString()}万</td>
-                        <td className={`px-3 py-2 text-sm text-right font-medium ${region.gap > 0 ? 'text-red-600' : region.gap === 0 ? 'text-gray-600' : 'text-green-600'}`}>
+                        <td className={`px-3 py-2 text-sm text-right font-bold ${region.gap > 0 ? 'text-red-600' : region.gap === 0 ? 'text-gray-600' : 'text-green-600'}`}>
                           {region.gap > 0 ? `${region.gap}` : region.gap === 0 ? '0' : `+${Math.abs(region.gap)}`}
                         </td>
-                        <td className="px-3 py-2 text-sm text-center">
-                          <div className="flex items-center justify-center gap-2">
+                        <td className="px-3 py-2 text-center">
+                          <div className="flex flex-col items-center justify-center">
                             <span className={`text-sm font-bold ${
                               region.rate >= 100 ? 'text-green-600' : region.rate >= 80 ? 'text-yellow-600' : 'text-red-600'
                             }`}>
                               {region.rate.toFixed(1)}%
                             </span>
+                            <Progress
+                              value={Math.min(region.rate, 100)}
+                              className={`h-1.5 mt-1 w-full ${
+                                region.rate >= 100 ? '[&>div]:bg-green-500' : region.rate >= 80 ? '[&>div]:bg-yellow-500' : '[&>div]:bg-red-500'
+                              }`}
+                            />
                           </div>
-                          <Progress
-                            value={Math.min(region.rate, 100)}
-                            className={`h-1 mt-0.5 ${
-                              region.rate >= 100 ? '[&>div]:bg-green-500' : region.rate >= 80 ? '[&>div]:bg-yellow-500' : '[&>div]:bg-red-500'
-                            }`}
-                          />
                         </td>
                       </tr>
                     ))}
