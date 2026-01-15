@@ -301,8 +301,9 @@ export default function WaterPurifierDashboard() {
         </div>
 
         {/* 区域达成情况 */}
-        <div className="mt-3">
-          <Card className="border border-gray-200 bg-white">
+        <div className="mt-3 grid grid-cols-1 lg:grid-cols-3 gap-3">
+          {/* 左侧：表格 */}
+          <Card className="lg:col-span-2 border border-gray-200 bg-white">
             <CardContent className="p-3">
               {/* 标题 */}
               <div className="flex items-center justify-between mb-3">
@@ -325,7 +326,6 @@ export default function WaterPurifierDashboard() {
                       <th className="px-3 py-2 text-right text-xs font-semibold text-gray-700">预计</th>
                       <th className="px-3 py-2 text-right text-xs font-semibold text-gray-700">缺口</th>
                       <th className="px-3 py-2 text-center text-xs font-semibold text-gray-700">达成率</th>
-                      <th className="px-3 py-2 text-center text-xs font-semibold text-gray-700">趋势</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -357,25 +357,24 @@ export default function WaterPurifierDashboard() {
                             }`}
                           />
                         </td>
-                        <td className="px-3 py-2 text-sm text-center">
-                          {region.trend === 'up' ? (
-                            <div className="inline-flex items-center justify-center w-8 h-8 rounded-full bg-green-100">
-                              <ArrowUp className="w-4 h-4 text-green-600" />
-                            </div>
-                          ) : (
-                            <div className="inline-flex items-center justify-center w-8 h-8 rounded-full bg-red-100">
-                              <ArrowDown className="w-4 h-4 text-red-600" />
-                            </div>
-                          )}
-                        </td>
                       </tr>
                     ))}
                   </tbody>
                 </table>
               </div>
+            </CardContent>
+          </Card>
 
-              {/* 下钻分析 */}
-              <div className="mt-3 grid grid-cols-1 sm:grid-cols-3 gap-2">
+          {/* 右侧：下钻分析 */}
+          <Card className="lg:col-span-1 border border-gray-200 bg-white">
+            <CardContent className="p-3">
+              <div className="flex items-center justify-between mb-3">
+                <div className="text-sm font-bold text-gray-900 flex items-center gap-2">
+                  <Activity className="w-4 h-4 text-blue-600" />
+                  下钻分析
+                </div>
+              </div>
+              <div className="grid grid-cols-1 gap-2">
                 <button className="group p-2.5 bg-gradient-to-br from-blue-50 to-indigo-50 rounded-xl border border-blue-200 hover:border-blue-400 hover:shadow-md transition-all text-left">
                   <div className="flex items-center gap-2 mb-1.5">
                     <div className="w-7 h-7 bg-indigo-100 rounded-lg flex items-center justify-center flex-shrink-0">
