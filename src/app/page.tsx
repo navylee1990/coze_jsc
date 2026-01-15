@@ -91,6 +91,100 @@ const regionData = {
   ],
 };
 
+// 城市维度数据
+const cityData = {
+  month: {
+    '一区': [
+      { name: '北京', owner: '王泽', target: 180, completed: 35, predicted: 65, gap: 115, rate: 19.4 },
+      { name: '天津', owner: '王泽', target: 140, completed: 30, predicted: 45, gap: 95, rate: 21.4 },
+    ],
+    '二区': [
+      { name: '上海', owner: '陈超', target: 132, completed: 55, predicted: 55, gap: 77, rate: 41.7 },
+      { name: '苏州', owner: '陈超', target: 100, completed: 45, predicted: 45, gap: 55, rate: 45.0 },
+    ],
+    '五区': [
+      { name: '广州', owner: '张大鹏', target: 150, completed: 70, predicted: 58, gap: 92, rate: 46.7 },
+      { name: '深圳', owner: '张大鹏', target: 110, completed: 50, predicted: 42.4, gap: 67.6, rate: 45.5 },
+    ],
+    '华中': [
+      { name: '武汉', owner: '刘邦军', target: 80, completed: 80, predicted: 78, gap: 2, rate: 100.0 },
+      { name: '长沙', owner: '刘邦军', target: 72, completed: 72, predicted: 72, gap: 0, rate: 100.0 },
+    ],
+    '华北、西北': [
+      { name: '石家庄', owner: '康帅', target: 90, completed: 65, predicted: 38, gap: 52, rate: 72.2 },
+      { name: '太原', owner: '康帅', target: 70, completed: 55, predicted: 31.1, gap: 38.9, rate: 78.6 },
+    ],
+    '西南': [
+      { name: '成都', owner: '钟莲', target: 75, completed: 12, predicted: 6.3, gap: 68.7, rate: 16.0 },
+      { name: '重庆', owner: '钟莲', target: 53, completed: 8, predicted: 4.5, gap: 48.5, rate: 15.1 },
+    ],
+    '华南': [
+      { name: '南宁', owner: '徐婷婷', target: 96, completed: 55, predicted: 60, gap: 36, rate: 57.3 },
+      { name: '昆明', owner: '徐婷婷', target: 80, completed: 45, predicted: 50, gap: 30, rate: 56.3 },
+    ],
+  },
+  quarter: {
+    '一区': [
+      { name: '北京', owner: '王泽', target: 540, completed: 105, predicted: 195, gap: 345, rate: 19.4 },
+      { name: '天津', owner: '王泽', target: 420, completed: 90, predicted: 135, gap: 285, rate: 21.4 },
+    ],
+    '二区': [
+      { name: '上海', owner: '陈超', target: 396, completed: 165, predicted: 165, gap: 231, rate: 41.7 },
+      { name: '苏州', owner: '陈超', target: 300, completed: 135, predicted: 135, gap: 165, rate: 45.0 },
+    ],
+    '五区': [
+      { name: '广州', owner: '张大鹏', target: 450, completed: 210, predicted: 174, gap: 276, rate: 46.7 },
+      { name: '深圳', owner: '张大鹏', target: 330, completed: 150, predicted: 127.2, gap: 202.8, rate: 45.5 },
+    ],
+    '华中': [
+      { name: '武汉', owner: '刘邦军', target: 240, completed: 240, predicted: 234, gap: 6, rate: 100.0 },
+      { name: '长沙', owner: '刘邦军', target: 216, completed: 216, predicted: 216, gap: 0, rate: 100.0 },
+    ],
+    '华北、西北': [
+      { name: '石家庄', owner: '康帅', target: 270, completed: 195, predicted: 114, gap: 156, rate: 72.2 },
+      { name: '太原', owner: '康帅', target: 210, completed: 165, predicted: 93.3, gap: 116.7, rate: 78.6 },
+    ],
+    '西南': [
+      { name: '成都', owner: '钟莲', target: 225, completed: 36, predicted: 18.9, gap: 206.1, rate: 16.0 },
+      { name: '重庆', owner: '钟莲', target: 159, completed: 24, predicted: 13.5, gap: 145.5, rate: 15.1 },
+    ],
+    '华南': [
+      { name: '南宁', owner: '徐婷婷', target: 288, completed: 165, predicted: 180, gap: 108, rate: 57.3 },
+      { name: '昆明', owner: '徐婷婷', target: 240, completed: 135, predicted: 150, gap: 90, rate: 56.3 },
+    ],
+  },
+  year: {
+    '一区': [
+      { name: '北京', owner: '王泽', target: 2160, completed: 420, predicted: 780, gap: 1380, rate: 19.4 },
+      { name: '天津', owner: '王泽', target: 1680, completed: 360, predicted: 540, gap: 1140, rate: 21.4 },
+    ],
+    '二区': [
+      { name: '上海', owner: '陈超', target: 1584, completed: 660, predicted: 660, gap: 924, rate: 41.7 },
+      { name: '苏州', owner: '陈超', target: 1200, completed: 540, predicted: 540, gap: 660, rate: 45.0 },
+    ],
+    '五区': [
+      { name: '广州', owner: '张大鹏', target: 1800, completed: 840, predicted: 696, gap: 1104, rate: 46.7 },
+      { name: '深圳', owner: '张大鹏', target: 1320, completed: 600, predicted: 508.8, gap: 811.2, rate: 45.5 },
+    ],
+    '华中': [
+      { name: '武汉', owner: '刘邦军', target: 960, completed: 960, predicted: 936, gap: 24, rate: 100.0 },
+      { name: '长沙', owner: '刘邦军', target: 864, completed: 864, predicted: 864, gap: 0, rate: 100.0 },
+    ],
+    '华北、西北': [
+      { name: '石家庄', owner: '康帅', target: 1080, completed: 780, predicted: 456, gap: 624, rate: 72.2 },
+      { name: '太原', owner: '康帅', target: 840, completed: 660, predicted: 373.2, gap: 466.8, rate: 78.6 },
+    ],
+    '西南': [
+      { name: '成都', owner: '钟莲', target: 900, completed: 144, predicted: 75.6, gap: 824.4, rate: 16.0 },
+      { name: '重庆', owner: '钟莲', target: 636, completed: 96, predicted: 54, gap: 582, rate: 15.1 },
+    ],
+    '华南': [
+      { name: '南宁', owner: '徐婷婷', target: 1152, completed: 660, predicted: 720, gap: 432, rate: 57.3 },
+      { name: '昆明', owner: '徐婷婷', target: 960, completed: 540, predicted: 600, gap: 360, rate: 56.3 },
+    ],
+  },
+};
+
 const riskLevel = kpiData.taskGap > 900 ? 'high' : kpiData.taskGap > 500 ? 'medium' : 'low';
 
 const getGapColor = () => {
@@ -110,6 +204,22 @@ export default function WaterPurifierDashboard() {
   const [filter, setFilter] = useState('all');
   const [timeRange, setTimeRange] = useState('month');
   const [activeTab, setActiveTab] = useState('overview');
+  const [viewLevel, setViewLevel] = useState<'region' | 'city'>('region');
+  const [selectedRegion, setSelectedRegion] = useState<string>('');
+
+  const handleRegionClick = (regionName: string) => {
+    setSelectedRegion(regionName);
+    setViewLevel('city');
+  };
+
+  const handleBack = () => {
+    setViewLevel('region');
+    setSelectedRegion('');
+  };
+
+  const currentData = viewLevel === 'city'
+    ? (cityData[timeRange as keyof typeof cityData] as any)[selectedRegion] || []
+    : regionData[timeRange as keyof typeof regionData];
 
   return (
     <div className="min-h-screen bg-gray-50 p-4">
@@ -309,8 +419,23 @@ export default function WaterPurifierDashboard() {
               <div className="flex items-center justify-between mb-3">
                 <div className="text-sm font-bold text-gray-900 flex items-center gap-2">
                   <Activity className="w-4 h-4 text-blue-600" />
-                  区域达成情况
-                  <span className="text-xs font-normal text-gray-500 ml-1">({timeRange === 'month' ? '1月' : timeRange === 'quarter' ? 'Q1' : '2024年'})</span>
+                  {viewLevel === 'city' && (
+                    <>
+                      <button
+                        onClick={handleBack}
+                        className="text-xs text-blue-600 hover:text-blue-700 flex items-center gap-1 mr-1"
+                      >
+                        ← 返回大区
+                      </button>
+                      <span className="text-gray-400 mx-1">/</span>
+                    </>
+                  )}
+                  <span className="text-xs font-normal text-gray-500">
+                    {viewLevel === 'city' ? `${selectedRegion}` : '区域达成情况'}
+                  </span>
+                  {viewLevel === 'region' && (
+                    <span className="text-xs font-normal text-gray-500 ml-1">({timeRange === 'month' ? '1月' : timeRange === 'quarter' ? 'Q1' : '2024年'})</span>
+                  )}
                 </div>
               </div>
 
@@ -319,7 +444,7 @@ export default function WaterPurifierDashboard() {
                 <table className="w-full">
                   <thead>
                     <tr className="border-b border-gray-100">
-                      <th className="px-2 py-2 text-left text-xs font-medium text-gray-500">大区</th>
+                      <th className="px-2 py-2 text-left text-xs font-medium text-gray-500">{viewLevel === 'city' ? '城市' : '大区'}</th>
                       <th className="px-2 py-2 text-left text-xs font-medium text-gray-500">责任人</th>
                       <th className="px-2 py-2 text-right text-xs font-medium text-gray-500">目标</th>
                       <th className="px-2 py-2 text-right text-xs font-medium text-gray-500">已完成</th>
@@ -329,32 +454,33 @@ export default function WaterPurifierDashboard() {
                     </tr>
                   </thead>
                   <tbody>
-                    {regionData[timeRange as keyof typeof regionData].map((region, index) => (
+                    {currentData.map((item: any, index: number) => (
                       <tr
                         key={index}
-                        className="hover:bg-blue-50/30 transition-colors border-b border-gray-50 last:border-0 cursor-pointer group"
+                        onClick={() => viewLevel === 'region' ? handleRegionClick(item.name) : undefined}
+                        className={`hover:bg-blue-50/30 transition-colors border-b border-gray-50 last:border-0 ${viewLevel === 'region' ? 'cursor-pointer group' : ''}`}
                       >
-                        <td className="px-2 py-2.5 text-sm font-medium text-gray-900">{region.name}</td>
-                        <td className="px-2 py-2.5 text-sm text-gray-500">{region.owner}</td>
-                        <td className="px-2 py-2.5 text-sm text-right text-gray-600">{region.target.toLocaleString()}</td>
-                        <td className="px-2 py-2.5 text-sm text-right text-gray-600">{region.completed.toLocaleString()}</td>
-                        <td className="px-2 py-2.5 text-sm text-right text-gray-600">{region.predicted.toLocaleString()}</td>
-                        <td className={`px-2 py-2.5 text-sm text-right font-semibold ${region.gap > 0 ? 'text-red-500' : region.gap === 0 ? 'text-gray-600' : 'text-green-500'}`}>
-                          {region.gap > 0 ? `${region.gap}` : region.gap === 0 ? '0' : `+${Math.abs(region.gap)}`}
+                        <td className="px-2 py-2.5 text-sm font-medium text-gray-900">{item.name}</td>
+                        <td className="px-2 py-2.5 text-sm text-gray-500">{item.owner}</td>
+                        <td className="px-2 py-2.5 text-sm text-right text-gray-600">{item.target.toLocaleString()}</td>
+                        <td className="px-2 py-2.5 text-sm text-right text-gray-600">{item.completed.toLocaleString()}</td>
+                        <td className="px-2 py-2.5 text-sm text-right text-gray-600">{item.predicted.toLocaleString()}</td>
+                        <td className={`px-2 py-2.5 text-sm text-right font-semibold ${item.gap > 0 ? 'text-red-500' : item.gap === 0 ? 'text-gray-600' : 'text-green-500'}`}>
+                          {item.gap > 0 ? `${item.gap}` : item.gap === 0 ? '0' : `+${Math.abs(item.gap)}`}
                         </td>
                         <td className="px-2 py-2.5 text-center">
                           <div className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-gray-50 border border-gray-100">
                             <span className={`text-xs font-bold ${
-                              region.rate >= 100 ? 'text-green-600' : region.rate >= 80 ? 'text-yellow-600' : 'text-red-600'
+                              item.rate >= 100 ? 'text-green-600' : item.rate >= 80 ? 'text-yellow-600' : 'text-red-600'
                             }`}>
-                              {region.rate.toFixed(1)}%
+                              {item.rate.toFixed(1)}%
                             </span>
                             <div className="w-8 h-1.5 rounded-full bg-gray-200 overflow-hidden">
                               <div
                                 className={`h-full rounded-full transition-all ${
-                                  region.rate >= 100 ? 'bg-green-500' : region.rate >= 80 ? 'bg-yellow-500' : 'bg-red-500'
+                                  item.rate >= 100 ? 'bg-green-500' : item.rate >= 80 ? 'bg-yellow-500' : 'bg-red-500'
                                 }`}
-                                style={{ width: `${Math.min(region.rate, 100)}%` }}
+                                style={{ width: `${Math.min(item.rate, 100)}%` }}
                               />
                             </div>
                           </div>
