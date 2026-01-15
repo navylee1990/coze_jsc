@@ -299,11 +299,7 @@ export default function WaterPurifierDashboard() {
 
         <TabsContent value="overview">
           {/* 经营总览标题 */}
-          <div className="mb-4 flex items-center justify-between">
-            <h2 className="text-lg font-semibold text-gray-900 flex items-center gap-2">
-              <Activity className="w-5 h-5" />
-              经营总览
-            </h2>
+          <div className="mb-4 flex items-center gap-4">
             <div className="flex items-center gap-4">
               {/* 健康指数 */}
               <div className="flex items-center gap-2 px-3 py-1.5 bg-white rounded-lg border border-gray-200 shadow-sm">
@@ -322,6 +318,10 @@ export default function WaterPurifierDashboard() {
                 </span>
               </div>
             </div>
+            <h2 className="text-lg font-semibold text-gray-900 flex items-center gap-2">
+              <Activity className="w-5 h-5" />
+              经营总览
+            </h2>
           </div>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-2">
           {/* 目标 */}
