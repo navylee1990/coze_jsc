@@ -178,88 +178,49 @@ export default function WaterPurifierDashboard() {
             <CardHeader className="pb-3">
               <CardTitle className="text-base flex items-center gap-2">
                 <Target className="w-5 h-5 text-blue-600" />
-                缺口分析与填补方案
+                缺口填补路径
               </CardTitle>
             </CardHeader>
             <CardContent>
-              {/* 目标行 */}
-              <div className="mb-4 p-3 bg-white rounded-lg border-2 border-blue-300">
-                <div className="flex items-center justify-between">
-                  <div>
-                    <div className="text-xs text-gray-500 mb-1">目标</div>
-                    <div className="text-3xl font-bold text-blue-700">5,000</div>
-                    <div className="text-xs text-gray-500 mt-1">万元</div>
-                  </div>
-                  <div className="text-right">
-                    <div className="text-4xl mb-1">🎯</div>
-                    <div className="text-xs text-gray-600">年度目标</div>
-                  </div>
+              {/* 目标达成路径 */}
+              <div className="flex items-center gap-2">
+                <div className="flex-1 p-3 bg-green-50 rounded-lg border-2 border-green-200">
+                  <div className="text-xs text-gray-600 mb-1">已完成</div>
+                  <div className="text-2xl font-bold text-green-700">3,456</div>
+                  <div className="text-xs text-gray-500 mt-1">万元</div>
+                </div>
+                <div className="text-xl text-gray-400">+</div>
+                <div className="flex-1 p-3 bg-blue-50 rounded-lg border-2 border-blue-200">
+                  <div className="text-xs text-gray-600 mb-1">在跟进（预计）</div>
+                  <div className="text-2xl font-bold text-blue-700">644</div>
+                  <div className="text-xs text-gray-500 mt-1">万元</div>
+                  <div className="text-xs text-blue-600 mt-1">转化率 {kpiData.conversionRate.toFixed(1)}%</div>
+                </div>
+                <div className="text-xl text-gray-400">+</div>
+                <div className="flex-1 p-3 bg-orange-50 rounded-lg border-2 border-orange-200">
+                  <div className="text-xs text-gray-600 mb-1">还需开拓</div>
+                  <div className="text-2xl font-bold text-orange-700">256</div>
+                  <div className="text-xs text-gray-500 mt-1">万元</div>
+                </div>
+                <div className="text-xl text-gray-400">=</div>
+                <div className="flex-1 p-3 bg-purple-50 rounded-lg border-2 border-purple-200">
+                  <div className="text-xs text-gray-600 mb-1">目标达成</div>
+                  <div className="text-2xl font-bold text-purple-700">5,000</div>
+                  <div className="text-xs text-gray-500 mt-1">万元</div>
                 </div>
               </div>
 
-              {/* 完成情况行 */}
-              <div className="space-y-3">
-                <div className="flex items-center gap-2">
-                  <div className="flex-1 p-3 bg-green-50 rounded-lg border-2 border-green-200">
-                    <div className="text-xs text-gray-600 mb-1">已完成</div>
-                    <div className="text-2xl font-bold text-green-700">3,456</div>
-                    <div className="text-xs text-gray-500 mt-1">万元</div>
-                  </div>
-                  <div className="text-xl">+</div>
-                  <div className="flex-1 p-3 bg-blue-50 rounded-lg border-2 border-blue-200">
-                    <div className="text-xs text-gray-600 mb-1">在跟进（预计）</div>
-                    <div className="text-2xl font-bold text-blue-700">644</div>
-                    <div className="text-xs text-gray-500 mt-1">万元</div>
-                    <div className="text-xs text-blue-600 mt-1">转化率 {kpiData.conversionRate.toFixed(1)}%</div>
-                  </div>
-                  <div className="text-xl">+</div>
-                  <div className="flex-1 p-3 bg-orange-50 rounded-lg border-2 border-orange-200">
-                    <div className="text-xs text-gray-600 mb-1">还需开拓</div>
-                    <div className="text-2xl font-bold text-orange-700">256</div>
-                    <div className="text-xs text-gray-500 mt-1">万元</div>
-                  </div>
-                  <div className="text-xl">=</div>
-                  <div className="flex-1 p-3 bg-purple-50 rounded-lg border-2 border-purple-200">
-                    <div className="text-xs text-gray-600 mb-1">目标达成</div>
-                    <div className="text-2xl font-bold text-purple-700">5,000</div>
-                    <div className="text-xs text-gray-500 mt-1">万元</div>
+              {/* 关键洞察 */}
+              <div className="mt-4 p-3 bg-yellow-50 rounded-lg border border-yellow-200">
+                <div className="flex items-start gap-2">
+                  <AlertTriangle className="w-4 h-4 text-yellow-600 flex-shrink-0 mt-0.5" />
+                  <div className="text-sm text-gray-700">
+                    <strong>关键洞察：</strong>
+                    在跟进项目总金额5,600万，但预计仅完成644万（转化率仅{(kpiData.followingProjectsPredicted / kpiData.followingProjectsTotal * 100).toFixed(1)}%），<span className="text-red-600 font-semibold">需大幅提升转化率</span>，
+                    建议重点跟进即将签约的12个项目。
                   </div>
                 </div>
-
-                {/* 未来预计完成与缺口 */}
-                <div className="flex items-center gap-4 mt-4 pt-4 border-t border-gray-200">
-                  <div className="flex-1 p-3 bg-indigo-50 rounded-lg border border-indigo-200">
-                    <div className="text-xs text-gray-600 mb-1">未来预计完成</div>
-                    <div className="flex items-baseline gap-2">
-                      <span className="text-3xl font-bold text-indigo-700">4,100</span>
-                      <span className="text-sm text-gray-500">万元</span>
-                    </div>
-                    <div className="text-xs text-gray-500 mt-1">已完成 + 在跟进预计</div>
-                  </div>
-                  <div className="flex items-center">
-                    <ArrowDown className="w-6 h-6 text-red-500" />
-                  </div>
-                  <div className="flex-1 p-3 bg-red-50 rounded-lg border-2 border-red-300">
-                    <div className="text-xs text-red-700 mb-1">任务缺口</div>
-                    <div className="flex items-baseline gap-2">
-                      <span className="text-4xl font-bold text-red-600">900</span>
-                      <span className="text-sm text-gray-600">万元</span>
-                    </div>
-                    <div className="text-xs text-red-600 mt-1 font-medium">还需新开拓256万 + 提升转化率</div>
-                  </div>
-                </div>
-
-                {/* 关键洞察 */}
-                <div className="mt-4 p-3 bg-yellow-50 rounded-lg border border-yellow-200">
-                  <div className="flex items-start gap-2">
-                    <AlertTriangle className="w-4 h-4 text-yellow-600 flex-shrink-0 mt-0.5" />
-                    <div className="text-sm text-gray-700">
-                      <strong>关键洞察：</strong>
-                      在跟进项目总金额5,600万，但预计仅完成644万（转化率仅{(kpiData.followingProjectsPredicted / kpiData.followingProjectsTotal * 100).toFixed(1)}%），<span className="text-red-600 font-semibold">需大幅提升转化率</span>，
-                      建议重点跟进即将签约的12个项目。
-                    </div>
-                  </div>
-                </div>
+              </div>
               </div>
             </CardContent>
           </Card>
