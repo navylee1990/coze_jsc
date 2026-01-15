@@ -158,32 +158,41 @@ export default function WaterPurifierDashboard() {
         </select>
       </div>
 
-      {/* 第一层：经营总览 */}
-      <section className="mb-8">
-        <h2 className="text-lg font-semibold text-gray-900 mb-4 flex items-center gap-2">
-          <Activity className="w-5 h-5" />
-          经营总览
-          {/* 健康指数图标 */}
-          <div className="ml-4 flex items-center gap-1">
-            <Heart className={`w-5 h-5 ${getHealthColor(kpiData.currentHealthIndex) === 'green' ? 'text-green-500' : getHealthColor(kpiData.currentHealthIndex) === 'yellow' ? 'text-yellow-500' : 'text-red-500'}`} />
-            <span className="text-sm font-medium">{kpiData.currentHealthIndex.toFixed(1)}</span>
-          </div>
-          {/* 风险等级图标 */}
-          <div className="ml-4 flex items-center gap-1">
-            <Shield className={`w-5 h-5 ${riskLevel === 'high' ? 'text-red-500' : riskLevel === 'medium' ? 'text-yellow-500' : 'text-green-500'}`} />
-            <span className="text-sm font-medium">{riskLevel === 'high' ? '高风险' : riskLevel === 'medium' ? '中风险' : '低风险'}</span>
-          </div>
-        </h2>
+      {/* Tab页 */}
+      <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
+        <TabsList className="w-full mb-6">
+          <TabsTrigger value="overview">经营总览</TabsTrigger>
+          <TabsTrigger value="distributors">经销商</TabsTrigger>
+          <TabsTrigger value="projects">项目</TabsTrigger>
+          <TabsTrigger value="salesmen">业务员</TabsTrigger>
+        </TabsList>
 
-        <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
-          <TabsList className="w-full">
-            <TabsTrigger value="overview">经营总览</TabsTrigger>
-            <TabsTrigger value="distributors">经销商</TabsTrigger>
-            <TabsTrigger value="projects">项目</TabsTrigger>
-            <TabsTrigger value="salesmen">业务员</TabsTrigger>
-          </TabsList>
-
-          <TabsContent value="overview">
+        <TabsContent value="overview">
+          {/* 经营总览标题 */}
+          <div className="mb-4 flex items-center justify-between">
+            <h2 className="text-lg font-semibold text-gray-900 flex items-center gap-2">
+              <Activity className="w-5 h-5" />
+              经营总览
+            </h2>
+            <div className="flex items-center gap-4">
+              {/* 健康指数 */}
+              <div className="flex items-center gap-2 px-3 py-1.5 bg-white rounded-lg border border-gray-200 shadow-sm">
+                <Heart className={`w-4 h-4 ${getHealthColor(kpiData.currentHealthIndex) === 'green' ? 'text-green-500' : getHealthColor(kpiData.currentHealthIndex) === 'yellow' ? 'text-yellow-500' : 'text-red-500'}`} />
+                <span className="text-sm text-gray-700">健康值</span>
+                <span className={`text-sm font-bold ${getHealthColor(kpiData.currentHealthIndex) === 'green' ? 'text-green-600' : getHealthColor(kpiData.currentHealthIndex) === 'yellow' ? 'text-yellow-600' : 'text-red-600'}`}>
+                  {kpiData.currentHealthIndex.toFixed(1)}
+                </span>
+              </div>
+              {/* 风险等级 */}
+              <div className="flex items-center gap-2 px-3 py-1.5 bg-white rounded-lg border border-gray-200 shadow-sm">
+                <Shield className={`w-4 h-4 ${riskLevel === 'high' ? 'text-red-500' : riskLevel === 'medium' ? 'text-yellow-500' : 'text-green-500'}`} />
+                <span className="text-sm text-gray-700">风险</span>
+                <span className={`text-sm font-bold ${riskLevel === 'high' ? 'text-red-600' : riskLevel === 'medium' ? 'text-yellow-600' : 'text-green-600'}`}>
+                  {riskLevel === 'high' ? '高风险' : riskLevel === 'medium' ? '中风险' : '低风险'}
+                </span>
+              </div>
+            </div>
+          </div>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-3">
           {/* 目标 */}
           <Card>
@@ -564,7 +573,6 @@ export default function WaterPurifierDashboard() {
             </div>
           </TabsContent>
         </Tabs>
-      </section>
 
     </div>
   );
