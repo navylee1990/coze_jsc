@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { ArrowUp, ArrowDown, TrendingUp, AlertTriangle, Activity, Target } from 'lucide-react';
+import { ArrowUp, ArrowDown, TrendingUp, AlertTriangle, Activity, Target, Heart, Shield } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Progress } from '@/components/ui/progress';
@@ -105,12 +105,25 @@ export default function WaterPurifierDashboard() {
         <h2 className="text-lg font-semibold text-gray-900 mb-4 flex items-center gap-2">
           <Activity className="w-5 h-5" />
           经营总览
+          {/* 健康指数图标 */}
+          <div className="ml-4 flex items-center gap-1">
+            <Heart className={`w-5 h-5 ${getHealthColor(kpiData.currentHealthIndex) === 'green' ? 'text-green-500' : getHealthColor(kpiData.currentHealthIndex) === 'yellow' ? 'text-yellow-500' : 'text-red-500'}`} />
+            <span className="text-sm font-medium">{kpiData.currentHealthIndex.toFixed(0)}</span>
+          </div>
+          {/* 风险等级图标 */}
+          <div className="ml-4 flex items-center gap-1">
+            <Shield className={`w-5 h-5 ${riskLevel === 'high' ? 'text-red-500' : riskLevel === 'medium' ? 'text-yellow-500' : 'text-green-500'}`} />
+            <span className="text-sm font-medium">{riskLevel === 'high' ? '高风险' : riskLevel === 'medium' ? '中风险' : '低风险'}</span>
+          </div>
         </h2>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-3">
           {/* 目标 */}
           <Card>
             <CardContent className="p-4">
-              <div className="text-xs text-gray-500 mb-1">目标</div>
+              <div className="flex items-center gap-1.5 text-xs text-gray-500 mb-1">
+                <Target className="w-3.5 h-3.5" />
+                <span>目标</span>
+              </div>
               <div className="text-3xl font-bold text-blue-600">5,000</div>
               <div className="text-xs text-gray-400 mt-1">万元</div>
             </CardContent>
@@ -250,58 +263,6 @@ export default function WaterPurifierDashboard() {
               </div>
             </CardContent>
           </Card>
-        </div>
-
-        {/* 健康指数和风险等级 - 小图标展示 */}
-        <div className="mt-4 flex items-center gap-6">
-          {/* 健康指数 */}
-          <div className="flex items-center gap-2 text-sm">
-            <span className="text-gray-500">健康指数</span>
-            <div className="flex items-center gap-1">
-              <div className="relative w-8 h-8">
-                <svg className="w-full h-full transform -rotate-90">
-                  <circle
-                    cx="16"
-                    cy="16"
-                    r="14"
-                    stroke="#E5E7EB"
-                    strokeWidth="3"
-                    fill="none"
-                  />
-                  <circle
-                    cx="16"
-                    cy="16"
-                    r="14"
-                    stroke={getHealthColor(kpiData.currentHealthIndex) === 'green' ? '#10B981' : getHealthColor(kpiData.currentHealthIndex) === 'yellow' ? '#F59E0B' : '#EF4444'}
-                    strokeWidth="3"
-                    fill="none"
-                    strokeDasharray={`${kpiData.currentHealthIndex * 0.88} 88`}
-                    strokeLinecap="round"
-                  />
-                </svg>
-                <div className="absolute inset-0 flex items-center justify-center">
-                  <span className="text-[10px] font-bold text-gray-900">{kpiData.currentHealthIndex.toFixed(0)}</span>
-                </div>
-              </div>
-              <span className="text-xs text-red-600 flex items-center gap-0.5">
-                <ArrowDown className="w-3 h-3" />
-                2.1%
-              </span>
-            </div>
-          </div>
-
-          {/* 风险等级 */}
-          <div className="flex items-center gap-2 text-sm">
-            <span className="text-gray-500">风险等级</span>
-            <Badge className={`px-2.5 py-0.5 text-xs ${riskLevel === 'high' ? 'bg-red-500' : riskLevel === 'medium' ? 'bg-yellow-500' : 'bg-green-500'}`}>
-              {riskLevel === 'high' ? '高风险' : riskLevel === 'medium' ? '中风险' : '低风险'}
-            </Badge>
-          </div>
-
-          {/* 说明 */}
-          <div className="text-xs text-gray-400">
-            基于任务缺口900万评估
-          </div>
         </div>
       </section>
 
