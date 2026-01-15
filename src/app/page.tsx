@@ -160,11 +160,31 @@ export default function WaterPurifierDashboard() {
 
       {/* Tab页 */}
       <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
-        <TabsList className="w-full mb-6">
-          <TabsTrigger value="overview">经营总览</TabsTrigger>
-          <TabsTrigger value="distributors">经销商</TabsTrigger>
-          <TabsTrigger value="projects">项目</TabsTrigger>
-          <TabsTrigger value="salesmen">业务员</TabsTrigger>
+        <TabsList className="w-full mb-6 h-12 bg-white border border-gray-200 rounded-xl shadow-sm p-1">
+          <TabsTrigger value="overview" className="flex-1 h-10 rounded-lg data-[state=active]:bg-gradient-to-r data-[state=active]:from-blue-500 data-[state=active]:to-indigo-600 data-[state=active]:text-white data-[state=active]:shadow-md transition-all duration-200">
+            <span className="flex items-center gap-2">
+              <Activity className="w-4 h-4" />
+              经营总览
+            </span>
+          </TabsTrigger>
+          <TabsTrigger value="distributors" className="flex-1 h-10 rounded-lg data-[state=active]:bg-gradient-to-r data-[state=active]:from-blue-500 data-[state=active]:to-indigo-600 data-[state=active]:text-white data-[state=active]:shadow-md transition-all duration-200">
+            <span className="flex items-center gap-2">
+              <Database className="w-4 h-4" />
+              经销商
+            </span>
+          </TabsTrigger>
+          <TabsTrigger value="projects" className="flex-1 h-10 rounded-lg data-[state=active]:bg-gradient-to-r data-[state=active]:from-blue-500 data-[state=active]:to-indigo-600 data-[state=active]:text-white data-[state=active]:shadow-md transition-all duration-200">
+            <span className="flex items-center gap-2">
+              <Target className="w-4 h-4" />
+              项目
+            </span>
+          </TabsTrigger>
+          <TabsTrigger value="salesmen" className="flex-1 h-10 rounded-lg data-[state=active]:bg-gradient-to-r data-[state=active]:from-blue-500 data-[state=active]:to-indigo-600 data-[state=active]:text-white data-[state=active]:shadow-md transition-all duration-200">
+            <span className="flex items-center gap-2">
+              <TrendingUp className="w-4 h-4" />
+              业务员
+            </span>
+          </TabsTrigger>
         </TabsList>
 
         <TabsContent value="overview">
