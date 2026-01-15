@@ -243,17 +243,17 @@ export default function WaterPurifierDashboard() {
                 目标达成分析（{timeRange === 'month' ? '1月' : timeRange === 'quarter' ? 'Q1' : '2024年'}）
               </div>
               <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
-                {/* 左侧：大区维度达成情况 + 风险识别 */}
-                <div className="lg:col-span-2 space-y-3">
+                {/* 左侧：大区维度达成情况 */}
+                <div className="lg:col-span-2">
                   {/* 大区维度达成情况 */}
                   <div>
                     <div className="text-xs font-semibold text-gray-800 mb-2 flex items-center gap-2">
                       <Activity className="w-3.5 h-3.5 text-indigo-600" />
                       大区维度达成情况
                     </div>
-                    <div className="bg-gradient-to-br from-gray-50 to-white rounded-lg border border-gray-200 overflow-hidden shadow-sm">
+                    <div className="bg-white rounded-lg border border-gray-200 overflow-hidden">
                       <table className="w-full">
-                        <thead className="bg-gradient-to-r from-gray-100 to-gray-50">
+                        <thead className="bg-gray-50">
                           <tr>
                             <th className="px-3 py-2 text-left text-xs font-semibold text-gray-700">大区</th>
                             <th className="px-3 py-2 text-left text-xs font-semibold text-gray-700">责任人</th>
@@ -269,7 +269,7 @@ export default function WaterPurifierDashboard() {
                           {regionData[timeRange as keyof typeof regionData].map((region, index) => (
                             <tr
                               key={index}
-                              className="hover:bg-indigo-50/50 transition-colors border-b border-gray-100 last:border-0"
+                              className="hover:bg-gray-50 transition-colors border-b border-gray-100 last:border-0"
                             >
                               <td className="px-3 py-2 text-sm text-gray-700">{region.name}</td>
                               <td className="px-3 py-2 text-sm text-gray-700">{region.owner}</td>
@@ -309,87 +309,68 @@ export default function WaterPurifierDashboard() {
                       </table>
                     </div>
                   </div>
+                </div>
 
-                  {/* 风险识别 */}
+                {/* 右侧：风险预警 + 下钻分析 */}
+                <div className="lg:col-span-1 space-y-3">
+                  {/* 风险预警 */}
                   {!timeRangeData[timeRange as keyof typeof timeRangeData].canComplete && (
-                    <div className="px-3 py-2 bg-gradient-to-r from-orange-50 to-yellow-50 rounded-lg border border-orange-200">
-                      <div className="flex items-center gap-2 mb-1.5">
-                        <AlertTriangle className="w-3.5 h-3.5 text-orange-600" />
-                        <span className="text-xs font-bold text-orange-800">风险因素</span>
+                    <div className="p-3 bg-white rounded-lg border border-gray-200">
+                      <div className="flex items-center gap-2 mb-2">
+                        <AlertTriangle className="w-4 h-4 text-orange-600" />
+                        <span className="text-sm font-bold text-gray-800">风险预警</span>
                       </div>
-                      <div className="space-y-1 text-xs text-gray-700">
-                        <div className="flex items-start gap-2">
-                          <span className="flex-shrink-0 w-4 h-4 bg-yellow-400 rounded-full flex items-center justify-center text-[10px] font-bold text-white mt-0.5">1</span>
-                          <span><span className="font-bold text-yellow-700">达成率偏低：</span>仅1个大区达标，平均47.4%</span>
+                      <div className="space-y-2">
+                        <div className="flex items-start gap-2 text-xs text-gray-700">
+                          <span className="w-1.5 h-1.5 bg-orange-500 rounded-full mt-1.5 flex-shrink-0" />
+                          <span>达成率仅47.4%，7个大区仅1个达标</span>
                         </div>
-                        <div className="flex items-start gap-2">
-                          <span className="flex-shrink-0 w-4 h-4 bg-orange-400 rounded-full flex items-center justify-center text-[10px] font-bold text-white mt-0.5">2</span>
-                          <span><span className="font-bold text-yellow-700">缺口巨大：</span>月度缺口777.7万，6个区域未达标</span>
+                        <div className="flex items-start gap-2 text-xs text-gray-700">
+                          <span className="w-1.5 h-1.5 bg-orange-500 rounded-full mt-1.5 flex-shrink-0" />
+                          <span>月度缺口777.7万，6个区域需重点跟进</span>
                         </div>
                       </div>
                     </div>
                   )}
-                </div>
 
-                {/* 右侧：下钻分析 */}
-                <div className="lg:col-span-1 space-y-2">
-                  <button className="group w-full px-2.5 py-2 bg-gradient-to-br from-blue-50 to-indigo-50 rounded-lg border-2 border-blue-200 hover:border-indigo-400 hover:shadow-md transition-all text-left relative overflow-hidden">
-                    <div className="absolute inset-0 bg-gradient-to-br from-indigo-500/10 to-blue-500/10 opacity-0 group-hover:opacity-100 transition-opacity" />
-                    <div className="relative">
-                      <div className="flex items-center gap-1 text-xs text-gray-600 mb-1">
-                        <div className="w-3.5 h-3.5 bg-indigo-100 rounded flex items-center justify-center">
-                          <Activity className="w-2 h-2 text-indigo-600" />
-                        </div>
-                        <span className="font-semibold">按业务员</span>
-                      </div>
-                      <div className="flex items-center justify-between">
-                        <span className="text-lg font-bold text-indigo-600">12</span>
-                        <span className="text-xs text-gray-500">业务员</span>
-                      </div>
-                      <div className="mt-1 inline-flex items-center gap-1 text-xs bg-red-100 text-red-700 px-1.5 py-0.5 rounded-full font-medium">
-                        <AlertTriangle className="w-2 h-2" />
-                        3人未达标
-                      </div>
+                  {/* 下钻分析 */}
+                  <div className="bg-white rounded-lg border border-gray-200">
+                    <div className="px-3 py-2 border-b border-gray-200">
+                      <div className="text-xs font-semibold text-gray-800">下钻分析</div>
                     </div>
-                  </button>
-                  <button className="group w-full px-2.5 py-2 bg-gradient-to-br from-green-50 to-emerald-50 rounded-lg border-2 border-green-200 hover:border-green-400 hover:shadow-md transition-all text-left relative overflow-hidden">
-                    <div className="absolute inset-0 bg-gradient-to-br from-green-500/10 to-emerald-500/10 opacity-0 group-hover:opacity-100 transition-opacity" />
-                    <div className="relative">
-                      <div className="flex items-center gap-1 text-xs text-gray-600 mb-1">
-                        <div className="w-3.5 h-3.5 bg-green-100 rounded flex items-center justify-center">
-                          <Target className="w-2 h-2 text-green-600" />
+                    <div className="divide-y divide-gray-100">
+                      <button className="w-full px-3 py-2.5 hover:bg-gray-50 transition-colors text-left flex items-center justify-between group">
+                        <div className="flex items-center gap-2">
+                          <Activity className="w-3.5 h-3.5 text-blue-600" />
+                          <div>
+                            <div className="text-xs font-medium text-gray-800">按业务员</div>
+                            <div className="text-xs text-gray-500">12名业务员</div>
+                          </div>
                         </div>
-                        <span className="font-semibold">按经销商</span>
-                      </div>
-                      <div className="flex items-center justify-between">
-                        <span className="text-lg font-bold text-green-600">8</span>
-                        <span className="text-xs text-gray-500">经销商</span>
-                      </div>
-                      <div className="mt-1 inline-flex items-center gap-1 text-xs bg-red-100 text-red-700 px-1.5 py-0.5 rounded-full font-medium">
-                        <AlertTriangle className="w-2 h-2" />
-                        2家未达标
-                      </div>
-                    </div>
-                  </button>
-                  <button className="group w-full px-2.5 py-2 bg-gradient-to-br from-orange-50 to-amber-50 rounded-lg border-2 border-orange-200 hover:border-orange-400 hover:shadow-md transition-all text-left relative overflow-hidden">
-                    <div className="absolute inset-0 bg-gradient-to-br from-orange-500/10 to-amber-500/10 opacity-0 group-hover:opacity-100 transition-opacity" />
-                    <div className="relative">
-                      <div className="flex items-center gap-1 text-xs text-gray-600 mb-1">
-                        <div className="w-3.5 h-3.5 bg-orange-100 rounded flex items-center justify-center">
-                          <AlertTriangle className="w-2 h-2 text-orange-600" />
+                        <span className="text-xs text-red-600 font-medium bg-red-50 px-2 py-0.5 rounded-full">3人未达标</span>
+                      </button>
+                      <button className="w-full px-3 py-2.5 hover:bg-gray-50 transition-colors text-left flex items-center justify-between group">
+                        <div className="flex items-center gap-2">
+                          <Target className="w-3.5 h-3.5 text-green-600" />
+                          <div>
+                            <div className="text-xs font-medium text-gray-800">按经销商</div>
+                            <div className="text-xs text-gray-500">8家经销商</div>
+                          </div>
                         </div>
-                        <span className="font-semibold">按项目</span>
-                      </div>
-                      <div className="flex items-center justify-between">
-                        <span className="text-lg font-bold text-orange-600">127</span>
-                        <span className="text-xs text-gray-500">高风险项目</span>
-                      </div>
-                      <div className="mt-1 inline-flex items-center gap-1 text-xs bg-orange-100 text-orange-700 px-1.5 py-0.5 rounded-full font-medium">
-                        <Activity className="w-2 h-2" />
-                        需优先跟进
-                      </div>
+                        <span className="text-xs text-red-600 font-medium bg-red-50 px-2 py-0.5 rounded-full">2家未达标</span>
+                      </button>
+                      <button className="w-full px-3 py-2.5 hover:bg-gray-50 transition-colors text-left flex items-center justify-between group">
+                        <div className="flex items-center gap-2">
+                          <AlertTriangle className="w-3.5 h-3.5 text-orange-600" />
+                          <div>
+                            <div className="text-xs font-medium text-gray-800">按项目</div>
+                            <div className="text-xs text-gray-500">127个高风险项目</div>
+                          </div>
+                        </div>
+                        <span className="text-xs text-orange-600 font-medium bg-orange-50 px-2 py-0.5 rounded-full">需优先跟进</span>
+                      </button>
                     </div>
-                  </button>
+                  </div>
                 </div>
               </div>
             </div>
