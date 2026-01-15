@@ -8,52 +8,52 @@ import { AIInsight } from '@/components/ai-insight';
 
 // 模拟数据（单位：万元）
 const kpiData = {
-  target: 5000,
-  completed: 3456,
+  target: 1428,
+  completed: 677,
   // 未来预计完成 = 已完成 + 在跟进项目预计可完成
-  futurePredicted: 4100,
+  futurePredicted: 650.3,
   // 任务缺口 = 目标 - 未来预计完成
-  taskGap: 900,
-  currentHealthIndex: 76.5,
-  gapTrend: -15.3,
-  completedTrend: 12.5,
-  predictedTrend: 8.2,
-  healthTrend: -2.1,
+  taskGap: 777.7,
+  currentHealthIndex: 47.4,
+  gapTrend: -54.5,
+  completedTrend: -8.3,
+  predictedTrend: -12.2,
+  healthTrend: -10.5,
 
   // 缺口分析相关数据
   // 在跟进项目总金额（不是全部能完成）
   followingProjectsTotal: 5600,
   // 在跟进项目预计可完成（转化率约20%）
-  followingProjectsPredicted: 644, // 4100 - 3456 = 644
+  followingProjectsPredicted: -26.7, // 650.3 - 677 = -26.7
   // 还需新开拓 = 目标 - 已完成 - 在跟进预计
-  needNewProjects: 900, // 5000 - 3456 - 644 = 900
+  needNewProjects: 777.7, // 1428 - 677 - (-26.7) = 777.7
   // 转化率
-  conversionRate: 11.5, // 644 / 5600 * 100
+  conversionRate: 0.0, // -26.7 / 5600 * 100
 };
 
 // 不同时间维度的预测数据
 const timeRangeData = {
   month: {
-    target: 417, // 5000 / 12
-    completed: 345,
-    predicted: 400,
-    gap: 17,
-    canComplete: true,
-    risk: 'low',
+    target: 1428,
+    completed: 677,
+    predicted: 650.3,
+    gap: 777.7,
+    canComplete: false,
+    risk: 'high',
   },
   quarter: {
-    target: 1250, // 5000 / 4
-    completed: 1020,
-    predicted: 1150,
-    gap: 100,
-    canComplete: true,
-    risk: 'medium',
+    target: 4284,
+    completed: 2031,
+    predicted: 1950.9,
+    gap: 2333.1,
+    canComplete: false,
+    risk: 'high',
   },
   year: {
-    target: 5000,
-    completed: 3456,
-    predicted: 4100,
-    gap: 900,
+    target: 17136,
+    completed: 8124,
+    predicted: 7803.6,
+    gap: 9332.4,
     canComplete: false,
     risk: 'high',
   },
@@ -62,22 +62,31 @@ const timeRangeData = {
 // 大区维度数据
 const regionData = {
   month: [
-    { name: '华东大区', owner: '张伟', target: 150, completed: 130, predicted: 145, gap: 5, rate: 96.7, trend: 'up' },
-    { name: '华南大区', owner: '李强', target: 120, completed: 95, predicted: 105, gap: 15, rate: 87.5, trend: 'down' },
-    { name: '华北大区', owner: '王明', target: 100, completed: 85, predicted: 92, gap: 8, rate: 92.0, trend: 'stable' },
-    { name: '西南大区', owner: '刘洋', target: 47, completed: 35, predicted: 58, gap: -11, rate: 123.4, trend: 'up' },
+    { name: '一区', owner: '王泽', target: 320, completed: 65, predicted: 110, gap: 210, rate: 20.3, trend: 'down' },
+    { name: '二区', owner: '陈超', target: 232, completed: 100, predicted: 100, gap: 132, rate: 43.1, trend: 'down' },
+    { name: '五区', owner: '张大鹏', target: 260, completed: 120, predicted: 100.4, gap: 159.6, rate: 46.2, trend: 'down' },
+    { name: '华中', owner: '刘邦军', target: 152, completed: 152, predicted: 150, gap: 2, rate: 100.0, trend: 'up' },
+    { name: '华北、西北', owner: '康帅', target: 160, completed: 120, predicted: 69.1, gap: 90.9, rate: 75.0, trend: 'down' },
+    { name: '西南', owner: '钟莲', target: 128, completed: 20, predicted: 10.8, gap: 117.2, rate: 15.6, trend: 'down' },
+    { name: '华南', owner: '徐婷婷', target: 176, completed: 100, predicted: 110, gap: 66, rate: 56.8, trend: 'down' },
   ],
   quarter: [
-    { name: '华东大区', owner: '张伟', target: 450, completed: 390, predicted: 425, gap: 25, rate: 94.4, trend: 'up' },
-    { name: '华南大区', owner: '李强', target: 360, completed: 285, predicted: 310, gap: 50, rate: 86.1, trend: 'down' },
-    { name: '华北大区', owner: '王明', target: 300, completed: 255, predicted: 275, gap: 25, rate: 91.7, trend: 'stable' },
-    { name: '西南大区', owner: '刘洋', target: 140, completed: 90, predicted: 140, gap: 0, rate: 100.0, trend: 'up' },
+    { name: '一区', owner: '王泽', target: 960, completed: 195, predicted: 330, gap: 630, rate: 20.3, trend: 'down' },
+    { name: '二区', owner: '陈超', target: 696, completed: 300, predicted: 300, gap: 396, rate: 43.1, trend: 'down' },
+    { name: '五区', owner: '张大鹏', target: 780, completed: 360, predicted: 301.2, gap: 478.8, rate: 46.2, trend: 'down' },
+    { name: '华中', owner: '刘邦军', target: 456, completed: 456, predicted: 450, gap: 6, rate: 100.0, trend: 'up' },
+    { name: '华北、西北', owner: '康帅', target: 480, completed: 360, predicted: 207.3, gap: 272.7, rate: 75.0, trend: 'down' },
+    { name: '西南', owner: '钟莲', target: 384, completed: 60, predicted: 32.4, gap: 351.6, rate: 15.6, trend: 'down' },
+    { name: '华南', owner: '徐婷婷', target: 528, completed: 300, predicted: 330, gap: 198, rate: 56.8, trend: 'down' },
   ],
   year: [
-    { name: '华东大区', owner: '张伟', target: 1800, completed: 1450, predicted: 1600, gap: 200, rate: 88.9, trend: 'up' },
-    { name: '华南大区', owner: '李强', target: 1440, completed: 1050, predicted: 1200, gap: 240, rate: 83.3, trend: 'down' },
-    { name: '华北大区', owner: '王明', target: 1200, completed: 950, predicted: 1050, gap: 150, rate: 87.5, trend: 'stable' },
-    { name: '西南大区', owner: '刘洋', target: 560, completed: 6, predicted: 250, gap: 310, rate: 44.6, trend: 'down' },
+    { name: '一区', owner: '王泽', target: 3840, completed: 780, predicted: 1320, gap: 2520, rate: 20.3, trend: 'down' },
+    { name: '二区', owner: '陈超', target: 2784, completed: 1200, predicted: 1200, gap: 1584, rate: 43.1, trend: 'down' },
+    { name: '五区', owner: '张大鹏', target: 3120, completed: 1440, predicted: 1204.8, gap: 1915.2, rate: 46.2, trend: 'down' },
+    { name: '华中', owner: '刘邦军', target: 1824, completed: 1824, predicted: 1800, gap: 24, rate: 100.0, trend: 'up' },
+    { name: '华北、西北', owner: '康帅', target: 1920, completed: 1440, predicted: 829.2, gap: 1090.8, rate: 75.0, trend: 'down' },
+    { name: '西南', owner: '钟莲', target: 1536, completed: 240, predicted: 129.6, gap: 1406.4, rate: 15.6, trend: 'down' },
+    { name: '华南', owner: '徐婷婷', target: 2112, completed: 1200, predicted: 1320, gap: 792, rate: 56.8, trend: 'down' },
   ],
 };
 
@@ -155,7 +164,7 @@ export default function WaterPurifierDashboard() {
           {/* 健康指数图标 */}
           <div className="ml-4 flex items-center gap-1">
             <Heart className={`w-5 h-5 ${getHealthColor(kpiData.currentHealthIndex) === 'green' ? 'text-green-500' : getHealthColor(kpiData.currentHealthIndex) === 'yellow' ? 'text-yellow-500' : 'text-red-500'}`} />
-            <span className="text-sm font-medium">{kpiData.currentHealthIndex.toFixed(0)}</span>
+            <span className="text-sm font-medium">{kpiData.currentHealthIndex.toFixed(1)}</span>
           </div>
           {/* 风险等级图标 */}
           <div className="ml-4 flex items-center gap-1">
@@ -171,7 +180,7 @@ export default function WaterPurifierDashboard() {
                 <Target className="w-3.5 h-3.5" />
                 <span>目标</span>
               </div>
-              <div className="text-3xl font-bold text-blue-600">5,000</div>
+              <div className="text-3xl font-bold text-blue-600">1,428</div>
               <div className="text-xs text-gray-400 mt-1">万元</div>
             </CardContent>
           </Card>
@@ -180,11 +189,11 @@ export default function WaterPurifierDashboard() {
           <Card>
             <CardContent className="p-4">
               <div className="text-xs text-gray-500 mb-1">已完成</div>
-              <div className="text-3xl font-bold text-green-600">3,456</div>
+              <div className="text-3xl font-bold text-green-600">677</div>
               <div className="text-xs text-gray-600 mt-1">万元</div>
-              <div className="flex items-center gap-1 text-xs text-green-600">
-                <ArrowUp className="w-3 h-3" />
-                <span>12.5%</span>
+              <div className="flex items-center gap-1 text-xs text-red-600">
+                <ArrowDown className="w-3 h-3" />
+                <span>-8.3%</span>
               </div>
             </CardContent>
           </Card>
@@ -193,11 +202,11 @@ export default function WaterPurifierDashboard() {
           <Card className="border-2 border-dashed border-blue-300">
             <CardContent className="p-4">
               <div className="text-xs text-gray-500 mb-1">未来预计完成</div>
-              <div className="text-3xl font-bold text-blue-600">4,100</div>
+              <div className="text-3xl font-bold text-blue-600">650.3</div>
               <div className="text-xs text-gray-600 mt-1">万元</div>
-              <div className="flex items-center gap-1 text-xs text-green-600">
-                <ArrowUp className="w-3 h-3" />
-                <span>8.2%</span>
+              <div className="flex items-center gap-1 text-xs text-red-600">
+                <ArrowDown className="w-3 h-3" />
+                <span>-12.2%</span>
               </div>
             </CardContent>
           </Card>
@@ -209,11 +218,11 @@ export default function WaterPurifierDashboard() {
                 <div className="text-xs text-gray-700 font-medium">任务缺口</div>
                 <AlertTriangle className={`w-3 h-3 ${getGapColor().text}`} />
               </div>
-              <div className={`text-3xl font-bold ${getGapColor().text}`}>900</div>
+              <div className={`text-3xl font-bold ${getGapColor().text}`}>777.7</div>
               <div className="text-xs text-gray-600 mt-1">万元</div>
               <div className="flex items-center gap-1 text-xs text-gray-600">
                 <ArrowDown className="w-3 h-3" />
-                <span>18.0%</span>
+                <span>-54.5%</span>
               </div>
             </CardContent>
           </Card>
@@ -312,8 +321,8 @@ export default function WaterPurifierDashboard() {
                             <span className="text-xs font-bold text-white">1</span>
                           </div>
                           <div>
-                            <span className="font-bold text-yellow-700">转化率偏低：</span>
-                            在跟进项目5,600万，预计仅完成644万（转化率11.5%）
+                            <span className="font-bold text-yellow-700">整体达成率偏低：</span>
+                            7个大区仅1个达成（华中100%），平均达成率47.4%
                           </div>
                         </div>
                         <div className="flex items-start gap-3 p-3 bg-white rounded-lg border border-orange-200 shadow-sm">
@@ -321,8 +330,8 @@ export default function WaterPurifierDashboard() {
                             <span className="text-xs font-bold text-white">2</span>
                           </div>
                           <div>
-                            <span className="font-bold text-orange-700">高风险项目多：</span>
-                            127个项目存在风险，需优先跟进
+                            <span className="font-bold text-yellow-700">任务缺口巨大：</span>
+                            月度缺口777.7万，需重点跟进6个未达标区域
                           </div>
                         </div>
                       </div>
