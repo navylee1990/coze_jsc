@@ -389,7 +389,7 @@ export default function WaterPurifierDashboard() {
           <TrendingUp className="w-5 h-5" />
           经营诊断
         </h2>
-        <div className="grid grid-cols-1 gap-4">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
           {/* 临期项目/超期项目报警 */}
           <Card className="border-2 border-orange-200 bg-gradient-to-r from-orange-50 to-yellow-50">
             <CardHeader>
