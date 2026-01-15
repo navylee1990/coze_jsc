@@ -336,10 +336,10 @@ export default function WaterPurifierDashboard() {
                       >
                         <td className="px-2 py-2.5 text-sm font-medium text-gray-900">{region.name}</td>
                         <td className="px-2 py-2.5 text-sm text-gray-500">{region.owner}</td>
-                        <td className="px-2 py-2.5 text-sm text-right text-gray-600 font-mono">{region.target.toLocaleString()}</td>
-                        <td className="px-2 py-2.5 text-sm text-right text-gray-600 font-mono">{region.completed.toLocaleString()}</td>
-                        <td className="px-2 py-2.5 text-sm text-right text-gray-600 font-mono">{region.predicted.toLocaleString()}</td>
-                        <td className={`px-2 py-2.5 text-sm text-right font-semibold font-mono ${region.gap > 0 ? 'text-red-500' : region.gap === 0 ? 'text-gray-600' : 'text-green-500'}`}>
+                        <td className="px-2 py-2.5 text-sm text-right text-gray-600">{region.target.toLocaleString()}</td>
+                        <td className="px-2 py-2.5 text-sm text-right text-gray-600">{region.completed.toLocaleString()}</td>
+                        <td className="px-2 py-2.5 text-sm text-right text-gray-600">{region.predicted.toLocaleString()}</td>
+                        <td className={`px-2 py-2.5 text-sm text-right font-semibold ${region.gap > 0 ? 'text-red-500' : region.gap === 0 ? 'text-gray-600' : 'text-green-500'}`}>
                           {region.gap > 0 ? `${region.gap}` : region.gap === 0 ? '0' : `+${Math.abs(region.gap)}`}
                         </td>
                         <td className="px-2 py-2.5 text-center">
