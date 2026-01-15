@@ -33,6 +33,34 @@ const kpiData = {
   conversionRate: 11.5, // 644 / 5600 * 100
 };
 
+// 不同时间维度的预测数据
+const timeRangeData = {
+  month: {
+    target: 417, // 5000 / 12
+    completed: 345,
+    predicted: 400,
+    gap: 17,
+    canComplete: true,
+    risk: 'low',
+  },
+  quarter: {
+    target: 1250, // 5000 / 4
+    completed: 1020,
+    predicted: 1150,
+    gap: 100,
+    canComplete: true,
+    risk: 'medium',
+  },
+  year: {
+    target: 5000,
+    completed: 3456,
+    predicted: 4100,
+    gap: 900,
+    canComplete: false,
+    risk: 'high',
+  },
+};
+
 const riskLevel = kpiData.taskGap > 900 ? 'high' : kpiData.taskGap > 500 ? 'medium' : 'low';
 
 const getGapColor = () => {
@@ -167,6 +195,112 @@ export default function WaterPurifierDashboard() {
               <div className="flex items-center gap-1 text-xs text-gray-600">
                 <ArrowDown className="w-3 h-3" />
                 <span>18.0%</span>
+              </div>
+            </CardContent>
+          </Card>
+        </div>
+
+        {/* 目标达成分析 */}
+        <div className="mt-4">
+          <Card className="border-2 border-indigo-200 bg-gradient-to-r from-indigo-50 to-purple-50">
+            <CardHeader className="pb-3">
+              <CardTitle className="text-base flex items-center gap-2">
+                <Target className="w-5 h-5 text-indigo-600" />
+                目标达成分析（{timeRange === 'month' ? '1月' : timeRange === 'quarter' ? 'Q1' : '2024年'}）
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              {/* 完成进度 */}
+              <div className="mb-4">
+                <div className="flex items-center justify-between mb-2">
+                  <span className="text-sm text-gray-600">目标完成进度</span>
+                  <span className={`text-sm font-bold ${timeRangeData[timeRange as keyof typeof timeRangeData].canComplete ? 'text-green-700' : 'text-red-700'}`}>
+                    {((timeRangeData[timeRange as keyof typeof timeRangeData].predicted / timeRangeData[timeRange as keyof typeof timeRangeData].target) * 100).toFixed(1)}%
+                  </span>
+                </div>
+                <Progress value={((timeRangeData[timeRange as keyof typeof timeRangeData].predicted / timeRangeData[timeRange as keyof typeof timeRangeData].target) * 100)} className="h-3" />
+                <div className="flex justify-between text-xs text-gray-500 mt-1">
+                  <span>已完成：{timeRangeData[timeRange as keyof typeof timeRangeData].completed.toLocaleString()}万</span>
+                  <span>预计完成：{timeRangeData[timeRange as keyof typeof timeRangeData].predicted.toLocaleString()}万</span>
+                  <span>目标：{timeRangeData[timeRange as keyof typeof timeRangeData].target.toLocaleString()}万</span>
+                </div>
+              </div>
+
+              {/* 能否完成任务 */}
+              <div className={`mb-4 p-3 rounded-lg border ${
+                timeRangeData[timeRange as keyof typeof timeRangeData].canComplete
+                  ? 'bg-green-50 border-green-200'
+                  : 'bg-red-50 border-red-200'
+              }`}>
+                <div className="flex items-center gap-2 mb-2">
+                  {timeRangeData[timeRange as keyof typeof timeRangeData].canComplete ? (
+                    <Target className="w-4 h-4 text-green-500" />
+                  ) : (
+                    <AlertTriangle className="w-4 h-4 text-red-500" />
+                  )}
+                  <span className={`text-sm font-medium ${timeRangeData[timeRange as keyof typeof timeRangeData].canComplete ? 'text-green-700' : 'text-red-700'}`}>
+                    {timeRangeData[timeRange as keyof typeof timeRangeData].canComplete ? '预计可以完成任务' : '预计无法完成任务'}
+                  </span>
+                </div>
+                <div className="text-xs text-gray-700">
+                  {!timeRangeData[timeRange as keyof typeof timeRangeData].canComplete && (
+                    <div className="flex items-start gap-2">
+                      <div className="flex-shrink-0 w-1.5 h-1.5 bg-red-500 rounded-full mt-1.5"></div>
+                      <div>
+                        <span className="text-red-600 font-medium">任务缺口：</span>
+                        当前预计完成{timeRangeData[timeRange as keyof typeof timeRangeData].predicted}万，缺口{timeRangeData[timeRange as keyof typeof timeRangeData].gap}万
+                      </div>
+                    </div>
+                  )}
+                </div>
+              </div>
+
+              {/* 风险识别 */}
+              {!timeRangeData[timeRange as keyof typeof timeRangeData].canComplete && (
+                <div className="mb-4 p-3 bg-yellow-50 rounded-lg border border-yellow-200">
+                  <div className="flex items-center gap-2 mb-2">
+                    <AlertTriangle className="w-4 h-4 text-yellow-500" />
+                    <span className="text-sm font-medium text-yellow-700">风险因素</span>
+                  </div>
+                  <div className="space-y-1.5 text-xs text-gray-700">
+                    <div className="flex items-start gap-2">
+                      <div className="flex-shrink-0 w-1.5 h-1.5 bg-yellow-500 rounded-full mt-1.5"></div>
+                      <div>
+                        <span className="text-yellow-600 font-medium">转化率偏低：</span>
+                        在跟进项目5,600万，预计仅完成644万（转化率11.5%）
+                      </div>
+                    </div>
+                    <div className="flex items-start gap-2">
+                      <div className="flex-shrink-0 w-1.5 h-1.5 bg-orange-500 rounded-full mt-1.5"></div>
+                      <div>
+                        <span className="text-orange-600 font-medium">高风险项目多：</span>
+                        127个项目存在风险，需优先跟进
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              )}
+
+              {/* 下钻分析 */}
+              <div className="grid grid-cols-3 gap-3">
+                <button className="p-3 bg-white rounded-lg border border-gray-200 hover:border-blue-300 hover:shadow-sm transition-all text-left">
+                  <div className="text-xs text-gray-500 mb-1">按业务员</div>
+                  <div className="text-lg font-bold text-gray-900">12</div>
+                  <div className="text-xs text-gray-500">业务员</div>
+                  <div className="text-xs text-red-500 mt-1">3人未达标</div>
+                </button>
+                <button className="p-3 bg-white rounded-lg border border-gray-200 hover:border-blue-300 hover:shadow-sm transition-all text-left">
+                  <div className="text-xs text-gray-500 mb-1">按经销商</div>
+                  <div className="text-lg font-bold text-gray-900">8</div>
+                  <div className="text-xs text-gray-500">经销商</div>
+                  <div className="text-xs text-red-500 mt-1">2家未达标</div>
+                </button>
+                <button className="p-3 bg-white rounded-lg border border-gray-200 hover:border-blue-300 hover:shadow-sm transition-all text-left">
+                  <div className="text-xs text-gray-500 mb-1">按项目</div>
+                  <div className="text-lg font-bold text-gray-900">127</div>
+                  <div className="text-xs text-gray-500">高风险项目</div>
+                  <div className="text-xs text-orange-500 mt-1">需优先跟进</div>
+                </button>
               </div>
             </CardContent>
           </Card>
