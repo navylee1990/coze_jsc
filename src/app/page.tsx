@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { ArrowUp, ArrowDown, TrendingUp, AlertTriangle, Activity, Target, Heart, Shield } from 'lucide-react';
+import { ArrowUp, ArrowDown, TrendingUp, AlertTriangle, Activity, Target, Heart, Shield, Clock, Database } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Progress } from '@/components/ui/progress';
@@ -432,6 +432,137 @@ export default function WaterPurifierDashboard() {
                 chartType="risk"
                 data={{ total: 127, red: 45, yellow: 82 }}
               />
+            </CardContent>
+          </Card>
+
+          {/* 临期项目/超期项目报警 */}
+          <Card className="border-2 border-orange-200 bg-gradient-to-r from-orange-50 to-yellow-50">
+            <CardHeader>
+              <CardTitle className="text-base flex items-center gap-2">
+                <Clock className="w-4 h-4 text-orange-500" />
+                临期项目/超期项目报警
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="grid grid-cols-2 gap-4 mb-4">
+                <div className="p-4 bg-red-50 rounded-lg border border-red-200">
+                  <div className="text-3xl font-bold text-red-600">23</div>
+                  <div className="text-xs text-gray-600 mt-1">超期项目（已逾期）</div>
+                  <div className="text-xs text-red-600 mt-2">总金额 350万</div>
+                </div>
+                <div className="p-4 bg-yellow-50 rounded-lg border border-yellow-200">
+                  <div className="text-3xl font-bold text-yellow-600">35</div>
+                  <div className="text-xs text-gray-600 mt-1">临期项目（30天内）</div>
+                  <div className="text-xs text-yellow-600 mt-2">总金额 420万</div>
+                </div>
+              </div>
+              <div className="bg-white rounded-lg border border-gray-200 overflow-hidden">
+                <table className="w-full">
+                  <thead className="bg-gray-50">
+                    <tr>
+                      <th className="px-3 py-2 text-left text-xs font-medium text-gray-500">项目名称</th>
+                      <th className="px-3 py-2 text-right text-xs font-medium text-gray-500">金额</th>
+                      <th className="px-3 py-2 text-center text-xs font-medium text-gray-500">状态</th>
+                      <th className="px-3 py-2 text-right text-xs font-medium text-gray-500">到期/逾期天数</th>
+                    </tr>
+                  </thead>
+                  <tbody className="divide-y divide-gray-200">
+                    {[
+                      { name: '某某连锁餐饮总部', amount: '120万', status: 'expired', days: -15 },
+                      { name: '某某购物中心', amount: '85万', status: 'expired', days: -8 },
+                      { name: '某某大酒店', amount: '200万', status: 'urgent', days: 5 },
+                      { name: '某某办公楼', amount: '65万', status: 'urgent', days: 12 },
+                      { name: '某某连锁超市', amount: '50万', status: 'urgent', days: 18 },
+                    ].map((project, index) => (
+                      <tr key={index} className="hover:bg-gray-50">
+                        <td className="px-3 py-2 text-sm font-medium text-gray-900">{project.name}</td>
+                        <td className="px-3 py-2 text-sm text-right text-gray-600">{project.amount}</td>
+                        <td className="px-3 py-2 text-sm text-center">
+                          <span className={`inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium ${
+                            project.status === 'expired' ? 'bg-red-100 text-red-800' : 'bg-yellow-100 text-yellow-800'
+                          }`}>
+                            {project.status === 'expired' ? '已超期' : '即将到期'}
+                          </span>
+                        </td>
+                        <td className={`px-3 py-2 text-sm text-right font-medium ${
+                          project.days < 0 ? 'text-red-600' : 'text-yellow-600'
+                        }`}>
+                          {project.days < 0 ? `逾期${Math.abs(project.days)}天` : `${project.days}天后到期`}
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            </CardContent>
+          </Card>
+
+          {/* 关联项目储备分析 */}
+          <Card className="border-2 border-green-200 bg-gradient-to-r from-green-50 to-teal-50">
+            <CardHeader>
+              <CardTitle className="text-base flex items-center gap-2">
+                <Database className="w-4 h-4 text-green-500" />
+                关联项目储备分析
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="grid grid-cols-3 gap-4 mb-4">
+                <div className="text-center">
+                  <div className="text-4xl font-bold text-green-600">45</div>
+                  <div className="text-xs text-gray-600 mt-1">已成交客户</div>
+                  <div className="text-xs text-gray-400">总客户数</div>
+                </div>
+                <div className="text-center">
+                  <div className="text-4xl font-bold text-teal-600">28</div>
+                  <div className="text-xs text-gray-600 mt-1">关联项目储备</div>
+                  <div className="text-xs text-gray-400">关联率 62.2%</div>
+                </div>
+                <div className="text-center">
+                  <div className="text-4xl font-bold text-blue-600">1,250</div>
+                  <div className="text-xs text-gray-600 mt-1">预计潜在收入</div>
+                  <div className="text-xs text-gray-400">万元</div>
+                </div>
+              </div>
+              <div className="bg-white rounded-lg border border-gray-200 overflow-hidden">
+                <table className="w-full">
+                  <thead className="bg-gray-50">
+                    <tr>
+                      <th className="px-3 py-2 text-left text-xs font-medium text-gray-500">客户名称</th>
+                      <th className="px-3 py-2 text-left text-xs font-medium text-gray-500">行业</th>
+                      <th className="px-3 py-2 text-right text-xs font-medium text-gray-500">已成交金额</th>
+                      <th className="px-3 py-2 text-right text-xs font-medium text-gray-500">关联项目数</th>
+                      <th className="px-3 py-2 text-right text-xs font-medium text-gray-500">预计金额</th>
+                      <th className="px-3 py-2 text-center text-xs font-medium text-gray-500">潜力等级</th>
+                    </tr>
+                  </thead>
+                  <tbody className="divide-y divide-gray-200">
+                    {[
+                      { name: '某某餐饮连锁', industry: '餐饮', completed: 450, projects: 5, potential: 300, level: 'high' },
+                      { name: '某某购物中心', industry: '零售', completed: 320, projects: 3, potential: 180, level: 'high' },
+                      { name: '某某酒店集团', industry: '酒店', completed: 280, projects: 4, potential: 250, level: 'high' },
+                      { name: '某某连锁超市', industry: '零售', completed: 210, projects: 2, potential: 120, level: 'medium' },
+                      { name: '某某办公楼宇', industry: '办公', completed: 180, projects: 1, potential: 80, level: 'low' },
+                    ].map((customer, index) => (
+                      <tr key={index} className="hover:bg-gray-50">
+                        <td className="px-3 py-2 text-sm font-medium text-gray-900">{customer.name}</td>
+                        <td className="px-3 py-2 text-sm text-gray-600">{customer.industry}</td>
+                        <td className="px-3 py-2 text-sm text-right text-gray-900">{customer.completed}万</td>
+                        <td className="px-3 py-2 text-sm text-right text-blue-600 font-medium">{customer.projects}个</td>
+                        <td className="px-3 py-2 text-sm text-right text-green-600 font-medium">{customer.potential}万</td>
+                        <td className="px-3 py-2 text-sm text-center">
+                          <span className={`inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium ${
+                            customer.level === 'high' ? 'bg-red-100 text-red-800' :
+                            customer.level === 'medium' ? 'bg-yellow-100 text-yellow-800' :
+                            'bg-green-100 text-green-800'
+                          }`}>
+                            {customer.level === 'high' ? '高潜力' : customer.level === 'medium' ? '中潜力' : '低潜力'}
+                          </span>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
             </CardContent>
           </Card>
         </div>
