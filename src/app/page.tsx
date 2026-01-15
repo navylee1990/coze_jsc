@@ -90,7 +90,7 @@ export default function WaterPurifierDashboard() {
             <CardContent className="p-6">
               <div className="text-sm text-gray-500 mb-2">目标</div>
               <div className="text-4xl font-bold text-blue-600">5,000</div>
-              <div className="text-xs text-gray-400 mt-1">台</div>
+              <div className="text-xs text-gray-400 mt-1">万元</div>
             </CardContent>
           </Card>
 
@@ -249,28 +249,28 @@ export default function WaterPurifierDashboard() {
                 <div>
                   <div className="flex justify-between text-sm mb-1">
                     <span className="text-gray-600">餐饮行业</span>
-                    <span className="font-medium">1,200台 (35%)</span>
+                    <span className="font-medium">1,200万元 (35%)</span>
                   </div>
                   <Progress value={35} className="h-2" />
                 </div>
                 <div>
                   <div className="flex justify-between text-sm mb-1">
                     <span className="text-gray-600">零售行业</span>
-                    <span className="font-medium">980台 (28%)</span>
+                    <span className="font-medium">980万元 (28%)</span>
                   </div>
                   <Progress value={28} className="h-2" />
                 </div>
                 <div>
                   <div className="flex justify-between text-sm mb-1">
                     <span className="text-gray-600">酒店行业</span>
-                    <span className="font-medium">720台 (21%)</span>
+                    <span className="font-medium">720万元 (21%)</span>
                   </div>
                   <Progress value={21} className="h-2" />
                 </div>
                 <div>
                   <div className="flex justify-between text-sm mb-1">
                     <span className="text-gray-600">办公楼</span>
-                    <span className="font-medium">556台 (16%)</span>
+                    <span className="font-medium">556万元 (16%)</span>
                   </div>
                   <Progress value={16} className="h-2" />
                 </div>
