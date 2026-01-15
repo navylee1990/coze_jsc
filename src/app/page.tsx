@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { ArrowUp, ArrowDown, TrendingUp, AlertTriangle, Activity, Target, Calendar } from 'lucide-react';
+import { ArrowUp, ArrowDown, TrendingUp, AlertTriangle, Activity, Target } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Progress } from '@/components/ui/progress';
@@ -13,16 +13,12 @@ const kpiData = {
   target: 5000,
   completed: 3456,
   futurePredicted: 4100,
-  totalCompleted: 7556,
   taskGap: 844,
   currentHealthIndex: 76.5,
-  futureHealthIndex: 82.3,
   gapTrend: -15.3,
   completedTrend: 12.5,
   predictedTrend: 8.2,
-  totalTrend: 20.7,
   healthTrend: -2.1,
-  futureHealthTrend: 5.8,
 };
 
 const riskLevel = kpiData.taskGap > 840 ? 'high' : kpiData.taskGap > 500 ? 'medium' : 'low';
@@ -42,6 +38,7 @@ const getHealthColor = (value: number) => {
 export default function WaterPurifierDashboard() {
   const [selectedTab, setSelectedTab] = useState('overview');
   const [filter, setFilter] = useState('all');
+  const [timeRange, setTimeRange] = useState('month');
 
   return (
     <div className="min-h-screen bg-gray-50 p-4">
@@ -50,7 +47,9 @@ export default function WaterPurifierDashboard() {
         <div className="flex items-center justify-between">
           <div>
             <h1 className="text-2xl font-bold text-gray-900">商用净水经营驾驶舱</h1>
-            <p className="text-sm text-gray-500 mt-1">经销商老板视角 · 2024年1月</p>
+            <p className="text-sm text-gray-500 mt-1">
+              经销商老板视角 · {timeRange === 'month' ? '2024年1月' : timeRange === 'quarter' ? '2024年Q1' : '2024年'}
+            </p>
           </div>
           <div className="flex items-center gap-3">
             <button className="px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50">
@@ -65,13 +64,23 @@ export default function WaterPurifierDashboard() {
 
       {/* 筛选器 */}
       <div className="mb-6 flex items-center gap-4 bg-white p-4 rounded-lg border border-gray-200">
-        <span className="text-sm font-medium text-gray-700">筛选：</span>
+        <span className="text-sm font-medium text-gray-700">时间范围：</span>
+        <select
+          value={timeRange}
+          onChange={(e) => setTimeRange(e.target.value)}
+          className="px-3 py-1.5 text-sm border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+        >
+          <option value="month">月度</option>
+          <option value="quarter">季度</option>
+          <option value="year">年度</option>
+        </select>
+        <span className="text-sm font-medium text-gray-700 ml-4">行业筛选：</span>
         <select
           value={filter}
           onChange={(e) => setFilter(e.target.value)}
           className="px-3 py-1.5 text-sm border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
         >
-          <option value="all">全部项目</option>
+          <option value="all">全部行业</option>
           <option value="catering">餐饮行业</option>
           <option value="retail">零售行业</option>
           <option value="hotel">酒店行业</option>
@@ -84,22 +93,23 @@ export default function WaterPurifierDashboard() {
           <Activity className="w-5 h-5" />
           经营总览
         </h2>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-4">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-3">
           {/* 目标 */}
           <Card>
-            <CardContent className="p-6">
-              <div className="text-sm text-gray-500 mb-2">目标</div>
-              <div className="text-4xl font-bold text-blue-600">5,000</div>
+            <CardContent className="p-4">
+              <div className="text-xs text-gray-500 mb-1">目标</div>
+              <div className="text-3xl font-bold text-blue-600">5,000</div>
               <div className="text-xs text-gray-400 mt-1">万元</div>
             </CardContent>
           </Card>
 
           {/* 已完成 */}
           <Card>
-            <CardContent className="p-6">
-              <div className="text-sm text-gray-500 mb-2">已完成</div>
-              <div className="text-4xl font-bold text-green-600">3,456</div>
-              <div className="flex items-center gap-1 mt-1 text-xs text-green-600">
+            <CardContent className="p-4">
+              <div className="text-xs text-gray-500 mb-1">已完成</div>
+              <div className="text-3xl font-bold text-green-600">3,456</div>
+              <div className="text-xs text-gray-600 mt-1">万元</div>
+              <div className="flex items-center gap-1 text-xs text-green-600">
                 <ArrowUp className="w-3 h-3" />
                 <span>12.5%</span>
               </div>
@@ -108,79 +118,63 @@ export default function WaterPurifierDashboard() {
 
           {/* 未来预计完成 */}
           <Card className="border-2 border-dashed border-blue-300">
-            <CardContent className="p-6">
-              <div className="text-sm text-gray-500 mb-2">未来预计完成</div>
-              <div className="text-4xl font-bold text-blue-600">4,100</div>
-              <div className="flex items-center gap-1 mt-1 text-xs text-green-600">
+            <CardContent className="p-4">
+              <div className="text-xs text-gray-500 mb-1">未来预计完成</div>
+              <div className="text-3xl font-bold text-blue-600">4,100</div>
+              <div className="text-xs text-gray-600 mt-1">万元</div>
+              <div className="flex items-center gap-1 text-xs text-green-600">
                 <ArrowUp className="w-3 h-3" />
                 <span>8.2%</span>
               </div>
-              <div className="text-xs text-gray-400 mt-1">后台预测</div>
             </CardContent>
           </Card>
 
-          {/* 总完成 */}
-          <Card>
-            <CardContent className="p-6">
-              <div className="text-sm text-gray-500 mb-2">总完成</div>
-              <div className="text-4xl font-bold text-gray-900">7,556</div>
-              <div className="flex items-center gap-1 mt-1 text-xs text-green-600">
-                <ArrowUp className="w-3 h-3" />
-                <span>20.7%</span>
+          {/* 任务缺口 */}
+          <Card className={`${getGapColor().bg} border-2 ${getGapColor().border}`}>
+            <CardContent className="p-4">
+              <div className="flex items-center justify-between mb-1">
+                <div className="text-xs text-gray-700 font-medium">任务缺口</div>
+                <AlertTriangle className={`w-3 h-3 ${getGapColor().text}`} />
+              </div>
+              <div className={`text-3xl font-bold ${getGapColor().text}`}>844</div>
+              <div className="text-xs text-gray-600 mt-1">万元</div>
+              <div className="flex items-center gap-1 text-xs text-gray-600">
+                <ArrowDown className="w-3 h-3" />
+                <span>15.3%</span>
               </div>
             </CardContent>
           </Card>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-          {/* 任务缺口 */}
-          <Card className={`${getGapColor().bg} border-2 ${getGapColor().border}`}>
-            <CardContent className="p-6">
-              <div className="flex items-center justify-between mb-2">
-                <div className="text-sm text-gray-700 font-medium">任务缺口</div>
-                <AlertTriangle className={`w-4 h-4 ${getGapColor().text}`} />
-              </div>
-              <div className={`text-4xl font-bold ${getGapColor().text}`}>844</div>
-              <div className="flex items-center gap-1 mt-1 text-xs text-gray-600">
-                <ArrowDown className="w-3 h-3" />
-                <span>15.3%</span>
-              </div>
-              <div className="mt-3">
-                <Badge className={riskLevel === 'high' ? 'bg-red-500' : riskLevel === 'medium' ? 'bg-yellow-500' : 'bg-green-500'}>
-                  {riskLevel === 'high' ? '高风险' : riskLevel === 'medium' ? '中风险' : '低风险'}
-                </Badge>
-              </div>
-            </CardContent>
-          </Card>
-
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
           {/* 当前健康指数 */}
           <Card>
-            <CardContent className="p-6">
-              <div className="text-sm text-gray-500 mb-4">当前健康指数</div>
-              <div className="flex items-center justify-center mb-4">
-                <div className="relative w-20 h-20">
+            <CardContent className="p-4">
+              <div className="text-xs text-gray-500 mb-2">当前健康指数</div>
+              <div className="flex items-center justify-center mb-2">
+                <div className="relative w-16 h-16">
                   <svg className="w-full h-full transform -rotate-90">
                     <circle
-                      cx="40"
-                      cy="40"
-                      r="35"
+                      cx="32"
+                      cy="32"
+                      r="28"
                       stroke="#E5E7EB"
-                      strokeWidth="6"
+                      strokeWidth="5"
                       fill="none"
                     />
                     <circle
-                      cx="40"
-                      cy="40"
-                      r="35"
+                      cx="32"
+                      cy="32"
+                      r="28"
                       stroke={getHealthColor(kpiData.currentHealthIndex) === 'green' ? '#10B981' : getHealthColor(kpiData.currentHealthIndex) === 'yellow' ? '#F59E0B' : '#EF4444'}
-                      strokeWidth="6"
+                      strokeWidth="5"
                       fill="none"
-                      strokeDasharray={`${kpiData.currentHealthIndex * 2.2} 220`}
+                      strokeDasharray={`${kpiData.currentHealthIndex * 1.76} 176`}
                       strokeLinecap="round"
                     />
                   </svg>
                   <div className="absolute inset-0 flex items-center justify-center">
-                    <span className="text-2xl font-bold text-gray-900">{kpiData.currentHealthIndex.toFixed(1)}</span>
+                    <span className="text-xl font-bold text-gray-900">{kpiData.currentHealthIndex.toFixed(1)}</span>
                   </div>
                 </div>
               </div>
@@ -191,42 +185,18 @@ export default function WaterPurifierDashboard() {
             </CardContent>
           </Card>
 
-          {/* 未来健康指数 */}
-          <Card className="border-2 border-dashed border-blue-300">
-            <CardContent className="p-6">
-              <div className="text-sm text-gray-500 mb-4">未来健康指数</div>
-              <div className="flex items-center justify-center mb-4">
-                <div className="relative w-20 h-20">
-                  <svg className="w-full h-full transform -rotate-90">
-                    <circle
-                      cx="40"
-                      cy="40"
-                      r="35"
-                      stroke="#E5E7EB"
-                      strokeWidth="6"
-                      fill="none"
-                    />
-                    <circle
-                      cx="40"
-                      cy="40"
-                      r="35"
-                      stroke={getHealthColor(kpiData.futureHealthIndex) === 'green' ? '#10B981' : getHealthColor(kpiData.futureHealthIndex) === 'yellow' ? '#F59E0B' : '#EF4444'}
-                      strokeWidth="6"
-                      fill="none"
-                      strokeDasharray={`${kpiData.futureHealthIndex * 2.2} 220`}
-                      strokeLinecap="round"
-                    />
-                  </svg>
-                  <div className="absolute inset-0 flex items-center justify-center">
-                    <span className="text-2xl font-bold text-gray-900">{kpiData.futureHealthIndex.toFixed(1)}</span>
-                  </div>
-                </div>
+          {/* 风险等级 */}
+          <Card>
+            <CardContent className="p-4">
+              <div className="text-xs text-gray-500 mb-2">风险等级</div>
+              <div className="flex items-center justify-center mb-2">
+                <Badge className={`px-6 py-2 text-sm ${riskLevel === 'high' ? 'bg-red-500' : riskLevel === 'medium' ? 'bg-yellow-500' : 'bg-green-500'}`}>
+                  {riskLevel === 'high' ? '高风险' : riskLevel === 'medium' ? '中风险' : '低风险'}
+                </Badge>
               </div>
-              <div className="flex items-center justify-center gap-1 text-xs text-green-600">
-                <ArrowUp className="w-3 h-3" />
-                <span>5.8%</span>
+              <div className="text-xs text-gray-500 text-center mt-2">
+                基于844万元任务缺口评估
               </div>
-              <div className="text-xs text-gray-400 mt-2 text-center">后台预测</div>
             </CardContent>
           </Card>
         </div>
