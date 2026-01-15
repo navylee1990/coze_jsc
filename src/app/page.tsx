@@ -232,19 +232,54 @@ export default function WaterPurifierDashboard() {
               </CardTitle>
             </CardHeader>
             <CardContent>
-              {/* 完成进度 */}
+              {/* 大区维度达成情况 */}
               <div className="mb-4">
-                <div className="flex items-center justify-between mb-2">
-                  <span className="text-sm text-gray-600">目标完成进度</span>
-                  <span className={`text-sm font-bold ${timeRangeData[timeRange as keyof typeof timeRangeData].canComplete ? 'text-green-700' : 'text-red-700'}`}>
-                    {((timeRangeData[timeRange as keyof typeof timeRangeData].predicted / timeRangeData[timeRange as keyof typeof timeRangeData].target) * 100).toFixed(1)}%
-                  </span>
-                </div>
-                <Progress value={((timeRangeData[timeRange as keyof typeof timeRangeData].predicted / timeRangeData[timeRange as keyof typeof timeRangeData].target) * 100)} className="h-3" />
-                <div className="flex justify-between text-xs text-gray-500 mt-1">
-                  <span>已完成：{timeRangeData[timeRange as keyof typeof timeRangeData].completed.toLocaleString()}万</span>
-                  <span>预计完成：{timeRangeData[timeRange as keyof typeof timeRangeData].predicted.toLocaleString()}万</span>
-                  <span>目标：{timeRangeData[timeRange as keyof typeof timeRangeData].target.toLocaleString()}万</span>
+                <div className="text-sm font-medium text-gray-700 mb-3">大区维度达成情况</div>
+                <div className="bg-white rounded-lg border border-gray-200 overflow-hidden">
+                  <table className="w-full">
+                    <thead className="bg-gray-50">
+                      <tr>
+                        <th className="px-3 py-2 text-left text-xs font-medium text-gray-500">大区</th>
+                        <th className="px-3 py-2 text-right text-xs font-medium text-gray-500">目标</th>
+                        <th className="px-3 py-2 text-right text-xs font-medium text-gray-500">已完成</th>
+                        <th className="px-3 py-2 text-right text-xs font-medium text-gray-500">预计完成</th>
+                        <th className="px-3 py-2 text-right text-xs font-medium text-gray-500">缺口</th>
+                        <th className="px-3 py-2 text-center text-xs font-medium text-gray-500">达成率</th>
+                        <th className="px-3 py-2 text-center text-xs font-medium text-gray-500">趋势</th>
+                      </tr>
+                    </thead>
+                    <tbody className="divide-y divide-gray-200">
+                      {regionData[timeRange as keyof typeof regionData].map((region, index) => (
+                        <tr key={index} className="hover:bg-gray-50">
+                          <td className="px-3 py-2 text-sm font-medium text-gray-900">{region.name}</td>
+                          <td className="px-3 py-2 text-sm text-right text-gray-600">{region.target.toLocaleString()}万</td>
+                          <td className="px-3 py-2 text-sm text-right text-gray-900">{region.completed.toLocaleString()}万</td>
+                          <td className="px-3 py-2 text-sm text-right text-blue-600 font-medium">{region.predicted.toLocaleString()}万</td>
+                          <td className={`px-3 py-2 text-sm text-right font-medium ${region.gap > 0 ? 'text-red-600' : region.gap === 0 ? 'text-gray-600' : 'text-green-600'}`}>
+                            {region.gap > 0 ? `${region.gap}` : region.gap === 0 ? '0' : `+${Math.abs(region.gap)}`}
+                          </td>
+                          <td className="px-3 py-2 text-sm text-center">
+                            <span className={`inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium ${
+                              region.rate >= 100 ? 'bg-green-100 text-green-800' :
+                              region.rate >= 80 ? 'bg-yellow-100 text-yellow-800' :
+                              'bg-red-100 text-red-800'
+                            }`}>
+                              {region.rate.toFixed(1)}%
+                            </span>
+                          </td>
+                          <td className="px-3 py-2 text-sm text-center">
+                            {region.trend === 'up' ? (
+                              <ArrowUp className="w-4 h-4 text-green-500 inline" />
+                            ) : region.trend === 'down' ? (
+                              <ArrowDown className="w-4 h-4 text-red-500 inline" />
+                            ) : (
+                              <div className="w-4 h-4 bg-gray-300 rounded-full inline" />
+                            )}
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
                 </div>
               </div>
 
@@ -323,57 +358,6 @@ export default function WaterPurifierDashboard() {
                   <div className="text-xs text-gray-500">高风险项目</div>
                   <div className="text-xs text-orange-500 mt-1">需优先跟进</div>
                 </button>
-              </div>
-
-              {/* 大区维度达成情况 */}
-              <div className="mt-4">
-                <div className="text-sm font-medium text-gray-700 mb-3">大区维度达成情况</div>
-                <div className="bg-white rounded-lg border border-gray-200 overflow-hidden">
-                  <table className="w-full">
-                    <thead className="bg-gray-50">
-                      <tr>
-                        <th className="px-3 py-2 text-left text-xs font-medium text-gray-500">大区</th>
-                        <th className="px-3 py-2 text-right text-xs font-medium text-gray-500">目标</th>
-                        <th className="px-3 py-2 text-right text-xs font-medium text-gray-500">已完成</th>
-                        <th className="px-3 py-2 text-right text-xs font-medium text-gray-500">预计完成</th>
-                        <th className="px-3 py-2 text-right text-xs font-medium text-gray-500">缺口</th>
-                        <th className="px-3 py-2 text-center text-xs font-medium text-gray-500">达成率</th>
-                        <th className="px-3 py-2 text-center text-xs font-medium text-gray-500">趋势</th>
-                      </tr>
-                    </thead>
-                    <tbody className="divide-y divide-gray-200">
-                      {regionData[timeRange as keyof typeof regionData].map((region, index) => (
-                        <tr key={index} className="hover:bg-gray-50">
-                          <td className="px-3 py-2 text-sm font-medium text-gray-900">{region.name}</td>
-                          <td className="px-3 py-2 text-sm text-right text-gray-600">{region.target.toLocaleString()}万</td>
-                          <td className="px-3 py-2 text-sm text-right text-gray-900">{region.completed.toLocaleString()}万</td>
-                          <td className="px-3 py-2 text-sm text-right text-blue-600 font-medium">{region.predicted.toLocaleString()}万</td>
-                          <td className={`px-3 py-2 text-sm text-right font-medium ${region.gap > 0 ? 'text-red-600' : region.gap === 0 ? 'text-gray-600' : 'text-green-600'}`}>
-                            {region.gap > 0 ? `${region.gap}` : region.gap === 0 ? '0' : `+${Math.abs(region.gap)}`}
-                          </td>
-                          <td className="px-3 py-2 text-sm text-center">
-                            <span className={`inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium ${
-                              region.rate >= 100 ? 'bg-green-100 text-green-800' :
-                              region.rate >= 80 ? 'bg-yellow-100 text-yellow-800' :
-                              'bg-red-100 text-red-800'
-                            }`}>
-                              {region.rate.toFixed(1)}%
-                            </span>
-                          </td>
-                          <td className="px-3 py-2 text-sm text-center">
-                            {region.trend === 'up' ? (
-                              <ArrowUp className="w-4 h-4 text-green-500 inline" />
-                            ) : region.trend === 'down' ? (
-                              <ArrowDown className="w-4 h-4 text-red-500 inline" />
-                            ) : (
-                              <div className="w-4 h-4 bg-gray-300 rounded-full inline" />
-                            )}
-                          </td>
-                        </tr>
-                      ))}
-                    </tbody>
-                  </table>
-                </div>
               </div>
             </CardContent>
           </Card>
