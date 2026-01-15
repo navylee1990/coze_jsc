@@ -27,8 +27,8 @@ const kpiData = {
   followingProjectsTotal: 5600,
   // 在跟进项目预计可完成（转化率约20%）
   followingProjectsPredicted: 644, // 4100 - 3456 = 644
-  // 还需新开拓
-  needNewProjects: 256, // 900 - 644 = 256
+  // 还需新开拓 = 目标 - 已完成 - 在跟进预计
+  needNewProjects: 900, // 5000 - 3456 - 644 = 900
   // 转化率
   conversionRate: 11.5, // 644 / 5600 * 100
 };
@@ -199,7 +199,7 @@ export default function WaterPurifierDashboard() {
                 <div className="text-xl text-gray-400">+</div>
                 <div className="flex-1 p-3 bg-orange-50 rounded-lg border-2 border-orange-200">
                   <div className="text-xs text-gray-600 mb-1">还需开拓</div>
-                  <div className="text-2xl font-bold text-orange-700">256</div>
+                  <div className="text-2xl font-bold text-orange-700">900</div>
                   <div className="text-xs text-gray-500 mt-1">万元</div>
                 </div>
                 <div className="text-xl text-gray-400">=</div>
