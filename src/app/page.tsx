@@ -515,7 +515,7 @@ export default function WaterPurifierDashboard() {
               <div className="flex items-center justify-between mb-3">
                 <div className="text-sm font-bold text-gray-900 flex items-center gap-2">
                   <Activity className="w-4 h-4 text-blue-600" />
-                  下钻分析
+                  <span className="text-sm font-normal text-gray-500">下钻分析</span>
                 </div>
               </div>
               <div className="grid grid-cols-1 gap-2">
