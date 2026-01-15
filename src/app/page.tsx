@@ -3,9 +3,7 @@
 import { useState, useEffect } from 'react';
 import { ArrowUp, ArrowDown, TrendingUp, AlertTriangle, Activity, Target, Heart, Shield, Clock, Database } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Badge } from '@/components/ui/badge';
 import { Progress } from '@/components/ui/progress';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { AIInsight } from '@/components/ai-insight';
 
 // 模拟数据（单位：万元）
@@ -99,7 +97,6 @@ const getHealthColor = (value: number) => {
 
 
 export default function WaterPurifierDashboard() {
-  const [selectedTab, setSelectedTab] = useState('overview');
   const [filter, setFilter] = useState('all');
   const [timeRange, setTimeRange] = useState('month');
 
@@ -405,36 +402,6 @@ export default function WaterPurifierDashboard() {
           经营诊断
         </h2>
         <div className="grid grid-cols-1 gap-4">
-          {/* 高风险项目数 */}
-          <Card className="border-2 border-red-200 bg-gradient-to-r from-red-50 to-orange-50">
-            <CardHeader>
-              <CardTitle className="text-base flex items-center gap-2">
-                <AlertTriangle className="w-4 h-4 text-red-500" />
-                高风险项目数
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="text-center mb-4">
-                <div className="text-5xl font-bold text-red-600">127</div>
-                <div className="text-sm text-gray-500 mt-1">高风险项目</div>
-              </div>
-              <div className="space-y-2">
-                <div className="flex justify-between text-sm">
-                  <span className="text-gray-600">红色风险</span>
-                  <span className="font-medium text-red-600">45个</span>
-                </div>
-                <div className="flex justify-between text-sm">
-                  <span className="text-gray-600">黄色预警</span>
-                  <span className="font-medium text-yellow-600">82个</span>
-                </div>
-              </div>
-              <AIInsight
-                chartType="risk"
-                data={{ total: 127, red: 45, yellow: 82 }}
-              />
-            </CardContent>
-          </Card>
-
           {/* 临期项目/超期项目报警 */}
           <Card className="border-2 border-orange-200 bg-gradient-to-r from-orange-50 to-yellow-50">
             <CardHeader>
@@ -568,170 +535,6 @@ export default function WaterPurifierDashboard() {
         </div>
       </section>
 
-      {/* 第三层：项目明细 */}
-      <section>
-        <h2 className="text-lg font-semibold text-gray-900 mb-4 flex items-center gap-2">
-          <Target className="w-5 h-5" />
-          项目明细
-        </h2>
-        <Tabs value={selectedTab} onValueChange={setSelectedTab} className="w-full">
-          <TabsList className="grid w-full grid-cols-3">
-            <TabsTrigger value="highRisk">高风险项目清单</TabsTrigger>
-            <TabsTrigger value="stagnant">停滞项目清单</TabsTrigger>
-            <TabsTrigger value="keyProjects">重点项目清单</TabsTrigger>
-          </TabsList>
-
-          {/* 高风险项目清单 */}
-          <TabsContent value="highRisk" className="mt-4">
-            <Card>
-              <CardContent className="p-0">
-                <table className="w-full">
-                  <thead className="bg-gray-50">
-                    <tr>
-                      <th className="px-4 py-3 text-left text-xs font-medium text-gray-500">项目名称</th>
-                      <th className="px-4 py-3 text-left text-xs font-medium text-gray-500">渠道/行业</th>
-                      <th className="px-4 py-3 text-left text-xs font-medium text-gray-500">等级</th>
-                      <th className="px-4 py-3 text-left text-xs font-medium text-gray-500">节点</th>
-                      <th className="px-4 py-3 text-right text-xs font-medium text-gray-500">金额</th>
-                      <th className="px-4 py-3 text-center text-xs font-medium text-gray-500">风险等级</th>
-                      <th className="px-4 py-3 text-left text-xs font-medium text-gray-500">业务员</th>
-                    </tr>
-                  </thead>
-                  <tbody className="divide-y divide-gray-200">
-                    {[
-                      { name: '某某连锁餐饮总部', channel: '餐饮', level: 'A级', node: '商务谈判', amount: '120万', risk: 'red', sales: '张三' },
-                      { name: '某某购物中心', channel: '零售', level: 'B级', node: '方案报价', amount: '85万', risk: 'red', sales: '李四' },
-                      { name: '某某大酒店', channel: '酒店', level: 'VIP', node: '安装', amount: '200万', risk: 'yellow', sales: '王五' },
-                      { name: '某某办公楼', channel: '办公楼', level: 'B级', node: '签约', amount: '65万', risk: 'yellow', sales: '赵六' },
-                      { name: '某某连锁超市', channel: '零售', level: 'A级', node: '勘测', amount: '150万', risk: 'red', sales: '张三' },
-                    ].map((project, index) => (
-                      <tr key={index} className="hover:bg-gray-50">
-                        <td className="px-4 py-3 text-sm font-medium text-gray-900">{project.name}</td>
-                        <td className="px-4 py-3 text-sm text-gray-600">{project.channel}</td>
-                        <td className="px-4 py-3 text-sm">
-                          <Badge className={project.level === 'VIP' ? 'bg-blue-500' : project.level === 'A级' ? 'bg-green-500' : 'bg-gray-500'}>
-                            {project.level}
-                          </Badge>
-                        </td>
-                        <td className="px-4 py-3 text-sm text-gray-600">{project.node}</td>
-                        <td className="px-4 py-3 text-sm text-right text-gray-900">{project.amount}</td>
-                        <td className="px-4 py-3 text-sm text-center">
-                          <div className="inline-flex items-center gap-1.5">
-                            <span className={`w-2 h-2 rounded-full ${project.risk === 'red' ? 'bg-red-500' : 'bg-yellow-500'}`} />
-                            <span className={project.risk === 'red' ? 'text-red-600' : 'text-yellow-600'}>
-                              {project.risk === 'red' ? '高风险' : '中风险'}
-                            </span>
-                          </div>
-                        </td>
-                        <td className="px-4 py-3 text-sm text-gray-600">{project.sales}</td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </CardContent>
-            </Card>
-          </TabsContent>
-
-          {/* 停滞项目清单 */}
-          <TabsContent value="stagnant" className="mt-4">
-            <Card>
-              <CardContent className="p-0">
-                <table className="w-full">
-                  <thead className="bg-gray-50">
-                    <tr>
-                      <th className="px-4 py-3 text-left text-xs font-medium text-gray-500">项目名称</th>
-                      <th className="px-4 py-3 text-left text-xs font-medium text-gray-500">渠道/行业</th>
-                      <th className="px-4 py-3 text-left text-xs font-medium text-gray-500">等级</th>
-                      <th className="px-4 py-3 text-left text-xs font-medium text-gray-500">节点</th>
-                      <th className="px-4 py-3 text-right text-xs font-medium text-gray-500">金额</th>
-                      <th className="px-4 py-3 text-center text-xs font-medium text-gray-500">停滞天数</th>
-                      <th className="px-4 py-3 text-left text-xs font-medium text-gray-500">业务员</th>
-                    </tr>
-                  </thead>
-                  <tbody className="divide-y divide-gray-200">
-                    {[
-                      { name: '某某连锁餐饮总部', channel: '餐饮', level: 'A级', node: '商务谈判', amount: '120万', days: 45, sales: '张三' },
-                      { name: '某某购物中心', channel: '零售', level: 'B级', node: '方案报价', amount: '85万', days: 32, sales: '李四' },
-                      { name: '某某大酒店', channel: '酒店', level: 'VIP', node: '安装', amount: '200万', days: 28, sales: '王五' },
-                      { name: '某某办公楼', channel: '办公楼', level: 'B级', node: '签约', amount: '65万', days: 25, sales: '赵六' },
-                      { name: '某某连锁超市', channel: '零售', level: 'A级', node: '勘测', amount: '150万', days: 18, sales: '张三' },
-                    ].map((project, index) => (
-                      <tr key={index} className="hover:bg-gray-50">
-                        <td className="px-4 py-3 text-sm font-medium text-gray-900">{project.name}</td>
-                        <td className="px-4 py-3 text-sm text-gray-600">{project.channel}</td>
-                        <td className="px-4 py-3 text-sm">
-                          <Badge className={project.level === 'VIP' ? 'bg-blue-500' : project.level === 'A级' ? 'bg-green-500' : 'bg-gray-500'}>
-                            {project.level}
-                          </Badge>
-                        </td>
-                        <td className="px-4 py-3 text-sm text-gray-600">{project.node}</td>
-                        <td className="px-4 py-3 text-sm text-right text-gray-900">{project.amount}</td>
-                        <td className="px-4 py-3 text-sm text-center">
-                          <span className={project.days >= 30 ? 'text-red-600 font-bold' : 'text-yellow-600'}>
-                            {project.days}天
-                          </span>
-                        </td>
-                        <td className="px-4 py-3 text-sm text-gray-600">{project.sales}</td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </CardContent>
-            </Card>
-          </TabsContent>
-
-          {/* 重点项目清单 */}
-          <TabsContent value="keyProjects" className="mt-4">
-            <Card>
-              <CardContent className="p-0">
-                <table className="w-full">
-                  <thead className="bg-gray-50">
-                    <tr>
-                      <th className="px-4 py-3 text-left text-xs font-medium text-gray-500">项目名称</th>
-                      <th className="px-4 py-3 text-left text-xs font-medium text-gray-500">渠道/行业</th>
-                      <th className="px-4 py-3 text-left text-xs font-medium text-gray-500">等级</th>
-                      <th className="px-4 py-3 text-left text-xs font-medium text-gray-500">节点</th>
-                      <th className="px-4 py-3 text-right text-xs font-medium text-gray-500">金额</th>
-                      <th className="px-4 py-3 text-center text-xs font-medium text-gray-500">健康度</th>
-                      <th className="px-4 py-3 text-left text-xs font-medium text-gray-500">业务员</th>
-                    </tr>
-                  </thead>
-                  <tbody className="divide-y divide-gray-200">
-                    {[
-                      { name: '某某地标写字楼', channel: '办公楼', level: '地标', node: '验收', amount: '500万', health: 92, sales: '张三' },
-                      { name: '某某国际酒店', channel: '酒店', level: '地标', node: '安装', amount: '450万', health: 88, sales: '李四' },
-                      { name: '某某连锁餐饮总部', channel: '餐饮', level: 'VIP', node: '签约', amount: '300万', health: 85, sales: '王五' },
-                      { name: '某某购物中心', channel: '零售', level: 'VIP', node: '商务谈判', amount: '280万', health: 80, sales: '赵六' },
-                      { name: '某某大学校园', channel: '学校', level: 'A级', node: '方案报价', amount: '180万', health: 75, sales: '张三' },
-                    ].map((project, index) => (
-                      <tr key={index} className="hover:bg-gray-50">
-                        <td className="px-4 py-3 text-sm font-medium text-gray-900">{project.name}</td>
-                        <td className="px-4 py-3 text-sm text-gray-600">{project.channel}</td>
-                        <td className="px-4 py-3 text-sm">
-                          <Badge className={project.level === '地标' ? 'bg-purple-500' : project.level === 'VIP' ? 'bg-blue-500' : 'bg-green-500'}>
-                            {project.level}
-                          </Badge>
-                        </td>
-                        <td className="px-4 py-3 text-sm text-gray-600">{project.node}</td>
-                        <td className="px-4 py-3 text-sm text-right text-gray-900">{project.amount}</td>
-                        <td className="px-4 py-3 text-sm text-center">
-                          <div className="inline-flex items-center gap-1.5">
-                            <span className={`w-2 h-2 rounded-full ${project.health >= 80 ? 'bg-green-500' : project.health >= 60 ? 'bg-yellow-500' : 'bg-red-500'}`} />
-                            <span className={project.health >= 80 ? 'text-green-600' : project.health >= 60 ? 'text-yellow-600' : 'text-red-600'}>
-                              {project.health}分
-                            </span>
-                          </div>
-                        </td>
-                        <td className="px-4 py-3 text-sm text-gray-600">{project.sales}</td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </CardContent>
-            </Card>
-          </TabsContent>
-        </Tabs>
-      </section>
     </div>
   );
 }
