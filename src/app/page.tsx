@@ -13,7 +13,7 @@ const kpiData = {
   target: 5000,
   completed: 3456,
   futurePredicted: 4100,
-  taskGap: 844,
+  taskGap: 900,
   currentHealthIndex: 76.5,
   gapTrend: -15.3,
   completedTrend: 12.5,
@@ -21,7 +21,7 @@ const kpiData = {
   healthTrend: -2.1,
 };
 
-const riskLevel = kpiData.taskGap > 840 ? 'high' : kpiData.taskGap > 500 ? 'medium' : 'low';
+const riskLevel = kpiData.taskGap > 900 ? 'high' : kpiData.taskGap > 500 ? 'medium' : 'low';
 
 const getGapColor = () => {
   if (riskLevel === 'high') return { bg: 'bg-red-50', border: 'border-red-300', text: 'text-red-600' };
@@ -136,11 +136,11 @@ export default function WaterPurifierDashboard() {
                 <div className="text-xs text-gray-700 font-medium">任务缺口</div>
                 <AlertTriangle className={`w-3 h-3 ${getGapColor().text}`} />
               </div>
-              <div className={`text-3xl font-bold ${getGapColor().text}`}>844</div>
+              <div className={`text-3xl font-bold ${getGapColor().text}`}>900</div>
               <div className="text-xs text-gray-600 mt-1">万元</div>
               <div className="flex items-center gap-1 text-xs text-gray-600">
                 <ArrowDown className="w-3 h-3" />
-                <span>15.3%</span>
+                <span>18.0%</span>
               </div>
             </CardContent>
           </Card>
@@ -195,7 +195,7 @@ export default function WaterPurifierDashboard() {
                 </Badge>
               </div>
               <div className="text-xs text-gray-500 text-center mt-2">
-                基于844万元任务缺口评估
+                基于900万元任务缺口评估
               </div>
             </CardContent>
           </Card>
