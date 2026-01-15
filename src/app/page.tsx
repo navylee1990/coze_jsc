@@ -229,6 +229,20 @@ export default function WaterPurifierDashboard() {
               <CardTitle className="text-base flex items-center gap-2">
                 <Target className="w-5 h-5 text-indigo-600" />
                 目标达成分析（{timeRange === 'month' ? '1月' : timeRange === 'quarter' ? 'Q1' : '2024年'}）
+                {/* 任务完成状态图标 */}
+                <div className="ml-4 flex items-center gap-1">
+                  {timeRangeData[timeRange as keyof typeof timeRangeData].canComplete ? (
+                    <>
+                      <Target className="w-5 h-5 text-green-500" />
+                      <span className="text-sm font-medium text-green-600">预计完成</span>
+                    </>
+                  ) : (
+                    <>
+                      <AlertTriangle className="w-5 h-5 text-red-500" />
+                      <span className="text-sm font-medium text-red-600">预计未完成</span>
+                    </>
+                  )}
+                </div>
               </CardTitle>
             </CardHeader>
             <CardContent>
@@ -280,35 +294,6 @@ export default function WaterPurifierDashboard() {
                       ))}
                     </tbody>
                   </table>
-                </div>
-              </div>
-
-              {/* 能否完成任务 */}
-              <div className={`mb-4 p-3 rounded-lg border ${
-                timeRangeData[timeRange as keyof typeof timeRangeData].canComplete
-                  ? 'bg-green-50 border-green-200'
-                  : 'bg-red-50 border-red-200'
-              }`}>
-                <div className="flex items-center gap-2 mb-2">
-                  {timeRangeData[timeRange as keyof typeof timeRangeData].canComplete ? (
-                    <Target className="w-4 h-4 text-green-500" />
-                  ) : (
-                    <AlertTriangle className="w-4 h-4 text-red-500" />
-                  )}
-                  <span className={`text-sm font-medium ${timeRangeData[timeRange as keyof typeof timeRangeData].canComplete ? 'text-green-700' : 'text-red-700'}`}>
-                    {timeRangeData[timeRange as keyof typeof timeRangeData].canComplete ? '预计可以完成任务' : '预计无法完成任务'}
-                  </span>
-                </div>
-                <div className="text-xs text-gray-700">
-                  {!timeRangeData[timeRange as keyof typeof timeRangeData].canComplete && (
-                    <div className="flex items-start gap-2">
-                      <div className="flex-shrink-0 w-1.5 h-1.5 bg-red-500 rounded-full mt-1.5"></div>
-                      <div>
-                        <span className="text-red-600 font-medium">任务缺口：</span>
-                        当前预计完成{timeRangeData[timeRange as keyof typeof timeRangeData].predicted}万，缺口{timeRangeData[timeRange as keyof typeof timeRangeData].gap}万
-                      </div>
-                    </div>
-                  )}
                 </div>
               </div>
 
