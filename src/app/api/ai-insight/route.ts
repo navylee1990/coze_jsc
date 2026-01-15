@@ -1,8 +1,13 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { LLMClient, Config } from 'coze-coding-dev-sdk';
 
-const config = new Config();
-const client = new LLMClient(config);
+function getClient() {
+  // 延迟初始化，避免构建时需要 API key
+  const config = new Config({
+    apiKey: process.env.COZE_WORKLOAD_IDENTITY_API_KEY,
+  });
+  return new LLMClient(config);
+}
 
 export async function POST(request: NextRequest) {
   try {
@@ -80,6 +85,7 @@ export async function POST(request: NextRequest) {
     ];
 
     // 使用流式输出
+    const client = getClient();
     const stream = client.stream(messages, {
       model: 'doubao-seed-1-6-251015',
       temperature: 0.7,
