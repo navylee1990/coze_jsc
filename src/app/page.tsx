@@ -62,22 +62,22 @@ const timeRangeData = {
 // 大区维度数据
 const regionData = {
   month: [
-    { name: '华东大区', target: 150, completed: 130, predicted: 145, gap: 5, rate: 96.7, trend: 'up' },
-    { name: '华南大区', target: 120, completed: 95, predicted: 105, gap: 15, rate: 87.5, trend: 'down' },
-    { name: '华北大区', target: 100, completed: 85, predicted: 92, gap: 8, rate: 92.0, trend: 'stable' },
-    { name: '西南大区', target: 47, completed: 35, predicted: 58, gap: -11, rate: 123.4, trend: 'up' },
+    { name: '华东大区', owner: '张伟', target: 150, completed: 130, predicted: 145, gap: 5, rate: 96.7, trend: 'up' },
+    { name: '华南大区', owner: '李强', target: 120, completed: 95, predicted: 105, gap: 15, rate: 87.5, trend: 'down' },
+    { name: '华北大区', owner: '王明', target: 100, completed: 85, predicted: 92, gap: 8, rate: 92.0, trend: 'stable' },
+    { name: '西南大区', owner: '刘洋', target: 47, completed: 35, predicted: 58, gap: -11, rate: 123.4, trend: 'up' },
   ],
   quarter: [
-    { name: '华东大区', target: 450, completed: 390, predicted: 425, gap: 25, rate: 94.4, trend: 'up' },
-    { name: '华南大区', target: 360, completed: 285, predicted: 310, gap: 50, rate: 86.1, trend: 'down' },
-    { name: '华北大区', target: 300, completed: 255, predicted: 275, gap: 25, rate: 91.7, trend: 'stable' },
-    { name: '西南大区', target: 140, completed: 90, predicted: 140, gap: 0, rate: 100.0, trend: 'up' },
+    { name: '华东大区', owner: '张伟', target: 450, completed: 390, predicted: 425, gap: 25, rate: 94.4, trend: 'up' },
+    { name: '华南大区', owner: '李强', target: 360, completed: 285, predicted: 310, gap: 50, rate: 86.1, trend: 'down' },
+    { name: '华北大区', owner: '王明', target: 300, completed: 255, predicted: 275, gap: 25, rate: 91.7, trend: 'stable' },
+    { name: '西南大区', owner: '刘洋', target: 140, completed: 90, predicted: 140, gap: 0, rate: 100.0, trend: 'up' },
   ],
   year: [
-    { name: '华东大区', target: 1800, completed: 1450, predicted: 1600, gap: 200, rate: 88.9, trend: 'up' },
-    { name: '华南大区', target: 1440, completed: 1050, predicted: 1200, gap: 240, rate: 83.3, trend: 'down' },
-    { name: '华北大区', target: 1200, completed: 950, predicted: 1050, gap: 150, rate: 87.5, trend: 'stable' },
-    { name: '西南大区', target: 560, completed: 6, predicted: 250, gap: 310, rate: 44.6, trend: 'down' },
+    { name: '华东大区', owner: '张伟', target: 1800, completed: 1450, predicted: 1600, gap: 200, rate: 88.9, trend: 'up' },
+    { name: '华南大区', owner: '李强', target: 1440, completed: 1050, predicted: 1200, gap: 240, rate: 83.3, trend: 'down' },
+    { name: '华北大区', owner: '王明', target: 1200, completed: 950, predicted: 1050, gap: 150, rate: 87.5, trend: 'stable' },
+    { name: '西南大区', owner: '刘洋', target: 560, completed: 6, predicted: 250, gap: 310, rate: 44.6, trend: 'down' },
   ],
 };
 
@@ -240,6 +240,7 @@ export default function WaterPurifierDashboard() {
                     <thead className="bg-gradient-to-r from-gray-100 to-gray-50">
                       <tr>
                         <th className="px-4 py-3 text-left text-xs font-semibold text-gray-700">大区</th>
+                        <th className="px-4 py-3 text-left text-xs font-semibold text-gray-700">责任人</th>
                         <th className="px-4 py-3 text-right text-xs font-semibold text-gray-700">目标</th>
                         <th className="px-4 py-3 text-right text-xs font-semibold text-gray-700">已完成</th>
                         <th className="px-4 py-3 text-right text-xs font-semibold text-gray-700">预计完成</th>
@@ -255,6 +256,14 @@ export default function WaterPurifierDashboard() {
                           className="hover:bg-indigo-50/50 transition-colors border-b border-gray-100 last:border-0"
                         >
                           <td className="px-4 py-3 text-sm font-semibold text-gray-900">{region.name}</td>
+                          <td className="px-4 py-3 text-sm text-gray-700 font-medium">
+                            <div className="flex items-center gap-2">
+                              <div className="w-7 h-7 bg-blue-100 rounded-full flex items-center justify-center">
+                                <span className="text-xs font-bold text-blue-600">{region.owner.charAt(0)}</span>
+                              </div>
+                              {region.owner}
+                            </div>
+                          </td>
                           <td className="px-4 py-3 text-sm text-right text-gray-600">{region.target.toLocaleString()}万</td>
                           <td className="px-4 py-3 text-sm text-right text-gray-900 font-medium">{region.completed.toLocaleString()}万</td>
                           <td className="px-4 py-3 text-sm text-right text-indigo-600 font-bold">{region.predicted.toLocaleString()}万</td>
