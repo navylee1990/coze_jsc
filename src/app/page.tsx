@@ -178,35 +178,31 @@ export default function WaterPurifierDashboard() {
             <CardHeader className="pb-3">
               <CardTitle className="text-base flex items-center gap-2">
                 <Target className="w-5 h-5 text-blue-600" />
-                缺口填补路径
+                缺口填补路径（900万）
               </CardTitle>
             </CardHeader>
             <CardContent>
-              {/* 目标达成路径 */}
+              {/* 缺口填补路径 */}
               <div className="flex items-center gap-2">
                 <div className="flex-1 p-3 bg-green-50 rounded-lg border-2 border-green-200">
-                  <div className="text-xs text-gray-600 mb-1">已完成</div>
-                  <div className="text-2xl font-bold text-green-700">3,456</div>
+                  <div className="text-xs text-gray-600 mb-1">即将签约项目</div>
+                  <div className="text-2xl font-bold text-green-700">500</div>
                   <div className="text-xs text-gray-500 mt-1">万元</div>
+                  <div className="text-xs text-green-600 mt-1">12个项目（转化率80%）</div>
                 </div>
                 <div className="text-xl text-gray-400">+</div>
                 <div className="flex-1 p-3 bg-blue-50 rounded-lg border-2 border-blue-200">
-                  <div className="text-xs text-gray-600 mb-1">在跟进（预计）</div>
-                  <div className="text-2xl font-bold text-blue-700">644</div>
+                  <div className="text-xs text-gray-600 mb-1">高风险项目攻坚</div>
+                  <div className="text-2xl font-bold text-blue-700">400</div>
                   <div className="text-xs text-gray-500 mt-1">万元</div>
-                  <div className="text-xs text-blue-600 mt-1">转化率 {kpiData.conversionRate.toFixed(1)}%</div>
-                </div>
-                <div className="text-xl text-gray-400">+</div>
-                <div className="flex-1 p-3 bg-orange-50 rounded-lg border-2 border-orange-200">
-                  <div className="text-xs text-gray-600 mb-1">还需开拓</div>
-                  <div className="text-2xl font-bold text-orange-700">900</div>
-                  <div className="text-xs text-gray-500 mt-1">万元</div>
+                  <div className="text-xs text-blue-600 mt-1">127个项目（提升至30%）</div>
                 </div>
                 <div className="text-xl text-gray-400">=</div>
                 <div className="flex-1 p-3 bg-purple-50 rounded-lg border-2 border-purple-200">
-                  <div className="text-xs text-gray-600 mb-1">目标达成</div>
-                  <div className="text-2xl font-bold text-purple-700">5,000</div>
+                  <div className="text-xs text-gray-600 mb-1">填补缺口</div>
+                  <div className="text-2xl font-bold text-purple-700">900</div>
                   <div className="text-xs text-gray-500 mt-1">万元</div>
+                  <div className="text-xs text-purple-600 mt-1">达成5000万目标</div>
                 </div>
               </div>
 
@@ -217,7 +213,7 @@ export default function WaterPurifierDashboard() {
                   <div className="text-sm text-gray-700">
                     <strong>关键洞察：</strong>
                     在跟进项目总金额5,600万，但预计仅完成644万（转化率仅{(kpiData.followingProjectsPredicted / kpiData.followingProjectsTotal * 100).toFixed(1)}%），<span className="text-red-600 font-semibold">需大幅提升转化率</span>，
-                    建议重点跟进即将签约的12个项目。
+                    建议优先跟进即将签约的12个项目，再攻坚127个高风险项目。
                   </div>
                 </div>
               </div>
@@ -273,15 +269,15 @@ export default function WaterPurifierDashboard() {
                   <div className="flex items-start gap-2 text-xs text-gray-700">
                     <div className="flex-shrink-0 w-5 h-5 bg-red-500 text-white rounded-full text-[10px] flex items-center justify-center mt-0.5">1</div>
                     <div>
-                      <div className="font-medium text-gray-800">即将签约项目</div>
-                      <div className="text-gray-600">跟进12个项目（转化率80%），可完成约500万</div>
+                      <div className="font-medium text-gray-800">即将签约项目（12个）</div>
+                      <div className="text-gray-600">转化率80%，可完成500万</div>
                     </div>
                   </div>
                   <div className="flex items-start gap-2 text-xs text-gray-700">
                     <div className="flex-shrink-0 w-5 h-5 bg-orange-500 text-white rounded-full text-[10px] flex items-center justify-center mt-0.5">2</div>
                     <div>
-                      <div className="font-medium text-gray-800">高风险项目攻坚</div>
-                      <div className="text-gray-600">127个项目，提升转化率至30%，可完成约400万</div>
+                      <div className="font-medium text-gray-800">高风险项目攻坚（127个）</div>
+                      <div className="text-gray-600">提升转化率至30%，可完成400万</div>
                     </div>
                   </div>
                   <div className="flex items-start gap-2 text-xs text-gray-700">
