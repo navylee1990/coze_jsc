@@ -222,24 +222,10 @@ export default function WaterPurifierDashboard() {
         {/* 目标达成分析 */}
         <div className="mt-4">
           <Card className="border-0 shadow-lg bg-white">
-            <CardHeader className="pb-4 bg-gradient-to-r from-indigo-600 to-purple-600 rounded-t-lg">
+            <CardHeader className="pb-4 bg-gradient-to-r from-blue-600 to-indigo-600 rounded-t-lg">
               <CardTitle className="text-base flex items-center gap-2 text-white">
                 <Target className="w-5 h-5" />
                 目标达成分析（{timeRange === 'month' ? '1月' : timeRange === 'quarter' ? 'Q1' : '2024年'}）
-                {/* 任务完成状态图标 */}
-                <div className="ml-auto flex items-center gap-2 bg-white/20 px-3 py-1 rounded-full backdrop-blur-sm">
-                  {timeRangeData[timeRange as keyof typeof timeRangeData].canComplete ? (
-                    <>
-                      <Target className="w-4 h-4 text-green-300" />
-                      <span className="text-sm font-medium text-white">预计完成</span>
-                    </>
-                  ) : (
-                    <>
-                      <AlertTriangle className="w-4 h-4 text-orange-300" />
-                      <span className="text-sm font-medium text-white">预计未完成</span>
-                    </>
-                  )}
-                </div>
               </CardTitle>
             </CardHeader>
             <CardContent className="pt-4">
@@ -357,16 +343,16 @@ export default function WaterPurifierDashboard() {
                     </div>
                   </div>
                 </button>
-                <button className="group p-4 bg-gradient-to-br from-purple-50 to-pink-50 rounded-xl border-2 border-purple-200 hover:border-purple-400 hover:shadow-lg transition-all text-left relative overflow-hidden">
-                  <div className="absolute inset-0 bg-gradient-to-br from-purple-500/10 to-pink-500/10 opacity-0 group-hover:opacity-100 transition-opacity" />
+                <button className="group p-4 bg-gradient-to-br from-green-50 to-emerald-50 rounded-xl border-2 border-green-200 hover:border-green-400 hover:shadow-lg transition-all text-left relative overflow-hidden">
+                  <div className="absolute inset-0 bg-gradient-to-br from-green-500/10 to-emerald-500/10 opacity-0 group-hover:opacity-100 transition-opacity" />
                   <div className="relative">
                     <div className="flex items-center gap-1.5 text-xs text-gray-600 mb-2">
-                      <div className="w-6 h-6 bg-purple-100 rounded-lg flex items-center justify-center">
-                        <Target className="w-3.5 h-3.5 text-purple-600" />
+                      <div className="w-6 h-6 bg-green-100 rounded-lg flex items-center justify-center">
+                        <Target className="w-3.5 h-3.5 text-green-600" />
                       </div>
                       <span className="font-semibold">按经销商</span>
                     </div>
-                    <div className="text-3xl font-bold text-purple-600 mb-1">8</div>
+                    <div className="text-3xl font-bold text-green-600 mb-1">8</div>
                     <div className="text-xs text-gray-500 mb-2">经销商</div>
                     <div className="inline-flex items-center gap-1 text-xs bg-red-100 text-red-700 px-2 py-0.5 rounded-full font-medium">
                       <AlertTriangle className="w-3 h-3" />
