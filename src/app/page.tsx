@@ -61,6 +61,28 @@ const timeRangeData = {
   },
 };
 
+// 大区维度数据
+const regionData = {
+  month: [
+    { name: '华东大区', target: 150, completed: 130, predicted: 145, gap: 5, rate: 96.7, trend: 'up' },
+    { name: '华南大区', target: 120, completed: 95, predicted: 105, gap: 15, rate: 87.5, trend: 'down' },
+    { name: '华北大区', target: 100, completed: 85, predicted: 92, gap: 8, rate: 92.0, trend: 'stable' },
+    { name: '西南大区', target: 47, completed: 35, predicted: 58, gap: -11, rate: 123.4, trend: 'up' },
+  ],
+  quarter: [
+    { name: '华东大区', target: 450, completed: 390, predicted: 425, gap: 25, rate: 94.4, trend: 'up' },
+    { name: '华南大区', target: 360, completed: 285, predicted: 310, gap: 50, rate: 86.1, trend: 'down' },
+    { name: '华北大区', target: 300, completed: 255, predicted: 275, gap: 25, rate: 91.7, trend: 'stable' },
+    { name: '西南大区', target: 140, completed: 90, predicted: 140, gap: 0, rate: 100.0, trend: 'up' },
+  ],
+  year: [
+    { name: '华东大区', target: 1800, completed: 1450, predicted: 1600, gap: 200, rate: 88.9, trend: 'up' },
+    { name: '华南大区', target: 1440, completed: 1050, predicted: 1200, gap: 240, rate: 83.3, trend: 'down' },
+    { name: '华北大区', target: 1200, completed: 950, predicted: 1050, gap: 150, rate: 87.5, trend: 'stable' },
+    { name: '西南大区', target: 560, completed: 6, predicted: 250, gap: 310, rate: 44.6, trend: 'down' },
+  ],
+};
+
 const riskLevel = kpiData.taskGap > 900 ? 'high' : kpiData.taskGap > 500 ? 'medium' : 'low';
 
 const getGapColor = () => {
@@ -301,6 +323,57 @@ export default function WaterPurifierDashboard() {
                   <div className="text-xs text-gray-500">高风险项目</div>
                   <div className="text-xs text-orange-500 mt-1">需优先跟进</div>
                 </button>
+              </div>
+
+              {/* 大区维度达成情况 */}
+              <div className="mt-4">
+                <div className="text-sm font-medium text-gray-700 mb-3">大区维度达成情况</div>
+                <div className="bg-white rounded-lg border border-gray-200 overflow-hidden">
+                  <table className="w-full">
+                    <thead className="bg-gray-50">
+                      <tr>
+                        <th className="px-3 py-2 text-left text-xs font-medium text-gray-500">大区</th>
+                        <th className="px-3 py-2 text-right text-xs font-medium text-gray-500">目标</th>
+                        <th className="px-3 py-2 text-right text-xs font-medium text-gray-500">已完成</th>
+                        <th className="px-3 py-2 text-right text-xs font-medium text-gray-500">预计完成</th>
+                        <th className="px-3 py-2 text-right text-xs font-medium text-gray-500">缺口</th>
+                        <th className="px-3 py-2 text-center text-xs font-medium text-gray-500">达成率</th>
+                        <th className="px-3 py-2 text-center text-xs font-medium text-gray-500">趋势</th>
+                      </tr>
+                    </thead>
+                    <tbody className="divide-y divide-gray-200">
+                      {regionData[timeRange as keyof typeof regionData].map((region, index) => (
+                        <tr key={index} className="hover:bg-gray-50">
+                          <td className="px-3 py-2 text-sm font-medium text-gray-900">{region.name}</td>
+                          <td className="px-3 py-2 text-sm text-right text-gray-600">{region.target.toLocaleString()}万</td>
+                          <td className="px-3 py-2 text-sm text-right text-gray-900">{region.completed.toLocaleString()}万</td>
+                          <td className="px-3 py-2 text-sm text-right text-blue-600 font-medium">{region.predicted.toLocaleString()}万</td>
+                          <td className={`px-3 py-2 text-sm text-right font-medium ${region.gap > 0 ? 'text-red-600' : region.gap === 0 ? 'text-gray-600' : 'text-green-600'}`}>
+                            {region.gap > 0 ? `${region.gap}` : region.gap === 0 ? '0' : `+${Math.abs(region.gap)}`}
+                          </td>
+                          <td className="px-3 py-2 text-sm text-center">
+                            <span className={`inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium ${
+                              region.rate >= 100 ? 'bg-green-100 text-green-800' :
+                              region.rate >= 80 ? 'bg-yellow-100 text-yellow-800' :
+                              'bg-red-100 text-red-800'
+                            }`}>
+                              {region.rate.toFixed(1)}%
+                            </span>
+                          </td>
+                          <td className="px-3 py-2 text-sm text-center">
+                            {region.trend === 'up' ? (
+                              <ArrowUp className="w-4 h-4 text-green-500 inline" />
+                            ) : region.trend === 'down' ? (
+                              <ArrowDown className="w-4 h-4 text-red-500 inline" />
+                            ) : (
+                              <div className="w-4 h-4 bg-gray-300 rounded-full inline" />
+                            )}
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
               </div>
             </CardContent>
           </Card>
