@@ -351,51 +351,6 @@ export default function WaterPurifierDashboard() {
                   </div>
                 </div>
               </div>
-
-              {/* 关联项目储备分析 */}
-              <div className="mt-4">
-                <div className="text-sm font-medium text-gray-700 mb-3">关联项目储备分析</div>
-                <div className="space-y-3">
-                  {/* 在跟进项目 */}
-                  <div className="p-3 bg-white rounded-lg border border-gray-200">
-                    <div className="flex items-center justify-between mb-2">
-                      <span className="text-sm font-medium text-gray-700">在跟进项目</span>
-                      <span className="text-sm font-bold text-gray-900">5,600万元</span>
-                    </div>
-                    <div className="flex items-center gap-4 text-xs text-gray-600">
-                      <span>项目数：<strong>933个</strong></span>
-                      <span>预计完成：<strong>644万元</strong></span>
-                      <span>转化率：<strong className="text-red-600">11.5%</strong></span>
-                    </div>
-                  </div>
-
-                  {/* 新线索储备 */}
-                  <div className="p-3 bg-white rounded-lg border border-gray-200">
-                    <div className="flex items-center justify-between mb-2">
-                      <span className="text-sm font-medium text-gray-700">新线索储备</span>
-                      <span className="text-sm font-bold text-gray-900">2,800万元</span>
-                    </div>
-                    <div className="flex items-center gap-4 text-xs text-gray-600">
-                      <span>项目数：<strong>156个</strong></span>
-                      <span>预计完成：<strong>280万元</strong></span>
-                      <span>转化率：<strong className="text-yellow-600">10.0%</strong></span>
-                    </div>
-                  </div>
-
-                  {/* 重点跟进项目 */}
-                  <div className="p-3 bg-white rounded-lg border border-gray-200">
-                    <div className="flex items-center justify-between mb-2">
-                      <span className="text-sm font-medium text-gray-700">重点跟进项目</span>
-                      <span className="text-sm font-bold text-green-600">1,200万元</span>
-                    </div>
-                    <div className="flex items-center gap-4 text-xs text-gray-600">
-                      <span>项目数：<strong>27个</strong></span>
-                      <span>预计完成：<strong>900万元</strong></span>
-                      <span>转化率：<strong className="text-green-600">75.0%</strong></span>
-                    </div>
-                  </div>
-                </div>
-              </div>
             </CardContent>
           </Card>
         </div>
