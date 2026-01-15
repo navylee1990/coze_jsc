@@ -344,55 +344,6 @@ export default function WaterPurifierDashboard() {
             </CardContent>
           </Card>
         </div>
-
-        {/* 缺口分析与填补方案 - 横向展示 */}
-        <div className="mt-4">
-          <Card className="border-2 border-blue-200 bg-gradient-to-r from-blue-50 to-indigo-50">
-            <CardHeader className="pb-3">
-              <CardTitle className="text-base flex items-center gap-2">
-                <Target className="w-5 h-5 text-blue-600" />
-                缺口填补路径（900万）
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              {/* 缺口填补路径 */}
-              <div className="flex items-center gap-2">
-                <div className="flex-1 p-3 bg-green-50 rounded-lg border-2 border-green-200">
-                  <div className="text-xs text-gray-600 mb-1">即将签约项目</div>
-                  <div className="text-2xl font-bold text-green-700">500</div>
-                  <div className="text-xs text-gray-500 mt-1">万元</div>
-                  <div className="text-xs text-green-600 mt-1">12个项目（转化率80%）</div>
-                </div>
-                <div className="text-xl text-gray-400">+</div>
-                <div className="flex-1 p-3 bg-blue-50 rounded-lg border-2 border-blue-200">
-                  <div className="text-xs text-gray-600 mb-1">高风险项目攻坚</div>
-                  <div className="text-2xl font-bold text-blue-700">400</div>
-                  <div className="text-xs text-gray-500 mt-1">万元</div>
-                  <div className="text-xs text-blue-600 mt-1">127个项目（提升至30%）</div>
-                </div>
-                <div className="text-xl text-gray-400">=</div>
-                <div className="flex-1 p-3 bg-purple-50 rounded-lg border-2 border-purple-200">
-                  <div className="text-xs text-gray-600 mb-1">填补缺口</div>
-                  <div className="text-2xl font-bold text-purple-700">900</div>
-                  <div className="text-xs text-gray-500 mt-1">万元</div>
-                  <div className="text-xs text-purple-600 mt-1">达成5000万目标</div>
-                </div>
-              </div>
-
-              {/* 关键洞察 */}
-              <div className="mt-4 p-3 bg-yellow-50 rounded-lg border border-yellow-200">
-                <div className="flex items-start gap-2">
-                  <AlertTriangle className="w-4 h-4 text-yellow-600 flex-shrink-0 mt-0.5" />
-                  <div className="text-sm text-gray-700">
-                    <strong>关键洞察：</strong>
-                    未来预计完成4,100万（含已完成3,456万），缺口900万。在跟进项目5,600万中，预计仅贡献644万（占11.5%），<span className="text-red-600 font-semibold">转化率严重偏低</span>。
-                    建议优先跟进12个即将签约项目（约500万），再攻坚127个高风险项目（约400万）。
-                  </div>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
-        </div>
       </section>
 
       {/* 第二层：经营诊断 */}
