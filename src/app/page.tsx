@@ -372,26 +372,6 @@ export default function WaterPurifierDashboard() {
                 </table>
               </div>
 
-              {/* 风险识别 */}
-              {!timeRangeData[timeRange as keyof typeof timeRangeData].canComplete && (
-                <div className="mt-4 p-4 bg-gradient-to-r from-orange-50 to-yellow-50 rounded-xl border border-orange-200">
-                  <div className="flex items-center gap-2 mb-3">
-                    <AlertTriangle className="w-4 h-4 text-orange-600" />
-                    <span className="text-sm font-bold text-orange-800">风险因素</span>
-                  </div>
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-                    <div className="flex items-start gap-2">
-                      <span className="flex-shrink-0 w-6 h-6 bg-yellow-400 rounded-full flex items-center justify-center text-xs font-bold text-white mt-0.5">1</span>
-                      <span className="text-sm text-gray-700"><span className="font-bold text-yellow-700">达成率偏低：</span>仅1个大区达标，平均47.4%</span>
-                    </div>
-                    <div className="flex items-start gap-2">
-                      <span className="flex-shrink-0 w-6 h-6 bg-orange-400 rounded-full flex items-center justify-center text-xs font-bold text-white mt-0.5">2</span>
-                      <span className="text-sm text-gray-700"><span className="font-bold text-yellow-700">缺口巨大：</span>月度缺口777.7万，6个区域未达标</span>
-                    </div>
-                  </div>
-                </div>
-              )}
-
               {/* 下钻分析 */}
               <div className="mt-4 grid grid-cols-1 sm:grid-cols-3 gap-3">
                 <button className="group p-4 bg-gradient-to-br from-blue-50 to-indigo-50 rounded-xl border-2 border-blue-200 hover:border-indigo-400 hover:shadow-md transition-all text-left relative overflow-hidden">
