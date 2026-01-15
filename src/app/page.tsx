@@ -175,54 +175,60 @@ export default function WaterPurifierDashboard() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-3">
           {/* 目标 */}
           <Card>
-            <CardContent className="p-4">
-              <div className="flex items-center gap-1.5 text-xs text-gray-500 mb-1">
-                <Target className="w-3.5 h-3.5" />
+            <CardContent className="p-3">
+              <div className="flex items-center gap-1.5 text-xs text-gray-500">
+                <Target className="w-3 h-3" />
                 <span>目标</span>
               </div>
-              <div className="text-3xl font-bold text-blue-600">1,428</div>
-              <div className="text-xs text-gray-400 mt-1">万元</div>
+              <div className="text-2xl font-bold text-blue-600">1,428</div>
+              <div className="text-xs text-gray-400">万元</div>
             </CardContent>
           </Card>
 
           {/* 已完成 */}
           <Card>
-            <CardContent className="p-4">
-              <div className="text-xs text-gray-500 mb-1">已完成</div>
-              <div className="text-3xl font-bold text-green-600">677</div>
-              <div className="text-xs text-gray-600 mt-1">万元</div>
-              <div className="flex items-center gap-1 text-xs text-red-600">
-                <ArrowDown className="w-3 h-3" />
-                <span>-8.3%</span>
+            <CardContent className="p-3">
+              <div className="text-xs text-gray-500">已完成</div>
+              <div className="text-2xl font-bold text-green-600">677</div>
+              <div className="flex items-center justify-between">
+                <span className="text-xs text-gray-400">万元</span>
+                <div className="flex items-center gap-1 text-xs text-red-600">
+                  <ArrowDown className="w-3 h-3" />
+                  <span>-8.3%</span>
+                </div>
               </div>
             </CardContent>
           </Card>
 
           {/* 未来预计完成 */}
           <Card className="border-2 border-dashed border-blue-300">
-            <CardContent className="p-4">
-              <div className="text-xs text-gray-500 mb-1">未来预计完成</div>
-              <div className="text-3xl font-bold text-blue-600">650.3</div>
-              <div className="text-xs text-gray-600 mt-1">万元</div>
-              <div className="flex items-center gap-1 text-xs text-red-600">
-                <ArrowDown className="w-3 h-3" />
-                <span>-12.2%</span>
+            <CardContent className="p-3">
+              <div className="text-xs text-gray-500">未来预计完成</div>
+              <div className="text-2xl font-bold text-blue-600">650.3</div>
+              <div className="flex items-center justify-between">
+                <span className="text-xs text-gray-400">万元</span>
+                <div className="flex items-center gap-1 text-xs text-red-600">
+                  <ArrowDown className="w-3 h-3" />
+                  <span>-12.2%</span>
+                </div>
               </div>
             </CardContent>
           </Card>
 
           {/* 任务缺口 */}
           <Card className={`${getGapColor().bg} border-2 ${getGapColor().border}`}>
-            <CardContent className="p-4">
-              <div className="flex items-center justify-between mb-1">
+            <CardContent className="p-3">
+              <div className="flex items-center justify-between">
                 <div className="text-xs text-gray-700 font-medium">任务缺口</div>
                 <AlertTriangle className={`w-3 h-3 ${getGapColor().text}`} />
               </div>
-              <div className={`text-3xl font-bold ${getGapColor().text}`}>777.7</div>
-              <div className="text-xs text-gray-600 mt-1">万元</div>
-              <div className="flex items-center gap-1 text-xs text-gray-600">
-                <ArrowDown className="w-3 h-3" />
-                <span>-54.5%</span>
+              <div className={`text-2xl font-bold ${getGapColor().text}`}>777.7</div>
+              <div className="flex items-center justify-between">
+                <span className="text-xs text-gray-600">万元</span>
+                <div className="flex items-center gap-1 text-xs text-gray-600">
+                  <ArrowDown className="w-3 h-3" />
+                  <span>-54.5%</span>
+                </div>
               </div>
             </CardContent>
           </Card>
