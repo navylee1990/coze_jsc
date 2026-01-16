@@ -355,14 +355,14 @@ export default function DealerDashboard() {
           {/* 项目阶段统计模块 - 右侧 */}
           <div className="lg:col-span-1">
             <Card className="border-2 border-blue-200">
-              <CardHeader className="pb-3">
+              <CardHeader className="pb-2">
                 <CardTitle className="text-base flex items-center gap-2">
                   <Package className="w-4 h-4 text-blue-500" />
                   项目阶段统计
                 </CardTitle>
               </CardHeader>
-              <CardContent>
-                <div className="space-y-2">
+              <CardContent className="p-3">
+                <div className="space-y-1.5">
                   {projectStageData.map((item, index) => {
                     const totalAmount = projectStageData.reduce((sum, p) => sum + p.amount, 0);
                     const percentage = (item.amount / totalAmount * 100);
@@ -377,18 +377,18 @@ export default function DealerDashboard() {
                     const IconComponent = colors.icon;
 
                     return (
-                      <div key={index} className={`${colors.bg} rounded-lg p-3 border ${colors.border}`}>
-                        <div className="flex items-center justify-between mb-2">
-                          <div className="flex items-center gap-2">
-                            <div className={`w-8 h-8 ${colors.bg.replace('50', '100')} rounded-lg flex items-center justify-center`}>
-                              <IconComponent className="w-4 h-4 ${colors.text}" />
+                      <div key={index} className={`${colors.bg} rounded-lg p-2.5 border ${colors.border}`}>
+                        <div className="flex items-center justify-between mb-1.5">
+                          <div className="flex items-center gap-1.5">
+                            <div className={`w-7 h-7 ${colors.bg.replace('50', '100')} rounded-lg flex items-center justify-center`}>
+                              <IconComponent className="w-3.5 h-3.5 ${colors.text}" />
                             </div>
                             <span className="text-sm font-medium text-gray-700">{item.stage}</span>
                           </div>
-                          <span className={`text-lg font-bold ${colors.text}`}>{item.amount.toLocaleString()}</span>
+                          <span className={`text-base font-bold ${colors.text}`}>{item.amount.toLocaleString()}</span>
                         </div>
-                        <div className="flex items-center gap-2">
-                          <div className="flex-1 h-2 bg-gray-200 rounded-full overflow-hidden">
+                        <div className="flex items-center gap-1.5">
+                          <div className="flex-1 h-1.5 bg-gray-200 rounded-full overflow-hidden">
                             <div
                               className={`h-full ${colors.bar} rounded-full transition-all`}
                               style={{ width: `${percentage}%` }}
@@ -396,21 +396,21 @@ export default function DealerDashboard() {
                           </div>
                           <span className="text-xs text-gray-500 whitespace-nowrap">{percentage.toFixed(1)}%</span>
                         </div>
-                        <div className="mt-1 text-xs text-gray-500">
+                        <div className="mt-0.5 text-xs text-gray-500">
                           项目数量：<span className="font-medium text-gray-700">{item.count}个</span>
                         </div>
                       </div>
                     );
                   })}
                 </div>
-                <div className="mt-3 pt-3 border-t border-gray-200">
+                <div className="mt-2 pt-2 border-t border-gray-200">
                   <div className="flex items-center justify-between text-sm">
                     <span className="text-gray-500">项目总金额</span>
                     <span className="font-bold text-gray-900">
                       {projectStageData.reduce((sum, item) => sum + item.amount, 0).toLocaleString()}万元
                     </span>
                   </div>
-                  <div className="flex items-center justify-between text-sm mt-1">
+                  <div className="flex items-center justify-between text-sm mt-0.5">
                     <span className="text-gray-500">项目总数</span>
                     <span className="font-bold text-gray-900">
                       {projectStageData.reduce((sum, item) => sum + item.count, 0)}个
