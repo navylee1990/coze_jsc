@@ -205,63 +205,6 @@ export default function DealerDashboard() {
               </CardContent>
             </Card>
           </div>
-
-          {/* 达成率排名 */}
-          <Card className="mt-3 border-2 border-blue-200 bg-gradient-to-br from-blue-50 to-indigo-50">
-            <CardHeader className="pb-3">
-              <CardTitle className="text-base flex items-center gap-2">
-                <Award className="w-4 h-4 text-blue-500" />
-                达成率排名
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="bg-white rounded-lg overflow-hidden">
-                <table className="w-full">
-                  <thead>
-                    <tr className="border-b border-gray-200 bg-gray-50">
-                      <th className="px-3 py-2 text-left text-sm font-medium text-gray-500">排名</th>
-                      <th className="px-3 py-2 text-left text-sm font-medium text-gray-500">大区</th>
-                      <th className="px-3 py-2 text-right text-sm font-medium text-gray-500">年度目标</th>
-                      <th className="px-3 py-2 text-right text-sm font-medium text-gray-500">已完成</th>
-                      <th className="px-3 py-2 text-right text-sm font-medium text-gray-500">已提货</th>
-                      <th className="px-3 py-2 text-right text-sm font-medium text-gray-500">达成率</th>
-                      <th className="px-3 py-2 text-right text-sm font-medium text-gray-500">实际完成</th>
-                      <th className="px-3 py-2 text-right text-sm font-medium text-gray-500">同规模均值</th>
-                      <th className="px-3 py-2 text-right text-sm font-medium text-gray-500">项目个数</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {achievementRanking.map((item, index) => (
-                      <tr key={index} className="border-b border-gray-100 hover:bg-blue-50 transition-colors">
-                        <td className="px-3 py-3">
-                          <div className={`w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold ${
-                            index === 0 ? 'bg-yellow-400 text-white' :
-                            index === 1 ? 'bg-gray-300 text-white' :
-                            index === 2 ? 'bg-orange-300 text-white' :
-                            'bg-gray-100 text-gray-600'
-                          }`}>
-                            {item.rank}
-                          </div>
-                        </td>
-                        <td className="px-3 py-3 text-sm font-medium text-gray-900">{item.name}</td>
-                        <td className="px-3 py-3 text-sm text-right text-gray-600">{item.target.toLocaleString()}</td>
-                        <td className="px-3 py-3 text-sm text-right text-blue-600 font-medium">{item.completed.toLocaleString()}</td>
-                        <td className="px-3 py-3 text-sm text-right text-green-600">{item.shipped.toLocaleString()}</td>
-                        <td className="px-3 py-3 text-sm text-right">
-                          <span className={`font-bold ${item.rate >= 60 ? 'text-green-600' : item.rate >= 50 ? 'text-yellow-600' : 'text-red-600'}`}>
-                            {item.rate}%
-                          </span>
-                        </td>
-                        <td className="px-3 py-3 text-sm text-right text-gray-600">{item.actual}</td>
-                        <td className="px-3 py-3 text-sm text-right text-gray-400">{item.peerAvg}</td>
-                        <td className="px-3 py-3 text-sm text-right text-blue-600 font-medium">{item.projectCount}</td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </div>
-            </CardContent>
-          </Card>
         </TabsContent>
 
         <TabsContent value="regions">
