@@ -5,6 +5,7 @@ import { ArrowUp, ArrowDown, TrendingUp, AlertTriangle, Activity, Target, Heart,
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs';
 import Link from 'next/link';
+import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, LineChart, Line } from 'recharts';
 
 // 模拟数据
 const kpiData = {
@@ -18,6 +19,22 @@ const kpiData = {
   peerAvgToMonth: 780,
   totalProjectCount: 142,
 };
+
+// 月度趋势数据
+const monthlyTrendData = [
+  { month: '1月', target: 1250, actual: 720, achievement: 57.6 },
+  { month: '2月', target: 1250, actual: 650, achievement: 52.0 },
+  { month: '3月', target: 1250, actual: 580, achievement: 46.4 },
+  { month: '4月', target: 1250, actual: 690, achievement: 55.2 },
+  { month: '5月', target: 1250, actual: 750, achievement: 60.0 },
+  { month: '6月', target: 1250, actual: 820, achievement: 65.6 },
+  { month: '7月', target: 1250, actual: 780, achievement: 62.4 },
+  { month: '8月', target: 1250, actual: 860, achievement: 68.8 },
+  { month: '9月', target: 1250, actual: 795, achievement: 63.6 },
+  { month: '10月', target: 1250, actual: 840, achievement: 67.2 },
+  { month: '11月', target: 1250, actual: 825, achievement: 66.0 },
+  { month: '12月', target: 1250, actual: 825, achievement: 66.0 },
+];
 
 const achievementRanking = [
   { rank: 1, name: '华东大区', target: 4500, completed: 2800, shipped: 2600, rate: 62.2, actual: 850, peerAvg: 720, projectCount: 32, trend: 'up' },
@@ -205,6 +222,61 @@ export default function DealerDashboard() {
               </CardContent>
             </Card>
           </div>
+
+          {/* 月度趋势分析 */}
+          <Card className="mt-3 border-2 border-blue-200 bg-gradient-to-br from-blue-50 to-indigo-50">
+            <CardHeader className="pb-3">
+              <CardTitle className="text-base flex items-center gap-2">
+                <TrendingUp className="w-4 h-4 text-blue-500" />
+                月度趋势分析
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="bg-white rounded-lg p-4">
+                <ResponsiveContainer width="100%" height={300}>
+                  <BarChart data={monthlyTrendData}>
+                    <CartesianGrid strokeDasharray="3 3" vertical={false} />
+                    <XAxis 
+                      dataKey="month" 
+                      axisLine={false}
+                      tickLine={false}
+                      tick={{ fontSize: 12, fill: '#6B7280' }}
+                    />
+                    <YAxis 
+                      axisLine={false}
+                      tickLine={false}
+                      tick={{ fontSize: 12, fill: '#6B7280' }}
+                      tickFormatter={(value) => `${value}万`}
+                    />
+                    <Tooltip 
+                      formatter={(value: number) => [`${value}万`, '']}
+                      contentStyle={{ 
+                        backgroundColor: 'white',
+                        border: '1px solid #E5E7EB',
+                        borderRadius: '8px',
+                        boxShadow: '0 2px 4px rgba(0,0,0,0.1)'
+                      }}
+                    />
+                    <Legend 
+                      wrapperStyle={{ fontSize: 12, paddingTop: '10px' }}
+                    />
+                    <Bar 
+                      dataKey="target" 
+                      name="目标金额"
+                      fill="#E5E7EB" 
+                      radius={[4, 4, 0, 0]}
+                    />
+                    <Bar 
+                      dataKey="actual" 
+                      name="实际完成"
+                      fill="#3B82F6" 
+                      radius={[4, 4, 0, 0]}
+                    />
+                  </BarChart>
+                </ResponsiveContainer>
+              </div>
+            </CardContent>
+          </Card>
         </TabsContent>
 
         <TabsContent value="regions">
