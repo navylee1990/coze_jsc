@@ -232,48 +232,52 @@ export default function DealerDashboard() {
               </CardTitle>
             </CardHeader>
             <CardContent>
-              <div className="bg-white rounded-lg p-4">
-                <ResponsiveContainer width="100%" height={300}>
-                  <BarChart data={monthlyTrendData}>
-                    <CartesianGrid strokeDasharray="3 3" vertical={false} />
-                    <XAxis 
-                      dataKey="month" 
-                      axisLine={false}
-                      tickLine={false}
-                      tick={{ fontSize: 12, fill: '#6B7280' }}
-                    />
-                    <YAxis 
-                      axisLine={false}
-                      tickLine={false}
-                      tick={{ fontSize: 12, fill: '#6B7280' }}
-                      tickFormatter={(value) => `${value}万`}
-                    />
-                    <Tooltip 
-                      formatter={(value: number) => [`${value}万`, '']}
-                      contentStyle={{ 
-                        backgroundColor: 'white',
-                        border: '1px solid #E5E7EB',
-                        borderRadius: '8px',
-                        boxShadow: '0 2px 4px rgba(0,0,0,0.1)'
-                      }}
-                    />
-                    <Legend 
-                      wrapperStyle={{ fontSize: 12, paddingTop: '10px' }}
-                    />
-                    <Bar 
-                      dataKey="target" 
-                      name="目标金额"
-                      fill="#E5E7EB" 
-                      radius={[4, 4, 0, 0]}
-                    />
-                    <Bar 
-                      dataKey="actual" 
-                      name="实际完成"
-                      fill="#3B82F6" 
-                      radius={[4, 4, 0, 0]}
-                    />
-                  </BarChart>
-                </ResponsiveContainer>
+              <div className="bg-white rounded-lg overflow-hidden">
+                <table className="w-full">
+                  <thead>
+                    <tr className="border-b border-gray-200 bg-gray-50">
+                      <th className="px-3 py-2 text-left text-sm font-medium text-gray-500">月份</th>
+                      <th className="px-3 py-2 text-right text-sm font-medium text-gray-500">目标</th>
+                      <th className="px-3 py-2 text-right text-sm font-medium text-gray-500">实际完成</th>
+                      <th className="px-3 py-2 text-center text-sm font-medium text-gray-500">达成率</th>
+                      <th className="px-3 py-2 text-left text-sm font-medium text-gray-500">进度</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {monthlyTrendData.map((item, index) => (
+                      <tr key={index} className="border-b border-gray-100 hover:bg-blue-50 transition-colors">
+                        <td className="px-3 py-2.5 text-sm font-medium text-gray-900">{item.month}</td>
+                        <td className="px-3 py-2.5 text-sm text-right text-gray-600">{item.target}</td>
+                        <td className={`px-3 py-2.5 text-sm text-right font-medium ${item.actual >= item.target ? 'text-green-600' : 'text-red-600'}`}>
+                          {item.actual}
+                        </td>
+                        <td className="px-3 py-2.5 text-center">
+                          <span className={`inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs font-semibold ${
+                            item.achievement >= 100 ? 'bg-green-100 text-green-700' :
+                            item.achievement >= 80 ? 'bg-blue-100 text-blue-700' :
+                            item.achievement >= 60 ? 'bg-yellow-100 text-yellow-700' :
+                            'bg-red-100 text-red-700'
+                          }`}>
+                            {item.achievement.toFixed(1)}%
+                          </span>
+                        </td>
+                        <td className="px-3 py-2.5">
+                          <div className="w-full h-2 bg-gray-200 rounded-full overflow-hidden">
+                            <div
+                              className={`h-full rounded-full transition-all ${
+                                item.achievement >= 100 ? 'bg-green-500' :
+                                item.achievement >= 80 ? 'bg-blue-500' :
+                                item.achievement >= 60 ? 'bg-yellow-500' :
+                                'bg-red-500'
+                              }`}
+                              style={{ width: `${Math.min(item.achievement, 100)}%` }}
+                            />
+                          </div>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
               </div>
             </CardContent>
           </Card>
