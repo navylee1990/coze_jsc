@@ -355,13 +355,13 @@ export default function DealerDashboard() {
           {/* 项目阶段统计模块 - 右侧 */}
           <div className="lg:col-span-1">
             <Card className="border-2 border-blue-200">
-              <CardHeader className="pb-2">
+              <CardHeader className="pb-0">
                 <CardTitle className="text-base flex items-center gap-2">
                   <Package className="w-4 h-4 text-blue-500" />
                   项目阶段统计
                 </CardTitle>
               </CardHeader>
-              <CardContent className="p-3">
+              <CardContent className="pt-0 px-3 pb-3">
                 <div className="space-y-1.5">
                   {projectStageData.map((item, index) => {
                     const totalAmount = projectStageData.reduce((sum, p) => sum + p.amount, 0);
