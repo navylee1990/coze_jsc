@@ -516,7 +516,10 @@ export default function WaterPurifierDashboard() {
                 </div>
               </div>
               <div className="grid grid-cols-1 gap-2">
-                <button className="group p-2.5 bg-white rounded-xl border border-gray-200 hover:border-blue-400 hover:shadow-md transition-all text-left">
+                <button
+                  onClick={() => setActiveTab('salesmen')}
+                  className="group p-2.5 bg-white rounded-xl border border-gray-200 hover:border-blue-400 hover:shadow-md transition-all text-left"
+                >
                   <div className="flex items-center gap-2 mb-1.5">
                     <div className="w-7 h-7 bg-indigo-100 rounded-lg flex items-center justify-center flex-shrink-0">
                       <Activity className="w-3.5 h-3.5 text-indigo-600" />
@@ -532,7 +535,10 @@ export default function WaterPurifierDashboard() {
                     3人未达标
                   </div>
                 </button>
-                <button className="group p-2.5 bg-white rounded-xl border border-gray-200 hover:border-green-400 hover:shadow-md transition-all text-left">
+                <button
+                  onClick={() => setActiveTab('distributors')}
+                  className="group p-2.5 bg-white rounded-xl border border-gray-200 hover:border-green-400 hover:shadow-md transition-all text-left"
+                >
                   <div className="flex items-center gap-2 mb-1.5">
                     <div className="w-7 h-7 bg-green-100 rounded-lg flex items-center justify-center flex-shrink-0">
                       <Target className="w-3.5 h-3.5 text-green-600" />
@@ -548,7 +554,10 @@ export default function WaterPurifierDashboard() {
                     2家未达标
                   </div>
                 </button>
-                <button className="group p-2.5 bg-white rounded-xl border border-gray-200 hover:border-orange-400 hover:shadow-md transition-all text-left">
+                <button
+                  onClick={() => setActiveTab('projects')}
+                  className="group p-2.5 bg-white rounded-xl border border-gray-200 hover:border-orange-400 hover:shadow-md transition-all text-left"
+                >
                   <div className="flex items-center gap-2 mb-1.5">
                     <div className="w-7 h-7 bg-orange-100 rounded-lg flex items-center justify-center flex-shrink-0">
                       <AlertTriangle className="w-3.5 h-3.5 text-orange-600" />
