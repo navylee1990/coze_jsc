@@ -31,7 +31,7 @@ export default function DealerDashboard() {
   const [activeTab, setActiveTab] = useState('overview');
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-purple-50 to-pink-50 p-4">
+    <div className="min-h-screen bg-gray-50 p-4">
       {/* 页面头部 */}
       <header className="mb-4">
         <div className="flex items-center justify-between">
@@ -49,7 +49,7 @@ export default function DealerDashboard() {
             <button className="px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50">
               刷新数据
             </button>
-            <button className="px-4 py-2 text-sm font-medium text-white bg-purple-600 rounded-lg hover:bg-purple-700">
+            <button className="px-4 py-2 text-sm font-medium text-white bg-blue-600 rounded-lg hover:bg-blue-700">
               导出报告
             </button>
           </div>
@@ -59,25 +59,25 @@ export default function DealerDashboard() {
       {/* Tab页 */}
       <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
         <TabsList className="w-full mb-3 h-10 bg-white border border-gray-200 rounded-xl shadow-sm p-1">
-          <TabsTrigger value="overview" className="flex-1 h-8 rounded-lg data-[state=active]:bg-gradient-to-r data-[state=active]:from-purple-500 data-[state=active]:to-pink-600 data-[state=active]:text-white data-[state=active]:shadow-md transition-all duration-200">
+          <TabsTrigger value="overview" className="flex-1 h-8 rounded-lg data-[state=active]:bg-gradient-to-r data-[state=active]:from-blue-500 data-[state=active]:to-indigo-600 data-[state=active]:text-white data-[state=active]:shadow-md transition-all duration-200">
             <span className="flex items-center gap-2">
               <Activity className="w-4 h-4" />
               年度目标达成
             </span>
           </TabsTrigger>
-          <TabsTrigger value="regions" className="flex-1 h-8 rounded-lg data-[state=active]:bg-gradient-to-r data-[state=active]:from-purple-500 data-[state=active]:to-pink-600 data-[state=active]:text-white data-[state=active]:shadow-md transition-all duration-200">
+          <TabsTrigger value="regions" className="flex-1 h-8 rounded-lg data-[state=active]:bg-gradient-to-r data-[state=active]:from-blue-500 data-[state=active]:to-indigo-600 data-[state=active]:text-white data-[state=active]:shadow-md transition-all duration-200">
             <span className="flex items-center gap-2">
               <TrendingUp className="w-4 h-4" />
               区域分析
             </span>
           </TabsTrigger>
-          <TabsTrigger value="projects" className="flex-1 h-8 rounded-lg data-[state=active]:bg-gradient-to-r data-[state=active]:from-purple-500 data-[state=active]:to-pink-600 data-[state=active]:text-white data-[state=active]:shadow-md transition-all duration-200">
+          <TabsTrigger value="projects" className="flex-1 h-8 rounded-lg data-[state=active]:bg-gradient-to-r data-[state=active]:from-blue-500 data-[state=active]:to-indigo-600 data-[state=active]:text-white data-[state=active]:shadow-md transition-all duration-200">
             <span className="flex items-center gap-2">
               <Package className="w-4 h-4" />
               项目储备
             </span>
           </TabsTrigger>
-          <TabsTrigger value="risks" className="flex-1 h-8 rounded-lg data-[state=active]:bg-gradient-to-r data-[state=active]:from-purple-500 data-[state=active]:to-pink-600 data-[state=active]:text-white data-[state=active]:shadow-md transition-all duration-200">
+          <TabsTrigger value="risks" className="flex-1 h-8 rounded-lg data-[state=active]:bg-gradient-to-r data-[state=active]:from-blue-500 data-[state=active]:to-indigo-600 data-[state=active]:text-white data-[state=active]:shadow-md transition-all duration-200">
             <span className="flex items-center gap-2">
               <AlertTriangle className="w-4 h-4" />
               风险预警
@@ -95,9 +95,9 @@ export default function DealerDashboard() {
             <div className="flex items-center gap-4">
               {/* 达成率 */}
               <div className="flex items-center gap-2 px-3 py-1.5 bg-white rounded-lg border border-gray-200 shadow-sm">
-                <Award className="w-4 h-4 text-purple-500" />
+                <Award className="w-4 h-4 text-blue-500" />
                 <span className="text-sm text-gray-700">达成率</span>
-                <span className="text-sm font-bold text-purple-600">{kpiData.achievementRate}%</span>
+                <span className="text-sm font-bold text-blue-600">{kpiData.achievementRate}%</span>
               </div>
               {/* 健康度 */}
               <div className="flex items-center gap-2 px-3 py-1.5 bg-white rounded-lg border border-gray-200 shadow-sm">
@@ -111,11 +111,11 @@ export default function DealerDashboard() {
           {/* KPI卡片 */}
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-2">
             {/* 年度目标金额 */}
-            <Card className="bg-white border-2 border-purple-200">
+            <Card className="bg-white border-2 border-indigo-200">
               <CardContent className="p-2.5">
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-1.5 text-sm font-medium text-gray-500">
-                    <Target className="w-3 h-3 text-purple-500" />
+                    <Target className="w-3 h-3 text-indigo-500" />
                     <span>年度目标</span>
                   </div>
                 </div>
@@ -186,16 +186,16 @@ export default function DealerDashboard() {
             </Card>
 
             {/* 本月实际完成 */}
-            <Card className="bg-white border-2 border-pink-200">
+            <Card className="bg-white border-2 border-red-200">
               <CardContent className="p-2.5">
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-1.5 text-sm font-medium text-gray-500">
-                    <Activity className="w-3 h-3 text-pink-500" />
+                    <Activity className="w-3 h-3 text-red-500" />
                     <span>本月完成</span>
                   </div>
                 </div>
                 <div className="mt-2 flex items-baseline gap-1">
-                  <span className="text-3xl font-bold text-pink-600">{kpiData.currentMonthActual}</span>
+                  <span className="text-3xl font-bold text-red-600">{kpiData.currentMonthActual}</span>
                   <span className="text-sm text-gray-400">万元</span>
                 </div>
                 <div className="flex items-center gap-1 text-sm text-green-600 mt-1">
@@ -207,10 +207,10 @@ export default function DealerDashboard() {
           </div>
 
           {/* 达成率排名 */}
-          <Card className="mt-3 border-2 border-purple-200 bg-gradient-to-br from-purple-50 to-pink-50">
+          <Card className="mt-3 border-2 border-blue-200 bg-gradient-to-br from-blue-50 to-indigo-50">
             <CardHeader className="pb-3">
               <CardTitle className="text-base flex items-center gap-2">
-                <Award className="w-4 h-4 text-purple-500" />
+                <Award className="w-4 h-4 text-blue-500" />
                 达成率排名
               </CardTitle>
             </CardHeader>
@@ -232,7 +232,7 @@ export default function DealerDashboard() {
                   </thead>
                   <tbody>
                     {achievementRanking.map((item, index) => (
-                      <tr key={index} className="border-b border-gray-100 hover:bg-purple-50 transition-colors">
+                      <tr key={index} className="border-b border-gray-100 hover:bg-blue-50 transition-colors">
                         <td className="px-3 py-3">
                           <div className={`w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold ${
                             index === 0 ? 'bg-yellow-400 text-white' :
@@ -254,7 +254,7 @@ export default function DealerDashboard() {
                         </td>
                         <td className="px-3 py-3 text-sm text-right text-gray-600">{item.actual}</td>
                         <td className="px-3 py-3 text-sm text-right text-gray-400">{item.peerAvg}</td>
-                        <td className="px-3 py-3 text-sm text-right text-purple-600 font-medium">{item.projectCount}</td>
+                        <td className="px-3 py-3 text-sm text-right text-blue-600 font-medium">{item.projectCount}</td>
                       </tr>
                     ))}
                   </tbody>
