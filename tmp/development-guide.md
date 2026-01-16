@@ -73,9 +73,9 @@ NEXT_PUBLIC_WECOM_CORP_ID=your_corp_id
 src/
 ├── app/
 │   ├── page.tsx              # 首页（导航分发）
-│   ├── sales/                # 销售管理驾驶舱
+│   ├── sales/                # AO经营看板
 │   │   └── page.tsx
-│   └── dealer/               # 经销商老板驾驶舱
+│   └── dealer/               # 经销商经营看板
 │       └── page.tsx
 ├── components/
 │   └── ui/                   # shadcn/ui 组件库

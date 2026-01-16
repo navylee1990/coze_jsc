@@ -8,6 +8,9 @@ import { AIInsight } from '@/components/ai-insight';
 import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs';
 import Link from 'next/link';
 
+// 页面标题
+const PAGE_TITLE = 'AO经营看板';
+
 // 模拟数据（单位：万元）
 const kpiData = {
   target: 1428,
@@ -234,7 +237,7 @@ export default function SalesDashboard() {
               </svg>
             </Link>
             <div>
-              <h1 className="text-2xl font-bold text-gray-900">销售管理驾驶舱</h1>
+              <h1 className="text-2xl font-bold text-gray-900">AO经营看板</h1>
             </div>
           </div>
           <div className="flex items-center gap-3">

@@ -9,12 +9,12 @@ export default function HomePage() {
         {/* 页面标题 */}
         <div className="text-center mb-12">
           <h1 className="text-4xl font-bold text-gray-900 mb-3">商用净水经营驾驶舱</h1>
-          <p className="text-gray-600">选择您需要查看的驾驶舱</p>
+          <p className="text-gray-600">选择您需要查看的经营看板</p>
         </div>
 
         {/* 驾驶舱卡片 */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          {/* 销售管理驾驶舱 */}
+          {/* AO经营看板 */}
           <Link href="/sales" className="group">
             <Card className="border-2 border-gray-200 hover:border-blue-400 hover:shadow-xl transition-all duration-300 bg-white h-full">
               <CardContent className="p-8">
@@ -22,8 +22,8 @@ export default function HomePage() {
                   <div className="w-16 h-16 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
                     <BarChart3 className="w-8 h-8 text-white" />
                   </div>
-                  <h2 className="text-2xl font-bold text-gray-900 mb-3">销售管理驾驶舱</h2>
-                  <p className="text-gray-600 mb-6">销售团队视角，全面掌握销售业绩、项目进度、业务员表现</p>
+                  <h2 className="text-2xl font-bold text-gray-900 mb-3">AO经营看板</h2>
+                  <p className="text-gray-600 mb-6">AO视角，全面掌握销售业绩、项目进度、业务员表现</p>
                   <div className="flex items-center gap-4 text-sm text-gray-500">
                     <div className="flex items-center gap-1.5">
                       <TrendingUp className="w-4 h-4 text-blue-500" />
@@ -39,7 +39,7 @@ export default function HomePage() {
             </Card>
           </Link>
 
-          {/* 经销商老板驾驶舱 */}
+          {/* 经销商经营看板 */}
           <Link href="/dealer" className="group">
             <Card className="border-2 border-gray-200 hover:border-purple-400 hover:shadow-xl transition-all duration-300 bg-white h-full">
               <CardContent className="p-8">
@@ -47,7 +47,7 @@ export default function HomePage() {
                   <div className="w-16 h-16 bg-gradient-to-br from-purple-500 to-pink-600 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
                     <Users className="w-8 h-8 text-white" />
                   </div>
-                  <h2 className="text-2xl font-bold text-gray-900 mb-3">经销商老板驾驶舱</h2>
+                  <h2 className="text-2xl font-bold text-gray-900 mb-3">经销商经营看板</h2>
                   <p className="text-gray-600 mb-6">老板视角，查看整体经营状况、区域表现、风险预警</p>
                   <div className="flex items-center gap-4 text-sm text-gray-500">
                     <div className="flex items-center gap-1.5">

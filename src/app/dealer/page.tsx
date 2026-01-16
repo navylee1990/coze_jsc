@@ -67,7 +67,7 @@ export default function DealerDashboard() {
               </svg>
             </Link>
             <div>
-              <h1 className="text-2xl font-bold text-gray-900">经销商老板驾驶舱</h1>
+              <h1 className="text-2xl font-bold text-gray-900">经销商经营看板</h1>
             </div>
           </div>
           <div className="flex items-center gap-3">
