@@ -90,18 +90,6 @@ export default function DealerDashboard() {
               年度目标达成
             </span>
           </TabsTrigger>
-          <TabsTrigger value="regions" className="flex-1 h-8 rounded-lg data-[state=active]:bg-gradient-to-r data-[state=active]:from-blue-500 data-[state=active]:to-indigo-600 data-[state=active]:text-white data-[state=active]:shadow-md transition-all duration-200">
-            <span className="flex items-center gap-2">
-              <TrendingUp className="w-4 h-4" />
-              区域分析
-            </span>
-          </TabsTrigger>
-          <TabsTrigger value="projects" className="flex-1 h-8 rounded-lg data-[state=active]:bg-gradient-to-r data-[state=active]:from-blue-500 data-[state=active]:to-indigo-600 data-[state=active]:text-white data-[state=active]:shadow-md transition-all duration-200">
-            <span className="flex items-center gap-2">
-              <Package className="w-4 h-4" />
-              项目储备
-            </span>
-          </TabsTrigger>
           <TabsTrigger value="risks" className="flex-1 h-8 rounded-lg data-[state=active]:bg-gradient-to-r data-[state=active]:from-blue-500 data-[state=active]:to-indigo-600 data-[state=active]:text-white data-[state=active]:shadow-md transition-all duration-200">
             <span className="flex items-center gap-2">
               <AlertTriangle className="w-4 h-4" />
@@ -420,26 +408,6 @@ export default function DealerDashboard() {
               </CardContent>
             </Card>
           </div>
-          </div>
-        </TabsContent>
-
-        <TabsContent value="regions">
-          <div className="flex items-center justify-center py-20 text-gray-400">
-            <div className="text-center">
-              <TrendingUp className="w-16 h-16 mx-auto mb-4 opacity-50" />
-              <p className="text-lg font-medium">区域详细分析</p>
-              <p className="text-sm mt-1">数据准备中...</p>
-            </div>
-          </div>
-        </TabsContent>
-
-        <TabsContent value="projects">
-          <div className="flex items-center justify-center py-20 text-gray-400">
-            <div className="text-center">
-              <Package className="w-16 h-16 mx-auto mb-4 opacity-50" />
-              <p className="text-lg font-medium">项目储备分析</p>
-              <p className="text-sm mt-1">数据准备中...</p>
-            </div>
           </div>
         </TabsContent>
 
