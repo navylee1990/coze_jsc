@@ -236,16 +236,16 @@ export default function DealerDashboard() {
             {/* 月度趋势分析模块 - 左侧 */}
             <div className="lg:col-span-1">
             <Card className="border-2 border-blue-200">
-              <CardHeader className="pb-3">
+              <CardHeader className="pb-2">
                 <CardTitle className="text-base flex items-center gap-2">
                   <TrendingUp className="w-4 h-4 text-blue-500" />
                   月度趋势分析
                 </CardTitle>
               </CardHeader>
-              <CardContent>
-                <div className="space-y-3">
+              <CardContent className="p-3">
+                <div className="space-y-2">
                   {/* AI智能洞察 */}
-                  <div className="bg-gradient-to-r from-indigo-50 to-blue-50 rounded-xl p-4 border border-indigo-100">
+                  <div className="bg-gradient-to-r from-indigo-50 to-blue-50 rounded-xl p-3.5 border border-indigo-100">
                     <div className="flex items-start gap-3">
                       <div className="flex-shrink-0 w-10 h-10 bg-gradient-to-br from-indigo-500 to-blue-600 rounded-xl flex items-center justify-center">
                         <Sparkles className="w-5 h-5 text-white" />
