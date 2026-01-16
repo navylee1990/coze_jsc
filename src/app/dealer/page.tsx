@@ -242,7 +242,7 @@ export default function DealerDashboard() {
                   月度趋势分析
                 </CardTitle>
               </CardHeader>
-              <CardContent className="pt-1.5 px-3 pb-3">
+              <CardContent className="pt-0 px-3 pb-3">
                 <div className="space-y-2">
                   {/* AI智能洞察 */}
                   <div className="bg-gradient-to-r from-indigo-50 to-blue-50 rounded-xl p-3.5 border border-indigo-100">
