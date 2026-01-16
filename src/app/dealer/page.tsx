@@ -42,7 +42,6 @@ const projectStageData = [
   { stage: '已立项', amount: 1200, count: 28, color: 'indigo', icon: 'file' },
   { stage: '已签约', amount: 2400, count: 35, color: 'green', icon: 'check-circle' },
   { stage: '已交付', amount: 2100, count: 32, color: 'orange', icon: 'truck' },
-  { stage: '已收款', amount: 750, count: 18, color: 'purple', icon: 'dollar-sign' },
 ];
 
 const achievementRanking = [
