@@ -232,17 +232,17 @@ export default function DealerDashboard() {
           </div>
 
           {/* 左右两列布局：月度趋势分析 + 项目阶段统计 */}
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-3">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-3 mt-3">
             {/* 月度趋势分析模块 - 左侧 */}
-            <div className="lg:col-span-1">
-            <Card className="border-2 border-blue-200">
+            <div className="lg:col-span-1 h-full">
+            <Card className="border-2 border-blue-200 h-full flex flex-col">
               <CardHeader className="py-2 px-3 pb-0">
                 <CardTitle className="text-sm font-semibold flex items-center gap-1.5">
                   <TrendingUp className="w-3.5 h-3.5 text-blue-500" />
                   月度趋势分析
                 </CardTitle>
               </CardHeader>
-              <CardContent className="pt-0 px-3 pb-3">
+              <CardContent className="pt-0 px-3 pb-3 flex-1">
                 <div className="space-y-2">
                   {/* AI智能洞察 */}
                   <div className="bg-gradient-to-r from-indigo-50 to-blue-50 rounded-xl p-3.5 border border-indigo-100">
@@ -353,15 +353,15 @@ export default function DealerDashboard() {
           </div>
 
           {/* 项目阶段统计模块 - 右侧 */}
-          <div className="lg:col-span-1">
-            <Card className="border-2 border-blue-200">
+          <div className="lg:col-span-1 h-full">
+            <Card className="border-2 border-blue-200 h-full flex flex-col">
               <CardHeader className="py-2 px-3 pb-0">
                 <CardTitle className="text-sm font-semibold flex items-center gap-1.5">
                   <Package className="w-3.5 h-3.5 text-blue-500" />
                   项目阶段统计
                 </CardTitle>
               </CardHeader>
-              <CardContent className="pt-0 px-3 pb-3">
+              <CardContent className="pt-0 px-3 pb-3 flex-1">
                 <div className="space-y-1.5">
                   {projectStageData.map((item, index) => {
                     const totalAmount = projectStageData.reduce((sum, p) => sum + p.amount, 0);
