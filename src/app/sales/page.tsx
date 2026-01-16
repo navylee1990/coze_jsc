@@ -11,6 +11,30 @@ import Link from 'next/link';
 // 页面标题
 const PAGE_TITLE = 'AO经营看板';
 
+// 业务员数据
+const salesmenKPI = {
+  totalPerformance: 1428,  // 总业绩（万元）
+  totalCount: 12,          // 业务员数量
+  qualifiedCount: 4,       // 达标人数
+  newProjects: 23,         // 新增项目数
+};
+
+// 业务员排名数据
+const salesmenRanking = [
+  { rank: 1, name: '张伟', region: '一区', target: 180, completed: 195, rate: 108.3, visits: 45, newProjects: 5, status: 'excellent' },
+  { rank: 2, name: '李娜', region: '华中', target: 160, completed: 168, rate: 105.0, visits: 42, newProjects: 4, status: 'excellent' },
+  { rank: 3, name: '王强', region: '二区', target: 150, completed: 150, rate: 100.0, visits: 38, newProjects: 3, status: 'good' },
+  { rank: 4, name: '刘芳', region: '华南', target: 145, completed: 148, rate: 102.1, visits: 35, newProjects: 4, status: 'good' },
+  { rank: 5, name: '陈明', region: '五区', target: 140, completed: 136, rate: 97.1, visits: 40, newProjects: 3, status: 'warning' },
+  { rank: 6, name: '杨洋', region: '华北、西北', target: 135, completed: 128, rate: 94.8, visits: 32, newProjects: 2, status: 'warning' },
+  { rank: 7, name: '赵敏', region: '西南', target: 130, completed: 115, rate: 88.5, visits: 28, newProjects: 1, status: 'danger' },
+  { rank: 8, name: '孙磊', region: '一区', target: 125, completed: 110, rate: 88.0, visits: 30, newProjects: 1, status: 'danger' },
+  { rank: 9, name: '周婷', region: '二区', target: 120, completed: 105, rate: 87.5, visits: 25, newProjects: 0, status: 'danger' },
+  { rank: 10, name: '吴刚', region: '华中', target: 118, completed: 98, rate: 83.1, visits: 22, newProjects: 0, status: 'danger' },
+  { rank: 11, name: '郑平', region: '华南', target: 115, completed: 92, rate: 80.0, visits: 20, newProjects: 0, status: 'danger' },
+  { rank: 12, name: '黄海', region: '西南', target: 110, completed: 85, rate: 77.3, visits: 18, newProjects: 0, status: 'danger' },
+];
+
 // 模拟数据（单位：万元）
 const kpiData = {
   target: 1428,
@@ -738,13 +762,167 @@ export default function SalesDashboard() {
           </TabsContent>
 
           <TabsContent value="salesmen">
-            <div className="flex items-center justify-center py-20 text-gray-400">
-              <div className="text-center">
-                <TrendingUp className="w-16 h-16 mx-auto mb-4 opacity-50" />
-                <p className="text-lg font-medium">业务员数据</p>
-                <p className="text-sm mt-1">数据准备中...</p>
-              </div>
+            {/* 业务员KPI指标 */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-2 mb-3">
+              {/* 总业绩 */}
+              <Card className="bg-white border-2 border-blue-200">
+                <CardContent className="p-2.5">
+                  <div className="flex items-center gap-1.5 text-sm font-medium text-gray-500">
+                    <TrendingUp className="w-3 h-3 text-blue-500" />
+                    <span>总业绩</span>
+                  </div>
+                  <div className="mt-2 flex items-baseline gap-1">
+                    <span className="text-2xl font-bold text-blue-600">{salesmenKPI.totalPerformance.toLocaleString()}</span>
+                    <span className="text-sm text-gray-400">万元</span>
+                  </div>
+                  <div className="flex items-center gap-1 text-sm text-green-600 mt-1">
+                    <ArrowUp className="w-3 h-3" />
+                    <span>较上月+156万</span>
+                  </div>
+                </CardContent>
+              </Card>
+
+              {/* 业务员数量 */}
+              <Card className="bg-white border-2 border-indigo-200">
+                <CardContent className="p-2.5">
+                  <div className="flex items-center gap-1.5 text-sm font-medium text-gray-500">
+                    <Activity className="w-3 h-3 text-indigo-500" />
+                    <span>业务员数量</span>
+                  </div>
+                  <div className="mt-2 flex items-baseline gap-1">
+                    <span className="text-2xl font-bold text-indigo-600">{salesmenKPI.totalCount}</span>
+                    <span className="text-sm text-gray-400">人</span>
+                  </div>
+                  <div className="mt-1 text-xs text-gray-500">覆盖7个大区</div>
+                </CardContent>
+              </Card>
+
+              {/* 达标人数 */}
+              <Card className="bg-white border-2 border-green-200">
+                <CardContent className="p-2.5">
+                  <div className="flex items-center gap-1.5 text-sm font-medium text-gray-500">
+                    <Target className="w-3 h-3 text-green-500" />
+                    <span>达标人数</span>
+                  </div>
+                  <div className="mt-2 flex items-baseline gap-1">
+                    <span className="text-2xl font-bold text-green-600">{salesmenKPI.qualifiedCount}</span>
+                    <span className="text-sm text-gray-400">人</span>
+                  </div>
+                  <div className="flex items-center gap-1 text-sm text-gray-500 mt-1">
+                    <span className="text-xs">达标率 {((salesmenKPI.qualifiedCount / salesmenKPI.totalCount) * 100).toFixed(0)}%</span>
+                  </div>
+                </CardContent>
+              </Card>
+
+              {/* 新增项目 */}
+              <Card className="bg-white border-2 border-orange-200">
+                <CardContent className="p-2.5">
+                  <div className="flex items-center gap-1.5 text-sm font-medium text-gray-500">
+                    <Database className="w-3 h-3 text-orange-500" />
+                    <span>新增项目</span>
+                  </div>
+                  <div className="mt-2 flex items-baseline gap-1">
+                    <span className="text-2xl font-bold text-orange-600">{salesmenKPI.newProjects}</span>
+                    <span className="text-sm text-gray-400">个</span>
+                  </div>
+                  <div className="flex items-center gap-1 text-sm text-green-600 mt-1">
+                    <ArrowUp className="w-3 h-3" />
+                    <span>较上月+8个</span>
+                  </div>
+                </CardContent>
+              </Card>
             </div>
+
+            {/* 业务员排名表格 */}
+            <Card className="bg-white border border-blue-200 bg-gradient-to-br from-blue-50 to-indigo-50">
+              <CardContent className="p-3">
+                {/* 标题 */}
+                <div className="flex items-center justify-between mb-3">
+                  <div className="text-sm font-bold text-gray-900 flex items-center gap-2">
+                    <Activity className="w-4 h-4 text-blue-600" />
+                    <span className="text-sm font-bold text-gray-900">业务员排名</span>
+                  </div>
+                  <span className="text-xs text-gray-500">2026年度数据</span>
+                </div>
+
+                <div className="bg-white rounded-lg border-0 overflow-hidden">
+                  <table className="w-full">
+                    <thead>
+                      <tr className="border-b border-gray-100">
+                        <th className="px-2 py-2 text-center text-sm font-medium text-gray-500 w-12">排名</th>
+                        <th className="px-3 py-2 text-left text-sm font-medium text-gray-500">姓名</th>
+                        <th className="px-2 py-2 text-left text-sm font-medium text-gray-500">所属区域</th>
+                        <th className="px-2 py-2 text-right text-sm font-medium text-gray-500">年度目标</th>
+                        <th className="px-2 py-2 text-right text-sm font-medium text-gray-500">已达成</th>
+                        <th className="px-2 py-2 text-center text-sm font-medium text-gray-500">达成率</th>
+                        <th className="px-2 py-2 text-right text-sm font-medium text-gray-500">拜访次数</th>
+                        <th className="px-2 py-2 text-right text-sm font-medium text-gray-500">新增项目</th>
+                        <th className="px-2 py-2 text-center text-sm font-medium text-gray-500">状态</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {salesmenRanking.map((item) => (
+                        <tr key={item.rank} className="border-b border-gray-50 hover:bg-blue-50 transition-colors">
+                          <td className="px-2 py-2.5 text-center">
+                            <div className={`inline-flex items-center justify-center w-7 h-7 rounded-full text-sm font-bold ${
+                              item.rank === 1 ? 'bg-gradient-to-br from-yellow-400 to-orange-500 text-white' :
+                              item.rank === 2 ? 'bg-gradient-to-br from-gray-300 to-gray-400 text-white' :
+                              item.rank === 3 ? 'bg-gradient-to-br from-orange-300 to-orange-400 text-white' :
+                              'bg-gray-100 text-gray-600'
+                            }`}>
+                              {item.rank}
+                            </div>
+                          </td>
+                          <td className="px-3 py-2.5 text-sm font-medium text-gray-900">{item.name}</td>
+                          <td className="px-2 py-2.5 text-sm text-gray-500">{item.region}</td>
+                          <td className="px-2 py-2.5 text-sm text-right text-gray-600">{item.target}万</td>
+                          <td className="px-2 py-2.5 text-sm text-right font-semibold text-gray-900">{item.completed}万</td>
+                          <td className="px-2 py-2.5 text-center">
+                            <div className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-gray-50 border border-gray-100">
+                              <span className={`text-sm font-bold ${
+                                item.rate >= 100 ? 'text-green-600' : item.rate >= 80 ? 'text-yellow-600' : 'text-red-600'
+                              }`}>
+                                {item.rate.toFixed(1)}%
+                              </span>
+                              <div className="w-8 h-1.5 rounded-full bg-gray-200 overflow-hidden">
+                                <div
+                                  className={`h-full rounded-full transition-all ${
+                                    item.rate >= 100 ? 'bg-green-500' : item.rate >= 80 ? 'bg-yellow-500' : 'bg-red-500'
+                                  }`}
+                                  style={{ width: `${Math.min(item.rate, 100)}%` }}
+                                />
+                              </div>
+                            </div>
+                          </td>
+                          <td className="px-2 py-2.5 text-sm text-right text-gray-600">{item.visits}次</td>
+                          <td className="px-2 py-2.5 text-sm text-right">
+                            <span className={`inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium ${
+                              item.newProjects >= 3 ? 'bg-blue-100 text-blue-700' :
+                              item.newProjects >= 1 ? 'bg-gray-100 text-gray-600' :
+                              'bg-red-50 text-red-600'
+                            }`}>
+                              {item.newProjects}个
+                            </span>
+                          </td>
+                          <td className="px-2 py-2.5 text-center">
+                            <span className={`inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs font-medium ${
+                              item.status === 'excellent' ? 'bg-green-100 text-green-700' :
+                              item.status === 'good' ? 'bg-blue-100 text-blue-700' :
+                              item.status === 'warning' ? 'bg-yellow-100 text-yellow-700' :
+                              'bg-red-100 text-red-700'
+                            }`}>
+                              {item.status === 'excellent' ? '优秀' :
+                               item.status === 'good' ? '良好' :
+                               item.status === 'warning' ? '需关注' : '待提升'}
+                            </span>
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              </CardContent>
+            </Card>
           </TabsContent>
         </Tabs>
       </div>
