@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { ArrowUp, ArrowDown, TrendingUp, AlertTriangle, Activity, Target, Heart, Shield, Users, DollarSign, PieChart, Package, Award, Sparkles, Lightbulb, TrendingDown } from 'lucide-react';
+import { ArrowUp, ArrowDown, TrendingUp, AlertTriangle, Activity, Target, Heart, Shield, Users, DollarSign, PieChart, Package, Award, Sparkles, Lightbulb, TrendingDown, Search, FileText, CheckCircle, Truck } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs';
 import Link from 'next/link';
@@ -34,6 +34,15 @@ const monthlyTrendData = [
   { month: '10月', target: 1250, actual: 840, achievement: 67.2 },
   { month: '11月', target: 1250, actual: 825, achievement: 66.0 },
   { month: '12月', target: 1250, actual: 825, achievement: 66.0 },
+];
+
+// 项目阶段数据（单位：万元）
+const projectStageData = [
+  { stage: '跟进中', amount: 1800, count: 45, color: 'blue', icon: 'search' },
+  { stage: '已立项', amount: 1200, count: 28, color: 'indigo', icon: 'file' },
+  { stage: '已签约', amount: 2400, count: 35, color: 'green', icon: 'check-circle' },
+  { stage: '已交付', amount: 2100, count: 32, color: 'orange', icon: 'truck' },
+  { stage: '已收款', amount: 750, count: 18, color: 'purple', icon: 'dollar-sign' },
 ];
 
 const achievementRanking = [
@@ -232,108 +241,178 @@ export default function DealerDashboard() {
               </CardTitle>
             </CardHeader>
             <CardContent>
-              {/* AI智能洞察 */}
-              <div className="bg-gradient-to-r from-indigo-50 to-blue-50 rounded-xl p-4 mb-4 border border-indigo-100">
-                <div className="flex items-start gap-3">
-                  <div className="flex-shrink-0 w-10 h-10 bg-gradient-to-br from-indigo-500 to-blue-600 rounded-xl flex items-center justify-center">
-                    <Sparkles className="w-5 h-5 text-white" />
-                  </div>
-                  <div className="flex-1">
-                    <h3 className="text-sm font-semibold text-gray-900 mb-2 flex items-center gap-2">
-                      AI智能洞察
-                      <span className="inline-flex items-center gap-1 px-2 py-0.5 bg-blue-100 text-blue-700 rounded-full text-xs">
-                        <Sparkles className="w-2.5 h-2.5" />
-                        自动分析
-                      </span>
-                    </h3>
-                    <div className="space-y-2">
-                      <div className="flex items-start gap-2">
-                        <Lightbulb className="w-4 h-4 text-yellow-500 flex-shrink-0 mt-0.5" />
-                        <p className="text-sm text-gray-700 leading-relaxed">
-                          整体呈现<span className="font-semibold text-green-600">上升趋势</span>，从年初46.4%提升至66.0%，<span className="font-semibold">8月表现最佳</span>（达成率68.8%）
-                        </p>
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-3">
+                {/* 左侧：AI洞察 + 折线图 */}
+                <div className="space-y-3">
+                  {/* AI智能洞察 */}
+                  <div className="bg-gradient-to-r from-indigo-50 to-blue-50 rounded-xl p-4 border border-indigo-100">
+                    <div className="flex items-start gap-3">
+                      <div className="flex-shrink-0 w-10 h-10 bg-gradient-to-br from-indigo-500 to-blue-600 rounded-xl flex items-center justify-center">
+                        <Sparkles className="w-5 h-5 text-white" />
                       </div>
-                      <div className="flex items-start gap-2">
-                        <Activity className="w-4 h-4 text-blue-500 flex-shrink-0 mt-0.5" />
-                        <p className="text-sm text-gray-700 leading-relaxed">
-                          Q2-Q3稳定向好，连续7个月达成率超60%，<span className="font-semibold text-orange-600">Q1需关注</span>（3个月均未达标）
-                        </p>
-                      </div>
-                      <div className="flex items-start gap-2">
-                        <Target className="w-4 h-4 text-purple-500 flex-shrink-0 mt-0.5" />
-                        <p className="text-sm text-gray-700 leading-relaxed">
-                          建议：加强Q1前期项目储备，目标将年均达成率提升至<span className="font-semibold text-green-600">70%以上</span>
-                        </p>
+                      <div className="flex-1">
+                        <h3 className="text-sm font-semibold text-gray-900 mb-2 flex items-center gap-2">
+                          AI智能洞察
+                          <span className="inline-flex items-center gap-1 px-2 py-0.5 bg-blue-100 text-blue-700 rounded-full text-xs">
+                            <Sparkles className="w-2.5 h-2.5" />
+                            自动分析
+                          </span>
+                        </h3>
+                        <div className="space-y-1.5">
+                          <div className="flex items-start gap-2">
+                            <Lightbulb className="w-3.5 h-3.5 text-yellow-500 flex-shrink-0 mt-0.5" />
+                            <p className="text-xs text-gray-700 leading-relaxed">
+                              整体呈现<span className="font-semibold text-green-600">上升趋势</span>，从年初46.4%提升至66.0%，<span className="font-semibold">8月表现最佳</span>（达成率68.8%）
+                            </p>
+                          </div>
+                          <div className="flex items-start gap-2">
+                            <Activity className="w-3.5 h-3.5 text-blue-500 flex-shrink-0 mt-0.5" />
+                            <p className="text-xs text-gray-700 leading-relaxed">
+                              Q2-Q3稳定向好，连续7个月达成率超60%，<span className="font-semibold text-orange-600">Q1需关注</span>（3个月均未达标）
+                            </p>
+                          </div>
+                          <div className="flex items-start gap-2">
+                            <Target className="w-3.5 h-3.5 text-purple-500 flex-shrink-0 mt-0.5" />
+                            <p className="text-xs text-gray-700 leading-relaxed">
+                              建议：加强Q1前期项目储备，目标将年均达成率提升至<span className="font-semibold text-green-600">70%以上</span>
+                            </p>
+                          </div>
+                        </div>
                       </div>
                     </div>
                   </div>
-                </div>
-              </div>
 
-              {/* 折线图 */}
-              <div className="bg-white rounded-lg p-4">
-                <div className="flex items-center justify-between mb-4">
-                  <h4 className="text-sm font-semibold text-gray-700 flex items-center gap-2">
-                    <Activity className="w-4 h-4 text-blue-500" />
-                    达成率趋势折线图
-                  </h4>
-                  <div className="flex items-center gap-2">
-                    <span className="text-xs text-gray-500">年度平均：{(monthlyTrendData.reduce((sum, item) => sum + item.achievement, 0) / monthlyTrendData.length).toFixed(1)}%</span>
+                  {/* 折线图 */}
+                  <div className="bg-white rounded-lg p-3 border border-gray-200">
+                    <div className="flex items-center justify-between mb-3">
+                      <h4 className="text-sm font-semibold text-gray-700 flex items-center gap-2">
+                        <Activity className="w-4 h-4 text-blue-500" />
+                        达成率趋势折线图
+                      </h4>
+                      <span className="text-xs text-gray-500">年度平均：{(monthlyTrendData.reduce((sum, item) => sum + item.achievement, 0) / monthlyTrendData.length).toFixed(1)}%</span>
+                    </div>
+                    <ResponsiveContainer width="100%" height={240}>
+                      <LineChart data={monthlyTrendData}>
+                        <CartesianGrid strokeDasharray="3 3" vertical={false} />
+                        <XAxis
+                          dataKey="month"
+                          axisLine={false}
+                          tickLine={false}
+                          tick={{ fontSize: 11, fill: '#6B7280' }}
+                        />
+                        <YAxis
+                          domain={[0, 100]}
+                          axisLine={false}
+                          tickLine={false}
+                          tick={{ fontSize: 11, fill: '#6B7280' }}
+                          tickFormatter={(value) => `${value}%`}
+                        />
+                        <Tooltip
+                          formatter={(value: number) => [`${value.toFixed(1)}%`, '达成率']}
+                          labelFormatter={(label) => `${label}达成率`}
+                          contentStyle={{
+                            backgroundColor: 'white',
+                            border: '1px solid #E5E7EB',
+                            borderRadius: '8px',
+                            boxShadow: '0 2px 4px rgba(0,0,0,0.1)',
+                            fontSize: '12px'
+                          }}
+                        />
+                        <Line
+                          type="monotone"
+                          dataKey="achievement"
+                          stroke="#3B82F6"
+                          strokeWidth={2}
+                          dot={{ fill: '#3B82F6', strokeWidth: 2, r: 3 }}
+                          activeDot={{ fill: '#3B82F6', strokeWidth: 2, r: 5 }}
+                        />
+                        <Line
+                          type="monotone"
+                          dataKey={(item) => 100}
+                          stroke="#E5E7EB"
+                          strokeWidth={1}
+                          strokeDasharray="5 5"
+                          dot={false}
+                        />
+                      </LineChart>
+                    </ResponsiveContainer>
+                    <div className="mt-2 flex items-center justify-center gap-3 text-xs text-gray-500">
+                      <span className="flex items-center gap-1">
+                        <span className="w-2 h-0.5 bg-blue-500"></span>
+                        实际达成率
+                      </span>
+                      <span className="flex items-center gap-1">
+                        <span className="w-2 h-0.5 bg-gray-300 border-dashed" style={{ borderStyle: 'dashed' }}></span>
+                        目标线100%
+                      </span>
+                    </div>
                   </div>
                 </div>
-                <ResponsiveContainer width="100%" height={280}>
-                  <LineChart data={monthlyTrendData}>
-                    <CartesianGrid strokeDasharray="3 3" vertical={false} />
-                    <XAxis
-                      dataKey="month"
-                      axisLine={false}
-                      tickLine={false}
-                      tick={{ fontSize: 12, fill: '#6B7280' }}
-                    />
-                    <YAxis
-                      domain={[0, 100]}
-                      axisLine={false}
-                      tickLine={false}
-                      tick={{ fontSize: 12, fill: '#6B7280' }}
-                      tickFormatter={(value) => `${value}%`}
-                    />
-                    <Tooltip
-                      formatter={(value: number) => [`${value.toFixed(1)}%`, '达成率']}
-                      labelFormatter={(label) => `${label}达成率`}
-                      contentStyle={{
-                        backgroundColor: 'white',
-                        border: '1px solid #E5E7EB',
-                        borderRadius: '8px',
-                        boxShadow: '0 2px 4px rgba(0,0,0,0.1)'
-                      }}
-                    />
-                    <Line
-                      type="monotone"
-                      dataKey="achievement"
-                      stroke="#3B82F6"
-                      strokeWidth={2.5}
-                      dot={{ fill: '#3B82F6', strokeWidth: 2, r: 4 }}
-                      activeDot={{ fill: '#3B82F6', strokeWidth: 2, r: 6 }}
-                    />
-                    <Line
-                      type="monotone"
-                      dataKey={(item) => 100}
-                      stroke="#E5E7EB"
-                      strokeWidth={1}
-                      strokeDasharray="5 5"
-                      dot={false}
-                    />
-                  </LineChart>
-                </ResponsiveContainer>
-                <div className="mt-3 flex items-center justify-center gap-4 text-xs text-gray-500">
-                  <span className="flex items-center gap-1">
-                    <span className="w-3 h-0.5 bg-blue-500"></span>
-                    实际达成率
-                  </span>
-                  <span className="flex items-center gap-1">
-                    <span className="w-3 h-0.5 bg-gray-300 border-dashed" style={{ borderStyle: 'dashed' }}></span>
-                    目标线100%
-                  </span>
+
+                {/* 右侧：项目阶段统计 */}
+                <div className="bg-white rounded-lg p-3 border border-gray-200">
+                  <div className="flex items-center justify-between mb-3">
+                    <h4 className="text-sm font-semibold text-gray-700 flex items-center gap-2">
+                      <Package className="w-4 h-4 text-blue-500" />
+                      项目阶段统计
+                    </h4>
+                    <span className="text-xs text-gray-500">单位：万元</span>
+                  </div>
+                  <div className="space-y-2">
+                    {projectStageData.map((item, index) => {
+                      const totalAmount = projectStageData.reduce((sum, p) => sum + p.amount, 0);
+                      const percentage = (item.amount / totalAmount * 100);
+                      const colorMap: any = {
+                        blue: { bg: 'bg-blue-50', border: 'border-blue-200', text: 'text-blue-600', bar: 'bg-blue-500', icon: Search },
+                        indigo: { bg: 'bg-indigo-50', border: 'border-indigo-200', text: 'text-indigo-600', bar: 'bg-indigo-500', icon: FileText },
+                        green: { bg: 'bg-green-50', border: 'border-green-200', text: 'text-green-600', bar: 'bg-green-500', icon: CheckCircle },
+                        orange: { bg: 'bg-orange-50', border: 'border-orange-200', text: 'text-orange-600', bar: 'bg-orange-500', icon: Truck },
+                        purple: { bg: 'bg-purple-50', border: 'border-purple-200', text: 'text-purple-600', bar: 'bg-purple-500', icon: DollarSign },
+                      };
+                      const colors = colorMap[item.color as keyof typeof colorMap];
+                      const IconComponent = colors.icon;
+
+                      return (
+                        <div key={index} className={`${colors.bg} rounded-lg p-3 border ${colors.border}`}>
+                          <div className="flex items-center justify-between mb-2">
+                            <div className="flex items-center gap-2">
+                              <div className={`w-8 h-8 ${colors.bg.replace('50', '100')} rounded-lg flex items-center justify-center`}>
+                                <IconComponent className="w-4 h-4 ${colors.text}" />
+                              </div>
+                              <span className="text-sm font-medium text-gray-700">{item.stage}</span>
+                            </div>
+                            <span className={`text-lg font-bold ${colors.text}`}>{item.amount.toLocaleString()}</span>
+                          </div>
+                          <div className="flex items-center gap-2">
+                            <div className="flex-1 h-2 bg-gray-200 rounded-full overflow-hidden">
+                              <div
+                                className={`h-full ${colors.bar} rounded-full transition-all`}
+                                style={{ width: `${percentage}%` }}
+                              />
+                            </div>
+                            <span className="text-xs text-gray-500 whitespace-nowrap">{percentage.toFixed(1)}%</span>
+                          </div>
+                          <div className="mt-1 text-xs text-gray-500">
+                            项目数量：<span className="font-medium text-gray-700">{item.count}个</span>
+                          </div>
+                        </div>
+                      );
+                    })}
+                  </div>
+                  <div className="mt-3 pt-3 border-t border-gray-200">
+                    <div className="flex items-center justify-between text-sm">
+                      <span className="text-gray-500">项目总金额</span>
+                      <span className="font-bold text-gray-900">
+                        {projectStageData.reduce((sum, item) => sum + item.amount, 0).toLocaleString()}万元
+                      </span>
+                    </div>
+                    <div className="flex items-center justify-between text-sm mt-1">
+                      <span className="text-gray-500">项目总数</span>
+                      <span className="font-bold text-gray-900">
+                        {projectStageData.reduce((sum, item) => sum + item.count, 0)}个
+                      </span>
+                    </div>
+                  </div>
                 </div>
               </div>
             </CardContent>
