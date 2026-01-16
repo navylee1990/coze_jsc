@@ -8,7 +8,7 @@ export default function HomePage() {
       <div className="max-w-4xl w-full">
         {/* 页面标题 */}
         <div className="text-center mb-12">
-          <h1 className="text-4xl font-bold text-gray-900 mb-3">经营驾驶舱</h1>
+          <h1 className="text-4xl font-bold text-gray-900 mb-3">商用净水经营驾驶舱</h1>
           <p className="text-gray-600">选择您需要查看的驾驶舱</p>
         </div>
 
@@ -67,7 +67,7 @@ export default function HomePage() {
 
         {/* 底部说明 */}
         <div className="text-center mt-12 text-gray-400 text-sm">
-          <p>© 2026 经营驾驶舱系统</p>
+          <p>© 2026 商用净水经营驾驶舱系统</p>
         </div>
       </div>
     </div>
