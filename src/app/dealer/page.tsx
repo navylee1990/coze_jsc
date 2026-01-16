@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { ArrowUp, ArrowDown, TrendingUp, AlertTriangle, Activity, Target, Heart, Shield, Users, DollarSign, PieChart, Package, Award } from 'lucide-react';
+import { ArrowUp, ArrowDown, TrendingUp, AlertTriangle, Activity, Target, Heart, Shield, Users, DollarSign, PieChart, Package, Award, Sparkles, Lightbulb, TrendingDown } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs';
 import Link from 'next/link';
@@ -232,52 +232,114 @@ export default function DealerDashboard() {
               </CardTitle>
             </CardHeader>
             <CardContent>
-              <div className="bg-white rounded-lg overflow-hidden">
-                <table className="w-full">
-                  <thead>
-                    <tr className="border-b border-gray-200 bg-gray-50">
-                      <th className="px-3 py-2 text-left text-sm font-medium text-gray-500">月份</th>
-                      <th className="px-3 py-2 text-right text-sm font-medium text-gray-500">目标</th>
-                      <th className="px-3 py-2 text-right text-sm font-medium text-gray-500">实际完成</th>
-                      <th className="px-3 py-2 text-center text-sm font-medium text-gray-500">达成率</th>
-                      <th className="px-3 py-2 text-left text-sm font-medium text-gray-500">进度</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {monthlyTrendData.map((item, index) => (
-                      <tr key={index} className="border-b border-gray-100 hover:bg-blue-50 transition-colors">
-                        <td className="px-3 py-2.5 text-sm font-medium text-gray-900">{item.month}</td>
-                        <td className="px-3 py-2.5 text-sm text-right text-gray-600">{item.target}</td>
-                        <td className={`px-3 py-2.5 text-sm text-right font-medium ${item.actual >= item.target ? 'text-green-600' : 'text-red-600'}`}>
-                          {item.actual}
-                        </td>
-                        <td className="px-3 py-2.5 text-center">
-                          <span className={`inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs font-semibold ${
-                            item.achievement >= 100 ? 'bg-green-100 text-green-700' :
-                            item.achievement >= 80 ? 'bg-blue-100 text-blue-700' :
-                            item.achievement >= 60 ? 'bg-yellow-100 text-yellow-700' :
-                            'bg-red-100 text-red-700'
-                          }`}>
-                            {item.achievement.toFixed(1)}%
-                          </span>
-                        </td>
-                        <td className="px-3 py-2.5">
-                          <div className="w-full h-2 bg-gray-200 rounded-full overflow-hidden">
-                            <div
-                              className={`h-full rounded-full transition-all ${
-                                item.achievement >= 100 ? 'bg-green-500' :
-                                item.achievement >= 80 ? 'bg-blue-500' :
-                                item.achievement >= 60 ? 'bg-yellow-500' :
-                                'bg-red-500'
-                              }`}
-                              style={{ width: `${Math.min(item.achievement, 100)}%` }}
-                            />
-                          </div>
-                        </td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
+              {/* AI智能洞察 */}
+              <div className="bg-gradient-to-r from-indigo-50 to-blue-50 rounded-xl p-4 mb-4 border border-indigo-100">
+                <div className="flex items-start gap-3">
+                  <div className="flex-shrink-0 w-10 h-10 bg-gradient-to-br from-indigo-500 to-blue-600 rounded-xl flex items-center justify-center">
+                    <Sparkles className="w-5 h-5 text-white" />
+                  </div>
+                  <div className="flex-1">
+                    <h3 className="text-sm font-semibold text-gray-900 mb-2 flex items-center gap-2">
+                      AI智能洞察
+                      <span className="inline-flex items-center gap-1 px-2 py-0.5 bg-blue-100 text-blue-700 rounded-full text-xs">
+                        <Sparkles className="w-2.5 h-2.5" />
+                        自动分析
+                      </span>
+                    </h3>
+                    <div className="space-y-2">
+                      <div className="flex items-start gap-2">
+                        <Lightbulb className="w-4 h-4 text-yellow-500 flex-shrink-0 mt-0.5" />
+                        <p className="text-sm text-gray-700 leading-relaxed">
+                          整体呈现<span className="font-semibold text-green-600">上升趋势</span>，从年初46.4%提升至66.0%，<span className="font-semibold">8月表现最佳</span>（达成率68.8%）
+                        </p>
+                      </div>
+                      <div className="flex items-start gap-2">
+                        <Activity className="w-4 h-4 text-blue-500 flex-shrink-0 mt-0.5" />
+                        <p className="text-sm text-gray-700 leading-relaxed">
+                          Q2-Q3稳定向好，连续7个月达成率超60%，<span className="font-semibold text-orange-600">Q1需关注</span>（3个月均未达标）
+                        </p>
+                      </div>
+                      <div className="flex items-start gap-2">
+                        <Target className="w-4 h-4 text-purple-500 flex-shrink-0 mt-0.5" />
+                        <p className="text-sm text-gray-700 leading-relaxed">
+                          建议：加强Q1前期项目储备，目标将年均达成率提升至<span className="font-semibold text-green-600">70%以上</span>
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* 关键数据亮点 */}
+              <div className="grid grid-cols-2 lg:grid-cols-4 gap-2 mb-4">
+                <div className="bg-white rounded-lg p-3 border border-gray-200">
+                  <div className="text-xs text-gray-500 mb-1">最佳月份</div>
+                  <div className="flex items-center gap-2">
+                    <span className="text-lg font-bold text-green-600">8月</span>
+                    <span className="text-sm text-green-600 font-medium">68.8%</span>
+                  </div>
+                  <div className="text-xs text-gray-400 mt-0.5">实际完成860万</div>
+                </div>
+                <div className="bg-white rounded-lg p-3 border border-gray-200">
+                  <div className="text-xs text-gray-500 mb-1">最差月份</div>
+                  <div className="flex items-center gap-2">
+                    <span className="text-lg font-bold text-red-600">3月</span>
+                    <span className="text-sm text-red-600 font-medium">46.4%</span>
+                  </div>
+                  <div className="text-xs text-gray-400 mt-0.5">实际完成580万</div>
+                </div>
+                <div className="bg-white rounded-lg p-3 border border-gray-200">
+                  <div className="text-xs text-gray-500 mb-1">累计完成</div>
+                  <div className="flex items-center gap-2">
+                    <span className="text-lg font-bold text-blue-600">9,235</span>
+                    <span className="text-xs text-gray-400">万元</span>
+                  </div>
+                  <div className="text-xs text-gray-400 mt-0.5">年度目标15000万</div>
+                </div>
+                <div className="bg-white rounded-lg p-3 border border-gray-200">
+                  <div className="text-xs text-gray-500 mb-1">趋势判断</div>
+                  <div className="flex items-center gap-2">
+                    <TrendingUp className="w-4 h-4 text-green-500" />
+                    <span className="text-sm font-bold text-green-600">持续向好</span>
+                  </div>
+                  <div className="text-xs text-gray-400 mt-0.5">近6月均超65%</div>
+                </div>
+              </div>
+
+              {/* 月度数据概览 */}
+              <div className="bg-white rounded-lg overflow-hidden border border-gray-200">
+                <div className="grid grid-cols-12 gap-px bg-gray-200">
+                  {monthlyTrendData.map((item, index) => (
+                    <div key={index} className="col-span-1 bg-white p-2 hover:bg-blue-50 transition-colors">
+                      <div className="text-xs text-gray-500 text-center mb-1">{item.month}</div>
+                      <div className={`text-center text-sm font-bold mb-1 ${
+                        item.achievement >= 60 ? 'text-blue-600' : 'text-red-600'
+                      }`}>
+                        {item.achievement.toFixed(0)}%
+                      </div>
+                      <div className="w-full h-1.5 bg-gray-200 rounded-full overflow-hidden">
+                        <div
+                          className={`h-full rounded-full transition-all ${
+                            item.achievement >= 100 ? 'bg-green-500' :
+                            item.achievement >= 80 ? 'bg-blue-500' :
+                            item.achievement >= 60 ? 'bg-yellow-500' :
+                            'bg-red-500'
+                          }`}
+                          style={{ width: `${Math.min(item.achievement, 100)}%` }}
+                        />
+                      </div>
+                    </div>
+                  ))}
+                </div>
+                <div className="px-3 py-2 bg-gray-50 border-t border-gray-200 flex items-center justify-between text-xs text-gray-500">
+                  <span>1月-12月达成率趋势</span>
+                  <div className="flex items-center gap-4">
+                    <span className="flex items-center gap-1"><span className="w-2 h-2 rounded-full bg-green-500"></span>超额</span>
+                    <span className="flex items-center gap-1"><span className="w-2 h-2 rounded-full bg-blue-500"></span>良好</span>
+                    <span className="flex items-center gap-1"><span className="w-2 h-2 rounded-full bg-yellow-500"></span>一般</span>
+                    <span className="flex items-center gap-1"><span className="w-2 h-2 rounded-full bg-red-500"></span>未达标</span>
+                  </div>
+                </div>
               </div>
             </CardContent>
           </Card>
