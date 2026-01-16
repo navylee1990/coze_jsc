@@ -270,75 +270,70 @@ export default function DealerDashboard() {
                 </div>
               </div>
 
-              {/* 关键数据亮点 */}
-              <div className="grid grid-cols-2 lg:grid-cols-4 gap-2 mb-4">
-                <div className="bg-white rounded-lg p-3 border border-gray-200">
-                  <div className="text-xs text-gray-500 mb-1">最佳月份</div>
+              {/* 折线图 */}
+              <div className="bg-white rounded-lg p-4">
+                <div className="flex items-center justify-between mb-4">
+                  <h4 className="text-sm font-semibold text-gray-700 flex items-center gap-2">
+                    <Activity className="w-4 h-4 text-blue-500" />
+                    达成率趋势折线图
+                  </h4>
                   <div className="flex items-center gap-2">
-                    <span className="text-lg font-bold text-green-600">8月</span>
-                    <span className="text-sm text-green-600 font-medium">68.8%</span>
+                    <span className="text-xs text-gray-500">年度平均：{monthlyTrendData.reduce((sum, item) => sum + item.achievement, 0) / monthlyTrendData.length: .1f}%</span>
                   </div>
-                  <div className="text-xs text-gray-400 mt-0.5">实际完成860万</div>
                 </div>
-                <div className="bg-white rounded-lg p-3 border border-gray-200">
-                  <div className="text-xs text-gray-500 mb-1">最差月份</div>
-                  <div className="flex items-center gap-2">
-                    <span className="text-lg font-bold text-red-600">3月</span>
-                    <span className="text-sm text-red-600 font-medium">46.4%</span>
-                  </div>
-                  <div className="text-xs text-gray-400 mt-0.5">实际完成580万</div>
-                </div>
-                <div className="bg-white rounded-lg p-3 border border-gray-200">
-                  <div className="text-xs text-gray-500 mb-1">累计完成</div>
-                  <div className="flex items-center gap-2">
-                    <span className="text-lg font-bold text-blue-600">9,235</span>
-                    <span className="text-xs text-gray-400">万元</span>
-                  </div>
-                  <div className="text-xs text-gray-400 mt-0.5">年度目标15000万</div>
-                </div>
-                <div className="bg-white rounded-lg p-3 border border-gray-200">
-                  <div className="text-xs text-gray-500 mb-1">趋势判断</div>
-                  <div className="flex items-center gap-2">
-                    <TrendingUp className="w-4 h-4 text-green-500" />
-                    <span className="text-sm font-bold text-green-600">持续向好</span>
-                  </div>
-                  <div className="text-xs text-gray-400 mt-0.5">近6月均超65%</div>
-                </div>
-              </div>
-
-              {/* 月度数据概览 */}
-              <div className="bg-white rounded-lg overflow-hidden border border-gray-200">
-                <div className="grid grid-cols-12 gap-px bg-gray-200">
-                  {monthlyTrendData.map((item, index) => (
-                    <div key={index} className="col-span-1 bg-white p-2 hover:bg-blue-50 transition-colors">
-                      <div className="text-xs text-gray-500 text-center mb-1">{item.month}</div>
-                      <div className={`text-center text-sm font-bold mb-1 ${
-                        item.achievement >= 60 ? 'text-blue-600' : 'text-red-600'
-                      }`}>
-                        {item.achievement.toFixed(0)}%
-                      </div>
-                      <div className="w-full h-1.5 bg-gray-200 rounded-full overflow-hidden">
-                        <div
-                          className={`h-full rounded-full transition-all ${
-                            item.achievement >= 100 ? 'bg-green-500' :
-                            item.achievement >= 80 ? 'bg-blue-500' :
-                            item.achievement >= 60 ? 'bg-yellow-500' :
-                            'bg-red-500'
-                          }`}
-                          style={{ width: `${Math.min(item.achievement, 100)}%` }}
-                        />
-                      </div>
-                    </div>
-                  ))}
-                </div>
-                <div className="px-3 py-2 bg-gray-50 border-t border-gray-200 flex items-center justify-between text-xs text-gray-500">
-                  <span>1月-12月达成率趋势</span>
-                  <div className="flex items-center gap-4">
-                    <span className="flex items-center gap-1"><span className="w-2 h-2 rounded-full bg-green-500"></span>超额</span>
-                    <span className="flex items-center gap-1"><span className="w-2 h-2 rounded-full bg-blue-500"></span>良好</span>
-                    <span className="flex items-center gap-1"><span className="w-2 h-2 rounded-full bg-yellow-500"></span>一般</span>
-                    <span className="flex items-center gap-1"><span className="w-2 h-2 rounded-full bg-red-500"></span>未达标</span>
-                  </div>
+                <ResponsiveContainer width="100%" height={280}>
+                  <LineChart data={monthlyTrendData}>
+                    <CartesianGrid strokeDasharray="3 3" vertical={false} />
+                    <XAxis
+                      dataKey="month"
+                      axisLine={false}
+                      tickLine={false}
+                      tick={{ fontSize: 12, fill: '#6B7280' }}
+                    />
+                    <YAxis
+                      domain={[0, 100]}
+                      axisLine={false}
+                      tickLine={false}
+                      tick={{ fontSize: 12, fill: '#6B7280' }}
+                      tickFormatter={(value) => `${value}%`}
+                    />
+                    <Tooltip
+                      formatter={(value: number) => [`${value.toFixed(1)}%`, '达成率']}
+                      labelFormatter={(label) => `${label}达成率`}
+                      contentStyle={{
+                        backgroundColor: 'white',
+                        border: '1px solid #E5E7EB',
+                        borderRadius: '8px',
+                        boxShadow: '0 2px 4px rgba(0,0,0,0.1)'
+                      }}
+                    />
+                    <Line
+                      type="monotone"
+                      dataKey="achievement"
+                      stroke="#3B82F6"
+                      strokeWidth={2.5}
+                      dot={{ fill: '#3B82F6', strokeWidth: 2, r: 4 }}
+                      activeDot={{ fill: '#3B82F6', strokeWidth: 2, r: 6 }}
+                    />
+                    <Line
+                      type="monotone"
+                      dataKey={(item) => 100}
+                      stroke="#E5E7EB"
+                      strokeWidth={1}
+                      strokeDasharray="5 5"
+                      dot={false}
+                    />
+                  </LineChart>
+                </ResponsiveContainer>
+                <div className="mt-3 flex items-center justify-center gap-4 text-xs text-gray-500">
+                  <span className="flex items-center gap-1">
+                    <span className="w-3 h-0.5 bg-blue-500"></span>
+                    实际达成率
+                  </span>
+                  <span className="flex items-center gap-1">
+                    <span className="w-3 h-0.5 bg-gray-300 border-dashed" style={{ borderStyle: 'dashed' }}></span>
+                    目标线100%
+                  </span>
                 </div>
               </div>
             </CardContent>
