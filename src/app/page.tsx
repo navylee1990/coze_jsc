@@ -67,7 +67,7 @@ export default function HomePage() {
 
         {/* 底部说明 */}
         <div className="text-center mt-12 text-gray-400 text-sm">
-          <p>© 2024 经营驾驶舱系统</p>
+          <p>© 2026 经营驾驶舱系统</p>
         </div>
       </div>
     </div>

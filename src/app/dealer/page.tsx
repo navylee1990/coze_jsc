@@ -123,7 +123,7 @@ export default function DealerDashboard() {
                   <span className="text-3xl font-bold text-gray-900">{kpiData.annualTarget.toLocaleString()}</span>
                   <span className="text-sm text-gray-400">万元</span>
                 </div>
-                <div className="mt-1 text-xs text-gray-500">2024年度</div>
+                <div className="mt-1 text-xs text-gray-500">2026年度</div>
               </CardContent>
             </Card>
 
