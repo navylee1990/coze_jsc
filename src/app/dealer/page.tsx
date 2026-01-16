@@ -232,17 +232,18 @@ export default function DealerDashboard() {
             </Card>
           </div>
 
-          {/* 月度趋势分析 */}
-          <Card className="mt-3 border-2 border-blue-200 bg-gradient-to-br from-blue-50 to-indigo-50">
-            <CardHeader className="pb-3">
-              <CardTitle className="text-base flex items-center gap-2">
-                <TrendingUp className="w-4 h-4 text-blue-500" />
-                月度趋势分析
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="grid grid-cols-1 lg:grid-cols-2 gap-3">
-                {/* 左侧：AI洞察 + 折线图 */}
+          {/* 左右两列布局：月度趋势分析 + 项目阶段统计 */}
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-3">
+            {/* 月度趋势分析模块 - 左侧 */}
+            <div className="lg:col-span-1">
+            <Card className="border-2 border-blue-200">
+              <CardHeader className="pb-3">
+                <CardTitle className="text-base flex items-center gap-2">
+                  <TrendingUp className="w-4 h-4 text-blue-500" />
+                  月度趋势分析
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
                 <div className="space-y-3">
                   {/* AI智能洞察 */}
                   <div className="bg-gradient-to-r from-indigo-50 to-blue-50 rounded-xl p-4 border border-indigo-100">
@@ -272,7 +273,7 @@ export default function DealerDashboard() {
                             </p>
                           </div>
                           <div className="flex items-start gap-2">
-                            <Target className="w-3.5 h-3.5 text-purple-500 flex-shrink-0 mt-0.5" />
+                            <Target className="w-3.5 h-3.5 text-indigo-500 flex-shrink-0 mt-0.5" />
                             <p className="text-xs text-gray-700 leading-relaxed">
                               建议：加强Q1前期项目储备，目标将年均达成率提升至<span className="font-semibold text-green-600">70%以上</span>
                             </p>
@@ -348,75 +349,79 @@ export default function DealerDashboard() {
                     </div>
                   </div>
                 </div>
+              </CardContent>
+            </Card>
+          </div>
 
-                {/* 右侧：项目阶段统计 */}
-                <div className="bg-white rounded-lg p-3 border border-gray-200">
-                  <div className="flex items-center justify-between mb-3">
-                    <h4 className="text-sm font-semibold text-gray-700 flex items-center gap-2">
-                      <Package className="w-4 h-4 text-blue-500" />
-                      项目阶段统计
-                    </h4>
-                    <span className="text-xs text-gray-500">单位：万元</span>
-                  </div>
-                  <div className="space-y-2">
-                    {projectStageData.map((item, index) => {
-                      const totalAmount = projectStageData.reduce((sum, p) => sum + p.amount, 0);
-                      const percentage = (item.amount / totalAmount * 100);
-                      const colorMap: any = {
-                        blue: { bg: 'bg-blue-50', border: 'border-blue-200', text: 'text-blue-600', bar: 'bg-blue-500', icon: Search },
-                        indigo: { bg: 'bg-indigo-50', border: 'border-indigo-200', text: 'text-indigo-600', bar: 'bg-indigo-500', icon: FileText },
-                        green: { bg: 'bg-green-50', border: 'border-green-200', text: 'text-green-600', bar: 'bg-green-500', icon: CheckCircle },
-                        orange: { bg: 'bg-orange-50', border: 'border-orange-200', text: 'text-orange-600', bar: 'bg-orange-500', icon: Truck },
-                        purple: { bg: 'bg-purple-50', border: 'border-purple-200', text: 'text-purple-600', bar: 'bg-purple-500', icon: DollarSign },
-                      };
-                      const colors = colorMap[item.color as keyof typeof colorMap];
-                      const IconComponent = colors.icon;
+          {/* 项目阶段统计模块 - 右侧 */}
+          <div className="lg:col-span-1">
+            <Card className="border-2 border-blue-200">
+              <CardHeader className="pb-3">
+                <CardTitle className="text-base flex items-center gap-2">
+                  <Package className="w-4 h-4 text-blue-500" />
+                  项目阶段统计
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div className="space-y-2">
+                  {projectStageData.map((item, index) => {
+                    const totalAmount = projectStageData.reduce((sum, p) => sum + p.amount, 0);
+                    const percentage = (item.amount / totalAmount * 100);
+                    const colorMap: any = {
+                      blue: { bg: 'bg-blue-50', border: 'border-blue-200', text: 'text-blue-600', bar: 'bg-blue-500', icon: Search },
+                      indigo: { bg: 'bg-indigo-50', border: 'border-indigo-200', text: 'text-indigo-600', bar: 'bg-indigo-500', icon: FileText },
+                      green: { bg: 'bg-green-50', border: 'border-green-200', text: 'text-green-600', bar: 'bg-green-500', icon: CheckCircle },
+                      orange: { bg: 'bg-orange-50', border: 'border-orange-200', text: 'text-orange-600', bar: 'bg-orange-500', icon: Truck },
+                      purple: { bg: 'bg-purple-50', border: 'border-purple-200', text: 'text-purple-600', bar: 'bg-purple-500', icon: DollarSign },
+                    };
+                    const colors = colorMap[item.color as keyof typeof colorMap];
+                    const IconComponent = colors.icon;
 
-                      return (
-                        <div key={index} className={`${colors.bg} rounded-lg p-3 border ${colors.border}`}>
-                          <div className="flex items-center justify-between mb-2">
-                            <div className="flex items-center gap-2">
-                              <div className={`w-8 h-8 ${colors.bg.replace('50', '100')} rounded-lg flex items-center justify-center`}>
-                                <IconComponent className="w-4 h-4 ${colors.text}" />
-                              </div>
-                              <span className="text-sm font-medium text-gray-700">{item.stage}</span>
-                            </div>
-                            <span className={`text-lg font-bold ${colors.text}`}>{item.amount.toLocaleString()}</span>
-                          </div>
+                    return (
+                      <div key={index} className={`${colors.bg} rounded-lg p-3 border ${colors.border}`}>
+                        <div className="flex items-center justify-between mb-2">
                           <div className="flex items-center gap-2">
-                            <div className="flex-1 h-2 bg-gray-200 rounded-full overflow-hidden">
-                              <div
-                                className={`h-full ${colors.bar} rounded-full transition-all`}
-                                style={{ width: `${percentage}%` }}
-                              />
+                            <div className={`w-8 h-8 ${colors.bg.replace('50', '100')} rounded-lg flex items-center justify-center`}>
+                              <IconComponent className="w-4 h-4 ${colors.text}" />
                             </div>
-                            <span className="text-xs text-gray-500 whitespace-nowrap">{percentage.toFixed(1)}%</span>
+                            <span className="text-sm font-medium text-gray-700">{item.stage}</span>
                           </div>
-                          <div className="mt-1 text-xs text-gray-500">
-                            项目数量：<span className="font-medium text-gray-700">{item.count}个</span>
-                          </div>
+                          <span className={`text-lg font-bold ${colors.text}`}>{item.amount.toLocaleString()}</span>
                         </div>
-                      );
-                    })}
+                        <div className="flex items-center gap-2">
+                          <div className="flex-1 h-2 bg-gray-200 rounded-full overflow-hidden">
+                            <div
+                              className={`h-full ${colors.bar} rounded-full transition-all`}
+                              style={{ width: `${percentage}%` }}
+                            />
+                          </div>
+                          <span className="text-xs text-gray-500 whitespace-nowrap">{percentage.toFixed(1)}%</span>
+                        </div>
+                        <div className="mt-1 text-xs text-gray-500">
+                          项目数量：<span className="font-medium text-gray-700">{item.count}个</span>
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+                <div className="mt-3 pt-3 border-t border-gray-200">
+                  <div className="flex items-center justify-between text-sm">
+                    <span className="text-gray-500">项目总金额</span>
+                    <span className="font-bold text-gray-900">
+                      {projectStageData.reduce((sum, item) => sum + item.amount, 0).toLocaleString()}万元
+                    </span>
                   </div>
-                  <div className="mt-3 pt-3 border-t border-gray-200">
-                    <div className="flex items-center justify-between text-sm">
-                      <span className="text-gray-500">项目总金额</span>
-                      <span className="font-bold text-gray-900">
-                        {projectStageData.reduce((sum, item) => sum + item.amount, 0).toLocaleString()}万元
-                      </span>
-                    </div>
-                    <div className="flex items-center justify-between text-sm mt-1">
-                      <span className="text-gray-500">项目总数</span>
-                      <span className="font-bold text-gray-900">
-                        {projectStageData.reduce((sum, item) => sum + item.count, 0)}个
-                      </span>
-                    </div>
+                  <div className="flex items-center justify-between text-sm mt-1">
+                    <span className="text-gray-500">项目总数</span>
+                    <span className="font-bold text-gray-900">
+                      {projectStageData.reduce((sum, item) => sum + item.count, 0)}个
+                    </span>
                   </div>
                 </div>
-              </div>
-            </CardContent>
-          </Card>
+              </CardContent>
+            </Card>
+          </div>
+          </div>
         </TabsContent>
 
         <TabsContent value="regions">
