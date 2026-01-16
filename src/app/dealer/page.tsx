@@ -236,13 +236,13 @@ export default function DealerDashboard() {
             {/* 月度趋势分析模块 - 左侧 */}
             <div className="lg:col-span-1">
             <Card className="border-2 border-blue-200">
-              <CardHeader className="pb-3">
+              <CardHeader className="pb-2">
                 <CardTitle className="text-base flex items-center gap-2">
                   <TrendingUp className="w-4 h-4 text-blue-500" />
                   月度趋势分析
                 </CardTitle>
               </CardHeader>
-              <CardContent>
+              <CardContent className="pt-2">
                 <div className="space-y-3">
                   {/* AI智能洞察 */}
                   <div className="bg-gradient-to-r from-indigo-50 to-blue-50 rounded-xl p-4 border border-indigo-100">
@@ -355,13 +355,13 @@ export default function DealerDashboard() {
           {/* 项目阶段统计模块 - 右侧 */}
           <div className="lg:col-span-1">
             <Card className="border-2 border-blue-200">
-              <CardHeader className="pb-3">
+              <CardHeader className="pb-2">
                 <CardTitle className="text-base flex items-center gap-2">
                   <Package className="w-4 h-4 text-blue-500" />
                   项目阶段统计
                 </CardTitle>
               </CardHeader>
-              <CardContent>
+              <CardContent className="pt-2">
                 <div className="space-y-2">
                   {projectStageData.map((item, index) => {
                     const totalAmount = projectStageData.reduce((sum, p) => sum + p.amount, 0);
