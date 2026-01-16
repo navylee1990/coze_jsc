@@ -278,7 +278,7 @@ export default function DealerDashboard() {
                     达成率趋势折线图
                   </h4>
                   <div className="flex items-center gap-2">
-                    <span className="text-xs text-gray-500">年度平均：{monthlyTrendData.reduce((sum, item) => sum + item.achievement, 0) / monthlyTrendData.length: .1f}%</span>
+                    <span className="text-xs text-gray-500">年度平均：{(monthlyTrendData.reduce((sum, item) => sum + item.achievement, 0) / monthlyTrendData.length).toFixed(1)}%</span>
                   </div>
                 </div>
                 <ResponsiveContainer width="100%" height={280}>
