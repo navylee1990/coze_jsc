@@ -461,9 +461,9 @@ export default function SalesDashboard() {
                       <th className="px-2 py-2 text-left text-sm font-medium text-gray-500">责任人</th>
                       <th className="px-2 py-2 text-right text-sm font-medium text-gray-500">目标</th>
                       <th className="px-2 py-2 text-right text-sm font-medium text-gray-500">已完成</th>
-                      <th className="px-2 py-2 text-right text-sm font-medium text-gray-500">预计</th>
+                      <th className="px-2 py-2 text-right text-sm font-medium text-gray-500">预测金额</th>
                       <th className="px-2 py-2 text-right text-sm font-medium text-gray-500">缺口</th>
-                      <th className="px-2 py-2 text-center text-sm font-medium text-gray-500">达成率</th>
+                      <th className="px-2 py-2 text-center text-sm font-medium text-gray-500">预测达成率</th>
                       <th className="px-1 py-2"></th>
                     </tr>
                   </thead>
