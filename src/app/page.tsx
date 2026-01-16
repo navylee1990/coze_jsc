@@ -227,7 +227,7 @@ export default function WaterPurifierDashboard() {
       <header className="mb-4">
         <div className="flex items-center justify-between">
           <div>
-            <h1 className="text-2xl font-bold text-gray-900">商用净水经营驾驶舱</h1>
+            <h1 className="text-2xl font-bold text-gray-900">销售管理驾驶舱</h1>
           </div>
           <div className="flex items-center gap-3">
             <button className="px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50">
