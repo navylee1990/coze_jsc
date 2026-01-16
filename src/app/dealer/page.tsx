@@ -112,9 +112,9 @@ export default function DealerDashboard() {
 
         <TabsContent value="overview">
           {/* 经营总览标题 */}
-          <div className="mb-4 flex items-center gap-4">
-            <h2 className="text-lg font-semibold text-gray-900 flex items-center gap-2">
-              <Activity className="w-5 h-5" />
+          <div className="mb-3 flex items-center gap-4">
+            <h2 className="text-base font-semibold text-gray-900 flex items-center gap-1.5">
+              <Activity className="w-4 h-4" />
               年度目标达成情况
             </h2>
             <div className="flex items-center gap-4">
@@ -236,9 +236,9 @@ export default function DealerDashboard() {
             {/* 月度趋势分析模块 - 左侧 */}
             <div className="lg:col-span-1">
             <Card className="border-2 border-blue-200">
-              <CardHeader className="pb-0">
-                <CardTitle className="text-base flex items-center gap-2">
-                  <TrendingUp className="w-4 h-4 text-blue-500" />
+              <CardHeader className="py-2 px-3 pb-0">
+                <CardTitle className="text-sm font-semibold flex items-center gap-1.5">
+                  <TrendingUp className="w-3.5 h-3.5 text-blue-500" />
                   月度趋势分析
                 </CardTitle>
               </CardHeader>
@@ -355,9 +355,9 @@ export default function DealerDashboard() {
           {/* 项目阶段统计模块 - 右侧 */}
           <div className="lg:col-span-1">
             <Card className="border-2 border-blue-200">
-              <CardHeader className="pb-0">
-                <CardTitle className="text-base flex items-center gap-2">
-                  <Package className="w-4 h-4 text-blue-500" />
+              <CardHeader className="py-2 px-3 pb-0">
+                <CardTitle className="text-sm font-semibold flex items-center gap-1.5">
+                  <Package className="w-3.5 h-3.5 text-blue-500" />
                   项目阶段统计
                 </CardTitle>
               </CardHeader>
