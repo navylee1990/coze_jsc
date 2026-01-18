@@ -867,6 +867,52 @@ export default function SalesDashboard() {
           </TabsContent>
 
           <TabsContent value="projects">
+            {/* 项目储备KPI指标 */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-2 mb-3">
+              {/* 项目储备 */}
+              <Card className="bg-white border-2 border-red-200">
+                <CardContent className="p-2.5">
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center gap-1.5 text-sm font-medium text-gray-500">
+                      <Database className="w-3 h-3 text-red-500" />
+                      <span>项目储备</span>
+                    </div>
+                    <AlertTriangle className="w-3 h-3 text-red-500" />
+                  </div>
+                  <div className="mt-2 flex items-baseline gap-1">
+                    <span className="text-2xl font-bold text-red-600">1,200</span>
+                    <span className="text-sm text-gray-400">万元</span>
+                  </div>
+                  <div className="mt-1 flex items-center justify-between">
+                    <div className="flex items-center gap-1 text-sm text-red-600 font-medium">
+                      <AlertTriangle className="w-3 h-3" />
+                      <span>储备不足</span>
+                    </div>
+                    <span className="text-sm text-gray-500">缺口¥1,200万</span>
+                  </div>
+                </CardContent>
+              </Card>
+
+              {/* 储备倒推 */}
+              <Card className="bg-white border-2 border-blue-200">
+                <CardContent className="p-2.5">
+                  <div className="flex items-center gap-1.5 text-sm font-medium text-gray-500">
+                    <Target className="w-3 h-3 text-blue-500" />
+                    <span>储备倒推</span>
+                  </div>
+                  <div className="mt-2 flex items-baseline gap-1">
+                    <span className="text-2xl font-bold text-blue-600">需开发</span>
+                    <span className="text-sm text-gray-400">项目</span>
+                  </div>
+                  <div className="flex items-center gap-1 text-sm text-gray-500 mt-1">
+                    <span className="text-xs">需新增项目约</span>
+                    <span className="text-sm font-bold text-blue-600">8-10个</span>
+                    <span className="text-xs">（平均120-150万/个）</span>
+                  </div>
+                </CardContent>
+              </Card>
+            </div>
+
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
               {/* 临期项目/超期项目报警 */}
               <Card className="border-2 border-orange-200 bg-gradient-to-r from-orange-50 to-yellow-50">
