@@ -471,60 +471,86 @@ export default function DealerDashboard() {
           </div>
           <Card className="mb-1 bg-white border border-gray-200 shadow-sm">
             <CardContent className="p-2">
-              <div className="h-64 mb-3">
+              <div className="h-72 mb-3">
                 <ResponsiveContainer width="100%" height="100%">
                   <LineChart data={monthlyTrendData}>
-                    <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#e5e7eb" />
+                    <defs>
+                      <linearGradient id="gradientTarget" x1="0" y1="0" x2="0" y2="1">
+                        <stop offset="5%" stopColor="#9ca3af" stopOpacity={0.3}/>
+                        <stop offset="95%" stopColor="#9ca3af" stopOpacity={0}/>
+                      </linearGradient>
+                      <linearGradient id="gradientActual" x1="0" y1="0" x2="0" y2="1">
+                        <stop offset="5%" stopColor="#16a34a" stopOpacity={0.4}/>
+                        <stop offset="95%" stopColor="#16a34a" stopOpacity={0}/>
+                      </linearGradient>
+                      <linearGradient id="gradientCumulative" x1="0" y1="0" x2="0" y2="1">
+                        <stop offset="5%" stopColor="#0891b2" stopOpacity={0.4}/>
+                        <stop offset="95%" stopColor="#0891b2" stopOpacity={0}/>
+                      </linearGradient>
+                    </defs>
+                    <CartesianGrid strokeDasharray="4 4" vertical={false} stroke="#f0f0f0" strokeOpacity={0.6} />
                     <XAxis
                       dataKey="month"
-                      tick={{ fontSize: 12, fill: '#6b7280' }}
-                      axisLine={{ stroke: '#e5e7eb' }}
-                      tickLine={{ stroke: '#e5e7eb' }}
+                      tick={{ fontSize: 12, fill: '#6b7280', fontWeight: 500 }}
+                      axisLine={{ stroke: '#f0f0f0' }}
+                      tickLine={{ stroke: '#f0f0f0' }}
+                      dy={5}
                     />
                     <YAxis
-                      tick={{ fontSize: 12, fill: '#6b7280' }}
-                      axisLine={{ stroke: '#e5e7eb' }}
-                      tickLine={{ stroke: '#e5e7eb' }}
-                      tickFormatter={(value) => value.toLocaleString()}
+                      tick={{ fontSize: 12, fill: '#6b7280', fontWeight: 500 }}
+                      axisLine={false}
+                      tickLine={false}
+                      tickFormatter={(value) => `${value}`}
+                      dx={-8}
                     />
                     <Tooltip
                       contentStyle={{
-                        backgroundColor: '#fff',
+                        backgroundColor: 'rgba(255, 255, 255, 0.98)',
                         border: '1px solid #e5e7eb',
-                        borderRadius: '8px',
-                        boxShadow: '0 2px 8px rgba(0,0,0,0.1)',
+                        borderRadius: '12px',
+                        boxShadow: '0 4px 16px rgba(0,0,0,0.12)',
+                        padding: '12px 16px',
+                        fontSize: '13px',
                       }}
-                      formatter={(value: number) => [`${value.toLocaleString()}万元`, '']}
+                      formatter={(value: number, name: string) => {
+                        const color = name === '月度目标' ? '#9ca3af' : name === '实际达成' ? '#16a34a' : '#0891b2';
+                        return [<span style={{ color: color, fontWeight: 600 }}>{`${value.toLocaleString()}万元`}</span>, name];
+                      }}
                     />
                     <Legend
-                      wrapperStyle={{ fontSize: '12px', paddingTop: '8px' }}
+                      wrapperStyle={{ fontSize: '13px', paddingTop: '12px', fontWeight: 500 }}
+                      iconType="circle"
+                      height={36}
                     />
                     <Line
                       type="monotone"
                       dataKey="target"
                       stroke="#9ca3af"
                       strokeWidth={2}
-                      strokeDasharray="5 5"
+                      strokeDasharray="6 4"
                       name="月度目标"
                       dot={false}
+                      opacity={0.6}
                     />
                     <Line
                       type="monotone"
                       dataKey="actual"
                       stroke="#16a34a"
-                      strokeWidth={2.5}
+                      strokeWidth={3}
                       name="实际达成"
-                      dot={{ fill: '#16a34a', strokeWidth: 2, r: 4 }}
-                      activeDot={{ r: 6, strokeWidth: 2 }}
+                      dot={{ fill: '#16a34a', strokeWidth: 3, r: 5, fillOpacity: 1 }}
+                      activeDot={{ r: 7, strokeWidth: 3, fill: '#16a34a' }}
+                      fillOpacity={1}
                     />
                     <Line
                       type="monotone"
                       dataKey="cumulative"
                       stroke="#0891b2"
-                      strokeWidth={2.5}
+                      strokeWidth={3}
                       name="累计达成"
-                      dot={{ fill: '#0891b2', strokeWidth: 2, r: 4 }}
-                      activeDot={{ r: 6, strokeWidth: 2 }}
+                      dot={{ fill: '#0891b2', strokeWidth: 3, r: 5, fillOpacity: 1 }}
+                      activeDot={{ r: 7, strokeWidth: 3, fill: '#0891b2' }}
+                      fillOpacity={1}
                     />
                   </LineChart>
                 </ResponsiveContainer>
