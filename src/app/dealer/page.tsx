@@ -41,6 +41,23 @@ const timeRangeData = {
   },
 };
 
+// 同规模代理商对比数据
+const peerComparisonData = {
+  achievementRateRanking: 5,
+  customerCountRanking: 5,
+  comprehensiveCompetitiveness: {
+    rank: 5,
+    score: 82.5,
+    indicators: {
+      achievementRate: 55.0,
+      customerSatisfaction: 88.5,
+      marketShare: 12.3,
+      growthRate: 18.5,
+      innovation: 76.0,
+    },
+  },
+};
+
 
 export default function DealerDashboard() {
   const [activeTab, setActiveTab] = useState('overview');
@@ -201,6 +218,57 @@ export default function DealerDashboard() {
                 <div className="flex items-center gap-0.5 text-xs text-green-600 mt-0.5">
                   <ArrowUp className="w-2 h-2" />
                   <span>较上月+48个</span>
+                </div>
+              </CardContent>
+            </Card>
+
+            {/* 达成率排名 */}
+            <Card className="bg-white border-2 border-green-200">
+              <CardContent className="p-1">
+                <div className="flex items-center gap-1 text-xs font-medium text-gray-500">
+                  <Award className="w-2.5 h-2.5 text-green-500" />
+                  <span>达成率排名</span>
+                </div>
+                <div className="mt-1 flex items-baseline gap-0.5">
+                  <span className="text-3xl font-bold text-green-600 leading-tight">{peerComparisonData.achievementRateRanking}</span>
+                  <span className="text-xs text-gray-400">名</span>
+                </div>
+                <div className="flex items-center gap-0.5 text-xs text-gray-500 mt-0.5">
+                  <span>同行平均 68.5%</span>
+                </div>
+              </CardContent>
+            </Card>
+
+            {/* 客户数量排名 */}
+            <Card className="bg-white border-2 border-emerald-200">
+              <CardContent className="p-1">
+                <div className="flex items-center gap-1 text-xs font-medium text-gray-500">
+                  <Users className="w-2.5 h-2.5 text-emerald-500" />
+                  <span>客户数量排名</span>
+                </div>
+                <div className="mt-1 flex items-baseline gap-0.5">
+                  <span className="text-3xl font-bold text-emerald-600 leading-tight">{peerComparisonData.customerCountRanking}</span>
+                  <span className="text-xs text-gray-400">名</span>
+                </div>
+                <div className="flex items-center gap-0.5 text-xs text-gray-500 mt-0.5">
+                  <span>客户数 5120个</span>
+                </div>
+              </CardContent>
+            </Card>
+
+            {/* 综合竞争力 */}
+            <Card className="bg-white border-2 border-blue-200">
+              <CardContent className="p-1">
+                <div className="flex items-center gap-1 text-xs font-medium text-gray-500">
+                  <Sparkles className="w-2.5 h-2.5 text-blue-500" />
+                  <span>综合竞争力</span>
+                </div>
+                <div className="mt-1 flex items-baseline gap-0.5">
+                  <span className="text-3xl font-bold text-blue-600 leading-tight">{peerComparisonData.comprehensiveCompetitiveness.score}</span>
+                  <span className="text-xs text-gray-400">分</span>
+                </div>
+                <div className="flex items-center gap-0.5 text-xs text-gray-500 mt-0.5">
+                  <span>排名 {peerComparisonData.comprehensiveCompetitiveness.rank}/7</span>
                 </div>
               </CardContent>
             </Card>
