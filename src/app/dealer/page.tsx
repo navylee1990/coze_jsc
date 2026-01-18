@@ -330,73 +330,97 @@ export default function DealerDashboard() {
                   </CardTitle>
                 </CardHeader>
                 <CardContent className="p-2">
-                  {/* 细分市场卡片网格 */}
-                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-2 mb-3">
+                  {/* 细分市场卡片 - 横向一行展示 */}
+                  <div className="flex flex-nowrap gap-2 mb-3 overflow-x-auto pb-2">
                     {marketSegmentData.map((segment, index) => (
                       <div
                         key={index}
-                        className="p-2.5 bg-gradient-to-br from-white to-gray-50 rounded-lg border border-gray-200 hover:border-green-300 hover:shadow-md transition-all"
+                        className="flex-shrink-0 min-w-[180px] p-3 bg-gradient-to-br from-white via-green-50/30 to-emerald-50/30 rounded-xl border-2 border-gray-200 hover:border-green-400 hover:shadow-lg hover:shadow-green-100/50 transition-all duration-300"
+                        style={{ backgroundColor: index % 2 === 0 ? 'linear-gradient(135deg, #ffffff 0%, #f0fdf4 100%)' : 'linear-gradient(135deg, #ffffff 0%, #ecfdf5 100%)' }}
                       >
                         {/* 市场名称 */}
-                        <div className="text-xs font-bold text-gray-900 mb-2 flex items-center gap-1">
-                          <div className="w-1.5 h-1.5 rounded-full bg-green-500"></div>
+                        <div className="text-sm font-bold text-gray-900 mb-2 flex items-center gap-1.5">
+                          <div className="w-2 h-2 rounded-full bg-gradient-to-r from-green-400 to-emerald-500 shadow-sm"></div>
                           {segment.name}
                         </div>
 
                         {/* 年度目标 */}
-                        <div className="mb-1">
+                        <div className="mb-1.5">
                           <div className="text-xs text-gray-500 mb-0.5">年度目标</div>
-                          <div className="text-xs font-semibold text-gray-900">
+                          <div className="text-sm font-bold text-gray-900">
                             ¥{segment.target.toLocaleString()}万
                           </div>
                         </div>
 
                         {/* 已达成 */}
-                        <div className="mb-1">
+                        <div className="mb-2">
                           <div className="text-xs text-gray-500 mb-0.5">已达成</div>
-                          <div className="text-xs font-semibold text-gray-900">
+                          <div className="text-sm font-bold text-teal-700">
                             ¥{segment.achieved.toLocaleString()}万
                           </div>
                         </div>
 
-                        {/* 达成率 */}
-                        <div className="mb-1">
-                          <div className="text-xs text-gray-500 mb-0.5">达成率</div>
-                          <div className="flex items-baseline gap-0.5">
-                            <span className={`text-sm font-bold ${
+                        {/* 达成率进度条 */}
+                        <div className="mb-2">
+                          <div className="text-xs text-gray-500 mb-1">达成率</div>
+                          <div className="w-full h-2 bg-gray-200 rounded-full overflow-hidden">
+                            <div
+                              className={`h-full rounded-full transition-all duration-300 ${
+                                segment.achievementRate >= 80 ? 'bg-gradient-to-r from-green-400 to-emerald-500' :
+                                segment.achievementRate >= 60 ? 'bg-gradient-to-r from-emerald-400 to-teal-500' :
+                                segment.achievementRate >= 40 ? 'bg-gradient-to-r from-orange-400 to-amber-500' : 'bg-gradient-to-r from-red-400 to-rose-500'
+                              }`}
+                              style={{ width: `${segment.achievementRate}%` }}
+                            />
+                          </div>
+                          <div className="flex items-center justify-between mt-1">
+                            <span className={`text-xs font-bold ${
                               segment.achievementRate >= 80 ? 'text-green-600' :
                               segment.achievementRate >= 60 ? 'text-emerald-600' :
                               segment.achievementRate >= 40 ? 'text-orange-600' : 'text-red-600'
                             }`}>
                               {segment.achievementRate.toFixed(1)}%
                             </span>
+                            <span className={`text-xs font-medium ${
+                              segment.achievementRate >= 80 ? 'text-green-500' :
+                              segment.achievementRate >= 60 ? 'text-emerald-500' :
+                              segment.achievementRate >= 40 ? 'text-orange-500' : 'text-red-500'
+                            }`}>
+                              {segment.achievementRate >= 80 ? '优秀' :
+                               segment.achievementRate >= 60 ? '良好' :
+                               segment.achievementRate >= 40 ? '一般' : '需努力'}
+                            </span>
                           </div>
                         </div>
 
                         {/* 同比涨跌 */}
-                        <div className="flex items-center gap-0.5 mb-1.5">
+                        <div className="flex items-center gap-1 mb-2">
                           {segment.growthRate >= 0 ? (
-                            <>
-                              <ArrowUp className="w-2.5 h-2.5 text-green-500" />
-                              <span className="text-xs font-medium text-green-600">
-                                ↑ {Math.abs(segment.growthRate).toFixed(1)}%
+                            <div className="flex items-center gap-1 px-2 py-0.5 bg-green-100 rounded-full">
+                              <ArrowUp className="w-3 h-3 text-green-600" />
+                              <span className="text-xs font-bold text-green-700">
+                                {Math.abs(segment.growthRate).toFixed(1)}%
                               </span>
-                            </>
+                            </div>
                           ) : (
-                            <>
-                              <ArrowDown className="w-2.5 h-2.5 text-red-500" />
-                              <span className="text-xs font-medium text-red-600">
-                                ↓ {Math.abs(segment.growthRate).toFixed(1)}%
+                            <div className="flex items-center gap-1 px-2 py-0.5 bg-red-100 rounded-full">
+                              <ArrowDown className="w-3 h-3 text-red-600" />
+                              <span className="text-xs font-bold text-red-700">
+                                {Math.abs(segment.growthRate).toFixed(1)}%
                               </span>
-                            </>
+                            </div>
                           )}
                         </div>
 
                         {/* 项目储备 */}
-                        <div className="pt-1.5 border-t border-gray-200">
-                          <div className="text-xs text-gray-500 mb-0.5">项目储备</div>
-                          <div className="text-xs font-medium text-gray-700">
-                            {segment.projectReserve.count}个 / ¥{segment.projectReserve.amount}万
+                        <div className="pt-2 border-t border-gray-300">
+                          <div className="flex items-center justify-between">
+                            <span className="text-xs text-gray-500">项目储备</span>
+                            <div className="text-right">
+                              <span className="text-xs font-bold text-purple-600">{segment.projectReserve.count}个</span>
+                              <span className="text-xs text-gray-400 mx-1">/</span>
+                              <span className="text-xs font-bold text-blue-600">¥{segment.projectReserve.amount}万</span>
+                            </div>
                           </div>
                         </div>
                       </div>
