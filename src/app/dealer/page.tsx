@@ -323,7 +323,7 @@ export default function DealerDashboard() {
             {/* 细分市场业绩达成与项目储备 */}
             <div className="xl:w-3/5">
               <Card className="bg-white border border-gray-200 shadow-sm h-full">
-                <CardHeader className="py-1.5 px-3">
+                <CardHeader className="py-0.5 px-3">
                   <CardTitle className="text-sm font-semibold text-gray-900 flex items-center gap-2">
                     <PieChart className="w-4 h-4 text-green-600" />
                     细分市场业绩达成与项目储备
@@ -434,7 +434,7 @@ export default function DealerDashboard() {
 
           {/* 月度趋势分析 */}
           <Card className="mb-3 bg-white border border-gray-200 shadow-sm">
-            <CardHeader className="py-1.5 px-3">
+            <CardHeader className="py-0.5 px-3">
               <CardTitle className="text-sm font-semibold text-gray-900 flex items-center gap-2">
                 <TrendingUp className="w-4 h-4 text-green-600" />
                 月度趋势分析
