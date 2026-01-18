@@ -278,6 +278,10 @@ export default function SalesDashboard() {
     ? (cityData[timeRange as keyof typeof cityData] as any)[selectedRegion] || []
     : regionData[timeRange as keyof typeof regionData];
 
+  // 获取当前时间范围的目标数据
+  const currentRangeData = timeRangeData[timeRange as keyof typeof timeRangeData];
+  const timeRangeLabel = timeRange === 'month' ? '月度' : timeRange === 'quarter' ? '季度' : '年度';
+
   return (
     <div className="min-h-screen bg-gray-50 p-4">
       {/* 页面头部 */}
@@ -388,12 +392,17 @@ export default function SalesDashboard() {
           {/* 目标 */}
           <Card className="bg-white border border-gray-200">
             <CardContent className="p-1">
-              <div className="flex items-center gap-1 text-xs font-medium text-gray-500">
-                <Target className="w-2.5 h-2.5 text-blue-500 flex-shrink-0" />
-                <span>目标</span>
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-1 text-xs font-medium text-gray-500">
+                  <Target className="w-2.5 h-2.5 text-blue-500 flex-shrink-0" />
+                  <span>{timeRangeLabel}目标</span>
+                </div>
+                <span className="text-xs font-medium text-blue-600 bg-blue-50 px-1.5 py-0.5 rounded">
+                  {timeRange === 'month' ? '1月' : timeRange === 'quarter' ? 'Q1' : '2026'}
+                </span>
               </div>
               <div className="mt-1 flex items-baseline gap-0.5">
-                <span className="text-3xl font-bold text-gray-900 leading-tight">1,428</span>
+                <span className="text-3xl font-bold text-gray-900 leading-tight">{currentRangeData.target.toLocaleString()}</span>
                 <span className="text-xs text-gray-400">万元</span>
               </div>
             </CardContent>
@@ -402,9 +411,9 @@ export default function SalesDashboard() {
           {/* 已完成 */}
           <Card className="bg-white border border-gray-200">
             <CardContent className="p-1">
-              <div className="text-xs font-medium text-gray-500">已完成</div>
+              <div className="text-xs font-medium text-gray-500">{timeRangeLabel}已完成</div>
               <div className="mt-1 flex items-baseline gap-0.5">
-                <span className="text-3xl font-bold text-gray-900 leading-tight">677</span>
+                <span className="text-3xl font-bold text-gray-900 leading-tight">{currentRangeData.completed.toLocaleString()}</span>
                 <span className="text-xs text-gray-400">万元</span>
               </div>
               <div className="flex items-center gap-0.5 text-xs text-red-600 mt-0.5">
@@ -419,7 +428,7 @@ export default function SalesDashboard() {
             <CardContent className="p-1">
               <div className="text-xs font-medium text-gray-500">未来预计完成</div>
               <div className="mt-1 flex items-baseline gap-0.5">
-                <span className="text-3xl font-bold text-green-600 leading-tight">650.3</span>
+                <span className="text-3xl font-bold text-green-600 leading-tight">{currentRangeData.predicted.toLocaleString()}</span>
                 <span className="text-xs text-gray-400">万元</span>
               </div>
               <div className="flex items-center gap-0.5 text-xs text-red-600 mt-0.5">
@@ -437,7 +446,7 @@ export default function SalesDashboard() {
                 <span>任务缺口</span>
               </div>
               <div className="mt-1 flex items-baseline gap-0.5">
-                <span className="text-3xl font-bold text-red-600 leading-tight">777.7</span>
+                <span className="text-3xl font-bold text-red-600 leading-tight">{currentRangeData.gap.toLocaleString()}</span>
                 <span className="text-xs text-gray-400">万元</span>
               </div>
               <div className="flex items-center gap-0.5 text-xs text-gray-500 mt-0.5">
