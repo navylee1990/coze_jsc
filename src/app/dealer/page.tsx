@@ -193,9 +193,9 @@ export default function DealerDashboard() {
           <div className="flex flex-col xl:flex-row gap-3">
             {/* KPI卡片 */}
             <div className="xl:w-2/5">
-              <div className="flex flex-nowrap gap-1.5 overflow-x-auto pb-1">
+              <div className="grid grid-cols-7 gap-1.5">
                 {/* 目标金额 */}
-                <Card className="bg-white border-2 border-green-200 flex-shrink-0 min-w-[100px]">
+                <Card className="bg-white border-2 border-green-200">
                   <CardContent className="p-1">
                     <div className="flex items-center justify-between">
                       <div className="flex items-center gap-1 text-xs font-medium text-gray-500">
@@ -214,7 +214,7 @@ export default function DealerDashboard() {
                 </Card>
 
                 {/* 已提货金额 */}
-                <Card className="bg-white border-2 border-teal-200 flex-shrink-0 min-w-[100px]">
+                <Card className="bg-white border-2 border-teal-200">
                   <CardContent className="p-1">
                     <div className="flex items-center gap-1 text-xs font-medium text-gray-500">
                       <Truck className="w-2.5 h-2.5 text-teal-500" />
@@ -232,7 +232,7 @@ export default function DealerDashboard() {
                 </Card>
 
                 {/* 达成率 */}
-                <Card className="bg-white border-2 border-blue-200 flex-shrink-0 min-w-[100px]">
+                <Card className="bg-white border-2 border-blue-200">
                   <CardContent className="p-1">
                     <div className="flex items-center gap-1 text-xs font-medium text-gray-500">
                       <Award className="w-2.5 h-2.5 text-blue-500" />
@@ -250,7 +250,7 @@ export default function DealerDashboard() {
                 </Card>
 
                 {/* 终端用户数量 */}
-                <Card className="bg-white border-2 border-purple-200 flex-shrink-0 min-w-[100px]">
+                <Card className="bg-white border-2 border-purple-200">
                   <CardContent className="p-1">
                     <div className="flex items-center gap-1 text-xs font-medium text-gray-500">
                       <Users className="w-2.5 h-2.5 text-purple-500" />
@@ -268,7 +268,7 @@ export default function DealerDashboard() {
                 </Card>
 
                 {/* 达成率排名 */}
-                <Card className="bg-white border-2 border-green-200 flex-shrink-0 min-w-[100px]">
+                <Card className="bg-white border-2 border-green-200">
                   <CardContent className="p-1">
                     <div className="flex items-center gap-1 text-xs font-medium text-gray-500">
                       <Award className="w-2.5 h-2.5 text-green-500" />
@@ -285,7 +285,7 @@ export default function DealerDashboard() {
                 </Card>
 
                 {/* 客户数量排名 */}
-                <Card className="bg-white border-2 border-emerald-200 flex-shrink-0 min-w-[100px]">
+                <Card className="bg-white border-2 border-emerald-200">
                   <CardContent className="p-1">
                     <div className="flex items-center gap-1 text-xs font-medium text-gray-500">
                       <Users className="w-2.5 h-2.5 text-emerald-500" />
@@ -302,7 +302,7 @@ export default function DealerDashboard() {
                 </Card>
 
                 {/* 综合竞争力 */}
-                <Card className="bg-white border-2 border-blue-200 flex-shrink-0 min-w-[100px]">
+                <Card className="bg-white border-2 border-blue-200">
                   <CardContent className="p-1">
                     <div className="flex items-center gap-1 text-xs font-medium text-gray-500">
                       <Sparkles className="w-2.5 h-2.5 text-blue-500" />
@@ -426,22 +426,6 @@ export default function DealerDashboard() {
                       </div>
                     ))}
                   </div>
-
-                  {/* AI 智能洞察 */}
-                  <div className="p-2.5 bg-gradient-to-r from-blue-50 to-cyan-50 rounded-lg border border-blue-100">
-                    <div className="flex items-start gap-2">
-                      <Lightbulb className="w-4 h-4 text-blue-600 flex-shrink-0 mt-0.5" />
-                      <div className="flex-1">
-                        <div className="text-xs font-semibold text-blue-900 mb-1">AI 智能洞察</div>
-                        <div className="text-xs text-gray-700 leading-relaxed">
-                          细分市场中，{marketSegmentData.find(m => m.achievementRate === Math.max(...marketSegmentData.map(s => s.achievementRate)))?.name}表现最佳（达成率{Math.max(...marketSegmentData.map(s => s.achievementRate)).toFixed(1)}%，同比增长{marketSegmentData.find(m => m.achievementRate === Math.max(...marketSegmentData.map(s => s.achievementRate)))?.growthRate}%），
-                          而{marketSegmentData.find(m => m.achievementRate === Math.min(...marketSegmentData.map(s => s.achievementRate)))?.name}需加强（达成率仅{Math.min(...marketSegmentData.map(s => s.achievementRate)).toFixed(1)}%）。
-                          建议加大对{marketSegmentData.find(m => m.achievementRate === Math.min(...marketSegmentData.map(s => s.achievementRate)))?.name}的资源投入，
-                          同时巩固{marketSegmentData.find(m => m.achievementRate === Math.max(...marketSegmentData.map(s => s.achievementRate)))?.name}的优势地位。
-                        </div>
-                      </div>
-                    </div>
-                  </div>
                 </CardContent>
               </Card>
             </div>
@@ -514,22 +498,6 @@ export default function DealerDashboard() {
                     />
                   </LineChart>
                 </ResponsiveContainer>
-              </div>
-
-              {/* AI 智能洞察 */}
-              <div className="p-2.5 bg-gradient-to-r from-green-50 to-emerald-50 rounded-lg border border-green-100">
-                <div className="flex items-start gap-2">
-                  <Sparkles className="w-4 h-4 text-green-600 flex-shrink-0 mt-0.5" />
-                  <div className="flex-1">
-                    <div className="text-xs font-semibold text-green-900 mb-1">AI 智能洞察</div>
-                    <div className="text-xs text-gray-700 leading-relaxed">
-                      今年1-8月累计达成{monthlyTrendData[7].cumulative}万元，完成年度目标的{((monthlyTrendData[7].cumulative / projectReserveData.totalTarget) * 100).toFixed(1)}%。
-                      6月表现最佳（{monthlyTrendData[5].actual}万元），超出月度目标{((monthlyTrendData[5].actual / monthlyTrendData[5].target - 1) * 100).toFixed(1)}%。
-                      按当前进度，预计全年可达成{Math.round(projectReserveData.totalAchieved / 8 * 12)}万元，完成率约{((projectReserveData.totalAchieved / 8 * 12) / projectReserveData.totalTarget * 100).toFixed(1)}%。
-                      建议在9-12月重点推进高概率储备项目，力争达成{projectReserveData.totalTarget}万元年度目标。
-                    </div>
-                  </div>
-                </div>
               </div>
             </CardContent>
           </Card>
