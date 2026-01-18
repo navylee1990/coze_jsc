@@ -193,9 +193,9 @@ export default function DealerDashboard() {
           <div className="flex flex-col xl:flex-row gap-3">
             {/* KPI卡片 */}
             <div className="xl:w-2/5">
-              <div className="grid grid-cols-3 sm:grid-cols-4 gap-1.5">
+              <div className="flex flex-nowrap gap-1.5 overflow-x-auto pb-1">
                 {/* 目标金额 */}
-                <Card className="bg-white border-2 border-green-200 col-span-1">
+                <Card className="bg-white border-2 border-green-200 flex-shrink-0 min-w-[100px]">
                   <CardContent className="p-1">
                     <div className="flex items-center justify-between">
                       <div className="flex items-center gap-1 text-xs font-medium text-gray-500">
@@ -214,7 +214,7 @@ export default function DealerDashboard() {
                 </Card>
 
                 {/* 已提货金额 */}
-                <Card className="bg-white border-2 border-teal-200 col-span-1">
+                <Card className="bg-white border-2 border-teal-200 flex-shrink-0 min-w-[100px]">
                   <CardContent className="p-1">
                     <div className="flex items-center gap-1 text-xs font-medium text-gray-500">
                       <Truck className="w-2.5 h-2.5 text-teal-500" />
@@ -232,7 +232,7 @@ export default function DealerDashboard() {
                 </Card>
 
                 {/* 达成率 */}
-                <Card className="bg-white border-2 border-blue-200 col-span-1">
+                <Card className="bg-white border-2 border-blue-200 flex-shrink-0 min-w-[100px]">
                   <CardContent className="p-1">
                     <div className="flex items-center gap-1 text-xs font-medium text-gray-500">
                       <Award className="w-2.5 h-2.5 text-blue-500" />
@@ -250,7 +250,7 @@ export default function DealerDashboard() {
                 </Card>
 
                 {/* 终端用户数量 */}
-                <Card className="bg-white border-2 border-purple-200 col-span-1">
+                <Card className="bg-white border-2 border-purple-200 flex-shrink-0 min-w-[100px]">
                   <CardContent className="p-1">
                     <div className="flex items-center gap-1 text-xs font-medium text-gray-500">
                       <Users className="w-2.5 h-2.5 text-purple-500" />
@@ -268,7 +268,7 @@ export default function DealerDashboard() {
                 </Card>
 
                 {/* 达成率排名 */}
-                <Card className="bg-white border-2 border-green-200 col-span-1">
+                <Card className="bg-white border-2 border-green-200 flex-shrink-0 min-w-[100px]">
                   <CardContent className="p-1">
                     <div className="flex items-center gap-1 text-xs font-medium text-gray-500">
                       <Award className="w-2.5 h-2.5 text-green-500" />
@@ -285,7 +285,7 @@ export default function DealerDashboard() {
                 </Card>
 
                 {/* 客户数量排名 */}
-                <Card className="bg-white border-2 border-emerald-200 col-span-1">
+                <Card className="bg-white border-2 border-emerald-200 flex-shrink-0 min-w-[100px]">
                   <CardContent className="p-1">
                     <div className="flex items-center gap-1 text-xs font-medium text-gray-500">
                       <Users className="w-2.5 h-2.5 text-emerald-500" />
@@ -302,7 +302,7 @@ export default function DealerDashboard() {
                 </Card>
 
                 {/* 综合竞争力 */}
-                <Card className="bg-white border-2 border-blue-200 col-span-1">
+                <Card className="bg-white border-2 border-blue-200 flex-shrink-0 min-w-[100px]">
                   <CardContent className="p-1">
                     <div className="flex items-center gap-1 text-xs font-medium text-gray-500">
                       <Sparkles className="w-2.5 h-2.5 text-blue-500" />
