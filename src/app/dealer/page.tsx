@@ -479,178 +479,98 @@ export default function DealerDashboard() {
                 </CardTitle>
               </CardHeader>
               <CardContent className="pt-0 px-3 pb-3">
-                <div className="grid grid-cols-1 lg:grid-cols-3 gap-3">
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
                   {/* 达成率排名 */}
-                  <div className="bg-white rounded-lg p-3 border border-gray-200">
-                    <h4 className="text-sm font-semibold text-gray-700 mb-2 flex items-center gap-2">
-                      <Award className="w-4 h-4 text-green-500" />
-                      达成率排名
-                    </h4>
-                    <div className="space-y-1.5">
-                      {peerComparisonData.achievementRateRanking.map((item) => (
-                        <div
-                          key={item.rank}
-                          className={`flex items-center gap-2 p-2 rounded-lg ${
-                            item.rank <= 3 ? 'bg-gradient-to-r from-green-50 to-emerald-50' : 'bg-gray-50'
-                          } ${peerComparisonData.comprehensiveCompetitiveness.myDealer.name === item.dealerName ? 'border-2 border-blue-400' : ''}`}
-                        >
-                          <div className={`flex-shrink-0 w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold ${
-                            item.rank === 1 ? 'bg-gradient-to-br from-yellow-400 to-yellow-500 text-white' :
-                            item.rank === 2 ? 'bg-gradient-to-br from-gray-300 to-gray-400 text-white' :
-                            item.rank === 3 ? 'bg-gradient-to-br from-orange-400 to-orange-500 text-white' :
-                            'bg-gray-200 text-gray-600'
-                          }`}>
-                            {item.rank}
-                          </div>
-                          <div className="flex-1 min-w-0">
-                            <div className="text-xs font-medium text-gray-700 truncate">{item.dealerName}</div>
-                            <div className="flex items-center gap-1 mt-0.5">
-                              <div className="flex-1 h-1.5 bg-gray-200 rounded-full overflow-hidden">
-                                <div
-                                  className="h-full bg-green-500 rounded-full"
-                                  style={{ width: `${item.achievementRate}%` }}
-                                />
-                              </div>
-                              <span className="text-xs font-bold text-green-600 whitespace-nowrap">
-                                {item.achievementRate.toFixed(1)}%
-                              </span>
-                            </div>
-                          </div>
-                        </div>
-                      ))}
+                  <div className="bg-gradient-to-br from-green-50 to-emerald-50 rounded-lg p-2 border border-green-200">
+                    <div className="flex items-center gap-2 mb-1">
+                      <Award className="w-3.5 h-3.5 text-green-600" />
+                      <span className="text-xs font-medium text-gray-700">达成率排名</span>
+                    </div>
+                    <div className="flex items-baseline gap-1">
+                      <span className="text-2xl font-bold text-green-600">
+                        {peerComparisonData.comprehensiveCompetitiveness.myDealer.rank}
+                      </span>
+                      <span className="text-xs text-gray-600">名</span>
+                    </div>
+                    <div className="flex items-center gap-1 mt-1">
+                      <span className="text-xs text-gray-600">达成率</span>
+                      <span className="text-sm font-bold text-green-600">
+                        {peerComparisonData.comprehensiveCompetitiveness.myDealer.indicators.achievementRate.toFixed(1)}%
+                      </span>
+                    </div>
+                    <div className="text-xs text-gray-500 mt-0.5">
+                      同行平均 68.5%
                     </div>
                   </div>
 
                   {/* 客户数量排名 */}
-                  <div className="bg-white rounded-lg p-3 border border-gray-200">
-                    <h4 className="text-sm font-semibold text-gray-700 mb-2 flex items-center gap-2">
-                      <Users className="w-4 h-4 text-green-500" />
-                      客户数量排名
-                    </h4>
-                    <div className="space-y-1.5">
-                      {peerComparisonData.customerCountRanking.map((item) => (
-                        <div
-                          key={item.rank}
-                          className={`flex items-center gap-2 p-2 rounded-lg ${
-                            item.rank <= 3 ? 'bg-gradient-to-r from-green-50 to-emerald-50' : 'bg-gray-50'
-                          } ${peerComparisonData.comprehensiveCompetitiveness.myDealer.name === item.dealerName ? 'border-2 border-blue-400' : ''}`}
-                        >
-                          <div className={`flex-shrink-0 w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold ${
-                            item.rank === 1 ? 'bg-gradient-to-br from-yellow-400 to-yellow-500 text-white' :
-                            item.rank === 2 ? 'bg-gradient-to-br from-gray-300 to-gray-400 text-white' :
-                            item.rank === 3 ? 'bg-gradient-to-br from-orange-400 to-orange-500 text-white' :
-                            'bg-gray-200 text-gray-600'
-                          }`}>
-                            {item.rank}
-                          </div>
-                          <div className="flex-1 min-w-0">
-                            <div className="flex items-center justify-between">
-                              <div className="text-xs font-medium text-gray-700 truncate">{item.dealerName}</div>
-                              <div className="text-xs font-bold text-green-600">
-                                {item.customerCount.toLocaleString()}个
-                              </div>
-                            </div>
-                            <div className="flex items-center gap-2 mt-0.5 text-xs text-gray-500">
-                              <span className="text-green-600">+{item.newCustomers}</span>
-                              <span>增长率 {item.growthRate.toFixed(1)}%</span>
-                            </div>
-                          </div>
-                        </div>
-                      ))}
+                  <div className="bg-gradient-to-br from-green-50 to-emerald-50 rounded-lg p-2 border border-green-200">
+                    <div className="flex items-center gap-2 mb-1">
+                      <Users className="w-3.5 h-3.5 text-green-600" />
+                      <span className="text-xs font-medium text-gray-700">客户数量排名</span>
+                    </div>
+                    <div className="flex items-baseline gap-1">
+                      <span className="text-2xl font-bold text-green-600">
+                        {peerComparisonData.comprehensiveCompetitiveness.myDealer.rank}
+                      </span>
+                      <span className="text-xs text-gray-600">名</span>
+                    </div>
+                    <div className="flex items-center gap-1 mt-1">
+                      <span className="text-xs text-gray-600">客户数</span>
+                      <span className="text-sm font-bold text-green-600">
+                        {peerComparisonData.customerCountRanking.find(d => d.dealerName === peerComparisonData.comprehensiveCompetitiveness.myDealer.name)?.customerCount.toLocaleString() || '5120'}
+                      </span>
+                      <span className="text-xs text-gray-600">个</span>
+                    </div>
+                    <div className="text-xs text-gray-500 mt-0.5">
+                      新增 +298 | 增长率 6.2%
                     </div>
                   </div>
 
                   {/* 综合竞争力 */}
-                  <div className="bg-gradient-to-br from-green-50 to-emerald-50 rounded-lg p-3 border border-green-200">
-                    <h4 className="text-sm font-semibold text-gray-700 mb-2 flex items-center gap-2">
-                      <Sparkles className="w-4 h-4 text-green-500" />
-                      综合竞争力
-                    </h4>
-
-                    {/* 我的排名 */}
-                    <div className="bg-white rounded-lg p-3 mb-3 border-2 border-blue-400 shadow-sm">
-                      <div className="flex items-center justify-between mb-2">
-                        <div className="flex items-center gap-2">
-                          <div className="w-8 h-8 bg-gradient-to-br from-blue-500 to-blue-600 rounded-full flex items-center justify-center text-white font-bold text-sm">
-                            {peerComparisonData.comprehensiveCompetitiveness.myDealer.rank}
-                          </div>
-                          <div>
-                            <div className="text-sm font-bold text-gray-900">我的排名</div>
-                            <div className="text-xs text-gray-500">{peerComparisonData.comprehensiveCompetitiveness.myDealer.name}</div>
-                          </div>
-                        </div>
-                        <div className="text-right">
-                          <div className="text-2xl font-bold text-blue-600">
-                            {peerComparisonData.comprehensiveCompetitiveness.myDealer.score}
-                          </div>
-                          <div className="text-xs text-gray-500">综合得分</div>
-                        </div>
-                      </div>
-
-                      {/* 维度指标 */}
-                      <div className="grid grid-cols-2 gap-2">
-                        <div className="text-center p-2 bg-gray-50 rounded-lg">
-                          <div className="text-xs text-gray-500 mb-0.5">达成率</div>
-                          <div className="text-sm font-bold text-green-600">
-                            {peerComparisonData.comprehensiveCompetitiveness.myDealer.indicators.achievementRate.toFixed(1)}%
-                          </div>
-                        </div>
-                        <div className="text-center p-2 bg-gray-50 rounded-lg">
-                          <div className="text-xs text-gray-500 mb-0.5">客户满意度</div>
-                          <div className="text-sm font-bold text-green-600">
-                            {peerComparisonData.comprehensiveCompetitiveness.myDealer.indicators.customerSatisfaction.toFixed(1)}
-                          </div>
-                        </div>
-                        <div className="text-center p-2 bg-gray-50 rounded-lg">
-                          <div className="text-xs text-gray-500 mb-0.5">市场份额</div>
-                          <div className="text-sm font-bold text-green-600">
-                            {peerComparisonData.comprehensiveCompetitiveness.myDealer.indicators.marketShare.toFixed(1)}%
-                          </div>
-                        </div>
-                        <div className="text-center p-2 bg-gray-50 rounded-lg">
-                          <div className="text-xs text-gray-500 mb-0.5">增长率</div>
-                          <div className="text-sm font-bold text-green-600">
-                            {peerComparisonData.comprehensiveCompetitiveness.myDealer.indicators.growthRate.toFixed(1)}%
-                          </div>
-                        </div>
-                      </div>
+                  <div className="bg-gradient-to-br from-blue-50 to-cyan-50 rounded-lg p-2 border border-blue-200">
+                    <div className="flex items-center gap-2 mb-1">
+                      <Sparkles className="w-3.5 h-3.5 text-blue-600" />
+                      <span className="text-xs font-medium text-gray-700">综合竞争力</span>
                     </div>
-
-                    {/* 前三名 */}
-                    <div className="space-y-1.5">
-                      <div className="text-xs font-medium text-gray-600 mb-1">TOP 3 代理商</div>
-                      {peerComparisonData.comprehensiveCompetitiveness.top3.map((item) => (
-                        <div
-                          key={item.rank}
-                          className="flex items-center gap-2 p-1.5 bg-white rounded-lg border border-gray-200"
-                        >
-                          <div className={`flex-shrink-0 w-5 h-5 rounded-full flex items-center justify-center text-xs font-bold ${
-                            item.rank === 1 ? 'bg-gradient-to-br from-yellow-400 to-yellow-500 text-white' :
-                            item.rank === 2 ? 'bg-gradient-to-br from-gray-300 to-gray-400 text-white' :
-                            'bg-gradient-to-br from-orange-400 to-orange-500 text-white'
-                          }`}>
-                            {item.rank}
-                          </div>
-                          <div className="flex-1">
-                            <div className="text-xs font-medium text-gray-700">{item.name}</div>
-                            <div className="text-xs text-gray-500">{item.highlight}</div>
-                          </div>
-                          <div className="text-xs font-bold text-green-600">
-                            {item.score}
-                          </div>
-                        </div>
-                      ))}
+                    <div className="flex items-baseline gap-1">
+                      <span className="text-2xl font-bold text-blue-600">
+                        {peerComparisonData.comprehensiveCompetitiveness.myDealer.score}
+                      </span>
+                      <span className="text-xs text-gray-600">分</span>
                     </div>
+                    <div className="flex items-center gap-1 mt-1">
+                      <span className="text-xs text-gray-600">排名</span>
+                      <span className="text-sm font-bold text-blue-600">
+                        {peerComparisonData.comprehensiveCompetitiveness.myDealer.rank}
+                      </span>
+                      <span className="text-xs text-gray-600">/ 7</span>
+                    </div>
+                    <div className="text-xs text-gray-500 mt-0.5">
+                      满意度 88.5% | 增长 18.5%
+                    </div>
+                  </div>
 
-                    {/* AI洞察 */}
-                    <div className="mt-2 p-2 bg-white rounded-lg border border-green-200">
-                      <div className="flex items-start gap-2">
-                        <Lightbulb className="w-3.5 h-3.5 text-yellow-500 flex-shrink-0 mt-0.5" />
-                        <div className="text-xs text-gray-700 leading-relaxed">
-                          <span className="font-semibold">竞争力分析：</span>
-                          您在<span className="text-green-600 font-semibold">客户满意度</span>和<span className="text-green-600 font-semibold">增长率</span>方面表现优秀，但<span className="text-orange-600 font-semibold">达成率</span>和<span className="text-orange-600 font-semibold">市场份额</span>有待提升。建议加强市场推广和项目储备，向TOP 3学习。
-                        </div>
-                      </div>
+                  {/* 市场份额 */}
+                  <div className="bg-gradient-to-br from-amber-50 to-yellow-50 rounded-lg p-2 border border-amber-200">
+                    <div className="flex items-center gap-2 mb-1">
+                      <TrendingUp className="w-3.5 h-3.5 text-amber-600" />
+                      <span className="text-xs font-medium text-gray-700">市场份额</span>
+                    </div>
+                    <div className="flex items-baseline gap-1">
+                      <span className="text-2xl font-bold text-amber-600">
+                        {peerComparisonData.comprehensiveCompetitiveness.myDealer.indicators.marketShare}
+                      </span>
+                      <span className="text-xs text-gray-600">%</span>
+                    </div>
+                    <div className="flex items-center gap-1 mt-1">
+                      <span className="text-xs text-gray-600">同比增长</span>
+                      <span className="text-sm font-bold text-green-600">
+                        +{peerComparisonData.comprehensiveCompetitiveness.myDealer.indicators.growthRate.toFixed(1)}%
+                      </span>
+                    </div>
+                    <div className="text-xs text-gray-500 mt-0.5">
+                      TOP 1: 18.2%
                     </div>
                   </div>
                 </div>
@@ -678,178 +598,98 @@ export default function DealerDashboard() {
                 </CardTitle>
               </CardHeader>
               <CardContent className="pt-0 px-3 pb-3">
-                <div className="grid grid-cols-1 lg:grid-cols-3 gap-3">
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
                   {/* 达成率排名 */}
-                  <div className="bg-white rounded-lg p-3 border border-gray-200">
-                    <h4 className="text-sm font-semibold text-gray-700 mb-2 flex items-center gap-2">
-                      <Award className="w-4 h-4 text-green-500" />
-                      达成率排名
-                    </h4>
-                    <div className="space-y-1.5">
-                      {peerComparisonData.achievementRateRanking.map((item) => (
-                        <div
-                          key={item.rank}
-                          className={`flex items-center gap-2 p-2 rounded-lg ${
-                            item.rank <= 3 ? 'bg-gradient-to-r from-green-50 to-emerald-50' : 'bg-gray-50'
-                          } ${peerComparisonData.comprehensiveCompetitiveness.myDealer.name === item.dealerName ? 'border-2 border-blue-400' : ''}`}
-                        >
-                          <div className={`flex-shrink-0 w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold ${
-                            item.rank === 1 ? 'bg-gradient-to-br from-yellow-400 to-yellow-500 text-white' :
-                            item.rank === 2 ? 'bg-gradient-to-br from-gray-300 to-gray-400 text-white' :
-                            item.rank === 3 ? 'bg-gradient-to-br from-orange-400 to-orange-500 text-white' :
-                            'bg-gray-200 text-gray-600'
-                          }`}>
-                            {item.rank}
-                          </div>
-                          <div className="flex-1 min-w-0">
-                            <div className="text-xs font-medium text-gray-700 truncate">{item.dealerName}</div>
-                            <div className="flex items-center gap-1 mt-0.5">
-                              <div className="flex-1 h-1.5 bg-gray-200 rounded-full overflow-hidden">
-                                <div
-                                  className="h-full bg-green-500 rounded-full"
-                                  style={{ width: `${item.achievementRate}%` }}
-                                />
-                              </div>
-                              <span className="text-xs font-bold text-green-600 whitespace-nowrap">
-                                {item.achievementRate.toFixed(1)}%
-                              </span>
-                            </div>
-                          </div>
-                        </div>
-                      ))}
+                  <div className="bg-gradient-to-br from-green-50 to-emerald-50 rounded-lg p-2 border border-green-200">
+                    <div className="flex items-center gap-2 mb-1">
+                      <Award className="w-3.5 h-3.5 text-green-600" />
+                      <span className="text-xs font-medium text-gray-700">达成率排名</span>
+                    </div>
+                    <div className="flex items-baseline gap-1">
+                      <span className="text-2xl font-bold text-green-600">
+                        {peerComparisonData.comprehensiveCompetitiveness.myDealer.rank}
+                      </span>
+                      <span className="text-xs text-gray-600">名</span>
+                    </div>
+                    <div className="flex items-center gap-1 mt-1">
+                      <span className="text-xs text-gray-600">达成率</span>
+                      <span className="text-sm font-bold text-green-600">
+                        {peerComparisonData.comprehensiveCompetitiveness.myDealer.indicators.achievementRate.toFixed(1)}%
+                      </span>
+                    </div>
+                    <div className="text-xs text-gray-500 mt-0.5">
+                      同行平均 68.5%
                     </div>
                   </div>
 
                   {/* 客户数量排名 */}
-                  <div className="bg-white rounded-lg p-3 border border-gray-200">
-                    <h4 className="text-sm font-semibold text-gray-700 mb-2 flex items-center gap-2">
-                      <Users className="w-4 h-4 text-green-500" />
-                      客户数量排名
-                    </h4>
-                    <div className="space-y-1.5">
-                      {peerComparisonData.customerCountRanking.map((item) => (
-                        <div
-                          key={item.rank}
-                          className={`flex items-center gap-2 p-2 rounded-lg ${
-                            item.rank <= 3 ? 'bg-gradient-to-r from-green-50 to-emerald-50' : 'bg-gray-50'
-                          } ${peerComparisonData.comprehensiveCompetitiveness.myDealer.name === item.dealerName ? 'border-2 border-blue-400' : ''}`}
-                        >
-                          <div className={`flex-shrink-0 w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold ${
-                            item.rank === 1 ? 'bg-gradient-to-br from-yellow-400 to-yellow-500 text-white' :
-                            item.rank === 2 ? 'bg-gradient-to-br from-gray-300 to-gray-400 text-white' :
-                            item.rank === 3 ? 'bg-gradient-to-br from-orange-400 to-orange-500 text-white' :
-                            'bg-gray-200 text-gray-600'
-                          }`}>
-                            {item.rank}
-                          </div>
-                          <div className="flex-1 min-w-0">
-                            <div className="flex items-center justify-between">
-                              <div className="text-xs font-medium text-gray-700 truncate">{item.dealerName}</div>
-                              <div className="text-xs font-bold text-green-600">
-                                {item.customerCount.toLocaleString()}个
-                              </div>
-                            </div>
-                            <div className="flex items-center gap-2 mt-0.5 text-xs text-gray-500">
-                              <span className="text-green-600">+{item.newCustomers}</span>
-                              <span>增长率 {item.growthRate.toFixed(1)}%</span>
-                            </div>
-                          </div>
-                        </div>
-                      ))}
+                  <div className="bg-gradient-to-br from-green-50 to-emerald-50 rounded-lg p-2 border border-green-200">
+                    <div className="flex items-center gap-2 mb-1">
+                      <Users className="w-3.5 h-3.5 text-green-600" />
+                      <span className="text-xs font-medium text-gray-700">客户数量排名</span>
+                    </div>
+                    <div className="flex items-baseline gap-1">
+                      <span className="text-2xl font-bold text-green-600">
+                        {peerComparisonData.comprehensiveCompetitiveness.myDealer.rank}
+                      </span>
+                      <span className="text-xs text-gray-600">名</span>
+                    </div>
+                    <div className="flex items-center gap-1 mt-1">
+                      <span className="text-xs text-gray-600">客户数</span>
+                      <span className="text-sm font-bold text-green-600">
+                        {peerComparisonData.customerCountRanking.find(d => d.dealerName === peerComparisonData.comprehensiveCompetitiveness.myDealer.name)?.customerCount.toLocaleString() || '5120'}
+                      </span>
+                      <span className="text-xs text-gray-600">个</span>
+                    </div>
+                    <div className="text-xs text-gray-500 mt-0.5">
+                      新增 +298 | 增长率 6.2%
                     </div>
                   </div>
 
                   {/* 综合竞争力 */}
-                  <div className="bg-gradient-to-br from-green-50 to-emerald-50 rounded-lg p-3 border border-green-200">
-                    <h4 className="text-sm font-semibold text-gray-700 mb-2 flex items-center gap-2">
-                      <Sparkles className="w-4 h-4 text-green-500" />
-                      综合竞争力
-                    </h4>
-
-                    {/* 我的排名 */}
-                    <div className="bg-white rounded-lg p-3 mb-3 border-2 border-blue-400 shadow-sm">
-                      <div className="flex items-center justify-between mb-2">
-                        <div className="flex items-center gap-2">
-                          <div className="w-8 h-8 bg-gradient-to-br from-blue-500 to-blue-600 rounded-full flex items-center justify-center text-white font-bold text-sm">
-                            {peerComparisonData.comprehensiveCompetitiveness.myDealer.rank}
-                          </div>
-                          <div>
-                            <div className="text-sm font-bold text-gray-900">我的排名</div>
-                            <div className="text-xs text-gray-500">{peerComparisonData.comprehensiveCompetitiveness.myDealer.name}</div>
-                          </div>
-                        </div>
-                        <div className="text-right">
-                          <div className="text-2xl font-bold text-blue-600">
-                            {peerComparisonData.comprehensiveCompetitiveness.myDealer.score}
-                          </div>
-                          <div className="text-xs text-gray-500">综合得分</div>
-                        </div>
-                      </div>
-
-                      {/* 维度指标 */}
-                      <div className="grid grid-cols-2 gap-2">
-                        <div className="text-center p-2 bg-gray-50 rounded-lg">
-                          <div className="text-xs text-gray-500 mb-0.5">达成率</div>
-                          <div className="text-sm font-bold text-green-600">
-                            {peerComparisonData.comprehensiveCompetitiveness.myDealer.indicators.achievementRate.toFixed(1)}%
-                          </div>
-                        </div>
-                        <div className="text-center p-2 bg-gray-50 rounded-lg">
-                          <div className="text-xs text-gray-500 mb-0.5">客户满意度</div>
-                          <div className="text-sm font-bold text-green-600">
-                            {peerComparisonData.comprehensiveCompetitiveness.myDealer.indicators.customerSatisfaction.toFixed(1)}
-                          </div>
-                        </div>
-                        <div className="text-center p-2 bg-gray-50 rounded-lg">
-                          <div className="text-xs text-gray-500 mb-0.5">市场份额</div>
-                          <div className="text-sm font-bold text-green-600">
-                            {peerComparisonData.comprehensiveCompetitiveness.myDealer.indicators.marketShare.toFixed(1)}%
-                          </div>
-                        </div>
-                        <div className="text-center p-2 bg-gray-50 rounded-lg">
-                          <div className="text-xs text-gray-500 mb-0.5">增长率</div>
-                          <div className="text-sm font-bold text-green-600">
-                            {peerComparisonData.comprehensiveCompetitiveness.myDealer.indicators.growthRate.toFixed(1)}%
-                          </div>
-                        </div>
-                      </div>
+                  <div className="bg-gradient-to-br from-blue-50 to-cyan-50 rounded-lg p-2 border border-blue-200">
+                    <div className="flex items-center gap-2 mb-1">
+                      <Sparkles className="w-3.5 h-3.5 text-blue-600" />
+                      <span className="text-xs font-medium text-gray-700">综合竞争力</span>
                     </div>
-
-                    {/* 前三名 */}
-                    <div className="space-y-1.5">
-                      <div className="text-xs font-medium text-gray-600 mb-1">TOP 3 代理商</div>
-                      {peerComparisonData.comprehensiveCompetitiveness.top3.map((item) => (
-                        <div
-                          key={item.rank}
-                          className="flex items-center gap-2 p-1.5 bg-white rounded-lg border border-gray-200"
-                        >
-                          <div className={`flex-shrink-0 w-5 h-5 rounded-full flex items-center justify-center text-xs font-bold ${
-                            item.rank === 1 ? 'bg-gradient-to-br from-yellow-400 to-yellow-500 text-white' :
-                            item.rank === 2 ? 'bg-gradient-to-br from-gray-300 to-gray-400 text-white' :
-                            'bg-gradient-to-br from-orange-400 to-orange-500 text-white'
-                          }`}>
-                            {item.rank}
-                          </div>
-                          <div className="flex-1">
-                            <div className="text-xs font-medium text-gray-700">{item.name}</div>
-                            <div className="text-xs text-gray-500">{item.highlight}</div>
-                          </div>
-                          <div className="text-xs font-bold text-green-600">
-                            {item.score}
-                          </div>
-                        </div>
-                      ))}
+                    <div className="flex items-baseline gap-1">
+                      <span className="text-2xl font-bold text-blue-600">
+                        {peerComparisonData.comprehensiveCompetitiveness.myDealer.score}
+                      </span>
+                      <span className="text-xs text-gray-600">分</span>
                     </div>
+                    <div className="flex items-center gap-1 mt-1">
+                      <span className="text-xs text-gray-600">排名</span>
+                      <span className="text-sm font-bold text-blue-600">
+                        {peerComparisonData.comprehensiveCompetitiveness.myDealer.rank}
+                      </span>
+                      <span className="text-xs text-gray-600">/ 7</span>
+                    </div>
+                    <div className="text-xs text-gray-500 mt-0.5">
+                      满意度 88.5% | 增长 18.5%
+                    </div>
+                  </div>
 
-                    {/* AI洞察 */}
-                    <div className="mt-2 p-2 bg-white rounded-lg border border-green-200">
-                      <div className="flex items-start gap-2">
-                        <Lightbulb className="w-3.5 h-3.5 text-yellow-500 flex-shrink-0 mt-0.5" />
-                        <div className="text-xs text-gray-700 leading-relaxed">
-                          <span className="font-semibold">竞争力分析：</span>
-                          您在<span className="text-green-600 font-semibold">客户满意度</span>和<span className="text-green-600 font-semibold">增长率</span>方面表现优秀，但<span className="text-orange-600 font-semibold">达成率</span>和<span className="text-orange-600 font-semibold">市场份额</span>有待提升。建议加强市场推广和项目储备，向TOP 3学习。
-                        </div>
-                      </div>
+                  {/* 市场份额 */}
+                  <div className="bg-gradient-to-br from-amber-50 to-yellow-50 rounded-lg p-2 border border-amber-200">
+                    <div className="flex items-center gap-2 mb-1">
+                      <TrendingUp className="w-3.5 h-3.5 text-amber-600" />
+                      <span className="text-xs font-medium text-gray-700">市场份额</span>
+                    </div>
+                    <div className="flex items-baseline gap-1">
+                      <span className="text-2xl font-bold text-amber-600">
+                        {peerComparisonData.comprehensiveCompetitiveness.myDealer.indicators.marketShare}
+                      </span>
+                      <span className="text-xs text-gray-600">%</span>
+                    </div>
+                    <div className="flex items-center gap-1 mt-1">
+                      <span className="text-xs text-gray-600">同比增长</span>
+                      <span className="text-sm font-bold text-green-600">
+                        +{peerComparisonData.comprehensiveCompetitiveness.myDealer.indicators.growthRate.toFixed(1)}%
+                      </span>
+                    </div>
+                    <div className="text-xs text-gray-500 mt-0.5">
+                      TOP 1: 18.2%
                     </div>
                   </div>
                 </div>
