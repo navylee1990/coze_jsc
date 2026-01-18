@@ -1,8 +1,9 @@
 'use client';
 
 import { useState } from 'react';
-import { ArrowUp, ArrowDown, TrendingUp, Activity, Target, Heart, Shield, Users, DollarSign, PieChart, Package, Award, Sparkles, TrendingDown, Search, FileText, CheckCircle, Truck } from 'lucide-react';
+import { ArrowUp, ArrowDown, TrendingUp, AlertTriangle, Activity, Target, Heart, Shield, Users, DollarSign, PieChart, Package, Award, Sparkles, Lightbulb, TrendingDown, Search, FileText, CheckCircle, Truck } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs';
 import Link from 'next/link';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, LineChart, Line } from 'recharts';
 
@@ -114,6 +115,7 @@ const peerComparisonData = {
 };
 
 export default function DealerDashboard() {
+  const [activeTab, setActiveTab] = useState('overview');
   const [timeRange, setTimeRange] = useState('month');
 
   // 获取当前时间范围的数据
@@ -160,8 +162,26 @@ export default function DealerDashboard() {
         </select>
       </div>
 
-      {/* 经营总览标题 */}
-      <div className="mb-3 flex items-center gap-4">
+      {/* Tab页 */}
+      <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
+        <TabsList className="w-full mb-3 h-10 bg-white border border-gray-200 rounded-xl shadow-sm p-1">
+          <TabsTrigger value="overview" className="flex-1 h-8 rounded-lg data-[state=active]:bg-gradient-to-r data-[state=active]:from-green-500 data-[state=active]:to-emerald-600 data-[state=active]:text-white data-[state=active]:shadow-md transition-all duration-200">
+            <span className="flex items-center gap-2">
+              <Activity className="w-4 h-4" />
+              年度目标达成
+            </span>
+          </TabsTrigger>
+          <TabsTrigger value="risks" className="flex-1 h-8 rounded-lg data-[state=active]:bg-gradient-to-r data-[state=active]:from-green-500 data-[state=active]:to-emerald-600 data-[state=active]:text-white data-[state=active]:shadow-md transition-all duration-200">
+            <span className="flex items-center gap-2">
+              <AlertTriangle className="w-4 h-4" />
+              风险预警
+            </span>
+          </TabsTrigger>
+        </TabsList>
+
+        <TabsContent value="overview">
+          {/* 经营总览标题 */}
+          <div className="mb-3 flex items-center gap-4">
             <h2 className="text-base font-semibold text-gray-900 flex items-center gap-1.5">
               <Activity className="w-4 h-4" />
               {timeRangeLabel}目标达成情况
@@ -380,6 +400,44 @@ export default function DealerDashboard() {
               </CardHeader>
               <CardContent className="pt-0 px-3 pb-3 flex-1">
                 <div className="space-y-2">
+                  {/* AI智能洞察 */}
+                  <div className="bg-gradient-to-r from-green-50 to-emerald-50 rounded-xl p-3.5 border border-green-100">
+                    <div className="flex items-start gap-3">
+                      <div className="flex-shrink-0 w-10 h-10 bg-gradient-to-br from-green-500 to-emerald-600 rounded-xl flex items-center justify-center">
+                        <Sparkles className="w-5 h-5 text-white" />
+                      </div>
+                      <div className="flex-1">
+                        <h3 className="text-sm font-semibold text-gray-900 mb-2 flex items-center gap-2">
+                          AI智能洞察
+                          <span className="inline-flex items-center gap-1 px-2 py-0.5 bg-green-100 text-green-700 rounded-full text-xs">
+                            <Sparkles className="w-2.5 h-2.5" />
+                            自动分析
+                          </span>
+                        </h3>
+                        <div className="space-y-1.5">
+                          <div className="flex items-start gap-2">
+                            <Lightbulb className="w-3.5 h-3.5 text-yellow-500 flex-shrink-0 mt-0.5" />
+                            <p className="text-xs text-gray-700 leading-relaxed">
+                              整体呈现<span className="font-semibold text-green-600">上升趋势</span>，从年初46.4%提升至66.0%，<span className="font-semibold">8月表现最佳</span>（达成率68.8%）
+                            </p>
+                          </div>
+                          <div className="flex items-start gap-2">
+                            <Activity className="w-3.5 h-3.5 text-green-500 flex-shrink-0 mt-0.5" />
+                            <p className="text-xs text-gray-700 leading-relaxed">
+                              Q2-Q3稳定向好，连续7个月达成率超60%，<span className="font-semibold text-orange-600">Q1需关注</span>（3个月均未达标）
+                            </p>
+                          </div>
+                          <div className="flex items-start gap-2">
+                            <Target className="w-3.5 h-3.5 text-emerald-500 flex-shrink-0 mt-0.5" />
+                            <p className="text-xs text-gray-700 leading-relaxed">
+                              建议：加强Q1前期项目储备，目标将年均达成率提升至<span className="font-semibold text-green-600">70%以上</span>
+                            </p>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
                   {/* 折线图 */}
                   <div className="bg-white rounded-lg p-3 border border-gray-200">
                     <div className="flex items-center justify-between mb-3">
@@ -519,6 +577,18 @@ export default function DealerDashboard() {
             </Card>
           </div>
           </div>
+        </TabsContent>
+
+        <TabsContent value="risks">
+          <div className="flex items-center justify-center py-20 text-gray-400">
+            <div className="text-center">
+              <AlertTriangle className="w-16 h-16 mx-auto mb-4 opacity-50" />
+              <p className="text-lg font-medium">风险预警</p>
+              <p className="text-sm mt-1">数据准备中...</p>
+            </div>
+          </div>
+        </TabsContent>
+      </Tabs>
     </div>
   );
 }
