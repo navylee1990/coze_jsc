@@ -7,17 +7,38 @@ import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs';
 import Link from 'next/link';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, LineChart, Line } from 'recharts';
 
-// 模拟数据
-const kpiData = {
-  annualTarget: 15000,
-  completedAmount: 8250,
-  shippedAmount: 7500,
-  achievementRate: 55.0,
-  projectReserveCount: 85,
-  projectReserveAmount: 3200,
-  currentMonthActual: 825,
-  peerAvgToMonth: 780,
-  totalProjectCount: 142,
+// 模拟数据 - 不同时间维度
+const timeRangeData = {
+  month: {
+    target: 1250,
+    completed: 720,
+    shipped: 650,
+    achievementRate: 57.6,
+    projectReserveCount: 12,
+    projectReserveAmount: 320,
+    currentMonthActual: 720,
+    peerAvgToMonth: 650,
+  },
+  quarter: {
+    target: 3750,
+    completed: 2160,
+    shipped: 1950,
+    achievementRate: 57.6,
+    projectReserveCount: 35,
+    projectReserveAmount: 960,
+    currentMonthActual: 825,
+    peerAvgToMonth: 780,
+  },
+  year: {
+    target: 15000,
+    completed: 8250,
+    shipped: 7500,
+    achievementRate: 55.0,
+    projectReserveCount: 85,
+    projectReserveAmount: 3200,
+    currentMonthActual: 825,
+    peerAvgToMonth: 780,
+  },
 };
 
 // 月度趋势数据
@@ -54,6 +75,11 @@ const achievementRanking = [
 
 export default function DealerDashboard() {
   const [activeTab, setActiveTab] = useState('overview');
+  const [timeRange, setTimeRange] = useState('month');
+
+  // 获取当前时间范围的数据
+  const currentRangeData = timeRangeData[timeRange as keyof typeof timeRangeData];
+  const timeRangeLabel = timeRange === 'month' ? '月度' : timeRange === 'quarter' ? '季度' : '年度';
 
   return (
     <div className="min-h-screen bg-gray-50 p-4">
@@ -74,23 +100,37 @@ export default function DealerDashboard() {
             <button className="px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50">
               刷新数据
             </button>
-            <button className="px-4 py-2 text-sm font-medium text-white bg-blue-600 rounded-lg hover:bg-blue-700">
+            <button className="px-4 py-2 text-sm font-medium text-white bg-green-600 rounded-lg hover:bg-green-700">
               导出报告
             </button>
           </div>
         </div>
       </header>
 
+      {/* 筛选器 */}
+      <div className="mb-3 flex items-center gap-4 bg-white p-3 rounded-lg border border-gray-200">
+        <span className="text-sm font-medium text-gray-700">时间范围：</span>
+        <select
+          value={timeRange}
+          onChange={(e) => setTimeRange(e.target.value)}
+          className="px-3 py-1.5 text-sm border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500"
+        >
+          <option value="month">月度</option>
+          <option value="quarter">季度</option>
+          <option value="year">年度</option>
+        </select>
+      </div>
+
       {/* Tab页 */}
       <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
         <TabsList className="w-full mb-3 h-10 bg-white border border-gray-200 rounded-xl shadow-sm p-1">
-          <TabsTrigger value="overview" className="flex-1 h-8 rounded-lg data-[state=active]:bg-gradient-to-r data-[state=active]:from-blue-500 data-[state=active]:to-indigo-600 data-[state=active]:text-white data-[state=active]:shadow-md transition-all duration-200">
+          <TabsTrigger value="overview" className="flex-1 h-8 rounded-lg data-[state=active]:bg-gradient-to-r data-[state=active]:from-green-500 data-[state=active]:to-emerald-600 data-[state=active]:text-white data-[state=active]:shadow-md transition-all duration-200">
             <span className="flex items-center gap-2">
               <Activity className="w-4 h-4" />
               年度目标达成
             </span>
           </TabsTrigger>
-          <TabsTrigger value="risks" className="flex-1 h-8 rounded-lg data-[state=active]:bg-gradient-to-r data-[state=active]:from-blue-500 data-[state=active]:to-indigo-600 data-[state=active]:text-white data-[state=active]:shadow-md transition-all duration-200">
+          <TabsTrigger value="risks" className="flex-1 h-8 rounded-lg data-[state=active]:bg-gradient-to-r data-[state=active]:from-green-500 data-[state=active]:to-emerald-600 data-[state=active]:text-white data-[state=active]:shadow-md transition-all duration-200">
             <span className="flex items-center gap-2">
               <AlertTriangle className="w-4 h-4" />
               风险预警
@@ -103,14 +143,14 @@ export default function DealerDashboard() {
           <div className="mb-3 flex items-center gap-4">
             <h2 className="text-base font-semibold text-gray-900 flex items-center gap-1.5">
               <Activity className="w-4 h-4" />
-              年度目标达成情况
+              {timeRangeLabel}目标达成情况
             </h2>
             <div className="flex items-center gap-4">
               {/* 达成率 */}
               <div className="flex items-center gap-2 px-3 py-1.5 bg-white rounded-lg border border-gray-200 shadow-sm">
-                <Award className="w-4 h-4 text-blue-500" />
+                <Award className="w-4 h-4 text-green-500" />
                 <span className="text-sm text-gray-700">达成率</span>
-                <span className="text-sm font-bold text-blue-600">{kpiData.achievementRate}%</span>
+                <span className="text-sm font-bold text-green-600">{currentRangeData.achievementRate.toFixed(1)}%</span>
               </div>
               {/* 健康度 */}
               <div className="flex items-center gap-2 px-3 py-1.5 bg-white rounded-lg border border-gray-200 shadow-sm">
@@ -122,98 +162,89 @@ export default function DealerDashboard() {
           </div>
 
           {/* KPI卡片 */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-2">
-            {/* 年度目标金额 */}
-            <Card className="bg-white border-2 border-indigo-200">
-              <CardContent className="p-2.5">
+          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-1.5">
+            {/* 目标金额 */}
+            <Card className="bg-white border-2 border-green-200">
+              <CardContent className="p-1">
                 <div className="flex items-center justify-between">
-                  <div className="flex items-center gap-1.5 text-sm font-medium text-gray-500">
-                    <Target className="w-3 h-3 text-indigo-500" />
-                    <span>年度目标</span>
+                  <div className="flex items-center gap-1 text-xs font-medium text-gray-500">
+                    <Target className="w-2.5 h-2.5 text-green-500" />
+                    <span>{timeRangeLabel}目标</span>
                   </div>
+                  <span className="text-xs font-medium text-green-600 bg-green-50 px-1.5 py-0.5 rounded">
+                    {timeRange === 'month' ? '1月' : timeRange === 'quarter' ? 'Q1' : '2026'}
+                  </span>
                 </div>
-                <div className="mt-2 flex items-baseline gap-1">
-                  <span className="text-3xl font-bold text-gray-900">{kpiData.annualTarget.toLocaleString()}</span>
-                  <span className="text-sm text-gray-400">万元</span>
+                <div className="mt-1 flex items-baseline gap-0.5">
+                  <span className="text-3xl font-bold text-gray-900 leading-tight">{currentRangeData.target.toLocaleString()}</span>
+                  <span className="text-xs text-gray-400">万元</span>
                 </div>
-                <div className="mt-1 text-xs text-gray-500">2026年度</div>
               </CardContent>
             </Card>
 
             {/* 已完成金额 */}
-            <Card className="bg-white border-2 border-blue-200">
-              <CardContent className="p-2.5">
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center gap-1.5 text-sm font-medium text-gray-500">
-                    <DollarSign className="w-3 h-3 text-blue-500" />
-                    <span>已完成</span>
-                  </div>
+            <Card className="bg-white border-2 border-green-200">
+              <CardContent className="p-1">
+                <div className="text-xs font-medium text-gray-500">{timeRangeLabel}已完成</div>
+                <div className="mt-1 flex items-baseline gap-0.5">
+                  <span className="text-3xl font-bold text-green-600 leading-tight">{currentRangeData.completed.toLocaleString()}</span>
+                  <span className="text-xs text-gray-400">万元</span>
                 </div>
-                <div className="mt-2 flex items-baseline gap-1">
-                  <span className="text-3xl font-bold text-blue-600">{kpiData.completedAmount.toLocaleString()}</span>
-                  <span className="text-sm text-gray-400">万元</span>
-                </div>
-                <div className="flex items-center gap-1 text-sm text-green-600 mt-1">
-                  <ArrowUp className="w-3 h-3" />
+                <div className="flex items-center gap-0.5 text-xs text-green-600 mt-0.5">
+                  <ArrowUp className="w-2 h-2" />
                   <span>较上月+156万</span>
                 </div>
               </CardContent>
             </Card>
 
             {/* 已提货金额 */}
-            <Card className="bg-white border-2 border-green-200">
-              <CardContent className="p-2.5">
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center gap-1.5 text-sm font-medium text-gray-500">
-                    <Package className="w-3 h-3 text-green-500" />
-                    <span>已提货</span>
-                  </div>
+            <Card className="bg-white border-2 border-teal-200">
+              <CardContent className="p-1">
+                <div className="flex items-center gap-1 text-xs font-medium text-gray-500">
+                  <Package className="w-2.5 h-2.5 text-teal-500" />
+                  <span>已提货</span>
                 </div>
-                <div className="mt-2 flex items-baseline gap-1">
-                  <span className="text-3xl font-bold text-green-600">{kpiData.shippedAmount.toLocaleString()}</span>
-                  <span className="text-sm text-gray-400">万元</span>
+                <div className="mt-1 flex items-baseline gap-0.5">
+                  <span className="text-3xl font-bold text-teal-600 leading-tight">{currentRangeData.shipped.toLocaleString()}</span>
+                  <span className="text-xs text-gray-400">万元</span>
                 </div>
-                <div className="flex items-center gap-1 text-sm text-gray-500 mt-1">
-                  <span className="text-xs">库存金额 {kpiData.completedAmount - kpiData.shippedAmount}万</span>
+                <div className="text-xs text-gray-500 mt-0.5">
+                  库存 {currentRangeData.completed - currentRangeData.shipped}万
                 </div>
               </CardContent>
             </Card>
 
             {/* 项目储备 */}
             <Card className="bg-white border-2 border-orange-200">
-              <CardContent className="p-2.5">
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center gap-1.5 text-sm font-medium text-gray-500">
-                    <Package className="w-3 h-3 text-orange-500" />
-                    <span>项目储备</span>
-                  </div>
+              <CardContent className="p-1">
+                <div className="flex items-center gap-1 text-xs font-medium text-gray-500">
+                  <Package className="w-2.5 h-2.5 text-orange-500" />
+                  <span>项目储备</span>
                 </div>
-                <div className="mt-2 flex items-baseline gap-1">
-                  <span className="text-3xl font-bold text-orange-600">{kpiData.projectReserveCount}</span>
-                  <span className="text-sm text-gray-400">个</span>
+                <div className="mt-1 flex items-baseline gap-0.5">
+                  <span className="text-3xl font-bold text-orange-600 leading-tight">{currentRangeData.projectReserveCount}</span>
+                  <span className="text-xs text-gray-400">个</span>
                 </div>
-                <div className="flex items-center gap-1 text-sm text-orange-600 mt-1">
-                  <span className="text-xs font-medium">¥{kpiData.projectReserveAmount.toLocaleString()}万</span>
+                <div className="text-xs text-orange-600 font-medium mt-0.5">
+                  ¥{currentRangeData.projectReserveAmount.toLocaleString()}万
                 </div>
               </CardContent>
             </Card>
 
             {/* 本月实际完成 */}
             <Card className="bg-white border-2 border-red-200">
-              <CardContent className="p-2.5">
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center gap-1.5 text-sm font-medium text-gray-500">
-                    <Activity className="w-3 h-3 text-red-500" />
-                    <span>本月完成</span>
-                  </div>
+              <CardContent className="p-1">
+                <div className="flex items-center gap-1 text-xs font-medium text-gray-500">
+                  <Activity className="w-2.5 h-2.5 text-red-500" />
+                  <span>本月完成</span>
                 </div>
-                <div className="mt-2 flex items-baseline gap-1">
-                  <span className="text-3xl font-bold text-red-600">{kpiData.currentMonthActual}</span>
-                  <span className="text-sm text-gray-400">万元</span>
+                <div className="mt-1 flex items-baseline gap-0.5">
+                  <span className="text-3xl font-bold text-red-600 leading-tight">{currentRangeData.currentMonthActual}</span>
+                  <span className="text-xs text-gray-400">万元</span>
                 </div>
-                <div className="flex items-center gap-1 text-sm text-green-600 mt-1">
-                  <ArrowUp className="w-3 h-3" />
-                  <span>超同规模{Math.round((kpiData.currentMonthActual - kpiData.peerAvgToMonth) / kpiData.peerAvgToMonth * 100)}%</span>
+                <div className="flex items-center gap-0.5 text-xs text-green-600 mt-0.5">
+                  <ArrowUp className="w-2 h-2" />
+                  <span>超同规模{Math.round((currentRangeData.currentMonthActual - currentRangeData.peerAvgToMonth) / currentRangeData.peerAvgToMonth * 100)}%</span>
                 </div>
               </CardContent>
             </Card>
@@ -223,25 +254,25 @@ export default function DealerDashboard() {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-3 mt-3">
             {/* 月度趋势分析模块 - 左侧 */}
             <div className="lg:col-span-1 h-full">
-            <Card className="border-2 border-blue-200 h-full flex flex-col">
+            <Card className="border-2 border-green-200 h-full flex flex-col">
               <CardHeader className="py-2 px-3 pb-0">
                 <CardTitle className="text-sm font-semibold flex items-center gap-1.5">
-                  <TrendingUp className="w-3.5 h-3.5 text-blue-500" />
+                  <TrendingUp className="w-3.5 h-3.5 text-green-500" />
                   月度趋势分析
                 </CardTitle>
               </CardHeader>
               <CardContent className="pt-0 px-3 pb-3 flex-1">
                 <div className="space-y-2">
                   {/* AI智能洞察 */}
-                  <div className="bg-gradient-to-r from-indigo-50 to-blue-50 rounded-xl p-3.5 border border-indigo-100">
+                  <div className="bg-gradient-to-r from-green-50 to-emerald-50 rounded-xl p-3.5 border border-green-100">
                     <div className="flex items-start gap-3">
-                      <div className="flex-shrink-0 w-10 h-10 bg-gradient-to-br from-indigo-500 to-blue-600 rounded-xl flex items-center justify-center">
+                      <div className="flex-shrink-0 w-10 h-10 bg-gradient-to-br from-green-500 to-emerald-600 rounded-xl flex items-center justify-center">
                         <Sparkles className="w-5 h-5 text-white" />
                       </div>
                       <div className="flex-1">
                         <h3 className="text-sm font-semibold text-gray-900 mb-2 flex items-center gap-2">
                           AI智能洞察
-                          <span className="inline-flex items-center gap-1 px-2 py-0.5 bg-blue-100 text-blue-700 rounded-full text-xs">
+                          <span className="inline-flex items-center gap-1 px-2 py-0.5 bg-green-100 text-green-700 rounded-full text-xs">
                             <Sparkles className="w-2.5 h-2.5" />
                             自动分析
                           </span>
@@ -254,13 +285,13 @@ export default function DealerDashboard() {
                             </p>
                           </div>
                           <div className="flex items-start gap-2">
-                            <Activity className="w-3.5 h-3.5 text-blue-500 flex-shrink-0 mt-0.5" />
+                            <Activity className="w-3.5 h-3.5 text-green-500 flex-shrink-0 mt-0.5" />
                             <p className="text-xs text-gray-700 leading-relaxed">
                               Q2-Q3稳定向好，连续7个月达成率超60%，<span className="font-semibold text-orange-600">Q1需关注</span>（3个月均未达标）
                             </p>
                           </div>
                           <div className="flex items-start gap-2">
-                            <Target className="w-3.5 h-3.5 text-indigo-500 flex-shrink-0 mt-0.5" />
+                            <Target className="w-3.5 h-3.5 text-emerald-500 flex-shrink-0 mt-0.5" />
                             <p className="text-xs text-gray-700 leading-relaxed">
                               建议：加强Q1前期项目储备，目标将年均达成率提升至<span className="font-semibold text-green-600">70%以上</span>
                             </p>
@@ -274,7 +305,7 @@ export default function DealerDashboard() {
                   <div className="bg-white rounded-lg p-3 border border-gray-200">
                     <div className="flex items-center justify-between mb-3">
                       <h4 className="text-sm font-semibold text-gray-700 flex items-center gap-2">
-                        <Activity className="w-4 h-4 text-blue-500" />
+                        <Activity className="w-4 h-4 text-green-500" />
                         达成率趋势折线图
                       </h4>
                       <span className="text-xs text-gray-500">年度平均：{(monthlyTrendData.reduce((sum, item) => sum + item.achievement, 0) / monthlyTrendData.length).toFixed(1)}%</span>
@@ -309,10 +340,10 @@ export default function DealerDashboard() {
                         <Line
                           type="monotone"
                           dataKey="achievement"
-                          stroke="#3B82F6"
+                          stroke="#22C55E"
                           strokeWidth={2}
-                          dot={{ fill: '#3B82F6', strokeWidth: 2, r: 3 }}
-                          activeDot={{ fill: '#3B82F6', strokeWidth: 2, r: 5 }}
+                          dot={{ fill: '#22C55E', strokeWidth: 2, r: 3 }}
+                          activeDot={{ fill: '#22C55E', strokeWidth: 2, r: 5 }}
                         />
                         <Line
                           type="monotone"
@@ -326,7 +357,7 @@ export default function DealerDashboard() {
                     </ResponsiveContainer>
                     <div className="mt-2 flex items-center justify-center gap-3 text-xs text-gray-500">
                       <span className="flex items-center gap-1">
-                        <span className="w-2 h-0.5 bg-blue-500"></span>
+                        <span className="w-2 h-0.5 bg-green-500"></span>
                         实际达成率
                       </span>
                       <span className="flex items-center gap-1">
@@ -342,10 +373,10 @@ export default function DealerDashboard() {
 
           {/* 项目阶段统计模块 - 右侧 */}
           <div className="lg:col-span-1 h-full">
-            <Card className="border-2 border-blue-200 h-full flex flex-col">
+            <Card className="border-2 border-green-200 h-full flex flex-col">
               <CardHeader className="py-2 px-3 pb-0">
                 <CardTitle className="text-sm font-semibold flex items-center gap-1.5">
-                  <Package className="w-3.5 h-3.5 text-blue-500" />
+                  <Package className="w-3.5 h-3.5 text-green-500" />
                   项目阶段统计
                 </CardTitle>
               </CardHeader>
