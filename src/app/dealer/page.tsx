@@ -100,6 +100,69 @@ const monthlyTrendData = [
   { month: '12月', target: 1250, actual: 0, cumulative: 7240 },
 ];
 
+// 项目预警数据
+const projectRiskData = [
+  {
+    id: 1,
+    projectName: 'XX大学智慧饮水项目',
+    customerName: 'XX大学',
+    amount: 280,
+    stage: '启动采购',
+    reason: '采购流程停滞超30天，预算可能被削减',
+    suggestion: '立即联系采购负责人了解最新情况，提供优惠方案，推进采购流程',
+    level: 'red',
+  },
+  {
+    id: 2,
+    projectName: 'AA高铁站饮水设备',
+    customerName: 'AA高铁站',
+    amount: 380,
+    stage: '项目报备',
+    reason: '竞争对手已提交低价方案，价格优势不足',
+    suggestion: '快速优化产品配置方案，强化服务优势，安排高层拜访',
+    level: 'yellow',
+  },
+  {
+    id: 3,
+    projectName: 'YY市政府办公饮水项目',
+    customerName: 'YY市政府',
+    amount: 450,
+    stage: '方案提交',
+    reason: '决策周期长，方案评审进度缓慢',
+    suggestion: '持续跟进评审进度，补充技术说明材料，安排专家答疑',
+    level: 'yellow',
+  },
+  {
+    id: 4,
+    projectName: 'ZZ医院饮水系统项目',
+    customerName: 'ZZ医院',
+    amount: 320,
+    stage: '初次拜访',
+    reason: '关键决策人更换，需重新建立关系',
+    suggestion: '快速了解新决策人背景和偏好，制定针对性拜访计划',
+    level: 'blue',
+  },
+  {
+    id: 5,
+    projectName: 'BB工业园水处理项目',
+    customerName: 'BB工业园',
+    amount: 520,
+    stage: '方案提交',
+    reason: '技术方案存在不确定因素，需进一步确认',
+    suggestion: '安排技术专家现场勘察，完善技术方案细节',
+    level: 'blue',
+  },
+  {
+    id: 6,
+    projectName: 'CC中学饮水设备项目',
+    customerName: 'CC中学',
+    amount: 180,
+    stage: '合同签署',
+    reason: '合同条款存在争议，签署时间可能延迟',
+    suggestion: '与法务部门协商，寻求折中方案，加快合同签署',
+    level: 'blue',
+  },
+];
 
 export default function DealerDashboard() {
   const [activeTab, setActiveTab] = useState('overview');
@@ -561,12 +624,108 @@ export default function DealerDashboard() {
         </TabsContent>
 
         <TabsContent value="risks">
-          <div className="flex items-center justify-center py-20 text-gray-400">
-            <div className="text-center">
-              <AlertTriangle className="w-16 h-16 mx-auto mb-4 opacity-50" />
-              <p className="text-lg font-medium">风险预警</p>
-              <p className="text-sm mt-1">数据准备中...</p>
+          {/* 风险预警标题 */}
+          <div className="mb-1 flex items-center gap-4">
+            <h2 className="text-base font-semibold text-gray-900 flex items-center gap-1.5">
+              <AlertTriangle className="w-4 h-4 text-red-500" />
+              项目预警
+            </h2>
+            <div className="flex items-center gap-4">
+              {/* 总项目数 */}
+              <div className="flex items-center gap-2 px-3 py-1.5 bg-white rounded-lg border border-gray-200 shadow-sm">
+                <FileText className="w-4 h-4 text-red-500" />
+                <span className="text-sm text-gray-700">预警项目</span>
+                <span className="text-sm font-bold text-red-600">{projectRiskData.length}个</span>
+              </div>
+              {/* 涉及金额 */}
+              <div className="flex items-center gap-2 px-3 py-1.5 bg-white rounded-lg border border-gray-200 shadow-sm">
+                <DollarSign className="w-4 h-4 text-red-500" />
+                <span className="text-sm text-gray-700">涉及金额</span>
+                <span className="text-sm font-bold text-red-600">¥{projectRiskData.reduce((sum, p) => sum + p.amount, 0).toLocaleString()}万</span>
+              </div>
             </div>
+          </div>
+
+          {/* 项目预警列表 */}
+          <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-3">
+            {projectRiskData.map((project) => (
+              <Card
+                key={project.id}
+                className={`border-2 ${
+                  project.level === 'red'
+                    ? 'border-red-300 hover:border-red-400 hover:shadow-lg hover:shadow-red-100/50'
+                    : project.level === 'yellow'
+                    ? 'border-yellow-300 hover:border-yellow-400 hover:shadow-lg hover:shadow-yellow-100/50'
+                    : 'border-blue-300 hover:border-blue-400 hover:shadow-lg hover:shadow-blue-100/50'
+                } transition-all duration-300`}
+              >
+                <CardContent className="p-3">
+                  {/* 项目名称和预警级别 */}
+                  <div className="flex items-start justify-between mb-2">
+                    <div className="flex-1">
+                      <h3 className="text-base font-bold text-gray-900 mb-1">{project.projectName}</h3>
+                      <div className="flex items-center gap-2">
+                        <span className="text-xs text-gray-500">客户：</span>
+                        <span className="text-xs font-medium text-gray-700">{project.customerName}</span>
+                      </div>
+                    </div>
+                    <div
+                      className={`px-2 py-1 rounded-full text-xs font-bold ${
+                        project.level === 'red'
+                          ? 'bg-red-100 text-red-700 border border-red-300'
+                          : project.level === 'yellow'
+                          ? 'bg-yellow-100 text-yellow-700 border border-yellow-300'
+                          : 'bg-blue-100 text-blue-700 border border-blue-300'
+                      }`}
+                    >
+                      {project.level === 'red' ? '红色预警' : project.level === 'yellow' ? '黄色预警' : '蓝色预警'}
+                    </div>
+                  </div>
+
+                  {/* 项目信息 */}
+                  <div className="grid grid-cols-2 gap-2 mb-2">
+                    <div className="flex items-center gap-1.5">
+                      <DollarSign className="w-3 h-3 text-gray-400" />
+                      <span className="text-xs text-gray-500">金额：</span>
+                      <span className="text-xs font-bold text-gray-900">¥{project.amount}万</span>
+                    </div>
+                    <div className="flex items-center gap-1.5">
+                      <Activity className="w-3 h-3 text-gray-400" />
+                      <span className="text-xs text-gray-500">阶段：</span>
+                      <span className="text-xs font-medium text-gray-900">{project.stage}</span>
+                    </div>
+                  </div>
+
+                  {/* 预警原因 */}
+                  <div className="mb-2 p-2 bg-gray-50 rounded-lg">
+                    <div className="flex items-start gap-1.5">
+                      <AlertTriangle className={`w-3.5 h-3.5 mt-0.5 flex-shrink-0 ${
+                        project.level === 'red'
+                          ? 'text-red-500'
+                          : project.level === 'yellow'
+                          ? 'text-yellow-500'
+                          : 'text-blue-500'
+                      }`} />
+                      <div>
+                        <span className="text-xs font-medium text-gray-700">预警原因：</span>
+                        <p className="text-xs text-gray-600 mt-0.5">{project.reason}</p>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* 建议措施 */}
+                  <div className="p-2 bg-gradient-to-r from-green-50 to-emerald-50 rounded-lg border border-green-200">
+                    <div className="flex items-start gap-1.5">
+                      <Lightbulb className="w-3.5 h-3.5 mt-0.5 flex-shrink-0 text-green-600" />
+                      <div>
+                        <span className="text-xs font-medium text-gray-700">建议措施：</span>
+                        <p className="text-xs text-gray-600 mt-0.5">{project.suggestion}</p>
+                      </div>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+            ))}
           </div>
         </TabsContent>
       </Tabs>
