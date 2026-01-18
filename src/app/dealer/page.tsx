@@ -317,149 +317,155 @@ export default function DealerDashboard() {
             </Card>
           </div>
 
-          {/* 细分市场业绩达成 */}
+          {/* 细分市场业绩达成与项目储备 */}
           <Card className="mb-3 bg-white border border-gray-200 shadow-sm">
             <CardHeader className="py-2.5 px-3">
               <CardTitle className="text-sm font-semibold text-gray-900 flex items-center gap-2">
                 <PieChart className="w-4 h-4 text-green-600" />
-                细分市场业绩达成
+                细分市场业绩达成与项目储备
               </CardTitle>
             </CardHeader>
             <CardContent className="p-2">
-              <div className="overflow-x-auto">
-                <table className="w-full text-sm">
-                  <thead>
-                    <tr className="border-b border-gray-200">
-                      <th className="py-2 px-2 text-left font-medium text-gray-600">市场名称</th>
-                      <th className="py-2 px-2 text-right font-medium text-gray-600">目标金额（万元）</th>
-                      <th className="py-2 px-2 text-right font-medium text-gray-600">已达成（万元）</th>
-                      <th className="py-2 px-2 text-right font-medium text-gray-600">达成率</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {marketSegmentData.map((segment, index) => (
-                      <tr key={index} className="border-b border-gray-100 hover:bg-gray-50">
-                        <td className="py-2 px-2 font-medium text-gray-900">{segment.name}</td>
-                        <td className="py-2 px-2 text-right text-gray-600">{segment.target.toLocaleString()}</td>
-                        <td className="py-2 px-2 text-right text-gray-600">{segment.achieved.toLocaleString()}</td>
-                        <td className="py-2 px-2 text-right">
-                          <div className="flex items-center justify-end gap-2">
-                            <div className="w-16 h-1.5 bg-gray-200 rounded-full overflow-hidden">
-                              <div
-                                className={`h-full rounded-full ${
-                                  segment.achievementRate >= 80 ? 'bg-green-500' :
-                                  segment.achievementRate >= 60 ? 'bg-emerald-500' :
-                                  segment.achievementRate >= 40 ? 'bg-orange-500' : 'bg-red-500'
-                                }`}
-                                style={{ width: `${segment.achievementRate}%` }}
-                              />
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-3">
+                {/* 左侧：细分市场业绩达成 */}
+                <div className="border border-gray-200 rounded-lg p-2">
+                  <h3 className="text-xs font-semibold text-gray-700 mb-2 flex items-center gap-1.5">
+                    <PieChart className="w-3.5 h-3.5 text-green-600" />
+                    细分市场业绩达成
+                  </h3>
+                  <div className="overflow-x-auto">
+                    <table className="w-full text-xs">
+                      <thead>
+                        <tr className="border-b border-gray-200">
+                          <th className="py-1.5 px-1.5 text-left font-medium text-gray-600">市场名称</th>
+                          <th className="py-1.5 px-1.5 text-right font-medium text-gray-600">目标</th>
+                          <th className="py-1.5 px-1.5 text-right font-medium text-gray-600">已达成</th>
+                          <th className="py-1.5 px-1.5 text-right font-medium text-gray-600">达成率</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {marketSegmentData.map((segment, index) => (
+                          <tr key={index} className="border-b border-gray-100 hover:bg-gray-50">
+                            <td className="py-1.5 px-1.5 font-medium text-gray-900">{segment.name}</td>
+                            <td className="py-1.5 px-1.5 text-right text-gray-600">{segment.target.toLocaleString()}</td>
+                            <td className="py-1.5 px-1.5 text-right text-gray-600">{segment.achieved.toLocaleString()}</td>
+                            <td className="py-1.5 px-1.5 text-right">
+                              <div className="flex items-center justify-end gap-1.5">
+                                <div className="w-12 h-1 bg-gray-200 rounded-full overflow-hidden">
+                                  <div
+                                    className={`h-full rounded-full ${
+                                      segment.achievementRate >= 80 ? 'bg-green-500' :
+                                      segment.achievementRate >= 60 ? 'bg-emerald-500' :
+                                      segment.achievementRate >= 40 ? 'bg-orange-500' : 'bg-red-500'
+                                    }`}
+                                    style={{ width: `${segment.achievementRate}%` }}
+                                  />
+                                </div>
+                                <span className={`font-medium ${
+                                  segment.achievementRate >= 80 ? 'text-green-600' :
+                                  segment.achievementRate >= 60 ? 'text-emerald-600' :
+                                  segment.achievementRate >= 40 ? 'text-orange-600' : 'text-red-600'
+                                }`}>
+                                  {segment.achievementRate.toFixed(1)}%
+                                </span>
+                              </div>
+                            </td>
+                          </tr>
+                        ))}
+                      </tbody>
+                      <tfoot className="bg-gray-50 font-semibold">
+                        <tr>
+                          <td className="py-1.5 px-1.5 text-gray-900">合计</td>
+                          <td className="py-1.5 px-1.5 text-right text-gray-900">{projectReserveData.totalTarget.toLocaleString()}</td>
+                          <td className="py-1.5 px-1.5 text-right text-gray-900">{projectReserveData.totalAchieved.toLocaleString()}</td>
+                          <td className="py-1.5 px-1.5 text-right text-green-600">
+                            {((projectReserveData.totalAchieved / projectReserveData.totalTarget) * 100).toFixed(1)}%
+                          </td>
+                        </tr>
+                      </tfoot>
+                    </table>
+                  </div>
+                </div>
+
+                {/* 右侧：项目储备分析 */}
+                <div className="border border-gray-200 rounded-lg p-2">
+                  <h3 className="text-xs font-semibold text-gray-700 mb-2 flex items-center gap-1.5">
+                    <Package className="w-3.5 h-3.5 text-green-600" />
+                    项目储备分析
+                  </h3>
+
+                  {/* 储备概览 */}
+                  <div className="grid grid-cols-2 gap-2 mb-2.5">
+                    <div className="bg-gradient-to-br from-green-50 to-emerald-50 rounded-lg p-2 border border-green-100">
+                      <div className="flex items-center justify-between mb-0.5">
+                        <span className="text-xs text-gray-600">年度缺口</span>
+                        <AlertTriangle className="w-3 h-3 text-orange-500" />
+                      </div>
+                      <div className="text-xl font-bold text-gray-900">{projectReserveData.gap.toLocaleString()}</div>
+                      <div className="text-xs text-gray-500">万元</div>
+                    </div>
+                    <div className="bg-gradient-to-br from-blue-50 to-cyan-50 rounded-lg p-2 border border-blue-100">
+                      <div className="flex items-center justify-between mb-0.5">
+                        <span className="text-xs text-gray-600">储备项目</span>
+                        <FileText className="w-3 h-3 text-blue-500" />
+                      </div>
+                      <div className="text-xl font-bold text-gray-900">{projectReserveData.reserveCount}</div>
+                      <div className="text-xs text-gray-500">个</div>
+                    </div>
+                    <div className="bg-gradient-to-br from-purple-50 to-pink-50 rounded-lg p-2 border border-purple-100">
+                      <div className="flex items-center justify-between mb-0.5">
+                        <span className="text-xs text-gray-600">储备金额</span>
+                        <DollarSign className="w-3 h-3 text-purple-500" />
+                      </div>
+                      <div className="text-xl font-bold text-gray-900">{projectReserveData.reserveAmount.toLocaleString()}</div>
+                      <div className="text-xs text-gray-500">万元</div>
+                    </div>
+                    <div className="bg-gradient-to-br from-teal-50 to-green-50 rounded-lg p-2 border border-teal-100">
+                      <div className="flex items-center justify-between mb-0.5">
+                        <span className="text-xs text-gray-600">储备率</span>
+                        <TrendingUp className="w-3 h-3 text-teal-500" />
+                      </div>
+                      <div className="text-xl font-bold text-gray-900">{projectReserveData.reserveRate.toFixed(1)}</div>
+                      <div className="text-xs text-gray-500">%</div>
+                    </div>
+                  </div>
+
+                  {/* 储备项目列表 */}
+                  <div className="space-y-1.5">
+                    <div className="text-xs font-medium text-gray-600">重点储备项目（TOP5）</div>
+                    {projectReserveData.projects.map((project, index) => (
+                      <div key={index} className="flex items-center justify-between p-1.5 bg-gray-50 rounded-lg border border-gray-100">
+                        <div className="flex-1 min-w-0">
+                          <div className="flex items-center gap-1.5">
+                            <div className="flex items-center justify-center w-4 h-4 bg-green-100 rounded-full text-xs font-bold text-green-700">
+                              {index + 1}
                             </div>
-                            <span className={`font-medium ${
-                              segment.achievementRate >= 80 ? 'text-green-600' :
-                              segment.achievementRate >= 60 ? 'text-emerald-600' :
-                              segment.achievementRate >= 40 ? 'text-orange-600' : 'text-red-600'
-                            }`}>
-                              {segment.achievementRate.toFixed(1)}%
-                            </span>
+                            <span className="text-xs font-medium text-gray-900 truncate">{project.name}</span>
                           </div>
-                        </td>
-                      </tr>
-                    ))}
-                  </tbody>
-                  <tfoot className="bg-gray-50 font-semibold">
-                    <tr>
-                      <td className="py-2 px-2 text-gray-900">合计</td>
-                      <td className="py-2 px-2 text-right text-gray-900">{projectReserveData.totalTarget.toLocaleString()}</td>
-                      <td className="py-2 px-2 text-right text-gray-900">{projectReserveData.totalAchieved.toLocaleString()}</td>
-                      <td className="py-2 px-2 text-right text-green-600">
-                        {((projectReserveData.totalAchieved / projectReserveData.totalTarget) * 100).toFixed(1)}%
-                      </td>
-                    </tr>
-                  </tfoot>
-                </table>
-              </div>
-            </CardContent>
-          </Card>
-
-          {/* 项目储备 */}
-          <Card className="mb-3 bg-white border border-gray-200 shadow-sm">
-            <CardHeader className="py-2.5 px-3">
-              <CardTitle className="text-sm font-semibold text-gray-900 flex items-center gap-2">
-                <Package className="w-4 h-4 text-green-600" />
-                项目储备分析
-              </CardTitle>
-            </CardHeader>
-            <CardContent className="p-2">
-              {/* 储备概览 */}
-              <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 mb-3">
-                <div className="bg-gradient-to-br from-green-50 to-emerald-50 rounded-lg p-2.5 border border-green-100">
-                  <div className="flex items-center justify-between mb-1">
-                    <span className="text-xs text-gray-600">年度缺口</span>
-                    <AlertTriangle className="w-3.5 h-3.5 text-orange-500" />
-                  </div>
-                  <div className="text-2xl font-bold text-gray-900">{projectReserveData.gap.toLocaleString()}</div>
-                  <div className="text-xs text-gray-500">万元</div>
-                </div>
-                <div className="bg-gradient-to-br from-blue-50 to-cyan-50 rounded-lg p-2.5 border border-blue-100">
-                  <div className="flex items-center justify-between mb-1">
-                    <span className="text-xs text-gray-600">储备项目</span>
-                    <FileText className="w-3.5 h-3.5 text-blue-500" />
-                  </div>
-                  <div className="text-2xl font-bold text-gray-900">{projectReserveData.reserveCount}</div>
-                  <div className="text-xs text-gray-500">个</div>
-                </div>
-                <div className="bg-gradient-to-br from-purple-50 to-pink-50 rounded-lg p-2.5 border border-purple-100">
-                  <div className="flex items-center justify-between mb-1">
-                    <span className="text-xs text-gray-600">储备金额</span>
-                    <DollarSign className="w-3.5 h-3.5 text-purple-500" />
-                  </div>
-                  <div className="text-2xl font-bold text-gray-900">{projectReserveData.reserveAmount.toLocaleString()}</div>
-                  <div className="text-xs text-gray-500">万元</div>
-                </div>
-                <div className="bg-gradient-to-br from-teal-50 to-green-50 rounded-lg p-2.5 border border-teal-100">
-                  <div className="flex items-center justify-between mb-1">
-                    <span className="text-xs text-gray-600">储备率</span>
-                    <TrendingUp className="w-3.5 h-3.5 text-teal-500" />
-                  </div>
-                  <div className="text-2xl font-bold text-gray-900">{projectReserveData.reserveRate.toFixed(1)}</div>
-                  <div className="text-xs text-gray-500">%</div>
-                </div>
-              </div>
-
-              {/* 储备项目列表 */}
-              <div className="space-y-2">
-                <div className="text-xs font-medium text-gray-600 mb-2">重点储备项目（TOP5）</div>
-                {projectReserveData.projects.map((project, index) => (
-                  <div key={index} className="flex items-center justify-between p-2 bg-gray-50 rounded-lg border border-gray-100">
-                    <div className="flex-1 min-w-0">
-                      <div className="flex items-center gap-2">
-                        <div className="flex items-center justify-center w-5 h-5 bg-green-100 rounded-full text-xs font-bold text-green-700">
-                          {index + 1}
+                          <div className="flex items-center gap-2 mt-0.5">
+                            <span className="text-xs text-gray-500">{project.stage}</span>
+                            <span className="text-xs font-medium text-green-600">{project.amount}万元</span>
+                          </div>
                         </div>
-                        <span className="text-sm font-medium text-gray-900 truncate">{project.name}</span>
+                        <div className="flex items-center gap-1.5 ml-1.5">
+                          <div className="w-10 h-1 bg-gray-200 rounded-full overflow-hidden">
+                            <div
+                              className={`h-full rounded-full ${
+                                project.probability >= 80 ? 'bg-green-500' :
+                                project.probability >= 60 ? 'bg-emerald-500' :
+                                'bg-orange-500'
+                              }`}
+                              style={{ width: `${project.probability}%` }}
+                            />
+                          </div>
+                          <span className="text-xs font-medium text-gray-700 w-8 text-right">
+                            {project.probability}%
+                          </span>
+                        </div>
                       </div>
-                      <div className="flex items-center gap-3 mt-1">
-                        <span className="text-xs text-gray-500">{project.stage}</span>
-                        <span className="text-xs font-medium text-green-600">{project.amount}万元</span>
-                      </div>
-                    </div>
-                    <div className="flex items-center gap-2 ml-2">
-                      <div className="w-12 h-1.5 bg-gray-200 rounded-full overflow-hidden">
-                        <div
-                          className={`h-full rounded-full ${
-                            project.probability >= 80 ? 'bg-green-500' :
-                            project.probability >= 60 ? 'bg-emerald-500' :
-                            'bg-orange-500'
-                          }`}
-                          style={{ width: `${project.probability}%` }}
-                        />
-                      </div>
-                      <span className="text-xs font-medium text-gray-700 w-10 text-right">
-                        {project.probability}%
-                      </span>
-                    </div>
+                    ))}
                   </div>
-                ))}
+                </div>
               </div>
 
               {/* AI 洞察 */}
@@ -470,6 +476,8 @@ export default function DealerDashboard() {
                     <div className="text-xs font-semibold text-blue-900 mb-1">AI 智能洞察</div>
                     <div className="text-xs text-gray-700 leading-relaxed">
                       当前项目储备率为{projectReserveData.reserveRate.toFixed(1)}%，距离完成年度目标还存在{projectReserveData.gap.toLocaleString()}万元缺口。
+                      细分市场中，{marketSegmentData.find(m => m.achievementRate === Math.max(...marketSegmentData.map(s => s.achievementRate)))?.name}表现最佳（达成率{Math.max(...marketSegmentData.map(s => s.achievementRate)).toFixed(1)}%），
+                      而{marketSegmentData.find(m => m.achievementRate === Math.min(...marketSegmentData.map(s => s.achievementRate)))?.name}需加强（达成率{Math.min(...marketSegmentData.map(s => s.achievementRate)).toFixed(1)}%）。
                       建议重点关注{projectReserveData.projects[0].name}和{projectReserveData.projects[1].name}这两个高概率项目，
                       加快推进{projectReserveData.projects[0].stage}和{projectReserveData.projects[1].stage}，
                       预计可带来{projectReserveData.projects[0].amount + projectReserveData.projects[1].amount}万元业绩。
