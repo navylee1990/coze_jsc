@@ -58,16 +58,6 @@ const kpiData = {
   needNewProjects: 777.7, // 1428 - 677 - (-26.7) = 777.7
   // 转化率
   conversionRate: 0.0, // -26.7 / 5600 * 100
-
-  // 项目储备相关数据
-  projectReserve: 1200,        // 当前储备项目金额（万元）
-  reserveGap: 1200,            // 储备缺口（万元）
-  reserveStatus: 'insufficient', // 储备状态：insufficient（不足）、adequate（充足）
-  
-  // 储备倒推相关数据
-  needDevelopProjects: 8,      // 需要开发的项目数量
-  needDevelopAmount: 777.7,    // 需要开发的项目金额（万元）
-  averageProjectValue: 97,     // 平均项目价值（万元）
 };
 
 // 不同时间维度的预测数据
@@ -394,7 +384,7 @@ export default function SalesDashboard() {
               </div>
             </div>
           </div>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-2">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-2">
           {/* 目标 */}
           <Card className="bg-white border border-gray-200">
             <CardContent className="p-2.5">
@@ -467,7 +457,7 @@ export default function SalesDashboard() {
                 <Database className="w-3 h-3 text-purple-500" />
               </div>
               <div className="mt-2 flex items-baseline gap-1">
-                <span className="text-3xl font-bold text-purple-600">{kpiData.projectReserve.toLocaleString()}</span>
+                <span className="text-3xl font-bold text-purple-600">1,200</span>
                 <span className="text-sm text-gray-400">万元</span>
               </div>
               <div className="mt-1 flex items-center justify-between">
@@ -475,28 +465,7 @@ export default function SalesDashboard() {
                   <AlertTriangle className="w-3 h-3" />
                   <span>储备不足</span>
                 </div>
-                <span className="text-sm text-gray-500">缺口¥{kpiData.reserveGap.toLocaleString()}万</span>
-              </div>
-            </CardContent>
-          </Card>
-
-          {/* 储备倒推 */}
-          <Card className="bg-white border-2 border-orange-300">
-            <CardContent className="p-2.5">
-              <div className="flex items-center justify-between">
-                <div className="text-sm font-medium text-gray-500">储备倒推</div>
-                <Clock className="w-3 h-3 text-orange-500" />
-              </div>
-              <div className="mt-2 flex items-baseline gap-1">
-                <span className="text-3xl font-bold text-orange-600">{kpiData.needDevelopProjects}</span>
-                <span className="text-sm text-gray-400">个项目</span>
-              </div>
-              <div className="mt-1 flex items-center justify-between">
-                <div className="flex items-center gap-1 text-sm text-orange-600 font-medium">
-                  <Target className="w-3 h-3" />
-                  <span>需开发</span>
-                </div>
-                <span className="text-sm text-gray-500">均值¥{kpiData.averageProjectValue}万</span>
+                <span className="text-sm text-gray-500">缺口¥1,200万</span>
               </div>
             </CardContent>
           </Card>
