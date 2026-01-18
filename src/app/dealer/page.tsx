@@ -323,7 +323,7 @@ export default function DealerDashboard() {
             {/* 细分市场业绩达成与项目储备 */}
             <div className="xl:w-3/5">
               <Card className="bg-white border border-gray-200 shadow-sm h-full">
-                <CardHeader className="py-2.5 px-3">
+                <CardHeader className="py-1.5 px-3">
                   <CardTitle className="text-sm font-semibold text-gray-900 flex items-center gap-2">
                     <PieChart className="w-4 h-4 text-green-600" />
                     细分市场业绩达成与项目储备
@@ -331,11 +331,11 @@ export default function DealerDashboard() {
                 </CardHeader>
                 <CardContent className="p-2">
                   {/* 细分市场卡片 - 横向一行展示 */}
-                  <div className="flex flex-nowrap gap-2 mb-3 overflow-x-auto pb-2">
+                  <div className="grid grid-cols-5 gap-2">
                     {marketSegmentData.map((segment, index) => (
                       <div
                         key={index}
-                        className="flex-shrink-0 min-w-[180px] p-3 bg-gradient-to-br from-white via-green-50/30 to-emerald-50/30 rounded-xl border-2 border-gray-200 hover:border-green-400 hover:shadow-lg hover:shadow-green-100/50 transition-all duration-300"
+                        className="p-2.5 bg-gradient-to-br from-white via-green-50/30 to-emerald-50/30 rounded-xl border-2 border-gray-200 hover:border-green-400 hover:shadow-lg hover:shadow-green-100/50 transition-all duration-300"
                         style={{ backgroundColor: index % 2 === 0 ? 'linear-gradient(135deg, #ffffff 0%, #f0fdf4 100%)' : 'linear-gradient(135deg, #ffffff 0%, #ecfdf5 100%)' }}
                       >
                         {/* 市场名称 */}
@@ -413,7 +413,7 @@ export default function DealerDashboard() {
                         </div>
 
                         {/* 项目储备 */}
-                        <div className="pt-2 border-t border-gray-300">
+                        <div className="pt-1.5 border-t border-gray-300">
                           <div className="flex items-center justify-between">
                             <span className="text-xs text-gray-500">项目储备</span>
                             <div className="text-right">
@@ -434,7 +434,7 @@ export default function DealerDashboard() {
 
           {/* 月度趋势分析 */}
           <Card className="mb-3 bg-white border border-gray-200 shadow-sm">
-            <CardHeader className="py-2.5 px-3">
+            <CardHeader className="py-1.5 px-3">
               <CardTitle className="text-sm font-semibold text-gray-900 flex items-center gap-2">
                 <TrendingUp className="w-4 h-4 text-green-600" />
                 月度趋势分析
