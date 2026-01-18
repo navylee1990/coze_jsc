@@ -189,232 +189,240 @@ export default function DealerDashboard() {
             </div>
           </div>
 
-          {/* KPI卡片 */}
-          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-1.5">
-            {/* 目标金额 */}
-            <Card className="bg-white border-2 border-green-200">
-              <CardContent className="p-1">
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center gap-1 text-xs font-medium text-gray-500">
-                    <Target className="w-2.5 h-2.5 text-green-500" />
-                    <span>{timeRangeLabel}目标</span>
+          {/* 横向布局：KPI卡片 + 细分市场 */}
+          <div className="flex flex-col xl:flex-row gap-3">
+            {/* KPI卡片 */}
+            <div className="xl:w-2/5">
+              <div className="grid grid-cols-3 sm:grid-cols-4 gap-1.5">
+                {/* 目标金额 */}
+                <Card className="bg-white border-2 border-green-200 col-span-1">
+                  <CardContent className="p-1">
+                    <div className="flex items-center justify-between">
+                      <div className="flex items-center gap-1 text-xs font-medium text-gray-500">
+                        <Target className="w-2.5 h-2.5 text-green-500" />
+                        <span>{timeRangeLabel}目标</span>
+                      </div>
+                      <span className="text-xs font-medium text-green-600 bg-green-50 px-1 py-0.5 rounded">
+                        {timeRange === 'month' ? '1月' : timeRange === 'quarter' ? 'Q1' : '2026'}
+                      </span>
+                    </div>
+                    <div className="mt-1 flex items-baseline gap-0.5">
+                      <span className="text-2xl font-bold text-gray-900 leading-tight">{currentRangeData.target.toLocaleString()}</span>
+                      <span className="text-xs text-gray-400">万元</span>
+                    </div>
+                  </CardContent>
+                </Card>
+
+                {/* 已提货金额 */}
+                <Card className="bg-white border-2 border-teal-200 col-span-1">
+                  <CardContent className="p-1">
+                    <div className="flex items-center gap-1 text-xs font-medium text-gray-500">
+                      <Truck className="w-2.5 h-2.5 text-teal-500" />
+                      <span>已提货</span>
+                    </div>
+                    <div className="mt-1 flex items-baseline gap-0.5">
+                      <span className="text-2xl font-bold text-teal-600 leading-tight">{currentRangeData.shipped.toLocaleString()}</span>
+                      <span className="text-xs text-gray-400">万元</span>
+                    </div>
+                    <div className="flex items-center gap-0.5 text-xs text-green-600 mt-0.5">
+                      <ArrowUp className="w-2 h-2" />
+                      <span>+126万</span>
+                    </div>
+                  </CardContent>
+                </Card>
+
+                {/* 达成率 */}
+                <Card className="bg-white border-2 border-blue-200 col-span-1">
+                  <CardContent className="p-1">
+                    <div className="flex items-center gap-1 text-xs font-medium text-gray-500">
+                      <Award className="w-2.5 h-2.5 text-blue-500" />
+                      <span>达成率</span>
+                    </div>
+                    <div className="mt-1 flex items-baseline gap-0.5">
+                      <span className="text-2xl font-bold text-blue-600 leading-tight">{currentRangeData.achievementRate.toFixed(1)}</span>
+                      <span className="text-xs text-gray-400">%</span>
+                    </div>
+                    <div className="flex items-center gap-0.5 text-xs text-orange-600 mt-0.5">
+                      <TrendingDown className="w-2 h-2" />
+                      <span>-{((100 - currentRangeData.achievementRate)).toFixed(1)}%</span>
+                    </div>
+                  </CardContent>
+                </Card>
+
+                {/* 终端用户数量 */}
+                <Card className="bg-white border-2 border-purple-200 col-span-1">
+                  <CardContent className="p-1">
+                    <div className="flex items-center gap-1 text-xs font-medium text-gray-500">
+                      <Users className="w-2.5 h-2.5 text-purple-500" />
+                      <span>终端用户数</span>
+                    </div>
+                    <div className="mt-1 flex items-baseline gap-0.5">
+                      <span className="text-2xl font-bold text-purple-600 leading-tight">{currentRangeData.terminalUserCount.toLocaleString()}</span>
+                      <span className="text-xs text-gray-400">个</span>
+                    </div>
+                    <div className="flex items-center gap-0.5 text-xs text-green-600 mt-0.5">
+                      <ArrowUp className="w-2 h-2" />
+                      <span>+48个</span>
+                    </div>
+                  </CardContent>
+                </Card>
+
+                {/* 达成率排名 */}
+                <Card className="bg-white border-2 border-green-200 col-span-1">
+                  <CardContent className="p-1">
+                    <div className="flex items-center gap-1 text-xs font-medium text-gray-500">
+                      <Award className="w-2.5 h-2.5 text-green-500" />
+                      <span>达成率排名</span>
+                    </div>
+                    <div className="mt-1 flex items-baseline gap-0.5">
+                      <span className="text-2xl font-bold text-green-600 leading-tight">{peerComparisonData.achievementRateRanking}</span>
+                      <span className="text-xs text-gray-400">名</span>
+                    </div>
+                    <div className="flex items-center gap-0.5 text-xs text-gray-500 mt-0.5">
+                      <span>均68.5%</span>
+                    </div>
+                  </CardContent>
+                </Card>
+
+                {/* 客户数量排名 */}
+                <Card className="bg-white border-2 border-emerald-200 col-span-1">
+                  <CardContent className="p-1">
+                    <div className="flex items-center gap-1 text-xs font-medium text-gray-500">
+                      <Users className="w-2.5 h-2.5 text-emerald-500" />
+                      <span>客户数量排名</span>
+                    </div>
+                    <div className="mt-1 flex items-baseline gap-0.5">
+                      <span className="text-2xl font-bold text-emerald-600 leading-tight">{peerComparisonData.customerCountRanking}</span>
+                      <span className="text-xs text-gray-400">名</span>
+                    </div>
+                    <div className="flex items-center gap-0.5 text-xs text-gray-500 mt-0.5">
+                      <span>5120个</span>
+                    </div>
+                  </CardContent>
+                </Card>
+
+                {/* 综合竞争力 */}
+                <Card className="bg-white border-2 border-blue-200 col-span-1">
+                  <CardContent className="p-1">
+                    <div className="flex items-center gap-1 text-xs font-medium text-gray-500">
+                      <Sparkles className="w-2.5 h-2.5 text-blue-500" />
+                      <span>综合竞争力</span>
+                    </div>
+                    <div className="mt-1 flex items-baseline gap-0.5">
+                      <span className="text-2xl font-bold text-blue-600 leading-tight">{peerComparisonData.comprehensiveCompetitiveness.score}</span>
+                      <span className="text-xs text-gray-400">分</span>
+                    </div>
+                    <div className="flex items-center gap-0.5 text-xs text-gray-500 mt-0.5">
+                      <span>#{peerComparisonData.comprehensiveCompetitiveness.rank}/7</span>
+                    </div>
+                  </CardContent>
+                </Card>
+              </div>
+            </div>
+
+            {/* 细分市场业绩达成与项目储备 */}
+            <div className="xl:w-3/5">
+              <Card className="bg-white border border-gray-200 shadow-sm h-full">
+                <CardHeader className="py-2.5 px-3">
+                  <CardTitle className="text-sm font-semibold text-gray-900 flex items-center gap-2">
+                    <PieChart className="w-4 h-4 text-green-600" />
+                    细分市场业绩达成与项目储备
+                  </CardTitle>
+                </CardHeader>
+                <CardContent className="p-2">
+                  {/* 细分市场卡片网格 */}
+                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-2 mb-3">
+                    {marketSegmentData.map((segment, index) => (
+                      <div
+                        key={index}
+                        className="p-2.5 bg-gradient-to-br from-white to-gray-50 rounded-lg border border-gray-200 hover:border-green-300 hover:shadow-md transition-all"
+                      >
+                        {/* 市场名称 */}
+                        <div className="text-xs font-bold text-gray-900 mb-2 flex items-center gap-1">
+                          <div className="w-1.5 h-1.5 rounded-full bg-green-500"></div>
+                          {segment.name}
+                        </div>
+
+                        {/* 年度目标 */}
+                        <div className="mb-1">
+                          <div className="text-xs text-gray-500 mb-0.5">年度目标</div>
+                          <div className="text-xs font-semibold text-gray-900">
+                            ¥{segment.target.toLocaleString()}万
+                          </div>
+                        </div>
+
+                        {/* 已达成 */}
+                        <div className="mb-1">
+                          <div className="text-xs text-gray-500 mb-0.5">已达成</div>
+                          <div className="text-xs font-semibold text-gray-900">
+                            ¥{segment.achieved.toLocaleString()}万
+                          </div>
+                        </div>
+
+                        {/* 达成率 */}
+                        <div className="mb-1">
+                          <div className="text-xs text-gray-500 mb-0.5">达成率</div>
+                          <div className="flex items-baseline gap-0.5">
+                            <span className={`text-sm font-bold ${
+                              segment.achievementRate >= 80 ? 'text-green-600' :
+                              segment.achievementRate >= 60 ? 'text-emerald-600' :
+                              segment.achievementRate >= 40 ? 'text-orange-600' : 'text-red-600'
+                            }`}>
+                              {segment.achievementRate.toFixed(1)}%
+                            </span>
+                          </div>
+                        </div>
+
+                        {/* 同比涨跌 */}
+                        <div className="flex items-center gap-0.5 mb-1.5">
+                          {segment.growthRate >= 0 ? (
+                            <>
+                              <ArrowUp className="w-2.5 h-2.5 text-green-500" />
+                              <span className="text-xs font-medium text-green-600">
+                                ↑ {Math.abs(segment.growthRate).toFixed(1)}%
+                              </span>
+                            </>
+                          ) : (
+                            <>
+                              <ArrowDown className="w-2.5 h-2.5 text-red-500" />
+                              <span className="text-xs font-medium text-red-600">
+                                ↓ {Math.abs(segment.growthRate).toFixed(1)}%
+                              </span>
+                            </>
+                          )}
+                        </div>
+
+                        {/* 项目储备 */}
+                        <div className="pt-1.5 border-t border-gray-200">
+                          <div className="text-xs text-gray-500 mb-0.5">项目储备</div>
+                          <div className="text-xs font-medium text-gray-700">
+                            {segment.projectReserve.count}个 / ¥{segment.projectReserve.amount}万
+                          </div>
+                        </div>
+                      </div>
+                    ))}
                   </div>
-                  <span className="text-xs font-medium text-green-600 bg-green-50 px-1.5 py-0.5 rounded">
-                    {timeRange === 'month' ? '1月' : timeRange === 'quarter' ? 'Q1' : '2026'}
-                  </span>
-                </div>
-                <div className="mt-1 flex items-baseline gap-0.5">
-                  <span className="text-3xl font-bold text-gray-900 leading-tight">{currentRangeData.target.toLocaleString()}</span>
-                  <span className="text-xs text-gray-400">万元</span>
-                </div>
-              </CardContent>
-            </Card>
 
-            {/* 已提货金额 */}
-            <Card className="bg-white border-2 border-teal-200">
-              <CardContent className="p-1">
-                <div className="flex items-center gap-1 text-xs font-medium text-gray-500">
-                  <Truck className="w-2.5 h-2.5 text-teal-500" />
-                  <span>已提货</span>
-                </div>
-                <div className="mt-1 flex items-baseline gap-0.5">
-                  <span className="text-3xl font-bold text-teal-600 leading-tight">{currentRangeData.shipped.toLocaleString()}</span>
-                  <span className="text-xs text-gray-400">万元</span>
-                </div>
-                <div className="flex items-center gap-0.5 text-xs text-green-600 mt-0.5">
-                  <ArrowUp className="w-2 h-2" />
-                  <span>较上月+126万</span>
-                </div>
-              </CardContent>
-            </Card>
-
-            {/* 达成率 */}
-            <Card className="bg-white border-2 border-blue-200">
-              <CardContent className="p-1">
-                <div className="flex items-center gap-1 text-xs font-medium text-gray-500">
-                  <Award className="w-2.5 h-2.5 text-blue-500" />
-                  <span>达成率</span>
-                </div>
-                <div className="mt-1 flex items-baseline gap-0.5">
-                  <span className="text-3xl font-bold text-blue-600 leading-tight">{currentRangeData.achievementRate.toFixed(1)}</span>
-                  <span className="text-xs text-gray-400">%</span>
-                </div>
-                <div className="flex items-center gap-0.5 text-xs text-orange-600 mt-0.5">
-                  <TrendingDown className="w-2 h-2" />
-                  <span>未达标 {((100 - currentRangeData.achievementRate)).toFixed(1)}%</span>
-                </div>
-              </CardContent>
-            </Card>
-
-            {/* 终端用户数量 */}
-            <Card className="bg-white border-2 border-purple-200">
-              <CardContent className="p-1">
-                <div className="flex items-center gap-1 text-xs font-medium text-gray-500">
-                  <Users className="w-2.5 h-2.5 text-purple-500" />
-                  <span>终端用户数</span>
-                </div>
-                <div className="mt-1 flex items-baseline gap-0.5">
-                  <span className="text-3xl font-bold text-purple-600 leading-tight">{currentRangeData.terminalUserCount.toLocaleString()}</span>
-                  <span className="text-xs text-gray-400">个</span>
-                </div>
-                <div className="flex items-center gap-0.5 text-xs text-green-600 mt-0.5">
-                  <ArrowUp className="w-2 h-2" />
-                  <span>较上月+48个</span>
-                </div>
-              </CardContent>
-            </Card>
-
-            {/* 达成率排名 */}
-            <Card className="bg-white border-2 border-green-200">
-              <CardContent className="p-1">
-                <div className="flex items-center gap-1 text-xs font-medium text-gray-500">
-                  <Award className="w-2.5 h-2.5 text-green-500" />
-                  <span>达成率排名</span>
-                </div>
-                <div className="mt-1 flex items-baseline gap-0.5">
-                  <span className="text-3xl font-bold text-green-600 leading-tight">{peerComparisonData.achievementRateRanking}</span>
-                  <span className="text-xs text-gray-400">名</span>
-                </div>
-                <div className="flex items-center gap-0.5 text-xs text-gray-500 mt-0.5">
-                  <span>同行平均 68.5%</span>
-                </div>
-              </CardContent>
-            </Card>
-
-            {/* 客户数量排名 */}
-            <Card className="bg-white border-2 border-emerald-200">
-              <CardContent className="p-1">
-                <div className="flex items-center gap-1 text-xs font-medium text-gray-500">
-                  <Users className="w-2.5 h-2.5 text-emerald-500" />
-                  <span>客户数量排名</span>
-                </div>
-                <div className="mt-1 flex items-baseline gap-0.5">
-                  <span className="text-3xl font-bold text-emerald-600 leading-tight">{peerComparisonData.customerCountRanking}</span>
-                  <span className="text-xs text-gray-400">名</span>
-                </div>
-                <div className="flex items-center gap-0.5 text-xs text-gray-500 mt-0.5">
-                  <span>客户数 5120个</span>
-                </div>
-              </CardContent>
-            </Card>
-
-            {/* 综合竞争力 */}
-            <Card className="bg-white border-2 border-blue-200">
-              <CardContent className="p-1">
-                <div className="flex items-center gap-1 text-xs font-medium text-gray-500">
-                  <Sparkles className="w-2.5 h-2.5 text-blue-500" />
-                  <span>综合竞争力</span>
-                </div>
-                <div className="mt-1 flex items-baseline gap-0.5">
-                  <span className="text-3xl font-bold text-blue-600 leading-tight">{peerComparisonData.comprehensiveCompetitiveness.score}</span>
-                  <span className="text-xs text-gray-400">分</span>
-                </div>
-                <div className="flex items-center gap-0.5 text-xs text-gray-500 mt-0.5">
-                  <span>排名 {peerComparisonData.comprehensiveCompetitiveness.rank}/7</span>
-                </div>
-              </CardContent>
-            </Card>
+                  {/* AI 智能洞察 */}
+                  <div className="p-2.5 bg-gradient-to-r from-blue-50 to-cyan-50 rounded-lg border border-blue-100">
+                    <div className="flex items-start gap-2">
+                      <Lightbulb className="w-4 h-4 text-blue-600 flex-shrink-0 mt-0.5" />
+                      <div className="flex-1">
+                        <div className="text-xs font-semibold text-blue-900 mb-1">AI 智能洞察</div>
+                        <div className="text-xs text-gray-700 leading-relaxed">
+                          细分市场中，{marketSegmentData.find(m => m.achievementRate === Math.max(...marketSegmentData.map(s => s.achievementRate)))?.name}表现最佳（达成率{Math.max(...marketSegmentData.map(s => s.achievementRate)).toFixed(1)}%，同比增长{marketSegmentData.find(m => m.achievementRate === Math.max(...marketSegmentData.map(s => s.achievementRate)))?.growthRate}%），
+                          而{marketSegmentData.find(m => m.achievementRate === Math.min(...marketSegmentData.map(s => s.achievementRate)))?.name}需加强（达成率仅{Math.min(...marketSegmentData.map(s => s.achievementRate)).toFixed(1)}%）。
+                          建议加大对{marketSegmentData.find(m => m.achievementRate === Math.min(...marketSegmentData.map(s => s.achievementRate)))?.name}的资源投入，
+                          同时巩固{marketSegmentData.find(m => m.achievementRate === Math.max(...marketSegmentData.map(s => s.achievementRate)))?.name}的优势地位。
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+            </div>
           </div>
 
-          {/* 细分市场业绩达成与项目储备 */}
-          <Card className="mb-3 bg-white border border-gray-200 shadow-sm">
-            <CardHeader className="py-2.5 px-3">
-              <CardTitle className="text-sm font-semibold text-gray-900 flex items-center gap-2">
-                <PieChart className="w-4 h-4 text-green-600" />
-                细分市场业绩达成与项目储备
-              </CardTitle>
-            </CardHeader>
-            <CardContent className="p-2">
-              {/* 细分市场卡片网格 */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-2 mb-3">
-                {marketSegmentData.map((segment, index) => (
-                  <div
-                    key={index}
-                    className="p-3 bg-gradient-to-br from-white to-gray-50 rounded-lg border border-gray-200 hover:border-green-300 hover:shadow-md transition-all"
-                  >
-                    {/* 市场名称 */}
-                    <div className="text-sm font-bold text-gray-900 mb-2.5 flex items-center gap-1.5">
-                      <div className="w-2 h-2 rounded-full bg-green-500"></div>
-                      {segment.name}
-                    </div>
-
-                    {/* 年度目标 */}
-                    <div className="mb-1.5">
-                      <div className="text-xs text-gray-500 mb-0.5">年度目标</div>
-                      <div className="text-sm font-semibold text-gray-900">
-                        ¥{segment.target.toLocaleString()}万
-                      </div>
-                    </div>
-
-                    {/* 已达成 */}
-                    <div className="mb-1.5">
-                      <div className="text-xs text-gray-500 mb-0.5">已达成</div>
-                      <div className="text-sm font-semibold text-gray-900">
-                        ¥{segment.achieved.toLocaleString()}万
-                      </div>
-                    </div>
-
-                    {/* 达成率 */}
-                    <div className="mb-1.5">
-                      <div className="text-xs text-gray-500 mb-0.5">达成率</div>
-                      <div className="flex items-baseline gap-1">
-                        <span className={`text-base font-bold ${
-                          segment.achievementRate >= 80 ? 'text-green-600' :
-                          segment.achievementRate >= 60 ? 'text-emerald-600' :
-                          segment.achievementRate >= 40 ? 'text-orange-600' : 'text-red-600'
-                        }`}>
-                          {segment.achievementRate.toFixed(1)}%
-                        </span>
-                      </div>
-                    </div>
-
-                    {/* 同比涨跌 */}
-                    <div className="flex items-center gap-1 mb-2">
-                      {segment.growthRate >= 0 ? (
-                        <>
-                          <ArrowUp className="w-3 h-3 text-green-500" />
-                          <span className="text-xs font-medium text-green-600">
-                            ↑ {Math.abs(segment.growthRate).toFixed(1)}%
-                          </span>
-                        </>
-                      ) : (
-                        <>
-                          <ArrowDown className="w-3 h-3 text-red-500" />
-                          <span className="text-xs font-medium text-red-600">
-                            ↓ {Math.abs(segment.growthRate).toFixed(1)}%
-                          </span>
-                        </>
-                      )}
-                    </div>
-
-                    {/* 项目储备 */}
-                    <div className="pt-2 border-t border-gray-200">
-                      <div className="text-xs text-gray-500 mb-0.5">项目储备</div>
-                      <div className="text-xs font-medium text-gray-700">
-                        {segment.projectReserve.count}个 / ¥{segment.projectReserve.amount}万
-                      </div>
-                    </div>
-                  </div>
-                ))}
-              </div>
-
-              {/* AI 智能洞察 */}
-              <div className="p-2.5 bg-gradient-to-r from-blue-50 to-cyan-50 rounded-lg border border-blue-100">
-                <div className="flex items-start gap-2">
-                  <Lightbulb className="w-4 h-4 text-blue-600 flex-shrink-0 mt-0.5" />
-                  <div className="flex-1">
-                    <div className="text-xs font-semibold text-blue-900 mb-1">AI 智能洞察</div>
-                    <div className="text-xs text-gray-700 leading-relaxed">
-                      细分市场中，{marketSegmentData.find(m => m.achievementRate === Math.max(...marketSegmentData.map(s => s.achievementRate)))?.name}表现最佳（达成率{Math.max(...marketSegmentData.map(s => s.achievementRate)).toFixed(1)}%，同比增长{marketSegmentData.find(m => m.achievementRate === Math.max(...marketSegmentData.map(s => s.achievementRate)))?.growthRate}%），
-                      而{marketSegmentData.find(m => m.achievementRate === Math.min(...marketSegmentData.map(s => s.achievementRate)))?.name}需加强（达成率仅{Math.min(...marketSegmentData.map(s => s.achievementRate)).toFixed(1)}%）。
-                      建议加大对{marketSegmentData.find(m => m.achievementRate === Math.min(...marketSegmentData.map(s => s.achievementRate)))?.name}的资源投入，
-                      同时巩固{marketSegmentData.find(m => m.achievementRate === Math.max(...marketSegmentData.map(s => s.achievementRate)))?.name}的优势地位。
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
 
           {/* 月度趋势分析 */}
           <Card className="mb-3 bg-white border border-gray-200 shadow-sm">
