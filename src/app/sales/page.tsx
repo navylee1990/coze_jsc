@@ -384,33 +384,31 @@ export default function SalesDashboard() {
               </div>
             </div>
           </div>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-2">
+        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-1.5">
           {/* 目标 */}
           <Card className="bg-white border border-gray-200">
-            <CardContent className="p-2.5">
-              <div className="flex items-center justify-between">
-                <div className="flex items-center gap-1.5 text-sm font-medium text-gray-500">
-                  <Target className="w-3 h-3 text-blue-500" />
-                  <span>目标</span>
-                </div>
+            <CardContent className="p-1.5">
+              <div className="flex items-center gap-1 text-xs font-medium text-gray-500">
+                <Target className="w-2.5 h-2.5 text-blue-500 flex-shrink-0" />
+                <span>目标</span>
               </div>
-              <div className="mt-2 flex items-baseline gap-1">
-                <span className="text-3xl font-bold text-gray-900">1,428</span>
-                <span className="text-sm text-gray-400">万元</span>
+              <div className="mt-1 flex items-baseline gap-0.5">
+                <span className="text-xl font-bold text-gray-900 leading-tight">1,428</span>
+                <span className="text-xs text-gray-400">万元</span>
               </div>
             </CardContent>
           </Card>
 
           {/* 已完成 */}
           <Card className="bg-white border border-gray-200">
-            <CardContent className="p-2.5">
-              <div className="text-sm font-medium text-gray-500">已完成</div>
-              <div className="mt-2 flex items-baseline gap-1">
-                <span className="text-3xl font-bold text-gray-900">677</span>
-                <span className="text-sm text-gray-400">万元</span>
+            <CardContent className="p-1.5">
+              <div className="text-xs font-medium text-gray-500">已完成</div>
+              <div className="mt-1 flex items-baseline gap-0.5">
+                <span className="text-xl font-bold text-gray-900 leading-tight">677</span>
+                <span className="text-xs text-gray-400">万元</span>
               </div>
-              <div className="flex items-center gap-1 text-sm text-red-600">
-                <ArrowDown className="w-3 h-3" />
+              <div className="flex items-center gap-0.5 text-xs text-red-600 mt-0.5">
+                <ArrowDown className="w-2.5 h-2.5" />
                 <span>-8.3%</span>
               </div>
             </CardContent>
@@ -418,14 +416,14 @@ export default function SalesDashboard() {
 
           {/* 未来预计完成 */}
           <Card className="bg-white border border-blue-300 border-dashed">
-            <CardContent className="p-2.5">
-              <div className="text-sm font-medium text-gray-500">未来预计完成</div>
-              <div className="mt-2 flex items-baseline gap-1">
-                <span className="text-3xl font-bold text-blue-600">650.3</span>
-                <span className="text-sm text-gray-400">万元</span>
+            <CardContent className="p-1.5">
+              <div className="text-xs font-medium text-gray-500">未来预计完成</div>
+              <div className="mt-1 flex items-baseline gap-0.5">
+                <span className="text-xl font-bold text-blue-600 leading-tight">650.3</span>
+                <span className="text-xs text-gray-400">万元</span>
               </div>
-              <div className="flex items-center gap-1 text-sm text-red-600">
-                <ArrowDown className="w-3 h-3" />
+              <div className="flex items-center gap-0.5 text-xs text-red-600 mt-0.5">
+                <ArrowDown className="w-2.5 h-2.5" />
                 <span>-12.2%</span>
               </div>
             </CardContent>
@@ -433,17 +431,17 @@ export default function SalesDashboard() {
 
           {/* 任务缺口 */}
           <Card className="bg-white border-2 border-red-200">
-            <CardContent className="p-3">
-              <div className="flex items-center justify-between">
-                <div className="text-sm font-medium text-gray-500">任务缺口</div>
-                <AlertTriangle className="w-3 h-3 text-red-500" />
+            <CardContent className="p-1.5">
+              <div className="flex items-center gap-1 text-xs font-medium text-gray-500">
+                <AlertTriangle className="w-2.5 h-2.5 text-red-500 flex-shrink-0" />
+                <span>任务缺口</span>
               </div>
-              <div className="mt-2 flex items-baseline gap-1">
-                <span className="text-3xl font-bold text-red-600">777.7</span>
-                <span className="text-sm text-gray-400">万元</span>
+              <div className="mt-1 flex items-baseline gap-0.5">
+                <span className="text-xl font-bold text-red-600 leading-tight">777.7</span>
+                <span className="text-xs text-gray-400">万元</span>
               </div>
-              <div className="flex items-center gap-1 text-sm text-gray-500">
-                <ArrowDown className="w-3 h-3" />
+              <div className="flex items-center gap-0.5 text-xs text-gray-500 mt-0.5">
+                <ArrowDown className="w-2.5 h-2.5" />
                 <span>-54.5%</span>
               </div>
             </CardContent>
@@ -451,21 +449,21 @@ export default function SalesDashboard() {
 
           {/* 项目储备 */}
           <Card className="bg-white border-2 border-purple-300">
-            <CardContent className="p-2.5">
-              <div className="flex items-center justify-between">
-                <div className="text-sm font-medium text-gray-500">项目储备</div>
-                <Database className="w-3 h-3 text-purple-500" />
+            <CardContent className="p-1.5">
+              <div className="flex items-center gap-1 text-xs font-medium text-gray-500">
+                <Database className="w-2.5 h-2.5 text-purple-500 flex-shrink-0" />
+                <span>项目储备</span>
               </div>
-              <div className="mt-2 flex items-baseline gap-1">
-                <span className="text-3xl font-bold text-purple-600">1,200</span>
-                <span className="text-sm text-gray-400">万元</span>
+              <div className="mt-1 flex items-baseline gap-0.5">
+                <span className="text-xl font-bold text-purple-600 leading-tight">1,200</span>
+                <span className="text-xs text-gray-400">万元</span>
               </div>
-              <div className="mt-1 flex items-center justify-between">
-                <div className="flex items-center gap-1 text-sm text-red-600 font-medium">
-                  <AlertTriangle className="w-3 h-3" />
+              <div className="flex items-center justify-between mt-0.5">
+                <div className="flex items-center gap-0.5 text-xs text-red-600 font-medium">
+                  <AlertTriangle className="w-2 h-2" />
                   <span>储备不足</span>
                 </div>
-                <span className="text-sm text-gray-500">缺口¥1,200万</span>
+                <span className="text-xs text-gray-500">缺1,200万</span>
               </div>
             </CardContent>
           </Card>
@@ -655,20 +653,20 @@ export default function SalesDashboard() {
             </div>
 
             {/* 客户KPI指标 */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-2 mb-3">
+            <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-1.5 mb-3">
               {/* 总客户数 */}
               <Card className="bg-white border-2 border-blue-200">
-                <CardContent className="p-2.5">
-                  <div className="flex items-center gap-1.5 text-sm font-medium text-gray-500">
-                    <Database className="w-3 h-3 text-blue-500" />
+                <CardContent className="p-1.5">
+                  <div className="flex items-center gap-1 text-xs font-medium text-gray-500">
+                    <Database className="w-2.5 h-2.5 text-blue-500 flex-shrink-0" />
                     <span>总客户数</span>
                   </div>
-                  <div className="mt-2 flex items-baseline gap-1">
-                    <span className="text-2xl font-bold text-blue-600">{customerKPI.totalCustomers}</span>
-                    <span className="text-sm text-gray-400">家</span>
+                  <div className="mt-1 flex items-baseline gap-0.5">
+                    <span className="text-xl font-bold text-blue-600 leading-tight">{customerKPI.totalCustomers}</span>
+                    <span className="text-xs text-gray-400">家</span>
                   </div>
-                  <div className="flex items-center gap-1 text-sm text-green-600 mt-1">
-                    <ArrowUp className="w-3 h-3" />
+                  <div className="flex items-center gap-0.5 text-xs text-green-600 mt-0.5">
+                    <ArrowUp className="w-2 h-2" />
                     <span>较上年+12家</span>
                   </div>
                 </CardContent>
@@ -676,34 +674,34 @@ export default function SalesDashboard() {
 
               {/* 活跃客户 */}
               <Card className="bg-white border-2 border-green-200">
-                <CardContent className="p-2.5">
-                  <div className="flex items-center gap-1.5 text-sm font-medium text-gray-500">
-                    <Activity className="w-3 h-3 text-green-500" />
+                <CardContent className="p-1.5">
+                  <div className="flex items-center gap-1 text-xs font-medium text-gray-500">
+                    <Activity className="w-2.5 h-2.5 text-green-500 flex-shrink-0" />
                     <span>活跃客户</span>
                   </div>
-                  <div className="mt-2 flex items-baseline gap-1">
-                    <span className="text-2xl font-bold text-green-600">{customerKPI.activeCustomers}</span>
-                    <span className="text-sm text-gray-400">家</span>
+                  <div className="mt-1 flex items-baseline gap-0.5">
+                    <span className="text-xl font-bold text-green-600 leading-tight">{customerKPI.activeCustomers}</span>
+                    <span className="text-xs text-gray-400">家</span>
                   </div>
-                  <div className="flex items-center gap-1 text-sm text-gray-500 mt-1">
-                    <span className="text-xs">活跃率 {((customerKPI.activeCustomers / customerKPI.totalCustomers) * 100).toFixed(0)}%</span>
+                  <div className="text-xs text-gray-500 mt-0.5">
+                    活跃率 {((customerKPI.activeCustomers / customerKPI.totalCustomers) * 100).toFixed(0)}%
                   </div>
                 </CardContent>
               </Card>
 
               {/* 达标客户 */}
               <Card className="bg-white border-2 border-orange-200">
-                <CardContent className="p-2.5">
-                  <div className="flex items-center gap-1.5 text-sm font-medium text-gray-500">
-                    <Target className="w-3 h-3 text-orange-500" />
+                <CardContent className="p-1.5">
+                  <div className="flex items-center gap-1 text-xs font-medium text-gray-500">
+                    <Target className="w-2.5 h-2.5 text-orange-500 flex-shrink-0" />
                     <span>达标客户</span>
                   </div>
-                  <div className="mt-2 flex items-baseline gap-1">
-                    <span className="text-2xl font-bold text-orange-600">{customerKPI.qualifiedCustomers}</span>
-                    <span className="text-sm text-gray-400">家</span>
+                  <div className="mt-1 flex items-baseline gap-0.5">
+                    <span className="text-xl font-bold text-orange-600 leading-tight">{customerKPI.qualifiedCustomers}</span>
+                    <span className="text-xs text-gray-400">家</span>
                   </div>
-                  <div className="flex items-center gap-1 text-sm text-green-600 mt-1">
-                    <ArrowUp className="w-3 h-3" />
+                  <div className="flex items-center gap-0.5 text-xs text-green-600 mt-0.5">
+                    <ArrowUp className="w-2 h-2" />
                     <span>较上年+5家</span>
                   </div>
                 </CardContent>
@@ -711,17 +709,17 @@ export default function SalesDashboard() {
 
               {/* 新客户 */}
               <Card className="bg-white border-2 border-purple-200">
-                <CardContent className="p-2.5">
-                  <div className="flex items-center gap-1.5 text-sm font-medium text-gray-500">
-                    <ChevronRight className="w-3 h-3 text-purple-500" />
+                <CardContent className="p-1.5">
+                  <div className="flex items-center gap-1 text-xs font-medium text-gray-500">
+                    <ChevronRight className="w-2.5 h-2.5 text-purple-500 flex-shrink-0" />
                     <span>新客户</span>
                   </div>
-                  <div className="mt-2 flex items-baseline gap-1">
-                    <span className="text-2xl font-bold text-purple-600">{customerKPI.newCustomers}</span>
-                    <span className="text-sm text-gray-400">家</span>
+                  <div className="mt-1 flex items-baseline gap-0.5">
+                    <span className="text-xl font-bold text-purple-600 leading-tight">{customerKPI.newCustomers}</span>
+                    <span className="text-xs text-gray-400">家</span>
                   </div>
-                  <div className="flex items-center gap-1 text-sm text-gray-500 mt-1">
-                    <span className="text-xs">本年度新增</span>
+                  <div className="text-xs text-gray-500 mt-0.5">
+                    本年度新增
                   </div>
                 </CardContent>
               </Card>
@@ -868,46 +866,42 @@ export default function SalesDashboard() {
 
           <TabsContent value="projects">
             {/* 项目储备KPI指标 */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-2 mb-3">
+            <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-2 gap-1.5 mb-3">
               {/* 项目储备 */}
               <Card className="bg-white border-2 border-red-200">
-                <CardContent className="p-2.5">
-                  <div className="flex items-center justify-between">
-                    <div className="flex items-center gap-1.5 text-sm font-medium text-gray-500">
-                      <Database className="w-3 h-3 text-red-500" />
-                      <span>项目储备</span>
-                    </div>
-                    <AlertTriangle className="w-3 h-3 text-red-500" />
+                <CardContent className="p-1.5">
+                  <div className="flex items-center gap-1 text-xs font-medium text-gray-500">
+                    <Database className="w-2.5 h-2.5 text-red-500 flex-shrink-0" />
+                    <span>项目储备</span>
+                    <AlertTriangle className="w-2.5 h-2.5 text-red-500 flex-shrink-0" />
                   </div>
-                  <div className="mt-2 flex items-baseline gap-1">
-                    <span className="text-2xl font-bold text-red-600">1,200</span>
-                    <span className="text-sm text-gray-400">万元</span>
+                  <div className="mt-1 flex items-baseline gap-0.5">
+                    <span className="text-xl font-bold text-red-600 leading-tight">1,200</span>
+                    <span className="text-xs text-gray-400">万元</span>
                   </div>
-                  <div className="mt-1 flex items-center justify-between">
-                    <div className="flex items-center gap-1 text-sm text-red-600 font-medium">
-                      <AlertTriangle className="w-3 h-3" />
+                  <div className="flex items-center justify-between mt-0.5">
+                    <div className="flex items-center gap-0.5 text-xs text-red-600 font-medium">
+                      <AlertTriangle className="w-2 h-2" />
                       <span>储备不足</span>
                     </div>
-                    <span className="text-sm text-gray-500">缺口¥1,200万</span>
+                    <span className="text-xs text-gray-500">缺1,200万</span>
                   </div>
                 </CardContent>
               </Card>
 
               {/* 储备倒推 */}
               <Card className="bg-white border-2 border-blue-200">
-                <CardContent className="p-2.5">
-                  <div className="flex items-center gap-1.5 text-sm font-medium text-gray-500">
-                    <Target className="w-3 h-3 text-blue-500" />
+                <CardContent className="p-1.5">
+                  <div className="flex items-center gap-1 text-xs font-medium text-gray-500">
+                    <Target className="w-2.5 h-2.5 text-blue-500 flex-shrink-0" />
                     <span>储备倒推</span>
                   </div>
-                  <div className="mt-2 flex items-baseline gap-1">
-                    <span className="text-2xl font-bold text-blue-600">需开发</span>
-                    <span className="text-sm text-gray-400">项目</span>
+                  <div className="mt-1 flex items-baseline gap-0.5">
+                    <span className="text-xl font-bold text-blue-600 leading-tight">需开发</span>
+                    <span className="text-xs text-gray-400">项目</span>
                   </div>
-                  <div className="flex items-center gap-1 text-sm text-gray-500 mt-1">
-                    <span className="text-xs">需新增项目约</span>
-                    <span className="text-sm font-bold text-blue-600">8-10个</span>
-                    <span className="text-xs">（平均120-150万/个）</span>
+                  <div className="text-xs text-gray-500 mt-0.5">
+                    需新增项目约<span className="font-bold text-blue-600">8-10个</span>（平均120-150万/个）
                   </div>
                 </CardContent>
               </Card>
@@ -1049,20 +1043,20 @@ export default function SalesDashboard() {
 
           <TabsContent value="salesmen">
             {/* 业务员KPI指标 */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-2 mb-3">
+            <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-1.5 mb-3">
               {/* 总业绩 */}
               <Card className="bg-white border-2 border-blue-200">
-                <CardContent className="p-2.5">
-                  <div className="flex items-center gap-1.5 text-sm font-medium text-gray-500">
-                    <TrendingUp className="w-3 h-3 text-blue-500" />
+                <CardContent className="p-1.5">
+                  <div className="flex items-center gap-1 text-xs font-medium text-gray-500">
+                    <TrendingUp className="w-2.5 h-2.5 text-blue-500 flex-shrink-0" />
                     <span>总业绩</span>
                   </div>
-                  <div className="mt-2 flex items-baseline gap-1">
-                    <span className="text-2xl font-bold text-blue-600">{salesmenKPI.totalPerformance.toLocaleString()}</span>
-                    <span className="text-sm text-gray-400">万元</span>
+                  <div className="mt-1 flex items-baseline gap-0.5">
+                    <span className="text-xl font-bold text-blue-600 leading-tight">{salesmenKPI.totalPerformance.toLocaleString()}</span>
+                    <span className="text-xs text-gray-400">万元</span>
                   </div>
-                  <div className="flex items-center gap-1 text-sm text-green-600 mt-1">
-                    <ArrowUp className="w-3 h-3" />
+                  <div className="flex items-center gap-0.5 text-xs text-green-600 mt-0.5">
+                    <ArrowUp className="w-2 h-2" />
                     <span>较上月+156万</span>
                   </div>
                 </CardContent>
@@ -1070,49 +1064,49 @@ export default function SalesDashboard() {
 
               {/* 业务员数量 */}
               <Card className="bg-white border-2 border-indigo-200">
-                <CardContent className="p-2.5">
-                  <div className="flex items-center gap-1.5 text-sm font-medium text-gray-500">
-                    <Activity className="w-3 h-3 text-indigo-500" />
+                <CardContent className="p-1.5">
+                  <div className="flex items-center gap-1 text-xs font-medium text-gray-500">
+                    <Activity className="w-2.5 h-2.5 text-indigo-500 flex-shrink-0" />
                     <span>业务员数量</span>
                   </div>
-                  <div className="mt-2 flex items-baseline gap-1">
-                    <span className="text-2xl font-bold text-indigo-600">{salesmenKPI.totalCount}</span>
-                    <span className="text-sm text-gray-400">人</span>
+                  <div className="mt-1 flex items-baseline gap-0.5">
+                    <span className="text-xl font-bold text-indigo-600 leading-tight">{salesmenKPI.totalCount}</span>
+                    <span className="text-xs text-gray-400">人</span>
                   </div>
-                  <div className="mt-1 text-xs text-gray-500">覆盖7个大区</div>
+                  <div className="text-xs text-gray-500 mt-0.5">覆盖7个大区</div>
                 </CardContent>
               </Card>
 
               {/* 达标人数 */}
               <Card className="bg-white border-2 border-green-200">
-                <CardContent className="p-2.5">
-                  <div className="flex items-center gap-1.5 text-sm font-medium text-gray-500">
-                    <Target className="w-3 h-3 text-green-500" />
+                <CardContent className="p-1.5">
+                  <div className="flex items-center gap-1 text-xs font-medium text-gray-500">
+                    <Target className="w-2.5 h-2.5 text-green-500 flex-shrink-0" />
                     <span>达标人数</span>
                   </div>
-                  <div className="mt-2 flex items-baseline gap-1">
-                    <span className="text-2xl font-bold text-green-600">{salesmenKPI.qualifiedCount}</span>
-                    <span className="text-sm text-gray-400">人</span>
+                  <div className="mt-1 flex items-baseline gap-0.5">
+                    <span className="text-xl font-bold text-green-600 leading-tight">{salesmenKPI.qualifiedCount}</span>
+                    <span className="text-xs text-gray-400">人</span>
                   </div>
-                  <div className="flex items-center gap-1 text-sm text-gray-500 mt-1">
-                    <span className="text-xs">达标率 {((salesmenKPI.qualifiedCount / salesmenKPI.totalCount) * 100).toFixed(0)}%</span>
+                  <div className="text-xs text-gray-500 mt-0.5">
+                    达标率 {((salesmenKPI.qualifiedCount / salesmenKPI.totalCount) * 100).toFixed(0)}%
                   </div>
                 </CardContent>
               </Card>
 
               {/* 新增项目 */}
               <Card className="bg-white border-2 border-orange-200">
-                <CardContent className="p-2.5">
-                  <div className="flex items-center gap-1.5 text-sm font-medium text-gray-500">
-                    <Database className="w-3 h-3 text-orange-500" />
+                <CardContent className="p-1.5">
+                  <div className="flex items-center gap-1 text-xs font-medium text-gray-500">
+                    <Database className="w-2.5 h-2.5 text-orange-500 flex-shrink-0" />
                     <span>新增项目</span>
                   </div>
-                  <div className="mt-2 flex items-baseline gap-1">
-                    <span className="text-2xl font-bold text-orange-600">{salesmenKPI.newProjects}</span>
-                    <span className="text-sm text-gray-400">个</span>
+                  <div className="mt-1 flex items-baseline gap-0.5">
+                    <span className="text-xl font-bold text-orange-600 leading-tight">{salesmenKPI.newProjects}</span>
+                    <span className="text-xs text-gray-400">个</span>
                   </div>
-                  <div className="flex items-center gap-1 text-sm text-green-600 mt-1">
-                    <ArrowUp className="w-3 h-3" />
+                  <div className="flex items-center gap-0.5 text-xs text-green-600 mt-0.5">
+                    <ArrowUp className="w-2 h-2" />
                     <span>较上月+8个</span>
                   </div>
                 </CardContent>
