@@ -112,7 +112,7 @@ export default function DealerDashboard() {
   return (
     <div className="min-h-screen bg-gray-50 p-4">
       {/* 页面头部 */}
-      <header className="mb-4">
+      <header className="mb-1">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-3">
             <Link href="/" className="p-2 hover:bg-gray-100 rounded-lg transition-colors">
@@ -136,7 +136,7 @@ export default function DealerDashboard() {
       </header>
 
       {/* 筛选器 */}
-      <div className="mb-3 flex items-center gap-4 bg-white p-3 rounded-lg border border-gray-200">
+      <div className="mb-1 flex items-center gap-4 bg-white p-3 rounded-lg border border-gray-200">
         <span className="text-sm font-medium text-gray-700">时间范围：</span>
         <select
           value={timeRange}
@@ -151,7 +151,7 @@ export default function DealerDashboard() {
 
       {/* Tab页 */}
       <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
-        <TabsList className="w-full mb-3 h-10 bg-white border border-gray-200 rounded-xl shadow-sm p-1">
+        <TabsList className="w-full mb-1 h-10 bg-white border border-gray-200 rounded-xl shadow-sm p-1">
           <TabsTrigger value="overview" className="flex-1 h-8 rounded-lg data-[state=active]:bg-gradient-to-r data-[state=active]:from-green-500 data-[state=active]:to-emerald-600 data-[state=active]:text-white data-[state=active]:shadow-md transition-all duration-200">
             <span className="flex items-center gap-2">
               <Activity className="w-4 h-4" />
@@ -168,7 +168,7 @@ export default function DealerDashboard() {
 
         <TabsContent value="overview">
           {/* 经营总览标题 */}
-          <div className="mb-3 flex items-center gap-4">
+          <div className="mb-1 flex items-center gap-4">
             <h2 className="text-base font-semibold text-gray-900 flex items-center gap-1.5">
               <Activity className="w-4 h-4" />
               {timeRangeLabel}目标达成情况
@@ -190,10 +190,10 @@ export default function DealerDashboard() {
           </div>
 
           {/* 横向布局：KPI卡片 + 细分市场 */}
-          <div className="flex flex-col xl:flex-row gap-3">
+          <div className="flex flex-col xl:flex-row gap-1">
             {/* KPI卡片 */}
             <div className="xl:w-2/5">
-              <div className="grid grid-cols-7 gap-1.5">
+              <div className="grid grid-cols-7 gap-1">
                 {/* 目标金额 */}
                 <Card className="bg-white border-2 border-green-200">
                   <CardContent className="p-1">
@@ -331,7 +331,7 @@ export default function DealerDashboard() {
                 </CardHeader>
                 <CardContent className="p-2">
                   {/* 细分市场卡片 - 横向一行展示 */}
-                  <div className="grid grid-cols-5 gap-2">
+                  <div className="grid grid-cols-5 gap-1">
                     {marketSegmentData.map((segment, index) => (
                       <div
                         key={index}
@@ -433,7 +433,7 @@ export default function DealerDashboard() {
 
 
           {/* 月度趋势分析 */}
-          <Card className="mb-3 bg-white border border-gray-200 shadow-sm">
+          <Card className="mb-1 bg-white border border-gray-200 shadow-sm">
             <CardHeader className="py-px px-3">
               <CardTitle className="text-sm font-semibold text-gray-900 flex items-center gap-2">
                 <TrendingUp className="w-4 h-4 text-green-600" />
