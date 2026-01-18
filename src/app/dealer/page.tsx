@@ -322,14 +322,29 @@ export default function DealerDashboard() {
 
             {/* 细分市场业绩达成与项目储备 */}
             <div className="xl:w-3/5">
+              {/* 细分市场标题 */}
+              <div className="mb-1 flex items-center gap-4">
+                <h2 className="text-base font-semibold text-gray-900 flex items-center gap-1.5">
+                  <PieChart className="w-4 h-4 text-green-600" />
+                  细分市场业绩达成与项目储备
+                </h2>
+                <div className="flex items-center gap-4">
+                  {/* 市场覆盖 */}
+                  <div className="flex items-center gap-2 px-3 py-1.5 bg-white rounded-lg border border-gray-200 shadow-sm">
+                    <Target className="w-4 h-4 text-green-500" />
+                    <span className="text-sm text-gray-700">市场覆盖</span>
+                    <span className="text-sm font-bold text-green-600">5个</span>
+                  </div>
+                  {/* 储备项目 */}
+                  <div className="flex items-center gap-2 px-3 py-1.5 bg-white rounded-lg border border-gray-200 shadow-sm">
+                    <Package className="w-4 h-4 text-green-500" />
+                    <span className="text-sm text-gray-700">储备项目</span>
+                    <span className="text-sm font-bold text-green-600">85个</span>
+                  </div>
+                </div>
+              </div>
               <Card className="bg-white border border-gray-200 shadow-sm h-full">
-                <CardHeader className="py-px px-3">
-                  <CardTitle className="text-sm font-semibold text-gray-900 flex items-center gap-2">
-                    <PieChart className="w-4 h-4 text-green-600" />
-                    细分市场业绩达成与项目储备
-                  </CardTitle>
-                </CardHeader>
-                <CardContent className="px-2 pb-2 pt-0">
+                <CardContent className="p-2">
                   {/* 细分市场卡片 - 横向一行展示 */}
                   <div className="grid grid-cols-5 gap-1">
                     {marketSegmentData.map((segment, index) => (
@@ -433,14 +448,29 @@ export default function DealerDashboard() {
 
 
           {/* 月度趋势分析 */}
+          {/* 月度趋势分析标题 */}
+          <div className="mb-1 flex items-center gap-4">
+            <h2 className="text-base font-semibold text-gray-900 flex items-center gap-1.5">
+              <TrendingUp className="w-4 h-4 text-green-600" />
+              月度趋势分析
+            </h2>
+            <div className="flex items-center gap-4">
+              {/* 累计达成 */}
+              <div className="flex items-center gap-2 px-3 py-1.5 bg-white rounded-lg border border-gray-200 shadow-sm">
+                <Activity className="w-4 h-4 text-green-500" />
+                <span className="text-sm text-gray-700">累计达成</span>
+                <span className="text-sm font-bold text-green-600">¥7,240万</span>
+              </div>
+              {/* 同比增长 */}
+              <div className="flex items-center gap-2 px-3 py-1.5 bg-white rounded-lg border border-gray-200 shadow-sm">
+                <TrendingUp className="w-4 h-4 text-green-500" />
+                <span className="text-sm text-gray-700">同比增长</span>
+                <span className="text-sm font-bold text-green-600">+18.5%</span>
+              </div>
+            </div>
+          </div>
           <Card className="mb-1 bg-white border border-gray-200 shadow-sm">
-            <CardHeader className="py-px px-3">
-              <CardTitle className="text-sm font-semibold text-gray-900 flex items-center gap-2">
-                <TrendingUp className="w-4 h-4 text-green-600" />
-                月度趋势分析
-              </CardTitle>
-            </CardHeader>
-            <CardContent className="px-2 pb-2 pt-0">
+            <CardContent className="p-2">
               <div className="h-64 mb-3">
                 <ResponsiveContainer width="100%" height="100%">
                   <LineChart data={monthlyTrendData}>
