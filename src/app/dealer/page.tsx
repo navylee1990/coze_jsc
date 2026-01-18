@@ -329,7 +329,7 @@ export default function DealerDashboard() {
                     细分市场业绩达成与项目储备
                   </CardTitle>
                 </CardHeader>
-                <CardContent className="p-2">
+                <CardContent className="px-2 pb-2 pt-0">
                   {/* 细分市场卡片 - 横向一行展示 */}
                   <div className="grid grid-cols-5 gap-1">
                     {marketSegmentData.map((segment, index) => (
@@ -440,7 +440,7 @@ export default function DealerDashboard() {
                 月度趋势分析
               </CardTitle>
             </CardHeader>
-            <CardContent className="p-2">
+            <CardContent className="px-2 pb-2 pt-0">
               <div className="h-64 mb-3">
                 <ResponsiveContainer width="100%" height="100%">
                   <LineChart data={monthlyTrendData}>
