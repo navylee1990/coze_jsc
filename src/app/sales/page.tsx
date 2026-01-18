@@ -865,6 +865,15 @@ export default function SalesDashboard() {
           </TabsContent>
 
           <TabsContent value="projects">
+            {/* 项目分析标题 */}
+            <div className="mb-3 flex items-center gap-4">
+              <h2 className="text-lg font-semibold text-gray-900 flex items-center gap-2">
+                <Target className="w-5 h-5" />
+                项目分析
+              </h2>
+              <span className="text-sm text-gray-500">2026年度数据</span>
+            </div>
+
             {/* 项目储备KPI指标 */}
             <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-2 gap-1.5 mb-3">
               {/* 项目储备 */}
@@ -1042,6 +1051,15 @@ export default function SalesDashboard() {
           </TabsContent>
 
           <TabsContent value="salesmen">
+            {/* 业务员分析标题 */}
+            <div className="mb-3 flex items-center gap-4">
+              <h2 className="text-lg font-semibold text-gray-900 flex items-center gap-2">
+                <TrendingUp className="w-5 h-5" />
+                业务员分析
+              </h2>
+              <span className="text-sm text-gray-500">2026年度数据</span>
+            </div>
+
             {/* 业务员KPI指标 */}
             <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-1.5 mb-3">
               {/* 总业绩 */}
