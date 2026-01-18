@@ -60,12 +60,11 @@ const peerComparisonData = {
 
 // 细分市场业绩达成数据
 const marketSegmentData = [
-  { name: '餐饮行业', target: 3200, achieved: 1850, achievementRate: 57.8 },
-  { name: '办公楼宇', target: 2800, achieved: 1680, achievementRate: 60.0 },
-  { name: '医院医疗', target: 2200, achieved: 1150, achievementRate: 52.3 },
-  { name: '学校教育', target: 1800, achieved: 980, achievementRate: 54.4 },
-  { name: '酒店住宿', target: 1600, achieved: 890, achievementRate: 55.6 },
-  { name: '其他行业', target: 3400, achieved: 1950, achievementRate: 57.4 },
+  { name: '教育', target: 1500, achieved: 1280, achievementRate: 85.3, growthRate: 15.2, projectReserve: { count: 18, amount: 420 } },
+  { name: '政企办公', target: 1200, achieved: 980, achievementRate: 81.7, growthRate: 12.8, projectReserve: { count: 15, amount: 350 } },
+  { name: '公共交通', target: 900, achieved: 620, achievementRate: 68.9, growthRate: -2.5, projectReserve: { count: 12, amount: 280 } },
+  { name: '医疗饮水', target: 800, achieved: 580, achievementRate: 72.5, growthRate: 5.3, projectReserve: { count: 10, amount: 230 } },
+  { name: '水处理', target: 600, achieved: 340, achievementRate: 56.7, growthRate: -8.2, projectReserve: { count: 5, amount: 120 } },
 ];
 
 // 项目储备数据
@@ -326,161 +325,90 @@ export default function DealerDashboard() {
               </CardTitle>
             </CardHeader>
             <CardContent className="p-2">
-              <div className="grid grid-cols-1 lg:grid-cols-2 gap-3">
-                {/* 左侧：细分市场业绩达成 */}
-                <div className="border border-gray-200 rounded-lg p-2">
-                  <h3 className="text-xs font-semibold text-gray-700 mb-2 flex items-center gap-1.5">
-                    <PieChart className="w-3.5 h-3.5 text-green-600" />
-                    细分市场业绩达成
-                  </h3>
-                  <div className="overflow-x-auto">
-                    <table className="w-full text-xs">
-                      <thead>
-                        <tr className="border-b border-gray-200">
-                          <th className="py-1.5 px-1.5 text-left font-medium text-gray-600">市场名称</th>
-                          <th className="py-1.5 px-1.5 text-right font-medium text-gray-600">目标</th>
-                          <th className="py-1.5 px-1.5 text-right font-medium text-gray-600">已达成</th>
-                          <th className="py-1.5 px-1.5 text-right font-medium text-gray-600">达成率</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {marketSegmentData.map((segment, index) => (
-                          <tr key={index} className="border-b border-gray-100 hover:bg-gray-50">
-                            <td className="py-1.5 px-1.5 font-medium text-gray-900">{segment.name}</td>
-                            <td className="py-1.5 px-1.5 text-right text-gray-600">{segment.target.toLocaleString()}</td>
-                            <td className="py-1.5 px-1.5 text-right text-gray-600">{segment.achieved.toLocaleString()}</td>
-                            <td className="py-1.5 px-1.5 text-right">
-                              <div className="flex items-center justify-end gap-1.5">
-                                <div className="w-12 h-1 bg-gray-200 rounded-full overflow-hidden">
-                                  <div
-                                    className={`h-full rounded-full ${
-                                      segment.achievementRate >= 80 ? 'bg-green-500' :
-                                      segment.achievementRate >= 60 ? 'bg-emerald-500' :
-                                      segment.achievementRate >= 40 ? 'bg-orange-500' : 'bg-red-500'
-                                    }`}
-                                    style={{ width: `${segment.achievementRate}%` }}
-                                  />
-                                </div>
-                                <span className={`font-medium ${
-                                  segment.achievementRate >= 80 ? 'text-green-600' :
-                                  segment.achievementRate >= 60 ? 'text-emerald-600' :
-                                  segment.achievementRate >= 40 ? 'text-orange-600' : 'text-red-600'
-                                }`}>
-                                  {segment.achievementRate.toFixed(1)}%
-                                </span>
-                              </div>
-                            </td>
-                          </tr>
-                        ))}
-                      </tbody>
-                      <tfoot className="bg-gray-50 font-semibold">
-                        <tr>
-                          <td className="py-1.5 px-1.5 text-gray-900">合计</td>
-                          <td className="py-1.5 px-1.5 text-right text-gray-900">{projectReserveData.totalTarget.toLocaleString()}</td>
-                          <td className="py-1.5 px-1.5 text-right text-gray-900">{projectReserveData.totalAchieved.toLocaleString()}</td>
-                          <td className="py-1.5 px-1.5 text-right text-green-600">
-                            {((projectReserveData.totalAchieved / projectReserveData.totalTarget) * 100).toFixed(1)}%
-                          </td>
-                        </tr>
-                      </tfoot>
-                    </table>
-                  </div>
-                </div>
+              {/* 细分市场卡片网格 */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-2 mb-3">
+                {marketSegmentData.map((segment, index) => (
+                  <div
+                    key={index}
+                    className="p-3 bg-gradient-to-br from-white to-gray-50 rounded-lg border border-gray-200 hover:border-green-300 hover:shadow-md transition-all"
+                  >
+                    {/* 市场名称 */}
+                    <div className="text-sm font-bold text-gray-900 mb-2.5 flex items-center gap-1.5">
+                      <div className="w-2 h-2 rounded-full bg-green-500"></div>
+                      {segment.name}
+                    </div>
 
-                {/* 右侧：项目储备分析 */}
-                <div className="border border-gray-200 rounded-lg p-2">
-                  <h3 className="text-xs font-semibold text-gray-700 mb-2 flex items-center gap-1.5">
-                    <Package className="w-3.5 h-3.5 text-green-600" />
-                    项目储备分析
-                  </h3>
+                    {/* 年度目标 */}
+                    <div className="mb-1.5">
+                      <div className="text-xs text-gray-500 mb-0.5">年度目标</div>
+                      <div className="text-sm font-semibold text-gray-900">
+                        ¥{segment.target.toLocaleString()}万
+                      </div>
+                    </div>
 
-                  {/* 储备概览 */}
-                  <div className="grid grid-cols-2 gap-2 mb-2.5">
-                    <div className="bg-gradient-to-br from-green-50 to-emerald-50 rounded-lg p-2 border border-green-100">
-                      <div className="flex items-center justify-between mb-0.5">
-                        <span className="text-xs text-gray-600">年度缺口</span>
-                        <AlertTriangle className="w-3 h-3 text-orange-500" />
+                    {/* 已达成 */}
+                    <div className="mb-1.5">
+                      <div className="text-xs text-gray-500 mb-0.5">已达成</div>
+                      <div className="text-sm font-semibold text-gray-900">
+                        ¥{segment.achieved.toLocaleString()}万
                       </div>
-                      <div className="text-xl font-bold text-gray-900">{projectReserveData.gap.toLocaleString()}</div>
-                      <div className="text-xs text-gray-500">万元</div>
                     </div>
-                    <div className="bg-gradient-to-br from-blue-50 to-cyan-50 rounded-lg p-2 border border-blue-100">
-                      <div className="flex items-center justify-between mb-0.5">
-                        <span className="text-xs text-gray-600">储备项目</span>
-                        <FileText className="w-3 h-3 text-blue-500" />
-                      </div>
-                      <div className="text-xl font-bold text-gray-900">{projectReserveData.reserveCount}</div>
-                      <div className="text-xs text-gray-500">个</div>
-                    </div>
-                    <div className="bg-gradient-to-br from-purple-50 to-pink-50 rounded-lg p-2 border border-purple-100">
-                      <div className="flex items-center justify-between mb-0.5">
-                        <span className="text-xs text-gray-600">储备金额</span>
-                        <DollarSign className="w-3 h-3 text-purple-500" />
-                      </div>
-                      <div className="text-xl font-bold text-gray-900">{projectReserveData.reserveAmount.toLocaleString()}</div>
-                      <div className="text-xs text-gray-500">万元</div>
-                    </div>
-                    <div className="bg-gradient-to-br from-teal-50 to-green-50 rounded-lg p-2 border border-teal-100">
-                      <div className="flex items-center justify-between mb-0.5">
-                        <span className="text-xs text-gray-600">储备率</span>
-                        <TrendingUp className="w-3 h-3 text-teal-500" />
-                      </div>
-                      <div className="text-xl font-bold text-gray-900">{projectReserveData.reserveRate.toFixed(1)}</div>
-                      <div className="text-xs text-gray-500">%</div>
-                    </div>
-                  </div>
 
-                  {/* 储备项目列表 */}
-                  <div className="space-y-1.5">
-                    <div className="text-xs font-medium text-gray-600">重点储备项目（TOP5）</div>
-                    {projectReserveData.projects.map((project, index) => (
-                      <div key={index} className="flex items-center justify-between p-1.5 bg-gray-50 rounded-lg border border-gray-100">
-                        <div className="flex-1 min-w-0">
-                          <div className="flex items-center gap-1.5">
-                            <div className="flex items-center justify-center w-4 h-4 bg-green-100 rounded-full text-xs font-bold text-green-700">
-                              {index + 1}
-                            </div>
-                            <span className="text-xs font-medium text-gray-900 truncate">{project.name}</span>
-                          </div>
-                          <div className="flex items-center gap-2 mt-0.5">
-                            <span className="text-xs text-gray-500">{project.stage}</span>
-                            <span className="text-xs font-medium text-green-600">{project.amount}万元</span>
-                          </div>
-                        </div>
-                        <div className="flex items-center gap-1.5 ml-1.5">
-                          <div className="w-10 h-1 bg-gray-200 rounded-full overflow-hidden">
-                            <div
-                              className={`h-full rounded-full ${
-                                project.probability >= 80 ? 'bg-green-500' :
-                                project.probability >= 60 ? 'bg-emerald-500' :
-                                'bg-orange-500'
-                              }`}
-                              style={{ width: `${project.probability}%` }}
-                            />
-                          </div>
-                          <span className="text-xs font-medium text-gray-700 w-8 text-right">
-                            {project.probability}%
+                    {/* 达成率 */}
+                    <div className="mb-1.5">
+                      <div className="text-xs text-gray-500 mb-0.5">达成率</div>
+                      <div className="flex items-baseline gap-1">
+                        <span className={`text-base font-bold ${
+                          segment.achievementRate >= 80 ? 'text-green-600' :
+                          segment.achievementRate >= 60 ? 'text-emerald-600' :
+                          segment.achievementRate >= 40 ? 'text-orange-600' : 'text-red-600'
+                        }`}>
+                          {segment.achievementRate.toFixed(1)}%
+                        </span>
+                      </div>
+                    </div>
+
+                    {/* 同比涨跌 */}
+                    <div className="flex items-center gap-1 mb-2">
+                      {segment.growthRate >= 0 ? (
+                        <>
+                          <ArrowUp className="w-3 h-3 text-green-500" />
+                          <span className="text-xs font-medium text-green-600">
+                            ↑ {Math.abs(segment.growthRate).toFixed(1)}%
                           </span>
-                        </div>
+                        </>
+                      ) : (
+                        <>
+                          <ArrowDown className="w-3 h-3 text-red-500" />
+                          <span className="text-xs font-medium text-red-600">
+                            ↓ {Math.abs(segment.growthRate).toFixed(1)}%
+                          </span>
+                        </>
+                      )}
+                    </div>
+
+                    {/* 项目储备 */}
+                    <div className="pt-2 border-t border-gray-200">
+                      <div className="text-xs text-gray-500 mb-0.5">项目储备</div>
+                      <div className="text-xs font-medium text-gray-700">
+                        {segment.projectReserve.count}个 / ¥{segment.projectReserve.amount}万
                       </div>
-                    ))}
+                    </div>
                   </div>
-                </div>
+                ))}
               </div>
 
-              {/* AI 洞察 */}
-              <div className="mt-3 p-2.5 bg-gradient-to-r from-blue-50 to-cyan-50 rounded-lg border border-blue-100">
+              {/* AI 智能洞察 */}
+              <div className="p-2.5 bg-gradient-to-r from-blue-50 to-cyan-50 rounded-lg border border-blue-100">
                 <div className="flex items-start gap-2">
                   <Lightbulb className="w-4 h-4 text-blue-600 flex-shrink-0 mt-0.5" />
                   <div className="flex-1">
                     <div className="text-xs font-semibold text-blue-900 mb-1">AI 智能洞察</div>
                     <div className="text-xs text-gray-700 leading-relaxed">
-                      当前项目储备率为{projectReserveData.reserveRate.toFixed(1)}%，距离完成年度目标还存在{projectReserveData.gap.toLocaleString()}万元缺口。
-                      细分市场中，{marketSegmentData.find(m => m.achievementRate === Math.max(...marketSegmentData.map(s => s.achievementRate)))?.name}表现最佳（达成率{Math.max(...marketSegmentData.map(s => s.achievementRate)).toFixed(1)}%），
-                      而{marketSegmentData.find(m => m.achievementRate === Math.min(...marketSegmentData.map(s => s.achievementRate)))?.name}需加强（达成率{Math.min(...marketSegmentData.map(s => s.achievementRate)).toFixed(1)}%）。
-                      建议重点关注{projectReserveData.projects[0].name}和{projectReserveData.projects[1].name}这两个高概率项目，
-                      加快推进{projectReserveData.projects[0].stage}和{projectReserveData.projects[1].stage}，
-                      预计可带来{projectReserveData.projects[0].amount + projectReserveData.projects[1].amount}万元业绩。
+                      细分市场中，{marketSegmentData.find(m => m.achievementRate === Math.max(...marketSegmentData.map(s => s.achievementRate)))?.name}表现最佳（达成率{Math.max(...marketSegmentData.map(s => s.achievementRate)).toFixed(1)}%，同比增长{marketSegmentData.find(m => m.achievementRate === Math.max(...marketSegmentData.map(s => s.achievementRate)))?.growthRate}%），
+                      而{marketSegmentData.find(m => m.achievementRate === Math.min(...marketSegmentData.map(s => s.achievementRate)))?.name}需加强（达成率仅{Math.min(...marketSegmentData.map(s => s.achievementRate)).toFixed(1)}%）。
+                      建议加大对{marketSegmentData.find(m => m.achievementRate === Math.min(...marketSegmentData.map(s => s.achievementRate)))?.name}的资源投入，
+                      同时巩固{marketSegmentData.find(m => m.achievementRate === Math.max(...marketSegmentData.map(s => s.achievementRate)))?.name}的优势地位。
                     </div>
                   </div>
                 </div>
