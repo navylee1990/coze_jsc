@@ -393,7 +393,7 @@ export default function SalesDashboard() {
                 <span>目标</span>
               </div>
               <div className="mt-1 flex items-baseline gap-0.5">
-                <span className="text-2xl font-bold text-gray-900 leading-tight">1,428</span>
+                <span className="text-3xl font-bold text-gray-900 leading-tight">1,428</span>
                 <span className="text-xs text-gray-400">万元</span>
               </div>
             </CardContent>
@@ -404,7 +404,7 @@ export default function SalesDashboard() {
             <CardContent className="p-1">
               <div className="text-xs font-medium text-gray-500">已完成</div>
               <div className="mt-1 flex items-baseline gap-0.5">
-                <span className="text-2xl font-bold text-gray-900 leading-tight">677</span>
+                <span className="text-3xl font-bold text-gray-900 leading-tight">677</span>
                 <span className="text-xs text-gray-400">万元</span>
               </div>
               <div className="flex items-center gap-0.5 text-xs text-red-600 mt-0.5">
@@ -419,7 +419,7 @@ export default function SalesDashboard() {
             <CardContent className="p-1">
               <div className="text-xs font-medium text-gray-500">未来预计完成</div>
               <div className="mt-1 flex items-baseline gap-0.5">
-                <span className="text-2xl font-bold text-green-600 leading-tight">650.3</span>
+                <span className="text-3xl font-bold text-green-600 leading-tight">650.3</span>
                 <span className="text-xs text-gray-400">万元</span>
               </div>
               <div className="flex items-center gap-0.5 text-xs text-red-600 mt-0.5">
@@ -437,7 +437,7 @@ export default function SalesDashboard() {
                 <span>任务缺口</span>
               </div>
               <div className="mt-1 flex items-baseline gap-0.5">
-                <span className="text-2xl font-bold text-red-600 leading-tight">777.7</span>
+                <span className="text-3xl font-bold text-red-600 leading-tight">777.7</span>
                 <span className="text-xs text-gray-400">万元</span>
               </div>
               <div className="flex items-center gap-0.5 text-xs text-gray-500 mt-0.5">
@@ -455,7 +455,7 @@ export default function SalesDashboard() {
                 <span>项目储备</span>
               </div>
               <div className="mt-1 flex items-baseline gap-0.5">
-                <span className="text-2xl font-bold text-purple-600 leading-tight">1,200</span>
+                <span className="text-3xl font-bold text-purple-600 leading-tight">1,200</span>
                 <span className="text-xs text-gray-400">万元</span>
               </div>
               <div className="flex items-center justify-between mt-0.5">
@@ -662,7 +662,7 @@ export default function SalesDashboard() {
                     <span>总客户数</span>
                   </div>
                   <div className="mt-1 flex items-baseline gap-0.5">
-                    <span className="text-2xl font-bold text-green-600 leading-tight">{customerKPI.totalCustomers}</span>
+                    <span className="text-3xl font-bold text-green-600 leading-tight">{customerKPI.totalCustomers}</span>
                     <span className="text-xs text-gray-400">家</span>
                   </div>
                   <div className="flex items-center gap-0.5 text-xs text-green-600 mt-0.5">
@@ -680,7 +680,7 @@ export default function SalesDashboard() {
                     <span>活跃客户</span>
                   </div>
                   <div className="mt-1 flex items-baseline gap-0.5">
-                    <span className="text-2xl font-bold text-green-600 leading-tight">{customerKPI.activeCustomers}</span>
+                    <span className="text-3xl font-bold text-green-600 leading-tight">{customerKPI.activeCustomers}</span>
                     <span className="text-xs text-gray-400">家</span>
                   </div>
                   <div className="text-xs text-gray-500 mt-0.5">
@@ -697,7 +697,7 @@ export default function SalesDashboard() {
                     <span>达标客户</span>
                   </div>
                   <div className="mt-1 flex items-baseline gap-0.5">
-                    <span className="text-2xl font-bold text-orange-600 leading-tight">{customerKPI.qualifiedCustomers}</span>
+                    <span className="text-3xl font-bold text-orange-600 leading-tight">{customerKPI.qualifiedCustomers}</span>
                     <span className="text-xs text-gray-400">家</span>
                   </div>
                   <div className="flex items-center gap-0.5 text-xs text-green-600 mt-0.5">
@@ -715,7 +715,7 @@ export default function SalesDashboard() {
                     <span>新客户</span>
                   </div>
                   <div className="mt-1 flex items-baseline gap-0.5">
-                    <span className="text-2xl font-bold text-purple-600 leading-tight">{customerKPI.newCustomers}</span>
+                    <span className="text-3xl font-bold text-purple-600 leading-tight">{customerKPI.newCustomers}</span>
                     <span className="text-xs text-gray-400">家</span>
                   </div>
                   <div className="text-xs text-gray-500 mt-0.5">
@@ -885,7 +885,7 @@ export default function SalesDashboard() {
                     <AlertTriangle className="w-2.5 h-2.5 text-red-500 flex-shrink-0" />
                   </div>
                   <div className="mt-1 flex items-baseline gap-0.5">
-                    <span className="text-2xl font-bold text-red-600 leading-tight">1,200</span>
+                    <span className="text-3xl font-bold text-red-600 leading-tight">1,200</span>
                     <span className="text-xs text-gray-400">万元</span>
                   </div>
                   <div className="flex items-center justify-between mt-0.5">
@@ -906,7 +906,7 @@ export default function SalesDashboard() {
                     <span>储备倒推</span>
                   </div>
                   <div className="mt-1 flex items-baseline gap-0.5">
-                    <span className="text-2xl font-bold text-green-600 leading-tight">需开发</span>
+                    <span className="text-3xl font-bold text-green-600 leading-tight">需开发</span>
                     <span className="text-xs text-gray-400">项目</span>
                   </div>
                   <div className="text-xs text-gray-500 mt-0.5">
@@ -1070,7 +1070,7 @@ export default function SalesDashboard() {
                     <span>总业绩</span>
                   </div>
                   <div className="mt-1 flex items-baseline gap-0.5">
-                    <span className="text-2xl font-bold text-green-600 leading-tight">{salesmenKPI.totalPerformance.toLocaleString()}</span>
+                    <span className="text-3xl font-bold text-green-600 leading-tight">{salesmenKPI.totalPerformance.toLocaleString()}</span>
                     <span className="text-xs text-gray-400">万元</span>
                   </div>
                   <div className="flex items-center gap-0.5 text-xs text-green-600 mt-0.5">
@@ -1088,7 +1088,7 @@ export default function SalesDashboard() {
                     <span>业务员数量</span>
                   </div>
                   <div className="mt-1 flex items-baseline gap-0.5">
-                    <span className="text-2xl font-bold text-teal-600 leading-tight">{salesmenKPI.totalCount}</span>
+                    <span className="text-3xl font-bold text-teal-600 leading-tight">{salesmenKPI.totalCount}</span>
                     <span className="text-xs text-gray-400">人</span>
                   </div>
                   <div className="text-xs text-gray-500 mt-0.5">覆盖7个大区</div>
@@ -1103,7 +1103,7 @@ export default function SalesDashboard() {
                     <span>达标人数</span>
                   </div>
                   <div className="mt-1 flex items-baseline gap-0.5">
-                    <span className="text-2xl font-bold text-green-600 leading-tight">{salesmenKPI.qualifiedCount}</span>
+                    <span className="text-3xl font-bold text-green-600 leading-tight">{salesmenKPI.qualifiedCount}</span>
                     <span className="text-xs text-gray-400">人</span>
                   </div>
                   <div className="text-xs text-gray-500 mt-0.5">
@@ -1120,7 +1120,7 @@ export default function SalesDashboard() {
                     <span>新增项目</span>
                   </div>
                   <div className="mt-1 flex items-baseline gap-0.5">
-                    <span className="text-2xl font-bold text-orange-600 leading-tight">{salesmenKPI.newProjects}</span>
+                    <span className="text-3xl font-bold text-orange-600 leading-tight">{salesmenKPI.newProjects}</span>
                     <span className="text-xs text-gray-400">个</span>
                   </div>
                   <div className="flex items-center gap-0.5 text-xs text-green-600 mt-0.5">
