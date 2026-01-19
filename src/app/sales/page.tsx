@@ -695,11 +695,11 @@ export default function SalesDashboard() {
           </div>
         {/* KPI指标 + 月度趋势分析 左右布局 */}
         <div className="flex gap-3">
-          {/* 左侧：买断指标 + 租赁 + 续租 */}
+          {/* 左侧：买断 + 租赁 + 续租 */}
           <div className="w-1/2 flex flex-col gap-2">
-            {/* 新增买断指标 */}
+            {/* 新增买断 */}
             <div>
-              <div className="text-xs font-medium text-gray-600 mb-1.5 pl-1">新增买断指标</div>
+              <div className="text-xs font-medium text-gray-600 mb-1.5 pl-1">新增买断</div>
               <div className="bg-white border border-gray-200 rounded-lg overflow-hidden">
                 <div className="grid grid-cols-5">
                   {/* 目标 */}
@@ -833,7 +833,7 @@ export default function SalesDashboard() {
               </div>
             </div>
 
-            {/* 新增续租指标 */}
+            {/* 续租 */}
             <div>
               <div className="text-xs font-medium text-gray-600 mb-1.5 pl-1">续租</div>
               <div className="bg-white border border-gray-200 rounded-lg overflow-hidden">
@@ -901,7 +901,7 @@ export default function SalesDashboard() {
               </div>
             </div>
 
-            {/* 合计指标 */}
+            {/* 合计 */}
             <div>
               <div className="text-xs font-medium text-gray-600 mb-1.5 pl-1">合计（买断+租赁+续租）</div>
               <div className="bg-gradient-to-r from-green-50 to-emerald-50 border-2 border-green-200 rounded-lg overflow-hidden">
