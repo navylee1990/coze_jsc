@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { ArrowUp, ArrowDown, TrendingUp, AlertTriangle, Activity, Target, Heart, Shield, Clock, Database, ChevronRight } from 'lucide-react';
+import { ArrowUp, ArrowDown, TrendingUp, AlertTriangle, Activity, Target, Clock, Database, ChevronRight } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Progress } from '@/components/ui/progress';
 import { AIInsight } from '@/components/ai-insight';
@@ -213,21 +213,6 @@ const cityData = {
   },
 };
 
-const riskLevel = kpiData.currentHealthIndex < 60 || kpiData.taskGap > 900 ? 'high' : kpiData.taskGap > 500 ? 'medium' : 'low';
-
-const getGapColor = () => {
-  if (riskLevel === 'high') return { bg: 'bg-red-50', border: 'border-red-300', text: 'text-red-600' };
-  if (riskLevel === 'medium') return { bg: 'bg-yellow-50', border: 'border-yellow-300', text: 'text-yellow-600' };
-  return { bg: 'bg-green-50', border: 'border-green-300', text: 'text-green-600' };
-};
-
-const getHealthColor = (value: number) => {
-  if (value >= 80) return 'green';
-  if (value >= 60) return 'yellow';
-  return 'red';
-};
-
-
 // 经销商达成率排名数据
 const dealerAchievementRanking = [
   { rank: 1, name: '杭州商用净水', target: 15000, completed: 10275, rate: 68.5, region: '一区', status: 'excellent' },
@@ -281,11 +266,12 @@ const relatedProjectsData = [
 ];
 
 export default function SalesDashboard() {
-  const [filter, setFilter] = useState('all');
   const [timeRange, setTimeRange] = useState('month');
   const [activeTab, setActiveTab] = useState('overview');
   const [viewLevel, setViewLevel] = useState<'region' | 'city'>('region');
   const [selectedRegion, setSelectedRegion] = useState<string>('');
+  const [selectedMonth, setSelectedMonth] = useState('1');
+  const [selectedQuarter, setSelectedQuarter] = useState('Q1');
 
   // 业务员排名分页状态
   const [salesmenCurrentPage, setSalesmenCurrentPage] = useState(1);
@@ -368,28 +354,55 @@ export default function SalesDashboard() {
       </header>
 
       {/* 筛选器 */}
-      <div className="mb-3 flex items-center gap-4 bg-white p-3 rounded-lg border border-gray-200">
-        <span className="text-sm font-medium text-gray-700">时间范围：</span>
-        <select
-          value={timeRange}
-          onChange={(e) => setTimeRange(e.target.value)}
-          className="px-3 py-1.5 text-sm border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-        >
-          <option value="month">月度</option>
-          <option value="quarter">季度</option>
-          <option value="year">年度</option>
-        </select>
-        <span className="text-sm font-medium text-gray-700 ml-4">行业筛选：</span>
-        <select
-          value={filter}
-          onChange={(e) => setFilter(e.target.value)}
-          className="px-3 py-1.5 text-sm border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-        >
-          <option value="all">全部行业</option>
-          <option value="catering">餐饮行业</option>
-          <option value="retail">零售行业</option>
-          <option value="hotel">酒店行业</option>
-        </select>
+      <div className="mb-3 bg-white p-3 rounded-lg border border-gray-200">
+        <div className="flex items-center gap-4">
+          <span className="text-sm font-medium text-gray-700">时间范围：</span>
+          <select
+            value={timeRange}
+            onChange={(e) => setTimeRange(e.target.value)}
+            className="px-3 py-1.5 text-sm border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+          >
+            <option value="month">月度</option>
+            <option value="quarter">季度</option>
+            <option value="year">年度</option>
+          </select>
+        </div>
+
+        {/* 二级筛选 */}
+        <div className="mt-3 flex items-center gap-4">
+          {timeRange === 'month' && (
+            <>
+              <span className="text-sm font-medium text-gray-700">选择月份：</span>
+              <select
+                value={selectedMonth}
+                onChange={(e) => setSelectedMonth(e.target.value)}
+                className="px-3 py-1.5 text-sm border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+              >
+                {Array.from({ length: 12 }, (_, i) => (
+                  <option key={i + 1} value={String(i + 1)}>{i + 1}月</option>
+                ))}
+              </select>
+            </>
+          )}
+          {timeRange === 'quarter' && (
+            <>
+              <span className="text-sm font-medium text-gray-700">选择季度：</span>
+              <select
+                value={selectedQuarter}
+                onChange={(e) => setSelectedQuarter(e.target.value)}
+                className="px-3 py-1.5 text-sm border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+              >
+                <option value="Q1">Q1（1-3月）</option>
+                <option value="Q2">Q2（4-6月）</option>
+                <option value="Q3">Q3（7-9月）</option>
+                <option value="Q4">Q4（10-12月）</option>
+              </select>
+            </>
+          )}
+          {timeRange === 'year' && (
+            <span className="text-sm text-gray-500">2026年度数据</span>
+          )}
+        </div>
       </div>
 
       {/* Tab页 */}
@@ -428,24 +441,6 @@ export default function SalesDashboard() {
               <Activity className="w-5 h-5" />
               经营总览
             </h2>
-            <div className="flex items-center gap-4">
-              {/* 健康指数 */}
-              <div className="flex items-center gap-2 px-3 py-1.5 bg-white rounded-lg border border-gray-200 shadow-sm">
-                <Heart className={`w-4 h-4 ${getHealthColor(kpiData.currentHealthIndex) === 'green' ? 'text-green-500' : getHealthColor(kpiData.currentHealthIndex) === 'yellow' ? 'text-yellow-500' : 'text-red-500'}`} />
-                <span className="text-sm text-gray-700">健康值</span>
-                <span className={`text-sm font-bold ${getHealthColor(kpiData.currentHealthIndex) === 'green' ? 'text-green-600' : getHealthColor(kpiData.currentHealthIndex) === 'yellow' ? 'text-yellow-600' : 'text-red-600'}`}>
-                  {kpiData.currentHealthIndex.toFixed(1)}
-                </span>
-              </div>
-              {/* 风险等级 */}
-              <div className="flex items-center gap-2 px-3 py-1.5 bg-white rounded-lg border border-gray-200 shadow-sm">
-                <Shield className={`w-4 h-4 ${riskLevel === 'high' ? 'text-red-500' : riskLevel === 'medium' ? 'text-yellow-500' : 'text-green-500'}`} />
-                <span className="text-sm text-gray-700">风险</span>
-                <span className={`text-sm font-bold ${riskLevel === 'high' ? 'text-red-600' : riskLevel === 'medium' ? 'text-yellow-600' : 'text-green-600'}`}>
-                  {riskLevel === 'high' ? '高风险' : riskLevel === 'medium' ? '中风险' : '低风险'}
-                </span>
-              </div>
-            </div>
           </div>
         <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-1.5">
           {/* 目标 */}
@@ -457,7 +452,7 @@ export default function SalesDashboard() {
                   <span>{timeRangeLabel}目标</span>
                 </div>
                 <span className="text-xs font-medium text-blue-600 bg-blue-50 px-1.5 py-0.5 rounded">
-                  {timeRange === 'month' ? '1月' : timeRange === 'quarter' ? 'Q1' : '2026'}
+                  {timeRange === 'month' ? `${selectedMonth}月` : timeRange === 'quarter' ? selectedQuarter : '2026'}
                 </span>
               </div>
               <div className="mt-1 flex items-baseline gap-0.5">
@@ -561,7 +556,7 @@ export default function SalesDashboard() {
                     {viewLevel === 'city' ? `${selectedRegion}` : '区域达成情况'}
                   </span>
                   {viewLevel === 'region' && (
-                    <span className="text-sm font-bold text-gray-900 ml-1">({timeRange === 'month' ? '1月' : timeRange === 'quarter' ? 'Q1' : '2026年'})</span>
+                    <span className="text-sm font-bold text-gray-900 ml-1">({timeRange === 'month' ? `${selectedMonth}月` : timeRange === 'quarter' ? selectedQuarter : '2026年'})</span>
                   )}
                 </div>
               </div>
