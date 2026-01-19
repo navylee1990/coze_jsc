@@ -608,10 +608,10 @@ export default function SalesDashboard() {
           </div>
         {/* 页面主体布局：2行2列 */}
         <div className="grid grid-cols-2 gap-3">
-          {/* 1行1列：5个KPI指标 */}
-          <div className="grid grid-cols-2 gap-1">
+          {/* 1行1列：5个KPI指标（横向单行） */}
+          <div className="flex gap-1">
             {/* 目标 */}
-            <Card className="bg-white border border-gray-200">
+            <Card className="flex-1 bg-white border border-gray-200">
               <CardContent className="p-0.5">
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-0.5 text-[10px] font-medium text-gray-500">
@@ -623,79 +623,59 @@ export default function SalesDashboard() {
                   </span>
                 </div>
                 <div className="mt-0.5 flex items-baseline gap-0.5">
-                  <span className="text-2xl font-bold text-gray-900 leading-tight">{currentRangeData.target.toLocaleString()}</span>
+                  <span className="text-xl font-bold text-gray-900 leading-tight">{currentRangeData.target.toLocaleString()}</span>
                   <span className="text-[10px] text-gray-400">万元</span>
                 </div>
               </CardContent>
             </Card>
 
             {/* 已完成 */}
-            <Card className="bg-white border border-gray-200">
+            <Card className="flex-1 bg-white border border-gray-200">
               <CardContent className="p-0.5">
                 <div className="text-[10px] font-medium text-gray-500">{timeRangeLabel}已完成</div>
                 <div className="mt-0.5 flex items-baseline gap-0.5">
-                  <span className="text-2xl font-bold text-gray-900 leading-tight">{currentRangeData.completed.toLocaleString()}</span>
+                  <span className="text-xl font-bold text-gray-900 leading-tight">{currentRangeData.completed.toLocaleString()}</span>
                   <span className="text-[10px] text-gray-400">万元</span>
-                </div>
-                <div className="flex items-center gap-0.5 text-[10px] text-red-600 mt-0.5">
-                  <ArrowDown className="w-2 h-2" />
-                  <span>-8.3%</span>
                 </div>
               </CardContent>
             </Card>
 
             {/* 预测完成 */}
-            <Card className="bg-white border border-green-300 border-dashed">
+            <Card className="flex-1 bg-white border border-green-300 border-dashed">
               <CardContent className="p-0.5">
                 <div className="text-[10px] font-medium text-gray-500">预测完成</div>
                 <div className="mt-0.5 flex items-baseline gap-0.5">
-                  <span className="text-2xl font-bold text-green-600 leading-tight">{currentRangeData.predicted.toLocaleString()}</span>
+                  <span className="text-xl font-bold text-green-600 leading-tight">{currentRangeData.predicted.toLocaleString()}</span>
                   <span className="text-[10px] text-gray-400">万元</span>
-                </div>
-                <div className="flex items-center gap-0.5 text-[10px] text-green-600 mt-0.5">
-                  <ArrowUp className="w-2 h-2" />
-                  <span>同比+5.2%</span>
                 </div>
               </CardContent>
             </Card>
 
             {/* 任务缺口 */}
-            <Card className="bg-white border-2 border-red-200">
+            <Card className="flex-1 bg-white border-2 border-red-200">
               <CardContent className="p-0.5">
                 <div className="flex items-center gap-0.5 text-[10px] font-medium text-gray-500">
                   <AlertTriangle className="w-2 h-2 text-red-500 flex-shrink-0" />
                   <span>任务缺口</span>
                 </div>
                 <div className="mt-0.5 flex items-baseline gap-0.5">
-                  <span className="text-2xl font-bold text-red-600 leading-tight">{currentRangeData.gap.toLocaleString()}</span>
+                  <span className="text-xl font-bold text-red-600 leading-tight">{currentRangeData.gap.toLocaleString()}</span>
                   <span className="text-[10px] text-gray-400">万元</span>
-                </div>
-                <div className="flex items-center gap-0.5 text-[10px] text-gray-500 mt-0.5">
-                  <ArrowDown className="w-2 h-2" />
-                  <span>-54.5%</span>
                 </div>
               </CardContent>
             </Card>
 
             {/* 在手订单 */}
-            <Card className="bg-white border-2 border-purple-300">
+            <Card className="flex-1 bg-white border-2 border-purple-300">
               <CardContent className="p-0.5">
                 <div className="flex items-center gap-0.5 text-[10px] font-medium text-gray-500">
                   <Database className="w-2 h-2 text-purple-500 flex-shrink-0" />
                   <span>在手订单</span>
                 </div>
                 <div className="mt-0.5 flex items-baseline gap-0.5">
-                  <span className="text-2xl font-bold text-purple-600 leading-tight">15</span>
-                  <span className="text-xs text-gray-600">单</span>
-                  <span className="text-xs font-semibold text-gray-700 ml-1">1,200万元</span>
-                </div>
-              </CardContent>
-            </Card>
-            {/* 空卡片 */}
-            <Card className="border border-dashed border-gray-300 bg-gray-50">
-              <CardContent className="p-0.5">
-                <div className="h-full flex items-center justify-center text-[10px] text-gray-400">
-                  暂无数据
+                  <span className="text-xl font-bold text-purple-600 leading-tight">15</span>
+                  <span className="text-[10px] text-gray-600">单</span>
+                  <span className="text-[10px] font-semibold text-gray-700 ml-0.5">1,200万</span>
                 </div>
               </CardContent>
             </Card>
