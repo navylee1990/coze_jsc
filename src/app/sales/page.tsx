@@ -242,12 +242,12 @@ const dealerAchievementRanking = [
   { rank: 10, name: '昆明净泉科技', target: 11000, completed: 4730, rate: 43.0, region: '西南', status: 'danger' },
 ];
 
-// 客户KPI数据
-const customerKPI = {
-  totalCustomers: 156,    // 总客户数
-  activeCustomers: 128,   // 活跃客户
-  qualifiedCustomers: 42, // 达标数量
-  newCustomers: 18,       // 新客户数量
+// 经销商KPI数据
+const dealerKPI = {
+  totalDealers: 10,       // 总经销商数
+  activeDealers: 10,      // 活跃经销商
+  qualifiedDealers: 0,    // 达标数量
+  newDealers: 2,          // 新经销商数量
 };
 
 // 项目KPI数据
@@ -715,41 +715,41 @@ export default function SalesDashboard() {
             <div className="mb-4 flex items-center justify-between">
               <h2 className="text-lg font-semibold text-gray-900 flex items-center gap-2">
                 <Database className="w-5 h-5" />
-                客户经营分析
+                经销商经营分析
               </h2>
               <span className="text-sm text-gray-500">2026年度数据</span>
             </div>
 
-            {/* 客户KPI指标 */}
+            {/* 经销商KPI指标 */}
             <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-1.5 mb-3">
-              {/* 总客户数 */}
+              {/* 总经销商数 */}
               <Card className="bg-white border border-gray-200">
                 <CardContent className="p-1">
                   <div className="flex items-center gap-1 text-xs font-medium text-gray-500">
                     <Database className="w-2.5 h-2.5 text-blue-500 flex-shrink-0" />
-                    <span>总客户数</span>
+                    <span>总经销商数</span>
                   </div>
                   <div className="mt-1 flex items-baseline gap-0.5">
-                    <span className="text-3xl font-bold text-blue-600 leading-tight">{customerKPI.totalCustomers}</span>
-                    <span className="text-xs text-gray-400">个</span>
+                    <span className="text-3xl font-bold text-blue-600 leading-tight">{dealerKPI.totalDealers}</span>
+                    <span className="text-xs text-gray-400">家</span>
                   </div>
                   <div className="text-xs text-gray-500 mt-0.5">覆盖7个大区</div>
                 </CardContent>
               </Card>
 
-              {/* 活跃客户 */}
+              {/* 活跃经销商 */}
               <Card className="bg-white border-2 border-green-200">
                 <CardContent className="p-1">
                   <div className="flex items-center gap-1 text-xs font-medium text-gray-500">
                     <Activity className="w-2.5 h-2.5 text-green-500 flex-shrink-0" />
-                    <span>活跃客户</span>
+                    <span>活跃经销商</span>
                   </div>
                   <div className="mt-1 flex items-baseline gap-0.5">
-                    <span className="text-3xl font-bold text-green-600 leading-tight">{customerKPI.activeCustomers}</span>
-                    <span className="text-xs text-gray-400">个</span>
+                    <span className="text-3xl font-bold text-green-600 leading-tight">{dealerKPI.activeDealers}</span>
+                    <span className="text-xs text-gray-400">家</span>
                   </div>
                   <div className="text-xs text-gray-500 mt-0.5">
-                    活跃率 {((customerKPI.activeCustomers / customerKPI.totalCustomers) * 100).toFixed(0)}%
+                    活跃率 {((dealerKPI.activeDealers / dealerKPI.totalDealers) * 100).toFixed(0)}%
                   </div>
                 </CardContent>
               </Card>
@@ -762,29 +762,29 @@ export default function SalesDashboard() {
                     <span>达标数量</span>
                   </div>
                   <div className="mt-1 flex items-baseline gap-0.5">
-                    <span className="text-3xl font-bold text-teal-600 leading-tight">{customerKPI.qualifiedCustomers}</span>
-                    <span className="text-xs text-gray-400">个</span>
+                    <span className="text-3xl font-bold text-teal-600 leading-tight">{dealerKPI.qualifiedDealers}</span>
+                    <span className="text-xs text-gray-400">家</span>
                   </div>
                   <div className="text-xs text-gray-500 mt-0.5">
-                    达标率 {((customerKPI.qualifiedCustomers / customerKPI.activeCustomers) * 100).toFixed(0)}%
+                    达标率 {dealerKPI.activeDealers > 0 ? ((dealerKPI.qualifiedDealers / dealerKPI.activeDealers) * 100).toFixed(0) : 0}%
                   </div>
                 </CardContent>
               </Card>
 
-              {/* 新客户数量 */}
+              {/* 新经销商数量 */}
               <Card className="bg-white border-2 border-orange-200">
                 <CardContent className="p-1">
                   <div className="flex items-center gap-1 text-xs font-medium text-gray-500">
                     <TrendingUp className="w-2.5 h-2.5 text-orange-500 flex-shrink-0" />
-                    <span>新客户数量</span>
+                    <span>新经销商数量</span>
                   </div>
                   <div className="mt-1 flex items-baseline gap-0.5">
-                    <span className="text-3xl font-bold text-orange-600 leading-tight">{customerKPI.newCustomers}</span>
-                    <span className="text-xs text-gray-400">个</span>
+                    <span className="text-3xl font-bold text-orange-600 leading-tight">{dealerKPI.newDealers}</span>
+                    <span className="text-xs text-gray-400">家</span>
                   </div>
                   <div className="flex items-center gap-0.5 text-xs text-green-600 mt-0.5">
                     <ArrowUp className="w-2 h-2" />
-                    <span>较上月+3个</span>
+                    <span>较上月+1家</span>
                   </div>
                 </CardContent>
               </Card>
