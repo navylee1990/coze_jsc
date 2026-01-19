@@ -229,34 +229,37 @@ const dealerAchievementRanking = [
   { rank: 10, name: '昆明净泉科技', target: 11000, completed: 4730, rate: 43.0, region: '西南', status: 'danger' },
 ];
 
-// 城市经理数据
+// 城市经理数据（城市经理负责单个城市，目标应比区域目标小）
 const cityManagerData = {
   month: [
-    { name: '王泽', region: '北京', target: 320, completed: 65, predicted: 110, gap: 210, rate: 34.4, orderCount: 45, projectCount: 28 },
-    { name: '陈超', region: '上海', target: 232, completed: 100, predicted: 100, gap: 132, rate: 43.1, orderCount: 85, projectCount: 42 },
-    { name: '张大鹏', region: '广州', target: 260, completed: 120, predicted: 100.4, gap: 159.6, rate: 38.6, orderCount: 72, projectCount: 35 },
-    { name: '刘邦军', region: '武汉', target: 152, completed: 152, predicted: 150, gap: 2, rate: 98.7, orderCount: 112, projectCount: 58 },
-    { name: '康帅', region: '石家庄', target: 160, completed: 120, predicted: 69.1, gap: 90.9, rate: 43.2, orderCount: 62, projectCount: 31 },
-    { name: '钟莲', region: '成都', target: 128, completed: 20, predicted: 10.8, gap: 117.2, rate: 8.4, orderCount: 28, projectCount: 15 },
-    { name: '徐婷婷', region: '南宁', target: 176, completed: 100, predicted: 110, gap: 66, rate: 62.5, orderCount: 68, projectCount: 36 },
+    { name: '王泽', region: '北京', target: 180, completed: 35, predicted: 65, gap: 115, rate: 36.1, orderCount: 28, projectCount: 18 },
+    { name: '张伟', region: '上海', target: 132, completed: 55, predicted: 55, gap: 77, rate: 41.7, orderCount: 52, projectCount: 26 },
+    { name: '李明', region: '广州', target: 150, completed: 70, predicted: 58, gap: 92, rate: 38.7, orderCount: 42, projectCount: 21 },
+    { name: '刘强', region: '武汉', target: 80, completed: 80, predicted: 78, gap: 2, rate: 97.5, orderCount: 68, projectCount: 35 },
+    { name: '陈刚', region: '石家庄', target: 90, completed: 65, predicted: 38, gap: 52, rate: 72.2, orderCount: 36, projectCount: 18 },
+    { name: '杨敏', region: '成都', target: 75, completed: 12, predicted: 6.3, gap: 68.7, rate: 16.0, orderCount: 15, projectCount: 8 },
+    { name: '赵芳', region: '南宁', target: 96, completed: 55, predicted: 60, gap: 36, rate: 62.5, orderCount: 38, projectCount: 20 },
+    { name: '孙涛', region: '天津', target: 140, completed: 30, predicted: 45, gap: 95, rate: 32.1, orderCount: 17, projectCount: 10 },
   ],
   quarter: [
-    { name: '王泽', region: '北京', target: 960, completed: 195, predicted: 330, gap: 630, rate: 34.4, orderCount: 135, projectCount: 84 },
-    { name: '陈超', region: '上海', target: 696, completed: 300, predicted: 300, gap: 396, rate: 43.1, orderCount: 255, projectCount: 126 },
-    { name: '张大鹏', region: '广州', target: 780, completed: 360, predicted: 301.2, gap: 478.8, rate: 38.6, orderCount: 216, projectCount: 105 },
-    { name: '刘邦军', region: '武汉', target: 456, completed: 456, predicted: 450, gap: 6, rate: 98.7, orderCount: 336, projectCount: 174 },
-    { name: '康帅', region: '石家庄', target: 480, completed: 360, predicted: 207.3, gap: 272.7, rate: 43.2, orderCount: 186, projectCount: 93 },
-    { name: '钟莲', region: '成都', target: 384, completed: 60, predicted: 32.4, gap: 351.6, rate: 8.4, orderCount: 84, projectCount: 45 },
-    { name: '徐婷婷', region: '南宁', target: 528, completed: 300, predicted: 330, gap: 198, rate: 62.5, orderCount: 204, projectCount: 108 },
+    { name: '王泽', region: '北京', target: 540, completed: 105, predicted: 195, gap: 345, rate: 36.1, orderCount: 84, projectCount: 54 },
+    { name: '张伟', region: '上海', target: 396, completed: 165, predicted: 165, gap: 231, rate: 41.7, orderCount: 156, projectCount: 78 },
+    { name: '李明', region: '广州', target: 450, completed: 210, predicted: 174, gap: 276, rate: 38.7, orderCount: 126, projectCount: 63 },
+    { name: '刘强', region: '武汉', target: 240, completed: 240, predicted: 234, gap: 6, rate: 97.5, orderCount: 204, projectCount: 105 },
+    { name: '陈刚', region: '石家庄', target: 270, completed: 195, predicted: 114, gap: 156, rate: 72.2, orderCount: 108, projectCount: 54 },
+    { name: '杨敏', region: '成都', target: 225, completed: 36, predicted: 18.9, gap: 206.1, rate: 16.0, orderCount: 45, projectCount: 24 },
+    { name: '赵芳', region: '南宁', target: 288, completed: 165, predicted: 180, gap: 108, rate: 62.5, orderCount: 114, projectCount: 60 },
+    { name: '孙涛', region: '天津', target: 420, completed: 90, predicted: 135, gap: 285, rate: 32.1, orderCount: 51, projectCount: 30 },
   ],
   year: [
-    { name: '王泽', region: '北京', target: 3840, completed: 780, predicted: 1320, gap: 2520, rate: 34.4, orderCount: 540, projectCount: 336 },
-    { name: '陈超', region: '上海', target: 2784, completed: 1200, predicted: 1200, gap: 1584, rate: 43.1, orderCount: 1020, projectCount: 504 },
-    { name: '张大鹏', region: '广州', target: 3120, completed: 1440, predicted: 1204.8, gap: 1915.2, rate: 38.6, orderCount: 864, projectCount: 420 },
-    { name: '刘邦军', region: '武汉', target: 1824, completed: 1824, predicted: 1800, gap: 24, rate: 98.7, orderCount: 1344, projectCount: 696 },
-    { name: '康帅', region: '石家庄', target: 1920, completed: 1440, predicted: 829.2, gap: 1090.8, rate: 43.2, orderCount: 744, projectCount: 372 },
-    { name: '钟莲', region: '成都', target: 1536, completed: 240, predicted: 129.6, gap: 1406.4, rate: 8.4, orderCount: 336, projectCount: 180 },
-    { name: '徐婷婷', region: '南宁', target: 2112, completed: 1200, predicted: 1320, gap: 792, rate: 62.5, orderCount: 816, projectCount: 432 },
+    { name: '王泽', region: '北京', target: 2160, completed: 420, predicted: 780, gap: 1380, rate: 36.1, orderCount: 336, projectCount: 216 },
+    { name: '张伟', region: '上海', target: 1584, completed: 660, predicted: 660, gap: 924, rate: 41.7, orderCount: 624, projectCount: 312 },
+    { name: '李明', region: '广州', target: 1800, completed: 840, predicted: 696, gap: 1104, rate: 38.7, orderCount: 504, projectCount: 252 },
+    { name: '刘强', region: '武汉', target: 960, completed: 960, predicted: 936, gap: 24, rate: 97.5, orderCount: 816, projectCount: 420 },
+    { name: '陈刚', region: '石家庄', target: 1080, completed: 780, predicted: 456, gap: 624, rate: 72.2, orderCount: 432, projectCount: 216 },
+    { name: '杨敏', region: '成都', target: 900, completed: 144, predicted: 75.6, gap: 824.4, rate: 16.0, orderCount: 180, projectCount: 96 },
+    { name: '赵芳', region: '南宁', target: 1152, completed: 660, predicted: 720, gap: 432, rate: 62.5, orderCount: 456, projectCount: 240 },
+    { name: '孙涛', region: '天津', target: 1680, completed: 360, predicted: 540, gap: 1140, rate: 32.1, orderCount: 204, projectCount: 120 },
   ],
 };
 
@@ -944,15 +947,15 @@ export default function SalesDashboard() {
                 <table className="w-full">
                   <thead>
                     <tr className="border-b border-gray-100">
-                      <th className="px-2 py-2 text-left text-xs font-medium text-gray-500">城市</th>
-                      <th className="px-2 py-2 text-left text-xs font-medium text-gray-500">责任人</th>
-                      <th className="px-2 py-2 text-right text-xs font-medium text-gray-500">目标</th>
-                      <th className="px-2 py-2 text-right text-xs font-medium text-gray-500">已完成</th>
-                      <th className="px-2 py-2 text-right text-xs font-medium text-gray-500">预测金额</th>
-                      <th className="px-2 py-2 text-right text-xs font-medium text-gray-500">缺口</th>
-                      <th className="px-2 py-2 text-center text-xs font-medium text-gray-500">预测达成率</th>
-                      <th className="px-2 py-2 text-center text-xs font-medium text-gray-500">在手订单数</th>
-                      <th className="px-2 py-2 text-center text-xs font-medium text-gray-500">在手项目数</th>
+                      <th className="px-3 py-2 text-left text-sm font-medium text-gray-500">城市</th>
+                      <th className="px-2 py-2 text-left text-sm font-medium text-gray-500">责任人</th>
+                      <th className="px-2 py-2 text-right text-sm font-medium text-gray-500">目标</th>
+                      <th className="px-2 py-2 text-right text-sm font-medium text-gray-500">已完成</th>
+                      <th className="px-2 py-2 text-right text-sm font-medium text-gray-500">预测金额</th>
+                      <th className="px-2 py-2 text-right text-sm font-medium text-gray-500">缺口</th>
+                      <th className="px-2 py-2 text-center text-sm font-medium text-gray-500">预测达成率</th>
+                      <th className="px-2 py-2 text-center text-sm font-medium text-gray-500">在手订单数</th>
+                      <th className="px-2 py-2 text-center text-sm font-medium text-gray-500">在手项目数</th>
                     </tr>
                   </thead>
                   <tbody className="min-h-[400px]">
@@ -964,29 +967,39 @@ export default function SalesDashboard() {
                         key={index}
                         className="border-b border-gray-50 last:border-0"
                       >
-                        <td className="px-2 py-2 text-sm font-medium text-gray-900">{item.region}</td>
-                        <td className="px-2 py-2 text-xs text-gray-500">{item.name}</td>
-                        <td className="px-2 py-2 text-xs text-right text-gray-600">{item.target.toLocaleString()}</td>
-                        <td className="px-2 py-2 text-xs text-right text-gray-600">{item.completed.toLocaleString()}</td>
-                        <td className="px-2 py-2 text-xs text-right text-gray-600">{item.predicted.toLocaleString()}</td>
-                        <td className={`px-2 py-2 text-xs text-right font-semibold ${item.gap > 0 ? 'text-red-500' : item.gap === 0 ? 'text-gray-600' : 'text-green-500'}`}>
+                        <td className="px-3 py-2.5 text-sm font-medium text-gray-900">{item.region}</td>
+                        <td className="px-2 py-2.5 text-sm text-gray-500">{item.name}</td>
+                        <td className="px-2 py-2.5 text-sm text-right text-gray-600">{item.target.toLocaleString()}</td>
+                        <td className="px-2 py-2.5 text-sm text-right text-gray-600">{item.completed.toLocaleString()}</td>
+                        <td className="px-2 py-2.5 text-sm text-right text-gray-600">{item.predicted.toLocaleString()}</td>
+                        <td className={`px-2 py-2.5 text-sm text-right font-semibold ${item.gap > 0 ? 'text-red-500' : item.gap === 0 ? 'text-gray-600' : 'text-green-500'}`}>
                           {item.gap > 0 ? `${item.gap}` : item.gap === 0 ? '0' : `+${Math.abs(item.gap)}`}
                         </td>
-                        <td className="px-2 py-2 text-center">
-                          <span className={`text-xs font-bold ${
-                            item.rate >= 100 ? 'text-green-600' : item.rate >= 80 ? 'text-yellow-600' : 'text-red-600'
-                          }`}>
-                            {item.rate.toFixed(1)}%
-                          </span>
+                        <td className="px-2 py-2.5 text-center">
+                          <div className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-gray-50 border border-gray-100">
+                            <span className={`text-sm font-bold ${
+                              item.rate >= 100 ? 'text-green-600' : item.rate >= 80 ? 'text-yellow-600' : 'text-red-600'
+                            }`}>
+                              {item.rate.toFixed(1)}%
+                            </span>
+                            <div className="w-8 h-1.5 rounded-full bg-gray-200 overflow-hidden">
+                              <div
+                                className={`h-full rounded-full transition-all ${
+                                  item.rate >= 100 ? 'bg-green-500' : item.rate >= 80 ? 'bg-yellow-500' : 'bg-red-500'
+                                }`}
+                                style={{ width: `${Math.min(item.rate, 100)}%` }}
+                              />
+                            </div>
+                          </div>
                         </td>
-                        <td className="px-2 py-2 text-center">
-                          <span className={`text-xs font-bold ${
+                        <td className="px-2 py-2.5 text-center">
+                          <span className={`text-sm font-bold ${
                             item.orderCount >= 100 ? 'text-green-600' : item.orderCount >= 80 ? 'text-yellow-600' : 'text-red-600'
                           }`}>
                             {item.orderCount}
                           </span>
                         </td>
-                        <td className="px-2 py-2 text-center text-xs text-gray-600">{item.projectCount}</td>
+                        <td className="px-2 py-2.5 text-center text-sm text-gray-600">{item.projectCount}</td>
                       </tr>
                     ))}
                   </tbody>
