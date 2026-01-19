@@ -228,14 +228,20 @@ const dealerAchievementRanking = [
   { rank: 10, name: '昆明净泉科技', target: 11000, completed: 4730, rate: 43.0, region: '西南', status: 'danger' },
 ];
 
-// 月度趋势数据
-const monthlyTrendData = [
+// 月度趋势数据（1-12月）
+const fullMonthlyTrendData = [
   { month: '1月', target: 1428, completed: 120, rate: 8.4 },
   { month: '2月', target: 1428, completed: 85, rate: 6.0 },
   { month: '3月', target: 1428, completed: 152, rate: 10.6 },
   { month: '4月', target: 1428, completed: 95, rate: 6.7 },
   { month: '5月', target: 1428, completed: 65, rate: 4.6 },
   { month: '6月', target: 1428, completed: 160, rate: 11.2 },
+  { month: '7月', target: 1428, completed: 0, rate: 0 },
+  { month: '8月', target: 1428, completed: 0, rate: 0 },
+  { month: '9月', target: 1428, completed: 0, rate: 0 },
+  { month: '10月', target: 1428, completed: 0, rate: 0 },
+  { month: '11月', target: 1428, completed: 0, rate: 0 },
+  { month: '12月', target: 1428, completed: 0, rate: 0 },
 ];
 
 // 经销商KPI数据
@@ -337,6 +343,13 @@ export default function SalesDashboard() {
   // 获取当前时间范围的目标数据
   const currentRangeData = timeRangeData[timeRange as keyof typeof timeRangeData];
   const timeRangeLabel = timeRange === 'month' ? '月度' : timeRange === 'quarter' ? '季度' : '年度';
+
+  // 根据选择的月份动态获取月度趋势数据
+  const monthlyTrendData = timeRange === 'month'
+    ? fullMonthlyTrendData.slice(0, parseInt(selectedMonth))
+    : timeRange === 'quarter'
+      ? fullMonthlyTrendData.slice(0, (parseInt(selectedQuarter.replace('Q', '')) * 3))
+      : fullMonthlyTrendData;
 
   return (
     <div className="min-h-screen bg-gray-50 p-4">
