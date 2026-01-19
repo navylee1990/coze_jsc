@@ -278,6 +278,15 @@ export default function SalesDashboard() {
   const [typeFilter, setTypeFilter] = useState('all');
   const [applicationFilter, setApplicationFilter] = useState('all');
 
+  // 业务员排名分页状态
+  const [salesmenCurrentPage, setSalesmenCurrentPage] = useState(1);
+  const salesmenPageSize = 8;
+  const salesmenTotalPages = Math.ceil(salesmenRanking.length / salesmenPageSize);
+  const salesmenCurrentData = salesmenRanking.slice(
+    (salesmenCurrentPage - 1) * salesmenPageSize,
+    salesmenCurrentPage * salesmenPageSize
+  );
+
   const handleRegionClick = (regionName: string) => {
     setSelectedRegion(regionName);
     setViewLevel('city');
@@ -883,6 +892,51 @@ export default function SalesDashboard() {
                     </tbody>
                   </table>
                 </div>
+
+                {/* 分页 */}
+                <div className="flex items-center justify-between mt-3 px-1">
+                  <div className="text-xs text-gray-500">
+                    共 <span className="font-semibold text-gray-700">{salesmenRanking.length}</span> 条记录，
+                    第 <span className="font-semibold text-gray-700">{salesmenCurrentPage}</span> / {salesmenTotalPages} 页
+                  </div>
+                  <div className="flex items-center gap-1">
+                    <button
+                      onClick={() => setSalesmenCurrentPage(prev => Math.max(1, prev - 1))}
+                      disabled={salesmenCurrentPage === 1}
+                      className={`px-3 py-1.5 text-xs font-medium rounded-lg transition-all ${
+                        salesmenCurrentPage === 1
+                          ? 'bg-gray-100 text-gray-400 cursor-not-allowed'
+                          : 'bg-white border border-gray-200 text-gray-700 hover:bg-green-50 hover:border-green-300 hover:text-green-700'
+                      }`}
+                    >
+                      上一页
+                    </button>
+                    {Array.from({ length: salesmenTotalPages }, (_, i) => i + 1).map((page) => (
+                      <button
+                        key={page}
+                        onClick={() => setSalesmenCurrentPage(page)}
+                        className={`min-w-[32px] h-8 text-xs font-medium rounded-lg transition-all ${
+                          salesmenCurrentPage === page
+                            ? 'bg-gradient-to-r from-green-500 to-emerald-600 text-white shadow-md'
+                            : 'bg-white border border-gray-200 text-gray-700 hover:bg-green-50 hover:border-green-300 hover:text-green-700'
+                        }`}
+                      >
+                        {page}
+                      </button>
+                    ))}
+                    <button
+                      onClick={() => setSalesmenCurrentPage(prev => Math.min(salesmenTotalPages, prev + 1))}
+                      disabled={salesmenCurrentPage === salesmenTotalPages}
+                      className={`px-3 py-1.5 text-xs font-medium rounded-lg transition-all ${
+                        salesmenCurrentPage === salesmenTotalPages
+                          ? 'bg-gray-100 text-gray-400 cursor-not-allowed'
+                          : 'bg-white border border-gray-200 text-gray-700 hover:bg-green-50 hover:border-green-300 hover:text-green-700'
+                      }`}
+                    >
+                      下一页
+                    </button>
+                  </div>
+                </div>
               </CardContent>
             </Card>
 
@@ -975,6 +1029,51 @@ export default function SalesDashboard() {
                       ))}
                     </tbody>
                   </table>
+                </div>
+
+                {/* 分页 */}
+                <div className="flex items-center justify-between mt-3 px-1">
+                  <div className="text-xs text-gray-500">
+                    共 <span className="font-semibold text-gray-700">{salesmenRanking.length}</span> 条记录，
+                    第 <span className="font-semibold text-gray-700">{salesmenCurrentPage}</span> / {salesmenTotalPages} 页
+                  </div>
+                  <div className="flex items-center gap-1">
+                    <button
+                      onClick={() => setSalesmenCurrentPage(prev => Math.max(1, prev - 1))}
+                      disabled={salesmenCurrentPage === 1}
+                      className={`px-3 py-1.5 text-xs font-medium rounded-lg transition-all ${
+                        salesmenCurrentPage === 1
+                          ? 'bg-gray-100 text-gray-400 cursor-not-allowed'
+                          : 'bg-white border border-gray-200 text-gray-700 hover:bg-green-50 hover:border-green-300 hover:text-green-700'
+                      }`}
+                    >
+                      上一页
+                    </button>
+                    {Array.from({ length: salesmenTotalPages }, (_, i) => i + 1).map((page) => (
+                      <button
+                        key={page}
+                        onClick={() => setSalesmenCurrentPage(page)}
+                        className={`min-w-[32px] h-8 text-xs font-medium rounded-lg transition-all ${
+                          salesmenCurrentPage === page
+                            ? 'bg-gradient-to-r from-green-500 to-emerald-600 text-white shadow-md'
+                            : 'bg-white border border-gray-200 text-gray-700 hover:bg-green-50 hover:border-green-300 hover:text-green-700'
+                        }`}
+                      >
+                        {page}
+                      </button>
+                    ))}
+                    <button
+                      onClick={() => setSalesmenCurrentPage(prev => Math.min(salesmenTotalPages, prev + 1))}
+                      disabled={salesmenCurrentPage === salesmenTotalPages}
+                      className={`px-3 py-1.5 text-xs font-medium rounded-lg transition-all ${
+                        salesmenCurrentPage === salesmenTotalPages
+                          ? 'bg-gray-100 text-gray-400 cursor-not-allowed'
+                          : 'bg-white border border-gray-200 text-gray-700 hover:bg-green-50 hover:border-green-300 hover:text-green-700'
+                      }`}
+                    >
+                      下一页
+                    </button>
+                  </div>
                 </div>
               </CardContent>
             </Card>
@@ -1275,7 +1374,7 @@ export default function SalesDashboard() {
                       </tr>
                     </thead>
                     <tbody>
-                      {salesmenRanking.map((item) => (
+                      {salesmenCurrentData.map((item) => (
                         <tr key={item.rank} className="border-b border-gray-50 hover:bg-blue-50 transition-colors">
                           <td className="px-2 py-2.5 text-center">
                             <div className={`inline-flex items-center justify-center w-7 h-7 rounded-full text-sm font-bold ${
@@ -1334,6 +1433,51 @@ export default function SalesDashboard() {
                       ))}
                     </tbody>
                   </table>
+                </div>
+
+                {/* 分页 */}
+                <div className="flex items-center justify-between mt-3 px-1">
+                  <div className="text-xs text-gray-500">
+                    共 <span className="font-semibold text-gray-700">{salesmenRanking.length}</span> 条记录，
+                    第 <span className="font-semibold text-gray-700">{salesmenCurrentPage}</span> / {salesmenTotalPages} 页
+                  </div>
+                  <div className="flex items-center gap-1">
+                    <button
+                      onClick={() => setSalesmenCurrentPage(prev => Math.max(1, prev - 1))}
+                      disabled={salesmenCurrentPage === 1}
+                      className={`px-3 py-1.5 text-xs font-medium rounded-lg transition-all ${
+                        salesmenCurrentPage === 1
+                          ? 'bg-gray-100 text-gray-400 cursor-not-allowed'
+                          : 'bg-white border border-gray-200 text-gray-700 hover:bg-green-50 hover:border-green-300 hover:text-green-700'
+                      }`}
+                    >
+                      上一页
+                    </button>
+                    {Array.from({ length: salesmenTotalPages }, (_, i) => i + 1).map((page) => (
+                      <button
+                        key={page}
+                        onClick={() => setSalesmenCurrentPage(page)}
+                        className={`min-w-[32px] h-8 text-xs font-medium rounded-lg transition-all ${
+                          salesmenCurrentPage === page
+                            ? 'bg-gradient-to-r from-green-500 to-emerald-600 text-white shadow-md'
+                            : 'bg-white border border-gray-200 text-gray-700 hover:bg-green-50 hover:border-green-300 hover:text-green-700'
+                        }`}
+                      >
+                        {page}
+                      </button>
+                    ))}
+                    <button
+                      onClick={() => setSalesmenCurrentPage(prev => Math.min(salesmenTotalPages, prev + 1))}
+                      disabled={salesmenCurrentPage === salesmenTotalPages}
+                      className={`px-3 py-1.5 text-xs font-medium rounded-lg transition-all ${
+                        salesmenCurrentPage === salesmenTotalPages
+                          ? 'bg-gray-100 text-gray-400 cursor-not-allowed'
+                          : 'bg-white border border-gray-200 text-gray-700 hover:bg-green-50 hover:border-green-300 hover:text-green-700'
+                      }`}
+                    >
+                      下一页
+                    </button>
+                  </div>
                 </div>
               </CardContent>
             </Card>
