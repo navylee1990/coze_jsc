@@ -228,30 +228,6 @@ const getHealthColor = (value: number) => {
 };
 
 
-// 客户KPI数据
-const customerKPI = {
-  totalCustomers: 156,   // 总客户数
-  activeCustomers: 98,   // 活跃客户
-  qualifiedCustomers: 45, // 达标客户
-  newCustomers: 18,      // 新客户
-};
-
-// 客户贡献排名数据
-const customerRanking = [
-  { rank: 1, name: '清华大学', region: '一区', application: '教育', type: '500万级', sales: 520, yoy: 12.5, orders: 8, status: 'excellent' },
-  { rank: 2, name: '深圳市政府', region: '五区', application: '政企办公', type: '500万级', sales: 480, yoy: 8.3, orders: 12, status: 'excellent' },
-  { rank: 3, name: '北京协和医院', region: '一区', application: '医疗饮水', type: '500万级', sales: 450, yoy: 15.2, orders: 6, status: 'excellent' },
-  { rank: 4, name: '上海虹桥高铁站', region: '二区', application: '公共交通', type: '300万级', sales: 320, yoy: 6.8, orders: 5, status: 'good' },
-  { rank: 5, name: '广州市政府', region: '五区', application: '政企办公', type: '300万级', sales: 298, yoy: 4.2, orders: 10, status: 'good' },
-  { rank: 6, name: '武汉大学', region: '华中', application: '教育', type: '300万级', sales: 285, yoy: 9.1, orders: 7, status: 'good' },
-  { rank: 7, name: '武汉天河机场', region: '华中', application: '公共交通', type: '300万级', sales: 275, yoy: -2.3, orders: 4, status: 'warning' },
-  { rank: 8, name: '深圳市人民医院', region: '五区', application: '医疗饮水', type: '100万级', sales: 180, yoy: 11.5, orders: 9, status: 'good' },
-  { rank: 9, name: '成都市政府', region: '西南', application: '政企办公', type: '100万级', sales: 165, yoy: 3.8, orders: 6, status: 'warning' },
-  { rank: 10, name: '天津大学', region: '一区', application: '教育', type: '100万级', sales: 155, yoy: 7.6, orders: 5, status: 'good' },
-  { rank: 11, name: '南京南站', region: '二区', application: '公共交通', type: '100万级', sales: 145, yoy: -1.2, orders: 3, status: 'danger' },
-  { rank: 12, name: '华南理工大学', region: '华南', application: '教育', type: '100万级', sales: 138, yoy: 5.4, orders: 4, status: 'good' },
-];
-
 // 经销商达成率排名数据
 const dealerAchievementRanking = [
   { rank: 1, name: '杭州商用净水', target: 15000, completed: 10275, rate: 68.5, region: '一区', status: 'excellent' },
@@ -272,11 +248,6 @@ export default function SalesDashboard() {
   const [activeTab, setActiveTab] = useState('overview');
   const [viewLevel, setViewLevel] = useState<'region' | 'city'>('region');
   const [selectedRegion, setSelectedRegion] = useState<string>('');
-  
-  // 经销商tab页筛选状态
-  const [regionFilter, setRegionFilter] = useState('all');
-  const [typeFilter, setTypeFilter] = useState('all');
-  const [applicationFilter, setApplicationFilter] = useState('all');
 
   // 业务员排名分页状态
   const [salesmenCurrentPage, setSalesmenCurrentPage] = useState(1);
@@ -684,262 +655,6 @@ export default function SalesDashboard() {
               <span className="text-sm text-gray-500">2026年度数据</span>
             </div>
 
-            {/* 客户KPI指标 */}
-            <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-1.5 mb-3">
-              {/* 总客户数 */}
-              <Card className="bg-white border-2 border-green-200">
-                <CardContent className="p-1">
-                  <div className="flex items-center gap-1 text-xs font-medium text-gray-500">
-                    <Database className="w-2.5 h-2.5 text-green-500 flex-shrink-0" />
-                    <span>总客户数</span>
-                  </div>
-                  <div className="mt-1 flex items-baseline gap-0.5">
-                    <span className="text-3xl font-bold text-green-600 leading-tight">{customerKPI.totalCustomers}</span>
-                    <span className="text-xs text-gray-400">家</span>
-                  </div>
-                  <div className="flex items-center gap-0.5 text-xs text-green-600 mt-0.5">
-                    <ArrowUp className="w-2 h-2" />
-                    <span>较上年+12家</span>
-                  </div>
-                </CardContent>
-              </Card>
-
-              {/* 活跃客户 */}
-              <Card className="bg-white border-2 border-green-200">
-                <CardContent className="p-1">
-                  <div className="flex items-center gap-1 text-xs font-medium text-gray-500">
-                    <Activity className="w-2.5 h-2.5 text-green-500 flex-shrink-0" />
-                    <span>活跃客户</span>
-                  </div>
-                  <div className="mt-1 flex items-baseline gap-0.5">
-                    <span className="text-3xl font-bold text-green-600 leading-tight">{customerKPI.activeCustomers}</span>
-                    <span className="text-xs text-gray-400">家</span>
-                  </div>
-                  <div className="text-xs text-gray-500 mt-0.5">
-                    活跃率 {((customerKPI.activeCustomers / customerKPI.totalCustomers) * 100).toFixed(0)}%
-                  </div>
-                </CardContent>
-              </Card>
-
-              {/* 达标客户 */}
-              <Card className="bg-white border-2 border-orange-200">
-                <CardContent className="p-1">
-                  <div className="flex items-center gap-1 text-xs font-medium text-gray-500">
-                    <Target className="w-2.5 h-2.5 text-orange-500 flex-shrink-0" />
-                    <span>达标客户</span>
-                  </div>
-                  <div className="mt-1 flex items-baseline gap-0.5">
-                    <span className="text-3xl font-bold text-orange-600 leading-tight">{customerKPI.qualifiedCustomers}</span>
-                    <span className="text-xs text-gray-400">家</span>
-                  </div>
-                  <div className="flex items-center gap-0.5 text-xs text-green-600 mt-0.5">
-                    <ArrowUp className="w-2 h-2" />
-                    <span>较上年+5家</span>
-                  </div>
-                </CardContent>
-              </Card>
-
-              {/* 新客户 */}
-              <Card className="bg-white border-2 border-purple-200">
-                <CardContent className="p-1">
-                  <div className="flex items-center gap-1 text-xs font-medium text-gray-500">
-                    <ChevronRight className="w-2.5 h-2.5 text-purple-500 flex-shrink-0" />
-                    <span>新客户</span>
-                  </div>
-                  <div className="mt-1 flex items-baseline gap-0.5">
-                    <span className="text-3xl font-bold text-purple-600 leading-tight">{customerKPI.newCustomers}</span>
-                    <span className="text-xs text-gray-400">家</span>
-                  </div>
-                  <div className="text-xs text-gray-500 mt-0.5">
-                    本年度新增
-                  </div>
-                </CardContent>
-              </Card>
-            </div>
-
-            {/* 客户贡献排名 */}
-            <Card className="bg-white border border-green-200 bg-gradient-to-br from-green-50 to-emerald-50">
-              <CardContent className="p-3">
-                {/* 标题 */}
-                <div className="flex items-center justify-between mb-3">
-                  <div className="text-sm font-bold text-gray-900 flex items-center gap-2">
-                    <Activity className="w-4 h-4 text-green-600" />
-                    <span className="text-sm font-bold text-gray-900">客户贡献排名</span>
-                  </div>
-                  <div className="flex items-center gap-2">
-                    {/* 区域筛选 */}
-                    <select
-                      value={regionFilter}
-                      onChange={(e) => setRegionFilter(e.target.value)}
-                      className="px-2 py-1 text-xs border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                    >
-                      <option value="all">全部区域</option>
-                      <option value="一区">一区</option>
-                      <option value="二区">二区</option>
-                      <option value="五区">五区</option>
-                      <option value="华中">华中</option>
-                      <option value="华北、西北">华北、西北</option>
-                      <option value="西南">西南</option>
-                      <option value="华南">华南</option>
-                    </select>
-                    {/* 类型筛选 */}
-                    <select
-                      value={typeFilter}
-                      onChange={(e) => setTypeFilter(e.target.value)}
-                      className="px-2 py-1 text-xs border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                    >
-                      <option value="all">全部类型</option>
-                      <option value="500万级">500万级</option>
-                      <option value="300万级">300万级</option>
-                      <option value="100万级">100万级</option>
-                    </select>
-                    {/* 应用筛选 */}
-                    <select
-                      value={applicationFilter}
-                      onChange={(e) => setApplicationFilter(e.target.value)}
-                      className="px-2 py-1 text-xs border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                    >
-                      <option value="all">全部应用</option>
-                      <option value="教育">教育</option>
-                      <option value="政企办公">政企办公</option>
-                      <option value="医疗饮水">医疗饮水</option>
-                      <option value="公共交通">公共交通</option>
-                      <option value="水处理">水处理</option>
-                    </select>
-                  </div>
-                </div>
-
-                <div className="bg-white rounded-lg border-0 overflow-hidden">
-                  <table className="w-full">
-                    <thead>
-                      <tr className="border-b border-gray-100">
-                        <th className="px-2 py-2 text-center text-sm font-medium text-gray-500 w-12">排名</th>
-                        <th className="px-3 py-2 text-left text-sm font-medium text-gray-500">客户名称</th>
-                        <th className="px-2 py-2 text-left text-sm font-medium text-gray-500">区域</th>
-                        <th className="px-2 py-2 text-left text-sm font-medium text-gray-500">细分应用</th>
-                        <th className="px-2 py-2 text-left text-sm font-medium text-gray-500">客户类型</th>
-                        <th className="px-2 py-2 text-right text-sm font-medium text-gray-500">年销售额</th>
-                        <th className="px-2 py-2 text-center text-sm font-medium text-gray-500">同比</th>
-                        <th className="px-2 py-2 text-right text-sm font-medium text-gray-500">订单数量</th>
-                        <th className="px-2 py-2 text-center text-sm font-medium text-gray-500">状态</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {customerRanking
-                        .filter(customer => 
-                          (regionFilter === 'all' || customer.region === regionFilter) &&
-                          (typeFilter === 'all' || customer.type === typeFilter) &&
-                          (applicationFilter === 'all' || customer.application === applicationFilter)
-                        )
-                        .map((customer) => (
-                        <tr key={customer.rank} className="border-b border-gray-50 hover:bg-blue-50 transition-colors">
-                          <td className="px-2 py-2.5 text-center">
-                            <div className={`inline-flex items-center justify-center w-7 h-7 rounded-full text-sm font-bold ${
-                              customer.rank === 1 ? 'bg-gradient-to-br from-yellow-400 to-orange-500 text-white' :
-                              customer.rank === 2 ? 'bg-gradient-to-br from-gray-300 to-gray-400 text-white' :
-                              customer.rank === 3 ? 'bg-gradient-to-br from-orange-300 to-orange-400 text-white' :
-                              'bg-gray-100 text-gray-600'
-                            }`}>
-                              {customer.rank}
-                            </div>
-                          </td>
-                          <td className="px-3 py-2.5 text-sm font-semibold text-gray-900">{customer.name}</td>
-                          <td className="px-2 py-2.5 text-sm text-gray-500">{customer.region}</td>
-                          <td className="px-2 py-2.5 text-sm">
-                            <span className={`inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium ${
-                              customer.application === '教育' ? 'bg-emerald-100 text-emerald-700' :
-                              customer.application === '政企办公' ? 'bg-green-100 text-green-700' :
-                              customer.application === '医疗饮水' ? 'bg-red-100 text-red-700' :
-                              customer.application === '公共交通' ? 'bg-purple-100 text-purple-700' :
-                              'bg-teal-100 text-teal-700'
-                            }`}>
-                              {customer.application}
-                            </span>
-                          </td>
-                          <td className="px-2 py-2.5 text-sm">
-                            <span className={`inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium ${
-                              customer.type === '500万级' ? 'bg-orange-100 text-orange-700' :
-                              customer.type === '300万级' ? 'bg-yellow-100 text-yellow-700' :
-                              'bg-gray-100 text-gray-700'
-                            }`}>
-                              {customer.type}
-                            </span>
-                          </td>
-                          <td className="px-2 py-2.5 text-sm text-right font-semibold text-gray-900">{customer.sales}万</td>
-                          <td className="px-2 py-2.5 text-center">
-                            <span className={`inline-flex items-center gap-1 text-sm font-bold ${
-                              customer.yoy >= 0 ? 'text-green-600' : 'text-red-600'
-                            }`}>
-                              {customer.yoy >= 0 ? <ArrowUp className="w-3 h-3" /> : <ArrowDown className="w-3 h-3" />}
-                              {Math.abs(customer.yoy)}%
-                            </span>
-                          </td>
-                          <td className="px-2 py-2.5 text-sm text-right text-gray-600">{customer.orders}单</td>
-                          <td className="px-2 py-2.5 text-center">
-                            <span className={`inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs font-medium ${
-                              customer.status === 'excellent' ? 'bg-green-100 text-green-700' :
-                              customer.status === 'good' ? 'bg-teal-100 text-teal-700' :
-                              customer.status === 'warning' ? 'bg-yellow-100 text-yellow-700' :
-                              'bg-red-100 text-red-700'
-                            }`}>
-                              {customer.status === 'excellent' ? '优秀' :
-                               customer.status === 'good' ? '良好' :
-                               customer.status === 'warning' ? '需关注' : '风险'}
-                            </span>
-                          </td>
-                        </tr>
-                      ))}
-                    </tbody>
-                  </table>
-                </div>
-
-                {/* 分页 */}
-                <div className="flex items-center justify-between mt-3 px-1">
-                  <div className="text-xs text-gray-500">
-                    共 <span className="font-semibold text-gray-700">{salesmenRanking.length}</span> 条记录，
-                    第 <span className="font-semibold text-gray-700">{salesmenCurrentPage}</span> / {salesmenTotalPages} 页
-                  </div>
-                  <div className="flex items-center gap-1">
-                    <button
-                      onClick={() => setSalesmenCurrentPage(prev => Math.max(1, prev - 1))}
-                      disabled={salesmenCurrentPage === 1}
-                      className={`px-3 py-1.5 text-xs font-medium rounded-lg transition-all ${
-                        salesmenCurrentPage === 1
-                          ? 'bg-gray-100 text-gray-400 cursor-not-allowed'
-                          : 'bg-white border border-gray-200 text-gray-700 hover:bg-green-50 hover:border-green-300 hover:text-green-700'
-                      }`}
-                    >
-                      上一页
-                    </button>
-                    {Array.from({ length: salesmenTotalPages }, (_, i) => i + 1).map((page) => (
-                      <button
-                        key={page}
-                        onClick={() => setSalesmenCurrentPage(page)}
-                        className={`min-w-[32px] h-8 text-xs font-medium rounded-lg transition-all ${
-                          salesmenCurrentPage === page
-                            ? 'bg-gradient-to-r from-green-500 to-emerald-600 text-white shadow-md'
-                            : 'bg-white border border-gray-200 text-gray-700 hover:bg-green-50 hover:border-green-300 hover:text-green-700'
-                        }`}
-                      >
-                        {page}
-                      </button>
-                    ))}
-                    <button
-                      onClick={() => setSalesmenCurrentPage(prev => Math.min(salesmenTotalPages, prev + 1))}
-                      disabled={salesmenCurrentPage === salesmenTotalPages}
-                      className={`px-3 py-1.5 text-xs font-medium rounded-lg transition-all ${
-                        salesmenCurrentPage === salesmenTotalPages
-                          ? 'bg-gray-100 text-gray-400 cursor-not-allowed'
-                          : 'bg-white border border-gray-200 text-gray-700 hover:bg-green-50 hover:border-green-300 hover:text-green-700'
-                      }`}
-                    >
-                      下一页
-                    </button>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
-
             {/* 经销商达成率排名 */}
             <Card className="bg-white border border-green-200 bg-gradient-to-br from-green-50 to-emerald-50 mt-3">
               <CardContent className="p-3">
@@ -948,23 +663,6 @@ export default function SalesDashboard() {
                   <div className="text-sm font-bold text-gray-900 flex items-center gap-2">
                     <TrendingUp className="w-4 h-4 text-green-600" />
                     <span className="text-sm font-bold text-gray-900">经销商达成率排名</span>
-                  </div>
-                  <div className="flex items-center gap-2">
-                    {/* 区域筛选 */}
-                    <select
-                      value={regionFilter}
-                      onChange={(e) => setRegionFilter(e.target.value)}
-                      className="px-2 py-1 text-xs border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                    >
-                      <option value="all">全部区域</option>
-                      <option value="一区">一区</option>
-                      <option value="二区">二区</option>
-                      <option value="五区">五区</option>
-                      <option value="华中">华中</option>
-                      <option value="华北、西北">华北、西北</option>
-                      <option value="西南">西南</option>
-                      <option value="华南">华南</option>
-                    </select>
                   </div>
                 </div>
 
@@ -982,9 +680,7 @@ export default function SalesDashboard() {
                       </tr>
                     </thead>
                     <tbody>
-                      {dealerAchievementRanking
-                        .filter(dealer => regionFilter === 'all' || dealer.region === regionFilter)
-                        .map((dealer) => (
+                      {dealerAchievementRanking.map((dealer) => (
                         <tr key={dealer.rank} className="border-b border-gray-50 hover:bg-blue-50 transition-colors">
                           <td className="px-2 py-2.5 text-center">
                             <div className={`inline-flex items-center justify-center w-7 h-7 rounded-full text-sm font-bold ${
