@@ -674,58 +674,54 @@ export default function SalesDashboard() {
               </div>
             </div>
 
-            {/* 经营诊断 */}
+            {/* 渠道洞察 */}
             <Card className="mt-2 border border-green-200 bg-gradient-to-br from-green-50 to-emerald-50">
               <CardContent className="p-3">
                 <div className="flex items-center gap-1.5 mb-2">
                   <div className="w-6 h-6 bg-gradient-to-br from-green-500 to-emerald-600 rounded-md flex items-center justify-center">
-                    <svg className="w-3.5 h-3.5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
-                    </svg>
+                    <Database className="w-3.5 h-3.5 text-white" />
                   </div>
                   <div>
-                    <div className="text-sm font-bold text-gray-900">经营诊断</div>
-                    <div className="text-xs text-gray-500">关键问题与对策</div>
+                    <div className="text-sm font-bold text-gray-900">渠道洞察</div>
+                    <div className="text-xs text-gray-500">渠道健康与增长</div>
                   </div>
                 </div>
                 <div className="space-y-2">
-                  {/* 核心问题 */}
-                  <div className="bg-white/70 backdrop-blur-sm rounded-md p-2 border border-red-200">
-                    <div className="flex items-center gap-1 mb-1">
-                      <AlertTriangle className="w-3 h-3 text-red-600" />
-                      <span className="text-xs font-semibold text-red-700">核心问题</span>
-                    </div>
-                    <p className="text-xs text-gray-600 leading-relaxed">
-                      <span className="font-medium text-red-600">{currentRangeData.gap.toLocaleString()}万</span>任务缺口，
-                      <span className="font-medium">西南区</span>仅<span className="font-medium text-red-600">16%</span>，
-                      <span className="font-medium">成都、重庆</span>累计<span className="font-medium text-red-600">3个月</span>未达标
-                    </p>
-                  </div>
-
-                  {/* 应收账款 */}
-                  <div className="bg-white/70 backdrop-blur-sm rounded-md p-2 border border-orange-200">
-                    <div className="flex items-center gap-1 mb-1">
-                      <Database className="w-3 h-3 text-orange-600" />
-                      <span className="text-xs font-semibold text-orange-700">应收账款</span>
-                    </div>
-                    <p className="text-xs text-gray-600 leading-relaxed">
-                      应收<span className="font-medium text-orange-600">285万</span>，
-                      超期<span className="font-medium text-red-600">42万</span>，
-                      <span className="font-medium">某三甲医院</span>项目<span className="font-medium text-red-600">15天</span>未回款，
-                      建议催收
-                    </p>
-                  </div>
-
-                  {/* 突破对策 */}
+                  {/* 渠道健康度 */}
                   <div className="bg-white/70 backdrop-blur-sm rounded-md p-2 border border-green-200">
                     <div className="flex items-center gap-1 mb-1">
-                      <Target className="w-3 h-3 text-green-600" />
-                      <span className="text-xs font-semibold text-green-700">突破对策</span>
+                      <Activity className="w-3 h-3 text-green-600" />
+                      <span className="text-xs font-semibold text-green-700">渠道健康度</span>
                     </div>
                     <p className="text-xs text-gray-600 leading-relaxed">
-                      优先推进<span className="font-medium text-green-600">15单在手订单</span>，
-                      <span className="font-medium">西南区</span>重点跟进<span className="font-medium text-green-600">3个医疗项目</span>，
-                      目标：<span className="font-medium text-green-600">本月签约2单</span>
+                      活跃率<span className="font-medium text-green-600">{((dealerKPI.activeDealers / dealerKPI.totalDealers) * 100).toFixed(0)}%</span>（{dealerKPI.activeDealers}/{dealerKPI.totalDealers}），
+                      达标率<span className="font-medium text-red-600">{dealerKPI.activeDealers > 0 ? ((dealerKPI.qualifiedDealers / dealerKPI.activeDealers) * 100).toFixed(0) : 0}%</span>，
+                      <span className="font-medium">华中区</span>持续领跑
+                    </p>
+                  </div>
+
+                  {/* 增长机会 */}
+                  <div className="bg-white/70 backdrop-blur-sm rounded-md p-2 border border-blue-200">
+                    <div className="flex items-center gap-1 mb-1">
+                      <TrendingUp className="w-3 h-3 text-blue-600" />
+                      <span className="text-xs font-semibold text-blue-700">增长机会</span>
+                    </div>
+                    <p className="text-xs text-gray-600 leading-relaxed">
+                      新增<span className="font-medium text-blue-600">{dealerKPI.newDealers}家</span>经销商，
+                      <span className="font-medium">西南区</span>市场渗透率低，
+                      <span className="font-medium">成都、重庆</span>可开发空白医院<span className="font-medium text-blue-600">12家</span>
+                    </p>
+                  </div>
+
+                  {/* 核心经销商 */}
+                  <div className="bg-white/70 backdrop-blur-sm rounded-md p-2 border border-purple-200">
+                    <div className="flex items-center gap-1 mb-1">
+                      <Target className="w-3 h-3 text-purple-600" />
+                      <span className="text-xs font-semibold text-purple-700">核心经销商</span>
+                    </div>
+                    <p className="text-xs text-gray-600 leading-relaxed">
+                      <span className="font-medium text-purple-600">杭州商用</span>达成率{dealerAchievementRanking[0].rate}%，
+                      <span className="font-medium">杭州商用、上海净泉</span>需防范竞品挖角
                     </p>
                   </div>
                 </div>
