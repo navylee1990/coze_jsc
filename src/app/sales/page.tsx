@@ -759,7 +759,8 @@ export default function SalesDashboard() {
                       <span className="text-2xl font-bold text-purple-600 leading-none">15</span>
                       <span className="text-xs text-gray-600">单</span>
                     </div>
-                    <div className="text-xs text-gray-700 font-semibold mt-1">1,200万</div>
+                    <div className="text-xs text-gray-700 font-semibold mt-0.5">1,200万</div>
+                    <div className="text-xs text-purple-700 mt-0.5">缺口228万</div>
                   </div>
                 </div>
               </div>
@@ -827,7 +828,8 @@ export default function SalesDashboard() {
                       <span className="text-2xl font-bold text-purple-600 leading-none">12</span>
                       <span className="text-xs text-gray-600">单</span>
                     </div>
-                    <div className="text-xs text-gray-700 font-semibold mt-1">850万</div>
+                    <div className="text-xs text-gray-700 font-semibold mt-0.5">850万</div>
+                    <div className="text-xs text-purple-700 mt-0.5">缺口6.8万</div>
                   </div>
                 </div>
               </div>
@@ -895,7 +897,8 @@ export default function SalesDashboard() {
                       <span className="text-2xl font-bold text-purple-600 leading-none">8</span>
                       <span className="text-xs text-gray-600">单</span>
                     </div>
-                    <div className="text-xs text-gray-700 font-semibold mt-1">560万</div>
+                    <div className="text-xs text-gray-700 font-semibold mt-0.5">560万</div>
+                    <div className="text-xs text-purple-700 mt-0.5">缺口10.2万</div>
                   </div>
                 </div>
               </div>
@@ -963,7 +966,8 @@ export default function SalesDashboard() {
                       <span className="text-2xl font-bold text-purple-700 leading-none">35</span>
                       <span className="text-xs text-gray-700">单</span>
                     </div>
-                    <div className="text-xs text-gray-800 font-semibold mt-1">2,610万</div>
+                    <div className="text-xs text-gray-800 font-semibold mt-0.5">2,610万</div>
+                    <div className="text-xs text-purple-800 mt-0.5">缺口245万</div>
                   </div>
                 </div>
               </div>
