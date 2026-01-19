@@ -90,6 +90,34 @@ const timeRangeData = {
   },
 };
 
+// 续约数据（单位：万元）
+const renewalRangeData = {
+  month: {
+    target: 856.8,
+    completed: 406.2,
+    predicted: 796.4,
+    gap: 60.4,
+    canComplete: false,
+    risk: 'medium',
+  },
+  quarter: {
+    target: 2570.4,
+    completed: 1218.6,
+    predicted: 2389.1,
+    gap: 181.3,
+    canComplete: false,
+    risk: 'high',
+  },
+  year: {
+    target: 10281.6,
+    completed: 4874.4,
+    predicted: 9556.6,
+    gap: 725.0,
+    canComplete: false,
+    risk: 'high',
+  },
+};
+
 // 大区维度数据
 const regionData = {
   month: [
@@ -491,6 +519,7 @@ export default function SalesDashboard() {
 
   // 获取当前时间范围的目标数据
   const currentRangeData = timeRangeData[timeRange as keyof typeof timeRangeData];
+  const renewalData = renewalRangeData[timeRange as keyof typeof renewalRangeData];
   const timeRangeLabel = timeRange === 'month' ? '月度' : timeRange === 'quarter' ? '季度' : '年度';
 
   return (
@@ -608,68 +637,140 @@ export default function SalesDashboard() {
           </div>
         {/* KPI指标 + 月度趋势分析 左右布局 */}
         <div className="flex gap-3">
-          {/* 左侧：5个KPI指标 - 横向紧凑布局 */}
-          <div className="w-1/2">
-            <div className="bg-white border border-gray-200 rounded-lg overflow-hidden">
-              <div className="grid grid-cols-5">
-                {/* 目标 */}
-                <div className="border-r border-gray-200 px-2 py-2">
-                  <div className="flex items-center justify-between mb-1">
-                    <div className="flex items-center gap-1 text-xs font-medium text-gray-500">
-                      <Target className="w-3 h-3 text-blue-500 flex-shrink-0" />
-                      <span>{timeRangeLabel}目标</span>
+          {/* 左侧：买断指标 + 续约指标 */}
+          <div className="w-1/2 flex flex-col gap-2">
+            {/* 新增买断指标 */}
+            <div>
+              <div className="text-xs font-medium text-gray-600 mb-1.5 pl-1">新增买断指标</div>
+              <div className="bg-white border border-gray-200 rounded-lg overflow-hidden">
+                <div className="grid grid-cols-5">
+                  {/* 目标 */}
+                  <div className="border-r border-gray-200 px-2 py-2">
+                    <div className="flex items-center justify-between mb-1">
+                      <div className="flex items-center gap-1 text-xs font-medium text-gray-500">
+                        <Target className="w-3 h-3 text-blue-500 flex-shrink-0" />
+                        <span>{timeRangeLabel}目标</span>
+                      </div>
+                    </div>
+                    <div className="text-2xl font-bold text-gray-900 leading-none">{currentRangeData.target.toLocaleString()}</div>
+                    <div className="text-xs text-blue-600 bg-blue-50 inline-block px-1.5 py-0.5 rounded mt-1">
+                      {timeRange === 'month' ? `${selectedMonth}月` : timeRange === 'quarter' ? selectedQuarter : '2026'}
                     </div>
                   </div>
-                  <div className="text-2xl font-bold text-gray-900 leading-none">{currentRangeData.target.toLocaleString()}</div>
-                  <div className="text-xs text-blue-600 bg-blue-50 inline-block px-1.5 py-0.5 rounded mt-1">
-                    {timeRange === 'month' ? `${selectedMonth}月` : timeRange === 'quarter' ? selectedQuarter : '2026'}
+
+                  {/* 已完成 */}
+                  <div className="border-r border-gray-200 px-2 py-2">
+                    <div className="text-xs font-medium text-gray-500 mb-1">{timeRangeLabel}已完成</div>
+                    <div className="text-2xl font-bold text-gray-900 leading-none">{currentRangeData.completed.toLocaleString()}</div>
+                    <div className="flex items-center gap-0.5 text-xs text-red-600 mt-1">
+                      <ArrowDown className="w-3 h-3" />
+                      <span>-8.3%</span>
+                    </div>
+                  </div>
+
+                  {/* 预测完成 */}
+                  <div className="border-r border-gray-200 px-2 py-2 bg-gradient-to-b from-green-50/50 to-transparent">
+                    <div className="text-xs font-medium text-gray-500 mb-1">预测完成</div>
+                    <div className="text-2xl font-bold text-green-600 leading-none">{currentRangeData.predicted.toLocaleString()}</div>
+                    <div className="flex items-center gap-0.5 text-xs text-green-600 mt-1">
+                      <ArrowUp className="w-3 h-3" />
+                      <span>+5.2%</span>
+                    </div>
+                  </div>
+
+                  {/* 任务缺口 */}
+                  <div className="border-r border-gray-200 px-2 py-2 bg-gradient-to-b from-red-50/50 to-transparent">
+                    <div className="flex items-center gap-1 text-xs font-medium text-gray-500 mb-1">
+                      <AlertTriangle className="w-3 h-3 text-red-500 flex-shrink-0" />
+                      <span>任务缺口</span>
+                    </div>
+                    <div className="text-2xl font-bold text-red-600 leading-none">{currentRangeData.gap.toLocaleString()}</div>
+                    <div className="flex items-center gap-0.5 text-xs text-red-500 mt-1">
+                      <ArrowDown className="w-3 h-3" />
+                      <span>-54.5%</span>
+                    </div>
+                  </div>
+
+                  {/* 在手订单 */}
+                  <div className="px-2 py-2 bg-gradient-to-b from-purple-50/50 to-transparent">
+                    <div className="flex items-center gap-1 text-xs font-medium text-gray-500 mb-1">
+                      <Database className="w-3 h-3 text-purple-500 flex-shrink-0" />
+                      <span>在手订单</span>
+                    </div>
+                    <div className="flex items-baseline gap-1">
+                      <span className="text-2xl font-bold text-purple-600 leading-none">15</span>
+                      <span className="text-xs text-gray-600">单</span>
+                    </div>
+                    <div className="text-xs text-gray-700 font-semibold mt-1">1,200万</div>
                   </div>
                 </div>
+              </div>
+            </div>
 
-                {/* 已完成 */}
-                <div className="border-r border-gray-200 px-2 py-2">
-                  <div className="text-xs font-medium text-gray-500 mb-1">{timeRangeLabel}已完成</div>
-                  <div className="text-2xl font-bold text-gray-900 leading-none">{currentRangeData.completed.toLocaleString()}</div>
-                  <div className="flex items-center gap-0.5 text-xs text-red-600 mt-1">
-                    <ArrowDown className="w-3 h-3" />
-                    <span>-8.3%</span>
+            {/* 新增续约指标 */}
+            <div>
+              <div className="text-xs font-medium text-gray-600 mb-1.5 pl-1">新增续约指标</div>
+              <div className="bg-white border border-gray-200 rounded-lg overflow-hidden">
+                <div className="grid grid-cols-5">
+                  {/* 目标 */}
+                  <div className="border-r border-gray-200 px-2 py-2">
+                    <div className="flex items-center justify-between mb-1">
+                      <div className="flex items-center gap-1 text-xs font-medium text-gray-500">
+                        <Target className="w-3 h-3 text-blue-500 flex-shrink-0" />
+                        <span>{timeRangeLabel}目标</span>
+                      </div>
+                    </div>
+                    <div className="text-2xl font-bold text-gray-900 leading-none">{renewalData.target.toLocaleString()}</div>
+                    <div className="text-xs text-blue-600 bg-blue-50 inline-block px-1.5 py-0.5 rounded mt-1">
+                      {timeRange === 'month' ? `${selectedMonth}月` : timeRange === 'quarter' ? selectedQuarter : '2026'}
+                    </div>
                   </div>
-                </div>
 
-                {/* 预测完成 */}
-                <div className="border-r border-gray-200 px-2 py-2 bg-gradient-to-b from-green-50/50 to-transparent">
-                  <div className="text-xs font-medium text-gray-500 mb-1">预测完成</div>
-                  <div className="text-2xl font-bold text-green-600 leading-none">{currentRangeData.predicted.toLocaleString()}</div>
-                  <div className="flex items-center gap-0.5 text-xs text-green-600 mt-1">
-                    <ArrowUp className="w-3 h-3" />
-                    <span>+5.2%</span>
+                  {/* 已完成 */}
+                  <div className="border-r border-gray-200 px-2 py-2">
+                    <div className="text-xs font-medium text-gray-500 mb-1">{timeRangeLabel}已完成</div>
+                    <div className="text-2xl font-bold text-gray-900 leading-none">{renewalData.completed.toLocaleString()}</div>
+                    <div className="flex items-center gap-0.5 text-xs text-red-600 mt-1">
+                      <ArrowDown className="w-3 h-3" />
+                      <span>-8.3%</span>
+                    </div>
                   </div>
-                </div>
 
-                {/* 任务缺口 */}
-                <div className="border-r border-gray-200 px-2 py-2 bg-gradient-to-b from-red-50/50 to-transparent">
-                  <div className="flex items-center gap-1 text-xs font-medium text-gray-500 mb-1">
-                    <AlertTriangle className="w-3 h-3 text-red-500 flex-shrink-0" />
-                    <span>任务缺口</span>
+                  {/* 预测完成 */}
+                  <div className="border-r border-gray-200 px-2 py-2 bg-gradient-to-b from-green-50/50 to-transparent">
+                    <div className="text-xs font-medium text-gray-500 mb-1">预测完成</div>
+                    <div className="text-2xl font-bold text-green-600 leading-none">{renewalData.predicted.toLocaleString()}</div>
+                    <div className="flex items-center gap-0.5 text-xs text-green-600 mt-1">
+                      <ArrowUp className="w-3 h-3" />
+                      <span>+5.2%</span>
+                    </div>
                   </div>
-                  <div className="text-2xl font-bold text-red-600 leading-none">{currentRangeData.gap.toLocaleString()}</div>
-                  <div className="flex items-center gap-0.5 text-xs text-red-500 mt-1">
-                    <ArrowDown className="w-3 h-3" />
-                    <span>-54.5%</span>
-                  </div>
-                </div>
 
-                {/* 在手订单 */}
-                <div className="px-2 py-2 bg-gradient-to-b from-purple-50/50 to-transparent">
-                  <div className="flex items-center gap-1 text-xs font-medium text-gray-500 mb-1">
-                    <Database className="w-3 h-3 text-purple-500 flex-shrink-0" />
-                    <span>在手订单</span>
+                  {/* 任务缺口 */}
+                  <div className="border-r border-gray-200 px-2 py-2 bg-gradient-to-b from-red-50/50 to-transparent">
+                    <div className="flex items-center gap-1 text-xs font-medium text-gray-500 mb-1">
+                      <AlertTriangle className="w-3 h-3 text-red-500 flex-shrink-0" />
+                      <span>任务缺口</span>
+                    </div>
+                    <div className="text-2xl font-bold text-red-600 leading-none">{renewalData.gap.toLocaleString()}</div>
+                    <div className="flex items-center gap-0.5 text-xs text-red-500 mt-1">
+                      <ArrowDown className="w-3 h-3" />
+                      <span>-54.5%</span>
+                    </div>
                   </div>
-                  <div className="flex items-baseline gap-1">
-                    <span className="text-2xl font-bold text-purple-600 leading-none">15</span>
-                    <span className="text-xs text-gray-600">单</span>
+
+                  {/* 在手订单 */}
+                  <div className="px-2 py-2 bg-gradient-to-b from-purple-50/50 to-transparent">
+                    <div className="flex items-center gap-1 text-xs font-medium text-gray-500 mb-1">
+                      <Database className="w-3 h-3 text-purple-500 flex-shrink-0" />
+                      <span>在手订单</span>
+                    </div>
+                    <div className="flex items-baseline gap-1">
+                      <span className="text-2xl font-bold text-purple-600 leading-none">12</span>
+                      <span className="text-xs text-gray-600">单</span>
+                    </div>
+                    <div className="text-xs text-gray-700 font-semibold mt-1">850万</div>
                   </div>
-                  <div className="text-xs text-gray-700 font-semibold mt-1">1,200万</div>
                 </div>
               </div>
             </div>
