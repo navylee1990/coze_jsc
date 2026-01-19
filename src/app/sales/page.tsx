@@ -452,139 +452,131 @@ export default function SalesDashboard() {
             </h2>
           </div>
 
-          {/* 上半部分：四列布局 */}
-          <div className="grid grid-cols-1 lg:grid-cols-4 gap-2 mb-2">
-            {/* 左侧2列：KPI指标，2行布局 */}
-            <div className="lg:col-span-2 space-y-1">
-              {/* 第一行：3个指标 */}
-              <div className="grid grid-cols-3 gap-1">
-                {/* 目标 */}
-                <Card className="bg-white border border-gray-200">
-                  <CardContent className="p-0.5">
-                    <div className="flex items-center justify-between">
-                      <div className="flex items-center gap-0.5 text-[10px] font-medium text-gray-500">
-                        <Target className="w-2 h-2 text-blue-500 flex-shrink-0" />
-                        <span>{timeRangeLabel}目标</span>
-                      </div>
-                      <span className="text-[10px] font-medium text-blue-600 bg-blue-50 px-1 py-0 rounded">
-                        {timeRange === 'month' ? `${selectedMonth}月` : timeRange === 'quarter' ? selectedQuarter : '2026'}
-                      </span>
-                    </div>
-                    <div className="flex items-baseline gap-0.5 mt-0.5">
-                      <span className="text-xl font-bold text-gray-900 leading-none">{currentRangeData.target.toLocaleString()}</span>
-                      <span className="text-[10px] text-gray-400">万元</span>
-                    </div>
-                  </CardContent>
-                </Card>
-
-                {/* 已提货 */}
-                <Card className="bg-white border border-gray-200">
-                  <CardContent className="p-0.5">
-                    <div className="text-[10px] font-medium text-gray-500">{timeRangeLabel}已提货</div>
-                    <div className="flex items-baseline gap-0.5 mt-0.5">
-                      <span className="text-xl font-bold text-gray-900 leading-none">{currentRangeData.completed.toLocaleString()}</span>
-                      <span className="text-[10px] text-gray-400">万元</span>
-                    </div>
-                    <div className="flex items-center gap-0.5 text-[10px] text-red-600 mt-0.5">
-                      <ArrowDown className="w-2 h-2" />
-                      <span>-8.3%</span>
-                    </div>
-                  </CardContent>
-                </Card>
-
-                {/* 达成率 */}
-                <Card className="bg-white border border-gray-200">
-                  <CardContent className="p-0.5">
-                    <div className="text-[10px] font-medium text-gray-500">达成率</div>
-                    <div className="flex items-baseline gap-0.5 mt-0.5">
-                      <span className="text-xl font-bold text-blue-600 leading-none">
-                        {((currentRangeData.completed / currentRangeData.target) * 100).toFixed(1)}
-                      </span>
-                      <span className="text-[10px] text-gray-400">%</span>
-                    </div>
-                  </CardContent>
-                </Card>
-              </div>
-
-              {/* 第二行：2个指标 */}
-              <div className="grid grid-cols-2 gap-1">
-                {/* 在途资金 */}
-                <Card className="bg-white border border-gray-200">
-                  <CardContent className="p-0.5">
+          {/* 上半部分：指标+月度趋势 */}
+          <div className="space-y-2 mb-2">
+            {/* 第一行：5个KPI指标 */}
+            <div className="grid grid-cols-5 gap-1">
+              {/* 目标 */}
+              <Card className="bg-white border border-gray-200">
+                <CardContent className="p-0.5">
+                  <div className="flex items-center justify-between">
                     <div className="flex items-center gap-0.5 text-[10px] font-medium text-gray-500">
-                      <Clock className="w-2 h-2 text-orange-500 flex-shrink-0" />
-                      <span>在途资金</span>
+                      <Target className="w-2 h-2 text-blue-500 flex-shrink-0" />
+                      <span>{timeRangeLabel}目标</span>
                     </div>
-                    <div className="flex items-baseline gap-0.5 mt-0.5">
-                      <span className="text-xl font-bold text-orange-600 leading-none">450</span>
-                      <span className="text-[10px] text-gray-400">万元</span>
-                    </div>
-                  </CardContent>
-                </Card>
-
-                {/* 在手订单 */}
-                <Card className="bg-white border border-gray-200">
-                  <CardContent className="p-0.5">
-                    <div className="flex items-center gap-0.5 text-[10px] font-medium text-gray-500">
-                      <Database className="w-2 h-2 text-green-500 flex-shrink-0" />
-                      <span>在手订单</span>
-                    </div>
-                    <div className="flex items-baseline gap-0.5 mt-0.5">
-                      <span className="text-xl font-bold text-green-600 leading-none">15</span>
-                      <span className="text-[10px] text-gray-600">单</span>
-                      <span className="text-xs font-semibold text-gray-700 ml-1">1,200万</span>
-                    </div>
-                  </CardContent>
-                </Card>
-              </div>
-            </div>
-
-            {/* 右侧2列：月度趋势分析 */}
-            <div className="lg:col-span-2">
-              <Card className="border border-green-200 bg-gradient-to-br from-green-50 to-emerald-50 h-full">
-                <CardContent className="p-2 h-full">
-                  <div className="text-sm font-bold text-gray-900 flex items-center gap-2 mb-2">
-                    <TrendingUp className="w-3.5 h-3.5 text-green-600" />
-                    月度趋势分析
+                    <span className="text-[10px] font-medium text-blue-600 bg-blue-50 px-1 py-0 rounded">
+                      {timeRange === 'month' ? `${selectedMonth}月` : timeRange === 'quarter' ? selectedQuarter : '2026'}
+                    </span>
                   </div>
-                  <div className="h-52">
-                    <ResponsiveContainer width="100%" height="100%">
-                      <LineChart data={monthlyTrendData}>
-                        <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#e5e7eb" />
-                        <XAxis
-                          dataKey="month"
-                          axisLine={false}
-                          tickLine={false}
-                          tick={{ fontSize: 11, fill: '#6b7280' }}
-                        />
-                        <YAxis
-                          axisLine={false}
-                          tickLine={false}
-                          tick={{ fontSize: 11, fill: '#6b7280' }}
-                        />
-                        <Tooltip
-                          contentStyle={{
-                            backgroundColor: 'white',
-                            border: '1px solid #e5e7eb',
-                            borderRadius: '8px',
-                            padding: '6px'
-                          }}
-                          labelStyle={{ fontSize: 11, fontWeight: 'bold' }}
-                        />
-                        <Line
-                          type="monotone"
-                          dataKey="completed"
-                          stroke="#10b981"
-                          strokeWidth={2}
-                          dot={{ r: 3, fill: '#10b981' }}
-                          activeDot={{ r: 5, fill: '#10b981' }}
-                        />
-                      </LineChart>
-                    </ResponsiveContainer>
+                  <div className="flex items-baseline gap-0.5 mt-0.5">
+                    <span className="text-xl font-bold text-gray-900 leading-none">{currentRangeData.target.toLocaleString()}</span>
+                    <span className="text-[10px] text-gray-400">万元</span>
+                  </div>
+                </CardContent>
+              </Card>
+
+              {/* 已提货 */}
+              <Card className="bg-white border border-gray-200">
+                <CardContent className="p-0.5">
+                  <div className="text-[10px] font-medium text-gray-500">{timeRangeLabel}已提货</div>
+                  <div className="flex items-baseline gap-0.5 mt-0.5">
+                    <span className="text-xl font-bold text-gray-900 leading-none">{currentRangeData.completed.toLocaleString()}</span>
+                    <span className="text-[10px] text-gray-400">万元</span>
+                  </div>
+                  <div className="flex items-center gap-0.5 text-[10px] text-red-600 mt-0.5">
+                    <ArrowDown className="w-2 h-2" />
+                    <span>-8.3%</span>
+                  </div>
+                </CardContent>
+              </Card>
+
+              {/* 达成率 */}
+              <Card className="bg-white border border-gray-200">
+                <CardContent className="p-0.5">
+                  <div className="text-[10px] font-medium text-gray-500">达成率</div>
+                  <div className="flex items-baseline gap-0.5 mt-0.5">
+                    <span className="text-xl font-bold text-blue-600 leading-none">
+                      {((currentRangeData.completed / currentRangeData.target) * 100).toFixed(1)}
+                    </span>
+                    <span className="text-[10px] text-gray-400">%</span>
+                  </div>
+                </CardContent>
+              </Card>
+
+              {/* 在途资金 */}
+              <Card className="bg-white border border-gray-200">
+                <CardContent className="p-0.5">
+                  <div className="flex items-center gap-0.5 text-[10px] font-medium text-gray-500">
+                    <Clock className="w-2 h-2 text-orange-500 flex-shrink-0" />
+                    <span>在途资金</span>
+                  </div>
+                  <div className="flex items-baseline gap-0.5 mt-0.5">
+                    <span className="text-xl font-bold text-orange-600 leading-none">450</span>
+                    <span className="text-[10px] text-gray-400">万元</span>
+                  </div>
+                </CardContent>
+              </Card>
+
+              {/* 在手订单 */}
+              <Card className="bg-white border border-gray-200">
+                <CardContent className="p-0.5">
+                  <div className="flex items-center gap-0.5 text-[10px] font-medium text-gray-500">
+                    <Database className="w-2 h-2 text-green-500 flex-shrink-0" />
+                    <span>在手订单</span>
+                  </div>
+                  <div className="flex items-baseline gap-0.5 mt-0.5">
+                    <span className="text-xl font-bold text-green-600 leading-none">15</span>
+                    <span className="text-[10px] text-gray-600">单</span>
+                    <span className="text-xs font-semibold text-gray-700 ml-1">1,200万</span>
                   </div>
                 </CardContent>
               </Card>
             </div>
+
+            {/* 第二行：月度趋势分析 */}
+            <Card className="border border-green-200 bg-gradient-to-br from-green-50 to-emerald-50">
+              <CardContent className="p-2">
+                <div className="text-sm font-bold text-gray-900 flex items-center gap-2 mb-2">
+                  <TrendingUp className="w-3.5 h-3.5 text-green-600" />
+                  月度趋势分析
+                </div>
+                <div className="h-52">
+                  <ResponsiveContainer width="100%" height="100%">
+                    <LineChart data={monthlyTrendData}>
+                      <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#e5e7eb" />
+                      <XAxis
+                        dataKey="month"
+                        axisLine={false}
+                        tickLine={false}
+                        tick={{ fontSize: 11, fill: '#6b7280' }}
+                      />
+                      <YAxis
+                        axisLine={false}
+                        tickLine={false}
+                        tick={{ fontSize: 11, fill: '#6b7280' }}
+                      />
+                      <Tooltip
+                        contentStyle={{
+                          backgroundColor: 'white',
+                          border: '1px solid #e5e7eb',
+                          borderRadius: '8px',
+                          padding: '6px'
+                        }}
+                        labelStyle={{ fontSize: 11, fontWeight: 'bold' }}
+                      />
+                      <Line
+                        type="monotone"
+                        dataKey="completed"
+                        stroke="#10b981"
+                        strokeWidth={2}
+                        dot={{ r: 3, fill: '#10b981' }}
+                        activeDot={{ r: 5, fill: '#10b981' }}
+                      />
+                    </LineChart>
+                  </ResponsiveContainer>
+                </div>
+              </CardContent>
+            </Card>
           </div>
 
           {/* 下半部分：2列布局 */}
