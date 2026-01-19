@@ -814,7 +814,7 @@ export default function SalesDashboard() {
                         <th className="px-2 py-2 text-center text-sm font-medium text-gray-500">状态</th>
                       </tr>
                     </thead>
-                    <tbody>
+                    <tbody className="min-h-[320px]">
                       {dealerCurrentData.map((dealer) => (
                         <tr key={dealer.rank} className="border-b border-gray-50 hover:bg-blue-50 transition-colors">
                           <td className="px-2 py-2.5 text-center">
@@ -1029,7 +1029,7 @@ export default function SalesDashboard() {
                           <th className="px-3 py-2 text-right text-xs font-medium text-gray-500">到期/逾期天数</th>
                         </tr>
                       </thead>
-                      <tbody className="divide-y divide-gray-200">
+                      <tbody className="divide-y divide-gray-200 min-h-[200px]">
                         {urgentCurrentData.map((project, index) => (
                           <tr key={index} className="hover:bg-gray-50">
                             <td className="px-3 py-2 text-sm font-medium text-gray-900">{project.name}</td>
@@ -1137,7 +1137,7 @@ export default function SalesDashboard() {
                           <th className="px-3 py-2 text-center text-xs font-medium text-gray-500">潜力等级</th>
                         </tr>
                       </thead>
-                      <tbody className="divide-y divide-gray-200">
+                      <tbody className="divide-y divide-gray-200 min-h-[200px]">
                         {relatedCurrentData.map((customer, index) => (
                           <tr key={index} className="hover:bg-gray-50">
                             <td className="px-3 py-2 text-sm font-medium text-gray-900">{customer.name}</td>
@@ -1317,7 +1317,7 @@ export default function SalesDashboard() {
                         <th className="px-2 py-2 text-center text-sm font-medium text-gray-500">状态</th>
                       </tr>
                     </thead>
-                    <tbody>
+                    <tbody className="min-h-[320px]">
                       {salesmenCurrentData.map((item) => (
                         <tr key={item.rank} className="border-b border-gray-50 hover:bg-blue-50 transition-colors">
                           <td className="px-2 py-2.5 text-center">
