@@ -575,7 +575,7 @@ export default function SalesDashboard() {
           <TabsTrigger value="overview" className="flex-1 h-8 rounded-lg data-[state=active]:bg-gradient-to-r data-[state=active]:from-green-500 data-[state=active]:to-emerald-600 data-[state=active]:text-white data-[state=active]:shadow-md transition-all duration-200">
             <span className="flex items-center gap-2">
               <Activity className="w-4 h-4" />
-              经营总览
+              目标达成
             </span>
           </TabsTrigger>
           <TabsTrigger value="distributors" className="flex-1 h-8 rounded-lg data-[state=active]:bg-gradient-to-r data-[state=active]:from-green-500 data-[state=active]:to-emerald-600 data-[state=active]:text-white data-[state=active]:shadow-md transition-all duration-200">
@@ -599,11 +599,11 @@ export default function SalesDashboard() {
         </TabsList>
 
         <TabsContent value="overview">
-          {/* 经营总览标题 */}
+          {/* 目标达成标题 */}
           <div className="mb-4 flex items-center gap-4">
             <h2 className="text-lg font-semibold text-gray-900 flex items-center gap-2">
               <Activity className="w-5 h-5" />
-              经营总览
+              目标达成
             </h2>
           </div>
         {/* KPI指标 + 月度趋势分析 左右布局 */}
