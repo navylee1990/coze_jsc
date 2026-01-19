@@ -1008,15 +1008,15 @@ export default function SalesDashboard() {
                 </CardHeader>
                 <CardContent>
                   <div className="grid grid-cols-2 gap-4 mb-4">
-                    <div className="p-4 bg-red-50 rounded-lg border border-red-200">
-                      <div className="text-3xl font-bold text-red-600">23</div>
+                    <div className="text-center">
+                      <div className="text-4xl font-bold text-red-600">23</div>
                       <div className="text-xs text-gray-600 mt-1">超期项目（已逾期）</div>
-                      <div className="text-xs text-red-600 mt-2">总金额 350万</div>
+                      <div className="text-xs text-gray-400">总金额 350万</div>
                     </div>
-                    <div className="p-4 bg-yellow-50 rounded-lg border border-yellow-200">
-                      <div className="text-3xl font-bold text-yellow-600">35</div>
+                    <div className="text-center">
+                      <div className="text-4xl font-bold text-yellow-600">35</div>
                       <div className="text-xs text-gray-600 mt-1">临期项目（30天内）</div>
-                      <div className="text-xs text-yellow-600 mt-2">总金额 420万</div>
+                      <div className="text-xs text-gray-400">总金额 420万</div>
                     </div>
                   </div>
                   <div className="bg-white rounded-lg border border-gray-200 overflow-hidden">
