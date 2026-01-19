@@ -773,9 +773,9 @@ export default function SalesDashboard() {
         </div>
 
         {/* 区域达成情况 */}
-        <div className="mt-3 grid grid-cols-1 lg:grid-cols-3 gap-3">
+        <div className="mt-3 grid grid-cols-1 lg:grid-cols-2 gap-3">
           {/* 左侧：表格 */}
-          <Card className="lg:col-span-2 border border-green-200 bg-gradient-to-br from-green-50 to-emerald-50">
+          <Card className="lg:col-span-1 border border-green-200 bg-gradient-to-br from-green-50 to-emerald-50">
             <CardContent className="p-3">
               {/* 标题 */}
               <div className="flex items-center justify-between mb-3">
