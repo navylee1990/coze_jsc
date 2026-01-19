@@ -258,6 +258,15 @@ export default function SalesDashboard() {
     salesmenCurrentPage * salesmenPageSize
   );
 
+  // 经销商达成率排名分页状态
+  const [dealerCurrentPage, setDealerCurrentPage] = useState(1);
+  const dealerPageSize = 8;
+  const dealerTotalPages = Math.ceil(dealerAchievementRanking.length / dealerPageSize);
+  const dealerCurrentData = dealerAchievementRanking.slice(
+    (dealerCurrentPage - 1) * dealerPageSize,
+    dealerCurrentPage * dealerPageSize
+  );
+
   const handleRegionClick = (regionName: string) => {
     setSelectedRegion(regionName);
     setViewLevel('city');
@@ -680,7 +689,7 @@ export default function SalesDashboard() {
                       </tr>
                     </thead>
                     <tbody>
-                      {dealerAchievementRanking.map((dealer) => (
+                      {dealerCurrentData.map((dealer) => (
                         <tr key={dealer.rank} className="border-b border-gray-50 hover:bg-blue-50 transition-colors">
                           <td className="px-2 py-2.5 text-center">
                             <div className={`inline-flex items-center justify-center w-7 h-7 rounded-full text-sm font-bold ${
@@ -730,27 +739,27 @@ export default function SalesDashboard() {
                 {/* 分页 */}
                 <div className="flex items-center justify-between mt-3 px-1">
                   <div className="text-xs text-gray-500">
-                    共 <span className="font-semibold text-gray-700">{salesmenRanking.length}</span> 条记录，
-                    第 <span className="font-semibold text-gray-700">{salesmenCurrentPage}</span> / {salesmenTotalPages} 页
+                    共 <span className="font-semibold text-gray-700">{dealerAchievementRanking.length}</span> 条记录，
+                    第 <span className="font-semibold text-gray-700">{dealerCurrentPage}</span> / {dealerTotalPages} 页
                   </div>
                   <div className="flex items-center gap-1">
                     <button
-                      onClick={() => setSalesmenCurrentPage(prev => Math.max(1, prev - 1))}
-                      disabled={salesmenCurrentPage === 1}
+                      onClick={() => setDealerCurrentPage(prev => Math.max(1, prev - 1))}
+                      disabled={dealerCurrentPage === 1}
                       className={`px-3 py-1.5 text-xs font-medium rounded-lg transition-all ${
-                        salesmenCurrentPage === 1
+                        dealerCurrentPage === 1
                           ? 'bg-gray-100 text-gray-400 cursor-not-allowed'
                           : 'bg-white border border-gray-200 text-gray-700 hover:bg-green-50 hover:border-green-300 hover:text-green-700'
                       }`}
                     >
                       上一页
                     </button>
-                    {Array.from({ length: salesmenTotalPages }, (_, i) => i + 1).map((page) => (
+                    {Array.from({ length: dealerTotalPages }, (_, i) => i + 1).map((page) => (
                       <button
                         key={page}
-                        onClick={() => setSalesmenCurrentPage(page)}
+                        onClick={() => setDealerCurrentPage(page)}
                         className={`min-w-[32px] h-8 text-xs font-medium rounded-lg transition-all ${
-                          salesmenCurrentPage === page
+                          dealerCurrentPage === page
                             ? 'bg-gradient-to-r from-green-500 to-emerald-600 text-white shadow-md'
                             : 'bg-white border border-gray-200 text-gray-700 hover:bg-green-50 hover:border-green-300 hover:text-green-700'
                         }`}
@@ -759,10 +768,10 @@ export default function SalesDashboard() {
                       </button>
                     ))}
                     <button
-                      onClick={() => setSalesmenCurrentPage(prev => Math.min(salesmenTotalPages, prev + 1))}
-                      disabled={salesmenCurrentPage === salesmenTotalPages}
+                      onClick={() => setDealerCurrentPage(prev => Math.min(dealerTotalPages, prev + 1))}
+                      disabled={dealerCurrentPage === dealerTotalPages}
                       className={`px-3 py-1.5 text-xs font-medium rounded-lg transition-all ${
-                        salesmenCurrentPage === salesmenTotalPages
+                        dealerCurrentPage === dealerTotalPages
                           ? 'bg-gray-100 text-gray-400 cursor-not-allowed'
                           : 'bg-white border border-gray-200 text-gray-700 hover:bg-green-50 hover:border-green-300 hover:text-green-700'
                       }`}
@@ -1134,27 +1143,27 @@ export default function SalesDashboard() {
                 {/* 分页 */}
                 <div className="flex items-center justify-between mt-3 px-1">
                   <div className="text-xs text-gray-500">
-                    共 <span className="font-semibold text-gray-700">{salesmenRanking.length}</span> 条记录，
-                    第 <span className="font-semibold text-gray-700">{salesmenCurrentPage}</span> / {salesmenTotalPages} 页
+                    共 <span className="font-semibold text-gray-700">{dealerAchievementRanking.length}</span> 条记录，
+                    第 <span className="font-semibold text-gray-700">{dealerCurrentPage}</span> / {dealerTotalPages} 页
                   </div>
                   <div className="flex items-center gap-1">
                     <button
-                      onClick={() => setSalesmenCurrentPage(prev => Math.max(1, prev - 1))}
-                      disabled={salesmenCurrentPage === 1}
+                      onClick={() => setDealerCurrentPage(prev => Math.max(1, prev - 1))}
+                      disabled={dealerCurrentPage === 1}
                       className={`px-3 py-1.5 text-xs font-medium rounded-lg transition-all ${
-                        salesmenCurrentPage === 1
+                        dealerCurrentPage === 1
                           ? 'bg-gray-100 text-gray-400 cursor-not-allowed'
                           : 'bg-white border border-gray-200 text-gray-700 hover:bg-green-50 hover:border-green-300 hover:text-green-700'
                       }`}
                     >
                       上一页
                     </button>
-                    {Array.from({ length: salesmenTotalPages }, (_, i) => i + 1).map((page) => (
+                    {Array.from({ length: dealerTotalPages }, (_, i) => i + 1).map((page) => (
                       <button
                         key={page}
-                        onClick={() => setSalesmenCurrentPage(page)}
+                        onClick={() => setDealerCurrentPage(page)}
                         className={`min-w-[32px] h-8 text-xs font-medium rounded-lg transition-all ${
-                          salesmenCurrentPage === page
+                          dealerCurrentPage === page
                             ? 'bg-gradient-to-r from-green-500 to-emerald-600 text-white shadow-md'
                             : 'bg-white border border-gray-200 text-gray-700 hover:bg-green-50 hover:border-green-300 hover:text-green-700'
                         }`}
@@ -1163,10 +1172,10 @@ export default function SalesDashboard() {
                       </button>
                     ))}
                     <button
-                      onClick={() => setSalesmenCurrentPage(prev => Math.min(salesmenTotalPages, prev + 1))}
-                      disabled={salesmenCurrentPage === salesmenTotalPages}
+                      onClick={() => setDealerCurrentPage(prev => Math.min(dealerTotalPages, prev + 1))}
+                      disabled={dealerCurrentPage === dealerTotalPages}
                       className={`px-3 py-1.5 text-xs font-medium rounded-lg transition-all ${
-                        salesmenCurrentPage === salesmenTotalPages
+                        dealerCurrentPage === dealerTotalPages
                           ? 'bg-gray-100 text-gray-400 cursor-not-allowed'
                           : 'bg-white border border-gray-200 text-gray-700 hover:bg-green-50 hover:border-green-300 hover:text-green-700'
                       }`}
