@@ -423,6 +423,7 @@ export default function SalesDashboard() {
   const [selectedMonth, setSelectedMonth] = useState('1');
   const [selectedQuarter, setSelectedQuarter] = useState('Q1');
   const [trendRegion, setTrendRegion] = useState('all'); // 月度趋势地区筛选
+  const [cityManagerPage, setCityManagerPage] = useState(1); // 城市经理表格分页
 
   // 业务员排名分页状态
   const [salesmenCurrentPage, setSalesmenCurrentPage] = useState(1);
@@ -469,6 +470,11 @@ export default function SalesDashboard() {
     setViewLevel('region');
     setSelectedRegion('');
   };
+
+  // 时间范围变化时重置城市经理页码
+  useEffect(() => {
+    setCityManagerPage(1);
+  }, [timeRange]);
 
   const currentData = viewLevel === 'city'
     ? (cityData[timeRange as keyof typeof cityData] as any)[selectedRegion] || []
@@ -936,26 +942,34 @@ export default function SalesDashboard() {
                 <table className="w-full">
                   <thead>
                     <tr className="border-b border-gray-100">
-                      <th className="px-2 py-2 text-left text-xs font-medium text-gray-500">姓名</th>
-                      <th className="px-2 py-2 text-center text-xs font-medium text-gray-500">区域</th>
+                      <th className="px-2 py-2 text-left text-xs font-medium text-gray-500">城市</th>
+                      <th className="px-2 py-2 text-left text-xs font-medium text-gray-500">责任人</th>
                       <th className="px-2 py-2 text-right text-xs font-medium text-gray-500">目标</th>
+                      <th className="px-2 py-2 text-right text-xs font-medium text-gray-500">已完成</th>
                       <th className="px-2 py-2 text-right text-xs font-medium text-gray-500">预测金额</th>
-                      <th className="px-2 py-2 text-center text-xs font-medium text-gray-500">达成率</th>
-                      <th className="px-2 py-2 text-center text-xs font-medium text-gray-500">订单数</th>
+                      <th className="px-2 py-2 text-right text-xs font-medium text-gray-500">缺口</th>
+                      <th className="px-2 py-2 text-center text-xs font-medium text-gray-500">预测达成率</th>
+                      <th className="px-2 py-2 text-center text-xs font-medium text-gray-500">在手订单数</th>
+                      <th className="px-2 py-2 text-center text-xs font-medium text-gray-500">在手项目数</th>
                     </tr>
                   </thead>
-                  <tbody>
+                  <tbody className="min-h-[400px]">
                     {cityManagerData[timeRange as keyof typeof cityManagerData]
                       .sort((a, b) => b.rate - a.rate)
+                      .slice((cityManagerPage - 1) * 8, cityManagerPage * 8)
                       .map((item: any, index: number) => (
                       <tr
                         key={index}
                         className="border-b border-gray-50 last:border-0"
                       >
-                        <td className="px-2 py-2 text-sm font-medium text-gray-900">{item.name}</td>
-                        <td className="px-2 py-2 text-xs text-gray-500 text-center">{item.region}</td>
+                        <td className="px-2 py-2 text-sm font-medium text-gray-900">{item.region}</td>
+                        <td className="px-2 py-2 text-xs text-gray-500">{item.name}</td>
                         <td className="px-2 py-2 text-xs text-right text-gray-600">{item.target.toLocaleString()}</td>
+                        <td className="px-2 py-2 text-xs text-right text-gray-600">{item.completed.toLocaleString()}</td>
                         <td className="px-2 py-2 text-xs text-right text-gray-600">{item.predicted.toLocaleString()}</td>
+                        <td className={`px-2 py-2 text-xs text-right font-semibold ${item.gap > 0 ? 'text-red-500' : item.gap === 0 ? 'text-gray-600' : 'text-green-500'}`}>
+                          {item.gap > 0 ? `${item.gap}` : item.gap === 0 ? '0' : `+${Math.abs(item.gap)}`}
+                        </td>
                         <td className="px-2 py-2 text-center">
                           <span className={`text-xs font-bold ${
                             item.rate >= 100 ? 'text-green-600' : item.rate >= 80 ? 'text-yellow-600' : 'text-red-600'
@@ -970,10 +984,32 @@ export default function SalesDashboard() {
                             {item.orderCount}
                           </span>
                         </td>
+                        <td className="px-2 py-2 text-center text-xs text-gray-600">{item.projectCount}</td>
                       </tr>
                     ))}
                   </tbody>
                 </table>
+
+                {/* 分页 */}
+                <div className="flex items-center justify-center gap-2 mt-3 pt-3 border-t border-gray-100">
+                  <button
+                    onClick={() => setCityManagerPage(p => Math.max(1, p - 1))}
+                    disabled={cityManagerPage === 1}
+                    className="px-3 py-1 text-xs border border-gray-300 rounded hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed"
+                  >
+                    上一页
+                  </button>
+                  <span className="text-xs text-gray-600">
+                    第 {cityManagerPage} / {Math.ceil(cityManagerData[timeRange as keyof typeof cityManagerData].length / 8)} 页
+                  </span>
+                  <button
+                    onClick={() => setCityManagerPage(p => Math.min(Math.ceil(cityManagerData[timeRange as keyof typeof cityManagerData].length / 8), p + 1))}
+                    disabled={cityManagerPage === Math.ceil(cityManagerData[timeRange as keyof typeof cityManagerData].length / 8)}
+                    className="px-3 py-1 text-xs border border-gray-300 rounded hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed"
+                  >
+                    下一页
+                  </button>
+                </div>
               </div>
             </CardContent>
           </Card>
