@@ -865,27 +865,27 @@ export default function SalesDashboard() {
                 {/* 分页 */}
                 <div className="flex items-center justify-between mt-3 px-1">
                   <div className="text-xs text-gray-500">
-                    共 <span className="font-semibold text-gray-700">{dealerAchievementRanking.length}</span> 条记录，
-                    第 <span className="font-semibold text-gray-700">{dealerCurrentPage}</span> / {dealerTotalPages} 页
+                    共 <span className="font-semibold text-gray-700">{salesmenRanking.length}</span> 条记录，
+                    第 <span className="font-semibold text-gray-700">{salesmenCurrentPage}</span> / {salesmenTotalPages} 页
                   </div>
                   <div className="flex items-center gap-1">
                     <button
-                      onClick={() => setDealerCurrentPage(prev => Math.max(1, prev - 1))}
-                      disabled={dealerCurrentPage === 1}
+                      onClick={() => setSalesmenCurrentPage(prev => Math.max(1, prev - 1))}
+                      disabled={salesmenCurrentPage === 1}
                       className={`px-3 py-1.5 text-xs font-medium rounded-lg transition-all ${
-                        dealerCurrentPage === 1
+                        salesmenCurrentPage === 1
                           ? 'bg-gray-100 text-gray-400 cursor-not-allowed'
                           : 'bg-white border border-gray-200 text-gray-700 hover:bg-green-50 hover:border-green-300 hover:text-green-700'
                       }`}
                     >
                       上一页
                     </button>
-                    {Array.from({ length: dealerTotalPages }, (_, i) => i + 1).map((page) => (
+                    {Array.from({ length: salesmenTotalPages }, (_, i) => i + 1).map((page) => (
                       <button
                         key={page}
-                        onClick={() => setDealerCurrentPage(page)}
+                        onClick={() => setSalesmenCurrentPage(page)}
                         className={`min-w-[32px] h-8 text-xs font-medium rounded-lg transition-all ${
-                          dealerCurrentPage === page
+                          salesmenCurrentPage === page
                             ? 'bg-gradient-to-r from-green-500 to-emerald-600 text-white shadow-md'
                             : 'bg-white border border-gray-200 text-gray-700 hover:bg-green-50 hover:border-green-300 hover:text-green-700'
                         }`}
@@ -894,10 +894,10 @@ export default function SalesDashboard() {
                       </button>
                     ))}
                     <button
-                      onClick={() => setDealerCurrentPage(prev => Math.min(dealerTotalPages, prev + 1))}
-                      disabled={dealerCurrentPage === dealerTotalPages}
+                      onClick={() => setSalesmenCurrentPage(prev => Math.min(salesmenTotalPages, prev + 1))}
+                      disabled={salesmenCurrentPage === salesmenTotalPages}
                       className={`px-3 py-1.5 text-xs font-medium rounded-lg transition-all ${
-                        dealerCurrentPage === dealerTotalPages
+                        salesmenCurrentPage === salesmenTotalPages
                           ? 'bg-gray-100 text-gray-400 cursor-not-allowed'
                           : 'bg-white border border-gray-200 text-gray-700 hover:bg-green-50 hover:border-green-300 hover:text-green-700'
                       }`}
@@ -1382,27 +1382,27 @@ export default function SalesDashboard() {
                 {/* 分页 */}
                 <div className="flex items-center justify-between mt-3 px-1">
                   <div className="text-xs text-gray-500">
-                    共 <span className="font-semibold text-gray-700">{dealerAchievementRanking.length}</span> 条记录，
-                    第 <span className="font-semibold text-gray-700">{dealerCurrentPage}</span> / {dealerTotalPages} 页
+                    共 <span className="font-semibold text-gray-700">{salesmenRanking.length}</span> 条记录，
+                    第 <span className="font-semibold text-gray-700">{salesmenCurrentPage}</span> / {salesmenTotalPages} 页
                   </div>
                   <div className="flex items-center gap-1">
                     <button
-                      onClick={() => setDealerCurrentPage(prev => Math.max(1, prev - 1))}
-                      disabled={dealerCurrentPage === 1}
+                      onClick={() => setSalesmenCurrentPage(prev => Math.max(1, prev - 1))}
+                      disabled={salesmenCurrentPage === 1}
                       className={`px-3 py-1.5 text-xs font-medium rounded-lg transition-all ${
-                        dealerCurrentPage === 1
+                        salesmenCurrentPage === 1
                           ? 'bg-gray-100 text-gray-400 cursor-not-allowed'
                           : 'bg-white border border-gray-200 text-gray-700 hover:bg-green-50 hover:border-green-300 hover:text-green-700'
                       }`}
                     >
                       上一页
                     </button>
-                    {Array.from({ length: dealerTotalPages }, (_, i) => i + 1).map((page) => (
+                    {Array.from({ length: salesmenTotalPages }, (_, i) => i + 1).map((page) => (
                       <button
                         key={page}
-                        onClick={() => setDealerCurrentPage(page)}
+                        onClick={() => setSalesmenCurrentPage(page)}
                         className={`min-w-[32px] h-8 text-xs font-medium rounded-lg transition-all ${
-                          dealerCurrentPage === page
+                          salesmenCurrentPage === page
                             ? 'bg-gradient-to-r from-green-500 to-emerald-600 text-white shadow-md'
                             : 'bg-white border border-gray-200 text-gray-700 hover:bg-green-50 hover:border-green-300 hover:text-green-700'
                         }`}
@@ -1411,10 +1411,10 @@ export default function SalesDashboard() {
                       </button>
                     ))}
                     <button
-                      onClick={() => setDealerCurrentPage(prev => Math.min(dealerTotalPages, prev + 1))}
-                      disabled={dealerCurrentPage === dealerTotalPages}
+                      onClick={() => setSalesmenCurrentPage(prev => Math.min(salesmenTotalPages, prev + 1))}
+                      disabled={salesmenCurrentPage === salesmenTotalPages}
                       className={`px-3 py-1.5 text-xs font-medium rounded-lg transition-all ${
-                        dealerCurrentPage === dealerTotalPages
+                        salesmenCurrentPage === salesmenTotalPages
                           ? 'bg-gray-100 text-gray-400 cursor-not-allowed'
                           : 'bg-white border border-gray-200 text-gray-700 hover:bg-green-50 hover:border-green-300 hover:text-green-700'
                       }`}
