@@ -427,7 +427,7 @@ export default function SalesDashboard() {
   const [selectedQuarter, setSelectedQuarter] = useState('Q1');
   const [trendRegion, setTrendRegion] = useState('all'); // 月度趋势地区筛选
   const [cityManagerPage, setCityManagerPage] = useState(1); // 城市经理表格分页
-  const cityManagerPageSize = 8;
+  const cityManagerPageSize = 6;
   const cityManagerTotalPages = Math.ceil(cityManagerData.month.length / cityManagerPageSize);
 
   // 业务员排名分页状态
@@ -947,18 +947,18 @@ export default function SalesDashboard() {
                 <table className="w-full">
                   <thead>
                     <tr className="border-b border-gray-100">
-                      <th className="px-3 py-2 text-left text-sm font-medium text-gray-500">城市</th>
-                      <th className="px-2 py-2 text-left text-sm font-medium text-gray-500">责任人</th>
-                      <th className="px-2 py-2 text-right text-sm font-medium text-gray-500">目标</th>
-                      <th className="px-2 py-2 text-right text-sm font-medium text-gray-500">已完成</th>
-                      <th className="px-2 py-2 text-right text-sm font-medium text-gray-500">预测金额</th>
-                      <th className="px-2 py-2 text-right text-sm font-medium text-gray-500">缺口</th>
-                      <th className="px-2 py-2 text-center text-sm font-medium text-gray-500">预测达成率</th>
-                      <th className="px-2 py-2 text-center text-sm font-medium text-gray-500">在手订单数</th>
-                      <th className="px-2 py-2 text-center text-sm font-medium text-gray-500">在手项目数</th>
+                      <th className="px-3 py-1.5 text-left text-sm font-medium text-gray-500">城市</th>
+                      <th className="px-2 py-1.5 text-left text-sm font-medium text-gray-500">责任人</th>
+                      <th className="px-2 py-1.5 text-right text-sm font-medium text-gray-500">目标</th>
+                      <th className="px-2 py-1.5 text-right text-sm font-medium text-gray-500">已完成</th>
+                      <th className="px-2 py-1.5 text-right text-sm font-medium text-gray-500">预测金额</th>
+                      <th className="px-2 py-1.5 text-right text-sm font-medium text-gray-500">缺口</th>
+                      <th className="px-2 py-1.5 text-center text-sm font-medium text-gray-500">预测达成率</th>
+                      <th className="px-2 py-1.5 text-center text-sm font-medium text-gray-500">在手订单数</th>
+                      <th className="px-2 py-1.5 text-center text-sm font-medium text-gray-500">在手项目数</th>
                     </tr>
                   </thead>
-                  <tbody className="min-h-[400px]">
+                  <tbody className="min-h-[260px]">
                     {cityManagerData[timeRange as keyof typeof cityManagerData]
                       .sort((a, b) => b.rate - a.rate)
                       .slice((cityManagerPage - 1) * cityManagerPageSize, cityManagerPage * cityManagerPageSize)
@@ -967,15 +967,15 @@ export default function SalesDashboard() {
                         key={index}
                         className="border-b border-gray-50 last:border-0"
                       >
-                        <td className="px-3 py-2.5 text-sm font-medium text-gray-900">{item.region}</td>
-                        <td className="px-2 py-2.5 text-sm text-gray-500">{item.name}</td>
-                        <td className="px-2 py-2.5 text-sm text-right text-gray-600">{item.target.toLocaleString()}</td>
-                        <td className="px-2 py-2.5 text-sm text-right text-gray-600">{item.completed.toLocaleString()}</td>
-                        <td className="px-2 py-2.5 text-sm text-right text-gray-600">{item.predicted.toLocaleString()}</td>
-                        <td className={`px-2 py-2.5 text-sm text-right font-semibold ${item.gap > 0 ? 'text-red-500' : item.gap === 0 ? 'text-gray-600' : 'text-green-500'}`}>
+                        <td className="px-3 py-1.5 text-sm font-medium text-gray-900">{item.region}</td>
+                        <td className="px-2 py-1.5 text-sm text-gray-500">{item.name}</td>
+                        <td className="px-2 py-1.5 text-sm text-right text-gray-600">{item.target.toLocaleString()}</td>
+                        <td className="px-2 py-1.5 text-sm text-right text-gray-600">{item.completed.toLocaleString()}</td>
+                        <td className="px-2 py-1.5 text-sm text-right text-gray-600">{item.predicted.toLocaleString()}</td>
+                        <td className={`px-2 py-1.5 text-sm text-right font-semibold ${item.gap > 0 ? 'text-red-500' : item.gap === 0 ? 'text-gray-600' : 'text-green-500'}`}>
                           {item.gap > 0 ? `${item.gap}` : item.gap === 0 ? '0' : `+${Math.abs(item.gap)}`}
                         </td>
-                        <td className="px-2 py-2.5 text-center">
+                        <td className="px-2 py-1.5 text-center">
                           <div className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-gray-50 border border-gray-100">
                             <span className={`text-sm font-bold ${
                               item.rate >= 100 ? 'text-green-600' : item.rate >= 80 ? 'text-yellow-600' : 'text-red-600'
@@ -992,14 +992,14 @@ export default function SalesDashboard() {
                             </div>
                           </div>
                         </td>
-                        <td className="px-2 py-2.5 text-center">
+                        <td className="px-2 py-1.5 text-center">
                           <span className={`text-sm font-bold ${
                             item.orderCount >= 100 ? 'text-green-600' : item.orderCount >= 80 ? 'text-yellow-600' : 'text-red-600'
                           }`}>
                             {item.orderCount}
                           </span>
                         </td>
-                        <td className="px-2 py-2.5 text-center text-sm text-gray-600">{item.projectCount}</td>
+                        <td className="px-2 py-1.5 text-center text-sm text-gray-600">{item.projectCount}</td>
                       </tr>
                     ))}
                   </tbody>
