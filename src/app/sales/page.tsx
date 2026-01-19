@@ -61,7 +61,13 @@ const kpiData = {
   conversionRate: 11.6, // 650.3 / 5600 * 100
 };
 
-// 不同时间维度的预测数据
+// 租赁KPI数据
+const leaseKPI = {
+  orders: 28, // 在手订单数
+  ordersAmount: 850, // 在手订单金额（万元）
+};
+
+// 不同时间维度的预测数据 - 新增买断
 // predicted: 预测完成总额（包含已完成的部分）
 const timeRangeData = {
   month: {
@@ -87,6 +93,34 @@ const timeRangeData = {
     gap: 1208.4,
     canComplete: false,
     risk: 'high',
+  },
+};
+
+// 不同时间维度的预测数据 - 新增租赁
+const leaseTimeRangeData = {
+  month: {
+    target: 856,
+    completed: 412,
+    predicted: 795.2,
+    gap: 60.8,
+    canComplete: false,
+    risk: 'medium',
+  },
+  quarter: {
+    target: 2568,
+    completed: 1236,
+    predicted: 2385.6,
+    gap: 182.4,
+    canComplete: false,
+    risk: 'medium',
+  },
+  year: {
+    target: 10272,
+    completed: 4944,
+    predicted: 9542.4,
+    gap: 729.6,
+    canComplete: false,
+    risk: 'medium',
   },
 };
 
@@ -608,15 +642,21 @@ export default function SalesDashboard() {
           </div>
         {/* KPI指标 + 月度趋势分析 左右布局 */}
         <div className="flex gap-3">
-          {/* 左侧：5个KPI指标 - 横向紧凑布局 */}
+          {/* 左侧：KPI指标（买断+租赁）- 两行布局 */}
           <div className="w-1/2">
-            <div className="bg-white border border-gray-200 rounded-lg overflow-hidden">
+            {/* 第一行：新增买断指标 */}
+            <div className="mb-2 bg-white border border-gray-200 rounded-lg overflow-hidden">
+              <div className="bg-gradient-to-r from-green-500 to-emerald-600 px-3 py-1.5">
+                <div className="flex items-center gap-1.5">
+                  <Target className="w-4 h-4 text-white" />
+                  <span className="text-sm font-bold text-white">新增买断</span>
+                </div>
+              </div>
               <div className="grid grid-cols-5">
                 {/* 目标 */}
                 <div className="border-r border-gray-200 px-2 py-2">
                   <div className="flex items-center justify-between mb-1">
                     <div className="flex items-center gap-1 text-xs font-medium text-gray-500">
-                      <Target className="w-3 h-3 text-blue-500 flex-shrink-0" />
                       <span>{timeRangeLabel}目标</span>
                     </div>
                   </div>
@@ -674,59 +714,75 @@ export default function SalesDashboard() {
               </div>
             </div>
 
-            {/* 渠道洞察 */}
-            <Card className="mt-2 border border-green-200 bg-gradient-to-br from-green-50 to-emerald-50">
-              <CardContent className="p-3">
-                <div className="flex items-center gap-1.5 mb-2">
-                  <div className="w-6 h-6 bg-gradient-to-br from-green-500 to-emerald-600 rounded-md flex items-center justify-center">
-                    <Database className="w-3.5 h-3.5 text-white" />
+            {/* 第二行：新增租赁指标 */}
+            <div className="bg-white border border-gray-200 rounded-lg overflow-hidden">
+              <div className="bg-gradient-to-r from-blue-500 to-cyan-600 px-3 py-1.5">
+                <div className="flex items-center gap-1.5">
+                  <Database className="w-4 h-4 text-white" />
+                  <span className="text-sm font-bold text-white">新增租赁</span>
+                </div>
+              </div>
+              <div className="grid grid-cols-5">
+                {/* 目标 */}
+                <div className="border-r border-gray-200 px-2 py-2">
+                  <div className="flex items-center justify-between mb-1">
+                    <div className="flex items-center gap-1 text-xs font-medium text-gray-500">
+                      <span>{timeRangeLabel}目标</span>
+                    </div>
                   </div>
-                  <div>
-                    <div className="text-sm font-bold text-gray-900">渠道洞察</div>
-                    <div className="text-xs text-gray-500">渠道健康与增长</div>
+                  <div className="text-2xl font-bold text-gray-900 leading-none">{leaseTimeRangeData[timeRange as keyof typeof leaseTimeRangeData].target.toLocaleString()}</div>
+                  <div className="text-xs text-blue-600 bg-blue-50 inline-block px-1.5 py-0.5 rounded mt-1">
+                    {timeRange === 'month' ? `${selectedMonth}月` : timeRange === 'quarter' ? selectedQuarter : '2026'}
                   </div>
                 </div>
-                <div className="space-y-2">
-                  {/* 渠道健康度 */}
-                  <div className="bg-white/70 backdrop-blur-sm rounded-md p-2 border border-green-200">
-                    <div className="flex items-center gap-1 mb-1">
-                      <Activity className="w-3 h-3 text-green-600" />
-                      <span className="text-xs font-semibold text-green-700">渠道健康度</span>
-                    </div>
-                    <p className="text-xs text-gray-600 leading-relaxed">
-                      活跃率<span className="font-medium text-green-600">{((dealerKPI.activeDealers / dealerKPI.totalDealers) * 100).toFixed(0)}%</span>（{dealerKPI.activeDealers}/{dealerKPI.totalDealers}），
-                      达标率<span className="font-medium text-red-600">{dealerKPI.activeDealers > 0 ? ((dealerKPI.qualifiedDealers / dealerKPI.activeDealers) * 100).toFixed(0) : 0}%</span>，
-                      <span className="font-medium">华中区</span>持续领跑
-                    </p>
-                  </div>
 
-                  {/* 增长机会 */}
-                  <div className="bg-white/70 backdrop-blur-sm rounded-md p-2 border border-blue-200">
-                    <div className="flex items-center gap-1 mb-1">
-                      <TrendingUp className="w-3 h-3 text-blue-600" />
-                      <span className="text-xs font-semibold text-blue-700">增长机会</span>
-                    </div>
-                    <p className="text-xs text-gray-600 leading-relaxed">
-                      新增<span className="font-medium text-blue-600">{dealerKPI.newDealers}家</span>经销商，
-                      <span className="font-medium">西南区</span>市场渗透率低，
-                      <span className="font-medium">成都、重庆</span>可开发空白医院<span className="font-medium text-blue-600">12家</span>
-                    </p>
-                  </div>
-
-                  {/* 核心经销商 */}
-                  <div className="bg-white/70 backdrop-blur-sm rounded-md p-2 border border-purple-200">
-                    <div className="flex items-center gap-1 mb-1">
-                      <Target className="w-3 h-3 text-purple-600" />
-                      <span className="text-xs font-semibold text-purple-700">核心经销商</span>
-                    </div>
-                    <p className="text-xs text-gray-600 leading-relaxed">
-                      <span className="font-medium text-purple-600">杭州商用</span>达成率{dealerAchievementRanking[0].rate}%，
-                      <span className="font-medium">杭州商用、上海净泉</span>需防范竞品挖角
-                    </p>
+                {/* 已完成 */}
+                <div className="border-r border-gray-200 px-2 py-2">
+                  <div className="text-xs font-medium text-gray-500 mb-1">{timeRangeLabel}已完成</div>
+                  <div className="text-2xl font-bold text-gray-900 leading-none">{leaseTimeRangeData[timeRange as keyof typeof leaseTimeRangeData].completed.toLocaleString()}</div>
+                  <div className="flex items-center gap-0.5 text-xs text-green-600 mt-1">
+                    <ArrowUp className="w-3 h-3" />
+                    <span>+12.5%</span>
                   </div>
                 </div>
-              </CardContent>
-            </Card>
+
+                {/* 预测完成 */}
+                <div className="border-r border-gray-200 px-2 py-2 bg-gradient-to-b from-green-50/50 to-transparent">
+                  <div className="text-xs font-medium text-gray-500 mb-1">预测完成</div>
+                  <div className="text-2xl font-bold text-green-600 leading-none">{leaseTimeRangeData[timeRange as keyof typeof leaseTimeRangeData].predicted.toLocaleString()}</div>
+                  <div className="flex items-center gap-0.5 text-xs text-green-600 mt-1">
+                    <ArrowUp className="w-3 h-3" />
+                    <span>+8.2%</span>
+                  </div>
+                </div>
+
+                {/* 任务缺口 */}
+                <div className="border-r border-gray-200 px-2 py-2 bg-gradient-to-b from-red-50/50 to-transparent">
+                  <div className="flex items-center gap-1 text-xs font-medium text-gray-500 mb-1">
+                    <AlertTriangle className="w-3 h-3 text-red-500 flex-shrink-0" />
+                    <span>任务缺口</span>
+                  </div>
+                  <div className="text-2xl font-bold text-red-600 leading-none">{leaseTimeRangeData[timeRange as keyof typeof leaseTimeRangeData].gap.toLocaleString()}</div>
+                  <div className="flex items-center gap-0.5 text-xs text-orange-600 mt-1">
+                    <ArrowDown className="w-3 h-3" />
+                    <span>-7.6%</span>
+                  </div>
+                </div>
+
+                {/* 在手订单 */}
+                <div className="px-2 py-2 bg-gradient-to-b from-purple-50/50 to-transparent">
+                  <div className="flex items-center gap-1 text-xs font-medium text-gray-500 mb-1">
+                    <Database className="w-3 h-3 text-purple-500 flex-shrink-0" />
+                    <span>在手订单</span>
+                  </div>
+                  <div className="flex items-baseline gap-1">
+                    <span className="text-2xl font-bold text-purple-600 leading-none">{leaseKPI.orders}</span>
+                    <span className="text-xs text-gray-600">单</span>
+                  </div>
+                  <div className="text-xs text-gray-700 font-semibold mt-1">{leaseKPI.ordersAmount}万</div>
+                </div>
+              </div>
+            </div>
           </div>
 
           {/* 右侧：月度趋势分析 */}
