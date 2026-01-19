@@ -801,8 +801,8 @@ export default function SalesDashboard() {
                   </div>
                 </div>
 
-                <div className="bg-white rounded-lg border-0 overflow-hidden">
-                  <table className="w-full">
+                <div className="bg-white rounded-lg border-0 overflow-hidden h-[360px]">
+                  <table className="w-full h-full">
                     <thead>
                       <tr className="border-b border-gray-100">
                         <th className="px-2 py-2 text-center text-sm font-medium text-gray-500 w-12">排名</th>
@@ -814,7 +814,7 @@ export default function SalesDashboard() {
                         <th className="px-2 py-2 text-center text-sm font-medium text-gray-500">状态</th>
                       </tr>
                     </thead>
-                    <tbody className="min-h-[320px]">
+                    <tbody>
                       {dealerCurrentData.map((dealer) => (
                         <tr key={dealer.rank} className="border-b border-gray-50 hover:bg-blue-50 transition-colors">
                           <td className="px-2 py-2.5 text-center">
@@ -1019,8 +1019,8 @@ export default function SalesDashboard() {
                       <div className="text-xs text-yellow-600 mt-2">总金额 420万</div>
                     </div>
                   </div>
-                  <div className="bg-white rounded-lg border border-gray-200 overflow-hidden">
-                    <table className="w-full">
+                  <div className="bg-white rounded-lg border border-gray-200 overflow-hidden h-[240px]">
+                    <table className="w-full h-full">
                       <thead className="bg-gray-50">
                         <tr>
                           <th className="px-3 py-2 text-left text-xs font-medium text-gray-500">项目名称</th>
@@ -1029,7 +1029,7 @@ export default function SalesDashboard() {
                           <th className="px-3 py-2 text-right text-xs font-medium text-gray-500">到期/逾期天数</th>
                         </tr>
                       </thead>
-                      <tbody className="divide-y divide-gray-200 min-h-[200px]">
+                      <tbody className="divide-y divide-gray-200">
                         {urgentCurrentData.map((project, index) => (
                           <tr key={index} className="hover:bg-gray-50">
                             <td className="px-3 py-2 text-sm font-medium text-gray-900">{project.name}</td>
@@ -1125,8 +1125,8 @@ export default function SalesDashboard() {
                       <div className="text-xs text-gray-400">万元</div>
                     </div>
                   </div>
-                  <div className="bg-white rounded-lg border border-gray-200 overflow-hidden">
-                    <table className="w-full">
+                  <div className="bg-white rounded-lg border border-gray-200 overflow-hidden h-[240px]">
+                    <table className="w-full h-full">
                       <thead className="bg-gray-50">
                         <tr>
                           <th className="px-3 py-2 text-left text-xs font-medium text-gray-500">客户名称</th>
@@ -1137,7 +1137,7 @@ export default function SalesDashboard() {
                           <th className="px-3 py-2 text-center text-xs font-medium text-gray-500">潜力等级</th>
                         </tr>
                       </thead>
-                      <tbody className="divide-y divide-gray-200 min-h-[200px]">
+                      <tbody className="divide-y divide-gray-200">
                         {relatedCurrentData.map((customer, index) => (
                           <tr key={index} className="hover:bg-gray-50">
                             <td className="px-3 py-2 text-sm font-medium text-gray-900">{customer.name}</td>
@@ -1302,8 +1302,8 @@ export default function SalesDashboard() {
                   <span className="text-xs text-gray-500">2026年度数据</span>
                 </div>
 
-                <div className="bg-white rounded-lg border-0 overflow-hidden">
-                  <table className="w-full">
+                <div className="bg-white rounded-lg border-0 overflow-hidden h-[360px]">
+                  <table className="w-full h-full">
                     <thead>
                       <tr className="border-b border-gray-100">
                         <th className="px-2 py-2 text-center text-sm font-medium text-gray-500 w-12">排名</th>
@@ -1317,7 +1317,7 @@ export default function SalesDashboard() {
                         <th className="px-2 py-2 text-center text-sm font-medium text-gray-500">状态</th>
                       </tr>
                     </thead>
-                    <tbody className="min-h-[320px]">
+                    <tbody>
                       {salesmenCurrentData.map((item) => (
                         <tr key={item.rank} className="border-b border-gray-50 hover:bg-blue-50 transition-colors">
                           <td className="px-2 py-2.5 text-center">
