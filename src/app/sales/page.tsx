@@ -825,24 +825,24 @@ export default function SalesDashboard() {
             <CardContent className="p-3">
               {/* 标题 */}
               <div className="flex items-center justify-between mb-3">
-                <div className="text-sm font-bold text-gray-900 flex items-center gap-2">
-                  <Activity className="w-4 h-4 text-green-600" />
+                <div className="flex items-center gap-2">
+                  <Activity className="w-5 h-5 text-green-600" />
                   {viewLevel === 'city' && (
                     <>
                       <button
                         onClick={handleBack}
-                        className="text-xs text-green-600 hover:text-green-700 flex items-center gap-1 mr-1"
+                        className="text-sm text-green-600 hover:text-green-700 flex items-center gap-1 mr-1"
                       >
                         ← 返回大区
                       </button>
                       <span className="text-gray-400 mx-1">/</span>
                     </>
                   )}
-                  <span className="text-sm font-bold text-gray-900">
+                  <span className="text-base font-bold text-gray-900">
                     {viewLevel === 'city' ? `${selectedRegion}` : '区域达成情况'}
                   </span>
                   {viewLevel === 'region' && (
-                    <span className="text-sm font-bold text-gray-900 ml-1">({timeRange === 'month' ? `${selectedMonth}月` : timeRange === 'quarter' ? selectedQuarter : '2026年'})</span>
+                    <span className="text-base font-bold text-gray-900 ml-1">({timeRange === 'month' ? `${selectedMonth}月` : timeRange === 'quarter' ? selectedQuarter : '2026年'})</span>
                   )}
                 </div>
               </div>
@@ -936,10 +936,10 @@ export default function SalesDashboard() {
             <CardContent className="p-3">
               {/* 标题 */}
               <div className="flex items-center justify-between mb-3">
-                <div className="text-sm font-bold text-gray-900 flex items-center gap-2">
-                  <Activity className="w-4 h-4 text-green-600" />
-                  <span className="text-sm font-bold text-gray-900">城市经理达成情况</span>
-                  <span className="text-sm font-bold text-gray-900">({timeRange === 'month' ? `${selectedMonth}月` : timeRange === 'quarter' ? selectedQuarter : '2026年'})</span>
+                <div className="flex items-center gap-2">
+                  <Activity className="w-5 h-5 text-green-600" />
+                  <span className="text-base font-bold text-gray-900">城市经理达成情况</span>
+                  <span className="text-base font-bold text-gray-900">({timeRange === 'month' ? `${selectedMonth}月` : timeRange === 'quarter' ? selectedQuarter : '2026年'})</span>
                 </div>
                 <div className="flex items-center gap-2">
                   <span className="text-sm font-medium text-gray-600">区域筛选：</span>
