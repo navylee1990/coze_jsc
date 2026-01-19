@@ -792,6 +792,73 @@ export default function SalesDashboard() {
           </div>
         </div>
 
+        {/* AI智能分析 */}
+        <div className="mt-3">
+          <Card className="border border-blue-200 bg-gradient-to-r from-blue-50 via-cyan-50 to-purple-50">
+            <CardContent className="p-4">
+              <div className="flex items-center gap-2 mb-3">
+                <div className="w-8 h-8 bg-gradient-to-br from-blue-500 to-purple-600 rounded-lg flex items-center justify-center">
+                  <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
+                  </svg>
+                </div>
+                <div>
+                  <div className="text-base font-bold text-gray-900">AI智能分析</div>
+                  <div className="text-xs text-gray-500">基于{timeRange === 'month' ? `${selectedMonth}月` : timeRange === 'quarter' ? selectedQuarter : '2026年'}数据洞察</div>
+                </div>
+              </div>
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
+                {/* 风险预警 */}
+                <div className="bg-white/80 backdrop-blur-sm rounded-lg p-3 border border-red-200">
+                  <div className="flex items-center gap-2 mb-2">
+                    <div className="w-6 h-6 bg-red-100 rounded-full flex items-center justify-center">
+                      <AlertTriangle className="w-3.5 h-3.5 text-red-600" />
+                    </div>
+                    <span className="text-sm font-semibold text-red-700">风险预警</span>
+                  </div>
+                  <p className="text-xs text-gray-600 leading-relaxed">
+                    <span className="font-medium text-red-600">{currentRangeData.gap.toLocaleString()}万元</span>任务缺口，
+                    <span className="font-medium">西南区</span>达成率仅{currentRangeData.gap > 0 ? '16%' : '100%'}，
+                    <span className="font-medium">成都、重庆</span>需重点关注
+                  </p>
+                </div>
+
+                {/* 机会识别 */}
+                <div className="bg-white/80 backdrop-blur-sm rounded-lg p-3 border border-green-200">
+                  <div className="flex items-center gap-2 mb-2">
+                    <div className="w-6 h-6 bg-green-100 rounded-full flex items-center justify-center">
+                      <ArrowUp className="w-3.5 h-3.5 text-green-600" />
+                    </div>
+                    <span className="text-sm font-semibold text-green-700">机会识别</span>
+                  </div>
+                  <p className="text-xs text-gray-600 leading-relaxed">
+                    <span className="font-medium text-green-600">15单</span>在手订单预计
+                    <span className="font-medium text-green-600">1,200万元</span>，
+                    <span className="font-medium">华中区</span>预测达成率100%，
+                    可复制成功经验
+                  </p>
+                </div>
+
+                {/* 行动建议 */}
+                <div className="bg-white/80 backdrop-blur-sm rounded-lg p-3 border border-blue-200">
+                  <div className="flex items-center gap-2 mb-2">
+                    <div className="w-6 h-6 bg-blue-100 rounded-full flex items-center justify-center">
+                      <Target className="w-3.5 h-3.5 text-blue-600" />
+                    </div>
+                    <span className="text-sm font-semibold text-blue-700">行动建议</span>
+                  </div>
+                  <p className="text-xs text-gray-600 leading-relaxed">
+                    优先推进<span className="font-medium text-blue-600">高价值项目</span>签约，
+                    <span className="font-medium">西南区</span>增加拜访频次，
+                        目标：{timeRange === 'month' ? '本月' : timeRange === 'quarter' ? '本季度' : '今年'}达成率
+                    <span className="font-medium text-blue-600">提升至80%</span>
+                  </p>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+        </div>
+
         {/* 区域达成情况 */}
         <div className="mt-3 grid grid-cols-1 lg:grid-cols-2 gap-3">
           {/* 左侧：表格 */}
