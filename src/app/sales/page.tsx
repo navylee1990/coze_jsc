@@ -690,7 +690,7 @@ export default function SalesDashboard() {
           <div className="mb-4 flex items-center gap-4">
             <h2 className="text-lg font-semibold text-gray-900 flex items-center gap-2">
               <Activity className="w-5 h-5" />
-              目标达成
+              目标
             </h2>
           </div>
         {/* KPI指标 + 月度趋势分析 左右布局 */}
