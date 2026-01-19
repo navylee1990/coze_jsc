@@ -232,31 +232,31 @@ const dealerAchievementRanking = [
 // 城市经理数据
 const cityManagerData = {
   month: [
-    { name: '王泽', region: '一区', target: 320, completed: 65, predicted: 110, gap: 210, rate: 34.4, orderCount: 45, projectCount: 28 },
-    { name: '陈超', region: '二区', target: 232, completed: 100, predicted: 100, gap: 132, rate: 43.1, orderCount: 85, projectCount: 42 },
-    { name: '张大鹏', region: '五区', target: 260, completed: 120, predicted: 100.4, gap: 159.6, rate: 38.6, orderCount: 72, projectCount: 35 },
-    { name: '刘邦军', region: '华中', target: 152, completed: 152, predicted: 150, gap: 2, rate: 98.7, orderCount: 112, projectCount: 58 },
-    { name: '康帅', region: '华北、西北', target: 160, completed: 120, predicted: 69.1, gap: 90.9, rate: 43.2, orderCount: 62, projectCount: 31 },
-    { name: '钟莲', region: '西南', target: 128, completed: 20, predicted: 10.8, gap: 117.2, rate: 8.4, orderCount: 28, projectCount: 15 },
-    { name: '徐婷婷', region: '华南', target: 176, completed: 100, predicted: 110, gap: 66, rate: 62.5, orderCount: 68, projectCount: 36 },
+    { name: '王泽', region: '北京', target: 320, completed: 65, predicted: 110, gap: 210, rate: 34.4, orderCount: 45, projectCount: 28 },
+    { name: '陈超', region: '上海', target: 232, completed: 100, predicted: 100, gap: 132, rate: 43.1, orderCount: 85, projectCount: 42 },
+    { name: '张大鹏', region: '广州', target: 260, completed: 120, predicted: 100.4, gap: 159.6, rate: 38.6, orderCount: 72, projectCount: 35 },
+    { name: '刘邦军', region: '武汉', target: 152, completed: 152, predicted: 150, gap: 2, rate: 98.7, orderCount: 112, projectCount: 58 },
+    { name: '康帅', region: '石家庄', target: 160, completed: 120, predicted: 69.1, gap: 90.9, rate: 43.2, orderCount: 62, projectCount: 31 },
+    { name: '钟莲', region: '成都', target: 128, completed: 20, predicted: 10.8, gap: 117.2, rate: 8.4, orderCount: 28, projectCount: 15 },
+    { name: '徐婷婷', region: '南宁', target: 176, completed: 100, predicted: 110, gap: 66, rate: 62.5, orderCount: 68, projectCount: 36 },
   ],
   quarter: [
-    { name: '王泽', region: '一区', target: 960, completed: 195, predicted: 330, gap: 630, rate: 34.4, orderCount: 135, projectCount: 84 },
-    { name: '陈超', region: '二区', target: 696, completed: 300, predicted: 300, gap: 396, rate: 43.1, orderCount: 255, projectCount: 126 },
-    { name: '张大鹏', region: '五区', target: 780, completed: 360, predicted: 301.2, gap: 478.8, rate: 38.6, orderCount: 216, projectCount: 105 },
-    { name: '刘邦军', region: '华中', target: 456, completed: 456, predicted: 450, gap: 6, rate: 98.7, orderCount: 336, projectCount: 174 },
-    { name: '康帅', region: '华北、西北', target: 480, completed: 360, predicted: 207.3, gap: 272.7, rate: 43.2, orderCount: 186, projectCount: 93 },
-    { name: '钟莲', region: '西南', target: 384, completed: 60, predicted: 32.4, gap: 351.6, rate: 8.4, orderCount: 84, projectCount: 45 },
-    { name: '徐婷婷', region: '华南', target: 528, completed: 300, predicted: 330, gap: 198, rate: 62.5, orderCount: 204, projectCount: 108 },
+    { name: '王泽', region: '北京', target: 960, completed: 195, predicted: 330, gap: 630, rate: 34.4, orderCount: 135, projectCount: 84 },
+    { name: '陈超', region: '上海', target: 696, completed: 300, predicted: 300, gap: 396, rate: 43.1, orderCount: 255, projectCount: 126 },
+    { name: '张大鹏', region: '广州', target: 780, completed: 360, predicted: 301.2, gap: 478.8, rate: 38.6, orderCount: 216, projectCount: 105 },
+    { name: '刘邦军', region: '武汉', target: 456, completed: 456, predicted: 450, gap: 6, rate: 98.7, orderCount: 336, projectCount: 174 },
+    { name: '康帅', region: '石家庄', target: 480, completed: 360, predicted: 207.3, gap: 272.7, rate: 43.2, orderCount: 186, projectCount: 93 },
+    { name: '钟莲', region: '成都', target: 384, completed: 60, predicted: 32.4, gap: 351.6, rate: 8.4, orderCount: 84, projectCount: 45 },
+    { name: '徐婷婷', region: '南宁', target: 528, completed: 300, predicted: 330, gap: 198, rate: 62.5, orderCount: 204, projectCount: 108 },
   ],
   year: [
-    { name: '王泽', region: '一区', target: 3840, completed: 780, predicted: 1320, gap: 2520, rate: 34.4, orderCount: 540, projectCount: 336 },
-    { name: '陈超', region: '二区', target: 2784, completed: 1200, predicted: 1200, gap: 1584, rate: 43.1, orderCount: 1020, projectCount: 504 },
-    { name: '张大鹏', region: '五区', target: 3120, completed: 1440, predicted: 1204.8, gap: 1915.2, rate: 38.6, orderCount: 864, projectCount: 420 },
-    { name: '刘邦军', region: '华中', target: 1824, completed: 1824, predicted: 1800, gap: 24, rate: 98.7, orderCount: 1344, projectCount: 696 },
-    { name: '康帅', region: '华北、西北', target: 1920, completed: 1440, predicted: 829.2, gap: 1090.8, rate: 43.2, orderCount: 744, projectCount: 372 },
-    { name: '钟莲', region: '西南', target: 1536, completed: 240, predicted: 129.6, gap: 1406.4, rate: 8.4, orderCount: 336, projectCount: 180 },
-    { name: '徐婷婷', region: '华南', target: 2112, completed: 1200, predicted: 1320, gap: 792, rate: 62.5, orderCount: 816, projectCount: 432 },
+    { name: '王泽', region: '北京', target: 3840, completed: 780, predicted: 1320, gap: 2520, rate: 34.4, orderCount: 540, projectCount: 336 },
+    { name: '陈超', region: '上海', target: 2784, completed: 1200, predicted: 1200, gap: 1584, rate: 43.1, orderCount: 1020, projectCount: 504 },
+    { name: '张大鹏', region: '广州', target: 3120, completed: 1440, predicted: 1204.8, gap: 1915.2, rate: 38.6, orderCount: 864, projectCount: 420 },
+    { name: '刘邦军', region: '武汉', target: 1824, completed: 1824, predicted: 1800, gap: 24, rate: 98.7, orderCount: 1344, projectCount: 696 },
+    { name: '康帅', region: '石家庄', target: 1920, completed: 1440, predicted: 829.2, gap: 1090.8, rate: 43.2, orderCount: 744, projectCount: 372 },
+    { name: '钟莲', region: '成都', target: 1536, completed: 240, predicted: 129.6, gap: 1406.4, rate: 8.4, orderCount: 336, projectCount: 180 },
+    { name: '徐婷婷', region: '南宁', target: 2112, completed: 1200, predicted: 1320, gap: 792, rate: 62.5, orderCount: 816, projectCount: 432 },
   ],
 };
 
@@ -424,6 +424,8 @@ export default function SalesDashboard() {
   const [selectedQuarter, setSelectedQuarter] = useState('Q1');
   const [trendRegion, setTrendRegion] = useState('all'); // 月度趋势地区筛选
   const [cityManagerPage, setCityManagerPage] = useState(1); // 城市经理表格分页
+  const cityManagerPageSize = 8;
+  const cityManagerTotalPages = Math.ceil(cityManagerData.month.length / cityManagerPageSize);
 
   // 业务员排名分页状态
   const [salesmenCurrentPage, setSalesmenCurrentPage] = useState(1);
@@ -956,7 +958,7 @@ export default function SalesDashboard() {
                   <tbody className="min-h-[400px]">
                     {cityManagerData[timeRange as keyof typeof cityManagerData]
                       .sort((a, b) => b.rate - a.rate)
-                      .slice((cityManagerPage - 1) * 8, cityManagerPage * 8)
+                      .slice((cityManagerPage - 1) * cityManagerPageSize, cityManagerPage * cityManagerPageSize)
                       .map((item: any, index: number) => (
                       <tr
                         key={index}
@@ -991,24 +993,48 @@ export default function SalesDashboard() {
                 </table>
 
                 {/* 分页 */}
-                <div className="flex items-center justify-center gap-2 mt-3 pt-3 border-t border-gray-100">
-                  <button
-                    onClick={() => setCityManagerPage(p => Math.max(1, p - 1))}
-                    disabled={cityManagerPage === 1}
-                    className="px-3 py-1 text-xs border border-gray-300 rounded hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed"
-                  >
-                    上一页
-                  </button>
-                  <span className="text-xs text-gray-600">
-                    第 {cityManagerPage} / {Math.ceil(cityManagerData[timeRange as keyof typeof cityManagerData].length / 8)} 页
-                  </span>
-                  <button
-                    onClick={() => setCityManagerPage(p => Math.min(Math.ceil(cityManagerData[timeRange as keyof typeof cityManagerData].length / 8), p + 1))}
-                    disabled={cityManagerPage === Math.ceil(cityManagerData[timeRange as keyof typeof cityManagerData].length / 8)}
-                    className="px-3 py-1 text-xs border border-gray-300 rounded hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed"
-                  >
-                    下一页
-                  </button>
+                <div className="flex items-center justify-between mt-3 px-1">
+                  <div className="text-xs text-gray-500">
+                    共 <span className="font-semibold text-gray-700">{cityManagerData[timeRange as keyof typeof cityManagerData].length}</span> 条记录，
+                    第 <span className="font-semibold text-gray-700">{cityManagerPage}</span> / {cityManagerTotalPages} 页
+                  </div>
+                  <div className="flex items-center gap-1">
+                    <button
+                      onClick={() => setCityManagerPage(prev => Math.max(1, prev - 1))}
+                      disabled={cityManagerPage === 1}
+                      className={`px-3 py-1.5 text-xs font-medium rounded-lg transition-all ${
+                        cityManagerPage === 1
+                          ? 'bg-gray-100 text-gray-400 cursor-not-allowed'
+                          : 'bg-white border border-gray-200 text-gray-700 hover:bg-green-50 hover:border-green-300 hover:text-green-700'
+                      }`}
+                    >
+                      上一页
+                    </button>
+                    {Array.from({ length: cityManagerTotalPages }, (_, i) => i + 1).map((page) => (
+                      <button
+                        key={page}
+                        onClick={() => setCityManagerPage(page)}
+                        className={`min-w-[32px] h-8 text-xs font-medium rounded-lg transition-all ${
+                          cityManagerPage === page
+                            ? 'bg-gradient-to-r from-green-500 to-emerald-600 text-white shadow-md'
+                            : 'bg-white border border-gray-200 text-gray-700 hover:bg-green-50 hover:border-green-300 hover:text-green-700'
+                        }`}
+                      >
+                        {page}
+                      </button>
+                    ))}
+                    <button
+                      onClick={() => setCityManagerPage(prev => Math.min(cityManagerTotalPages, prev + 1))}
+                      disabled={cityManagerPage === cityManagerTotalPages}
+                      className={`px-3 py-1.5 text-xs font-medium rounded-lg transition-all ${
+                        cityManagerPage === cityManagerTotalPages
+                          ? 'bg-gray-100 text-gray-400 cursor-not-allowed'
+                          : 'bg-white border border-gray-200 text-gray-700 hover:bg-green-50 hover:border-green-300 hover:text-green-700'
+                      }`}
+                    >
+                      下一页
+                    </button>
+                  </div>
                 </div>
               </div>
             </CardContent>
