@@ -90,7 +90,7 @@ const timeRangeData = {
   },
 };
 
-// 续约数据（单位：万元）
+// 租赁数据（单位：万元）
 const renewalRangeData = {
   month: {
     target: 856.8,
@@ -146,7 +146,7 @@ const renewalRentRangeData = {
   },
 };
 
-// 合计数据（买断+续约+续租）（单位：万元）
+// 合计数据（买断+租赁+续租）（单位：万元）
 const totalRangeData = {
   month: {
     target: 2855,
@@ -695,7 +695,7 @@ export default function SalesDashboard() {
           </div>
         {/* KPI指标 + 月度趋势分析 左右布局 */}
         <div className="flex gap-3">
-          {/* 左侧：买断指标 + 续约指标 */}
+          {/* 左侧：买断指标 + 租赁 + 续租 */}
           <div className="w-1/2 flex flex-col gap-2">
             {/* 新增买断指标 */}
             <div>
@@ -765,9 +765,9 @@ export default function SalesDashboard() {
               </div>
             </div>
 
-            {/* 新增续约指标 */}
+            {/* 新增租赁 */}
             <div>
-              <div className="text-xs font-medium text-gray-600 mb-1.5 pl-1">新增续约指标</div>
+              <div className="text-xs font-medium text-gray-600 mb-1.5 pl-1">新增租赁</div>
               <div className="bg-white border border-gray-200 rounded-lg overflow-hidden">
                 <div className="grid grid-cols-5">
                   {/* 目标 */}
@@ -835,7 +835,7 @@ export default function SalesDashboard() {
 
             {/* 新增续租指标 */}
             <div>
-              <div className="text-xs font-medium text-gray-600 mb-1.5 pl-1">新增续租指标</div>
+              <div className="text-xs font-medium text-gray-600 mb-1.5 pl-1">续租</div>
               <div className="bg-white border border-gray-200 rounded-lg overflow-hidden">
                 <div className="grid grid-cols-5">
                   {/* 目标 */}
@@ -903,7 +903,7 @@ export default function SalesDashboard() {
 
             {/* 合计指标 */}
             <div>
-              <div className="text-xs font-medium text-gray-600 mb-1.5 pl-1">合计（买断+续约+续租）</div>
+              <div className="text-xs font-medium text-gray-600 mb-1.5 pl-1">合计（买断+租赁+续租）</div>
               <div className="bg-gradient-to-r from-green-50 to-emerald-50 border-2 border-green-200 rounded-lg overflow-hidden">
                 <div className="grid grid-cols-5">
                   {/* 目标 */}
