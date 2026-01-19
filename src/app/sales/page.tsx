@@ -676,10 +676,10 @@ export default function SalesDashboard() {
           </div>
         {/* KPI指标 + 月度趋势分析 左右布局 */}
         <div className="flex gap-3">
-          {/* 左侧：KPI指标（买断+租赁）- 两行布局 */}
-          <div className="w-1/2">
+          {/* 左侧：KPI指标（买断+租赁+续租）- 三行布局 */}
+          <div className="w-1/2 flex flex-col gap-2">
             {/* 第一行：新增买断指标 */}
-            <div className="mb-2 bg-white border border-gray-200 rounded-lg overflow-hidden">
+            <div className="bg-white border border-gray-200 rounded-lg overflow-hidden">
               <div className="bg-gradient-to-r from-green-500 to-emerald-600 px-3 py-1.5">
                 <div className="flex items-center gap-1.5">
                   <Target className="w-4 h-4 text-white" />
@@ -750,7 +750,7 @@ export default function SalesDashboard() {
 
             {/* 第二行：新增租赁指标 */}
             <div className="bg-white border border-gray-200 rounded-lg overflow-hidden">
-              <div className="bg-gradient-to-r from-blue-500 to-cyan-600 px-3 py-1.5">
+              <div className="bg-gradient-to-r from-green-500 to-emerald-600 px-3 py-1.5">
                 <div className="flex items-center gap-1.5">
                   <Database className="w-4 h-4 text-white" />
                   <span className="text-sm font-bold text-white">新增租赁</span>
@@ -820,7 +820,7 @@ export default function SalesDashboard() {
 
             {/* 第三行：续租指标 */}
             <div className="bg-white border border-gray-200 rounded-lg overflow-hidden">
-              <div className="bg-gradient-to-r from-emerald-500 to-teal-600 px-3 py-1.5">
+              <div className="bg-gradient-to-r from-green-500 to-emerald-600 px-3 py-1.5">
                 <div className="flex items-center gap-1.5">
                   <Clock className="w-4 h-4 text-white" />
                   <span className="text-sm font-bold text-white">续租</span>
