@@ -664,7 +664,7 @@ export default function SalesDashboard() {
                   </div>
                   <div className="mt-1.5 inline-flex items-center gap-1 text-sm bg-red-100 text-red-700 px-2 py-0.5 rounded-full font-medium">
                     <AlertTriangle className="w-2.5 h-2.5" />
-                    3人未达标
+                    8人未达标
                   </div>
                 </button>
                 <button
@@ -678,12 +678,12 @@ export default function SalesDashboard() {
                     <span className="text-sm font-semibold text-gray-700">按经销商</span>
                   </div>
                   <div className="flex items-baseline gap-1">
-                    <span className="text-lg font-bold text-green-600">8</span>
+                    <span className="text-lg font-bold text-green-600">10</span>
                     <span className="text-sm text-gray-500">经销商</span>
                   </div>
                   <div className="mt-1.5 inline-flex items-center gap-1 text-sm bg-red-100 text-red-700 px-2 py-0.5 rounded-full font-medium">
                     <AlertTriangle className="w-2.5 h-2.5" />
-                    2家未达标
+                    10家未达标
                   </div>
                 </button>
                 <button
@@ -697,7 +697,7 @@ export default function SalesDashboard() {
                     <span className="text-sm font-semibold text-gray-700">按项目</span>
                   </div>
                   <div className="flex items-baseline gap-1">
-                    <span className="text-lg font-bold text-orange-600">127</span>
+                    <span className="text-lg font-bold text-orange-600">12</span>
                     <span className="text-sm text-gray-500">高风险项目</span>
                   </div>
                   <div className="mt-1.5 inline-flex items-center gap-1 text-sm bg-orange-100 text-orange-700 px-2 py-0.5 rounded-full font-medium">
