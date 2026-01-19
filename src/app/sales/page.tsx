@@ -609,7 +609,7 @@ export default function SalesDashboard() {
         {/* KPI指标 + 月度趋势分析 左右布局 */}
         <div className="flex gap-3">
           {/* 左侧：5个KPI指标 */}
-          <div className="w-[42%] grid grid-cols-2 gap-1.5">
+          <div className="w-1/2 grid grid-cols-2 gap-1.5">
             {/* 目标 */}
             <Card className="bg-white border border-gray-200">
               <CardContent className="p-1">
@@ -702,7 +702,7 @@ export default function SalesDashboard() {
           </div>
 
           {/* 右侧：月度趋势分析 */}
-          <div className="flex-1 border-2 border-blue-200 bg-gradient-to-br from-blue-50 to-cyan-50 rounded-xl p-4">
+          <div className="w-1/2 border-2 border-blue-200 bg-gradient-to-br from-blue-50 to-cyan-50 rounded-xl p-4">
             {/* 标题和筛选器 */}
             <div className="flex items-center justify-between mb-3">
               <div className="flex items-center gap-2">
