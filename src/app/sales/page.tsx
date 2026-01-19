@@ -606,8 +606,10 @@ export default function SalesDashboard() {
               经营总览
             </h2>
           </div>
-        {/* KPI指标 */}
-        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-1.5">
+        {/* KPI指标 + 月度趋势分析 左右布局 */}
+        <div className="flex gap-3">
+          {/* 左侧：5个KPI指标 */}
+          <div className="w-[42%] grid grid-cols-2 gap-1.5">
             {/* 目标 */}
             <Card className="bg-white border border-gray-200">
               <CardContent className="p-1">
@@ -699,8 +701,8 @@ export default function SalesDashboard() {
             </Card>
           </div>
 
-          {/* 月度趋势分析 */}
-          <div className="border-2 border-blue-200 bg-gradient-to-br from-blue-50 to-cyan-50 rounded-xl p-4">
+          {/* 右侧：月度趋势分析 */}
+          <div className="flex-1 border-2 border-blue-200 bg-gradient-to-br from-blue-50 to-cyan-50 rounded-xl p-4">
             {/* 标题和筛选器 */}
             <div className="flex items-center justify-between mb-3">
               <div className="flex items-center gap-2">
@@ -813,13 +815,16 @@ export default function SalesDashboard() {
                 </ResponsiveContainer>
               </div>
             </div>
+          </div>
         </div>
 
         {/* 区域达成情况 */}
-        <Card className="mt-3 border border-green-200 bg-gradient-to-br from-green-50 to-emerald-50">
-          <CardContent className="p-3">
-            {/* 标题 */}
-            <div className="flex items-center justify-between mb-3">
+        <div className="mt-3 grid grid-cols-1 lg:grid-cols-2 gap-3">
+          {/* 左侧：表格 */}
+          <Card className="lg:col-span-1 border border-green-200 bg-gradient-to-br from-green-50 to-emerald-50">
+            <CardContent className="p-3">
+              {/* 标题 */}
+              <div className="flex items-center justify-between mb-3">
                 <div className="text-sm font-bold text-gray-900 flex items-center gap-2">
                   <Activity className="w-4 h-4 text-green-600" />
                   {viewLevel === 'city' && (
@@ -926,11 +931,11 @@ export default function SalesDashboard() {
             </CardContent>
           </Card>
 
-        {/* 城市经理达成情况 */}
-        <Card className="mt-3 border border-green-200 bg-gradient-to-br from-green-50 to-emerald-50">
-          <CardContent className="p-3">
-            {/* 标题 */}
-            <div className="flex items-center justify-between mb-3">
+          {/* 右侧：城市经理达成情况 */}
+          <Card className="lg:col-span-1 border border-green-200 bg-gradient-to-br from-green-50 to-emerald-50">
+            <CardContent className="p-3">
+              {/* 标题 */}
+              <div className="flex items-center justify-between mb-3">
                 <div className="text-sm font-bold text-gray-900 flex items-center gap-2">
                   <Activity className="w-4 h-4 text-green-600" />
                   <span className="text-sm font-bold text-gray-900">城市经理达成情况</span>
@@ -1068,6 +1073,7 @@ export default function SalesDashboard() {
               </div>
             </CardContent>
           </Card>
+        </div>
           </TabsContent>
 
           <TabsContent value="distributors">
