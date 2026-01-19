@@ -903,26 +903,26 @@ export default function SalesDashboard() {
 
             {/* 合计 */}
             <div>
-              <div className="text-sm font-bold text-transparent bg-clip-text bg-gradient-to-r from-green-700 to-emerald-700 mb-1.5 pl-1">合计（买断+租赁+续租）</div>
-              <div className="bg-gradient-to-r from-green-600 to-emerald-600 border-2 border-green-700 rounded-lg overflow-hidden shadow-lg shadow-green-200">
+              <div className="text-xs font-bold text-green-700 mb-1.5 pl-1">合计（买断+租赁+续租）</div>
+              <div className="bg-gradient-to-r from-green-500 to-emerald-500 border-2 border-green-600 rounded-lg overflow-hidden shadow-md shadow-green-200">
                 <div className="grid grid-cols-5">
                   {/* 目标 */}
-                  <div className="border-r border-white/30 px-2 py-2">
+                  <div className="border-r border-green-600/40 px-2 py-2">
                     <div className="flex items-center justify-between mb-1">
-                      <div className="flex items-center gap-1 text-xs font-medium text-white/90">
+                      <div className="flex items-center gap-1 text-xs font-medium text-white/95">
                         <Target className="w-3 h-3 text-white flex-shrink-0" />
                         <span>{timeRangeLabel}目标</span>
                       </div>
                     </div>
                     <div className="text-2xl font-bold text-white leading-none">{totalData.target.toLocaleString()}</div>
-                    <div className="text-xs text-white/90 bg-white/20 inline-block px-1.5 py-0.5 rounded mt-1">
+                    <div className="text-xs text-white bg-white/20 inline-block px-1.5 py-0.5 rounded mt-1">
                       {timeRange === 'month' ? `${selectedMonth}月` : timeRange === 'quarter' ? selectedQuarter : '2026'}
                     </div>
                   </div>
 
                   {/* 已完成 */}
-                  <div className="border-r border-white/30 px-2 py-2">
-                    <div className="text-xs font-medium text-white/90 mb-1">{timeRangeLabel}已完成</div>
+                  <div className="border-r border-green-600/40 px-2 py-2">
+                    <div className="text-xs font-medium text-white/95 mb-1">{timeRangeLabel}已完成</div>
                     <div className="text-2xl font-bold text-white leading-none">{totalData.completed.toLocaleString()}</div>
                     <div className="flex items-center gap-0.5 text-xs text-red-200 mt-1">
                       <ArrowDown className="w-3 h-3" />
@@ -931,8 +931,8 @@ export default function SalesDashboard() {
                   </div>
 
                   {/* 预测完成 */}
-                  <div className="border-r border-white/30 px-2 py-2 bg-white/5">
-                    <div className="text-xs font-medium text-white/90 mb-1">预测完成</div>
+                  <div className="border-r border-green-600/40 px-2 py-2 bg-white/10">
+                    <div className="text-xs font-medium text-white/95 mb-1">预测完成</div>
                     <div className="text-2xl font-bold text-emerald-100 leading-none">{totalData.predicted.toLocaleString()}</div>
                     <div className="flex items-center gap-0.5 text-xs text-emerald-200 mt-1">
                       <ArrowUp className="w-3 h-3" />
@@ -941,29 +941,29 @@ export default function SalesDashboard() {
                   </div>
 
                   {/* 任务缺口 */}
-                  <div className="border-r border-white/30 px-2 py-2 bg-white/5">
-                    <div className="flex items-center gap-1 text-xs font-medium text-white/90 mb-1">
+                  <div className="border-r border-green-600/40 px-2 py-2 bg-white/10">
+                    <div className="flex items-center gap-1 text-xs font-medium text-white/95 mb-1">
                       <AlertTriangle className="w-3 h-3 text-red-200 flex-shrink-0" />
                       <span>任务缺口</span>
                     </div>
                     <div className="text-2xl font-bold text-red-200 leading-none">{totalData.gap.toLocaleString()}</div>
-                    <div className="flex items-center gap-0.5 text-xs text-red-200 mt-1">
+                    <div className="flex items-center gap-0.5 text-xs text-red-300 mt-1">
                       <ArrowDown className="w-3 h-3" />
                       <span>-54.5%</span>
                     </div>
                   </div>
 
                   {/* 在手订单 */}
-                  <div className="px-2 py-2 bg-white/5">
-                    <div className="flex items-center gap-1 text-xs font-medium text-white/90 mb-1">
-                      <Database className="w-3 h-3 text-white flex-shrink-0" />
+                  <div className="px-2 py-2 bg-white/10">
+                    <div className="flex items-center gap-1 text-xs font-medium text-white/95 mb-1">
+                      <Database className="w-3 h-3 text-purple-200 flex-shrink-0" />
                       <span>在手订单</span>
                     </div>
                     <div className="flex items-baseline gap-1">
-                      <span className="text-2xl font-bold text-white leading-none">35</span>
-                      <span className="text-xs text-white/80">单</span>
+                      <span className="text-2xl font-bold text-purple-100 leading-none">35</span>
+                      <span className="text-xs text-white/90">单</span>
                     </div>
-                    <div className="text-xs text-white/90 font-semibold mt-1">2,610万</div>
+                    <div className="text-xs text-white font-semibold mt-1">2,610万</div>
                   </div>
                 </div>
               </div>
