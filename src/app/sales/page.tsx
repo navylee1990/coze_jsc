@@ -443,6 +443,9 @@ export default function SalesDashboard() {
     ? (cityData[timeRange as keyof typeof cityData] as any)[selectedRegion] || []
     : regionData[timeRange as keyof typeof regionData];
 
+  // 按预测达成率降序排序
+  currentData.sort((a: any, b: any) => b.rate - a.rate);
+
   // 获取当前时间范围的目标数据
   const currentRangeData = timeRangeData[timeRange as keyof typeof timeRangeData];
   const timeRangeLabel = timeRange === 'month' ? '月度' : timeRange === 'quarter' ? '季度' : '年度';
