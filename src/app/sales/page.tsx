@@ -250,6 +250,12 @@ const customerKPI = {
   newCustomers: 18,       // 新客户数量
 };
 
+// 项目KPI数据
+const projectKPI = {
+  totalProjects: 89,      // 项目数
+  highRiskProjects: 12,   // 高风险项目数
+};
+
 export default function SalesDashboard() {
   const [filter, setFilter] = useState('all');
   const [timeRange, setTimeRange] = useState('month');
@@ -872,18 +878,53 @@ export default function SalesDashboard() {
               <span className="text-sm text-gray-500">2026年度数据</span>
             </div>
 
-            {/* 项目储备KPI指标 */}
-            <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-2 gap-1.5 mb-3">
-              {/* 项目储备 */}
+            {/* 项目KPI指标 */}
+            <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-1.5 mb-3">
+              {/* 项目数 */}
+              <Card className="bg-white border border-gray-200">
+                <CardContent className="p-1">
+                  <div className="flex items-center gap-1 text-xs font-medium text-gray-500">
+                    <Target className="w-2.5 h-2.5 text-blue-500 flex-shrink-0" />
+                    <span>项目数</span>
+                  </div>
+                  <div className="mt-1 flex items-baseline gap-0.5">
+                    <span className="text-3xl font-bold text-blue-600 leading-tight">{projectKPI.totalProjects}</span>
+                    <span className="text-xs text-gray-400">个</span>
+                  </div>
+                  <div className="flex items-center gap-0.5 text-xs text-green-600 mt-0.5">
+                    <ArrowUp className="w-2 h-2" />
+                    <span>较上月+5个</span>
+                  </div>
+                </CardContent>
+              </Card>
+
+              {/* 高风险项目数 */}
               <Card className="bg-white border-2 border-red-200">
                 <CardContent className="p-1">
                   <div className="flex items-center gap-1 text-xs font-medium text-gray-500">
-                    <Database className="w-2.5 h-2.5 text-red-500 flex-shrink-0" />
-                    <span>项目储备</span>
                     <AlertTriangle className="w-2.5 h-2.5 text-red-500 flex-shrink-0" />
+                    <span>高风险项目数</span>
                   </div>
                   <div className="mt-1 flex items-baseline gap-0.5">
-                    <span className="text-3xl font-bold text-red-600 leading-tight">1,200</span>
+                    <span className="text-3xl font-bold text-red-600 leading-tight">{projectKPI.highRiskProjects}</span>
+                    <span className="text-xs text-gray-400">个</span>
+                  </div>
+                  <div className="text-xs text-gray-500 mt-0.5">
+                    占比 {((projectKPI.highRiskProjects / projectKPI.totalProjects) * 100).toFixed(0)}%
+                  </div>
+                </CardContent>
+              </Card>
+
+              {/* 项目储备 */}
+              <Card className="bg-white border-2 border-purple-200">
+                <CardContent className="p-1">
+                  <div className="flex items-center gap-1 text-xs font-medium text-gray-500">
+                    <Database className="w-2.5 h-2.5 text-purple-500 flex-shrink-0" />
+                    <span>项目储备</span>
+                    <AlertTriangle className="w-2.5 h-2.5 text-purple-500 flex-shrink-0" />
+                  </div>
+                  <div className="mt-1 flex items-baseline gap-0.5">
+                    <span className="text-3xl font-bold text-purple-600 leading-tight">1,200</span>
                     <span className="text-xs text-gray-400">万元</span>
                   </div>
                   <div className="flex items-center justify-between mt-0.5">
