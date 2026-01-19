@@ -43,7 +43,7 @@ const kpiData = {
   // 预测完成 = 已完成 + 在跟进项目预计可完成（最终预计完成总额）
   futurePredicted: 1327.3,
   // 任务缺口 = 目标 - 预测完成
-  taskGap: 777.7,
+  taskGap: 100.7,
   currentHealthIndex: 47.4,
   gapTrend: -54.5,
   completedTrend: -8.3,
@@ -56,7 +56,7 @@ const kpiData = {
   // 在跟进项目预计额外可完成（转化率约20%）
   followingProjectsPredicted: 650.3, // 额外预测金额
   // 还需新开拓 = 目标 - 预测完成
-  needNewProjects: 777.7, // 1428 - 1327.3 = 100.7（考虑缓冲）
+  needNewProjects: 100.7, // 1428 - 1327.3 = 100.7
   // 转化率
   conversionRate: 11.6, // 650.3 / 5600 * 100
 };
@@ -68,7 +68,7 @@ const timeRangeData = {
     target: 1428,
     completed: 677,
     predicted: 1327.3,
-    gap: 777.7,
+    gap: 100.7,
     canComplete: false,
     risk: 'high',
   },
@@ -76,7 +76,7 @@ const timeRangeData = {
     target: 4284,
     completed: 2031,
     predicted: 3981.9,
-    gap: 2333.1,
+    gap: 302.1,
     canComplete: false,
     risk: 'high',
   },
@@ -84,7 +84,7 @@ const timeRangeData = {
     target: 17136,
     completed: 8124,
     predicted: 15927.6,
-    gap: 9332.4,
+    gap: 1208.4,
     canComplete: false,
     risk: 'high',
   },
