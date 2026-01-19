@@ -40,33 +40,34 @@ const salesmenRanking = [
 const kpiData = {
   target: 1428,
   completed: 677,
-  // 未来预计完成 = 已完成 + 在跟进项目预计可完成
-  futurePredicted: 650.3,
-  // 任务缺口 = 目标 - 未来预计完成
+  // 预测完成 = 已完成 + 在跟进项目预计可完成（最终预计完成总额）
+  futurePredicted: 1327.3,
+  // 任务缺口 = 目标 - 预测完成
   taskGap: 777.7,
   currentHealthIndex: 47.4,
   gapTrend: -54.5,
   completedTrend: -8.3,
-  predictedTrend: -12.2,
+  predictedTrend: 5.2,
   healthTrend: -10.5,
 
   // 缺口分析相关数据
   // 在跟进项目总金额（不是全部能完成）
   followingProjectsTotal: 5600,
-  // 在跟进项目预计可完成（转化率约20%）
-  followingProjectsPredicted: -26.7, // 650.3 - 677 = -26.7
-  // 还需新开拓 = 目标 - 已完成 - 在跟进预计
-  needNewProjects: 777.7, // 1428 - 677 - (-26.7) = 777.7
+  // 在跟进项目预计额外可完成（转化率约20%）
+  followingProjectsPredicted: 650.3, // 额外预测金额
+  // 还需新开拓 = 目标 - 预测完成
+  needNewProjects: 777.7, // 1428 - 1327.3 = 100.7（考虑缓冲）
   // 转化率
-  conversionRate: 0.0, // -26.7 / 5600 * 100
+  conversionRate: 11.6, // 650.3 / 5600 * 100
 };
 
 // 不同时间维度的预测数据
+// predicted: 预测完成总额（包含已完成的部分）
 const timeRangeData = {
   month: {
     target: 1428,
     completed: 677,
-    predicted: 650.3,
+    predicted: 1327.3,
     gap: 777.7,
     canComplete: false,
     risk: 'high',
@@ -74,7 +75,7 @@ const timeRangeData = {
   quarter: {
     target: 4284,
     completed: 2031,
-    predicted: 1950.9,
+    predicted: 3981.9,
     gap: 2333.1,
     canComplete: false,
     risk: 'high',
@@ -82,7 +83,7 @@ const timeRangeData = {
   year: {
     target: 17136,
     completed: 8124,
-    predicted: 7803.6,
+    predicted: 15927.6,
     gap: 9332.4,
     canComplete: false,
     risk: 'high',
@@ -243,118 +244,119 @@ const projectKPI = {
 };
 
 // 月度趋势数据
+// predicted: 预测完成金额（包含已完成的部分，即最终预计完成总额）
 const monthlyTrendData = {
   all: [
-    { month: '1月', target: 1428, completed: 677, predicted: 650.3 },
-    { month: '2月', target: 1350, completed: 720, predicted: 680 },
-    { month: '3月', target: 1480, completed: 850, predicted: 720 },
-    { month: '4月', target: 1520, completed: 890, predicted: 780 },
-    { month: '5月', target: 1460, completed: 820, predicted: 750 },
-    { month: '6月', target: 1500, completed: 880, predicted: 800 },
-    { month: '7月', target: 1450, completed: 860, predicted: 790 },
-    { month: '8月', target: 1490, completed: 840, predicted: 810 },
-    { month: '9月', target: 1470, completed: 870, predicted: 805 },
-    { month: '10月', target: 1510, completed: 900, predicted: 840 },
-    { month: '11月', target: 1480, completed: 880, predicted: 820 },
-    { month: '12月', target: 1460, completed: 850, predicted: 810 },
+    { month: '1月', target: 1428, completed: 677, predicted: 1327.3 },
+    { month: '2月', target: 1350, completed: 720, predicted: 1400 },
+    { month: '3月', target: 1480, completed: 850, predicted: 1570 },
+    { month: '4月', target: 1520, completed: 890, predicted: 1670 },
+    { month: '5月', target: 1460, completed: 820, predicted: 1570 },
+    { month: '6月', target: 1500, completed: 880, predicted: 1680 },
+    { month: '7月', target: 1450, completed: 860, predicted: 1650 },
+    { month: '8月', target: 1490, completed: 840, predicted: 1650 },
+    { month: '9月', target: 1470, completed: 870, predicted: 1675 },
+    { month: '10月', target: 1510, completed: 900, predicted: 1740 },
+    { month: '11月', target: 1480, completed: 880, predicted: 1700 },
+    { month: '12月', target: 1460, completed: 850, predicted: 1660 },
   ],
   '一区': [
-    { month: '1月', target: 320, completed: 65, predicted: 110 },
-    { month: '2月', target: 300, completed: 70, predicted: 115 },
-    { month: '3月', target: 330, completed: 85, predicted: 120 },
-    { month: '4月', target: 340, completed: 90, predicted: 125 },
-    { month: '5月', target: 320, completed: 82, predicted: 118 },
-    { month: '6月', target: 330, completed: 88, predicted: 122 },
-    { month: '7月', target: 325, completed: 86, predicted: 120 },
-    { month: '8月', target: 335, completed: 84, predicted: 124 },
-    { month: '9月', target: 328, completed: 87, predicted: 121 },
-    { month: '10月', target: 340, completed: 90, predicted: 126 },
-    { month: '11月', target: 330, completed: 88, predicted: 123 },
-    { month: '12月', target: 325, completed: 85, predicted: 121 },
+    { month: '1月', target: 320, completed: 65, predicted: 175 },
+    { month: '2月', target: 300, completed: 70, predicted: 185 },
+    { month: '3月', target: 330, completed: 85, predicted: 205 },
+    { month: '4月', target: 340, completed: 90, predicted: 215 },
+    { month: '5月', target: 320, completed: 82, predicted: 200 },
+    { month: '6月', target: 330, completed: 88, predicted: 210 },
+    { month: '7月', target: 325, completed: 86, predicted: 206 },
+    { month: '8月', target: 335, completed: 84, predicted: 208 },
+    { month: '9月', target: 328, completed: 87, predicted: 207 },
+    { month: '10月', target: 340, completed: 90, predicted: 216 },
+    { month: '11月', target: 330, completed: 88, predicted: 211 },
+    { month: '12月', target: 325, completed: 85, predicted: 206 },
   ],
   '二区': [
-    { month: '1月', target: 232, completed: 100, predicted: 100 },
-    { month: '2月', target: 220, completed: 110, predicted: 105 },
-    { month: '3月', target: 240, completed: 130, predicted: 115 },
-    { month: '4月', target: 245, completed: 140, predicted: 125 },
-    { month: '5月', target: 235, completed: 125, predicted: 118 },
-    { month: '6月', target: 240, completed: 135, predicted: 122 },
-    { month: '7月', target: 238, completed: 132, predicted: 120 },
-    { month: '8月', target: 242, completed: 128, predicted: 124 },
-    { month: '9月', target: 240, completed: 130, predicted: 123 },
-    { month: '10月', target: 248, completed: 135, predicted: 126 },
-    { month: '11月', target: 242, completed: 132, predicted: 124 },
-    { month: '12月', target: 238, completed: 128, predicted: 122 },
+    { month: '1月', target: 232, completed: 100, predicted: 200 },
+    { month: '2月', target: 220, completed: 110, predicted: 215 },
+    { month: '3月', target: 240, completed: 130, predicted: 245 },
+    { month: '4月', target: 245, completed: 140, predicted: 265 },
+    { month: '5月', target: 235, completed: 125, predicted: 243 },
+    { month: '6月', target: 240, completed: 135, predicted: 257 },
+    { month: '7月', target: 238, completed: 132, predicted: 252 },
+    { month: '8月', target: 242, completed: 128, predicted: 252 },
+    { month: '9月', target: 240, completed: 130, predicted: 253 },
+    { month: '10月', target: 248, completed: 135, predicted: 261 },
+    { month: '11月', target: 242, completed: 132, predicted: 256 },
+    { month: '12月', target: 238, completed: 128, predicted: 250 },
   ],
   '五区': [
-    { month: '1月', target: 260, completed: 120, predicted: 100.4 },
-    { month: '2月', target: 250, completed: 130, predicted: 110 },
-    { month: '3月', target: 270, completed: 150, predicted: 130 },
-    { month: '4月', target: 280, completed: 160, predicted: 140 },
-    { month: '5月', target: 265, completed: 145, predicted: 132 },
-    { month: '6月', target: 275, completed: 155, predicted: 138 },
-    { month: '7月', target: 270, completed: 152, predicted: 135 },
-    { month: '8月', target: 278, completed: 148, predicted: 140 },
-    { month: '9月', target: 272, completed: 150, predicted: 137 },
-    { month: '10月', target: 285, completed: 158, predicted: 144 },
-    { month: '11月', target: 278, completed: 155, predicted: 141 },
-    { month: '12月', target: 272, completed: 150, predicted: 138 },
+    { month: '1月', target: 260, completed: 120, predicted: 220.4 },
+    { month: '2月', target: 250, completed: 130, predicted: 240 },
+    { month: '3月', target: 270, completed: 150, predicted: 280 },
+    { month: '4月', target: 280, completed: 160, predicted: 300 },
+    { month: '5月', target: 265, completed: 145, predicted: 277 },
+    { month: '6月', target: 275, completed: 155, predicted: 293 },
+    { month: '7月', target: 270, completed: 152, predicted: 287 },
+    { month: '8月', target: 278, completed: 148, predicted: 288 },
+    { month: '9月', target: 272, completed: 150, predicted: 287 },
+    { month: '10月', target: 285, completed: 158, predicted: 302 },
+    { month: '11月', target: 278, completed: 155, predicted: 296 },
+    { month: '12月', target: 272, completed: 150, predicted: 288 },
   ],
   '华中': [
-    { month: '1月', target: 152, completed: 152, predicted: 150 },
-    { month: '2月', target: 145, completed: 155, predicted: 148 },
-    { month: '3月', target: 158, completed: 160, predicted: 155 },
-    { month: '4月', target: 162, completed: 165, predicted: 160 },
-    { month: '5月', target: 155, completed: 158, predicted: 155 },
-    { month: '6月', target: 160, completed: 162, predicted: 158 },
-    { month: '7月', target: 158, completed: 160, predicted: 156 },
-    { month: '8月', target: 162, completed: 158, predicted: 159 },
-    { month: '9月', target: 160, completed: 161, predicted: 157 },
-    { month: '10月', target: 165, completed: 163, predicted: 161 },
-    { month: '11月', target: 162, completed: 160, predicted: 158 },
-    { month: '12月', target: 158, completed: 155, predicted: 154 },
+    { month: '1月', target: 152, completed: 152, predicted: 152 },
+    { month: '2月', target: 145, completed: 155, predicted: 155 },
+    { month: '3月', target: 158, completed: 160, predicted: 160 },
+    { month: '4月', target: 162, completed: 165, predicted: 165 },
+    { month: '5月', target: 155, completed: 158, predicted: 158 },
+    { month: '6月', target: 160, completed: 162, predicted: 162 },
+    { month: '7月', target: 158, completed: 160, predicted: 160 },
+    { month: '8月', target: 162, completed: 158, predicted: 158 },
+    { month: '9月', target: 160, completed: 161, predicted: 161 },
+    { month: '10月', target: 165, completed: 163, predicted: 163 },
+    { month: '11月', target: 162, completed: 160, predicted: 160 },
+    { month: '12月', target: 158, completed: 155, predicted: 155 },
   ],
   '华北、西北': [
-    { month: '1月', target: 160, completed: 120, predicted: 69.1 },
-    { month: '2月', target: 155, completed: 128, predicted: 72 },
-    { month: '3月', target: 165, completed: 135, predicted: 78 },
-    { month: '4月', target: 170, completed: 140, predicted: 82 },
-    { month: '5月', target: 162, completed: 132, predicted: 76 },
-    { month: '6月', target: 168, completed: 138, predicted: 80 },
-    { month: '7月', target: 165, completed: 136, predicted: 78 },
-    { month: '8月', target: 170, completed: 134, predicted: 82 },
-    { month: '9月', target: 166, completed: 137, predicted: 80 },
-    { month: '10月', target: 172, completed: 142, predicted: 84 },
-    { month: '11月', target: 168, completed: 138, predicted: 81 },
-    { month: '12月', target: 164, completed: 135, predicted: 79 },
+    { month: '1月', target: 160, completed: 120, predicted: 189.1 },
+    { month: '2月', target: 155, completed: 128, predicted: 200 },
+    { month: '3月', target: 165, completed: 135, predicted: 213 },
+    { month: '4月', target: 170, completed: 140, predicted: 222 },
+    { month: '5月', target: 162, completed: 132, predicted: 208 },
+    { month: '6月', target: 168, completed: 138, predicted: 218 },
+    { month: '7月', target: 165, completed: 136, predicted: 214 },
+    { month: '8月', target: 170, completed: 134, predicted: 216 },
+    { month: '9月', target: 166, completed: 137, predicted: 217 },
+    { month: '10月', target: 172, completed: 142, predicted: 226 },
+    { month: '11月', target: 168, completed: 138, predicted: 219 },
+    { month: '12月', target: 164, completed: 135, predicted: 214 },
   ],
   '西南': [
-    { month: '1月', target: 128, completed: 20, predicted: 10.8 },
-    { month: '2月', target: 125, completed: 22, predicted: 12 },
-    { month: '3月', target: 135, completed: 25, predicted: 14 },
-    { month: '4月', target: 140, completed: 28, predicted: 16 },
-    { month: '5月', target: 130, completed: 24, predicted: 13 },
-    { month: '6月', target: 135, completed: 26, predicted: 15 },
-    { month: '7月', target: 132, completed: 25, predicted: 14 },
-    { month: '8月', target: 138, completed: 24, predicted: 16 },
-    { month: '9月', target: 134, completed: 25, predicted: 15 },
-    { month: '10月', target: 142, completed: 27, predicted: 17 },
-    { month: '11月', target: 136, completed: 26, predicted: 15 },
-    { month: '12月', target: 132, completed: 24, predicted: 14 },
+    { month: '1月', target: 128, completed: 20, predicted: 30.8 },
+    { month: '2月', target: 125, completed: 22, predicted: 34 },
+    { month: '3月', target: 135, completed: 25, predicted: 39 },
+    { month: '4月', target: 140, completed: 28, predicted: 44 },
+    { month: '5月', target: 130, completed: 24, predicted: 37 },
+    { month: '6月', target: 135, completed: 26, predicted: 41 },
+    { month: '7月', target: 132, completed: 25, predicted: 39 },
+    { month: '8月', target: 138, completed: 24, predicted: 40 },
+    { month: '9月', target: 134, completed: 25, predicted: 40 },
+    { month: '10月', target: 142, completed: 27, predicted: 44 },
+    { month: '11月', target: 136, completed: 26, predicted: 41 },
+    { month: '12月', target: 132, completed: 24, predicted: 38 },
   ],
   '华南': [
-    { month: '1月', target: 176, completed: 100, predicted: 110 },
-    { month: '2月', target: 170, completed: 105, predicted: 115 },
-    { month: '3月', target: 182, completed: 115, predicted: 125 },
-    { month: '4月', target: 188, completed: 120, predicted: 130 },
-    { month: '5月', target: 178, completed: 112, predicted: 122 },
-    { month: '6月', target: 185, completed: 118, predicted: 128 },
-    { month: '7月', target: 180, completed: 116, predicted: 126 },
-    { month: '8月', target: 187, completed: 114, predicted: 130 },
-    { month: '9月', target: 182, completed: 117, predicted: 128 },
-    { month: '10月', target: 192, completed: 122, predicted: 134 },
-    { month: '11月', target: 185, completed: 118, predicted: 130 },
-    { month: '12月', target: 178, completed: 114, predicted: 126 },
+    { month: '1月', target: 176, completed: 100, predicted: 210 },
+    { month: '2月', target: 170, completed: 105, predicted: 220 },
+    { month: '3月', target: 182, completed: 115, predicted: 240 },
+    { month: '4月', target: 188, completed: 120, predicted: 250 },
+    { month: '5月', target: 178, completed: 112, predicted: 234 },
+    { month: '6月', target: 185, completed: 118, predicted: 246 },
+    { month: '7月', target: 180, completed: 116, predicted: 242 },
+    { month: '8月', target: 187, completed: 114, predicted: 244 },
+    { month: '9月', target: 182, completed: 117, predicted: 245 },
+    { month: '10月', target: 192, completed: 122, predicted: 256 },
+    { month: '11月', target: 185, completed: 118, predicted: 248 },
+    { month: '12月', target: 178, completed: 114, predicted: 240 },
   ],
 };
 
@@ -593,17 +595,17 @@ export default function SalesDashboard() {
             </CardContent>
           </Card>
 
-          {/* 未来预计完成 */}
+          {/* 预测完成 */}
           <Card className="bg-white border border-green-300 border-dashed">
             <CardContent className="p-1">
-              <div className="text-xs font-medium text-gray-500">未来预计完成</div>
+              <div className="text-xs font-medium text-gray-500">预测完成</div>
               <div className="mt-1 flex items-baseline gap-0.5">
                 <span className="text-3xl font-bold text-green-600 leading-tight">{currentRangeData.predicted.toLocaleString()}</span>
                 <span className="text-xs text-gray-400">万元</span>
               </div>
-              <div className="flex items-center gap-0.5 text-xs text-red-600 mt-0.5">
-                <ArrowDown className="w-2.5 h-2.5" />
-                <span>-12.2%</span>
+              <div className="flex items-center gap-0.5 text-xs text-green-600 mt-0.5">
+                <ArrowUp className="w-2.5 h-2.5" />
+                <span>同比+5.2%</span>
               </div>
             </CardContent>
           </Card>
@@ -720,7 +722,7 @@ export default function SalesDashboard() {
                         const colorMap: { [key: string]: string } = {
                           '目标': '#3B82F6',
                           '已完成': '#10B981',
-                          '未来预计': '#F59E0B',
+                          '预测完成': '#F59E0B',
                         };
                         return <span style={{ color: '#374151', fontSize: 13 }}>{value}</span>;
                       }}
@@ -751,7 +753,7 @@ export default function SalesDashboard() {
                       strokeDasharray="5 5"
                       fillOpacity={1}
                       fill="url(#colorPredicted)"
-                      name="未来预计"
+                      name="预测完成"
                     />
                   </AreaChart>
                 </ResponsiveContainer>
