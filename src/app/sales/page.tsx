@@ -508,23 +508,17 @@ export default function SalesDashboard() {
             </CardContent>
           </Card>
 
-          {/* 项目储备 */}
+          {/* 在手订单 */}
           <Card className="bg-white border-2 border-purple-300">
             <CardContent className="p-1">
               <div className="flex items-center gap-1 text-xs font-medium text-gray-500">
                 <Database className="w-2.5 h-2.5 text-purple-500 flex-shrink-0" />
-                <span>项目储备</span>
+                <span>在手订单</span>
               </div>
               <div className="mt-1 flex items-baseline gap-0.5">
-                <span className="text-3xl font-bold text-purple-600 leading-tight">1,200</span>
-                <span className="text-xs text-gray-400">万元</span>
-              </div>
-              <div className="flex items-center justify-between mt-0.5">
-                <div className="flex items-center gap-0.5 text-xs text-red-600 font-medium">
-                  <AlertTriangle className="w-2 h-2" />
-                  <span>储备不足</span>
-                </div>
-                <span className="text-xs text-gray-500">缺1,200万</span>
+                <span className="text-3xl font-bold text-purple-600 leading-tight">15</span>
+                <span className="text-sm text-gray-600">单</span>
+                <span className="text-sm font-semibold text-gray-700 ml-1">1,200万元</span>
               </div>
             </CardContent>
           </Card>
@@ -950,24 +944,17 @@ export default function SalesDashboard() {
                 </CardContent>
               </Card>
 
-              {/* 项目储备 */}
+              {/* 在手订单 */}
               <Card className="bg-white border-2 border-purple-200">
                 <CardContent className="p-1">
                   <div className="flex items-center gap-1 text-xs font-medium text-gray-500">
                     <Database className="w-2.5 h-2.5 text-purple-500 flex-shrink-0" />
-                    <span>项目储备</span>
-                    <AlertTriangle className="w-2.5 h-2.5 text-purple-500 flex-shrink-0" />
+                    <span>在手订单</span>
                   </div>
                   <div className="mt-1 flex items-baseline gap-0.5">
-                    <span className="text-3xl font-bold text-purple-600 leading-tight">1,200</span>
-                    <span className="text-xs text-gray-400">万元</span>
-                  </div>
-                  <div className="flex items-center justify-between mt-0.5">
-                    <div className="flex items-center gap-0.5 text-xs text-red-600 font-medium">
-                      <AlertTriangle className="w-2 h-2" />
-                      <span>储备不足</span>
-                    </div>
-                    <span className="text-xs text-gray-500">缺1,200万</span>
+                    <span className="text-3xl font-bold text-purple-600 leading-tight">15</span>
+                    <span className="text-sm text-gray-600">单</span>
+                    <span className="text-sm font-semibold text-gray-700 ml-1">1,200万元</span>
                   </div>
                 </CardContent>
               </Card>
