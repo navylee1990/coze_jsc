@@ -268,29 +268,12 @@ export default function SalesDashboard() {
 
   // 经销商达成率排名分页状态
   const [dealerCurrentPage, setDealerCurrentPage] = useState(1);
-  const [dealerAutoPlay, setDealerAutoPlay] = useState(true);
   const dealerPageSize = 8;
   const dealerTotalPages = Math.ceil(dealerAchievementRanking.length / dealerPageSize);
   const dealerCurrentData = dealerAchievementRanking.slice(
     (dealerCurrentPage - 1) * dealerPageSize,
     dealerCurrentPage * dealerPageSize
   );
-
-  // 经销商达成率排名自动滑动
-  useEffect(() => {
-    if (!dealerAutoPlay) return;
-
-    const timer = setInterval(() => {
-      setDealerCurrentPage(prev => {
-        if (prev >= dealerTotalPages) {
-          return 1; // 回到第一页
-        }
-        return prev + 1;
-      });
-    }, 5000); // 5秒自动滑动
-
-    return () => clearInterval(timer);
-  }, [dealerAutoPlay, dealerTotalPages]);
 
   const handleRegionClick = (regionName: string) => {
     setSelectedRegion(regionName);
@@ -873,32 +856,6 @@ export default function SalesDashboard() {
                     >
                       下一页
                     </button>
-                    {/* 自动滑动控制按钮 */}
-                    <button
-                      onClick={() => setDealerAutoPlay(!dealerAutoPlay)}
-                      className={`ml-2 px-3 py-1.5 text-xs font-medium rounded-lg transition-all flex items-center gap-1.5 ${
-                        dealerAutoPlay
-                          ? 'bg-green-100 border border-green-300 text-green-700 hover:bg-green-200'
-                          : 'bg-gray-100 border border-gray-300 text-gray-700 hover:bg-gray-200'
-                      }`}
-                    >
-                      {dealerAutoPlay ? (
-                        <>
-                          <svg className="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 24 24">
-                            <rect x="6" y="4" width="4" height="16" rx="1" />
-                            <rect x="14" y="4" width="4" height="16" rx="1" />
-                          </svg>
-                          <span>暂停</span>
-                        </>
-                      ) : (
-                        <>
-                          <svg className="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 24 24">
-                            <path d="M8 5v14l11-7z" />
-                          </svg>
-                          <span>自动</span>
-                        </>
-                      )}
-                    </button>
                   </div>
                 </div>
               </CardContent>
@@ -1302,32 +1259,6 @@ export default function SalesDashboard() {
                       }`}
                     >
                       下一页
-                    </button>
-                    {/* 自动滑动控制按钮 */}
-                    <button
-                      onClick={() => setDealerAutoPlay(!dealerAutoPlay)}
-                      className={`ml-2 px-3 py-1.5 text-xs font-medium rounded-lg transition-all flex items-center gap-1.5 ${
-                        dealerAutoPlay
-                          ? 'bg-green-100 border border-green-300 text-green-700 hover:bg-green-200'
-                          : 'bg-gray-100 border border-gray-300 text-gray-700 hover:bg-gray-200'
-                      }`}
-                    >
-                      {dealerAutoPlay ? (
-                        <>
-                          <svg className="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 24 24">
-                            <rect x="6" y="4" width="4" height="16" rx="1" />
-                            <rect x="14" y="4" width="4" height="16" rx="1" />
-                          </svg>
-                          <span>暂停</span>
-                        </>
-                      ) : (
-                        <>
-                          <svg className="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 24 24">
-                            <path d="M8 5v14l11-7z" />
-                          </svg>
-                          <span>自动</span>
-                        </>
-                      )}
                     </button>
                   </div>
                 </div>
