@@ -606,8 +606,8 @@ export default function SalesDashboard() {
               经营总览
             </h2>
           </div>
-        {/* 页面主体布局：2行3列 */}
-        <div className="grid grid-cols-3 gap-3">
+        {/* 页面主体布局：2行2列 */}
+        <div className="grid grid-cols-2 gap-3">
           {/* 1行1列：5个KPI指标 */}
           <div className="grid grid-cols-2 gap-1.5">
             {/* 目标 */}
@@ -701,8 +701,8 @@ export default function SalesDashboard() {
             </Card>
           </div>
 
-          {/* 1行2列 & 2行2列：区域达成情况 */}
-          <Card className="border border-green-200 bg-gradient-to-br from-green-50 to-emerald-50 row-span-2">
+          {/* 1行2列：区域达成情况 */}
+          <Card className="border border-green-200 bg-gradient-to-br from-green-50 to-emerald-50">
             <CardContent className="p-3 h-full flex flex-col">
               {/* 标题 */}
               <div className="flex items-center justify-between mb-3">
@@ -812,8 +812,8 @@ export default function SalesDashboard() {
             </CardContent>
           </Card>
 
-          {/* 1行3列 & 2行3列：城市经理达成情况 */}
-          <Card className="border border-green-200 bg-gradient-to-br from-green-50 to-emerald-50 row-span-2">
+          {/* 2行2列：城市经理达成情况 */}
+          <Card className="border border-green-200 bg-gradient-to-br from-green-50 to-emerald-50">
             <CardContent className="p-3 h-full flex flex-col">
               {/* 标题 */}
               <div className="flex items-center justify-between mb-3">
