@@ -256,6 +256,30 @@ const projectKPI = {
   highRiskProjects: 12,   // 高风险项目数
 };
 
+// 临期/超期项目数据
+const urgentProjectsData = [
+  { name: '某某连锁餐饮总部', amount: '120万', status: 'expired', days: -15 },
+  { name: '某某购物中心', amount: '85万', status: 'expired', days: -8 },
+  { name: '某某大酒店', amount: '200万', status: 'urgent', days: 5 },
+  { name: '某某办公楼', amount: '65万', status: 'urgent', days: 12 },
+  { name: '某某连锁超市', amount: '50万', status: 'urgent', days: 18 },
+  { name: '某某写字楼', amount: '90万', status: 'urgent', days: 22 },
+  { name: '某某医院门诊', amount: '110万', status: 'urgent', days: 25 },
+  { name: '某某学校食堂', amount: '75万', status: 'urgent', days: 28 },
+];
+
+// 关联项目储备数据
+const relatedProjectsData = [
+  { name: '某某餐饮连锁', industry: '餐饮', completed: 450, projects: 5, potential: 300, level: 'high' },
+  { name: '某某购物中心', industry: '零售', completed: 320, projects: 3, potential: 180, level: 'high' },
+  { name: '某某酒店集团', industry: '酒店', completed: 280, projects: 4, potential: 250, level: 'high' },
+  { name: '某某连锁超市', industry: '零售', completed: 210, projects: 2, potential: 120, level: 'medium' },
+  { name: '某某办公楼宇', industry: '办公', completed: 180, projects: 1, potential: 80, level: 'low' },
+  { name: '某某医院', industry: '医疗', completed: 350, projects: 4, potential: 280, level: 'high' },
+  { name: '某某学校', industry: '教育', completed: 220, projects: 3, potential: 160, level: 'medium' },
+  { name: '某某工业园', industry: '工业', completed: 400, projects: 6, potential: 320, level: 'high' },
+];
+
 export default function SalesDashboard() {
   const [filter, setFilter] = useState('all');
   const [timeRange, setTimeRange] = useState('month');
@@ -279,6 +303,24 @@ export default function SalesDashboard() {
   const dealerCurrentData = dealerAchievementRanking.slice(
     (dealerCurrentPage - 1) * dealerPageSize,
     dealerCurrentPage * dealerPageSize
+  );
+
+  // 临期/超期项目分页状态
+  const [urgentCurrentPage, setUrgentCurrentPage] = useState(1);
+  const urgentPageSize = 5;
+  const urgentTotalPages = Math.ceil(urgentProjectsData.length / urgentPageSize);
+  const urgentCurrentData = urgentProjectsData.slice(
+    (urgentCurrentPage - 1) * urgentPageSize,
+    urgentCurrentPage * urgentPageSize
+  );
+
+  // 关联项目储备分页状态
+  const [relatedCurrentPage, setRelatedCurrentPage] = useState(1);
+  const relatedPageSize = 5;
+  const relatedTotalPages = Math.ceil(relatedProjectsData.length / relatedPageSize);
+  const relatedCurrentData = relatedProjectsData.slice(
+    (relatedCurrentPage - 1) * relatedPageSize,
+    relatedCurrentPage * relatedPageSize
   );
 
   const handleRegionClick = (regionName: string) => {
@@ -988,13 +1030,7 @@ export default function SalesDashboard() {
                         </tr>
                       </thead>
                       <tbody className="divide-y divide-gray-200">
-                        {[
-                          { name: '某某连锁餐饮总部', amount: '120万', status: 'expired', days: -15 },
-                          { name: '某某购物中心', amount: '85万', status: 'expired', days: -8 },
-                          { name: '某某大酒店', amount: '200万', status: 'urgent', days: 5 },
-                          { name: '某某办公楼', amount: '65万', status: 'urgent', days: 12 },
-                          { name: '某某连锁超市', amount: '50万', status: 'urgent', days: 18 },
-                        ].map((project, index) => (
+                        {urgentCurrentData.map((project, index) => (
                           <tr key={index} className="hover:bg-gray-50">
                             <td className="px-3 py-2 text-sm font-medium text-gray-900">{project.name}</td>
                             <td className="px-3 py-2 text-sm text-right text-gray-600">{project.amount}</td>
@@ -1014,6 +1050,51 @@ export default function SalesDashboard() {
                         ))}
                       </tbody>
                     </table>
+                  </div>
+
+                  {/* 分页 */}
+                  <div className="flex items-center justify-between mt-3 px-1">
+                    <div className="text-xs text-gray-500">
+                      共 <span className="font-semibold text-gray-700">{urgentProjectsData.length}</span> 条记录，
+                      第 <span className="font-semibold text-gray-700">{urgentCurrentPage}</span> / {urgentTotalPages} 页
+                    </div>
+                    <div className="flex items-center gap-1">
+                      <button
+                        onClick={() => setUrgentCurrentPage(prev => Math.max(1, prev - 1))}
+                        disabled={urgentCurrentPage === 1}
+                        className={`px-3 py-1.5 text-xs font-medium rounded-lg transition-all ${
+                          urgentCurrentPage === 1
+                            ? 'bg-gray-100 text-gray-400 cursor-not-allowed'
+                            : 'bg-white border border-gray-200 text-gray-700 hover:bg-green-50 hover:border-green-300 hover:text-green-700'
+                        }`}
+                      >
+                        上一页
+                      </button>
+                      {Array.from({ length: urgentTotalPages }, (_, i) => i + 1).map((page) => (
+                        <button
+                          key={page}
+                          onClick={() => setUrgentCurrentPage(page)}
+                          className={`min-w-[32px] h-8 text-xs font-medium rounded-lg transition-all ${
+                            urgentCurrentPage === page
+                              ? 'bg-gradient-to-r from-green-500 to-emerald-600 text-white shadow-md'
+                              : 'bg-white border border-gray-200 text-gray-700 hover:bg-green-50 hover:border-green-300 hover:text-green-700'
+                          }`}
+                        >
+                          {page}
+                        </button>
+                      ))}
+                      <button
+                        onClick={() => setUrgentCurrentPage(prev => Math.min(urgentTotalPages, prev + 1))}
+                        disabled={urgentCurrentPage === urgentTotalPages}
+                        className={`px-3 py-1.5 text-xs font-medium rounded-lg transition-all ${
+                          urgentCurrentPage === urgentTotalPages
+                            ? 'bg-gray-100 text-gray-400 cursor-not-allowed'
+                            : 'bg-white border border-gray-200 text-gray-700 hover:bg-green-50 hover:border-green-300 hover:text-green-700'
+                        }`}
+                      >
+                        下一页
+                      </button>
+                    </div>
                   </div>
                 </CardContent>
               </Card>
@@ -1057,13 +1138,7 @@ export default function SalesDashboard() {
                         </tr>
                       </thead>
                       <tbody className="divide-y divide-gray-200">
-                        {[
-                          { name: '某某餐饮连锁', industry: '餐饮', completed: 450, projects: 5, potential: 300, level: 'high' },
-                          { name: '某某购物中心', industry: '零售', completed: 320, projects: 3, potential: 180, level: 'high' },
-                          { name: '某某酒店集团', industry: '酒店', completed: 280, projects: 4, potential: 250, level: 'high' },
-                          { name: '某某连锁超市', industry: '零售', completed: 210, projects: 2, potential: 120, level: 'medium' },
-                          { name: '某某办公楼宇', industry: '办公', completed: 180, projects: 1, potential: 80, level: 'low' },
-                        ].map((customer, index) => (
+                        {relatedCurrentData.map((customer, index) => (
                           <tr key={index} className="hover:bg-gray-50">
                             <td className="px-3 py-2 text-sm font-medium text-gray-900">{customer.name}</td>
                             <td className="px-3 py-2 text-sm text-gray-600">{customer.industry}</td>
@@ -1083,6 +1158,51 @@ export default function SalesDashboard() {
                         ))}
                       </tbody>
                     </table>
+                  </div>
+
+                  {/* 分页 */}
+                  <div className="flex items-center justify-between mt-3 px-1">
+                    <div className="text-xs text-gray-500">
+                      共 <span className="font-semibold text-gray-700">{relatedProjectsData.length}</span> 条记录，
+                      第 <span className="font-semibold text-gray-700">{relatedCurrentPage}</span> / {relatedTotalPages} 页
+                    </div>
+                    <div className="flex items-center gap-1">
+                      <button
+                        onClick={() => setRelatedCurrentPage(prev => Math.max(1, prev - 1))}
+                        disabled={relatedCurrentPage === 1}
+                        className={`px-3 py-1.5 text-xs font-medium rounded-lg transition-all ${
+                          relatedCurrentPage === 1
+                            ? 'bg-gray-100 text-gray-400 cursor-not-allowed'
+                            : 'bg-white border border-gray-200 text-gray-700 hover:bg-green-50 hover:border-green-300 hover:text-green-700'
+                        }`}
+                      >
+                        上一页
+                      </button>
+                      {Array.from({ length: relatedTotalPages }, (_, i) => i + 1).map((page) => (
+                        <button
+                          key={page}
+                          onClick={() => setRelatedCurrentPage(page)}
+                          className={`min-w-[32px] h-8 text-xs font-medium rounded-lg transition-all ${
+                            relatedCurrentPage === page
+                              ? 'bg-gradient-to-r from-green-500 to-emerald-600 text-white shadow-md'
+                              : 'bg-white border border-gray-200 text-gray-700 hover:bg-green-50 hover:border-green-300 hover:text-green-700'
+                          }`}
+                        >
+                          {page}
+                        </button>
+                      ))}
+                      <button
+                        onClick={() => setRelatedCurrentPage(prev => Math.min(relatedTotalPages, prev + 1))}
+                        disabled={relatedCurrentPage === relatedTotalPages}
+                        className={`px-3 py-1.5 text-xs font-medium rounded-lg transition-all ${
+                          relatedCurrentPage === relatedTotalPages
+                            ? 'bg-gray-100 text-gray-400 cursor-not-allowed'
+                            : 'bg-white border border-gray-200 text-gray-700 hover:bg-green-50 hover:border-green-300 hover:text-green-700'
+                        }`}
+                      >
+                        下一页
+                      </button>
+                    </div>
                   </div>
                 </CardContent>
               </Card>
