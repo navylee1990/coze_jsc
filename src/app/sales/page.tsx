@@ -812,6 +812,122 @@ export default function SalesDashboard() {
             </CardContent>
           </Card>
 
+          {/* 2行1列：月度趋势分析 */}
+          <div className="border-2 border-blue-200 bg-gradient-to-br from-blue-50 to-cyan-50 rounded-xl p-4">
+            {/* 标题和筛选器 */}
+            <div className="flex items-center justify-between mb-3">
+              <div className="flex items-center gap-2">
+                <BarChart3 className="w-5 h-5 text-blue-600" />
+                <span className="text-base font-bold text-gray-900">月度趋势分析</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <span className="text-sm font-medium text-gray-600">地区筛选：</span>
+                <select
+                  value={trendRegion}
+                  onChange={(e) => setTrendRegion(e.target.value)}
+                  className="px-2 py-1 text-sm border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white"
+                >
+                  <option value="all">全部地区</option>
+                  <option value="一区">一区</option>
+                  <option value="二区">二区</option>
+                  <option value="五区">五区</option>
+                  <option value="华中">华中</option>
+                  <option value="华北、西北">华北、西北</option>
+                  <option value="西南">西南</option>
+                  <option value="华南">华南</option>
+                </select>
+              </div>
+            </div>
+
+            {/* 趋势图表 */}
+            <div className="bg-white rounded-xl p-3 shadow-sm border border-gray-100">
+              <div style={{ height: '400px' }}>
+                <ResponsiveContainer width="100%" height="100%">
+                  <AreaChart data={monthlyTrendData[trendRegion as keyof typeof monthlyTrendData] || monthlyTrendData.all}>
+                    <defs>
+                      <linearGradient id="colorTarget" x1="0" y1="0" x2="0" y2="1">
+                        <stop offset="5%" stopColor="#3B82F6" stopOpacity={0.3}/>
+                        <stop offset="95%" stopColor="#3B82F6" stopOpacity={0}/>
+                      </linearGradient>
+                      <linearGradient id="colorCompleted" x1="0" y1="0" x2="0" y2="1">
+                        <stop offset="5%" stopColor="#10B981" stopOpacity={0.3}/>
+                        <stop offset="95%" stopColor="#10B981" stopOpacity={0}/>
+                      </linearGradient>
+                      <linearGradient id="colorPredicted" x1="0" y1="0" x2="0" y2="1">
+                        <stop offset="5%" stopColor="#F59E0B" stopOpacity={0.3}/>
+                        <stop offset="95%" stopColor="#F59E0B" stopOpacity={0}/>
+                      </linearGradient>
+                    </defs>
+                    <CartesianGrid strokeDasharray="3 3" stroke="#E5E7EB" vertical={false} />
+                    <XAxis
+                      dataKey="month"
+                      axisLine={false}
+                      tickLine={false}
+                      tick={{ fill: '#6B7280', fontSize: 11 }}
+                    />
+                    <YAxis
+                      axisLine={false}
+                      tickLine={false}
+                      tick={{ fill: '#6B7280', fontSize: 11 }}
+                      tickFormatter={(value) => `${value}万`}
+                    />
+                    <Tooltip
+                      contentStyle={{
+                        backgroundColor: 'white',
+                        border: '1px solid #E5E7EB',
+                        borderRadius: '8px',
+                        boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1)',
+                      }}
+                      formatter={(value: number, name: string) => [`${value}万`, name]}
+                      labelStyle={{ color: '#374151', fontWeight: 'bold' }}
+                    />
+                    <Legend
+                      verticalAlign="top"
+                      height={30}
+                      iconType="circle"
+                      formatter={(value) => {
+                        const colorMap: { [key: string]: string } = {
+                          '目标': '#3B82F6',
+                          '已完成': '#10B981',
+                          '预测完成': '#F59E0B',
+                        };
+                        return <span style={{ color: '#374151', fontSize: 13 }}>{value}</span>;
+                      }}
+                    />
+                    <Area
+                      type="monotone"
+                      dataKey="target"
+                      stroke="#3B82F6"
+                      strokeWidth={2}
+                      fillOpacity={1}
+                      fill="url(#colorTarget)"
+                      name="目标"
+                    />
+                    <Area
+                      type="monotone"
+                      dataKey="completed"
+                      stroke="#10B981"
+                      strokeWidth={2}
+                      fillOpacity={1}
+                      fill="url(#colorCompleted)"
+                      name="已完成"
+                    />
+                    <Area
+                      type="monotone"
+                      dataKey="predicted"
+                      stroke="#F59E0B"
+                      strokeWidth={2}
+                      strokeDasharray="5 5"
+                      fillOpacity={1}
+                      fill="url(#colorPredicted)"
+                      name="预测完成"
+                    />
+                  </AreaChart>
+                </ResponsiveContainer>
+              </div>
+            </div>
+          </div>
+
           {/* 2行2列：城市经理达成情况 */}
           <Card className="border border-green-200 bg-gradient-to-br from-green-50 to-emerald-50">
             <CardContent className="p-3 h-full flex flex-col">
@@ -954,122 +1070,6 @@ export default function SalesDashboard() {
               </div>
             </CardContent>
           </Card>
-
-          {/* 2行1列：月度趋势分析 */}
-          <div className="border-2 border-blue-200 bg-gradient-to-br from-blue-50 to-cyan-50 rounded-xl p-4">
-            {/* 标题和筛选器 */}
-            <div className="flex items-center justify-between mb-3">
-              <div className="flex items-center gap-2">
-                <BarChart3 className="w-5 h-5 text-blue-600" />
-                <span className="text-base font-bold text-gray-900">月度趋势分析</span>
-              </div>
-              <div className="flex items-center gap-2">
-                <span className="text-sm font-medium text-gray-600">地区筛选：</span>
-                <select
-                  value={trendRegion}
-                  onChange={(e) => setTrendRegion(e.target.value)}
-                  className="px-2 py-1 text-sm border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white"
-                >
-                  <option value="all">全部地区</option>
-                  <option value="一区">一区</option>
-                  <option value="二区">二区</option>
-                  <option value="五区">五区</option>
-                  <option value="华中">华中</option>
-                  <option value="华北、西北">华北、西北</option>
-                  <option value="西南">西南</option>
-                  <option value="华南">华南</option>
-                </select>
-              </div>
-            </div>
-
-            {/* 趋势图表 */}
-            <div className="bg-white rounded-xl p-3 shadow-sm border border-gray-100">
-              <div style={{ height: '400px' }}>
-                <ResponsiveContainer width="100%" height="100%">
-                  <AreaChart data={monthlyTrendData[trendRegion as keyof typeof monthlyTrendData] || monthlyTrendData.all}>
-                    <defs>
-                      <linearGradient id="colorTarget" x1="0" y1="0" x2="0" y2="1">
-                        <stop offset="5%" stopColor="#3B82F6" stopOpacity={0.3}/>
-                        <stop offset="95%" stopColor="#3B82F6" stopOpacity={0}/>
-                      </linearGradient>
-                      <linearGradient id="colorCompleted" x1="0" y1="0" x2="0" y2="1">
-                        <stop offset="5%" stopColor="#10B981" stopOpacity={0.3}/>
-                        <stop offset="95%" stopColor="#10B981" stopOpacity={0}/>
-                      </linearGradient>
-                      <linearGradient id="colorPredicted" x1="0" y1="0" x2="0" y2="1">
-                        <stop offset="5%" stopColor="#F59E0B" stopOpacity={0.3}/>
-                        <stop offset="95%" stopColor="#F59E0B" stopOpacity={0}/>
-                      </linearGradient>
-                    </defs>
-                    <CartesianGrid strokeDasharray="3 3" stroke="#E5E7EB" vertical={false} />
-                    <XAxis
-                      dataKey="month"
-                      axisLine={false}
-                      tickLine={false}
-                      tick={{ fill: '#6B7280', fontSize: 11 }}
-                    />
-                    <YAxis
-                      axisLine={false}
-                      tickLine={false}
-                      tick={{ fill: '#6B7280', fontSize: 11 }}
-                      tickFormatter={(value) => `${value}万`}
-                    />
-                    <Tooltip
-                      contentStyle={{
-                        backgroundColor: 'white',
-                        border: '1px solid #E5E7EB',
-                        borderRadius: '8px',
-                        boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1)',
-                      }}
-                      formatter={(value: number, name: string) => [`${value}万`, name]}
-                      labelStyle={{ color: '#374151', fontWeight: 'bold' }}
-                    />
-                    <Legend
-                      verticalAlign="top"
-                      height={30}
-                      iconType="circle"
-                      formatter={(value) => {
-                        const colorMap: { [key: string]: string } = {
-                          '目标': '#3B82F6',
-                          '已完成': '#10B981',
-                          '预测完成': '#F59E0B',
-                        };
-                        return <span style={{ color: '#374151', fontSize: 13 }}>{value}</span>;
-                      }}
-                    />
-                    <Area
-                      type="monotone"
-                      dataKey="target"
-                      stroke="#3B82F6"
-                      strokeWidth={2}
-                      fillOpacity={1}
-                      fill="url(#colorTarget)"
-                      name="目标"
-                    />
-                    <Area
-                      type="monotone"
-                      dataKey="completed"
-                      stroke="#10B981"
-                      strokeWidth={2}
-                      fillOpacity={1}
-                      fill="url(#colorCompleted)"
-                      name="已完成"
-                    />
-                    <Area
-                      type="monotone"
-                      dataKey="predicted"
-                      stroke="#F59E0B"
-                      strokeWidth={2}
-                      strokeDasharray="5 5"
-                      fillOpacity={1}
-                      fill="url(#colorPredicted)"
-                      name="预测完成"
-                    />
-                  </AreaChart>
-                </ResponsiveContainer>
-              </div>
-            </div>
-          </div>
         </div>
         </TabsContent>
           <TabsContent value="distributors">
