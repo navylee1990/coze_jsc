@@ -631,19 +631,25 @@ export default function SalesDashboard() {
               </CardContent>
             </Card>
 
-            {/* 在手订单 - 占据整行 */}
-            <Card className="bg-white border-2 border-purple-300 col-span-2">
+            {/* 在手订单 */}
+            <Card className="bg-white border-2 border-purple-300">
               <CardContent className="p-1">
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center gap-1 text-xs font-medium text-gray-500">
-                    <Database className="w-2.5 h-2.5 text-purple-500 flex-shrink-0" />
-                    <span>在手订单</span>
-                  </div>
-                  <div className="flex items-baseline gap-0.5">
-                    <span className="text-3xl font-bold text-purple-600 leading-tight">15</span>
-                    <span className="text-sm text-gray-600">单</span>
-                    <span className="text-sm font-semibold text-gray-700 ml-1">1,200万元</span>
-                  </div>
+                <div className="flex items-center gap-1 text-xs font-medium text-gray-500">
+                  <Database className="w-2.5 h-2.5 text-purple-500 flex-shrink-0" />
+                  <span>在手订单</span>
+                </div>
+                <div className="mt-1 flex items-baseline gap-0.5">
+                  <span className="text-3xl font-bold text-purple-600 leading-tight">15</span>
+                  <span className="text-sm text-gray-600">单</span>
+                  <span className="text-sm font-semibold text-gray-700 ml-1">1,200万元</span>
+                </div>
+              </CardContent>
+            </Card>
+            {/* 空卡片 */}
+            <Card className="border border-dashed border-gray-300 bg-gray-50">
+              <CardContent className="p-1">
+                <div className="h-full flex items-center justify-center text-xs text-gray-400">
+                  暂无数据
                 </div>
               </CardContent>
             </Card>
