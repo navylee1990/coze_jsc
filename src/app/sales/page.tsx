@@ -232,34 +232,34 @@ const dealerAchievementRanking = [
 // 城市经理数据（城市经理负责单个城市，目标应比区域目标小）
 const cityManagerData = {
   month: [
-    { name: '王泽', region: '北京', target: 180, completed: 35, predicted: 65, gap: 115, rate: 36.1, orderCount: 28, projectCount: 18 },
-    { name: '张伟', region: '上海', target: 132, completed: 55, predicted: 55, gap: 77, rate: 41.7, orderCount: 52, projectCount: 26 },
-    { name: '李明', region: '广州', target: 150, completed: 70, predicted: 58, gap: 92, rate: 38.7, orderCount: 42, projectCount: 21 },
-    { name: '刘强', region: '武汉', target: 80, completed: 80, predicted: 78, gap: 2, rate: 97.5, orderCount: 68, projectCount: 35 },
-    { name: '陈刚', region: '石家庄', target: 90, completed: 65, predicted: 38, gap: 52, rate: 72.2, orderCount: 36, projectCount: 18 },
-    { name: '杨敏', region: '成都', target: 75, completed: 12, predicted: 6.3, gap: 68.7, rate: 16.0, orderCount: 15, projectCount: 8 },
-    { name: '赵芳', region: '南宁', target: 96, completed: 55, predicted: 60, gap: 36, rate: 62.5, orderCount: 38, projectCount: 20 },
-    { name: '孙涛', region: '天津', target: 140, completed: 30, predicted: 45, gap: 95, rate: 32.1, orderCount: 17, projectCount: 10 },
+    { name: '王泽', area: '一区', city: '北京', target: 180, completed: 35, predicted: 65, gap: 115, rate: 36.1, orderCount: 28, projectCount: 18 },
+    { name: '孙涛', area: '一区', city: '天津', target: 140, completed: 30, predicted: 45, gap: 95, rate: 32.1, orderCount: 17, projectCount: 10 },
+    { name: '张伟', area: '二区', city: '上海', target: 132, completed: 55, predicted: 55, gap: 77, rate: 41.7, orderCount: 52, projectCount: 26 },
+    { name: '李明', area: '五区', city: '广州', target: 150, completed: 70, predicted: 58, gap: 92, rate: 38.7, orderCount: 42, projectCount: 21 },
+    { name: '刘强', area: '华中', city: '武汉', target: 80, completed: 80, predicted: 78, gap: 2, rate: 97.5, orderCount: 68, projectCount: 35 },
+    { name: '陈刚', area: '华北、西北', city: '石家庄', target: 90, completed: 65, predicted: 38, gap: 52, rate: 72.2, orderCount: 36, projectCount: 18 },
+    { name: '杨敏', area: '西南', city: '成都', target: 75, completed: 12, predicted: 6.3, gap: 68.7, rate: 16.0, orderCount: 15, projectCount: 8 },
+    { name: '赵芳', area: '华南', city: '南宁', target: 96, completed: 55, predicted: 60, gap: 36, rate: 62.5, orderCount: 38, projectCount: 20 },
   ],
   quarter: [
-    { name: '王泽', region: '北京', target: 540, completed: 105, predicted: 195, gap: 345, rate: 36.1, orderCount: 84, projectCount: 54 },
-    { name: '张伟', region: '上海', target: 396, completed: 165, predicted: 165, gap: 231, rate: 41.7, orderCount: 156, projectCount: 78 },
-    { name: '李明', region: '广州', target: 450, completed: 210, predicted: 174, gap: 276, rate: 38.7, orderCount: 126, projectCount: 63 },
-    { name: '刘强', region: '武汉', target: 240, completed: 240, predicted: 234, gap: 6, rate: 97.5, orderCount: 204, projectCount: 105 },
-    { name: '陈刚', region: '石家庄', target: 270, completed: 195, predicted: 114, gap: 156, rate: 72.2, orderCount: 108, projectCount: 54 },
-    { name: '杨敏', region: '成都', target: 225, completed: 36, predicted: 18.9, gap: 206.1, rate: 16.0, orderCount: 45, projectCount: 24 },
-    { name: '赵芳', region: '南宁', target: 288, completed: 165, predicted: 180, gap: 108, rate: 62.5, orderCount: 114, projectCount: 60 },
-    { name: '孙涛', region: '天津', target: 420, completed: 90, predicted: 135, gap: 285, rate: 32.1, orderCount: 51, projectCount: 30 },
+    { name: '王泽', area: '一区', city: '北京', target: 540, completed: 105, predicted: 195, gap: 345, rate: 36.1, orderCount: 84, projectCount: 54 },
+    { name: '孙涛', area: '一区', city: '天津', target: 420, completed: 90, predicted: 135, gap: 285, rate: 32.1, orderCount: 51, projectCount: 30 },
+    { name: '张伟', area: '二区', city: '上海', target: 396, completed: 165, predicted: 165, gap: 231, rate: 41.7, orderCount: 156, projectCount: 78 },
+    { name: '李明', area: '五区', city: '广州', target: 450, completed: 210, predicted: 174, gap: 276, rate: 38.7, orderCount: 126, projectCount: 63 },
+    { name: '刘强', area: '华中', city: '武汉', target: 240, completed: 240, predicted: 234, gap: 6, rate: 97.5, orderCount: 204, projectCount: 105 },
+    { name: '陈刚', area: '华北、西北', city: '石家庄', target: 270, completed: 195, predicted: 114, gap: 156, rate: 72.2, orderCount: 108, projectCount: 54 },
+    { name: '杨敏', area: '西南', city: '成都', target: 225, completed: 36, predicted: 18.9, gap: 206.1, rate: 16.0, orderCount: 45, projectCount: 24 },
+    { name: '赵芳', area: '华南', city: '南宁', target: 288, completed: 165, predicted: 180, gap: 108, rate: 62.5, orderCount: 114, projectCount: 60 },
   ],
   year: [
-    { name: '王泽', region: '北京', target: 2160, completed: 420, predicted: 780, gap: 1380, rate: 36.1, orderCount: 336, projectCount: 216 },
-    { name: '张伟', region: '上海', target: 1584, completed: 660, predicted: 660, gap: 924, rate: 41.7, orderCount: 624, projectCount: 312 },
-    { name: '李明', region: '广州', target: 1800, completed: 840, predicted: 696, gap: 1104, rate: 38.7, orderCount: 504, projectCount: 252 },
-    { name: '刘强', region: '武汉', target: 960, completed: 960, predicted: 936, gap: 24, rate: 97.5, orderCount: 816, projectCount: 420 },
-    { name: '陈刚', region: '石家庄', target: 1080, completed: 780, predicted: 456, gap: 624, rate: 72.2, orderCount: 432, projectCount: 216 },
-    { name: '杨敏', region: '成都', target: 900, completed: 144, predicted: 75.6, gap: 824.4, rate: 16.0, orderCount: 180, projectCount: 96 },
-    { name: '赵芳', region: '南宁', target: 1152, completed: 660, predicted: 720, gap: 432, rate: 62.5, orderCount: 456, projectCount: 240 },
-    { name: '孙涛', region: '天津', target: 1680, completed: 360, predicted: 540, gap: 1140, rate: 32.1, orderCount: 204, projectCount: 120 },
+    { name: '王泽', area: '一区', city: '北京', target: 2160, completed: 420, predicted: 780, gap: 1380, rate: 36.1, orderCount: 336, projectCount: 216 },
+    { name: '孙涛', area: '一区', city: '天津', target: 1680, completed: 360, predicted: 540, gap: 1140, rate: 32.1, orderCount: 204, projectCount: 120 },
+    { name: '张伟', area: '二区', city: '上海', target: 1584, completed: 660, predicted: 660, gap: 924, rate: 41.7, orderCount: 624, projectCount: 312 },
+    { name: '李明', area: '五区', city: '广州', target: 1800, completed: 840, predicted: 696, gap: 1104, rate: 38.7, orderCount: 504, projectCount: 252 },
+    { name: '刘强', area: '华中', city: '武汉', target: 960, completed: 960, predicted: 936, gap: 24, rate: 97.5, orderCount: 816, projectCount: 420 },
+    { name: '陈刚', area: '华北、西北', city: '石家庄', target: 1080, completed: 780, predicted: 456, gap: 624, rate: 72.2, orderCount: 432, projectCount: 216 },
+    { name: '杨敏', area: '西南', city: '成都', target: 900, completed: 144, predicted: 75.6, gap: 824.4, rate: 16.0, orderCount: 180, projectCount: 96 },
+    { name: '赵芳', area: '华南', city: '南宁', target: 1152, completed: 660, predicted: 720, gap: 432, rate: 62.5, orderCount: 456, projectCount: 240 },
   ],
 };
 
@@ -427,6 +427,7 @@ export default function SalesDashboard() {
   const [selectedQuarter, setSelectedQuarter] = useState('Q1');
   const [trendRegion, setTrendRegion] = useState('all'); // 月度趋势地区筛选
   const [cityManagerPage, setCityManagerPage] = useState(1); // 城市经理表格分页
+  const [cityManagerAreaFilter, setCityManagerAreaFilter] = useState('all'); // 城市经理区域筛选
   const cityManagerPageSize = 6;
   const cityManagerTotalPages = Math.ceil(cityManagerData.month.length / cityManagerPageSize);
 
@@ -476,10 +477,10 @@ export default function SalesDashboard() {
     setSelectedRegion('');
   };
 
-  // 时间范围变化时重置城市经理页码
+  // 时间范围或区域筛选变化时重置城市经理页码
   useEffect(() => {
     setCityManagerPage(1);
-  }, [timeRange]);
+  }, [timeRange, cityManagerAreaFilter]);
 
   const currentData = viewLevel === 'city'
     ? (cityData[timeRange as keyof typeof cityData] as any)[selectedRegion] || []
@@ -940,6 +941,23 @@ export default function SalesDashboard() {
                   <span className="text-sm font-bold text-gray-900">城市经理达成情况</span>
                   <span className="text-sm font-bold text-gray-900">({timeRange === 'month' ? `${selectedMonth}月` : timeRange === 'quarter' ? selectedQuarter : '2026年'})</span>
                 </div>
+                <div className="flex items-center gap-2">
+                  <span className="text-sm font-medium text-gray-600">区域筛选：</span>
+                  <select
+                    value={cityManagerAreaFilter}
+                    onChange={(e) => setCityManagerAreaFilter(e.target.value)}
+                    className="px-2 py-1 text-sm border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500 bg-white"
+                  >
+                    <option value="all">全部区域</option>
+                    <option value="一区">一区</option>
+                    <option value="二区">二区</option>
+                    <option value="五区">五区</option>
+                    <option value="华中">华中</option>
+                    <option value="华北、西北">华北、西北</option>
+                    <option value="西南">西南</option>
+                    <option value="华南">华南</option>
+                  </select>
+                </div>
               </div>
 
               {/* 城市经理表格 */}
@@ -947,6 +965,7 @@ export default function SalesDashboard() {
                 <table className="w-full">
                   <thead>
                     <tr className="border-b border-gray-100">
+                      <th className="px-3 py-2 text-left text-sm font-medium text-gray-500">区域</th>
                       <th className="px-3 py-2 text-left text-sm font-medium text-gray-500">城市</th>
                       <th className="px-2 py-2 text-left text-sm font-medium text-gray-500">责任人</th>
                       <th className="px-2 py-2 text-right text-sm font-medium text-gray-500">目标</th>
@@ -960,6 +979,7 @@ export default function SalesDashboard() {
                   </thead>
                   <tbody className="min-h-[320px]">
                     {cityManagerData[timeRange as keyof typeof cityManagerData]
+                      .filter((item: any) => cityManagerAreaFilter === 'all' || item.area === cityManagerAreaFilter)
                       .sort((a, b) => b.rate - a.rate)
                       .slice((cityManagerPage - 1) * cityManagerPageSize, cityManagerPage * cityManagerPageSize)
                       .map((item: any, index: number) => (
@@ -967,7 +987,8 @@ export default function SalesDashboard() {
                         key={index}
                         className="border-b border-gray-50 last:border-0"
                       >
-                        <td className="px-3 py-2.5 text-sm font-medium text-gray-900">{item.region}</td>
+                        <td className="px-3 py-2.5 text-sm font-medium text-gray-900">{item.area}</td>
+                        <td className="px-3 py-2.5 text-sm font-medium text-gray-900">{item.city}</td>
                         <td className="px-2 py-2.5 text-sm text-gray-500">{item.name}</td>
                         <td className="px-2 py-2.5 text-sm text-right text-gray-600">{item.target.toLocaleString()}</td>
                         <td className="px-2 py-2.5 text-sm text-right text-gray-600">{item.completed.toLocaleString()}</td>
@@ -1008,8 +1029,8 @@ export default function SalesDashboard() {
                 {/* 分页 */}
                 <div className="flex items-center justify-between mt-3 px-1">
                   <div className="text-xs text-gray-500">
-                    共 <span className="font-semibold text-gray-700">{cityManagerData[timeRange as keyof typeof cityManagerData].length}</span> 条记录，
-                    第 <span className="font-semibold text-gray-700">{cityManagerPage}</span> / {cityManagerTotalPages} 页
+                    共 <span className="font-semibold text-gray-700">{cityManagerData[timeRange as keyof typeof cityManagerData].filter((item: any) => cityManagerAreaFilter === 'all' || item.area === cityManagerAreaFilter).length}</span> 条记录，
+                    第 <span className="font-semibold text-gray-700">{cityManagerPage}</span> / {Math.ceil(cityManagerData[timeRange as keyof typeof cityManagerData].filter((item: any) => cityManagerAreaFilter === 'all' || item.area === cityManagerAreaFilter).length / cityManagerPageSize)} 页
                   </div>
                   <div className="flex items-center gap-1">
                     <button
@@ -1023,7 +1044,7 @@ export default function SalesDashboard() {
                     >
                       上一页
                     </button>
-                    {Array.from({ length: cityManagerTotalPages }, (_, i) => i + 1).map((page) => (
+                    {Array.from({ length: Math.ceil(cityManagerData[timeRange as keyof typeof cityManagerData].filter((item: any) => cityManagerAreaFilter === 'all' || item.area === cityManagerAreaFilter).length / cityManagerPageSize) }, (_, i) => i + 1).map((page) => (
                       <button
                         key={page}
                         onClick={() => setCityManagerPage(page)}
@@ -1037,10 +1058,10 @@ export default function SalesDashboard() {
                       </button>
                     ))}
                     <button
-                      onClick={() => setCityManagerPage(prev => Math.min(cityManagerTotalPages, prev + 1))}
-                      disabled={cityManagerPage === cityManagerTotalPages}
+                      onClick={() => setCityManagerPage(prev => Math.min(Math.ceil(cityManagerData[timeRange as keyof typeof cityManagerData].filter((item: any) => cityManagerAreaFilter === 'all' || item.area === cityManagerAreaFilter).length / cityManagerPageSize), prev + 1))}
+                      disabled={cityManagerPage === Math.ceil(cityManagerData[timeRange as keyof typeof cityManagerData].filter((item: any) => cityManagerAreaFilter === 'all' || item.area === cityManagerAreaFilter).length / cityManagerPageSize)}
                       className={`px-3 py-1.5 text-xs font-medium rounded-lg transition-all ${
-                        cityManagerPage === cityManagerTotalPages
+                        cityManagerPage === Math.ceil(cityManagerData[timeRange as keyof typeof cityManagerData].filter((item: any) => cityManagerAreaFilter === 'all' || item.area === cityManagerAreaFilter).length / cityManagerPageSize)
                           ? 'bg-gray-100 text-gray-400 cursor-not-allowed'
                           : 'bg-white border border-gray-200 text-gray-700 hover:bg-green-50 hover:border-green-300 hover:text-green-700'
                       }`}
