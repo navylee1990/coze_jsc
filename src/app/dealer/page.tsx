@@ -252,11 +252,9 @@ export default function DealerDashboard() {
             </div>
           </div>
 
-          {/* 横向布局：KPI卡片 + 细分市场 */}
-          <div className="flex flex-col xl:flex-row gap-1">
-            {/* KPI卡片 */}
-            <div className="xl:w-2/5">
-              <div className="grid grid-cols-7 gap-1">
+          {/* KPI卡片 */}
+          <div className="mb-1">
+            <div className="grid grid-cols-7 gap-1">
                 {/* 目标金额 */}
                 <Card className="bg-white border-2 border-green-200">
                   <CardContent className="p-1">
@@ -384,12 +382,11 @@ export default function DealerDashboard() {
             </div>
 
             {/* 细分市场业绩达成与项目储备 */}
-            <div className="xl:w-3/5">
-              {/* 细分市场标题 */}
-              <div className="mb-1 flex items-center gap-4">
-                <h2 className="text-base font-semibold text-gray-900 flex items-center gap-1.5">
-                  <PieChart className="w-4 h-4 text-green-600" />
-                  细分市场业绩达成与项目储备
+            {/* 细分市场标题 */}
+            <div className="mb-1 flex items-center gap-4">
+              <h2 className="text-base font-semibold text-gray-900 flex items-center gap-1.5">
+                <PieChart className="w-4 h-4 text-green-600" />
+                细分市场业绩达成与项目储备
                 </h2>
                 <div className="flex items-center gap-4">
                   {/* 市场覆盖 */}
@@ -507,7 +504,6 @@ export default function DealerDashboard() {
                 </CardContent>
               </Card>
             </div>
-          </div>
 
 
           {/* 月度趋势分析 */}
