@@ -709,7 +709,7 @@ export default function SalesDashboard() {
                         borderRadius: '8px',
                         boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1)',
                       }}
-                      formatter={(value: number) => [`${value}万`, '']}
+                      formatter={(value: number, name: string) => [`${value}万`, name]}
                       labelStyle={{ color: '#374151', fontWeight: 'bold' }}
                     />
                     <Legend
