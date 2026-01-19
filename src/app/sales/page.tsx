@@ -674,59 +674,58 @@ export default function SalesDashboard() {
               </div>
             </div>
 
-            {/* AI智能分析 */}
-            <Card className="mt-2 border border-blue-200 bg-gradient-to-r from-blue-50 via-cyan-50 to-purple-50">
+            {/* 经营诊断 */}
+            <Card className="mt-2 border border-green-200 bg-gradient-to-br from-green-50 to-emerald-50">
               <CardContent className="p-3">
                 <div className="flex items-center gap-1.5 mb-2">
-                  <div className="w-6 h-6 bg-gradient-to-br from-blue-500 to-purple-600 rounded-md flex items-center justify-center">
+                  <div className="w-6 h-6 bg-gradient-to-br from-green-500 to-emerald-600 rounded-md flex items-center justify-center">
                     <svg className="w-3.5 h-3.5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
                     </svg>
                   </div>
                   <div>
-                    <div className="text-sm font-bold text-gray-900">AI智能分析</div>
-                    <div className="text-xs text-gray-500">全年预测与建议</div>
+                    <div className="text-sm font-bold text-gray-900">经营诊断</div>
+                    <div className="text-xs text-gray-500">关键问题与对策</div>
                   </div>
                 </div>
                 <div className="space-y-2">
-                  {/* 全年预测 */}
-                  <div className="bg-white/70 backdrop-blur-sm rounded-md p-2 border border-blue-200">
+                  {/* 核心问题 */}
+                  <div className="bg-white/70 backdrop-blur-sm rounded-md p-2 border border-red-200">
                     <div className="flex items-center gap-1 mb-1">
-                      <BarChart3 className="w-3 h-3 text-blue-600" />
-                      <span className="text-xs font-semibold text-blue-700">全年预测</span>
+                      <AlertTriangle className="w-3 h-3 text-red-600" />
+                      <span className="text-xs font-semibold text-red-700">核心问题</span>
                     </div>
                     <p className="text-xs text-gray-600 leading-relaxed">
-                      基于前<span className="font-medium text-blue-600">12个月</span>历史数据，
-                      预测2026年达成<span className="font-medium text-blue-600">{kpiData.futurePredicted.toFixed(1)}万</span>，
-                      完成率<span className="font-medium text-blue-600">47.4%</span>，
-                      缺口<span className="font-medium text-red-600">{kpiData.taskGap.toFixed(1)}万</span>
+                      <span className="font-medium text-red-600">{currentRangeData.gap.toLocaleString()}万</span>任务缺口，
+                      <span className="font-medium">西南区</span>仅<span className="font-medium text-red-600">16%</span>，
+                      <span className="font-medium">成都、重庆</span>累计<span className="font-medium text-red-600">3个月</span>未达标
                     </p>
                   </div>
 
-                  {/* 趋势分析 */}
-                  <div className="bg-white/70 backdrop-blur-sm rounded-md p-2 border border-green-200">
-                    <div className="flex items-center gap-1 mb-1">
-                      <TrendingUp className="w-3 h-3 text-green-600" />
-                      <span className="text-xs font-semibold text-green-700">趋势分析</span>
-                    </div>
-                    <p className="text-xs text-gray-600 leading-relaxed">
-                      月均完成<span className="font-medium text-green-600">{(kpiData.futurePredicted/12).toFixed(1)}万</span>，
-                      环比<span className="font-medium text-green-600">↑5.2%</span>，
-                      <span className="font-medium">华中区</span>连续3月超额完成，
-                      <span className="font-medium">西南区</span>需追赶进度
-                    </p>
-                  </div>
-
-                  {/* 行动建议 */}
+                  {/* 应收账款 */}
                   <div className="bg-white/70 backdrop-blur-sm rounded-md p-2 border border-orange-200">
                     <div className="flex items-center gap-1 mb-1">
-                      <Target className="w-3 h-3 text-orange-600" />
-                      <span className="text-xs font-semibold text-orange-700">行动建议</span>
+                      <Database className="w-3 h-3 text-orange-600" />
+                      <span className="text-xs font-semibold text-orange-700">应收账款</span>
                     </div>
                     <p className="text-xs text-gray-600 leading-relaxed">
-                      加速签约<span className="font-medium text-orange-600">15单在手订单</span>（1,200万），
-                      <span className="font-medium">西南区</span>本月需新增<span className="font-medium text-orange-600">8单</span>，
-                      建议跟进<span className="font-medium">高价值医疗项目</span>
+                      应收<span className="font-medium text-orange-600">285万</span>，
+                      超期<span className="font-medium text-red-600">42万</span>，
+                      <span className="font-medium">某三甲医院</span>项目<span className="font-medium text-red-600">15天</span>未回款，
+                      建议催收
+                    </p>
+                  </div>
+
+                  {/* 突破对策 */}
+                  <div className="bg-white/70 backdrop-blur-sm rounded-md p-2 border border-green-200">
+                    <div className="flex items-center gap-1 mb-1">
+                      <Target className="w-3 h-3 text-green-600" />
+                      <span className="text-xs font-semibold text-green-700">突破对策</span>
+                    </div>
+                    <p className="text-xs text-gray-600 leading-relaxed">
+                      优先推进<span className="font-medium text-green-600">15单在手订单</span>，
+                      <span className="font-medium">西南区</span>重点跟进<span className="font-medium text-green-600">3个医疗项目</span>，
+                      目标：<span className="font-medium text-green-600">本月签约2单</span>
                     </p>
                   </div>
                 </div>
