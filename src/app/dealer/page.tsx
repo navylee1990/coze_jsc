@@ -503,8 +503,6 @@ export default function DealerDashboard() {
                   </div>
                 </CardContent>
               </Card>
-            </div>
-
 
           {/* 月度趋势分析 */}
           {/* 月度趋势分析标题 */}
