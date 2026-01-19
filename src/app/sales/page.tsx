@@ -560,105 +560,109 @@ export default function SalesDashboard() {
               经营总览
             </h2>
           </div>
-        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-1.5">
-          {/* 目标 */}
-          <Card className="bg-white border border-gray-200">
-            <CardContent className="p-1">
-              <div className="flex items-center justify-between">
-                <div className="flex items-center gap-1 text-xs font-medium text-gray-500">
-                  <Target className="w-2.5 h-2.5 text-blue-500 flex-shrink-0" />
-                  <span>{timeRangeLabel}目标</span>
+        {/* KPI指标 + 月度趋势分析 左右布局 */}
+        <div className="flex gap-3">
+          {/* 左侧：5个KPI指标 */}
+          <div className="w-[42%] grid grid-cols-2 gap-1.5">
+            {/* 目标 */}
+            <Card className="bg-white border border-gray-200">
+              <CardContent className="p-1">
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-1 text-xs font-medium text-gray-500">
+                    <Target className="w-2.5 h-2.5 text-blue-500 flex-shrink-0" />
+                    <span>{timeRangeLabel}目标</span>
+                  </div>
+                  <span className="text-xs font-medium text-blue-600 bg-blue-50 px-1.5 py-0.5 rounded">
+                    {timeRange === 'month' ? `${selectedMonth}月` : timeRange === 'quarter' ? selectedQuarter : '2026'}
+                  </span>
                 </div>
-                <span className="text-xs font-medium text-blue-600 bg-blue-50 px-1.5 py-0.5 rounded">
-                  {timeRange === 'month' ? `${selectedMonth}月` : timeRange === 'quarter' ? selectedQuarter : '2026'}
-                </span>
-              </div>
-              <div className="mt-1 flex items-baseline gap-0.5">
-                <span className="text-3xl font-bold text-gray-900 leading-tight">{currentRangeData.target.toLocaleString()}</span>
-                <span className="text-xs text-gray-400">万元</span>
-              </div>
-            </CardContent>
-          </Card>
+                <div className="mt-1 flex items-baseline gap-0.5">
+                  <span className="text-3xl font-bold text-gray-900 leading-tight">{currentRangeData.target.toLocaleString()}</span>
+                  <span className="text-xs text-gray-400">万元</span>
+                </div>
+              </CardContent>
+            </Card>
 
-          {/* 已完成 */}
-          <Card className="bg-white border border-gray-200">
-            <CardContent className="p-1">
-              <div className="text-xs font-medium text-gray-500">{timeRangeLabel}已完成</div>
-              <div className="mt-1 flex items-baseline gap-0.5">
-                <span className="text-3xl font-bold text-gray-900 leading-tight">{currentRangeData.completed.toLocaleString()}</span>
-                <span className="text-xs text-gray-400">万元</span>
-              </div>
-              <div className="flex items-center gap-0.5 text-xs text-red-600 mt-0.5">
-                <ArrowDown className="w-2.5 h-2.5" />
-                <span>-8.3%</span>
-              </div>
-            </CardContent>
-          </Card>
+            {/* 已完成 */}
+            <Card className="bg-white border border-gray-200">
+              <CardContent className="p-1">
+                <div className="text-xs font-medium text-gray-500">{timeRangeLabel}已完成</div>
+                <div className="mt-1 flex items-baseline gap-0.5">
+                  <span className="text-3xl font-bold text-gray-900 leading-tight">{currentRangeData.completed.toLocaleString()}</span>
+                  <span className="text-xs text-gray-400">万元</span>
+                </div>
+                <div className="flex items-center gap-0.5 text-xs text-red-600 mt-0.5">
+                  <ArrowDown className="w-2.5 h-2.5" />
+                  <span>-8.3%</span>
+                </div>
+              </CardContent>
+            </Card>
 
-          {/* 预测完成 */}
-          <Card className="bg-white border border-green-300 border-dashed">
-            <CardContent className="p-1">
-              <div className="text-xs font-medium text-gray-500">预测完成</div>
-              <div className="mt-1 flex items-baseline gap-0.5">
-                <span className="text-3xl font-bold text-green-600 leading-tight">{currentRangeData.predicted.toLocaleString()}</span>
-                <span className="text-xs text-gray-400">万元</span>
-              </div>
-              <div className="flex items-center gap-0.5 text-xs text-green-600 mt-0.5">
-                <ArrowUp className="w-2.5 h-2.5" />
-                <span>同比+5.2%</span>
-              </div>
-            </CardContent>
-          </Card>
+            {/* 预测完成 */}
+            <Card className="bg-white border border-green-300 border-dashed">
+              <CardContent className="p-1">
+                <div className="text-xs font-medium text-gray-500">预测完成</div>
+                <div className="mt-1 flex items-baseline gap-0.5">
+                  <span className="text-3xl font-bold text-green-600 leading-tight">{currentRangeData.predicted.toLocaleString()}</span>
+                  <span className="text-xs text-gray-400">万元</span>
+                </div>
+                <div className="flex items-center gap-0.5 text-xs text-green-600 mt-0.5">
+                  <ArrowUp className="w-2.5 h-2.5" />
+                  <span>同比+5.2%</span>
+                </div>
+              </CardContent>
+            </Card>
 
-          {/* 任务缺口 */}
-          <Card className="bg-white border-2 border-red-200">
-            <CardContent className="p-1">
-              <div className="flex items-center gap-1 text-xs font-medium text-gray-500">
-                <AlertTriangle className="w-2.5 h-2.5 text-red-500 flex-shrink-0" />
-                <span>任务缺口</span>
-              </div>
-              <div className="mt-1 flex items-baseline gap-0.5">
-                <span className="text-3xl font-bold text-red-600 leading-tight">{currentRangeData.gap.toLocaleString()}</span>
-                <span className="text-xs text-gray-400">万元</span>
-              </div>
-              <div className="flex items-center gap-0.5 text-xs text-gray-500 mt-0.5">
-                <ArrowDown className="w-2.5 h-2.5" />
-                <span>-54.5%</span>
-              </div>
-            </CardContent>
-          </Card>
+            {/* 任务缺口 */}
+            <Card className="bg-white border-2 border-red-200">
+              <CardContent className="p-1">
+                <div className="flex items-center gap-1 text-xs font-medium text-gray-500">
+                  <AlertTriangle className="w-2.5 h-2.5 text-red-500 flex-shrink-0" />
+                  <span>任务缺口</span>
+                </div>
+                <div className="mt-1 flex items-baseline gap-0.5">
+                  <span className="text-3xl font-bold text-red-600 leading-tight">{currentRangeData.gap.toLocaleString()}</span>
+                  <span className="text-xs text-gray-400">万元</span>
+                </div>
+                <div className="flex items-center gap-0.5 text-xs text-gray-500 mt-0.5">
+                  <ArrowDown className="w-2.5 h-2.5" />
+                  <span>-54.5%</span>
+                </div>
+              </CardContent>
+            </Card>
 
-          {/* 在手订单 */}
-          <Card className="bg-white border-2 border-purple-300">
-            <CardContent className="p-1">
-              <div className="flex items-center gap-1 text-xs font-medium text-gray-500">
-                <Database className="w-2.5 h-2.5 text-purple-500 flex-shrink-0" />
-                <span>在手订单</span>
-              </div>
-              <div className="mt-1 flex items-baseline gap-0.5">
-                <span className="text-3xl font-bold text-purple-600 leading-tight">15</span>
-                <span className="text-sm text-gray-600">单</span>
-                <span className="text-sm font-semibold text-gray-700 ml-1">1,200万元</span>
-              </div>
-            </CardContent>
-          </Card>
-        </div>
+            {/* 在手订单 - 占据整行 */}
+            <Card className="bg-white border-2 border-purple-300 col-span-2">
+              <CardContent className="p-1">
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-1 text-xs font-medium text-gray-500">
+                    <Database className="w-2.5 h-2.5 text-purple-500 flex-shrink-0" />
+                    <span>在手订单</span>
+                  </div>
+                  <div className="flex items-baseline gap-0.5">
+                    <span className="text-3xl font-bold text-purple-600 leading-tight">15</span>
+                    <span className="text-sm text-gray-600">单</span>
+                    <span className="text-sm font-semibold text-gray-700 ml-1">1,200万元</span>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+          </div>
 
-        {/* 月度趋势分析 */}
-        <Card className="mt-3 border-2 border-blue-200 bg-gradient-to-br from-blue-50 to-cyan-50">
-          <CardContent className="p-4">
+          {/* 右侧：月度趋势分析 */}
+          <div className="flex-1 border-2 border-blue-200 bg-gradient-to-br from-blue-50 to-cyan-50 rounded-xl p-4">
             {/* 标题和筛选器 */}
-            <div className="flex items-center justify-between mb-4">
+            <div className="flex items-center justify-between mb-3">
               <div className="flex items-center gap-2">
                 <BarChart3 className="w-5 h-5 text-blue-600" />
                 <span className="text-base font-bold text-gray-900">月度趋势分析</span>
               </div>
-              <div className="flex items-center gap-3">
+              <div className="flex items-center gap-2">
                 <span className="text-sm font-medium text-gray-600">地区筛选：</span>
                 <select
                   value={trendRegion}
                   onChange={(e) => setTrendRegion(e.target.value)}
-                  className="px-3 py-1.5 text-sm border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white"
+                  className="px-2 py-1 text-sm border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white"
                 >
                   <option value="all">全部地区</option>
                   <option value="一区">一区</option>
@@ -673,8 +677,8 @@ export default function SalesDashboard() {
             </div>
 
             {/* 趋势图表 */}
-            <div className="bg-white rounded-xl p-4 shadow-sm border border-gray-100">
-              <div style={{ height: '320px' }}>
+            <div className="bg-white rounded-xl p-3 shadow-sm border border-gray-100">
+              <div style={{ height: '280px' }}>
                 <ResponsiveContainer width="100%" height="100%">
                   <AreaChart data={monthlyTrendData[trendRegion as keyof typeof monthlyTrendData] || monthlyTrendData.all}>
                     <defs>
@@ -696,12 +700,12 @@ export default function SalesDashboard() {
                       dataKey="month"
                       axisLine={false}
                       tickLine={false}
-                      tick={{ fill: '#6B7280', fontSize: 12 }}
+                      tick={{ fill: '#6B7280', fontSize: 11 }}
                     />
                     <YAxis
                       axisLine={false}
                       tickLine={false}
-                      tick={{ fill: '#6B7280', fontSize: 12 }}
+                      tick={{ fill: '#6B7280', fontSize: 11 }}
                       tickFormatter={(value) => `${value}万`}
                     />
                     <Tooltip
@@ -716,7 +720,7 @@ export default function SalesDashboard() {
                     />
                     <Legend
                       verticalAlign="top"
-                      height={36}
+                      height={30}
                       iconType="circle"
                       formatter={(value) => {
                         const colorMap: { [key: string]: string } = {
@@ -759,8 +763,8 @@ export default function SalesDashboard() {
                 </ResponsiveContainer>
               </div>
             </div>
-          </CardContent>
-        </Card>
+          </div>
+        </div>
 
         {/* 区域达成情况 */}
         <div className="mt-3 grid grid-cols-1 lg:grid-cols-3 gap-3">
