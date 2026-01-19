@@ -366,13 +366,11 @@ export default function SalesDashboard() {
             <option value="quarter">季度</option>
             <option value="year">年度</option>
           </select>
-        </div>
 
-        {/* 二级筛选 */}
-        <div className="mt-3 flex items-center gap-4">
+          {/* 二级筛选 */}
           {timeRange === 'month' && (
             <>
-              <span className="text-sm font-medium text-gray-700">选择月份：</span>
+              <span className="text-sm font-medium text-gray-700 ml-2">选择月份：</span>
               <select
                 value={selectedMonth}
                 onChange={(e) => setSelectedMonth(e.target.value)}
@@ -386,7 +384,7 @@ export default function SalesDashboard() {
           )}
           {timeRange === 'quarter' && (
             <>
-              <span className="text-sm font-medium text-gray-700">选择季度：</span>
+              <span className="text-sm font-medium text-gray-700 ml-2">选择季度：</span>
               <select
                 value={selectedQuarter}
                 onChange={(e) => setSelectedQuarter(e.target.value)}
@@ -400,7 +398,7 @@ export default function SalesDashboard() {
             </>
           )}
           {timeRange === 'year' && (
-            <span className="text-sm text-gray-500">2026年度数据</span>
+            <span className="text-sm text-gray-500 ml-2">2026年度数据</span>
           )}
         </div>
       </div>
