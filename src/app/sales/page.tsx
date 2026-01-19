@@ -452,9 +452,9 @@ export default function SalesDashboard() {
             </h2>
           </div>
 
-          {/* 四列布局 */}
-          <div className="grid grid-cols-1 lg:grid-cols-4 gap-2">
-            {/* 左侧2列：KPI指标 */}
+          {/* 上半部分：四列布局 */}
+          <div className="grid grid-cols-1 lg:grid-cols-4 gap-2 mb-2">
+            {/* 左侧2列：KPI指标，每个占1行 */}
             <div className="lg:col-span-2 space-y-0">
               <div className="grid grid-cols-1 gap-1">
                 {/* 目标 */}
@@ -577,6 +577,181 @@ export default function SalesDashboard() {
                         />
                       </LineChart>
                     </ResponsiveContainer>
+                  </div>
+                </CardContent>
+              </Card>
+            </div>
+          </div>
+
+          {/* 下半部分：2列布局 */}
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-3">
+            {/* 区域达成情况 */}
+            <div className="lg:col-span-2">
+              <Card className="border border-green-200 bg-gradient-to-br from-green-50 to-emerald-50">
+                <CardContent className="p-3">
+                  {/* 标题 */}
+                  <div className="flex items-center justify-between mb-3">
+                    <div className="text-sm font-bold text-gray-900 flex items-center gap-2">
+                      <Activity className="w-4 h-4 text-green-600" />
+                      {viewLevel === 'city' && (
+                        <>
+                          <button
+                            onClick={handleBack}
+                            className="text-xs text-green-600 hover:text-green-700 flex items-center gap-1 mr-1"
+                          >
+                            ← 返回大区
+                          </button>
+                          <span className="text-gray-400 mx-1">/</span>
+                        </>
+                      )}
+                      <span className="text-sm font-bold text-gray-900">
+                        {viewLevel === 'city' ? `${selectedRegion}` : '区域达成情况'}
+                      </span>
+                      {viewLevel === 'region' && (
+                        <span className="text-sm font-bold text-gray-900 ml-1">({timeRange === 'month' ? `${selectedMonth}月` : timeRange === 'quarter' ? selectedQuarter : '2026年'})</span>
+                      )}
+                    </div>
+                  </div>
+
+                  {/* 大区维度表格 */}
+                  <div className="bg-white rounded-lg border-0 overflow-hidden">
+                    <table className="w-full">
+                      <thead>
+                        <tr className="border-b border-gray-100">
+                          <th className="px-3 py-2 text-left text-sm font-medium text-gray-500">
+                            {viewLevel === 'city' ? '城市' : '大区'}
+                            {viewLevel === 'region' && (
+                              <span className="ml-1 text-xs text-green-500 font-normal">（点击查看）</span>
+                            )}
+                          </th>
+                          <th className="px-2 py-2 text-left text-sm font-medium text-gray-500">责任人</th>
+                          <th className="px-2 py-2 text-right text-sm font-medium text-gray-500">目标</th>
+                          <th className="px-2 py-2 text-right text-sm font-medium text-gray-500">已完成</th>
+                          <th className="px-2 py-2 text-right text-sm font-medium text-gray-500">预测金额</th>
+                          <th className="px-2 py-2 text-right text-sm font-medium text-gray-500">缺口</th>
+                          <th className="px-2 py-2 text-center text-sm font-medium text-gray-500">预测达成率</th>
+                          <th className="px-1 py-2"></th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {currentData.map((item: any, index: number) => (
+                          <tr
+                            key={index}
+                            onClick={() => viewLevel === 'region' ? handleRegionClick(item.name) : undefined}
+                            className={`group border-b border-gray-50 last:border-0 ${viewLevel === 'region' ? 'cursor-pointer hover:bg-green-50 hover:border-l-4 hover:border-l-green-500' : ''}`}
+                          >
+                            <td className="px-3 py-2.5 text-sm font-medium text-gray-900 group-hover:text-green-600 transition-colors">
+                              <div className="flex items-center gap-2">
+                                {viewLevel === 'region' && (
+                                  <ChevronRight className="w-4 h-4 text-gray-400 group-hover:text-green-500 group-hover:translate-x-0.5 transition-all" />
+                                )}
+                                {item.name}
+                              </div>
+                            </td>
+                            <td className="px-2 py-2.5 text-sm text-gray-500">{item.owner}</td>
+                            <td className="px-2 py-2.5 text-sm text-right text-gray-600">{item.target.toLocaleString()}</td>
+                            <td className="px-2 py-2.5 text-sm text-right text-gray-600">{item.completed.toLocaleString()}</td>
+                            <td className="px-2 py-2.5 text-sm text-right text-gray-600">{item.predicted.toLocaleString()}</td>
+                            <td className={`px-2 py-2.5 text-sm text-right font-semibold ${item.gap > 0 ? 'text-red-500' : item.gap === 0 ? 'text-gray-600' : 'text-green-500'}`}>
+                              {item.gap > 0 ? `${item.gap}` : item.gap === 0 ? '0' : `+${Math.abs(item.gap)}`}
+                            </td>
+                            <td className="px-2 py-2.5 text-center">
+                              <div className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-gray-50 border border-gray-100">
+                                <span className={`text-sm font-bold ${
+                                  item.rate >= 100 ? 'text-green-600' : item.rate >= 80 ? 'text-yellow-600' : 'text-red-600'
+                                }`}>
+                                  {item.rate.toFixed(1)}%
+                                </span>
+                                <div className="w-8 h-1.5 rounded-full bg-gray-200 overflow-hidden">
+                                  <div
+                                    className={`h-full rounded-full transition-all ${
+                                      item.rate >= 100 ? 'bg-green-500' : item.rate >= 80 ? 'bg-yellow-500' : 'bg-red-500'
+                                    }`}
+                                    style={{ width: `${Math.min(item.rate, 100)}%` }}
+                                  />
+                                </div>
+                              </div>
+                            </td>
+                            <td className="px-1 py-2.5">
+                              {viewLevel === 'region' && (
+                                <ChevronRight className="w-4 h-4 text-gray-300 group-hover:text-green-500 transition-colors" />
+                              )}
+                            </td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
+                </CardContent>
+              </Card>
+            </div>
+
+            {/* 下钻分析 */}
+            <div className="lg:col-span-1">
+              <Card className="border border-green-200 bg-gradient-to-br from-green-50 to-emerald-50 h-full">
+                <CardContent className="p-3">
+                  <div className="text-sm font-bold text-gray-900 flex items-center gap-2 mb-3">
+                    <Activity className="w-4 h-4 text-green-600" />
+                    下钻分析
+                  </div>
+                  <div className="grid grid-cols-1 gap-2">
+                    <button
+                      onClick={() => setActiveTab('salesmen')}
+                      className="group p-2.5 bg-white rounded-xl border border-gray-200 hover:border-green-400 hover:shadow-md transition-all text-left"
+                    >
+                      <div className="flex items-center gap-2 mb-1.5">
+                        <div className="w-7 h-7 bg-green-100 rounded-lg flex items-center justify-center flex-shrink-0">
+                          <Activity className="w-3.5 h-3.5 text-green-600" />
+                        </div>
+                        <span className="text-sm font-semibold text-gray-700">按业务员</span>
+                      </div>
+                      <div className="flex items-baseline gap-1">
+                        <span className="text-lg font-bold text-green-600">12</span>
+                        <span className="text-sm text-gray-500">业务员</span>
+                      </div>
+                      <div className="mt-1.5 inline-flex items-center gap-1 text-sm bg-red-100 text-red-700 px-2 py-0.5 rounded-full font-medium">
+                        <AlertTriangle className="w-2.5 h-2.5" />
+                        8人未达标
+                      </div>
+                    </button>
+                    <button
+                      onClick={() => setActiveTab('distributors')}
+                      className="group p-2.5 bg-white rounded-xl border border-gray-200 hover:border-green-400 hover:shadow-md transition-all text-left"
+                    >
+                      <div className="flex items-center gap-2 mb-1.5">
+                        <div className="w-7 h-7 bg-green-100 rounded-lg flex items-center justify-center flex-shrink-0">
+                          <Target className="w-3.5 h-3.5 text-green-600" />
+                        </div>
+                        <span className="text-sm font-semibold text-gray-700">按经销商</span>
+                      </div>
+                      <div className="flex items-baseline gap-1">
+                        <span className="text-lg font-bold text-green-600">10</span>
+                        <span className="text-sm text-gray-500">经销商</span>
+                      </div>
+                      <div className="mt-1.5 inline-flex items-center gap-1 text-sm bg-red-100 text-red-700 px-2 py-0.5 rounded-full font-medium">
+                        <AlertTriangle className="w-2.5 h-2.5" />
+                        10家未达标
+                      </div>
+                    </button>
+                    <button
+                      onClick={() => setActiveTab('projects')}
+                      className="group p-2.5 bg-white rounded-xl border border-gray-200 hover:border-orange-400 hover:shadow-md transition-all text-left"
+                    >
+                      <div className="flex items-center gap-2 mb-1.5">
+                        <div className="w-7 h-7 bg-orange-100 rounded-lg flex items-center justify-center flex-shrink-0">
+                          <AlertTriangle className="w-3.5 h-3.5 text-orange-600" />
+                        </div>
+                        <span className="text-sm font-semibold text-gray-700">按项目</span>
+                      </div>
+                      <div className="flex items-baseline gap-1">
+                        <span className="text-lg font-bold text-orange-600">12</span>
+                        <span className="text-sm text-gray-500">高风险项目</span>
+                      </div>
+                      <div className="mt-1.5 inline-flex items-center gap-1 text-sm bg-orange-100 text-orange-700 px-2 py-0.5 rounded-full font-medium">
+                        <Activity className="w-2.5 h-2.5" />
+                        需优先跟进
+                      </div>
+                    </button>
                   </div>
                 </CardContent>
               </Card>
