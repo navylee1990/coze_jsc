@@ -1,12 +1,13 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { ArrowUp, ArrowDown, TrendingUp, AlertTriangle, Activity, Target, Clock, Database, ChevronRight } from 'lucide-react';
+import { ArrowUp, ArrowDown, TrendingUp, AlertTriangle, Activity, Target, Clock, Database, ChevronRight, BarChart3 } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Progress } from '@/components/ui/progress';
 import { AIInsight } from '@/components/ai-insight';
 import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs';
 import Link from 'next/link';
+import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, AreaChart, Area } from 'recharts';
 
 // 页面标题
 const PAGE_TITLE = 'AO经营看板';
@@ -241,6 +242,122 @@ const projectKPI = {
   highRiskProjects: 12,   // 高风险项目数
 };
 
+// 月度趋势数据
+const monthlyTrendData = {
+  all: [
+    { month: '1月', target: 1428, completed: 677, predicted: 650.3 },
+    { month: '2月', target: 1350, completed: 720, predicted: 680 },
+    { month: '3月', target: 1480, completed: 850, predicted: 720 },
+    { month: '4月', target: 1520, completed: 890, predicted: 780 },
+    { month: '5月', target: 1460, completed: 820, predicted: 750 },
+    { month: '6月', target: 1500, completed: 880, predicted: 800 },
+    { month: '7月', target: 1450, completed: 860, predicted: 790 },
+    { month: '8月', target: 1490, completed: 840, predicted: 810 },
+    { month: '9月', target: 1470, completed: 870, predicted: 805 },
+    { month: '10月', target: 1510, completed: 900, predicted: 840 },
+    { month: '11月', target: 1480, completed: 880, predicted: 820 },
+    { month: '12月', target: 1460, completed: 850, predicted: 810 },
+  ],
+  '一区': [
+    { month: '1月', target: 320, completed: 65, predicted: 110 },
+    { month: '2月', target: 300, completed: 70, predicted: 115 },
+    { month: '3月', target: 330, completed: 85, predicted: 120 },
+    { month: '4月', target: 340, completed: 90, predicted: 125 },
+    { month: '5月', target: 320, completed: 82, predicted: 118 },
+    { month: '6月', target: 330, completed: 88, predicted: 122 },
+    { month: '7月', target: 325, completed: 86, predicted: 120 },
+    { month: '8月', target: 335, completed: 84, predicted: 124 },
+    { month: '9月', target: 328, completed: 87, predicted: 121 },
+    { month: '10月', target: 340, completed: 90, predicted: 126 },
+    { month: '11月', target: 330, completed: 88, predicted: 123 },
+    { month: '12月', target: 325, completed: 85, predicted: 121 },
+  ],
+  '二区': [
+    { month: '1月', target: 232, completed: 100, predicted: 100 },
+    { month: '2月', target: 220, completed: 110, predicted: 105 },
+    { month: '3月', target: 240, completed: 130, predicted: 115 },
+    { month: '4月', target: 245, completed: 140, predicted: 125 },
+    { month: '5月', target: 235, completed: 125, predicted: 118 },
+    { month: '6月', target: 240, completed: 135, predicted: 122 },
+    { month: '7月', target: 238, completed: 132, predicted: 120 },
+    { month: '8月', target: 242, completed: 128, predicted: 124 },
+    { month: '9月', target: 240, completed: 130, predicted: 123 },
+    { month: '10月', target: 248, completed: 135, predicted: 126 },
+    { month: '11月', target: 242, completed: 132, predicted: 124 },
+    { month: '12月', target: 238, completed: 128, predicted: 122 },
+  ],
+  '五区': [
+    { month: '1月', target: 260, completed: 120, predicted: 100.4 },
+    { month: '2月', target: 250, completed: 130, predicted: 110 },
+    { month: '3月', target: 270, completed: 150, predicted: 130 },
+    { month: '4月', target: 280, completed: 160, predicted: 140 },
+    { month: '5月', target: 265, completed: 145, predicted: 132 },
+    { month: '6月', target: 275, completed: 155, predicted: 138 },
+    { month: '7月', target: 270, completed: 152, predicted: 135 },
+    { month: '8月', target: 278, completed: 148, predicted: 140 },
+    { month: '9月', target: 272, completed: 150, predicted: 137 },
+    { month: '10月', target: 285, completed: 158, predicted: 144 },
+    { month: '11月', target: 278, completed: 155, predicted: 141 },
+    { month: '12月', target: 272, completed: 150, predicted: 138 },
+  ],
+  '华中': [
+    { month: '1月', target: 152, completed: 152, predicted: 150 },
+    { month: '2月', target: 145, completed: 155, predicted: 148 },
+    { month: '3月', target: 158, completed: 160, predicted: 155 },
+    { month: '4月', target: 162, completed: 165, predicted: 160 },
+    { month: '5月', target: 155, completed: 158, predicted: 155 },
+    { month: '6月', target: 160, completed: 162, predicted: 158 },
+    { month: '7月', target: 158, completed: 160, predicted: 156 },
+    { month: '8月', target: 162, completed: 158, predicted: 159 },
+    { month: '9月', target: 160, completed: 161, predicted: 157 },
+    { month: '10月', target: 165, completed: 163, predicted: 161 },
+    { month: '11月', target: 162, completed: 160, predicted: 158 },
+    { month: '12月', target: 158, completed: 155, predicted: 154 },
+  ],
+  '华北、西北': [
+    { month: '1月', target: 160, completed: 120, predicted: 69.1 },
+    { month: '2月', target: 155, completed: 128, predicted: 72 },
+    { month: '3月', target: 165, completed: 135, predicted: 78 },
+    { month: '4月', target: 170, completed: 140, predicted: 82 },
+    { month: '5月', target: 162, completed: 132, predicted: 76 },
+    { month: '6月', target: 168, completed: 138, predicted: 80 },
+    { month: '7月', target: 165, completed: 136, predicted: 78 },
+    { month: '8月', target: 170, completed: 134, predicted: 82 },
+    { month: '9月', target: 166, completed: 137, predicted: 80 },
+    { month: '10月', target: 172, completed: 142, predicted: 84 },
+    { month: '11月', target: 168, completed: 138, predicted: 81 },
+    { month: '12月', target: 164, completed: 135, predicted: 79 },
+  ],
+  '西南': [
+    { month: '1月', target: 128, completed: 20, predicted: 10.8 },
+    { month: '2月', target: 125, completed: 22, predicted: 12 },
+    { month: '3月', target: 135, completed: 25, predicted: 14 },
+    { month: '4月', target: 140, completed: 28, predicted: 16 },
+    { month: '5月', target: 130, completed: 24, predicted: 13 },
+    { month: '6月', target: 135, completed: 26, predicted: 15 },
+    { month: '7月', target: 132, completed: 25, predicted: 14 },
+    { month: '8月', target: 138, completed: 24, predicted: 16 },
+    { month: '9月', target: 134, completed: 25, predicted: 15 },
+    { month: '10月', target: 142, completed: 27, predicted: 17 },
+    { month: '11月', target: 136, completed: 26, predicted: 15 },
+    { month: '12月', target: 132, completed: 24, predicted: 14 },
+  ],
+  '华南': [
+    { month: '1月', target: 176, completed: 100, predicted: 110 },
+    { month: '2月', target: 170, completed: 105, predicted: 115 },
+    { month: '3月', target: 182, completed: 115, predicted: 125 },
+    { month: '4月', target: 188, completed: 120, predicted: 130 },
+    { month: '5月', target: 178, completed: 112, predicted: 122 },
+    { month: '6月', target: 185, completed: 118, predicted: 128 },
+    { month: '7月', target: 180, completed: 116, predicted: 126 },
+    { month: '8月', target: 187, completed: 114, predicted: 130 },
+    { month: '9月', target: 182, completed: 117, predicted: 128 },
+    { month: '10月', target: 192, completed: 122, predicted: 134 },
+    { month: '11月', target: 185, completed: 118, predicted: 130 },
+    { month: '12月', target: 178, completed: 114, predicted: 126 },
+  ],
+};
+
 // 临期/超期项目数据
 const urgentProjectsData = [
   { name: '某某连锁餐饮总部', amount: '120万', status: 'expired', days: -15 },
@@ -272,6 +389,7 @@ export default function SalesDashboard() {
   const [selectedRegion, setSelectedRegion] = useState<string>('');
   const [selectedMonth, setSelectedMonth] = useState('1');
   const [selectedQuarter, setSelectedQuarter] = useState('Q1');
+  const [trendRegion, setTrendRegion] = useState('all'); // 月度趋势地区筛选
 
   // 业务员排名分页状态
   const [salesmenCurrentPage, setSalesmenCurrentPage] = useState(1);
@@ -523,6 +641,124 @@ export default function SalesDashboard() {
             </CardContent>
           </Card>
         </div>
+
+        {/* 月度趋势分析 */}
+        <Card className="mt-3 border-2 border-blue-200 bg-gradient-to-br from-blue-50 to-cyan-50">
+          <CardContent className="p-4">
+            {/* 标题和筛选器 */}
+            <div className="flex items-center justify-between mb-4">
+              <div className="flex items-center gap-2">
+                <BarChart3 className="w-5 h-5 text-blue-600" />
+                <span className="text-base font-bold text-gray-900">月度趋势分析</span>
+              </div>
+              <div className="flex items-center gap-3">
+                <span className="text-sm font-medium text-gray-600">地区筛选：</span>
+                <select
+                  value={trendRegion}
+                  onChange={(e) => setTrendRegion(e.target.value)}
+                  className="px-3 py-1.5 text-sm border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white"
+                >
+                  <option value="all">全部地区</option>
+                  <option value="一区">一区</option>
+                  <option value="二区">二区</option>
+                  <option value="五区">五区</option>
+                  <option value="华中">华中</option>
+                  <option value="华北、西北">华北、西北</option>
+                  <option value="西南">西南</option>
+                  <option value="华南">华南</option>
+                </select>
+              </div>
+            </div>
+
+            {/* 趋势图表 */}
+            <div className="bg-white rounded-xl p-4 shadow-sm border border-gray-100">
+              <div style={{ height: '320px' }}>
+                <ResponsiveContainer width="100%" height="100%">
+                  <AreaChart data={monthlyTrendData[trendRegion as keyof typeof monthlyTrendData] || monthlyTrendData.all}>
+                    <defs>
+                      <linearGradient id="colorTarget" x1="0" y1="0" x2="0" y2="1">
+                        <stop offset="5%" stopColor="#3B82F6" stopOpacity={0.3}/>
+                        <stop offset="95%" stopColor="#3B82F6" stopOpacity={0}/>
+                      </linearGradient>
+                      <linearGradient id="colorCompleted" x1="0" y1="0" x2="0" y2="1">
+                        <stop offset="5%" stopColor="#10B981" stopOpacity={0.3}/>
+                        <stop offset="95%" stopColor="#10B981" stopOpacity={0}/>
+                      </linearGradient>
+                      <linearGradient id="colorPredicted" x1="0" y1="0" x2="0" y2="1">
+                        <stop offset="5%" stopColor="#F59E0B" stopOpacity={0.3}/>
+                        <stop offset="95%" stopColor="#F59E0B" stopOpacity={0}/>
+                      </linearGradient>
+                    </defs>
+                    <CartesianGrid strokeDasharray="3 3" stroke="#E5E7EB" vertical={false} />
+                    <XAxis
+                      dataKey="month"
+                      axisLine={false}
+                      tickLine={false}
+                      tick={{ fill: '#6B7280', fontSize: 12 }}
+                    />
+                    <YAxis
+                      axisLine={false}
+                      tickLine={false}
+                      tick={{ fill: '#6B7280', fontSize: 12 }}
+                      tickFormatter={(value) => `${value}万`}
+                    />
+                    <Tooltip
+                      contentStyle={{
+                        backgroundColor: 'white',
+                        border: '1px solid #E5E7EB',
+                        borderRadius: '8px',
+                        boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1)',
+                      }}
+                      formatter={(value: number) => [`${value}万`, '']}
+                      labelStyle={{ color: '#374151', fontWeight: 'bold' }}
+                    />
+                    <Legend
+                      verticalAlign="top"
+                      height={36}
+                      iconType="circle"
+                      formatter={(value) => {
+                        const colorMap: { [key: string]: string } = {
+                          '目标': '#3B82F6',
+                          '已完成': '#10B981',
+                          '未来预计': '#F59E0B',
+                        };
+                        return <span style={{ color: '#374151', fontSize: 13 }}>{value}</span>;
+                      }}
+                    />
+                    <Area
+                      type="monotone"
+                      dataKey="target"
+                      stroke="#3B82F6"
+                      strokeWidth={2}
+                      fillOpacity={1}
+                      fill="url(#colorTarget)"
+                      name="目标"
+                    />
+                    <Area
+                      type="monotone"
+                      dataKey="completed"
+                      stroke="#10B981"
+                      strokeWidth={2}
+                      fillOpacity={1}
+                      fill="url(#colorCompleted)"
+                      name="已完成"
+                    />
+                    <Area
+                      type="monotone"
+                      dataKey="predicted"
+                      stroke="#F59E0B"
+                      strokeWidth={2}
+                      strokeDasharray="5 5"
+                      fillOpacity={1}
+                      fill="url(#colorPredicted)"
+                      name="未来预计"
+                    />
+                  </AreaChart>
+                </ResponsiveContainer>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
 
         {/* 区域达成情况 */}
         <div className="mt-3 grid grid-cols-1 lg:grid-cols-3 gap-3">
