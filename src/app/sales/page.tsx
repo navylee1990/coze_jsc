@@ -454,9 +454,10 @@ export default function SalesDashboard() {
 
           {/* 上半部分：四列布局 */}
           <div className="grid grid-cols-1 lg:grid-cols-4 gap-2 mb-2">
-            {/* 左侧2列：KPI指标，每个占1行 */}
-            <div className="lg:col-span-2 space-y-0">
-              <div className="grid grid-cols-1 gap-1">
+            {/* 左侧2列：KPI指标，2行布局 */}
+            <div className="lg:col-span-2 space-y-1">
+              {/* 第一行：3个指标 */}
+              <div className="grid grid-cols-3 gap-1">
                 {/* 目标 */}
                 <Card className="bg-white border border-gray-200">
                   <CardContent className="p-0.5">
@@ -503,7 +504,10 @@ export default function SalesDashboard() {
                     </div>
                   </CardContent>
                 </Card>
+              </div>
 
+              {/* 第二行：2个指标 */}
+              <div className="grid grid-cols-2 gap-1">
                 {/* 在途资金 */}
                 <Card className="bg-white border border-gray-200">
                   <CardContent className="p-0.5">
