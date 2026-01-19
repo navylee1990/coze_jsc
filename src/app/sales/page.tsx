@@ -685,46 +685,48 @@ export default function SalesDashboard() {
                   </div>
                   <div>
                     <div className="text-sm font-bold text-gray-900">AI智能分析</div>
-                    <div className="text-xs text-gray-500">{timeRange === 'month' ? `${selectedMonth}月` : timeRange === 'quarter' ? selectedQuarter : '2026年'}洞察</div>
+                    <div className="text-xs text-gray-500">全年预测与建议</div>
                   </div>
                 </div>
                 <div className="space-y-2">
-                  {/* 风险预警 */}
-                  <div className="bg-white/70 backdrop-blur-sm rounded-md p-2 border border-red-200">
+                  {/* 全年预测 */}
+                  <div className="bg-white/70 backdrop-blur-sm rounded-md p-2 border border-blue-200">
                     <div className="flex items-center gap-1 mb-1">
-                      <AlertTriangle className="w-3 h-3 text-red-600" />
-                      <span className="text-xs font-semibold text-red-700">风险预警</span>
+                      <BarChart3 className="w-3 h-3 text-blue-600" />
+                      <span className="text-xs font-semibold text-blue-700">全年预测</span>
                     </div>
                     <p className="text-xs text-gray-600 leading-relaxed">
-                      <span className="font-medium text-red-600">{currentRangeData.gap.toLocaleString()}万</span>缺口，
-                      <span className="font-medium">西南区</span>仅{currentRangeData.gap > 0 ? '16%' : '100%'}，
-                      <span className="font-medium">成都、重庆</span>需关注
+                      基于前<span className="font-medium text-blue-600">12个月</span>历史数据，
+                      预测2026年达成<span className="font-medium text-blue-600">{kpiData.futurePredicted.toFixed(1)}万</span>，
+                      完成率<span className="font-medium text-blue-600">47.4%</span>，
+                      缺口<span className="font-medium text-red-600">{kpiData.taskGap.toFixed(1)}万</span>
                     </p>
                   </div>
 
-                  {/* 机会识别 */}
+                  {/* 趋势分析 */}
                   <div className="bg-white/70 backdrop-blur-sm rounded-md p-2 border border-green-200">
                     <div className="flex items-center gap-1 mb-1">
-                      <ArrowUp className="w-3 h-3 text-green-600" />
-                      <span className="text-xs font-semibold text-green-700">机会识别</span>
+                      <TrendingUp className="w-3 h-3 text-green-600" />
+                      <span className="text-xs font-semibold text-green-700">趋势分析</span>
                     </div>
                     <p className="text-xs text-gray-600 leading-relaxed">
-                      <span className="font-medium text-green-600">15单</span>在手订单
-                      <span className="font-medium text-green-600">1,200万</span>，
-                      <span className="font-medium">华中区</span>预测达成100%
+                      月均完成<span className="font-medium text-green-600">{(kpiData.futurePredicted/12).toFixed(1)}万</span>，
+                      环比<span className="font-medium text-green-600">↑5.2%</span>，
+                      <span className="font-medium">华中区</span>连续3月超额完成，
+                      <span className="font-medium">西南区</span>需追赶进度
                     </p>
                   </div>
 
                   {/* 行动建议 */}
-                  <div className="bg-white/70 backdrop-blur-sm rounded-md p-2 border border-blue-200">
+                  <div className="bg-white/70 backdrop-blur-sm rounded-md p-2 border border-orange-200">
                     <div className="flex items-center gap-1 mb-1">
-                      <Target className="w-3 h-3 text-blue-600" />
-                      <span className="text-xs font-semibold text-blue-700">行动建议</span>
+                      <Target className="w-3 h-3 text-orange-600" />
+                      <span className="text-xs font-semibold text-orange-700">行动建议</span>
                     </div>
                     <p className="text-xs text-gray-600 leading-relaxed">
-                      优先推进<span className="font-medium text-blue-600">高价值项目</span>，
-                      <span className="font-medium">西南区</span>增加拜访，
-                      目标达成率<span className="font-medium text-blue-600">80%</span>
+                      加速签约<span className="font-medium text-orange-600">15单在手订单</span>（1,200万），
+                      <span className="font-medium">西南区</span>本月需新增<span className="font-medium text-orange-600">8单</span>，
+                      建议跟进<span className="font-medium">高价值医疗项目</span>
                     </p>
                   </div>
                 </div>
