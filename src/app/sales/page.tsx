@@ -1146,9 +1146,9 @@ export default function SalesDashboard() {
           </div>
 
           {/* 右侧：月度趋势分析 */}
-          <div className="w-full lg:w-1/2 border-2 border-blue-200 bg-gradient-to-br from-blue-50 to-cyan-50 rounded-xl p-2 sm:p-3">
+          <div className="w-full lg:w-1/2 border-2 border-blue-200 bg-gradient-to-br from-blue-50 to-cyan-50 rounded-xl p-1.5 sm:p-2">
             {/* 标题和筛选器 */}
-            <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-1.5 sm:mb-2 gap-2">
+            <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-1 gap-1.5">
               <div className="flex items-center gap-2">
                 <BarChart3 className="w-5 h-5 text-blue-600" />
                 <span className="text-base font-bold text-gray-900">月度趋势分析</span>
@@ -1173,10 +1173,10 @@ export default function SalesDashboard() {
             </div>
 
             {/* 趋势图表 */}
-            <div className="bg-white rounded-xl p-1.5 sm:p-2 shadow-sm border border-gray-100">
-              <div style={{ height: '180px' }} className="sm:h-[240px]">
+            <div className="bg-white rounded-xl p-1 shadow-sm border border-gray-100">
+              <div style={{ height: '190px' }} className="sm:h-[240px]">
                 <ResponsiveContainer width="100%" height="100%">
-                  <AreaChart data={monthlyTrendData[trendRegion as keyof typeof monthlyTrendData] || monthlyTrendData.all} margin={{ top: 5, right: 5, left: 0, bottom: 5 }}>
+                  <AreaChart data={monthlyTrendData[trendRegion as keyof typeof monthlyTrendData] || monthlyTrendData.all} margin={{ top: 3, right: 3, left: 0, bottom: 2 }}>
                     <defs>
                       <linearGradient id="colorTarget" x1="0" y1="0" x2="0" y2="1">
                         <stop offset="5%" stopColor="#3B82F6" stopOpacity={0.3}/>
@@ -1197,7 +1197,7 @@ export default function SalesDashboard() {
                       axisLine={false}
                       tickLine={false}
                       tick={{ fill: '#6B7280', fontSize: 11 }}
-                      height={20}
+                      height={18}
                       padding={{ left: 0, right: 0 }}
                     />
                     <YAxis
@@ -1220,7 +1220,7 @@ export default function SalesDashboard() {
                     />
                     <Legend
                       verticalAlign="top"
-                      height={25}
+                      height={20}
                       iconType="circle"
                       formatter={(value) => {
                         const colorMap: { [key: string]: string } = {
@@ -1228,7 +1228,7 @@ export default function SalesDashboard() {
                           '已完成': '#10B981',
                           '预测完成': '#F59E0B',
                         };
-                        return <span style={{ color: '#374151', fontSize: 13 }}>{value}</span>;
+                        return <span style={{ color: '#374151', fontSize: 12 }}>{value}</span>;
                       }}
                     />
                     <Area
