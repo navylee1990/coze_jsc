@@ -1294,7 +1294,7 @@ export default function SalesDashboard() {
                     // 企业微信拉群逻辑 - 区域达成情况
                     alert('已启动企业微信拉群，将邀请区域负责人讨论达成缺口问题');
                   }}
-                  className="flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium text-white bg-blue-600 rounded-md hover:bg-blue-700 transition-colors"
+                  className="flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium text-white bg-green-500 rounded-md hover:bg-green-600 transition-colors"
                   title="企业微信拉群"
                 >
                   <svg className="w-4 h-4" viewBox="0 0 1024 1024" fill="currentColor">
@@ -1421,7 +1421,7 @@ export default function SalesDashboard() {
                       // 企业微信拉群逻辑 - 城市经理达成情况
                       alert('已启动企业微信拉群，将邀请城市经理讨论达成问题');
                     }}
-                    className="flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium text-white bg-blue-600 rounded-md hover:bg-blue-700 transition-colors"
+                    className="flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium text-white bg-green-500 rounded-md hover:bg-green-600 transition-colors"
                     title="企业微信拉群"
                   >
                     <svg className="w-4 h-4" viewBox="0 0 1024 1024" fill="currentColor">
