@@ -514,11 +514,108 @@ export default function SalesDashboard() {
   // 经销商达成率排名分页状态
   const [dealerCurrentPage, setDealerCurrentPage] = useState(1);
   const dealerPageSize = 8;
-  const dealerTotalPages = Math.ceil(dealerAchievementRanking.length / dealerPageSize);
-  const dealerCurrentData = dealerAchievementRanking.slice(
+  
+  // 经销商筛选状态
+  const [dealerRegionFilter, setDealerRegionFilter] = useState('all');
+  const [dealerScaleFilter, setDealerScaleFilter] = useState('all');
+  const [dealerTargetRangeFilter, setDealerTargetRangeFilter] = useState('all');
+  
+  // 经销商排序状态
+  const [dealerSortField, setDealerSortField] = useState<'rank' | 'name' | 'scale' | 'target' | 'completed' | 'rate' | 'ytd' | 'yearOnYear'>('rank');
+  const [dealerSortOrder, setDealerSortOrder] = useState<'asc' | 'desc'>('asc');
+  
+  // 应用筛选和排序
+  const getFilteredAndSortedDealers = () => {
+    let filtered = [...dealerAchievementRanking];
+    
+    // 区域筛选
+    if (dealerRegionFilter !== 'all') {
+      filtered = filtered.filter(dealer => dealer.region === dealerRegionFilter);
+    }
+    
+    // 规模筛选
+    if (dealerScaleFilter !== 'all') {
+      filtered = filtered.filter(dealer => dealer.scale === dealerScaleFilter);
+    }
+    
+    // 目标金额区间筛选
+    if (dealerTargetRangeFilter !== 'all') {
+      if (dealerTargetRangeFilter === 'below10000') {
+        filtered = filtered.filter(dealer => dealer.target < 10000);
+      } else if (dealerTargetRangeFilter === '10000to12000') {
+        filtered = filtered.filter(dealer => dealer.target >= 10000 && dealer.target <= 12000);
+      } else if (dealerTargetRangeFilter === '12000to14000') {
+        filtered = filtered.filter(dealer => dealer.target > 12000 && dealer.target <= 14000);
+      } else if (dealerTargetRangeFilter === 'above14000') {
+        filtered = filtered.filter(dealer => dealer.target > 14000);
+      }
+    }
+    
+    // 排序
+    filtered.sort((a, b) => {
+      let aVal: any, bVal: any;
+      
+      switch (dealerSortField) {
+        case 'scale':
+          const scaleOrder = ['50万以内', '50~100万', '100~150万', '150万以上'];
+          aVal = scaleOrder.indexOf(a.scale);
+          bVal = scaleOrder.indexOf(b.scale);
+          break;
+        case 'target':
+          aVal = a.target;
+          bVal = b.target;
+          break;
+        case 'completed':
+          aVal = a.completed;
+          bVal = b.completed;
+          break;
+        case 'rate':
+          aVal = a.rate;
+          bVal = b.rate;
+          break;
+        case 'ytd':
+          aVal = a.ytd;
+          bVal = b.ytd;
+          break;
+        case 'yearOnYear':
+          aVal = a.yearOnYear;
+          bVal = b.yearOnYear;
+          break;
+        case 'rank':
+        default:
+          aVal = a.rank;
+          bVal = b.rank;
+      }
+      
+      if (aVal === bVal) return 0;
+      const comparison = aVal < bVal ? -1 : 1;
+      return dealerSortOrder === 'asc' ? comparison : -comparison;
+    });
+    
+    return filtered;
+  };
+  
+  const filteredDealers = getFilteredAndSortedDealers();
+  const dealerTotalPages = Math.ceil(filteredDealers.length / dealerPageSize);
+  const dealerCurrentData = filteredDealers.slice(
     (dealerCurrentPage - 1) * dealerPageSize,
     dealerCurrentPage * dealerPageSize
   );
+  
+  // 重置页码当筛选或排序变化时
+  useEffect(() => {
+    setDealerCurrentPage(1);
+  }, [dealerRegionFilter, dealerScaleFilter, dealerTargetRangeFilter, dealerSortField, dealerSortOrder]);
+  
+  // 排序切换函数
+  const handleDealerSort = (field: 'rank' | 'name' | 'scale' | 'target' | 'completed' | 'rate' | 'ytd' | 'yearOnYear') => {
+    if (dealerSortField === field) {
+      setDealerSortOrder(dealerSortOrder === 'asc' ? 'desc' : 'asc');
+    } else {
+      setDealerSortField(field);
+      setDealerSortOrder('desc'); // 新列默认降序
+    }
+  };
 
   // 临期/超期项目分页状态
   const [urgentCurrentPage, setUrgentCurrentPage] = useState(1);
@@ -1364,19 +1461,128 @@ export default function SalesDashboard() {
                   </div>
                 </div>
 
+                {/* 筛选器 */}
+                <div className="flex flex-wrap items-center gap-2 mb-3 p-2 bg-gray-50 rounded-lg">
+                  <div className="flex items-center gap-1">
+                    <span className="text-xs font-medium text-gray-600">区域:</span>
+                    <select
+                      value={dealerRegionFilter}
+                      onChange={(e) => setDealerRegionFilter(e.target.value)}
+                      className="px-2 py-1 text-xs border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500 bg-white"
+                    >
+                      <option value="all">全部区域</option>
+                      <option value="一区">一区</option>
+                      <option value="二区">二区</option>
+                      <option value="五区">五区</option>
+                      <option value="华中">华中</option>
+                      <option value="华南">华南</option>
+                      <option value="西南">西南</option>
+                    </select>
+                  </div>
+                  <div className="flex items-center gap-1">
+                    <span className="text-xs font-medium text-gray-600">规模:</span>
+                    <select
+                      value={dealerScaleFilter}
+                      onChange={(e) => setDealerScaleFilter(e.target.value)}
+                      className="px-2 py-1 text-xs border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500 bg-white"
+                    >
+                      <option value="all">全部规模</option>
+                      <option value="50万以内">50万以内</option>
+                      <option value="50~100万">50~100万</option>
+                      <option value="100~150万">100~150万</option>
+                      <option value="150万以上">150万以上</option>
+                    </select>
+                  </div>
+                  <div className="flex items-center gap-1">
+                    <span className="text-xs font-medium text-gray-600">目标金额:</span>
+                    <select
+                      value={dealerTargetRangeFilter}
+                      onChange={(e) => setDealerTargetRangeFilter(e.target.value)}
+                      className="px-2 py-1 text-xs border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500 bg-white"
+                    >
+                      <option value="all">全部区间</option>
+                      <option value="below10000">1万以下</option>
+                      <option value="10000to12000">1万~1.2万</option>
+                      <option value="12000to14000">1.2万~1.4万</option>
+                      <option value="above14000">1.4万以上</option>
+                    </select>
+                  </div>
+                  <button
+                    onClick={() => {
+                      setDealerRegionFilter('all');
+                      setDealerScaleFilter('all');
+                      setDealerTargetRangeFilter('all');
+                      setDealerSortField('rank');
+                      setDealerSortOrder('asc');
+                    }}
+                    className="px-2 py-1 text-xs text-gray-600 bg-white border border-gray-300 rounded-md hover:bg-gray-50"
+                  >
+                    重置筛选
+                  </button>
+                </div>
+
                 <div className="bg-white rounded-lg border-0 overflow-hidden">
                   <table className="w-full" style={{ tableLayout: 'fixed' }}>
                     <thead>
                       <tr className="border-b border-gray-100">
-                        <th className="px-2 py-2 text-center text-sm font-medium text-gray-500" style={{ width: '50px' }}>排名</th>
+                        <th className="px-2 py-2 text-center text-sm font-medium text-gray-500 cursor-pointer hover:text-green-600 transition-colors" style={{ width: '50px' }} onClick={() => handleDealerSort('rank')}>
+                          <div className="flex items-center justify-center gap-1">
+                            排名
+                            {dealerSortField === 'rank' && (
+                              dealerSortOrder === 'asc' ? <ArrowUp className="w-3 h-3" /> : <ArrowDown className="w-3 h-3" />
+                            )}
+                          </div>
+                        </th>
                         <th className="px-3 py-2 text-left text-sm font-medium text-gray-500" style={{ width: '150px' }}>经销商名称</th>
                         <th className="px-2 py-2 text-left text-sm font-medium text-gray-500" style={{ width: '65px' }}>区域</th>
-                        <th className="px-2 py-2 text-center text-sm font-medium text-gray-500" style={{ width: '90px' }}>规模</th>
-                        <th className="px-2 py-2 text-right text-sm font-medium text-gray-500" style={{ width: '80px' }}>目标金额</th>
-                        <th className="px-2 py-2 text-right text-sm font-medium text-gray-500" style={{ width: '75px' }}>已达成</th>
-                        <th className="px-2 py-2 text-right text-sm font-medium text-gray-500" style={{ width: '80px' }}>YTD</th>
-                        <th className="px-2 py-2 text-center text-sm font-medium text-gray-500" style={{ width: '130px' }}>达成率</th>
-                        <th className="px-2 py-2 text-center text-sm font-medium text-gray-500" style={{ width: '80px' }}>达成率同比</th>
+                        <th className="px-2 py-2 text-center text-sm font-medium text-gray-500 cursor-pointer hover:text-green-600 transition-colors" style={{ width: '90px' }} onClick={() => handleDealerSort('scale')}>
+                          <div className="flex items-center justify-center gap-1">
+                            规模
+                            {dealerSortField === 'scale' && (
+                              dealerSortOrder === 'asc' ? <ArrowUp className="w-3 h-3" /> : <ArrowDown className="w-3 h-3" />
+                            )}
+                          </div>
+                        </th>
+                        <th className="px-2 py-2 text-right text-sm font-medium text-gray-500 cursor-pointer hover:text-green-600 transition-colors" style={{ width: '80px' }} onClick={() => handleDealerSort('target')}>
+                          <div className="flex items-center justify-end gap-1">
+                            目标金额
+                            {dealerSortField === 'target' && (
+                              dealerSortOrder === 'asc' ? <ArrowUp className="w-3 h-3" /> : <ArrowDown className="w-3 h-3" />
+                            )}
+                          </div>
+                        </th>
+                        <th className="px-2 py-2 text-right text-sm font-medium text-gray-500 cursor-pointer hover:text-green-600 transition-colors" style={{ width: '75px' }} onClick={() => handleDealerSort('completed')}>
+                          <div className="flex items-center justify-end gap-1">
+                            已达成
+                            {dealerSortField === 'completed' && (
+                              dealerSortOrder === 'asc' ? <ArrowUp className="w-3 h-3" /> : <ArrowDown className="w-3 h-3" />
+                            )}
+                          </div>
+                        </th>
+                        <th className="px-2 py-2 text-right text-sm font-medium text-gray-500 cursor-pointer hover:text-green-600 transition-colors" style={{ width: '80px' }} onClick={() => handleDealerSort('ytd')}>
+                          <div className="flex items-center justify-end gap-1">
+                            YTD
+                            {dealerSortField === 'ytd' && (
+                              dealerSortOrder === 'asc' ? <ArrowUp className="w-3 h-3" /> : <ArrowDown className="w-3 h-3" />
+                            )}
+                          </div>
+                        </th>
+                        <th className="px-2 py-2 text-center text-sm font-medium text-gray-500 cursor-pointer hover:text-green-600 transition-colors" style={{ width: '130px' }} onClick={() => handleDealerSort('rate')}>
+                          <div className="flex items-center justify-center gap-1">
+                            达成率
+                            {dealerSortField === 'rate' && (
+                              dealerSortOrder === 'asc' ? <ArrowUp className="w-3 h-3" /> : <ArrowDown className="w-3 h-3" />
+                            )}
+                          </div>
+                        </th>
+                        <th className="px-2 py-2 text-center text-sm font-medium text-gray-500 cursor-pointer hover:text-green-600 transition-colors" style={{ width: '80px' }} onClick={() => handleDealerSort('yearOnYear')}>
+                          <div className="flex items-center justify-center gap-1">
+                            达成率同比
+                            {dealerSortField === 'yearOnYear' && (
+                              dealerSortOrder === 'asc' ? <ArrowUp className="w-3 h-3" /> : <ArrowDown className="w-3 h-3" />
+                            )}
+                          </div>
+                        </th>
                         <th className="px-2 py-2 text-center text-sm font-medium text-gray-500" style={{ width: '70px' }}>状态</th>
                       </tr>
                     </thead>
@@ -1458,7 +1664,7 @@ export default function SalesDashboard() {
                 {/* 分页 */}
                 <div className="flex items-center justify-between mt-3 px-1">
                   <div className="text-xs text-gray-500">
-                    共 <span className="font-semibold text-gray-700">{dealerAchievementRanking.length}</span> 条记录，
+                    共 <span className="font-semibold text-gray-700">{filteredDealers.length}</span> 条记录，
                     第 <span className="font-semibold text-gray-700">{dealerCurrentPage}</span> / {dealerTotalPages} 页
                   </div>
                   <div className="flex items-center gap-1">
@@ -1968,7 +2174,7 @@ export default function SalesDashboard() {
                 {/* 分页 */}
                 <div className="flex items-center justify-between mt-3 px-1">
                   <div className="text-xs text-gray-500">
-                    共 <span className="font-semibold text-gray-700">{dealerAchievementRanking.length}</span> 条记录，
+                    共 <span className="font-semibold text-gray-700">{filteredDealers.length}</span> 条记录，
                     第 <span className="font-semibold text-gray-700">{dealerCurrentPage}</span> / {dealerTotalPages} 页
                   </div>
                   <div className="flex items-center gap-1">
