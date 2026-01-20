@@ -768,40 +768,11 @@ export default function SalesDashboard() {
 
         <TabsContent value="overview">
           {/* 目标达成标题 */}
-          <div className="mb-4">
-            <h2 className="text-lg font-semibold text-gray-900 flex items-center gap-2 mb-2">
+          <div className="mb-4 flex items-center justify-between">
+            <h2 className="text-lg font-semibold text-gray-900 flex items-center gap-2">
               <Activity className="w-5 h-5" />
               目标达成
             </h2>
-            {/* 智能操作栏 */}
-            <div className="flex flex-wrap items-center gap-2">
-              {/* AI分析建议 */}
-              <button className="inline-flex items-center gap-1.5 px-2.5 py-1 text-xs font-medium bg-gradient-to-r from-purple-500 to-indigo-600 text-white rounded-md hover:from-purple-600 hover:to-indigo-700 transition-all shadow-sm">
-                <Activity className="w-3.5 h-3.5" />
-                <span>AI分析建议</span>
-              </button>
-              {/* 企业微信群 */}
-              <button className="inline-flex items-center gap-1.5 px-2.5 py-1 text-xs font-medium bg-gradient-to-r from-green-500 to-emerald-600 text-white rounded-md hover:from-green-600 hover:to-emerald-700 transition-all shadow-sm">
-                <Database className="w-3.5 h-3.5" />
-                <span>企业微信群</span>
-                <span className="bg-white/20 px-1 py-0.5 rounded text-[10px]">3</span>
-              </button>
-              {/* 一键导出 */}
-              <button className="inline-flex items-center gap-1.5 px-2.5 py-1 text-xs font-medium bg-gradient-to-r from-blue-500 to-cyan-600 text-white rounded-md hover:from-blue-600 hover:to-cyan-700 transition-all shadow-sm">
-                <BarChart3 className="w-3.5 h-3.5" />
-                <span>一键导出</span>
-              </button>
-              {/* 快速分享 */}
-              <button className="inline-flex items-center gap-1.5 px-2.5 py-1 text-xs font-medium bg-gray-100 text-gray-700 rounded-md hover:bg-gray-200 transition-all">
-                <ChevronRight className="w-3.5 h-3.5" />
-                <span>快速分享</span>
-              </button>
-              {/* 风险提示 */}
-              <div className="flex items-center gap-1.5 ml-auto pl-2 border-l border-gray-200">
-                <AlertTriangle className="w-3.5 h-3.5 text-orange-500" />
-                <span className="text-xs font-medium text-orange-600">2个高风险区域</span>
-              </div>
-            </div>
           </div>
         {/* KPI指标 + 月度趋势分析 左右布局 */}
         <div className="flex flex-col lg:flex-row gap-3">
@@ -832,11 +803,10 @@ export default function SalesDashboard() {
               </div>
               <div className="grid grid-cols-2 sm:grid-cols-4">
                 {/* 目标 */}
-                <div className="border-r border-b sm:border-b-0 border-gray-200 px-2 py-2 cursor-pointer hover:bg-blue-50 transition-colors group relative">
+                <div className="border-r border-b sm:border-b-0 border-gray-200 px-2 py-2">
                   <div className="flex items-center justify-between mb-1">
                     <div className="flex items-center gap-1 text-xs font-medium text-gray-500">
                       <span>{timeRangeLabel}目标</span>
-                      <ChevronRight className="w-3 h-3 opacity-0 group-hover:opacity-100 transition-opacity text-blue-500" />
                     </div>
                   </div>
                   <div className="flex items-baseline gap-1">
@@ -923,11 +893,10 @@ export default function SalesDashboard() {
               </div>
               <div className="grid grid-cols-2 sm:grid-cols-4">
                 {/* 目标 */}
-                <div className="border-r border-b sm:border-b-0 border-gray-200 px-2 py-2 cursor-pointer hover:bg-blue-50 transition-colors group relative">
+                <div className="border-r border-b sm:border-b-0 border-gray-200 px-2 py-2">
                   <div className="flex items-center justify-between mb-1">
                     <div className="flex items-center gap-1 text-xs font-medium text-gray-500">
                       <span>{timeRangeLabel}目标</span>
-                      <ChevronRight className="w-3 h-3 opacity-0 group-hover:opacity-100 transition-opacity text-blue-500" />
                     </div>
                   </div>
                   <div className="flex items-baseline gap-1">
@@ -1014,11 +983,10 @@ export default function SalesDashboard() {
               </div>
               <div className="grid grid-cols-2 sm:grid-cols-4">
                 {/* 目标 */}
-                <div className="border-r border-b sm:border-b-0 border-gray-200 px-2 py-2 cursor-pointer hover:bg-blue-50 transition-colors group relative">
+                <div className="border-r border-b sm:border-b-0 border-gray-200 px-2 py-2">
                   <div className="flex items-center justify-between mb-1">
                     <div className="flex items-center gap-1 text-xs font-medium text-gray-500">
                       <span>{timeRangeLabel}目标</span>
-                      <ChevronRight className="w-3 h-3 opacity-0 group-hover:opacity-100 transition-opacity text-blue-500" />
                     </div>
                   </div>
                   <div className="flex items-baseline gap-1">
@@ -1076,33 +1044,6 @@ export default function SalesDashboard() {
                       <span className="font-bold">{renewalTimeRangeData[timeRange as keyof typeof renewalTimeRangeData].gap > 0 ? '-' : '+'}4.3%</span>
                     </div>
                   )}
-                </div>
-              </div>
-            </div>
-
-            {/* 智能洞察卡片 */}
-            <div className="mt-2 bg-gradient-to-r from-purple-50 to-indigo-50 border border-purple-200 rounded-lg p-3">
-              <div className="flex items-start gap-2">
-                <div className="flex-shrink-0 mt-0.5">
-                  <div className="w-8 h-8 rounded-full bg-gradient-to-br from-purple-500 to-indigo-600 flex items-center justify-center">
-                    <Activity className="w-4 h-4 text-white" />
-                  </div>
-                </div>
-                <div className="flex-1 min-w-0">
-                  <div className="flex items-center justify-between mb-1.5">
-                    <h4 className="text-xs font-bold text-gray-800">AI智能洞察</h4>
-                    <span className="text-[10px] text-purple-600 bg-purple-100 px-1.5 py-0.5 rounded">实时</span>
-                  </div>
-                  <div className="space-y-1">
-                    <div className="flex items-start gap-1.5">
-                      <span className="text-red-500 font-bold mt-0.5">⚠️</span>
-                      <p className="text-[11px] text-gray-700 leading-tight">新增买断预测完成率仅<span className="font-bold text-red-600">47%</span>，重点关注<span className="font-bold">一区（93%）</span>和<span className="font-bold">西南（92%）</span>，建议增加2个大客户项目投入</p>
-                    </div>
-                    <div className="flex items-start gap-1.5">
-                      <span className="text-orange-500 font-bold mt-0.5">💡</span>
-                      <p className="text-[11px] text-gray-700 leading-tight">续租业务表现优秀，预测达成<span className="font-bold text-green-600">96%</span>，可适当调整资源到新增业务</p>
-                    </div>
-                  </div>
                 </div>
               </div>
             </div>
