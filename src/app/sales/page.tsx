@@ -786,7 +786,7 @@ export default function SalesDashboard() {
                   <span className="text-sm font-bold text-gray-800">新增买断</span>
                 </div>
               </div>
-              <div className="grid grid-cols-2 sm:grid-cols-5">
+              <div className="grid grid-cols-2 sm:grid-cols-4">
                 {/* 目标 */}
                 <div className="border-r border-b sm:border-b-0 border-gray-200 px-2 py-2">
                   <div className="flex items-center justify-between mb-1">
@@ -794,7 +794,10 @@ export default function SalesDashboard() {
                       <span>{timeRangeLabel}目标</span>
                     </div>
                   </div>
-                  <div className="text-2xl font-bold text-gray-900 leading-none">{currentRangeData.target.toLocaleString()}</div>
+                  <div className="flex items-baseline gap-1">
+                    <span className="text-2xl font-bold text-gray-900 leading-none">{currentRangeData.target.toLocaleString()}</span>
+                    <span className="text-xs text-gray-600">万元</span>
+                  </div>
                   <div className="text-xs text-blue-600 bg-blue-50 inline-block px-1.5 py-0.5 rounded mt-1">
                     {timeRange === 'month' ? `${selectedMonth}月` : timeRange === 'quarter' ? selectedQuarter : '2026'}
                   </div>
@@ -803,7 +806,10 @@ export default function SalesDashboard() {
                 {/* 已完成 */}
                 <div className="border-b sm:border-b-0 sm:border-r border-gray-200 px-2 py-2">
                   <div className="text-xs font-medium text-gray-500 mb-1">{timeRangeLabel}已完成</div>
-                  <div className="text-2xl font-bold text-gray-900 leading-none">{currentRangeData.completed.toLocaleString()}</div>
+                  <div className="flex items-baseline gap-1">
+                    <span className="text-2xl font-bold text-gray-900 leading-none">{currentRangeData.completed.toLocaleString()}</span>
+                    <span className="text-xs text-gray-600">万元</span>
+                  </div>
                   <div className="flex items-center gap-0.5 text-xs text-red-600 mt-1">
                     <ArrowDown className="w-3 h-3" />
                     <span>-8.3%</span>
@@ -811,9 +817,12 @@ export default function SalesDashboard() {
                 </div>
 
                 {/* 预测完成 */}
-                <div className="border-r border-gray-200 px-2 py-2 bg-gradient-to-b from-green-50/50 to-transparent">
+                <div className="border-b sm:border-b-0 sm:border-r border-gray-200 px-2 py-2 bg-gradient-to-b from-green-50/50 to-transparent">
                   <div className="text-xs font-medium text-gray-500 mb-1">预测完成</div>
-                  <div className="text-2xl font-bold text-green-600 leading-none">{currentRangeData.predicted.toLocaleString()}</div>
+                  <div className="flex items-baseline gap-1">
+                    <span className="text-2xl font-bold text-green-600 leading-none">{currentRangeData.predicted.toLocaleString()}</span>
+                    <span className="text-xs text-green-600">万元</span>
+                  </div>
                   <div className="flex items-center gap-0.5 text-xs text-green-600 mt-1">
                     <ArrowUp className="w-3 h-3" />
                     <span>+5.2%</span>
@@ -821,29 +830,19 @@ export default function SalesDashboard() {
                 </div>
 
                 {/* 任务缺口 */}
-                <div className="border-r border-gray-200 px-2 py-2 bg-gradient-to-b from-red-50/50 to-transparent">
+                <div className="px-2 py-2 bg-gradient-to-b from-red-50/50 to-transparent">
                   <div className="flex items-center gap-1 text-xs font-medium text-gray-500 mb-1">
                     <AlertTriangle className="w-3 h-3 text-red-500 flex-shrink-0" />
                     <span>任务缺口</span>
                   </div>
-                  <div className="text-2xl font-bold text-red-600 leading-none">{currentRangeData.gap.toLocaleString()}</div>
+                  <div className="flex items-baseline gap-1">
+                    <span className="text-2xl font-bold text-red-600 leading-none">{currentRangeData.gap.toLocaleString()}</span>
+                    <span className="text-xs text-red-600">万元</span>
+                  </div>
                   <div className="flex items-center gap-0.5 text-xs text-red-500 mt-1">
                     <ArrowDown className="w-3 h-3" />
                     <span>-54.5%</span>
                   </div>
-                </div>
-
-                {/* 在手订单 */}
-                <div className="px-2 py-2 bg-gradient-to-b from-purple-50/50 to-transparent">
-                  <div className="flex items-center gap-1 text-xs font-medium text-gray-500 mb-1">
-                    <Database className="w-3 h-3 text-purple-500 flex-shrink-0" />
-                    <span>在手订单</span>
-                  </div>
-                  <div className="flex items-baseline gap-1">
-                    <span className="text-2xl font-bold text-purple-600 leading-none">15</span>
-                    <span className="text-xs text-gray-600">单</span>
-                  </div>
-                  <div className="text-xs text-gray-700 font-semibold mt-1">1,200万</div>
                 </div>
               </div>
             </div>
@@ -856,7 +855,7 @@ export default function SalesDashboard() {
                   <span className="text-sm font-bold text-gray-800">新增租赁</span>
                 </div>
               </div>
-              <div className="grid grid-cols-2 sm:grid-cols-5">
+              <div className="grid grid-cols-2 sm:grid-cols-4">
                 {/* 目标 */}
                 <div className="border-r border-b sm:border-b-0 border-gray-200 px-2 py-2">
                   <div className="flex items-center justify-between mb-1">
@@ -864,7 +863,10 @@ export default function SalesDashboard() {
                       <span>{timeRangeLabel}目标</span>
                     </div>
                   </div>
-                  <div className="text-2xl font-bold text-gray-900 leading-none">{leaseTimeRangeData[timeRange as keyof typeof leaseTimeRangeData].target.toLocaleString()}</div>
+                  <div className="flex items-baseline gap-1">
+                    <span className="text-2xl font-bold text-gray-900 leading-none">{leaseTimeRangeData[timeRange as keyof typeof leaseTimeRangeData].target.toLocaleString()}</span>
+                    <span className="text-xs text-gray-600">万元</span>
+                  </div>
                   <div className="text-xs text-blue-600 bg-blue-50 inline-block px-1.5 py-0.5 rounded mt-1">
                     {timeRange === 'month' ? `${selectedMonth}月` : timeRange === 'quarter' ? selectedQuarter : '2026'}
                   </div>
@@ -873,7 +875,10 @@ export default function SalesDashboard() {
                 {/* 已完成 */}
                 <div className="border-b sm:border-b-0 sm:border-r border-gray-200 px-2 py-2">
                   <div className="text-xs font-medium text-gray-500 mb-1">{timeRangeLabel}已完成</div>
-                  <div className="text-2xl font-bold text-gray-900 leading-none">{leaseTimeRangeData[timeRange as keyof typeof leaseTimeRangeData].completed.toLocaleString()}</div>
+                  <div className="flex items-baseline gap-1">
+                    <span className="text-2xl font-bold text-gray-900 leading-none">{leaseTimeRangeData[timeRange as keyof typeof leaseTimeRangeData].completed.toLocaleString()}</span>
+                    <span className="text-xs text-gray-600">万元</span>
+                  </div>
                   <div className="flex items-center gap-0.5 text-xs text-green-600 mt-1">
                     <ArrowUp className="w-3 h-3" />
                     <span>+12.5%</span>
@@ -881,9 +886,12 @@ export default function SalesDashboard() {
                 </div>
 
                 {/* 预测完成 */}
-                <div className="border-r border-gray-200 px-2 py-2 bg-gradient-to-b from-green-50/50 to-transparent">
+                <div className="border-b sm:border-b-0 sm:border-r border-gray-200 px-2 py-2 bg-gradient-to-b from-green-50/50 to-transparent">
                   <div className="text-xs font-medium text-gray-500 mb-1">预测完成</div>
-                  <div className="text-2xl font-bold text-green-600 leading-none">{leaseTimeRangeData[timeRange as keyof typeof leaseTimeRangeData].predicted.toLocaleString()}</div>
+                  <div className="flex items-baseline gap-1">
+                    <span className="text-2xl font-bold text-green-600 leading-none">{leaseTimeRangeData[timeRange as keyof typeof leaseTimeRangeData].predicted.toLocaleString()}</span>
+                    <span className="text-xs text-green-600">万元</span>
+                  </div>
                   <div className="flex items-center gap-0.5 text-xs text-green-600 mt-1">
                     <ArrowUp className="w-3 h-3" />
                     <span>+8.2%</span>
@@ -891,29 +899,19 @@ export default function SalesDashboard() {
                 </div>
 
                 {/* 任务缺口 */}
-                <div className="border-r border-gray-200 px-2 py-2 bg-gradient-to-b from-red-50/50 to-transparent">
+                <div className="px-2 py-2 bg-gradient-to-b from-red-50/50 to-transparent">
                   <div className="flex items-center gap-1 text-xs font-medium text-gray-500 mb-1">
                     <AlertTriangle className="w-3 h-3 text-red-500 flex-shrink-0" />
                     <span>任务缺口</span>
                   </div>
-                  <div className="text-2xl font-bold text-red-600 leading-none">{leaseTimeRangeData[timeRange as keyof typeof leaseTimeRangeData].gap.toLocaleString()}</div>
+                  <div className="flex items-baseline gap-1">
+                    <span className="text-2xl font-bold text-red-600 leading-none">{leaseTimeRangeData[timeRange as keyof typeof leaseTimeRangeData].gap.toLocaleString()}</span>
+                    <span className="text-xs text-red-600">万元</span>
+                  </div>
                   <div className="flex items-center gap-0.5 text-xs text-orange-600 mt-1">
                     <ArrowDown className="w-3 h-3" />
                     <span>-7.6%</span>
                   </div>
-                </div>
-
-                {/* 在手订单 */}
-                <div className="px-2 py-2 bg-gradient-to-b from-purple-50/50 to-transparent">
-                  <div className="flex items-center gap-1 text-xs font-medium text-gray-500 mb-1">
-                    <Database className="w-3 h-3 text-purple-500 flex-shrink-0" />
-                    <span>在手订单</span>
-                  </div>
-                  <div className="flex items-baseline gap-1">
-                    <span className="text-2xl font-bold text-purple-600 leading-none">{leaseKPI.orders}</span>
-                    <span className="text-xs text-gray-600">单</span>
-                  </div>
-                  <div className="text-xs text-gray-700 font-semibold mt-1">{leaseKPI.ordersAmount}万</div>
                 </div>
               </div>
             </div>
@@ -926,7 +924,7 @@ export default function SalesDashboard() {
                   <span className="text-sm font-bold text-gray-800">续租</span>
                 </div>
               </div>
-              <div className="grid grid-cols-2 sm:grid-cols-5">
+              <div className="grid grid-cols-2 sm:grid-cols-4">
                 {/* 目标 */}
                 <div className="border-r border-b sm:border-b-0 border-gray-200 px-2 py-2">
                   <div className="flex items-center justify-between mb-1">
@@ -934,7 +932,10 @@ export default function SalesDashboard() {
                       <span>{timeRangeLabel}目标</span>
                     </div>
                   </div>
-                  <div className="text-2xl font-bold text-gray-900 leading-none">{renewalTimeRangeData[timeRange as keyof typeof renewalTimeRangeData].target.toLocaleString()}</div>
+                  <div className="flex items-baseline gap-1">
+                    <span className="text-2xl font-bold text-gray-900 leading-none">{renewalTimeRangeData[timeRange as keyof typeof renewalTimeRangeData].target.toLocaleString()}</span>
+                    <span className="text-xs text-gray-600">万元</span>
+                  </div>
                   <div className="text-xs text-blue-600 bg-blue-50 inline-block px-1.5 py-0.5 rounded mt-1">
                     {timeRange === 'month' ? `${selectedMonth}月` : timeRange === 'quarter' ? selectedQuarter : '2026'}
                   </div>
@@ -943,7 +944,10 @@ export default function SalesDashboard() {
                 {/* 已完成 */}
                 <div className="border-b sm:border-b-0 sm:border-r border-gray-200 px-2 py-2">
                   <div className="text-xs font-medium text-gray-500 mb-1">{timeRangeLabel}已完成</div>
-                  <div className="text-2xl font-bold text-gray-900 leading-none">{renewalTimeRangeData[timeRange as keyof typeof renewalTimeRangeData].completed.toLocaleString()}</div>
+                  <div className="flex items-baseline gap-1">
+                    <span className="text-2xl font-bold text-gray-900 leading-none">{renewalTimeRangeData[timeRange as keyof typeof renewalTimeRangeData].completed.toLocaleString()}</span>
+                    <span className="text-xs text-gray-600">万元</span>
+                  </div>
                   <div className="flex items-center gap-0.5 text-xs text-green-600 mt-1">
                     <ArrowUp className="w-3 h-3" />
                     <span>+15.2%</span>
@@ -951,9 +955,12 @@ export default function SalesDashboard() {
                 </div>
 
                 {/* 预测完成 */}
-                <div className="border-r border-gray-200 px-2 py-2 bg-gradient-to-b from-green-50/50 to-transparent">
+                <div className="border-b sm:border-b-0 sm:border-r border-gray-200 px-2 py-2 bg-gradient-to-b from-green-50/50 to-transparent">
                   <div className="text-xs font-medium text-gray-500 mb-1">预测完成</div>
-                  <div className="text-2xl font-bold text-green-600 leading-none">{renewalTimeRangeData[timeRange as keyof typeof renewalTimeRangeData].predicted.toLocaleString()}</div>
+                  <div className="flex items-baseline gap-1">
+                    <span className="text-2xl font-bold text-green-600 leading-none">{renewalTimeRangeData[timeRange as keyof typeof renewalTimeRangeData].predicted.toLocaleString()}</span>
+                    <span className="text-xs text-green-600">万元</span>
+                  </div>
                   <div className="flex items-center gap-0.5 text-xs text-green-600 mt-1">
                     <ArrowUp className="w-3 h-3" />
                     <span>+18.5%</span>
@@ -961,29 +968,19 @@ export default function SalesDashboard() {
                 </div>
 
                 {/* 任务缺口 */}
-                <div className="border-r border-gray-200 px-2 py-2 bg-gradient-to-b from-green-50/50 to-transparent">
+                <div className="px-2 py-2 bg-gradient-to-b from-green-50/50 to-transparent">
                   <div className="flex items-center gap-1 text-xs font-medium text-gray-500 mb-1">
                     <AlertTriangle className="w-3 h-3 text-green-500 flex-shrink-0" />
                     <span>任务缺口</span>
                   </div>
-                  <div className="text-2xl font-bold text-green-600 leading-none">{renewalTimeRangeData[timeRange as keyof typeof renewalTimeRangeData].gap.toLocaleString()}</div>
+                  <div className="flex items-baseline gap-1">
+                    <span className="text-2xl font-bold text-green-600 leading-none">{renewalTimeRangeData[timeRange as keyof typeof renewalTimeRangeData].gap.toLocaleString()}</span>
+                    <span className="text-xs text-green-600">万元</span>
+                  </div>
                   <div className="flex items-center gap-0.5 text-xs text-green-600 mt-1">
                     <ArrowDown className="w-3 h-3" />
                     <span>-4.3%</span>
                   </div>
-                </div>
-
-                {/* 在手订单 */}
-                <div className="px-2 py-2 bg-gradient-to-b from-purple-50/50 to-transparent">
-                  <div className="flex items-center gap-1 text-xs font-medium text-gray-500 mb-1">
-                    <Database className="w-3 h-3 text-purple-500 flex-shrink-0" />
-                    <span>在手订单</span>
-                  </div>
-                  <div className="flex items-baseline gap-1">
-                    <span className="text-2xl font-bold text-purple-600 leading-none">{renewalKPI.orders}</span>
-                    <span className="text-xs text-gray-600">单</span>
-                  </div>
-                  <div className="text-xs text-gray-700 font-semibold mt-1">{renewalKPI.ordersAmount}万</div>
                 </div>
               </div>
             </div>
