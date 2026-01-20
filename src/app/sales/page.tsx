@@ -778,58 +778,58 @@ export default function SalesDashboard() {
         <div className="flex flex-col lg:flex-row gap-3">
           {/* 左侧：KPI指标（买断+租赁+续租）- 同心圆环仪表盘风格 */}
           <div className="w-full lg:w-1/2 flex flex-col gap-3">
-            {/* 第一行：新增买断指标 - 圆环仪表盘 */}
-            <div className="bg-white border border-gray-200 rounded-lg p-3">
-              <div className="bg-green-50 px-2 py-1 rounded mb-3">
+            {/* 第一行：新增买断指标 - 紧凑圆环布局 */}
+            <div className="bg-white border border-gray-200 rounded-lg p-2">
+              <div className="bg-green-50 px-2 py-0.5 rounded mb-2">
                 <div className="flex items-center gap-1.5">
-                  <Target className="w-4 h-4 text-green-600" />
+                  <Target className="w-3.5 h-3.5 text-green-600" />
                   <span className="text-sm font-bold text-gray-800">新增买断</span>
                 </div>
               </div>
 
-              {/* 圆环仪表盘布局 */}
-              <div className="flex items-center justify-center gap-4 py-2">
+              {/* 紧凑圆环布局 - 横向排列 */}
+              <div className="flex items-center justify-center gap-2">
                 {/* 左侧小指标组 */}
-                <div className="flex gap-2">
+                <div className="flex gap-1.5">
                   {/* 目标 */}
                   <div className="flex flex-col items-center">
-                    <div className="w-16 h-16 rounded-full bg-gradient-to-br from-blue-50 to-blue-100 border-2 border-blue-300 flex flex-col items-center justify-center">
-                      <div className="text-xs text-blue-600 font-medium">目标</div>
-                      <div className="text-lg font-bold text-blue-700 leading-none mt-0.5">{(currentRangeData.target / 1000).toFixed(1)}k</div>
+                    <div className="w-12 h-12 rounded-full bg-gradient-to-br from-blue-50 to-blue-100 border-2 border-blue-300 flex flex-col items-center justify-center">
+                      <div className="text-[10px] text-blue-600 font-medium">目标</div>
+                      <div className="text-sm font-bold text-blue-700 leading-none">{(currentRangeData.target / 1000).toFixed(1)}k</div>
                     </div>
                   </div>
 
                   {/* 已完成 */}
                   <div className="flex flex-col items-center">
-                    <div className="w-16 h-16 rounded-full bg-gradient-to-br from-gray-50 to-gray-100 border-2 border-gray-300 flex flex-col items-center justify-center">
-                      <div className="text-xs text-gray-600 font-medium">已完成</div>
-                      <div className="text-lg font-bold text-gray-700 leading-none mt-0.5">{(currentRangeData.completed / 1000).toFixed(1)}k</div>
+                    <div className="w-12 h-12 rounded-full bg-gradient-to-br from-gray-50 to-gray-100 border-2 border-gray-300 flex flex-col items-center justify-center">
+                      <div className="text-[10px] text-gray-600 font-medium">已完成</div>
+                      <div className="text-sm font-bold text-gray-700 leading-none">{(currentRangeData.completed / 1000).toFixed(1)}k</div>
                     </div>
                   </div>
 
                   {/* 预测完成 */}
                   <div className="flex flex-col items-center">
-                    <div className="w-16 h-16 rounded-full bg-gradient-to-br from-green-50 to-green-100 border-2 border-green-300 flex flex-col items-center justify-center">
-                      <div className="text-xs text-green-600 font-medium">预测</div>
-                      <div className="text-lg font-bold text-green-700 leading-none mt-0.5">{(currentRangeData.predicted / 1000).toFixed(1)}k</div>
+                    <div className="w-12 h-12 rounded-full bg-gradient-to-br from-green-50 to-green-100 border-2 border-green-300 flex flex-col items-center justify-center">
+                      <div className="text-[10px] text-green-600 font-medium">预测</div>
+                      <div className="text-sm font-bold text-green-700 leading-none">{(currentRangeData.predicted / 1000).toFixed(1)}k</div>
                     </div>
                   </div>
                 </div>
 
-                {/* 中心：任务缺口 - 超大圆环突出 */}
-                <div className="relative">
+                {/* 中心：任务缺口 - 紧凑圆环 */}
+                <div className="relative mx-1">
                   {/* 外圈 */}
-                  <div className="absolute inset-0 rounded-full border-4 border-red-200"></div>
+                  <div className="absolute inset-0 rounded-full border-3 border-red-200"></div>
                   {/* 内圈 */}
-                  <div className="absolute inset-2 rounded-full border-4 border-red-400"></div>
+                  <div className="absolute inset-1 rounded-full border-3 border-red-400"></div>
                   {/* 中心圆 */}
-                  <div className="relative w-28 h-28 rounded-full bg-gradient-to-br from-red-500 to-red-600 flex flex-col items-center justify-center shadow-2xl">
-                    <div className="flex items-center gap-1 mb-1">
-                      <AlertTriangle className="w-4 h-4 text-white" />
-                      <span className="text-xs font-bold text-white uppercase tracking-wide">缺口</span>
+                  <div className="relative w-16 h-16 rounded-full bg-gradient-to-br from-red-500 to-red-600 flex flex-col items-center justify-center shadow-lg">
+                    <div className="flex items-center gap-0.5 mb-0.5">
+                      <AlertTriangle className="w-3 h-3 text-white" />
+                      <span className="text-[10px] font-bold text-white uppercase tracking-wide">缺口</span>
                     </div>
-                    <div className="text-3xl font-extrabold text-white leading-none">{(currentRangeData.gap / 100).toFixed(1)}k</div>
-                    <div className="text-xs text-red-100 font-medium mt-0.5">万元</div>
+                    <div className="text-xl font-extrabold text-white leading-none">{(currentRangeData.gap / 100).toFixed(1)}k</div>
+                    <div className="text-[10px] text-red-100 font-medium">万元</div>
                   </div>
                   {/* 动画光晕 */}
                   <div className="absolute inset-0 rounded-full bg-red-400 animate-ping opacity-20"></div>
@@ -837,17 +837,17 @@ export default function SalesDashboard() {
 
                 {/* 右侧：在手订单 */}
                 <div className="flex flex-col items-center">
-                  <div className="w-16 h-16 rounded-full bg-gradient-to-br from-purple-50 to-purple-100 border-2 border-purple-300 flex flex-col items-center justify-center">
-                    <div className="text-xs text-purple-600 font-medium">订单</div>
-                    <div className="text-lg font-bold text-purple-700 leading-none mt-0.5">15单</div>
+                  <div className="w-12 h-12 rounded-full bg-gradient-to-br from-purple-50 to-purple-100 border-2 border-purple-300 flex flex-col items-center justify-center">
+                    <div className="text-[10px] text-purple-600 font-medium">订单</div>
+                    <div className="text-sm font-bold text-purple-700 leading-none">15单</div>
                   </div>
-                  <div className="text-xs text-purple-700 font-bold mt-1">1,200万</div>
+                  <div className="text-[10px] text-purple-700 font-bold mt-0.5">1,200万</div>
                 </div>
               </div>
 
               {/* 底部趋势指示条 */}
-              <div className="mt-3 flex items-center gap-2">
-                <div className="flex-1 h-2 bg-gray-100 rounded-full overflow-hidden">
+              <div className="mt-2 flex items-center gap-2">
+                <div className="flex-1 h-1.5 bg-gray-100 rounded-full overflow-hidden">
                   <div
                     className="h-full bg-gradient-to-r from-red-500 to-red-600 rounded-full transition-all duration-500"
                     style={{ width: `${Math.min(100, (currentRangeData.completed / currentRangeData.target) * 100)}%` }}
@@ -860,58 +860,59 @@ export default function SalesDashboard() {
             </div>
 
 
-            {/* 第二行：新增租赁指标 - 圆环仪表盘 */}
-            <div className="bg-white border border-gray-200 rounded-lg p-3">
-              <div className="bg-green-50 px-2 py-1 rounded mb-3">
+
+            {/* 第二行：新增租赁指标 - 紧凑圆环布局 */}
+            <div className="bg-white border border-gray-200 rounded-lg p-2">
+              <div className="bg-green-50 px-2 py-0.5 rounded mb-2">
                 <div className="flex items-center gap-1.5">
-                  <Database className="w-4 h-4 text-green-600" />
+                  <Database className="w-3.5 h-3.5 text-green-600" />
                   <span className="text-sm font-bold text-gray-800">新增租赁</span>
                 </div>
               </div>
 
-              {/* 圆环仪表盘布局 */}
-              <div className="flex items-center justify-center gap-4 py-2">
+              {/* 紧凑圆环布局 - 横向排列 */}
+              <div className="flex items-center justify-center gap-2">
                 {/* 左侧小指标组 */}
-                <div className="flex gap-2">
+                <div className="flex gap-1.5">
                   {/* 目标 */}
                   <div className="flex flex-col items-center">
-                    <div className="w-16 h-16 rounded-full bg-gradient-to-br from-blue-50 to-blue-100 border-2 border-blue-300 flex flex-col items-center justify-center">
-                      <div className="text-xs text-blue-600 font-medium">目标</div>
-                      <div className="text-lg font-bold text-blue-700 leading-none mt-0.5">{(leaseTimeRangeData[timeRange as keyof typeof leaseTimeRangeData].target / 1000).toFixed(1)}k</div>
+                    <div className="w-12 h-12 rounded-full bg-gradient-to-br from-blue-50 to-blue-100 border-2 border-blue-300 flex flex-col items-center justify-center">
+                      <div className="text-[10px] text-blue-600 font-medium">目标</div>
+                      <div className="text-sm font-bold text-blue-700 leading-none">{(leaseTimeRangeData[timeRange as keyof typeof leaseTimeRangeData].target / 1000).toFixed(1)}k</div>
                     </div>
                   </div>
 
                   {/* 已完成 */}
                   <div className="flex flex-col items-center">
-                    <div className="w-16 h-16 rounded-full bg-gradient-to-br from-gray-50 to-gray-100 border-2 border-gray-300 flex flex-col items-center justify-center">
-                      <div className="text-xs text-gray-600 font-medium">已完成</div>
-                      <div className="text-lg font-bold text-gray-700 leading-none mt-0.5">{(leaseTimeRangeData[timeRange as keyof typeof leaseTimeRangeData].completed / 1000).toFixed(1)}k</div>
+                    <div className="w-12 h-12 rounded-full bg-gradient-to-br from-gray-50 to-gray-100 border-2 border-gray-300 flex flex-col items-center justify-center">
+                      <div className="text-[10px] text-gray-600 font-medium">已完成</div>
+                      <div className="text-sm font-bold text-gray-700 leading-none">{(leaseTimeRangeData[timeRange as keyof typeof leaseTimeRangeData].completed / 1000).toFixed(1)}k</div>
                     </div>
                   </div>
 
                   {/* 预测完成 */}
                   <div className="flex flex-col items-center">
-                    <div className="w-16 h-16 rounded-full bg-gradient-to-br from-green-50 to-green-100 border-2 border-green-300 flex flex-col items-center justify-center">
-                      <div className="text-xs text-green-600 font-medium">预测</div>
-                      <div className="text-lg font-bold text-green-700 leading-none mt-0.5">{(leaseTimeRangeData[timeRange as keyof typeof leaseTimeRangeData].predicted / 1000).toFixed(1)}k</div>
+                    <div className="w-12 h-12 rounded-full bg-gradient-to-br from-green-50 to-green-100 border-2 border-green-300 flex flex-col items-center justify-center">
+                      <div className="text-[10px] text-green-600 font-medium">预测</div>
+                      <div className="text-sm font-bold text-green-700 leading-none">{(leaseTimeRangeData[timeRange as keyof typeof leaseTimeRangeData].predicted / 1000).toFixed(1)}k</div>
                     </div>
                   </div>
                 </div>
 
-                {/* 中心：任务缺口 - 中风险用橙色 */}
-                <div className="relative">
+                {/* 中心：任务缺口 - 紧凑圆环 */}
+                <div className="relative mx-1">
                   {/* 外圈 */}
-                  <div className="absolute inset-0 rounded-full border-4 border-orange-200"></div>
+                  <div className="absolute inset-0 rounded-full border-3 border-orange-200"></div>
                   {/* 内圈 */}
-                  <div className="absolute inset-2 rounded-full border-4 border-orange-400"></div>
+                  <div className="absolute inset-1 rounded-full border-3 border-orange-400"></div>
                   {/* 中心圆 */}
-                  <div className="relative w-28 h-28 rounded-full bg-gradient-to-br from-orange-500 to-orange-600 flex flex-col items-center justify-center shadow-2xl">
-                    <div className="flex items-center gap-1 mb-1">
-                      <AlertTriangle className="w-4 h-4 text-white" />
-                      <span className="text-xs font-bold text-white uppercase tracking-wide">缺口</span>
+                  <div className="relative w-16 h-16 rounded-full bg-gradient-to-br from-orange-500 to-orange-600 flex flex-col items-center justify-center shadow-lg">
+                    <div className="flex items-center gap-0.5 mb-0.5">
+                      <AlertTriangle className="w-3 h-3 text-white" />
+                      <span className="text-[10px] font-bold text-white uppercase tracking-wide">缺口</span>
                     </div>
-                    <div className="text-3xl font-extrabold text-white leading-none">{(leaseTimeRangeData[timeRange as keyof typeof leaseTimeRangeData].gap / 100).toFixed(1)}k</div>
-                    <div className="text-xs text-orange-100 font-medium mt-0.5">万元</div>
+                    <div className="text-xl font-extrabold text-white leading-none">{(leaseTimeRangeData[timeRange as keyof typeof leaseTimeRangeData].gap / 100).toFixed(1)}k</div>
+                    <div className="text-[10px] text-orange-100 font-medium">万元</div>
                   </div>
                   {/* 动画光晕 */}
                   <div className="absolute inset-0 rounded-full bg-orange-400 animate-ping opacity-20"></div>
@@ -919,17 +920,17 @@ export default function SalesDashboard() {
 
                 {/* 右侧：在手订单 */}
                 <div className="flex flex-col items-center">
-                  <div className="w-16 h-16 rounded-full bg-gradient-to-br from-purple-50 to-purple-100 border-2 border-purple-300 flex flex-col items-center justify-center">
-                    <div className="text-xs text-purple-600 font-medium">订单</div>
-                    <div className="text-lg font-bold text-purple-700 leading-none mt-0.5">{leaseKPI.orders}单</div>
+                  <div className="w-12 h-12 rounded-full bg-gradient-to-br from-purple-50 to-purple-100 border-2 border-purple-300 flex flex-col items-center justify-center">
+                    <div className="text-[10px] text-purple-600 font-medium">订单</div>
+                    <div className="text-sm font-bold text-purple-700 leading-none">{leaseKPI.orders}单</div>
                   </div>
-                  <div className="text-xs text-purple-700 font-bold mt-1">{leaseKPI.ordersAmount}万</div>
+                  <div className="text-[10px] text-purple-700 font-bold mt-0.5">{leaseKPI.ordersAmount}万</div>
                 </div>
               </div>
 
               {/* 底部趋势指示条 */}
-              <div className="mt-3 flex items-center gap-2">
-                <div className="flex-1 h-2 bg-gray-100 rounded-full overflow-hidden">
+              <div className="mt-2 flex items-center gap-2">
+                <div className="flex-1 h-1.5 bg-gray-100 rounded-full overflow-hidden">
                   <div
                     className="h-full bg-gradient-to-r from-orange-500 to-orange-600 rounded-full transition-all duration-500"
                     style={{ width: `${Math.min(100, (leaseTimeRangeData[timeRange as keyof typeof leaseTimeRangeData].completed / leaseTimeRangeData[timeRange as keyof typeof leaseTimeRangeData].target) * 100)}%` }}
@@ -943,58 +944,59 @@ export default function SalesDashboard() {
 
 
 
-            {/* 第三行：续租指标 - 圆环仪表盘 */}
-            <div className="bg-white border border-gray-200 rounded-lg p-3">
-              <div className="bg-green-50 px-2 py-1 rounded mb-3">
+
+            {/* 第三行：续租指标 - 紧凑圆环布局 */}
+            <div className="bg-white border border-gray-200 rounded-lg p-2">
+              <div className="bg-green-50 px-2 py-0.5 rounded mb-2">
                 <div className="flex items-center gap-1.5">
-                  <Clock className="w-4 h-4 text-green-600" />
+                  <Clock className="w-3.5 h-3.5 text-green-600" />
                   <span className="text-sm font-bold text-gray-800">续租</span>
                 </div>
               </div>
 
-              {/* 圆环仪表盘布局 */}
-              <div className="flex items-center justify-center gap-4 py-2">
+              {/* 紧凑圆环布局 - 横向排列 */}
+              <div className="flex items-center justify-center gap-2">
                 {/* 左侧小指标组 */}
-                <div className="flex gap-2">
+                <div className="flex gap-1.5">
                   {/* 目标 */}
                   <div className="flex flex-col items-center">
-                    <div className="w-16 h-16 rounded-full bg-gradient-to-br from-blue-50 to-blue-100 border-2 border-blue-300 flex flex-col items-center justify-center">
-                      <div className="text-xs text-blue-600 font-medium">目标</div>
-                      <div className="text-lg font-bold text-blue-700 leading-none mt-0.5">{(renewalTimeRangeData[timeRange as keyof typeof renewalTimeRangeData].target / 1000).toFixed(1)}k</div>
+                    <div className="w-12 h-12 rounded-full bg-gradient-to-br from-blue-50 to-blue-100 border-2 border-blue-300 flex flex-col items-center justify-center">
+                      <div className="text-[10px] text-blue-600 font-medium">目标</div>
+                      <div className="text-sm font-bold text-blue-700 leading-none">{(renewalTimeRangeData[timeRange as keyof typeof renewalTimeRangeData].target / 1000).toFixed(1)}k</div>
                     </div>
                   </div>
 
                   {/* 已完成 */}
                   <div className="flex flex-col items-center">
-                    <div className="w-16 h-16 rounded-full bg-gradient-to-br from-gray-50 to-gray-100 border-2 border-gray-300 flex flex-col items-center justify-center">
-                      <div className="text-xs text-gray-600 font-medium">已完成</div>
-                      <div className="text-lg font-bold text-gray-700 leading-none mt-0.5">{(renewalTimeRangeData[timeRange as keyof typeof renewalTimeRangeData].completed / 1000).toFixed(1)}k</div>
+                    <div className="w-12 h-12 rounded-full bg-gradient-to-br from-gray-50 to-gray-100 border-2 border-gray-300 flex flex-col items-center justify-center">
+                      <div className="text-[10px] text-gray-600 font-medium">已完成</div>
+                      <div className="text-sm font-bold text-gray-700 leading-none">{(renewalTimeRangeData[timeRange as keyof typeof renewalTimeRangeData].completed / 1000).toFixed(1)}k</div>
                     </div>
                   </div>
 
                   {/* 预测完成 */}
                   <div className="flex flex-col items-center">
-                    <div className="w-16 h-16 rounded-full bg-gradient-to-br from-green-50 to-green-100 border-2 border-green-300 flex flex-col items-center justify-center">
-                      <div className="text-xs text-green-600 font-medium">预测</div>
-                      <div className="text-lg font-bold text-green-700 leading-none mt-0.5">{(renewalTimeRangeData[timeRange as keyof typeof renewalTimeRangeData].predicted / 1000).toFixed(1)}k</div>
+                    <div className="w-12 h-12 rounded-full bg-gradient-to-br from-green-50 to-green-100 border-2 border-green-300 flex flex-col items-center justify-center">
+                      <div className="text-[10px] text-green-600 font-medium">预测</div>
+                      <div className="text-sm font-bold text-green-700 leading-none">{(renewalTimeRangeData[timeRange as keyof typeof renewalTimeRangeData].predicted / 1000).toFixed(1)}k</div>
                     </div>
                   </div>
                 </div>
 
-                {/* 中心：任务缺口 - 低风险用绿色 */}
-                <div className="relative">
+                {/* 中心：任务缺口 - 紧凑圆环 */}
+                <div className="relative mx-1">
                   {/* 外圈 */}
-                  <div className="absolute inset-0 rounded-full border-4 border-green-200"></div>
+                  <div className="absolute inset-0 rounded-full border-3 border-green-200"></div>
                   {/* 内圈 */}
-                  <div className="absolute inset-2 rounded-full border-4 border-green-400"></div>
+                  <div className="absolute inset-1 rounded-full border-3 border-green-400"></div>
                   {/* 中心圆 */}
-                  <div className="relative w-28 h-28 rounded-full bg-gradient-to-br from-green-500 to-green-600 flex flex-col items-center justify-center shadow-2xl">
-                    <div className="flex items-center gap-1 mb-1">
-                      <AlertTriangle className="w-4 h-4 text-white" />
-                      <span className="text-xs font-bold text-white uppercase tracking-wide">缺口</span>
+                  <div className="relative w-16 h-16 rounded-full bg-gradient-to-br from-green-500 to-green-600 flex flex-col items-center justify-center shadow-lg">
+                    <div className="flex items-center gap-0.5 mb-0.5">
+                      <AlertTriangle className="w-3 h-3 text-white" />
+                      <span className="text-[10px] font-bold text-white uppercase tracking-wide">缺口</span>
                     </div>
-                    <div className="text-3xl font-extrabold text-white leading-none">{(renewalTimeRangeData[timeRange as keyof typeof renewalTimeRangeData].gap / 100).toFixed(1)}k</div>
-                    <div className="text-xs text-green-100 font-medium mt-0.5">万元</div>
+                    <div className="text-xl font-extrabold text-white leading-none">{(renewalTimeRangeData[timeRange as keyof typeof renewalTimeRangeData].gap / 100).toFixed(1)}k</div>
+                    <div className="text-[10px] text-green-100 font-medium">万元</div>
                   </div>
                   {/* 动画光晕 */}
                   <div className="absolute inset-0 rounded-full bg-green-400 animate-ping opacity-20"></div>
@@ -1002,17 +1004,17 @@ export default function SalesDashboard() {
 
                 {/* 右侧：在手订单 */}
                 <div className="flex flex-col items-center">
-                  <div className="w-16 h-16 rounded-full bg-gradient-to-br from-purple-50 to-purple-100 border-2 border-purple-300 flex flex-col items-center justify-center">
-                    <div className="text-xs text-purple-600 font-medium">订单</div>
-                    <div className="text-lg font-bold text-purple-700 leading-none mt-0.5">{renewalKPI.orders}单</div>
+                  <div className="w-12 h-12 rounded-full bg-gradient-to-br from-purple-50 to-purple-100 border-2 border-purple-300 flex flex-col items-center justify-center">
+                    <div className="text-[10px] text-purple-600 font-medium">订单</div>
+                    <div className="text-sm font-bold text-purple-700 leading-none">{renewalKPI.orders}单</div>
                   </div>
-                  <div className="text-xs text-purple-700 font-bold mt-1">{renewalKPI.ordersAmount}万</div>
+                  <div className="text-[10px] text-purple-700 font-bold mt-0.5">{renewalKPI.ordersAmount}万</div>
                 </div>
               </div>
 
               {/* 底部趋势指示条 */}
-              <div className="mt-3 flex items-center gap-2">
-                <div className="flex-1 h-2 bg-gray-100 rounded-full overflow-hidden">
+              <div className="mt-2 flex items-center gap-2">
+                <div className="flex-1 h-1.5 bg-gray-100 rounded-full overflow-hidden">
                   <div
                     className="h-full bg-gradient-to-r from-green-500 to-green-600 rounded-full transition-all duration-500"
                     style={{ width: `${Math.min(100, (renewalTimeRangeData[timeRange as keyof typeof renewalTimeRangeData].completed / renewalTimeRangeData[timeRange as keyof typeof renewalTimeRangeData].target) * 100)}%` }}
