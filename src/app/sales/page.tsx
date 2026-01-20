@@ -820,46 +820,16 @@ export default function SalesDashboard() {
                   </div>
                 </div>
 
-                {/* 任务缺口 - 圆形进度条 */}
-                <div className="border-r border-gray-200 px-2 py-2 bg-gradient-to-b from-red-50/50 to-transparent relative">
+                {/* 任务缺口 */}
+                <div className="border-r border-gray-200 px-2 py-2 bg-gradient-to-b from-red-50/50 to-transparent">
                   <div className="flex items-center gap-1 text-xs font-medium text-gray-500 mb-1">
                     <AlertTriangle className="w-3 h-3 text-red-500 flex-shrink-0" />
-                    <span>完成率</span>
+                    <span>任务缺口</span>
                   </div>
-                  <div className="flex items-center justify-center relative">
-                    {/* 圆形进度条 */}
-                    <svg className={`w-12 h-12 transform -rotate-90 ${currentRangeData.canComplete ? '' : 'animate-pulse'}`} viewBox="0 0 36 36">
-                      {/* 背景圆 */}
-                      <path
-                        d="M18 2.0845
-                           a 15.9155 15.9155 0 0 1 0 31.831
-                           a 15.9155 15.9155 0 0 1 0 -31.831"
-                        fill="none"
-                        stroke="#E5E7EB"
-                        strokeWidth="3"
-                      />
-                      {/* 进度圆 */}
-                      <path
-                        d="M18 2.0845
-                           a 15.9155 15.9155 0 0 1 0 31.831
-                           a 15.9155 15.9155 0 0 1 0 -31.831"
-                        fill="none"
-                        stroke={currentRangeData.canComplete ? '#10B981' : '#EF4444'}
-                        strokeWidth="3"
-                        strokeDasharray={`${(currentRangeData.predicted / currentRangeData.target) * 100}, 100`}
-                        strokeLinecap="round"
-                        className={currentRangeData.canComplete ? '' : 'animate-pulse'}
-                      />
-                    </svg>
-                    {/* 完成率文本 */}
-                    <div className="absolute inset-0 flex items-center justify-center">
-                      <span className={`text-xs font-bold ${currentRangeData.canComplete ? 'text-green-600' : 'text-red-600'}`}>
-                        {((currentRangeData.predicted / currentRangeData.target) * 100).toFixed(0)}%
-                      </span>
-                    </div>
-                  </div>
-                  <div className="text-center mt-1 text-xs text-gray-500">
-                    缺口<span className={`font-bold ml-0.5 ${currentRangeData.gap > 0 ? 'text-red-500' : 'text-green-500'}`}>{currentRangeData.gap > 0 ? currentRangeData.gap.toLocaleString() : '0'}</span>
+                  <div className="text-2xl font-bold text-red-600 leading-none">{currentRangeData.gap.toLocaleString()}</div>
+                  <div className="flex items-center gap-0.5 text-xs text-red-500 mt-1">
+                    <ArrowDown className="w-3 h-3" />
+                    <span>-54.5%</span>
                   </div>
                 </div>
 
@@ -920,46 +890,16 @@ export default function SalesDashboard() {
                   </div>
                 </div>
 
-                {/* 任务缺口 - 圆形进度条 */}
-                <div className="border-r border-gray-200 px-2 py-2 bg-gradient-to-b from-red-50/50 to-transparent relative">
+                {/* 任务缺口 */}
+                <div className="border-r border-gray-200 px-2 py-2 bg-gradient-to-b from-red-50/50 to-transparent">
                   <div className="flex items-center gap-1 text-xs font-medium text-gray-500 mb-1">
                     <AlertTriangle className="w-3 h-3 text-red-500 flex-shrink-0" />
-                    <span>完成率</span>
+                    <span>任务缺口</span>
                   </div>
-                  <div className="flex items-center justify-center relative">
-                    {/* 圆形进度条 */}
-                    <svg className={`w-12 h-12 transform -rotate-90 ${leaseTimeRangeData[timeRange as keyof typeof leaseTimeRangeData].canComplete ? '' : 'animate-pulse'}`} viewBox="0 0 36 36">
-                      {/* 背景圆 */}
-                      <path
-                        d="M18 2.0845
-                           a 15.9155 15.9155 0 0 1 0 31.831
-                           a 15.9155 15.9155 0 0 1 0 -31.831"
-                        fill="none"
-                        stroke="#E5E7EB"
-                        strokeWidth="3"
-                      />
-                      {/* 进度圆 */}
-                      <path
-                        d="M18 2.0845
-                           a 15.9155 15.9155 0 0 1 0 31.831
-                           a 15.9155 15.9155 0 0 1 0 -31.831"
-                        fill="none"
-                        stroke={leaseTimeRangeData[timeRange as keyof typeof leaseTimeRangeData].canComplete ? '#10B981' : '#EF4444'}
-                        strokeWidth="3"
-                        strokeDasharray={`${(leaseTimeRangeData[timeRange as keyof typeof leaseTimeRangeData].predicted / leaseTimeRangeData[timeRange as keyof typeof leaseTimeRangeData].target) * 100}, 100`}
-                        strokeLinecap="round"
-                        className={leaseTimeRangeData[timeRange as keyof typeof leaseTimeRangeData].canComplete ? '' : 'animate-pulse'}
-                      />
-                    </svg>
-                    {/* 完成率文本 */}
-                    <div className="absolute inset-0 flex items-center justify-center">
-                      <span className={`text-xs font-bold ${leaseTimeRangeData[timeRange as keyof typeof leaseTimeRangeData].canComplete ? 'text-green-600' : 'text-red-600'}`}>
-                        {((leaseTimeRangeData[timeRange as keyof typeof leaseTimeRangeData].predicted / leaseTimeRangeData[timeRange as keyof typeof leaseTimeRangeData].target) * 100).toFixed(0)}%
-                      </span>
-                    </div>
-                  </div>
-                  <div className="text-center mt-1 text-xs text-gray-500">
-                    缺口<span className={`font-bold ml-0.5 ${leaseTimeRangeData[timeRange as keyof typeof leaseTimeRangeData].gap > 0 ? 'text-red-500' : 'text-green-500'}`}>{leaseTimeRangeData[timeRange as keyof typeof leaseTimeRangeData].gap > 0 ? leaseTimeRangeData[timeRange as keyof typeof leaseTimeRangeData].gap.toLocaleString() : '0'}</span>
+                  <div className="text-2xl font-bold text-red-600 leading-none">{leaseTimeRangeData[timeRange as keyof typeof leaseTimeRangeData].gap.toLocaleString()}</div>
+                  <div className="flex items-center gap-0.5 text-xs text-orange-600 mt-1">
+                    <ArrowDown className="w-3 h-3" />
+                    <span>-7.6%</span>
                   </div>
                 </div>
 
@@ -1020,46 +960,16 @@ export default function SalesDashboard() {
                   </div>
                 </div>
 
-                {/* 任务缺口 - 圆形进度条 */}
-                <div className="border-r border-gray-200 px-2 py-2 bg-gradient-to-b from-green-50/50 to-transparent relative">
+                {/* 任务缺口 */}
+                <div className="border-r border-gray-200 px-2 py-2 bg-gradient-to-b from-green-50/50 to-transparent">
                   <div className="flex items-center gap-1 text-xs font-medium text-gray-500 mb-1">
                     <AlertTriangle className="w-3 h-3 text-green-500 flex-shrink-0" />
-                    <span>完成率</span>
+                    <span>任务缺口</span>
                   </div>
-                  <div className="flex items-center justify-center relative">
-                    {/* 圆形进度条 */}
-                    <svg className={`w-12 h-12 transform -rotate-90 ${renewalTimeRangeData[timeRange as keyof typeof renewalTimeRangeData].canComplete ? '' : 'animate-pulse'}`} viewBox="0 0 36 36">
-                      {/* 背景圆 */}
-                      <path
-                        d="M18 2.0845
-                           a 15.9155 15.9155 0 0 1 0 31.831
-                           a 15.9155 15.9155 0 0 1 0 -31.831"
-                        fill="none"
-                        stroke="#E5E7EB"
-                        strokeWidth="3"
-                      />
-                      {/* 进度圆 */}
-                      <path
-                        d="M18 2.0845
-                           a 15.9155 15.9155 0 0 1 0 31.831
-                           a 15.9155 15.9155 0 0 1 0 -31.831"
-                        fill="none"
-                        stroke={renewalTimeRangeData[timeRange as keyof typeof renewalTimeRangeData].canComplete ? '#10B981' : '#EF4444'}
-                        strokeWidth="3"
-                        strokeDasharray={`${(renewalTimeRangeData[timeRange as keyof typeof renewalTimeRangeData].predicted / renewalTimeRangeData[timeRange as keyof typeof renewalTimeRangeData].target) * 100}, 100`}
-                        strokeLinecap="round"
-                        className={renewalTimeRangeData[timeRange as keyof typeof renewalTimeRangeData].canComplete ? '' : 'animate-pulse'}
-                      />
-                    </svg>
-                    {/* 完成率文本 */}
-                    <div className="absolute inset-0 flex items-center justify-center">
-                      <span className={`text-xs font-bold ${renewalTimeRangeData[timeRange as keyof typeof renewalTimeRangeData].canComplete ? 'text-green-600' : 'text-red-600'}`}>
-                        {((renewalTimeRangeData[timeRange as keyof typeof renewalTimeRangeData].predicted / renewalTimeRangeData[timeRange as keyof typeof renewalTimeRangeData].target) * 100).toFixed(0)}%
-                      </span>
-                    </div>
-                  </div>
-                  <div className="text-center mt-1 text-xs text-gray-500">
-                    缺口<span className={`font-bold ml-0.5 ${renewalTimeRangeData[timeRange as keyof typeof renewalTimeRangeData].gap > 0 ? 'text-red-500' : 'text-green-500'}`}>{renewalTimeRangeData[timeRange as keyof typeof renewalTimeRangeData].gap > 0 ? renewalTimeRangeData[timeRange as keyof typeof renewalTimeRangeData].gap.toLocaleString() : '0'}</span>
+                  <div className="text-2xl font-bold text-green-600 leading-none">{renewalTimeRangeData[timeRange as keyof typeof renewalTimeRangeData].gap.toLocaleString()}</div>
+                  <div className="flex items-center gap-0.5 text-xs text-green-600 mt-1">
+                    <ArrowDown className="w-3 h-3" />
+                    <span>-4.3%</span>
                   </div>
                 </div>
 
