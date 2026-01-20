@@ -1372,9 +1372,9 @@ export default function SalesDashboard() {
 
               {/* 大区维度表格 */}
               <div className="overflow-x-auto -mx-3 px-3 flex-1 min-h-0">
-                <div className="bg-white rounded-lg border-0 overflow-hidden min-w-[900px] min-h-full">
-                  <table className="w-full">
-                  <thead>
+                <div className="bg-white rounded-lg border-0 overflow-hidden min-w-[900px] h-full flex flex-col">
+                  <table className="w-full flex-1">
+                  <thead className="flex-shrink-0">
                     <tr className="border-b border-gray-100">
                       <th className="px-2 py-1.25 text-left text-sm font-medium text-gray-500">
                         {viewLevel === 'city' ? '城市' : '大区'}
@@ -1393,7 +1393,7 @@ export default function SalesDashboard() {
                       <th className="px-1 py-1.25"></th>
                     </tr>
                   </thead>
-                  <tbody>
+                  <tbody className="flex-1">
                     {currentData.map((item: any, index: number) => (
                       <tr
                         key={index}
@@ -1499,10 +1499,10 @@ export default function SalesDashboard() {
               </div>
 
               {/* 城市经理表格 */}
-              <div className="overflow-x-auto -mx-3 px-3 flex-1 min-h-0">
-                <div className="bg-white rounded-lg border-0 overflow-hidden min-w-[900px] min-h-full">
-                  <table className="w-full">
-                  <thead>
+              <div className="overflow-x-auto -mx-3 px-3 flex-1 min-h-0 flex flex-col">
+                <div className="bg-white rounded-lg border-0 overflow-hidden min-w-[900px] flex-1 flex flex-col">
+                  <table className="w-full flex-1">
+                  <thead className="flex-shrink-0">
                     <tr className="border-b border-gray-100">
                       <th className="px-2 py-1.25 text-left text-sm font-medium text-gray-500">区域</th>
                       <th className="px-2 py-1.25 text-left text-sm font-medium text-gray-500">城市</th>
@@ -1516,7 +1516,7 @@ export default function SalesDashboard() {
                       <th className="px-2 py-1.25 text-center text-sm font-medium text-gray-500">在手项目数</th>
                     </tr>
                   </thead>
-                  <tbody className="min-h-[320px]">
+                  <tbody className="flex-1">
                     {cityManagerData[timeRange as keyof typeof cityManagerData]
                       .filter((item: any) => cityManagerAreaFilter === 'all' || item.area === cityManagerAreaFilter)
                       .sort((a, b) => b.rate - a.rate)
@@ -1566,7 +1566,7 @@ export default function SalesDashboard() {
                 </table>
 
                 {/* 分页 */}
-                <div className="flex items-center justify-between mt-3 px-1">
+                <div className="flex-shrink-0 flex items-center justify-between mt-2 px-1 py-1.5 border-t border-gray-100">
                   <div className="text-xs text-gray-500">
                     共 <span className="font-semibold text-gray-700">{cityManagerData[timeRange as keyof typeof cityManagerData].filter((item: any) => cityManagerAreaFilter === 'all' || item.area === cityManagerAreaFilter).length}</span> 条记录，
                     第 <span className="font-semibold text-gray-700">{cityManagerPage}</span> / {Math.ceil(cityManagerData[timeRange as keyof typeof cityManagerData].filter((item: any) => cityManagerAreaFilter === 'all' || item.area === cityManagerAreaFilter).length / cityManagerPageSize)} 页
