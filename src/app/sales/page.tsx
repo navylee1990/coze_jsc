@@ -509,11 +509,7 @@ export default function SalesDashboard() {
 
   // 数据标注状态
   const [annotations, setAnnotations] = useState<Record<string, string>>({});
-  const [showAnnotationModal, setShowAnnotationModal] = useState(false);
-  const [currentAnnotationKey, setCurrentAnnotationKey] = useState('');
-  const [annotationText, setAnnotationText] = useState('');
 
-  // 业务员排名分页状态
   const [salesmenCurrentPage, setSalesmenCurrentPage] = useState(1);
   const salesmenPageSize = 8;
   const salesmenTotalPages = Math.ceil(salesmenRanking.length / salesmenPageSize);
@@ -750,6 +746,20 @@ export default function SalesDashboard() {
                 )}
               </select>
             )}
+
+            {/* 企业微信拉群 */}
+            <button
+              onClick={() => {
+                // 企业微信拉群逻辑
+                alert('已启动企业微信拉群，将邀请相关成员加入讨论');
+              }}
+              className="flex items-center gap-2 px-4 py-2 text-sm font-medium text-white bg-gradient-to-r from-green-500 to-emerald-600 rounded-lg hover:from-green-600 hover:to-emerald-700 transition-all shadow-md hover:shadow-lg"
+            >
+              <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+              </svg>
+              拉群
+            </button>
           </div>
         </div>
       </div>
@@ -821,23 +831,7 @@ export default function SalesDashboard() {
               <div className="grid grid-cols-2 sm:grid-cols-4">
                 {/* 目标 */}
                 <div className="border-r border-b sm:border-b-0 border-gray-200 px-2 py-2 relative">
-                  <div className="flex items-center justify-between mb-1">
-                    <div className="flex items-center gap-1 text-xs font-medium text-gray-500">
-                      <span>{timeRangeLabel}目标</span>
-                      {/* 数据标注按钮 */}
-                      <button
-                        onClick={() => {
-                          setCurrentAnnotationKey('newBuyout-target');
-                          setAnnotationText(annotations['newBuyout-target'] || '');
-                          setShowAnnotationModal(true);
-                        }}
-                        className="text-gray-400 hover:text-blue-500 transition-colors"
-                        title="添加备注"
-                      >
-                        <Database className="w-3.5 h-3.5" />
-                      </button>
-                    </div>
-                  </div>
+                  <div className="text-xs font-medium text-gray-500 mb-1">{timeRangeLabel}目标</div>
                   <div className="flex items-baseline gap-1">
                     <span className="text-2xl font-bold text-gray-900 leading-none">{currentRangeData.target.toLocaleString()}</span>
                     <span className="text-xs text-gray-600">万元</span>
@@ -856,12 +850,6 @@ export default function SalesDashboard() {
                         <span className={`font-bold ${currentRangeData.target > 1428 ? 'text-green-600' : 'text-red-600'}`}>
                           ({currentRangeData.target > 1428 ? '+' : ''}{((currentRangeData.target - (comparisonTarget === 'lastMonth' ? 1350 : comparisonTarget === 'lastYear' ? 1280 : 1300)) / (comparisonTarget === 'lastMonth' ? 1350 : comparisonTarget === 'lastYear' ? 1280 : 1300) * 100).toFixed(1)}%)
                         </span>
-                      </div>
-                    )}
-                    {/* 标注显示 */}
-                    {annotations['newBuyout-target'] && (
-                      <div className="text-[10px] bg-amber-50 text-amber-700 px-1.5 py-0.5 rounded border border-amber-200">
-                        💬 {annotations['newBuyout-target']}
                       </div>
                     )}
                   </div>
@@ -943,23 +931,7 @@ export default function SalesDashboard() {
               <div className="grid grid-cols-2 sm:grid-cols-4">
                 {/* 目标 */}
                 <div className="border-r border-b sm:border-b-0 border-gray-200 px-2 py-2 relative">
-                  <div className="flex items-center justify-between mb-1">
-                    <div className="flex items-center gap-1 text-xs font-medium text-gray-500">
-                      <span>{timeRangeLabel}目标</span>
-                      {/* 数据标注按钮 */}
-                      <button
-                        onClick={() => {
-                          setCurrentAnnotationKey('newLease-target');
-                          setAnnotationText(annotations['newLease-target'] || '');
-                          setShowAnnotationModal(true);
-                        }}
-                        className="text-gray-400 hover:text-blue-500 transition-colors"
-                        title="添加备注"
-                      >
-                        <Database className="w-3.5 h-3.5" />
-                      </button>
-                    </div>
-                  </div>
+                  <div className="text-xs font-medium text-gray-500 mb-1">{timeRangeLabel}目标</div>
                   <div className="flex items-baseline gap-1">
                     <span className="text-2xl font-bold text-gray-900 leading-none">{leaseTimeRangeData[timeRange as keyof typeof leaseTimeRangeData].target.toLocaleString()}</span>
                     <span className="text-xs text-gray-600">万元</span>
@@ -978,12 +950,6 @@ export default function SalesDashboard() {
                         <span className={`font-bold ${leaseTimeRangeData[timeRange as keyof typeof leaseTimeRangeData].target > 856 ? 'text-green-600' : 'text-red-600'}`}>
                           ({leaseTimeRangeData[timeRange as keyof typeof leaseTimeRangeData].target > 856 ? '+' : ''}{((leaseTimeRangeData[timeRange as keyof typeof leaseTimeRangeData].target - (comparisonTarget === 'lastMonth' ? 820 : comparisonTarget === 'lastYear' ? 760 : 780)) / (comparisonTarget === 'lastMonth' ? 820 : comparisonTarget === 'lastYear' ? 760 : 780) * 100).toFixed(1)}%)
                         </span>
-                      </div>
-                    )}
-                    {/* 标注显示 */}
-                    {annotations['newLease-target'] && (
-                      <div className="text-[10px] bg-amber-50 text-amber-700 px-1.5 py-0.5 rounded border border-amber-200">
-                        💬 {annotations['newLease-target']}
                       </div>
                     )}
                   </div>
@@ -1065,23 +1031,7 @@ export default function SalesDashboard() {
               <div className="grid grid-cols-2 sm:grid-cols-4">
                 {/* 目标 */}
                 <div className="border-r border-b sm:border-b-0 border-gray-200 px-2 py-2 relative">
-                  <div className="flex items-center justify-between mb-1">
-                    <div className="flex items-center gap-1 text-xs font-medium text-gray-500">
-                      <span>{timeRangeLabel}目标</span>
-                      {/* 数据标注按钮 */}
-                      <button
-                        onClick={() => {
-                          setCurrentAnnotationKey('renewal-target');
-                          setAnnotationText(annotations['renewal-target'] || '');
-                          setShowAnnotationModal(true);
-                        }}
-                        className="text-gray-400 hover:text-blue-500 transition-colors"
-                        title="添加备注"
-                      >
-                        <Database className="w-3.5 h-3.5" />
-                      </button>
-                    </div>
-                  </div>
+                  <div className="text-xs font-medium text-gray-500 mb-1">{timeRangeLabel}目标</div>
                   <div className="flex items-baseline gap-1">
                     <span className="text-2xl font-bold text-gray-900 leading-none">{renewalTimeRangeData[timeRange as keyof typeof renewalTimeRangeData].target.toLocaleString()}</span>
                     <span className="text-xs text-gray-600">万元</span>
@@ -1100,12 +1050,6 @@ export default function SalesDashboard() {
                         <span className={`font-bold ${renewalTimeRangeData[timeRange as keyof typeof renewalTimeRangeData].target > 680 ? 'text-green-600' : 'text-red-600'}`}>
                           ({renewalTimeRangeData[timeRange as keyof typeof renewalTimeRangeData].target > 680 ? '+' : ''}{((renewalTimeRangeData[timeRange as keyof typeof renewalTimeRangeData].target - (comparisonTarget === 'lastMonth' ? 650 : comparisonTarget === 'lastYear' ? 620 : 640)) / (comparisonTarget === 'lastMonth' ? 650 : comparisonTarget === 'lastYear' ? 620 : 640) * 100).toFixed(1)}%)
                         </span>
-                      </div>
-                    )}
-                    {/* 标注显示 */}
-                    {annotations['renewal-target'] && (
-                      <div className="text-[10px] bg-amber-50 text-amber-700 px-1.5 py-0.5 rounded border border-amber-200">
-                        💬 {annotations['renewal-target']}
                       </div>
                     )}
                   </div>
@@ -2474,58 +2418,6 @@ export default function SalesDashboard() {
           </TabsContent>
         </Tabs>
 
-        {/* 数据标注模态框 */}
-        {showAnnotationModal && (
-          <div className="fixed inset-0 z-50 flex items-center justify-center" style={{ backgroundColor: "rgba(0,0,0,0.5)" }}>
-            <div className="bg-white rounded-xl shadow-2xl w-full max-w-md mx-4 overflow-hidden">
-              <div className="bg-gradient-to-r from-blue-500 to-blue-600 px-6 py-4">
-                <h3 className="text-lg font-semibold text-white flex items-center gap-2">
-                  <Database className="w-5 h-5" />
-                  添加备注
-                </h3>
-              </div>
-              <div className="p-6">
-                <label className="block text-sm font-medium text-gray-700 mb-2">
-                  备注内容
-                </label>
-                <textarea
-                  value={annotationText}
-                  onChange={(e) => setAnnotationText(e.target.value)}
-                  placeholder="请输入备注信息，例如：目标调整为1428万元，因为..."
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-sm resize-none"
-                  rows={4}
-                  autoFocus
-                />
-                <div className="flex items-center justify-end gap-3 mt-6">
-                  <button
-                    onClick={() => {
-                      setShowAnnotationModal(false);
-                      setCurrentAnnotationKey('');
-                      setAnnotationText('');
-                    }}
-                    className="px-4 py-2 text-sm font-medium text-gray-700 bg-gray-100 hover:bg-gray-200 rounded-lg transition-colors"
-                  >
-                    取消
-                  </button>
-                  <button
-                    onClick={() => {
-                      setAnnotations(prev => ({
-                        ...prev,
-                        [currentAnnotationKey]: annotationText
-                      }));
-                      setShowAnnotationModal(false);
-                      setCurrentAnnotationKey('');
-                      setAnnotationText('');
-                    }}
-                    className="px-4 py-2 text-sm font-medium text-white bg-blue-500 hover:bg-blue-600 rounded-lg transition-colors"
-                  >
-                    保存备注
-                  </button>
-                </div>
-              </div>
-            </div>
-          </div>
-        )}
       </div>
     );
   }
