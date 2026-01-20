@@ -1277,42 +1277,44 @@ export default function SalesDashboard() {
             </div>
 
             {/* 经销商KPI指标 */}
-            <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-1.5 mb-3">
-              {/* 总经销商数 */}
-              <Card className="bg-white border border-gray-200">
-                <CardContent className="p-1">
+            <div className="bg-white border border-gray-200 rounded-lg overflow-hidden mb-3">
+              <div className="bg-green-50 px-3 py-1.5 border-b border-green-100">
+                <div className="flex items-center gap-1.5">
+                  <Database className="w-4 h-4 text-green-600" />
+                  <span className="text-sm font-bold text-gray-800">经销商概况</span>
+                </div>
+              </div>
+              <div className="grid grid-cols-4 gap-0">
+                {/* 总经销商数 */}
+                <div className="border-r border-gray-200 px-2 py-2">
                   <div className="flex items-center gap-1 text-xs font-medium text-gray-500">
                     <Database className="w-2.5 h-2.5 text-blue-500 flex-shrink-0" />
                     <span>总经销商数</span>
                   </div>
                   <div className="mt-1 flex items-baseline gap-0.5">
-                    <span className="text-3xl font-bold text-blue-600 leading-tight">{dealerKPI.totalDealers}</span>
-                    <span className="text-xs text-gray-400">家</span>
+                    <span className="text-2xl font-bold text-gray-900 leading-none">{dealerKPI.totalDealers}</span>
+                    <span className="text-xs text-gray-600">家</span>
                   </div>
-                  <div className="text-xs text-gray-500 mt-0.5">覆盖7个大区</div>
-                </CardContent>
-              </Card>
+                  <div className="text-xs text-gray-500 mt-1">覆盖7个大区</div>
+                </div>
 
-              {/* 活跃经销商 */}
-              <Card className="bg-white border-2 border-green-200">
-                <CardContent className="p-1">
+                {/* 活跃经销商 */}
+                <div className="border-r border-gray-200 px-2 py-2">
                   <div className="flex items-center gap-1 text-xs font-medium text-gray-500">
                     <Activity className="w-2.5 h-2.5 text-green-500 flex-shrink-0" />
                     <span>活跃经销商</span>
                   </div>
                   <div className="mt-1 flex items-baseline gap-0.5">
-                    <span className="text-3xl font-bold text-green-600 leading-tight">{dealerKPI.activeDealers}</span>
-                    <span className="text-xs text-gray-400">家</span>
+                    <span className="text-2xl font-bold text-gray-900 leading-none">{dealerKPI.activeDealers}</span>
+                    <span className="text-xs text-gray-600">家</span>
                   </div>
-                  <div className="text-xs text-gray-500 mt-0.5">
+                  <div className="text-xs text-gray-500 mt-1">
                     活跃率 {((dealerKPI.activeDealers / dealerKPI.totalDealers) * 100).toFixed(0)}%
                   </div>
-                </CardContent>
-              </Card>
+                </div>
 
-              {/* 履约率分布 */}
-              <Card className="bg-white border-2 border-teal-200">
-                <CardContent className="p-1">
+                {/* 履约率分布 */}
+                <div className="border-r border-gray-200 px-2 py-2">
                   <div className="flex items-center gap-1 text-xs font-medium text-gray-500 mb-1">
                     <Target className="w-2.5 h-2.5 text-teal-500 flex-shrink-0" />
                     <span>履约率分布</span>
@@ -1331,26 +1333,24 @@ export default function SalesDashboard() {
                       <span className="font-bold text-green-600">{dealerKPI.between80to100}家</span>
                     </div>
                   </div>
-                </CardContent>
-              </Card>
+                </div>
 
-              {/* 新经销商数量 */}
-              <Card className="bg-white border-2 border-orange-200">
-                <CardContent className="p-1">
+                {/* 新经销商数量 */}
+                <div className="px-2 py-2">
                   <div className="flex items-center gap-1 text-xs font-medium text-gray-500">
                     <TrendingUp className="w-2.5 h-2.5 text-orange-500 flex-shrink-0" />
                     <span>新经销商数量</span>
                   </div>
                   <div className="mt-1 flex items-baseline gap-0.5">
-                    <span className="text-3xl font-bold text-orange-600 leading-tight">{dealerKPI.newDealers}</span>
-                    <span className="text-xs text-gray-400">家</span>
+                    <span className="text-2xl font-bold text-gray-900 leading-none">{dealerKPI.newDealers}</span>
+                    <span className="text-xs text-gray-600">家</span>
                   </div>
-                  <div className="flex items-center gap-0.5 text-xs text-green-600 mt-0.5">
+                  <div className="flex items-center gap-0.5 text-xs text-green-600 mt-1">
                     <ArrowUp className="w-2 h-2" />
                     <span>较上月+1家</span>
                   </div>
-                </CardContent>
-              </Card>
+                </div>
+              </div>
             </div>
 
             {/* 经销商达成率排名 */}
