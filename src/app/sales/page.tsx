@@ -775,9 +775,9 @@ export default function SalesDashboard() {
             </h2>
           </div>
         {/* KPI指标 + 月度趋势分析 左右布局 */}
-        <div className="flex gap-3">
+        <div className="flex flex-col lg:flex-row gap-3">
           {/* 左侧：KPI指标（买断+租赁+续租）- 三行布局 */}
-          <div className="w-1/2 flex flex-col gap-2">
+          <div className="w-full lg:w-1/2 flex flex-col gap-2">
             {/* 第一行：新增买断指标 */}
             <div className="bg-white border border-gray-200 rounded-lg overflow-hidden">
               <div className="bg-green-50 px-3 py-1.5 border-b border-green-100">
@@ -786,9 +786,9 @@ export default function SalesDashboard() {
                   <span className="text-sm font-bold text-gray-800">新增买断</span>
                 </div>
               </div>
-              <div className="grid grid-cols-5">
+              <div className="grid grid-cols-2 sm:grid-cols-5">
                 {/* 目标 */}
-                <div className="border-r border-gray-200 px-2 py-2">
+                <div className="border-r border-b sm:border-b-0 border-gray-200 px-2 py-2">
                   <div className="flex items-center justify-between mb-1">
                     <div className="flex items-center gap-1 text-xs font-medium text-gray-500">
                       <span>{timeRangeLabel}目标</span>
@@ -801,7 +801,7 @@ export default function SalesDashboard() {
                 </div>
 
                 {/* 已完成 */}
-                <div className="border-r border-gray-200 px-2 py-2">
+                <div className="border-b sm:border-b-0 sm:border-r border-gray-200 px-2 py-2">
                   <div className="text-xs font-medium text-gray-500 mb-1">{timeRangeLabel}已完成</div>
                   <div className="text-2xl font-bold text-gray-900 leading-none">{currentRangeData.completed.toLocaleString()}</div>
                   <div className="flex items-center gap-0.5 text-xs text-red-600 mt-1">
@@ -856,9 +856,9 @@ export default function SalesDashboard() {
                   <span className="text-sm font-bold text-gray-800">新增租赁</span>
                 </div>
               </div>
-              <div className="grid grid-cols-5">
+              <div className="grid grid-cols-2 sm:grid-cols-5">
                 {/* 目标 */}
-                <div className="border-r border-gray-200 px-2 py-2">
+                <div className="border-r border-b sm:border-b-0 border-gray-200 px-2 py-2">
                   <div className="flex items-center justify-between mb-1">
                     <div className="flex items-center gap-1 text-xs font-medium text-gray-500">
                       <span>{timeRangeLabel}目标</span>
@@ -871,7 +871,7 @@ export default function SalesDashboard() {
                 </div>
 
                 {/* 已完成 */}
-                <div className="border-r border-gray-200 px-2 py-2">
+                <div className="border-b sm:border-b-0 sm:border-r border-gray-200 px-2 py-2">
                   <div className="text-xs font-medium text-gray-500 mb-1">{timeRangeLabel}已完成</div>
                   <div className="text-2xl font-bold text-gray-900 leading-none">{leaseTimeRangeData[timeRange as keyof typeof leaseTimeRangeData].completed.toLocaleString()}</div>
                   <div className="flex items-center gap-0.5 text-xs text-green-600 mt-1">
@@ -926,9 +926,9 @@ export default function SalesDashboard() {
                   <span className="text-sm font-bold text-gray-800">续租</span>
                 </div>
               </div>
-              <div className="grid grid-cols-5">
+              <div className="grid grid-cols-2 sm:grid-cols-5">
                 {/* 目标 */}
-                <div className="border-r border-gray-200 px-2 py-2">
+                <div className="border-r border-b sm:border-b-0 border-gray-200 px-2 py-2">
                   <div className="flex items-center justify-between mb-1">
                     <div className="flex items-center gap-1 text-xs font-medium text-gray-500">
                       <span>{timeRangeLabel}目标</span>
@@ -941,7 +941,7 @@ export default function SalesDashboard() {
                 </div>
 
                 {/* 已完成 */}
-                <div className="border-r border-gray-200 px-2 py-2">
+                <div className="border-b sm:border-b-0 sm:border-r border-gray-200 px-2 py-2">
                   <div className="text-xs font-medium text-gray-500 mb-1">{timeRangeLabel}已完成</div>
                   <div className="text-2xl font-bold text-gray-900 leading-none">{renewalTimeRangeData[timeRange as keyof typeof renewalTimeRangeData].completed.toLocaleString()}</div>
                   <div className="flex items-center gap-0.5 text-xs text-green-600 mt-1">
@@ -990,19 +990,19 @@ export default function SalesDashboard() {
           </div>
 
           {/* 右侧：月度趋势分析 */}
-          <div className="w-1/2 border-2 border-blue-200 bg-gradient-to-br from-blue-50 to-cyan-50 rounded-xl p-4">
+          <div className="w-full lg:w-1/2 border-2 border-blue-200 bg-gradient-to-br from-blue-50 to-cyan-50 rounded-xl p-3 sm:p-4">
             {/* 标题和筛选器 */}
-            <div className="flex items-center justify-between mb-3">
+            <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-2 sm:mb-3 gap-2">
               <div className="flex items-center gap-2">
                 <BarChart3 className="w-5 h-5 text-blue-600" />
                 <span className="text-base font-bold text-gray-900">月度趋势分析</span>
               </div>
-              <div className="flex items-center gap-2">
-                <span className="text-sm font-medium text-gray-600">地区筛选：</span>
+              <div className="flex items-center gap-2 w-full sm:w-auto">
+                <span className="text-xs sm:text-sm font-medium text-gray-600 whitespace-nowrap">地区筛选：</span>
                 <select
                   value={trendRegion}
                   onChange={(e) => setTrendRegion(e.target.value)}
-                  className="px-2 py-1 text-sm border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white"
+                  className="flex-1 sm:flex-none px-2 py-1 text-xs sm:text-sm border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white"
                 >
                   <option value="all">全部地区</option>
                   <option value="一区">一区</option>
@@ -1017,8 +1017,8 @@ export default function SalesDashboard() {
             </div>
 
             {/* 趋势图表 */}
-            <div className="bg-white rounded-xl p-3 shadow-sm border border-gray-100">
-              <div style={{ height: '280px' }}>
+            <div className="bg-white rounded-xl p-2 sm:p-3 shadow-sm border border-gray-100">
+              <div style={{ height: '200px' }} className="sm:h-[280px]">
                 <ResponsiveContainer width="100%" height="100%">
                   <AreaChart data={monthlyTrendData[trendRegion as keyof typeof monthlyTrendData] || monthlyTrendData.all}>
                     <defs>
