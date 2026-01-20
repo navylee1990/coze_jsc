@@ -1381,7 +1381,7 @@ export default function SalesDashboard() {
                     </thead>
                     <tbody className="min-h-[320px]">
                       {dealerCurrentData.map((dealer) => (
-                        <tr key={dealer.rank} className="border-b border-gray-50 hover:bg-blue-50 transition-colors">
+                        <tr key={dealer.rank} className="border-b border-gray-50 last:border-0">
                           <td className="px-2 py-2.5 text-center">
                             <div className={`inline-flex items-center justify-center w-7 h-7 rounded-full text-sm font-bold ${
                               dealer.rank === 1 ? 'bg-gradient-to-br from-yellow-400 to-orange-500 text-white' :
@@ -1406,21 +1406,27 @@ export default function SalesDashboard() {
                           </td>
                           <td className="px-2 py-2.5 text-sm text-right text-gray-600">{dealer.target.toLocaleString()}万</td>
                           <td className="px-2 py-2.5 text-sm text-right font-semibold text-gray-900">{dealer.completed.toLocaleString()}万</td>
-                          <td className="px-2 py-2.5">
-                            <div className="flex items-center gap-2">
-                              <div className="flex-1 min-w-[60px]">
-                                <Progress value={dealer.rate} className="h-1.5" />
-                              </div>
-                              <span className={`text-xs font-bold whitespace-nowrap ${
-                                dealer.rate >= 60 ? 'text-green-600' :
-                                dealer.rate >= 50 ? 'text-yellow-600' : 'text-red-600'
+                          <td className="px-2 py-2.5 text-center">
+                            <div className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-gray-50 border border-gray-100">
+                              <span className={`text-sm font-bold ${
+                                dealer.rate >= 80 ? 'text-green-600' :
+                                dealer.rate >= 60 ? 'text-yellow-600' : 'text-red-600'
                               }`}>
                                 {dealer.rate.toFixed(1)}%
                               </span>
+                              <div className="w-8 h-1.5 rounded-full bg-gray-200 overflow-hidden">
+                                <div
+                                  className={`h-full rounded-full transition-all ${
+                                    dealer.rate >= 80 ? 'bg-green-500' :
+                                    dealer.rate >= 60 ? 'bg-yellow-500' : 'bg-red-500'
+                                  }`}
+                                  style={{ width: `${Math.min(dealer.rate, 100)}%` }}
+                                />
+                              </div>
                             </div>
                           </td>
                           <td className="px-2 py-2.5 text-center">
-                            <div className={`flex items-center justify-center gap-0.5 text-xs font-medium ${
+                            <div className={`flex items-center justify-center gap-0.5 text-sm font-bold ${
                               dealer.yearOnYear > 0 ? 'text-green-600' :
                               dealer.yearOnYear < 0 ? 'text-red-600' : 'text-gray-600'
                             }`}>
