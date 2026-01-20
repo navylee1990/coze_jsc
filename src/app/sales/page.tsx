@@ -757,7 +757,7 @@ export default function SalesDashboard() {
   const timeRangeLabel = timeRange === 'month' ? '月度' : timeRange === 'quarter' ? '季度' : '年度';
 
   return (
-    <div className="h-screen bg-gray-50 flex flex-col p-2 overflow-hidden">
+    <div className="h-screen bg-gray-50 flex flex-col overflow-hidden">
       {/* 页面头部 */}
       <header className="flex-shrink-0">
         <div className="flex items-center justify-between">
@@ -783,8 +783,8 @@ export default function SalesDashboard() {
       </header>
 
       {/* 筛选器 */}
-      <div className="flex-shrink-0 bg-white p-2 rounded-lg border border-gray-200">
-        <div className="flex flex-wrap items-center justify-between gap-3">
+      <div className="flex-shrink-0 bg-white px-2 py-1 rounded-lg border border-gray-200">
+        <div className="flex flex-wrap items-center justify-between gap-2">
           <div className="flex flex-wrap items-center gap-3">
             <span className="text-sm font-medium text-gray-700">时间范围：</span>
             <select
@@ -904,10 +904,10 @@ export default function SalesDashboard() {
           </TabsTrigger>
         </TabsList>
 
-        <TabsContent value="overview" className="flex-1 min-h-0 mt-1">
+        <TabsContent value="overview" className="flex-1 min-h-0">
         <div className="h-full flex flex-col gap-1">
           {/* KPI指标 + 月度趋势分析 左右布局 */}
-          <div className="flex flex-col lg:flex-row gap-1.5 flex-shrink-0">
+          <div className="flex flex-col lg:flex-row gap-1 flex-shrink-0">
           {/* 左侧：KPI指标（买断+租赁+续租）- 三行布局 */}
           <div className="w-full lg:w-1/2 flex flex-col gap-1 flex-shrink-0">
             {/* 第一行：新增买断指标 */}
@@ -1329,7 +1329,7 @@ export default function SalesDashboard() {
         </div>
 
         {/* 区域达成情况 */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-2 flex-1 min-h-0">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-1 flex-1 min-h-0">
           {/* 左侧：表格 */}
           <Card className="lg:col-span-1 border border-green-200 bg-gradient-to-br from-green-50 to-emerald-50 flex flex-col h-full min-h-0">
             <CardContent className="p-1.5 flex flex-col min-h-0">
@@ -1516,7 +1516,7 @@ export default function SalesDashboard() {
                       <th className="px-2 py-1.25 text-center text-sm font-medium text-gray-500">在手项目数</th>
                     </tr>
                   </thead>
-                  <tbody className="min-h-[320px]">
+                  <tbody>
                     {cityManagerData[timeRange as keyof typeof cityManagerData]
                       .filter((item: any) => cityManagerAreaFilter === 'all' || item.area === cityManagerAreaFilter)
                       .sort((a, b) => b.rate - a.rate)
@@ -1617,7 +1617,7 @@ export default function SalesDashboard() {
         </div>
           </TabsContent>
 
-          <TabsContent value="distributors" className="flex-1 min-h-0 mt-1">
+          <TabsContent value="distributors" className="flex-1 min-h-0">
             <div className="h-full flex flex-col">
             <div className="flex-shrink-0 mb-2 flex items-center justify-between">
               <h2 className="text-lg font-semibold text-gray-900 flex items-center gap-2">
@@ -2034,7 +2034,7 @@ export default function SalesDashboard() {
             </div>
           </TabsContent>
 
-          <TabsContent value="salesmen" className="flex-1 min-h-0 mt-3">
+          <TabsContent value="salesmen" className="flex-1 min-h-0">
             <div className="h-full flex flex-col">
             {/* 业务员分析标题 */}
             <div className="flex-shrink-0 mb-2 flex items-center gap-4">
@@ -2276,7 +2276,7 @@ export default function SalesDashboard() {
             </div>
           </TabsContent>
 
-          <TabsContent value="projects" className="flex-1 min-h-0 mt-3">
+          <TabsContent value="projects" className="flex-1 min-h-0">
             <div className="h-full flex flex-col">
             {/* 项目分析标题 */}
             <div className="flex-shrink-0 mb-2 flex items-center gap-4">
