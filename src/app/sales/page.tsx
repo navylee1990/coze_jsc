@@ -1374,8 +1374,8 @@ export default function SalesDashboard() {
                         <th className="px-2 py-2 text-center text-sm font-medium text-gray-500" style={{ width: '90px' }}>规模</th>
                         <th className="px-2 py-2 text-right text-sm font-medium text-gray-500" style={{ width: '80px' }}>目标金额</th>
                         <th className="px-2 py-2 text-right text-sm font-medium text-gray-500" style={{ width: '75px' }}>已达成</th>
-                        <th className="px-2 py-2 text-center text-sm font-medium text-gray-500" style={{ width: '130px' }}>达成率</th>
                         <th className="px-2 py-2 text-right text-sm font-medium text-gray-500" style={{ width: '80px' }}>YTD</th>
+                        <th className="px-2 py-2 text-center text-sm font-medium text-gray-500" style={{ width: '130px' }}>达成率</th>
                         <th className="px-2 py-2 text-center text-sm font-medium text-gray-500" style={{ width: '80px' }}>达成率同比</th>
                         <th className="px-2 py-2 text-center text-sm font-medium text-gray-500" style={{ width: '70px' }}>状态</th>
                       </tr>
@@ -1407,6 +1407,7 @@ export default function SalesDashboard() {
                           </td>
                           <td className="px-2 py-2.5 text-sm text-right text-gray-600" style={{ width: '80px' }}>{dealer.target.toLocaleString()}万</td>
                           <td className="px-2 py-2.5 text-sm text-right font-semibold text-gray-900" style={{ width: '75px' }}>{dealer.completed.toLocaleString()}万</td>
+                          <td className="px-2 py-2.5 text-right text-sm font-semibold text-emerald-600" style={{ width: '80px' }}>{dealer.ytd.toLocaleString()}万</td>
                           <td className="px-2 py-2.5 text-center" style={{ width: '130px' }}>
                             <div className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-gray-50 border border-gray-100">
                               <span className={`text-sm font-bold ${
@@ -1426,7 +1427,6 @@ export default function SalesDashboard() {
                               </div>
                             </div>
                           </td>
-                          <td className="px-2 py-2.5 text-right text-sm font-semibold text-emerald-600" style={{ width: '80px' }}>{dealer.ytd.toLocaleString()}万</td>
                           <td className="px-2 py-2.5 text-center" style={{ width: '80px' }}>
                             <div className={`flex items-center justify-center gap-0.5 text-sm font-bold ${
                               dealer.yearOnYear > 0 ? 'text-green-600' :
