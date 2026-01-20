@@ -521,8 +521,8 @@ export default function SalesDashboard() {
   const [dealerTargetRangeFilter, setDealerTargetRangeFilter] = useState('all');
   
   // 经销商排序状态
-  const [dealerSortField, setDealerSortField] = useState<'rank' | 'name' | 'scale' | 'target' | 'completed' | 'rate' | 'ytd' | 'yearOnYear'>('rank');
-  const [dealerSortOrder, setDealerSortOrder] = useState<'asc' | 'desc'>('asc');
+  const [dealerSortField, setDealerSortField] = useState<'rank' | 'name' | 'scale' | 'target' | 'completed' | 'rate' | 'ytd' | 'yearOnYear'>('rate');
+  const [dealerSortOrder, setDealerSortOrder] = useState<'asc' | 'desc'>('desc');
   
   // 应用筛选和排序
   const getFilteredAndSortedDealers = () => {
@@ -1453,72 +1453,70 @@ export default function SalesDashboard() {
             {/* 经销商达成率排名 */}
             <Card className="bg-white border border-green-200 bg-gradient-to-br from-green-50 to-emerald-50 mt-3">
               <CardContent className="p-3">
-                {/* 标题 */}
+                {/* 标题和筛选器 */}
                 <div className="flex items-center justify-between mb-3">
-                  <div className="text-sm font-bold text-gray-900 flex items-center gap-2">
+                  <div className="flex items-center gap-2">
                     <TrendingUp className="w-4 h-4 text-green-600" />
                     <span className="text-sm font-bold text-gray-900">经销商达成率排名</span>
                   </div>
-                </div>
-
-                {/* 筛选器 */}
-                <div className="flex flex-wrap items-center gap-2 mb-3 p-2 bg-gray-50 rounded-lg">
-                  <div className="flex items-center gap-1">
-                    <span className="text-xs font-medium text-gray-600">区域:</span>
-                    <select
-                      value={dealerRegionFilter}
-                      onChange={(e) => setDealerRegionFilter(e.target.value)}
-                      className="px-2 py-1 text-xs border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500 bg-white"
+                  <div className="flex items-center gap-3">
+                    <div className="flex items-center gap-2">
+                      <span className="text-xs font-medium text-gray-600">区域:</span>
+                      <select
+                        value={dealerRegionFilter}
+                        onChange={(e) => setDealerRegionFilter(e.target.value)}
+                        className="px-2 py-1 text-sm border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500 bg-white"
+                      >
+                        <option value="all">全部区域</option>
+                        <option value="一区">一区</option>
+                        <option value="二区">二区</option>
+                        <option value="五区">五区</option>
+                        <option value="华中">华中</option>
+                        <option value="华南">华南</option>
+                        <option value="西南">西南</option>
+                      </select>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <span className="text-xs font-medium text-gray-600">规模:</span>
+                      <select
+                        value={dealerScaleFilter}
+                        onChange={(e) => setDealerScaleFilter(e.target.value)}
+                        className="px-2 py-1 text-sm border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500 bg-white"
+                      >
+                        <option value="all">全部规模</option>
+                        <option value="50万以内">50万以内</option>
+                        <option value="50~100万">50~100万</option>
+                        <option value="100~150万">100~150万</option>
+                        <option value="150万以上">150万以上</option>
+                      </select>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <span className="text-xs font-medium text-gray-600">目标金额:</span>
+                      <select
+                        value={dealerTargetRangeFilter}
+                        onChange={(e) => setDealerTargetRangeFilter(e.target.value)}
+                        className="px-2 py-1 text-sm border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500 bg-white"
+                      >
+                        <option value="all">全部区间</option>
+                        <option value="below10000">1万以下</option>
+                        <option value="10000to12000">1万~1.2万</option>
+                        <option value="12000to14000">1.2万~1.4万</option>
+                        <option value="above14000">1.4万以上</option>
+                      </select>
+                    </div>
+                    <button
+                      onClick={() => {
+                        setDealerRegionFilter('all');
+                        setDealerScaleFilter('all');
+                        setDealerTargetRangeFilter('all');
+                        setDealerSortField('rate');
+                        setDealerSortOrder('desc');
+                      }}
+                      className="px-3 py-1 text-sm text-gray-600 bg-white border border-gray-300 rounded-md hover:bg-gray-50"
                     >
-                      <option value="all">全部区域</option>
-                      <option value="一区">一区</option>
-                      <option value="二区">二区</option>
-                      <option value="五区">五区</option>
-                      <option value="华中">华中</option>
-                      <option value="华南">华南</option>
-                      <option value="西南">西南</option>
-                    </select>
+                      重置
+                    </button>
                   </div>
-                  <div className="flex items-center gap-1">
-                    <span className="text-xs font-medium text-gray-600">规模:</span>
-                    <select
-                      value={dealerScaleFilter}
-                      onChange={(e) => setDealerScaleFilter(e.target.value)}
-                      className="px-2 py-1 text-xs border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500 bg-white"
-                    >
-                      <option value="all">全部规模</option>
-                      <option value="50万以内">50万以内</option>
-                      <option value="50~100万">50~100万</option>
-                      <option value="100~150万">100~150万</option>
-                      <option value="150万以上">150万以上</option>
-                    </select>
-                  </div>
-                  <div className="flex items-center gap-1">
-                    <span className="text-xs font-medium text-gray-600">目标金额:</span>
-                    <select
-                      value={dealerTargetRangeFilter}
-                      onChange={(e) => setDealerTargetRangeFilter(e.target.value)}
-                      className="px-2 py-1 text-xs border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500 bg-white"
-                    >
-                      <option value="all">全部区间</option>
-                      <option value="below10000">1万以下</option>
-                      <option value="10000to12000">1万~1.2万</option>
-                      <option value="12000to14000">1.2万~1.4万</option>
-                      <option value="above14000">1.4万以上</option>
-                    </select>
-                  </div>
-                  <button
-                    onClick={() => {
-                      setDealerRegionFilter('all');
-                      setDealerScaleFilter('all');
-                      setDealerTargetRangeFilter('all');
-                      setDealerSortField('rank');
-                      setDealerSortOrder('asc');
-                    }}
-                    className="px-2 py-1 text-xs text-gray-600 bg-white border border-gray-300 rounded-md hover:bg-gray-50"
-                  >
-                    重置筛选
-                  </button>
                 </div>
 
                 <div className="bg-white rounded-lg border-0 overflow-hidden">
@@ -1526,61 +1524,54 @@ export default function SalesDashboard() {
                     <thead>
                       <tr className="border-b border-gray-100">
                         <th className="px-2 py-2 text-center text-sm font-medium text-gray-500 cursor-pointer hover:text-green-600 transition-colors" style={{ width: '50px' }} onClick={() => handleDealerSort('rank')}>
-                          <div className="flex items-center justify-center gap-1">
+                          <div className="flex items-center justify-center gap-0.5">
                             排名
-                            {dealerSortField === 'rank' && (
-                              dealerSortOrder === 'asc' ? <ArrowUp className="w-3 h-3" /> : <ArrowDown className="w-3 h-3" />
-                            )}
+                            <ArrowUp className={`w-3 h-3 ${dealerSortField === 'rank' && dealerSortOrder === 'asc' ? 'text-green-600' : 'text-gray-300'}`} />
+                            <ArrowDown className={`w-3 h-3 ${dealerSortField === 'rank' && dealerSortOrder === 'desc' ? 'text-green-600' : 'text-gray-300'}`} />
                           </div>
                         </th>
                         <th className="px-3 py-2 text-left text-sm font-medium text-gray-500" style={{ width: '150px' }}>经销商名称</th>
                         <th className="px-2 py-2 text-left text-sm font-medium text-gray-500" style={{ width: '65px' }}>区域</th>
                         <th className="px-2 py-2 text-center text-sm font-medium text-gray-500 cursor-pointer hover:text-green-600 transition-colors" style={{ width: '90px' }} onClick={() => handleDealerSort('scale')}>
-                          <div className="flex items-center justify-center gap-1">
+                          <div className="flex items-center justify-center gap-0.5">
                             规模
-                            {dealerSortField === 'scale' && (
-                              dealerSortOrder === 'asc' ? <ArrowUp className="w-3 h-3" /> : <ArrowDown className="w-3 h-3" />
-                            )}
+                            <ArrowUp className={`w-3 h-3 ${dealerSortField === 'scale' && dealerSortOrder === 'asc' ? 'text-green-600' : 'text-gray-300'}`} />
+                            <ArrowDown className={`w-3 h-3 ${dealerSortField === 'scale' && dealerSortOrder === 'desc' ? 'text-green-600' : 'text-gray-300'}`} />
                           </div>
                         </th>
                         <th className="px-2 py-2 text-right text-sm font-medium text-gray-500 cursor-pointer hover:text-green-600 transition-colors" style={{ width: '80px' }} onClick={() => handleDealerSort('target')}>
-                          <div className="flex items-center justify-end gap-1">
+                          <div className="flex items-center justify-end gap-0.5">
                             目标金额
-                            {dealerSortField === 'target' && (
-                              dealerSortOrder === 'asc' ? <ArrowUp className="w-3 h-3" /> : <ArrowDown className="w-3 h-3" />
-                            )}
+                            <ArrowUp className={`w-3 h-3 ${dealerSortField === 'target' && dealerSortOrder === 'asc' ? 'text-green-600' : 'text-gray-300'}`} />
+                            <ArrowDown className={`w-3 h-3 ${dealerSortField === 'target' && dealerSortOrder === 'desc' ? 'text-green-600' : 'text-gray-300'}`} />
                           </div>
                         </th>
                         <th className="px-2 py-2 text-right text-sm font-medium text-gray-500 cursor-pointer hover:text-green-600 transition-colors" style={{ width: '75px' }} onClick={() => handleDealerSort('completed')}>
-                          <div className="flex items-center justify-end gap-1">
+                          <div className="flex items-center justify-end gap-0.5">
                             已达成
-                            {dealerSortField === 'completed' && (
-                              dealerSortOrder === 'asc' ? <ArrowUp className="w-3 h-3" /> : <ArrowDown className="w-3 h-3" />
-                            )}
+                            <ArrowUp className={`w-3 h-3 ${dealerSortField === 'completed' && dealerSortOrder === 'asc' ? 'text-green-600' : 'text-gray-300'}`} />
+                            <ArrowDown className={`w-3 h-3 ${dealerSortField === 'completed' && dealerSortOrder === 'desc' ? 'text-green-600' : 'text-gray-300'}`} />
                           </div>
                         </th>
                         <th className="px-2 py-2 text-right text-sm font-medium text-gray-500 cursor-pointer hover:text-green-600 transition-colors" style={{ width: '80px' }} onClick={() => handleDealerSort('ytd')}>
-                          <div className="flex items-center justify-end gap-1">
+                          <div className="flex items-center justify-end gap-0.5">
                             YTD
-                            {dealerSortField === 'ytd' && (
-                              dealerSortOrder === 'asc' ? <ArrowUp className="w-3 h-3" /> : <ArrowDown className="w-3 h-3" />
-                            )}
+                            <ArrowUp className={`w-3 h-3 ${dealerSortField === 'ytd' && dealerSortOrder === 'asc' ? 'text-green-600' : 'text-gray-300'}`} />
+                            <ArrowDown className={`w-3 h-3 ${dealerSortField === 'ytd' && dealerSortOrder === 'desc' ? 'text-green-600' : 'text-gray-300'}`} />
                           </div>
                         </th>
                         <th className="px-2 py-2 text-center text-sm font-medium text-gray-500 cursor-pointer hover:text-green-600 transition-colors" style={{ width: '130px' }} onClick={() => handleDealerSort('rate')}>
-                          <div className="flex items-center justify-center gap-1">
+                          <div className="flex items-center justify-center gap-0.5">
                             达成率
-                            {dealerSortField === 'rate' && (
-                              dealerSortOrder === 'asc' ? <ArrowUp className="w-3 h-3" /> : <ArrowDown className="w-3 h-3" />
-                            )}
+                            <ArrowUp className={`w-3 h-3 ${dealerSortField === 'rate' && dealerSortOrder === 'asc' ? 'text-green-600' : 'text-gray-300'}`} />
+                            <ArrowDown className={`w-3 h-3 ${dealerSortField === 'rate' && dealerSortOrder === 'desc' ? 'text-green-600' : 'text-gray-300'}`} />
                           </div>
                         </th>
                         <th className="px-2 py-2 text-center text-sm font-medium text-gray-500 cursor-pointer hover:text-green-600 transition-colors" style={{ width: '80px' }} onClick={() => handleDealerSort('yearOnYear')}>
-                          <div className="flex items-center justify-center gap-1">
+                          <div className="flex items-center justify-center gap-0.5">
                             达成率同比
-                            {dealerSortField === 'yearOnYear' && (
-                              dealerSortOrder === 'asc' ? <ArrowUp className="w-3 h-3" /> : <ArrowDown className="w-3 h-3" />
-                            )}
+                            <ArrowUp className={`w-3 h-3 ${dealerSortField === 'yearOnYear' && dealerSortOrder === 'asc' ? 'text-green-600' : 'text-gray-300'}`} />
+                            <ArrowDown className={`w-3 h-3 ${dealerSortField === 'yearOnYear' && dealerSortOrder === 'desc' ? 'text-green-600' : 'text-gray-300'}`} />
                           </div>
                         </th>
                         <th className="px-2 py-2 text-center text-sm font-medium text-gray-500" style={{ width: '70px' }}>状态</th>
