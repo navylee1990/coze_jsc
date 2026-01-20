@@ -285,16 +285,16 @@ const cityData = {
 
 // 经销商达成率排名数据
 const dealerAchievementRanking = [
-  { rank: 1, name: '杭州商用净水', target: 15000, completed: 10275, rate: 68.5, region: '一区', status: 'excellent', scale: '150万以上', yearOnYear: 12.5 },
-  { rank: 2, name: '上海净泉科技', target: 12000, completed: 7704, rate: 64.2, region: '二区', status: 'excellent', scale: '100~150万', yearOnYear: 8.3 },
-  { rank: 3, name: '南京净源设备', target: 13500, completed: 8343, rate: 61.8, region: '华中', status: 'good', scale: '150万以上', yearOnYear: -2.1 },
-  { rank: 4, name: '苏州清泉实业', target: 11000, completed: 6435, rate: 58.5, region: '二区', status: 'good', scale: '50~100万', yearOnYear: 5.6 },
-  { rank: 5, name: '无锡净水宝', target: 15000, completed: 8250, rate: 55.0, region: '华中', status: 'warning', scale: '150万以上', yearOnYear: -8.7 },
-  { rank: 6, name: '常州净康科技', target: 13000, completed: 6799, rate: 52.3, region: '五区', status: 'warning', scale: '100~150万', yearOnYear: 3.2 },
-  { rank: 7, name: '宁波净水达人', target: 14500, completed: 7221, rate: 49.8, region: '华南', status: 'danger', scale: '100~150万', yearOnYear: -15.3 },
-  { rank: 8, name: '合肥净源环保', target: 12000, completed: 5880, rate: 49.0, region: '华中', status: 'danger', scale: '50~100万', yearOnYear: -10.2 },
-  { rank: 9, name: '南昌净水通', target: 10000, completed: 4650, rate: 46.5, region: '西南', status: 'danger', scale: '50万以内', yearOnYear: -22.5 },
-  { rank: 10, name: '昆明净泉科技', target: 11000, completed: 4730, rate: 43.0, region: '西南', status: 'danger', scale: '50~100万', yearOnYear: -18.6 },
+  { rank: 1, name: '杭州商用净水', target: 15000, completed: 10275, rate: 68.5, region: '一区', status: 'excellent', scale: '150万以上', yearOnYear: 12.5, ytd: 10275 },
+  { rank: 2, name: '上海净泉科技', target: 12000, completed: 7704, rate: 64.2, region: '二区', status: 'excellent', scale: '100~150万', yearOnYear: 8.3, ytd: 7704 },
+  { rank: 3, name: '南京净源设备', target: 13500, completed: 8343, rate: 61.8, region: '华中', status: 'good', scale: '150万以上', yearOnYear: -2.1, ytd: 8343 },
+  { rank: 4, name: '苏州清泉实业', target: 11000, completed: 6435, rate: 58.5, region: '二区', status: 'good', scale: '50~100万', yearOnYear: 5.6, ytd: 6435 },
+  { rank: 5, name: '无锡净水宝', target: 15000, completed: 8250, rate: 55.0, region: '华中', status: 'warning', scale: '150万以上', yearOnYear: -8.7, ytd: 8250 },
+  { rank: 6, name: '常州净康科技', target: 13000, completed: 6799, rate: 52.3, region: '五区', status: 'warning', scale: '100~150万', yearOnYear: 3.2, ytd: 6799 },
+  { rank: 7, name: '宁波净水达人', target: 14500, completed: 7221, rate: 49.8, region: '华南', status: 'danger', scale: '100~150万', yearOnYear: -15.3, ytd: 7221 },
+  { rank: 8, name: '合肥净源环保', target: 12000, completed: 5880, rate: 49.0, region: '华中', status: 'danger', scale: '50~100万', yearOnYear: -10.2, ytd: 5880 },
+  { rank: 9, name: '南昌净水通', target: 10000, completed: 4650, rate: 46.5, region: '西南', status: 'danger', scale: '50万以内', yearOnYear: -22.5, ytd: 4650 },
+  { rank: 10, name: '昆明净泉科技', target: 11000, completed: 4730, rate: 43.0, region: '西南', status: 'danger', scale: '50~100万', yearOnYear: -18.6, ytd: 4730 },
 ];
 
 // 城市经理数据（城市经理负责单个城市，目标应比区域目标小）
@@ -1369,13 +1369,14 @@ export default function SalesDashboard() {
                     <thead>
                       <tr className="border-b border-gray-100">
                         <th className="px-2 py-2 text-center text-sm font-medium text-gray-500" style={{ width: '50px' }}>排名</th>
-                        <th className="px-3 py-2 text-left text-sm font-medium text-gray-500" style={{ width: '160px' }}>经销商名称</th>
-                        <th className="px-2 py-2 text-left text-sm font-medium text-gray-500" style={{ width: '70px' }}>区域</th>
-                        <th className="px-2 py-2 text-center text-sm font-medium text-gray-500" style={{ width: '95px' }}>规模</th>
-                        <th className="px-2 py-2 text-right text-sm font-medium text-gray-500" style={{ width: '85px' }}>目标金额</th>
-                        <th className="px-2 py-2 text-right text-sm font-medium text-gray-500" style={{ width: '80px' }}>已达成</th>
-                        <th className="px-2 py-2 text-center text-sm font-medium text-gray-500" style={{ width: '140px' }}>达成率</th>
-                        <th className="px-2 py-2 text-center text-sm font-medium text-gray-500" style={{ width: '85px' }}>达成率同比</th>
+                        <th className="px-3 py-2 text-left text-sm font-medium text-gray-500" style={{ width: '150px' }}>经销商名称</th>
+                        <th className="px-2 py-2 text-left text-sm font-medium text-gray-500" style={{ width: '65px' }}>区域</th>
+                        <th className="px-2 py-2 text-center text-sm font-medium text-gray-500" style={{ width: '90px' }}>规模</th>
+                        <th className="px-2 py-2 text-right text-sm font-medium text-gray-500" style={{ width: '80px' }}>目标金额</th>
+                        <th className="px-2 py-2 text-right text-sm font-medium text-gray-500" style={{ width: '75px' }}>已达成</th>
+                        <th className="px-2 py-2 text-center text-sm font-medium text-gray-500" style={{ width: '130px' }}>达成率</th>
+                        <th className="px-2 py-2 text-right text-sm font-medium text-gray-500" style={{ width: '80px' }}>YTD</th>
+                        <th className="px-2 py-2 text-center text-sm font-medium text-gray-500" style={{ width: '80px' }}>达成率同比</th>
                         <th className="px-2 py-2 text-center text-sm font-medium text-gray-500" style={{ width: '70px' }}>状态</th>
                       </tr>
                     </thead>
@@ -1392,9 +1393,9 @@ export default function SalesDashboard() {
                               {dealer.rank}
                             </div>
                           </td>
-                          <td className="px-3 py-2.5 text-sm font-semibold text-gray-900" style={{ width: '160px' }}>{dealer.name}</td>
-                          <td className="px-2 py-2.5 text-sm text-gray-500" style={{ width: '70px' }}>{dealer.region}</td>
-                          <td className="px-2 py-2.5 text-center text-xs" style={{ width: '95px' }}>
+                          <td className="px-3 py-2.5 text-sm font-semibold text-gray-900" style={{ width: '150px' }}>{dealer.name}</td>
+                          <td className="px-2 py-2.5 text-sm text-gray-500" style={{ width: '65px' }}>{dealer.region}</td>
+                          <td className="px-2 py-2.5 text-center text-xs" style={{ width: '90px' }}>
                             <span className={`inline-block px-1.5 py-0.5 rounded text-xs font-medium ${
                               dealer.scale === '150万以上' ? 'bg-green-100 text-green-700' :
                               dealer.scale === '100~150万' ? 'bg-blue-100 text-blue-700' :
@@ -1404,9 +1405,9 @@ export default function SalesDashboard() {
                               {dealer.scale}
                             </span>
                           </td>
-                          <td className="px-2 py-2.5 text-sm text-right text-gray-600" style={{ width: '85px' }}>{dealer.target.toLocaleString()}万</td>
-                          <td className="px-2 py-2.5 text-sm text-right font-semibold text-gray-900" style={{ width: '80px' }}>{dealer.completed.toLocaleString()}万</td>
-                          <td className="px-2 py-2.5 text-center" style={{ width: '140px' }}>
+                          <td className="px-2 py-2.5 text-sm text-right text-gray-600" style={{ width: '80px' }}>{dealer.target.toLocaleString()}万</td>
+                          <td className="px-2 py-2.5 text-sm text-right font-semibold text-gray-900" style={{ width: '75px' }}>{dealer.completed.toLocaleString()}万</td>
+                          <td className="px-2 py-2.5 text-center" style={{ width: '130px' }}>
                             <div className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-gray-50 border border-gray-100">
                               <span className={`text-sm font-bold ${
                                 dealer.rate >= 80 ? 'text-green-600' :
@@ -1425,7 +1426,8 @@ export default function SalesDashboard() {
                               </div>
                             </div>
                           </td>
-                          <td className="px-2 py-2.5 text-center" style={{ width: '85px' }}>
+                          <td className="px-2 py-2.5 text-right text-sm font-semibold text-emerald-600" style={{ width: '80px' }}>{dealer.ytd.toLocaleString()}万</td>
+                          <td className="px-2 py-2.5 text-center" style={{ width: '80px' }}>
                             <div className={`flex items-center justify-center gap-0.5 text-sm font-bold ${
                               dealer.yearOnYear > 0 ? 'text-green-600' :
                               dealer.yearOnYear < 0 ? 'text-red-600' : 'text-gray-600'
