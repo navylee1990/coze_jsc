@@ -285,16 +285,16 @@ const cityData = {
 
 // 经销商达成率排名数据
 const dealerAchievementRanking = [
-  { rank: 1, name: '杭州商用净水', target: 15000, completed: 10275, rate: 68.5, region: '一区', status: 'excellent' },
-  { rank: 2, name: '上海净泉科技', target: 12000, completed: 7704, rate: 64.2, region: '二区', status: 'excellent' },
-  { rank: 3, name: '南京净源设备', target: 13500, completed: 8343, rate: 61.8, region: '华中', status: 'good' },
-  { rank: 4, name: '苏州清泉实业', target: 11000, completed: 6435, rate: 58.5, region: '二区', status: 'good' },
-  { rank: 5, name: '无锡净水宝', target: 15000, completed: 8250, rate: 55.0, region: '华中', status: 'warning' },
-  { rank: 6, name: '常州净康科技', target: 13000, completed: 6799, rate: 52.3, region: '五区', status: 'warning' },
-  { rank: 7, name: '宁波净水达人', target: 14500, completed: 7221, rate: 49.8, region: '华南', status: 'danger' },
-  { rank: 8, name: '合肥净源环保', target: 12000, completed: 5880, rate: 49.0, region: '华中', status: 'danger' },
-  { rank: 9, name: '南昌净水通', target: 10000, completed: 4650, rate: 46.5, region: '西南', status: 'danger' },
-  { rank: 10, name: '昆明净泉科技', target: 11000, completed: 4730, rate: 43.0, region: '西南', status: 'danger' },
+  { rank: 1, name: '杭州商用净水', target: 15000, completed: 10275, rate: 68.5, region: '一区', status: 'excellent', scale: '150万以上', yearOnYear: 12.5 },
+  { rank: 2, name: '上海净泉科技', target: 12000, completed: 7704, rate: 64.2, region: '二区', status: 'excellent', scale: '100~150万', yearOnYear: 8.3 },
+  { rank: 3, name: '南京净源设备', target: 13500, completed: 8343, rate: 61.8, region: '华中', status: 'good', scale: '150万以上', yearOnYear: -2.1 },
+  { rank: 4, name: '苏州清泉实业', target: 11000, completed: 6435, rate: 58.5, region: '二区', status: 'good', scale: '50~100万', yearOnYear: 5.6 },
+  { rank: 5, name: '无锡净水宝', target: 15000, completed: 8250, rate: 55.0, region: '华中', status: 'warning', scale: '150万以上', yearOnYear: -8.7 },
+  { rank: 6, name: '常州净康科技', target: 13000, completed: 6799, rate: 52.3, region: '五区', status: 'warning', scale: '100~150万', yearOnYear: 3.2 },
+  { rank: 7, name: '宁波净水达人', target: 14500, completed: 7221, rate: 49.8, region: '华南', status: 'danger', scale: '100~150万', yearOnYear: -15.3 },
+  { rank: 8, name: '合肥净源环保', target: 12000, completed: 5880, rate: 49.0, region: '华中', status: 'danger', scale: '50~100万', yearOnYear: -10.2 },
+  { rank: 9, name: '南昌净水通', target: 10000, completed: 4650, rate: 46.5, region: '西南', status: 'danger', scale: '50万以内', yearOnYear: -22.5 },
+  { rank: 10, name: '昆明净泉科技', target: 11000, completed: 4730, rate: 43.0, region: '西南', status: 'danger', scale: '50~100万', yearOnYear: -18.6 },
 ];
 
 // 城市经理数据（城市经理负责单个城市，目标应比区域目标小）
@@ -335,7 +335,10 @@ const cityManagerData = {
 const dealerKPI = {
   totalDealers: 10,       // 总经销商数
   activeDealers: 10,      // 活跃经销商
-  qualifiedDealers: 0,    // 达标数量
+  // 履约率分布
+  below60: 5,             // 60%以下
+  between60to80: 3,       // 60~80%
+  between80to100: 2,      // 80~100%
   newDealers: 2,          // 新经销商数量
 };
 
@@ -1307,19 +1310,26 @@ export default function SalesDashboard() {
                 </CardContent>
               </Card>
 
-              {/* 达标数量 */}
+              {/* 履约率分布 */}
               <Card className="bg-white border-2 border-teal-200">
                 <CardContent className="p-1">
-                  <div className="flex items-center gap-1 text-xs font-medium text-gray-500">
+                  <div className="flex items-center gap-1 text-xs font-medium text-gray-500 mb-1">
                     <Target className="w-2.5 h-2.5 text-teal-500 flex-shrink-0" />
-                    <span>达标数量</span>
+                    <span>履约率分布</span>
                   </div>
-                  <div className="mt-1 flex items-baseline gap-0.5">
-                    <span className="text-3xl font-bold text-teal-600 leading-tight">{dealerKPI.qualifiedDealers}</span>
-                    <span className="text-xs text-gray-400">家</span>
-                  </div>
-                  <div className="text-xs text-gray-500 mt-0.5">
-                    达标率 {dealerKPI.activeDealers > 0 ? ((dealerKPI.qualifiedDealers / dealerKPI.activeDealers) * 100).toFixed(0) : 0}%
+                  <div className="space-y-0.5">
+                    <div className="flex items-center justify-between text-xs">
+                      <span className="text-red-600 font-medium">60%以下</span>
+                      <span className="font-bold text-red-600">{dealerKPI.below60}家</span>
+                    </div>
+                    <div className="flex items-center justify-between text-xs">
+                      <span className="text-yellow-600 font-medium">60~80%</span>
+                      <span className="font-bold text-yellow-600">{dealerKPI.between60to80}家</span>
+                    </div>
+                    <div className="flex items-center justify-between text-xs">
+                      <span className="text-green-600 font-medium">80~100%</span>
+                      <span className="font-bold text-green-600">{dealerKPI.between80to100}家</span>
+                    </div>
                   </div>
                 </CardContent>
               </Card>
@@ -1361,10 +1371,12 @@ export default function SalesDashboard() {
                         <th className="px-2 py-2 text-center text-sm font-medium text-gray-500 w-12">排名</th>
                         <th className="px-3 py-2 text-left text-sm font-medium text-gray-500">经销商名称</th>
                         <th className="px-2 py-2 text-left text-sm font-medium text-gray-500">区域</th>
+                        <th className="px-2 py-2 text-center text-sm font-medium text-gray-500 w-20">规模</th>
                         <th className="px-2 py-2 text-right text-sm font-medium text-gray-500">目标金额</th>
                         <th className="px-2 py-2 text-right text-sm font-medium text-gray-500">已达成</th>
                         <th className="px-2 py-2 text-center text-sm font-medium text-gray-500">达成率</th>
-                        <th className="px-2 py-2 text-center text-sm font-medium text-gray-500">状态</th>
+                        <th className="px-2 py-2 text-center text-sm font-medium text-gray-500 w-16">达成率同比</th>
+                        <th className="px-2 py-2 text-center text-sm font-medium text-gray-500 w-16">状态</th>
                       </tr>
                     </thead>
                     <tbody className="min-h-[320px]">
@@ -1382,6 +1394,16 @@ export default function SalesDashboard() {
                           </td>
                           <td className="px-3 py-2.5 text-sm font-semibold text-gray-900">{dealer.name}</td>
                           <td className="px-2 py-2.5 text-sm text-gray-500">{dealer.region}</td>
+                          <td className="px-2 py-2.5 text-center text-xs">
+                            <span className={`inline-block px-1.5 py-0.5 rounded text-xs font-medium ${
+                              dealer.scale === '150万以上' ? 'bg-green-100 text-green-700' :
+                              dealer.scale === '100~150万' ? 'bg-blue-100 text-blue-700' :
+                              dealer.scale === '50~100万' ? 'bg-yellow-100 text-yellow-700' :
+                              'bg-gray-100 text-gray-700'
+                            }`}>
+                              {dealer.scale}
+                            </span>
+                          </td>
                           <td className="px-2 py-2.5 text-sm text-right text-gray-600">{dealer.target.toLocaleString()}万</td>
                           <td className="px-2 py-2.5 text-sm text-right font-semibold text-gray-900">{dealer.completed.toLocaleString()}万</td>
                           <td className="px-2 py-2.5">
@@ -1395,6 +1417,16 @@ export default function SalesDashboard() {
                               }`}>
                                 {dealer.rate.toFixed(1)}%
                               </span>
+                            </div>
+                          </td>
+                          <td className="px-2 py-2.5 text-center">
+                            <div className={`flex items-center justify-center gap-0.5 text-xs font-medium ${
+                              dealer.yearOnYear > 0 ? 'text-green-600' :
+                              dealer.yearOnYear < 0 ? 'text-red-600' : 'text-gray-600'
+                            }`}>
+                              {dealer.yearOnYear > 0 ? <ArrowUp className="w-3 h-3" /> :
+                               dealer.yearOnYear < 0 ? <ArrowDown className="w-3 h-3" /> : null}
+                              <span>{Math.abs(dealer.yearOnYear).toFixed(1)}%</span>
                             </div>
                           </td>
                           <td className="px-2 py-2.5 text-center">
