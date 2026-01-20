@@ -1136,8 +1136,9 @@ export default function SalesDashboard() {
               </div>
 
               {/* 大区维度表格 */}
-              <div className="bg-white rounded-lg border-0 overflow-hidden">
-                <table className="w-full">
+              <div className="overflow-x-auto -mx-3 px-3">
+                <div className="bg-white rounded-lg border-0 overflow-hidden min-w-[900px]">
+                  <table className="w-full">
                   <thead>
                     <tr className="border-b border-gray-100">
                       <th className="px-3 py-2 text-left text-sm font-medium text-gray-500">
@@ -1216,6 +1217,7 @@ export default function SalesDashboard() {
                   </tbody>
                 </table>
               </div>
+            </div>
             </CardContent>
           </Card>
 
@@ -1249,8 +1251,9 @@ export default function SalesDashboard() {
               </div>
 
               {/* 城市经理表格 */}
-              <div className="bg-white rounded-lg border-0 overflow-hidden">
-                <table className="w-full">
+              <div className="overflow-x-auto -mx-3 px-3">
+                <div className="bg-white rounded-lg border-0 overflow-hidden min-w-[900px]">
+                  <table className="w-full">
                   <thead>
                     <tr className="border-b border-gray-100">
                       <th className="px-3 py-2 text-left text-sm font-medium text-gray-500">区域</th>
@@ -1359,6 +1362,7 @@ export default function SalesDashboard() {
                   </div>
                 </div>
               </div>
+            </div>
             </CardContent>
           </Card>
         </div>
