@@ -776,9 +776,9 @@ export default function SalesDashboard() {
           </div>
         {/* KPI指标 + 月度趋势分析 左右布局 */}
         <div className="flex flex-col lg:flex-row gap-3">
-          {/* 左侧：KPI指标（买断+租赁+续租）- 三行布局 */}
+          {/* 左侧：KPI指标（买断+租赁+续租）- 六行布局（指标+缺口分开展示） */}
           <div className="w-full lg:w-1/2 flex flex-col gap-2">
-            {/* 第一行：新增买断指标 */}
+            {/* 第一行：新增买断指标 - 仅展示3个指标 */}
             <div className="bg-white border border-gray-200 rounded-lg overflow-hidden">
               <div className="bg-green-50 px-3 py-1.5 border-b border-green-100">
                 <div className="flex items-center gap-1.5">
@@ -786,13 +786,11 @@ export default function SalesDashboard() {
                   <span className="text-sm font-bold text-gray-800">新增买断</span>
                 </div>
               </div>
-              <div className="grid grid-cols-2 sm:grid-cols-4">
+              <div className="grid grid-cols-3">
                 {/* 目标 */}
-                <div className="border-r border-b sm:border-b-0 border-gray-200 px-2 py-2">
-                  <div className="flex items-center justify-between mb-1">
-                    <div className="flex items-center gap-1 text-xs font-medium text-gray-500">
-                      <span>{timeRangeLabel}目标</span>
-                    </div>
+                <div className="border-r border-gray-200 px-2 py-2">
+                  <div className="flex items-center gap-1 text-xs font-medium text-gray-500 mb-1">
+                    <span>{timeRangeLabel}目标</span>
                   </div>
                   <div className="flex items-baseline gap-1">
                     <span className="text-2xl font-bold text-gray-900 leading-none">{currentRangeData.target.toLocaleString()}</span>
@@ -804,7 +802,7 @@ export default function SalesDashboard() {
                 </div>
 
                 {/* 已完成 */}
-                <div className="border-b sm:border-b-0 sm:border-r border-gray-200 px-2 py-2">
+                <div className="border-r border-gray-200 px-2 py-2">
                   <div className="text-xs font-medium text-gray-500 mb-1">{timeRangeLabel}已完成</div>
                   <div className="flex items-baseline gap-1">
                     <span className="text-2xl font-bold text-gray-900 leading-none">{currentRangeData.completed.toLocaleString()}</span>
@@ -817,7 +815,7 @@ export default function SalesDashboard() {
                 </div>
 
                 {/* 预测完成 */}
-                <div className="border-b sm:border-b-0 sm:border-r border-gray-200 px-2 py-2 bg-gradient-to-b from-green-50/50 to-transparent">
+                <div className="px-2 py-2 bg-gradient-to-b from-green-50/50 to-transparent">
                   <div className="text-xs font-medium text-gray-500 mb-1">预测完成</div>
                   <div className="flex items-baseline gap-1">
                     <span className="text-2xl font-bold text-green-600 leading-none">{currentRangeData.predicted.toLocaleString()}</span>
@@ -828,26 +826,38 @@ export default function SalesDashboard() {
                     <span>+5.2%</span>
                   </div>
                 </div>
+              </div>
+            </div>
 
-                {/* 任务缺口 */}
-                <div className="px-2 py-2 bg-red-50 border-l-4 border-red-500">
-                  <div className="flex items-center gap-1 text-xs font-medium text-gray-500 mb-1">
-                    <AlertTriangle className="w-3 h-3 text-red-500 flex-shrink-0" />
-                    <span>任务缺口</span>
+            {/* 第二行：新增买断任务缺口 - 独立醒目展示 */}
+            <div className="bg-gradient-to-r from-red-50 via-red-100 to-red-50 border-2 border-red-300 rounded-lg shadow-md">
+              <div className="flex items-center justify-between px-4 py-2">
+                <div className="flex items-center gap-3">
+                  <div className="bg-red-500 rounded-full p-2 animate-pulse">
+                    <AlertTriangle className="w-6 h-6 text-white" />
                   </div>
+                  <div>
+                    <div className="flex items-center gap-2 mb-0.5">
+                      <span className="text-sm font-bold text-red-700 uppercase tracking-wide">任务缺口</span>
+                      <span className="px-2 py-0.5 bg-red-200 text-red-800 text-xs font-bold rounded-full">需关注</span>
+                    </div>
+                    <div className="text-xs text-red-600">距离目标还差</div>
+                  </div>
+                </div>
+                <div className="text-right">
                   <div className="flex items-baseline gap-1">
-                    <span className="text-2xl font-bold text-red-600 leading-none">{currentRangeData.gap.toLocaleString()}</span>
-                    <span className="text-xs text-red-600">万元</span>
+                    <span className="text-4xl font-extrabold text-red-600 leading-none">{currentRangeData.gap.toLocaleString()}</span>
+                    <span className="text-sm font-bold text-red-700">万元</span>
                   </div>
-                  <div className="flex items-center gap-0.5 text-xs text-red-500 mt-1">
-                    <ArrowDown className="w-3 h-3" />
+                  <div className="flex items-center justify-end gap-0.5 text-sm font-semibold text-red-500 mt-0.5">
+                    <ArrowDown className="w-4 h-4" />
                     <span>-54.5%</span>
                   </div>
                 </div>
               </div>
             </div>
 
-            {/* 第二行：新增租赁指标 */}
+            {/* 第三行：新增租赁指标 - 仅展示3个指标 */}
             <div className="bg-white border border-gray-200 rounded-lg overflow-hidden">
               <div className="bg-green-50 px-3 py-1.5 border-b border-green-100">
                 <div className="flex items-center gap-1.5">
@@ -855,13 +865,11 @@ export default function SalesDashboard() {
                   <span className="text-sm font-bold text-gray-800">新增租赁</span>
                 </div>
               </div>
-              <div className="grid grid-cols-2 sm:grid-cols-4">
+              <div className="grid grid-cols-3">
                 {/* 目标 */}
-                <div className="border-r border-b sm:border-b-0 border-gray-200 px-2 py-2">
-                  <div className="flex items-center justify-between mb-1">
-                    <div className="flex items-center gap-1 text-xs font-medium text-gray-500">
-                      <span>{timeRangeLabel}目标</span>
-                    </div>
+                <div className="border-r border-gray-200 px-2 py-2">
+                  <div className="flex items-center gap-1 text-xs font-medium text-gray-500 mb-1">
+                    <span>{timeRangeLabel}目标</span>
                   </div>
                   <div className="flex items-baseline gap-1">
                     <span className="text-2xl font-bold text-gray-900 leading-none">{leaseTimeRangeData[timeRange as keyof typeof leaseTimeRangeData].target.toLocaleString()}</span>
@@ -873,7 +881,7 @@ export default function SalesDashboard() {
                 </div>
 
                 {/* 已完成 */}
-                <div className="border-b sm:border-b-0 sm:border-r border-gray-200 px-2 py-2">
+                <div className="border-r border-gray-200 px-2 py-2">
                   <div className="text-xs font-medium text-gray-500 mb-1">{timeRangeLabel}已完成</div>
                   <div className="flex items-baseline gap-1">
                     <span className="text-2xl font-bold text-gray-900 leading-none">{leaseTimeRangeData[timeRange as keyof typeof leaseTimeRangeData].completed.toLocaleString()}</span>
@@ -886,7 +894,7 @@ export default function SalesDashboard() {
                 </div>
 
                 {/* 预测完成 */}
-                <div className="border-b sm:border-b-0 sm:border-r border-gray-200 px-2 py-2 bg-gradient-to-b from-green-50/50 to-transparent">
+                <div className="px-2 py-2 bg-gradient-to-b from-green-50/50 to-transparent">
                   <div className="text-xs font-medium text-gray-500 mb-1">预测完成</div>
                   <div className="flex items-baseline gap-1">
                     <span className="text-2xl font-bold text-green-600 leading-none">{leaseTimeRangeData[timeRange as keyof typeof leaseTimeRangeData].predicted.toLocaleString()}</span>
@@ -897,26 +905,38 @@ export default function SalesDashboard() {
                     <span>+8.2%</span>
                   </div>
                 </div>
+              </div>
+            </div>
 
-                {/* 任务缺口 */}
-                <div className="px-2 py-2 bg-red-50 border-l-4 border-red-500">
-                  <div className="flex items-center gap-1 text-xs font-medium text-gray-500 mb-1">
-                    <AlertTriangle className="w-3 h-3 text-red-500 flex-shrink-0" />
-                    <span>任务缺口</span>
+            {/* 第四行：新增租赁任务缺口 - 独立醒目展示 */}
+            <div className="bg-gradient-to-r from-orange-50 via-orange-100 to-orange-50 border-2 border-orange-300 rounded-lg shadow-md">
+              <div className="flex items-center justify-between px-4 py-2">
+                <div className="flex items-center gap-3">
+                  <div className="bg-orange-500 rounded-full p-2 animate-pulse">
+                    <AlertTriangle className="w-6 h-6 text-white" />
                   </div>
+                  <div>
+                    <div className="flex items-center gap-2 mb-0.5">
+                      <span className="text-sm font-bold text-orange-700 uppercase tracking-wide">任务缺口</span>
+                      <span className="px-2 py-0.5 bg-orange-200 text-orange-800 text-xs font-bold rounded-full">中风险</span>
+                    </div>
+                    <div className="text-xs text-orange-600">距离目标还差</div>
+                  </div>
+                </div>
+                <div className="text-right">
                   <div className="flex items-baseline gap-1">
-                    <span className="text-2xl font-bold text-red-600 leading-none">{leaseTimeRangeData[timeRange as keyof typeof leaseTimeRangeData].gap.toLocaleString()}</span>
-                    <span className="text-xs text-red-600">万元</span>
+                    <span className="text-4xl font-extrabold text-orange-600 leading-none">{leaseTimeRangeData[timeRange as keyof typeof leaseTimeRangeData].gap.toLocaleString()}</span>
+                    <span className="text-sm font-bold text-orange-700">万元</span>
                   </div>
-                  <div className="flex items-center gap-0.5 text-xs text-orange-600 mt-1">
-                    <ArrowDown className="w-3 h-3" />
+                  <div className="flex items-center justify-end gap-0.5 text-sm font-semibold text-orange-500 mt-0.5">
+                    <ArrowDown className="w-4 h-4" />
                     <span>-7.6%</span>
                   </div>
                 </div>
               </div>
             </div>
 
-            {/* 第三行：续租指标 */}
+            {/* 第五行：续租指标 - 仅展示3个指标 */}
             <div className="bg-white border border-gray-200 rounded-lg overflow-hidden">
               <div className="bg-green-50 px-3 py-1.5 border-b border-green-100">
                 <div className="flex items-center gap-1.5">
@@ -924,13 +944,11 @@ export default function SalesDashboard() {
                   <span className="text-sm font-bold text-gray-800">续租</span>
                 </div>
               </div>
-              <div className="grid grid-cols-2 sm:grid-cols-4">
+              <div className="grid grid-cols-3">
                 {/* 目标 */}
-                <div className="border-r border-b sm:border-b-0 border-gray-200 px-2 py-2">
-                  <div className="flex items-center justify-between mb-1">
-                    <div className="flex items-center gap-1 text-xs font-medium text-gray-500">
-                      <span>{timeRangeLabel}目标</span>
-                    </div>
+                <div className="border-r border-gray-200 px-2 py-2">
+                  <div className="flex items-center gap-1 text-xs font-medium text-gray-500 mb-1">
+                    <span>{timeRangeLabel}目标</span>
                   </div>
                   <div className="flex items-baseline gap-1">
                     <span className="text-2xl font-bold text-gray-900 leading-none">{renewalTimeRangeData[timeRange as keyof typeof renewalTimeRangeData].target.toLocaleString()}</span>
@@ -942,7 +960,7 @@ export default function SalesDashboard() {
                 </div>
 
                 {/* 已完成 */}
-                <div className="border-b sm:border-b-0 sm:border-r border-gray-200 px-2 py-2">
+                <div className="border-r border-gray-200 px-2 py-2">
                   <div className="text-xs font-medium text-gray-500 mb-1">{timeRangeLabel}已完成</div>
                   <div className="flex items-baseline gap-1">
                     <span className="text-2xl font-bold text-gray-900 leading-none">{renewalTimeRangeData[timeRange as keyof typeof renewalTimeRangeData].completed.toLocaleString()}</span>
@@ -955,7 +973,7 @@ export default function SalesDashboard() {
                 </div>
 
                 {/* 预测完成 */}
-                <div className="border-b sm:border-b-0 sm:border-r border-gray-200 px-2 py-2 bg-gradient-to-b from-green-50/50 to-transparent">
+                <div className="px-2 py-2 bg-gradient-to-b from-green-50/50 to-transparent">
                   <div className="text-xs font-medium text-gray-500 mb-1">预测完成</div>
                   <div className="flex items-baseline gap-1">
                     <span className="text-2xl font-bold text-green-600 leading-none">{renewalTimeRangeData[timeRange as keyof typeof renewalTimeRangeData].predicted.toLocaleString()}</span>
@@ -966,19 +984,31 @@ export default function SalesDashboard() {
                     <span>+18.5%</span>
                   </div>
                 </div>
+              </div>
+            </div>
 
-                {/* 任务缺口 */}
-                <div className="px-2 py-2 bg-green-50 border-l-4 border-green-500">
-                  <div className="flex items-center gap-1 text-xs font-medium text-gray-500 mb-1">
-                    <AlertTriangle className="w-3 h-3 text-green-500 flex-shrink-0" />
-                    <span>任务缺口</span>
+            {/* 第六行：续租任务缺口 - 独立醒目展示 */}
+            <div className="bg-gradient-to-r from-green-50 via-green-100 to-green-50 border-2 border-green-300 rounded-lg shadow-md">
+              <div className="flex items-center justify-between px-4 py-2">
+                <div className="flex items-center gap-3">
+                  <div className="bg-green-500 rounded-full p-2">
+                    <Target className="w-6 h-6 text-white" />
                   </div>
+                  <div>
+                    <div className="flex items-center gap-2 mb-0.5">
+                      <span className="text-sm font-bold text-green-700 uppercase tracking-wide">任务缺口</span>
+                      <span className="px-2 py-0.5 bg-green-200 text-green-800 text-xs font-bold rounded-full">良好</span>
+                    </div>
+                    <div className="text-xs text-green-600">距离目标还差</div>
+                  </div>
+                </div>
+                <div className="text-right">
                   <div className="flex items-baseline gap-1">
-                    <span className="text-2xl font-bold text-green-600 leading-none">{renewalTimeRangeData[timeRange as keyof typeof renewalTimeRangeData].gap.toLocaleString()}</span>
-                    <span className="text-xs text-green-600">万元</span>
+                    <span className="text-4xl font-extrabold text-green-600 leading-none">{renewalTimeRangeData[timeRange as keyof typeof renewalTimeRangeData].gap.toLocaleString()}</span>
+                    <span className="text-sm font-bold text-green-700">万元</span>
                   </div>
-                  <div className="flex items-center gap-0.5 text-xs text-green-600 mt-1">
-                    <ArrowDown className="w-3 h-3" />
+                  <div className="flex items-center justify-end gap-0.5 text-sm font-semibold text-green-500 mt-0.5">
+                    <ArrowDown className="w-4 h-4" />
                     <span>-4.3%</span>
                   </div>
                 </div>
