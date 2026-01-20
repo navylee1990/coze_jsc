@@ -685,25 +685,25 @@ export default function SalesDashboard() {
   const timeRangeLabel = timeRange === 'month' ? '月度' : timeRange === 'quarter' ? '季度' : '年度';
 
   return (
-    <div className="min-h-screen bg-gray-50 p-4">
+    <div className="h-screen bg-gray-50 p-2 sm:p-3 overflow-hidden flex flex-col">
       {/* 页面头部 */}
-      <header className="mb-4">
+      <header className="flex-shrink-0 mb-2 sm:mb-3">
         <div className="flex items-center justify-between">
-          <div className="flex items-center gap-3">
-            <Link href="/" className="p-2 hover:bg-gray-100 rounded-lg transition-colors">
-              <svg className="w-5 h-5 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <div className="flex items-center gap-2 sm:gap-3">
+            <Link href="/" className="p-1.5 sm:p-2 hover:bg-gray-100 rounded-lg transition-colors">
+              <svg className="w-4 h-4 sm:w-5 sm:h-5 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
               </svg>
             </Link>
             <div>
-              <h1 className="text-2xl font-bold text-gray-900">AO经营看板</h1>
+              <h1 className="text-xl sm:text-2xl font-bold text-gray-900">AO经营看板</h1>
             </div>
           </div>
-          <div className="flex items-center gap-3">
-            <button className="px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50">
+          <div className="flex items-center gap-2 sm:gap-3">
+            <button className="px-3 py-1.5 sm:px-4 sm:py-2 text-xs sm:text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50">
               刷新数据
             </button>
-            <button className="px-4 py-2 text-sm font-medium text-white bg-blue-600 rounded-lg hover:bg-blue-700">
+            <button className="px-3 py-1.5 sm:px-4 sm:py-2 text-xs sm:text-sm font-medium text-white bg-blue-600 rounded-lg hover:bg-blue-700">
               导出报告
             </button>
           </div>
@@ -711,7 +711,7 @@ export default function SalesDashboard() {
       </header>
 
       {/* 筛选器 */}
-      <div className="mb-3 bg-white p-3 rounded-lg border border-gray-200">
+      <div className="flex-shrink-0 mb-2 bg-white p-2 rounded-lg border border-gray-200">
         <div className="flex flex-wrap items-center justify-between gap-4">
           <div className="flex flex-wrap items-center gap-4">
             <span className="text-sm font-medium text-gray-700">时间范围：</span>
@@ -804,77 +804,77 @@ export default function SalesDashboard() {
       </div>
 
       {/* Tab页 */}
-      <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
-        <TabsList className="w-full mb-3 h-10 bg-white border border-gray-200 rounded-xl shadow-sm p-1">
-          <TabsTrigger value="overview" className="flex-1 h-8 rounded-lg data-[state=active]:bg-gradient-to-r data-[state=active]:from-green-500 data-[state=active]:to-emerald-600 data-[state=active]:text-white data-[state=active]:shadow-md transition-all duration-200">
-            <span className="flex items-center gap-2">
-              <Activity className="w-4 h-4" />
-              目标达成
+      <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full flex-1 flex flex-col overflow-hidden">
+        <TabsList className="flex-shrink-0 w-full mb-2 h-9 bg-white border border-gray-200 rounded-xl shadow-sm p-1">
+          <TabsTrigger value="overview" className="flex-1 h-7 rounded-lg data-[state=active]:bg-gradient-to-r data-[state=active]:from-green-500 data-[state=active]:to-emerald-600 data-[state=active]:text-white data-[state=active]:shadow-md transition-all duration-200">
+            <span className="flex items-center gap-1.5 sm:gap-2">
+              <Activity className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
+              <span className="text-xs sm:text-sm">目标达成</span>
             </span>
           </TabsTrigger>
-          <TabsTrigger value="distributors" className="flex-1 h-8 rounded-lg data-[state=active]:bg-gradient-to-r data-[state=active]:from-green-500 data-[state=active]:to-emerald-600 data-[state=active]:text-white data-[state=active]:shadow-md transition-all duration-200">
-            <span className="flex items-center gap-2">
-              <Database className="w-4 h-4" />
-              经销商
+          <TabsTrigger value="distributors" className="flex-1 h-7 rounded-lg data-[state=active]:bg-gradient-to-r data-[state=active]:from-green-500 data-[state=active]:to-emerald-600 data-[state=active]:text-white data-[state=active]:shadow-md transition-all duration-200">
+            <span className="flex items-center gap-1.5 sm:gap-2">
+              <Database className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
+              <span className="text-xs sm:text-sm">经销商</span>
             </span>
           </TabsTrigger>
-          <TabsTrigger value="projects" className="flex-1 h-8 rounded-lg data-[state=active]:bg-gradient-to-r data-[state=active]:from-green-500 data-[state=active]:to-emerald-600 data-[state=active]:text-white data-[state=active]:shadow-md transition-all duration-200">
-            <span className="flex items-center gap-2">
-              <Target className="w-4 h-4" />
-              项目
+          <TabsTrigger value="projects" className="flex-1 h-7 rounded-lg data-[state=active]:bg-gradient-to-r data-[state=active]:from-green-500 data-[state=active]:to-emerald-600 data-[state=active]:text-white data-[state=active]:shadow-md transition-all duration-200">
+            <span className="flex items-center gap-1.5 sm:gap-2">
+              <Target className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
+              <span className="text-xs sm:text-sm">项目</span>
             </span>
           </TabsTrigger>
-          <TabsTrigger value="salesmen" className="flex-1 h-8 rounded-lg data-[state=active]:bg-gradient-to-r data-[state=active]:from-green-500 data-[state=active]:to-emerald-600 data-[state=active]:text-white data-[state=active]:shadow-md transition-all duration-200">
-            <span className="flex items-center gap-2">
-              <TrendingUp className="w-4 h-4" />
-              业务员
+          <TabsTrigger value="salesmen" className="flex-1 h-7 rounded-lg data-[state=active]:bg-gradient-to-r data-[state=active]:from-green-500 data-[state=active]:to-emerald-600 data-[state=active]:text-white data-[state=active]:shadow-md transition-all duration-200">
+            <span className="flex items-center gap-1.5 sm:gap-2">
+              <TrendingUp className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
+              <span className="text-xs sm:text-sm">业务员</span>
             </span>
           </TabsTrigger>
         </TabsList>
 
-        <TabsContent value="overview">
+        <TabsContent value="overview" className="flex-1 overflow-hidden flex flex-col">
         {/* KPI指标 + 月度趋势分析 左右布局 */}
-        <div className="flex flex-col lg:flex-row gap-3">
+        <div className="flex flex-col lg:flex-row gap-2 flex-shrink-0">
           {/* 左侧：KPI指标（买断+租赁+续租）- 三行布局 */}
-          <div className="w-full lg:w-1/2 flex flex-col gap-2">
+          <div className="w-full lg:w-1/2 flex flex-col gap-1">
             {/* 第一行：新增买断指标 */}
-            <div className="bg-white border border-gray-200 rounded-lg overflow-hidden">
-              <div className="bg-green-50 px-3 py-1.5 border-b border-green-100">
+            <div className="bg-white border border-gray-200 rounded-lg overflow-hidden flex-shrink-0">
+              <div className="bg-green-50 px-2 sm:px-3 py-1 border-y border-green-100">
                 <div className="flex items-center justify-between">
-                  <div className="flex items-center gap-1.5">
-                    <Target className="w-4 h-4 text-green-600" />
-                    <span className="text-sm font-bold text-gray-800">新增买断</span>
+                  <div className="flex items-center gap-1 sm:gap-1.5">
+                    <Target className="w-3 h-3 sm:w-4 sm:h-4 text-green-600" />
+                    <span className="text-xs sm:text-sm font-bold text-gray-800">新增买断</span>
                   </div>
-                  <div className="flex items-center gap-2">
+                  <div className="flex items-center gap-1 sm:gap-2">
                     {/* 风险等级徽章 */}
-                    <span className="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-bold bg-red-100 text-red-700">
+                    <span className="inline-flex items-center px-1.5 sm:px-2 py-0.5 rounded-full text-[9px] sm:text-[10px] font-bold bg-red-100 text-red-700">
                       🔴 高风险
                     </span>
                     {/* 迷你进度条 */}
-                    <div className="flex items-center gap-1.5">
-                      <div className="w-16 h-1.5 bg-gray-200 rounded-full overflow-hidden">
+                    <div className="flex items-center gap-1 sm:gap-1.5">
+                      <div className="w-12 sm:w-16 h-1.5 bg-gray-200 rounded-full overflow-hidden">
                         <div className="h-full bg-red-500 rounded-full" style={{ width: `${((currentRangeData.predicted / currentRangeData.target) * 100).toFixed(0)}%` }}></div>
                       </div>
-                      <span className="text-[10px] font-medium text-gray-600">{((currentRangeData.predicted / currentRangeData.target) * 100).toFixed(0)}%</span>
+                      <span className="text-[9px] sm:text-[10px] font-medium text-gray-600 hidden sm:inline">{((currentRangeData.predicted / currentRangeData.target) * 100).toFixed(0)}%</span>
                     </div>
                   </div>
                 </div>
               </div>
               <div className="grid grid-cols-2 sm:grid-cols-4">
                 {/* 目标 */}
-                <div className="border-r border-b sm:border-b-0 border-gray-200 px-2 py-2 relative">
-                  <div className="text-xs font-medium text-gray-500 mb-1">{timeRangeLabel}目标</div>
-                  <div className="flex items-baseline gap-1">
-                    <span className="text-2xl font-bold text-gray-900 leading-none">{currentRangeData.target.toLocaleString()}</span>
-                    <span className="text-xs text-gray-600">万元</span>
+                <div className="border-r border-b sm:border-b-0 border-gray-200 px-1.5 sm:px-2 py-1.5 sm:py-2 relative">
+                  <div className="text-[10px] sm:text-xs font-medium text-gray-500 mb-0.5">{timeRangeLabel}目标</div>
+                  <div className="flex items-baseline gap-0.5">
+                    <span className="text-xl sm:text-2xl font-bold text-gray-900 leading-none">{currentRangeData.target.toLocaleString()}</span>
+                    <span className="text-[10px] sm:text-xs text-gray-600">万元</span>
                   </div>
-                  <div className="mt-1 space-y-0.5">
-                    <div className="text-xs text-blue-600 bg-blue-50 inline-block px-1.5 py-0.5 rounded">
+                  <div className="mt-0.5 space-y-0.5">
+                    <div className="text-[10px] sm:text-xs text-blue-600 bg-blue-50 inline-block px-1 sm:px-1.5 py-0.5 rounded">
                       {timeRange === 'month' ? `${selectedMonth}月` : timeRange === 'quarter' ? selectedQuarter : '2026'}
                     </div>
                     {/* 对比数据 */}
                     {comparisonMode && (
-                      <div className="flex items-center gap-1 text-[10px]">
+                      <div className="flex items-center gap-1 text-[9px] sm:text-[10px] hidden sm:flex">
                         <span className="text-gray-500">vs {comparisonTarget === 'lastMonth' ? '上月' : comparisonTarget === 'lastYear' ? '去年' : comparisonTarget === 'lastQuarter' ? '上季' : '对比'}</span>
                         <span className={`font-bold ${currentRangeData.target > 1428 ? 'text-green-600' : 'text-red-600'}`}>
                           {comparisonTarget === 'lastMonth' ? '1350' : comparisonTarget === 'lastYear' ? '1280' : '1300'}万元
@@ -888,48 +888,48 @@ export default function SalesDashboard() {
                 </div>
 
                 {/* 已完成 */}
-                <div className="border-b sm:border-b-0 sm:border-r border-gray-200 px-2 py-2">
-                  <div className="text-xs font-medium text-gray-500 mb-1">{timeRangeLabel}已完成</div>
-                  <div className="flex items-baseline gap-1">
-                    <span className="text-2xl font-bold text-gray-900 leading-none">{currentRangeData.completed.toLocaleString()}</span>
-                    <span className="text-xs text-gray-600">万元</span>
+                <div className="border-b sm:border-b-0 sm:border-r border-gray-200 px-1.5 sm:px-2 py-1.5 sm:py-2">
+                  <div className="text-[10px] sm:text-xs font-medium text-gray-500 mb-0.5">{timeRangeLabel}已完成</div>
+                  <div className="flex items-baseline gap-0.5">
+                    <span className="text-xl sm:text-2xl font-bold text-gray-900 leading-none">{currentRangeData.completed.toLocaleString()}</span>
+                    <span className="text-[10px] sm:text-xs text-gray-600">万元</span>
                   </div>
-                  <div className="flex items-center gap-0.5 text-xs text-red-600 mt-1">
-                    <ArrowDown className="w-3 h-3" />
+                  <div className="flex items-center gap-0.5 text-[10px] sm:text-xs text-red-600 mt-0.5">
+                    <ArrowDown className="w-2 h-2 sm:w-3 sm:h-3" />
                     <span>-8.3%</span>
                   </div>
                 </div>
 
                 {/* 预测完成 */}
-                <div className="border-b sm:border-b-0 sm:border-r border-gray-200 px-2 py-2 bg-gradient-to-b from-green-50/50 to-transparent">
-                  <div className="text-xs font-medium text-gray-500 mb-1">预测完成</div>
-                  <div className="flex items-baseline gap-1">
-                    <span className="text-2xl font-bold text-green-600 leading-none">{currentRangeData.predicted.toLocaleString()}</span>
-                    <span className="text-xs text-green-600">万元</span>
+                <div className="border-b sm:border-b-0 sm:border-r border-gray-200 px-1.5 sm:px-2 py-1.5 sm:py-2 bg-gradient-to-b from-green-50/50 to-transparent">
+                  <div className="text-[10px] sm:text-xs font-medium text-gray-500 mb-0.5">预测完成</div>
+                  <div className="flex items-baseline gap-0.5">
+                    <span className="text-xl sm:text-2xl font-bold text-green-600 leading-none">{currentRangeData.predicted.toLocaleString()}</span>
+                    <span className="text-[10px] sm:text-xs text-green-600">万元</span>
                   </div>
-                  <div className="flex items-center gap-0.5 text-xs text-green-600 mt-1">
-                    <ArrowUp className="w-3 h-3" />
+                  <div className="flex items-center gap-0.5 text-[10px] sm:text-xs text-green-600 mt-0.5">
+                    <ArrowUp className="w-2 h-2 sm:w-3 sm:h-3" />
                     <span>+5.2%</span>
                   </div>
                 </div>
 
                 {/* 任务缺口 - 醒目展示 */}
-                <div className={`px-2 py-2 ${currentRangeData.gap > 0 ? 'bg-red-100 border-l-4 border-red-600' : currentRangeData.gap < 0 ? 'bg-green-100 border-l-4 border-green-600' : 'bg-gray-100 border-l-4 border-gray-400'}`}>
+                <div className={`px-1.5 sm:px-2 py-1.5 sm:py-2 ${currentRangeData.gap > 0 ? 'bg-red-100 border-l-4 border-red-600' : currentRangeData.gap < 0 ? 'bg-green-100 border-l-4 border-green-600' : 'bg-gray-100 border-l-4 border-gray-400'}`}>
                   <div className="flex items-center justify-between mb-0.5">
-                    <div className={`inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs font-bold ${currentRangeData.gap > 0 ? 'bg-red-600 text-white' : currentRangeData.gap < 0 ? 'bg-green-600 text-white' : 'bg-gray-400 text-white'}`}>
-                      <AlertTriangle className={`w-3 h-3 ${currentRangeData.gap > 0 ? 'animate-pulse' : ''}`} />
+                    <div className={`inline-flex items-center gap-0.5 px-1.5 sm:px-2 py-0.5 rounded-full text-[10px] sm:text-xs font-bold ${currentRangeData.gap > 0 ? 'bg-red-600 text-white' : currentRangeData.gap < 0 ? 'bg-green-600 text-white' : 'bg-gray-400 text-white'}`}>
+                      <AlertTriangle className={`w-2 h-2 sm:w-3 sm:h-3 ${currentRangeData.gap > 0 ? 'animate-pulse' : ''}`} />
                       <span>{currentRangeData.gap > 0 ? '缺口' : currentRangeData.gap < 0 ? '超额' : '持平'}</span>
                     </div>
                   </div>
-                  <div className="flex items-baseline gap-1">
-                    <span className={`text-3xl font-black leading-none ${currentRangeData.gap > 0 ? 'text-red-700' : currentRangeData.gap < 0 ? 'text-green-700' : 'text-gray-700'}`}>
+                  <div className="flex items-baseline gap-0.5">
+                    <span className={`text-2xl sm:text-3xl font-black leading-none ${currentRangeData.gap > 0 ? 'text-red-700' : currentRangeData.gap < 0 ? 'text-green-700' : 'text-gray-700'}`}>
                       {currentRangeData.gap > 0 ? '' : '+'}{currentRangeData.gap.toLocaleString()}
                     </span>
-                    <span className={`text-sm font-bold ${currentRangeData.gap > 0 ? 'text-red-600' : currentRangeData.gap < 0 ? 'text-green-600' : 'text-gray-600'}`}>万元</span>
+                    <span className={`text-xs sm:text-sm font-bold ${currentRangeData.gap > 0 ? 'text-red-600' : currentRangeData.gap < 0 ? 'text-green-600' : 'text-gray-600'}`}>万元</span>
                   </div>
                   {currentRangeData.gap !== 0 && (
-                    <div className={`flex items-center gap-0.5 text-xs mt-0.5 ${currentRangeData.gap > 0 ? 'text-red-600' : 'text-green-600'}`}>
-                      {currentRangeData.gap > 0 ? <ArrowDown className="w-3 h-3" /> : <ArrowUp className="w-3 h-3" />}
+                    <div className={`flex items-center gap-0.5 text-[10px] sm:text-xs mt-0.5 ${currentRangeData.gap > 0 ? 'text-red-600' : 'text-green-600'}`}>
+                      {currentRangeData.gap > 0 ? <ArrowDown className="w-2 h-2 sm:w-3 sm:h-3" /> : <ArrowUp className="w-2 h-2 sm:w-3 sm:h-3" />}
                       <span className="font-bold">{currentRangeData.gap > 0 ? '-' : '+'}54.5%</span>
                     </div>
                   )}
@@ -938,43 +938,43 @@ export default function SalesDashboard() {
             </div>
 
             {/* 第二行：新增租赁指标 */}
-            <div className="bg-white border border-gray-200 rounded-lg overflow-hidden">
-              <div className="bg-green-50 px-3 py-1.5 border-b border-green-100">
+            <div className="bg-white border border-gray-200 rounded-lg overflow-hidden flex-shrink-0">
+              <div className="bg-green-50 px-2 sm:px-3 py-1 border-y border-green-100">
                 <div className="flex items-center justify-between">
-                  <div className="flex items-center gap-1.5">
-                    <Database className="w-4 h-4 text-green-600" />
-                    <span className="text-sm font-bold text-gray-800">新增租赁</span>
+                  <div className="flex items-center gap-1 sm:gap-1.5">
+                    <Database className="w-3 h-3 sm:w-4 sm:h-4 text-green-600" />
+                    <span className="text-xs sm:text-sm font-bold text-gray-800">新增租赁</span>
                   </div>
-                  <div className="flex items-center gap-2">
+                  <div className="flex items-center gap-1 sm:gap-2">
                     {/* 风险等级徽章 */}
-                    <span className="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-bold bg-orange-100 text-orange-700">
+                    <span className="inline-flex items-center px-1.5 sm:px-2 py-0.5 rounded-full text-[9px] sm:text-[10px] font-bold bg-orange-100 text-orange-700">
                       🟡 中风险
                     </span>
                     {/* 迷你进度条 */}
-                    <div className="flex items-center gap-1.5">
-                      <div className="w-16 h-1.5 bg-gray-200 rounded-full overflow-hidden">
+                    <div className="flex items-center gap-1 sm:gap-1.5">
+                      <div className="w-12 sm:w-16 h-1.5 bg-gray-200 rounded-full overflow-hidden">
                         <div className="h-full bg-orange-500 rounded-full" style={{ width: `${((leaseTimeRangeData[timeRange as keyof typeof leaseTimeRangeData].predicted / leaseTimeRangeData[timeRange as keyof typeof leaseTimeRangeData].target) * 100).toFixed(0)}%` }}></div>
                       </div>
-                      <span className="text-[10px] font-medium text-gray-600">{((leaseTimeRangeData[timeRange as keyof typeof leaseTimeRangeData].predicted / leaseTimeRangeData[timeRange as keyof typeof leaseTimeRangeData].target) * 100).toFixed(0)}%</span>
+                      <span className="text-[9px] sm:text-[10px] font-medium text-gray-600 hidden sm:inline">{((leaseTimeRangeData[timeRange as keyof typeof leaseTimeRangeData].predicted / leaseTimeRangeData[timeRange as keyof typeof leaseTimeRangeData].target) * 100).toFixed(0)}%</span>
                     </div>
                   </div>
                 </div>
               </div>
               <div className="grid grid-cols-2 sm:grid-cols-4">
                 {/* 目标 */}
-                <div className="border-r border-b sm:border-b-0 border-gray-200 px-2 py-2 relative">
-                  <div className="text-xs font-medium text-gray-500 mb-1">{timeRangeLabel}目标</div>
-                  <div className="flex items-baseline gap-1">
-                    <span className="text-2xl font-bold text-gray-900 leading-none">{leaseTimeRangeData[timeRange as keyof typeof leaseTimeRangeData].target.toLocaleString()}</span>
-                    <span className="text-xs text-gray-600">万元</span>
+                <div className="border-r border-b sm:border-b-0 border-gray-200 px-1.5 sm:px-2 py-1.5 sm:py-2 relative">
+                  <div className="text-[10px] sm:text-xs font-medium text-gray-500 mb-0.5">{timeRangeLabel}目标</div>
+                  <div className="flex items-baseline gap-0.5">
+                    <span className="text-xl sm:text-2xl font-bold text-gray-900 leading-none">{leaseTimeRangeData[timeRange as keyof typeof leaseTimeRangeData].target.toLocaleString()}</span>
+                    <span className="text-[10px] sm:text-xs text-gray-600">万元</span>
                   </div>
-                  <div className="mt-1 space-y-0.5">
-                    <div className="text-xs text-blue-600 bg-blue-50 inline-block px-1.5 py-0.5 rounded">
+                  <div className="mt-0.5 space-y-0.5">
+                    <div className="text-[10px] sm:text-xs text-blue-600 bg-blue-50 inline-block px-1 sm:px-1.5 py-0.5 rounded">
                       {timeRange === 'month' ? `${selectedMonth}月` : timeRange === 'quarter' ? selectedQuarter : '2026'}
                     </div>
                     {/* 对比数据 */}
                     {comparisonMode && (
-                      <div className="flex items-center gap-1 text-[10px]">
+                      <div className="flex items-center gap-1 text-[9px] sm:text-[10px] hidden sm:flex">
                         <span className="text-gray-500">vs {comparisonTarget === 'lastMonth' ? '上月' : comparisonTarget === 'lastYear' ? '去年' : comparisonTarget === 'lastQuarter' ? '上季' : '对比'}</span>
                         <span className={`font-bold ${leaseTimeRangeData[timeRange as keyof typeof leaseTimeRangeData].target > 856 ? 'text-green-600' : 'text-red-600'}`}>
                           {comparisonTarget === 'lastMonth' ? '820' : comparisonTarget === 'lastYear' ? '760' : '780'}万元
@@ -988,48 +988,48 @@ export default function SalesDashboard() {
                 </div>
 
                 {/* 已完成 */}
-                <div className="border-b sm:border-b-0 sm:border-r border-gray-200 px-2 py-2">
-                  <div className="text-xs font-medium text-gray-500 mb-1">{timeRangeLabel}已完成</div>
-                  <div className="flex items-baseline gap-1">
-                    <span className="text-2xl font-bold text-gray-900 leading-none">{leaseTimeRangeData[timeRange as keyof typeof leaseTimeRangeData].completed.toLocaleString()}</span>
-                    <span className="text-xs text-gray-600">万元</span>
+                <div className="border-b sm:border-b-0 sm:border-r border-gray-200 px-1.5 sm:px-2 py-1.5 sm:py-2">
+                  <div className="text-[10px] sm:text-xs font-medium text-gray-500 mb-0.5">{timeRangeLabel}已完成</div>
+                  <div className="flex items-baseline gap-0.5">
+                    <span className="text-xl sm:text-2xl font-bold text-gray-900 leading-none">{leaseTimeRangeData[timeRange as keyof typeof leaseTimeRangeData].completed.toLocaleString()}</span>
+                    <span className="text-[10px] sm:text-xs text-gray-600">万元</span>
                   </div>
-                  <div className="flex items-center gap-0.5 text-xs text-green-600 mt-1">
-                    <ArrowUp className="w-3 h-3" />
+                  <div className="flex items-center gap-0.5 text-[10px] sm:text-xs text-green-600 mt-0.5">
+                    <ArrowUp className="w-2 h-2 sm:w-3 sm:h-3" />
                     <span>+12.5%</span>
                   </div>
                 </div>
 
                 {/* 预测完成 */}
-                <div className="border-b sm:border-b-0 sm:border-r border-gray-200 px-2 py-2 bg-gradient-to-b from-green-50/50 to-transparent">
-                  <div className="text-xs font-medium text-gray-500 mb-1">预测完成</div>
-                  <div className="flex items-baseline gap-1">
-                    <span className="text-2xl font-bold text-green-600 leading-none">{leaseTimeRangeData[timeRange as keyof typeof leaseTimeRangeData].predicted.toLocaleString()}</span>
-                    <span className="text-xs text-green-600">万元</span>
+                <div className="border-b sm:border-b-0 sm:border-r border-gray-200 px-1.5 sm:px-2 py-1.5 sm:py-2 bg-gradient-to-b from-green-50/50 to-transparent">
+                  <div className="text-[10px] sm:text-xs font-medium text-gray-500 mb-0.5">预测完成</div>
+                  <div className="flex items-baseline gap-0.5">
+                    <span className="text-xl sm:text-2xl font-bold text-green-600 leading-none">{leaseTimeRangeData[timeRange as keyof typeof leaseTimeRangeData].predicted.toLocaleString()}</span>
+                    <span className="text-[10px] sm:text-xs text-green-600">万元</span>
                   </div>
-                  <div className="flex items-center gap-0.5 text-xs text-green-600 mt-1">
-                    <ArrowUp className="w-3 h-3" />
+                  <div className="flex items-center gap-0.5 text-[10px] sm:text-xs text-green-600 mt-0.5">
+                    <ArrowUp className="w-2 h-2 sm:w-3 sm:h-3" />
                     <span>+8.2%</span>
                   </div>
                 </div>
 
                 {/* 任务缺口 - 醒目展示 */}
-                <div className={`px-2 py-2 ${leaseTimeRangeData[timeRange as keyof typeof leaseTimeRangeData].gap > 0 ? 'bg-red-100 border-l-4 border-red-600' : leaseTimeRangeData[timeRange as keyof typeof leaseTimeRangeData].gap < 0 ? 'bg-green-100 border-l-4 border-green-600' : 'bg-gray-100 border-l-4 border-gray-400'}`}>
+                <div className={`px-1.5 sm:px-2 py-1.5 sm:py-2 ${leaseTimeRangeData[timeRange as keyof typeof leaseTimeRangeData].gap > 0 ? 'bg-red-100 border-l-4 border-red-600' : leaseTimeRangeData[timeRange as keyof typeof leaseTimeRangeData].gap < 0 ? 'bg-green-100 border-l-4 border-green-600' : 'bg-gray-100 border-l-4 border-gray-400'}`}>
                   <div className="flex items-center justify-between mb-0.5">
-                    <div className={`inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs font-bold ${leaseTimeRangeData[timeRange as keyof typeof leaseTimeRangeData].gap > 0 ? 'bg-red-600 text-white' : leaseTimeRangeData[timeRange as keyof typeof leaseTimeRangeData].gap < 0 ? 'bg-green-600 text-white' : 'bg-gray-400 text-white'}`}>
-                      <AlertTriangle className={`w-3 h-3 ${leaseTimeRangeData[timeRange as keyof typeof leaseTimeRangeData].gap > 0 ? 'animate-pulse' : ''}`} />
+                    <div className={`inline-flex items-center gap-0.5 px-1.5 sm:px-2 py-0.5 rounded-full text-[10px] sm:text-xs font-bold ${leaseTimeRangeData[timeRange as keyof typeof leaseTimeRangeData].gap > 0 ? 'bg-red-600 text-white' : leaseTimeRangeData[timeRange as keyof typeof leaseTimeRangeData].gap < 0 ? 'bg-green-600 text-white' : 'bg-gray-400 text-white'}`}>
+                      <AlertTriangle className={`w-2 h-2 sm:w-3 sm:h-3 ${leaseTimeRangeData[timeRange as keyof typeof leaseTimeRangeData].gap > 0 ? 'animate-pulse' : ''}`} />
                       <span>{leaseTimeRangeData[timeRange as keyof typeof leaseTimeRangeData].gap > 0 ? '缺口' : leaseTimeRangeData[timeRange as keyof typeof leaseTimeRangeData].gap < 0 ? '超额' : '持平'}</span>
                     </div>
                   </div>
-                  <div className="flex items-baseline gap-1">
-                    <span className={`text-3xl font-black leading-none ${leaseTimeRangeData[timeRange as keyof typeof leaseTimeRangeData].gap > 0 ? 'text-red-700' : leaseTimeRangeData[timeRange as keyof typeof leaseTimeRangeData].gap < 0 ? 'text-green-700' : 'text-gray-700'}`}>
+                  <div className="flex items-baseline gap-0.5">
+                    <span className={`text-2xl sm:text-3xl font-black leading-none ${leaseTimeRangeData[timeRange as keyof typeof leaseTimeRangeData].gap > 0 ? 'text-red-700' : leaseTimeRangeData[timeRange as keyof typeof leaseTimeRangeData].gap < 0 ? 'text-green-700' : 'text-gray-700'}`}>
                       {leaseTimeRangeData[timeRange as keyof typeof leaseTimeRangeData].gap > 0 ? '' : '+'}{leaseTimeRangeData[timeRange as keyof typeof leaseTimeRangeData].gap.toLocaleString()}
                     </span>
-                    <span className={`text-sm font-bold ${leaseTimeRangeData[timeRange as keyof typeof leaseTimeRangeData].gap > 0 ? 'text-red-600' : leaseTimeRangeData[timeRange as keyof typeof leaseTimeRangeData].gap < 0 ? 'text-green-600' : 'text-gray-600'}`}>万元</span>
+                    <span className={`text-xs sm:text-sm font-bold ${leaseTimeRangeData[timeRange as keyof typeof leaseTimeRangeData].gap > 0 ? 'text-red-600' : leaseTimeRangeData[timeRange as keyof typeof leaseTimeRangeData].gap < 0 ? 'text-green-600' : 'text-gray-600'}`}>万元</span>
                   </div>
                   {leaseTimeRangeData[timeRange as keyof typeof leaseTimeRangeData].gap !== 0 && (
-                    <div className={`flex items-center gap-0.5 text-xs mt-0.5 ${leaseTimeRangeData[timeRange as keyof typeof leaseTimeRangeData].gap > 0 ? 'text-red-600' : 'text-green-600'}`}>
-                      {leaseTimeRangeData[timeRange as keyof typeof leaseTimeRangeData].gap > 0 ? <ArrowDown className="w-3 h-3" /> : <ArrowUp className="w-3 h-3" />}
+                    <div className={`flex items-center gap-0.5 text-[10px] sm:text-xs mt-0.5 ${leaseTimeRangeData[timeRange as keyof typeof leaseTimeRangeData].gap > 0 ? 'text-red-600' : 'text-green-600'}`}>
+                      {leaseTimeRangeData[timeRange as keyof typeof leaseTimeRangeData].gap > 0 ? <ArrowDown className="w-2 h-2 sm:w-3 sm:h-3" /> : <ArrowUp className="w-2 h-2 sm:w-3 sm:h-3" />}
                       <span className="font-bold">{leaseTimeRangeData[timeRange as keyof typeof leaseTimeRangeData].gap > 0 ? '-' : '+'}7.6%</span>
                     </div>
                   )}
@@ -1038,24 +1038,24 @@ export default function SalesDashboard() {
             </div>
 
             {/* 第三行：续租指标 */}
-            <div className="bg-white border border-gray-200 rounded-lg overflow-hidden">
-              <div className="bg-green-50 px-3 py-1.5 border-b border-green-100">
+            <div className="bg-white border border-gray-200 rounded-lg overflow-hidden flex-shrink-0">
+              <div className="bg-green-50 px-2 sm:px-3 py-1 border-y border-green-100">
                 <div className="flex items-center justify-between">
-                  <div className="flex items-center gap-1.5">
-                    <Clock className="w-4 h-4 text-green-600" />
-                    <span className="text-sm font-bold text-gray-800">续租</span>
+                  <div className="flex items-center gap-1 sm:gap-1.5">
+                    <Clock className="w-3 h-3 sm:w-4 sm:h-4 text-green-600" />
+                    <span className="text-xs sm:text-sm font-bold text-gray-800">续租</span>
                   </div>
-                  <div className="flex items-center gap-2">
+                  <div className="flex items-center gap-1 sm:gap-2">
                     {/* 风险等级徽章 */}
-                    <span className="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-bold bg-green-100 text-green-700">
+                    <span className="inline-flex items-center px-1.5 sm:px-2 py-0.5 rounded-full text-[9px] sm:text-[10px] font-bold bg-green-100 text-green-700">
                       🟢 低风险
                     </span>
                     {/* 迷你进度条 */}
-                    <div className="flex items-center gap-1.5">
-                      <div className="w-16 h-1.5 bg-gray-200 rounded-full overflow-hidden">
+                    <div className="flex items-center gap-1 sm:gap-1.5">
+                      <div className="w-12 sm:w-16 h-1.5 bg-gray-200 rounded-full overflow-hidden">
                         <div className="h-full bg-green-500 rounded-full" style={{ width: `${((renewalTimeRangeData[timeRange as keyof typeof renewalTimeRangeData].predicted / renewalTimeRangeData[timeRange as keyof typeof renewalTimeRangeData].target) * 100).toFixed(0)}%` }}></div>
                       </div>
-                      <span className="text-[10px] font-medium text-gray-600">{((renewalTimeRangeData[timeRange as keyof typeof renewalTimeRangeData].predicted / renewalTimeRangeData[timeRange as keyof typeof renewalTimeRangeData].target) * 100).toFixed(0)}%</span>
+                      <span className="text-[9px] sm:text-[10px] font-medium text-gray-600 hidden sm:inline">{((renewalTimeRangeData[timeRange as keyof typeof renewalTimeRangeData].predicted / renewalTimeRangeData[timeRange as keyof typeof renewalTimeRangeData].target) * 100).toFixed(0)}%</span>
                     </div>
                   </div>
                 </div>
@@ -1139,19 +1139,19 @@ export default function SalesDashboard() {
           </div>
 
           {/* 右侧：月度趋势分析 */}
-          <div className="w-full lg:w-1/2 border-2 border-blue-200 bg-gradient-to-br from-blue-50 to-cyan-50 rounded-xl p-3 sm:p-4">
+          <div className="w-full lg:w-1/2 border-2 border-blue-200 bg-gradient-to-br from-blue-50 to-cyan-50 rounded-xl p-2 sm:p-3 flex-shrink-0">
             {/* 标题和筛选器 */}
-            <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-2 sm:mb-3 gap-2">
-              <div className="flex items-center gap-2">
-                <BarChart3 className="w-5 h-5 text-blue-600" />
-                <span className="text-base font-bold text-gray-900">月度趋势分析</span>
+            <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-1.5 sm:mb-2 gap-1 sm:gap-2">
+              <div className="flex items-center gap-1.5 sm:gap-2">
+                <BarChart3 className="w-4 h-4 sm:w-5 sm:h-5 text-blue-600" />
+                <span className="text-sm sm:text-base font-bold text-gray-900">月度趋势分析</span>
               </div>
-              <div className="flex items-center gap-2 w-full sm:w-auto">
-                <span className="text-xs sm:text-sm font-medium text-gray-600 whitespace-nowrap">地区筛选：</span>
+              <div className="flex items-center gap-1.5 sm:gap-2 w-full sm:w-auto">
+                <span className="text-[10px] sm:text-xs sm:text-sm font-medium text-gray-600 whitespace-nowrap">地区：</span>
                 <select
                   value={trendRegion}
                   onChange={(e) => setTrendRegion(e.target.value)}
-                  className="flex-1 sm:flex-none px-2 py-1 text-xs sm:text-sm border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white"
+                  className="flex-1 sm:flex-none px-1.5 sm:px-2 py-0.5 sm:py-1 text-[10px] sm:text-xs sm:text-sm border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white"
                 >
                   <option value="all">全部地区</option>
                   <option value="一区">一区</option>
@@ -1166,8 +1166,8 @@ export default function SalesDashboard() {
             </div>
 
             {/* 趋势图表 */}
-            <div className="bg-white rounded-xl p-2 sm:p-3 shadow-sm border border-gray-100">
-              <div style={{ height: '240px' }} className="sm:h-[340px]">
+            <div className="bg-white rounded-xl p-1.5 sm:p-2 sm:p-3 shadow-sm border border-gray-100">
+              <div style={{ height: '180px' }} className="sm:h-[220px]">
                 <ResponsiveContainer width="100%" height="100%">
                   <AreaChart data={monthlyTrendData[trendRegion as keyof typeof monthlyTrendData] || monthlyTrendData.all}>
                     <defs>
@@ -1256,12 +1256,12 @@ export default function SalesDashboard() {
         </div>
 
         {/* 区域达成情况 */}
-        <div className="mt-3 grid grid-cols-1 lg:grid-cols-2 gap-3">
+        <div className="mt-2 grid grid-cols-1 lg:grid-cols-2 gap-2 flex-1 min-h-0">
           {/* 左侧：表格 */}
-          <Card className="lg:col-span-1 border border-green-200 bg-gradient-to-br from-green-50 to-emerald-50">
-            <CardContent className="p-3">
+          <Card className="lg:col-span-1 border border-green-200 bg-gradient-to-br from-green-50 to-emerald-50 flex flex-col min-h-0">
+            <CardContent className="p-2 flex flex-col h-full overflow-hidden">
               {/* 标题 */}
-              <div className="flex items-center justify-between mb-3">
+              <div className="flex items-center justify-between mb-2 flex-shrink-0">
                 <div className="flex items-center gap-2">
                   <Activity className="w-5 h-5 text-green-600" />
                   {viewLevel === 'city' && (
@@ -1287,10 +1287,10 @@ export default function SalesDashboard() {
                     // 企业微信拉群逻辑 - 区域达成情况
                     alert('已启动企业微信拉群，将邀请区域负责人讨论达成缺口问题');
                   }}
-                  className="flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium text-white bg-green-400 rounded-md hover:bg-green-500 transition-colors"
+                  className="flex items-center gap-1 sm:gap-1.5 px-2 py-1 sm:px-3 sm:py-1.5 text-[10px] sm:text-xs font-medium text-white bg-green-400 rounded-md hover:bg-green-500 transition-colors"
                   title="企业微信拉群"
                 >
-                  <svg className="w-4 h-4" viewBox="0 0 1024 1024" fill="currentColor">
+                  <svg className="w-3 h-3 sm:w-4 sm:h-4" viewBox="0 0 1024 1024" fill="currentColor">
                     <path d="M866.133333 268.8c-21.333333-38.4-64-64-110.933333-64-74.666667 0-136 61.333333-136 136 0 21.333333 4.266667 42.666667 12.8 64-64-42.666667-149.333333-64-234.666667-64-185.6 0-341.333333 140.8-341.333333 315.733333 0 149.333333 98.133333 277.333333 234.666667 311.466667-4.266667 17.066667-8.533333 38.4-8.533333 59.733333 0 38.4 21.333333 72.533333 55.466667 89.6 17.066667 8.533333 38.4 12.8 55.466667 12.8 42.666667 0 81.066667-21.333333 102.4-55.466667 21.333333 8.533333 46.933333 12.8 72.533333 12.8 149.333333 0 277.333333-123.733333 277.333333-277.333333 0-21.333333-4.266667-42.666667-8.533333-59.733333 89.6-42.666667 153.6-132.266667 153.6-234.666667 0-123.733333-93.866667-226.133333-224-243.2zM362.666667 810.666667c-29.866667 0-55.466667-25.6-55.466667-55.466667 0-29.866667 25.6-55.466667 55.466667-55.466667 29.866667 0 55.466667 25.6 55.466667 55.466667 0 29.866667-25.6 55.466667-55.466667 55.466667z m384-128c-29.866667 0-55.466667-25.6-55.466667-55.466667 0-29.866667 25.6-55.466667 55.466667-55.466667 29.866667 0 55.466667 25.6 55.466667 55.466667 0 29.866667-25.6 55.466667-55.466667 55.466667z"/>
                   </svg>
                   拉群
@@ -1298,7 +1298,7 @@ export default function SalesDashboard() {
               </div>
 
               {/* 大区维度表格 */}
-              <div className="overflow-x-auto -mx-3 px-3">
+              <div className="overflow-x-auto -mx-2 px-2 flex-1 overflow-y-auto min-h-0">
                 <div className="bg-white rounded-lg border-0 overflow-hidden min-w-[900px]">
                   <table className="w-full">
                   <thead>
@@ -1384,10 +1384,10 @@ export default function SalesDashboard() {
           </Card>
 
           {/* 右侧：城市经理达成情况 */}
-          <Card className="lg:col-span-1 border border-green-200 bg-gradient-to-br from-green-50 to-emerald-50">
-            <CardContent className="p-3">
+          <Card className="lg:col-span-1 border border-green-200 bg-gradient-to-br from-green-50 to-emerald-50 flex flex-col min-h-0">
+            <CardContent className="p-2 flex flex-col h-full overflow-hidden">
               {/* 标题 */}
-              <div className="flex items-center justify-between mb-3">
+              <div className="flex items-center justify-between mb-2 flex-shrink-0">
                 <div className="flex items-center gap-2">
                   <Activity className="w-5 h-5 text-green-600" />
                   <span className="text-base font-bold text-gray-900">城市经理达成情况</span>
@@ -1426,7 +1426,7 @@ export default function SalesDashboard() {
               </div>
 
               {/* 城市经理表格 */}
-              <div className="overflow-x-auto -mx-3 px-3">
+              <div className="overflow-x-auto -mx-2 px-2 flex-1 overflow-y-auto min-h-0">
                 <div className="bg-white rounded-lg border-0 overflow-hidden min-w-[900px]">
                   <table className="w-full">
                   <thead>
@@ -1543,8 +1543,8 @@ export default function SalesDashboard() {
         </div>
           </TabsContent>
 
-          <TabsContent value="distributors">
-            <div className="mb-4 flex items-center justify-between">
+          <TabsContent value="distributors" className="flex-1 overflow-hidden flex flex-col">
+            <div className="mb-2 sm:mb-3 flex items-center justify-between flex-shrink-0">
               <h2 className="text-lg font-semibold text-gray-900 flex items-center gap-2">
                 <Database className="w-5 h-5" />
                 经销商经营分析
@@ -1958,9 +1958,9 @@ export default function SalesDashboard() {
             </Card>
           </TabsContent>
 
-          <TabsContent value="projects">
+          <TabsContent value="projects" className="flex-1 overflow-hidden flex flex-col">
             {/* 项目分析标题 */}
-            <div className="mb-3 flex items-center gap-4">
+            <div className="mb-2 sm:mb-3 flex items-center gap-2 sm:gap-4 flex-shrink-0">
               <h2 className="text-lg font-semibold text-gray-900 flex items-center gap-2">
                 <Target className="w-5 h-5" />
                 项目分析
@@ -2250,9 +2250,9 @@ export default function SalesDashboard() {
             </div>
           </TabsContent>
 
-          <TabsContent value="salesmen">
+          <TabsContent value="salesmen" className="flex-1 overflow-hidden flex flex-col">
             {/* 业务员分析标题 */}
-            <div className="mb-3 flex items-center gap-4">
+            <div className="mb-2 sm:mb-3 flex items-center gap-2 sm:gap-4 flex-shrink-0">
               <h2 className="text-lg font-semibold text-gray-900 flex items-center gap-2">
                 <TrendingUp className="w-5 h-5" />
                 业务员分析
