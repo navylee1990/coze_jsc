@@ -1329,12 +1329,12 @@ export default function SalesDashboard() {
         </div>
 
         {/* 区域达成情况 */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-2 min-h-[500px] max-h-[600px]">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-2 min-h-[450px] max-h-[520px]">
           {/* 左侧：表格 */}
           <Card className="lg:col-span-1 border border-green-200 bg-gradient-to-br from-green-50 to-emerald-50 flex flex-col h-full min-h-0">
             <CardContent className="p-1.5 flex flex-col min-h-0">
               {/* 标题 */}
-              <div className="flex items-center justify-between mb-1.5 flex-shrink-0">
+              <div className="flex items-center justify-between mb-1 flex-shrink-0">
                 <div className="flex items-center gap-2">
                   <Activity className="w-5 h-5 text-green-600" />
                   {viewLevel === 'city' && (
@@ -1376,21 +1376,21 @@ export default function SalesDashboard() {
                   <table className="w-full flex-1">
                   <thead className="flex-shrink-0">
                     <tr className="border-b border-gray-100">
-                      <th className="px-2 py-1.25 text-left text-sm font-medium text-gray-500">
+                      <th className="px-2 py-2.5 text-left text-sm font-medium text-gray-500">
                         {viewLevel === 'city' ? '城市' : '大区'}
                         {viewLevel === 'region' && (
                           <span className="ml-1 text-xs text-green-500 font-normal">（点击查看）</span>
                         )}
                       </th>
-                      <th className="px-2 py-1.25 text-left text-sm font-medium text-gray-500">责任人</th>
-                      <th className="px-2 py-1.25 text-right text-sm font-medium text-gray-500">目标</th>
-                      <th className="px-2 py-1.25 text-right text-sm font-medium text-gray-500">已完成</th>
-                      <th className="px-2 py-1.25 text-right text-sm font-medium text-gray-500">预测金额</th>
-                      <th className="px-2 py-1.25 text-right text-sm font-medium text-gray-500">缺口</th>
-                      <th className="px-2 py-1.25 text-center text-sm font-medium text-gray-500">预测达成率</th>
-                      <th className="px-2 py-1.25 text-center text-sm font-medium text-gray-500">在手订单数</th>
-                      <th className="px-2 py-1.25 text-center text-sm font-medium text-gray-500">在手项目数</th>
-                      <th className="px-1 py-1.25"></th>
+                      <th className="px-2 py-2.5 text-left text-sm font-medium text-gray-500">责任人</th>
+                      <th className="px-2 py-2.5 text-right text-sm font-medium text-gray-500">目标</th>
+                      <th className="px-2 py-2.5 text-right text-sm font-medium text-gray-500">已完成</th>
+                      <th className="px-2 py-2.5 text-right text-sm font-medium text-gray-500">预测金额</th>
+                      <th className="px-2 py-2.5 text-right text-sm font-medium text-gray-500">缺口</th>
+                      <th className="px-2 py-2.5 text-center text-sm font-medium text-gray-500">预测达成率</th>
+                      <th className="px-2 py-2.5 text-center text-sm font-medium text-gray-500">在手订单数</th>
+                      <th className="px-2 py-2.5 text-center text-sm font-medium text-gray-500">在手项目数</th>
+                      <th className="px-1 py-2.5"></th>
                     </tr>
                   </thead>
                   <tbody className="flex-1">
@@ -1400,7 +1400,7 @@ export default function SalesDashboard() {
                         onClick={() => viewLevel === 'region' ? handleRegionClick(item.name) : undefined}
                         className={`group border-b border-gray-50 last:border-0 ${viewLevel === 'region' ? 'cursor-pointer hover:bg-green-50 hover:border-l-4 hover:border-l-green-500' : ''}`}
                       >
-                        <td className="px-2 py-1.75 text-sm font-medium text-gray-900 group-hover:text-green-600 transition-colors">
+                        <td className="px-2 py-2.5 text-sm font-medium text-gray-900 group-hover:text-green-600 transition-colors">
                           <div className="flex items-center gap-1.5">
                             {viewLevel === 'region' && (
                               <ChevronRight className="w-3.5 h-3.5 text-gray-400 group-hover:text-green-500 group-hover:translate-x-0.5 transition-all" />
@@ -1408,14 +1408,14 @@ export default function SalesDashboard() {
                             {item.name}
                           </div>
                         </td>
-                        <td className="px-2 py-1.75 text-sm text-gray-500">{item.owner}</td>
-                        <td className="px-2 py-1.75 text-sm text-right text-gray-600">{item.target.toLocaleString()}</td>
-                        <td className="px-2 py-1.75 text-sm text-right text-gray-600">{item.completed.toLocaleString()}</td>
-                        <td className="px-2 py-1.75 text-sm text-right text-gray-600">{item.predicted.toLocaleString()}</td>
-                        <td className={`px-2 py-1.75 text-sm text-right font-semibold ${item.gap > 0 ? 'text-red-500' : item.gap === 0 ? 'text-gray-600' : 'text-green-500'}`}>
+                        <td className="px-2 py-2.5 text-sm text-gray-500">{item.owner}</td>
+                        <td className="px-2 py-2.5 text-sm text-right text-gray-600">{item.target.toLocaleString()}</td>
+                        <td className="px-2 py-2.5 text-sm text-right text-gray-600">{item.completed.toLocaleString()}</td>
+                        <td className="px-2 py-2.5 text-sm text-right text-gray-600">{item.predicted.toLocaleString()}</td>
+                        <td className={`px-2 py-2.5 text-sm text-right font-semibold ${item.gap > 0 ? 'text-red-500' : item.gap === 0 ? 'text-gray-600' : 'text-green-500'}`}>
                           {item.gap > 0 ? `${item.gap}` : item.gap === 0 ? '0' : `+${Math.abs(item.gap)}`}
                         </td>
-                        <td className="px-2 py-1.75 text-center">
+                        <td className="px-2 py-2.5 text-center">
                           <div className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-gray-50 border border-gray-100">
                             <span className={`text-sm font-bold ${
                               item.rate >= 100 ? 'text-green-600' : item.rate >= 80 ? 'text-yellow-600' : 'text-red-600'
@@ -1432,17 +1432,17 @@ export default function SalesDashboard() {
                             </div>
                           </div>
                         </td>
-                        <td className="px-2 py-1.75 text-center">
+                        <td className="px-2 py-2.5 text-center">
                           <span className={`text-sm font-bold ${
                             item.orderCount >= 100 ? 'text-green-600' : item.orderCount >= 80 ? 'text-yellow-600' : 'text-red-600'
                           }`}>
                             {item.orderCount}
                           </span>
                         </td>
-                        <td className="px-2 py-1.75 text-center text-sm text-gray-600">
+                        <td className="px-2 py-2.5 text-center text-sm text-gray-600">
                           {item.projectCount}
                         </td>
-                        <td className="px-1 py-1.75">
+                        <td className="px-1 py-2.5">
                           {viewLevel === 'region' && (
                             <ChevronRight className="w-4 h-4 text-gray-300 group-hover:text-green-500 transition-colors" />
                           )}
@@ -1460,7 +1460,7 @@ export default function SalesDashboard() {
           <Card className="lg:col-span-1 border border-green-200 bg-gradient-to-br from-green-50 to-emerald-50 flex flex-col h-full min-h-0">
             <CardContent className="p-1.5 flex flex-col min-h-0">
               {/* 标题 */}
-              <div className="flex items-center justify-between mb-1.5 flex-shrink-0">
+              <div className="flex items-center justify-between mb-1 flex-shrink-0">
                 <div className="flex items-center gap-2">
                   <Activity className="w-5 h-5 text-green-600" />
                   <span className="text-base font-bold text-gray-900">城市经理达成情况</span>
@@ -1504,16 +1504,16 @@ export default function SalesDashboard() {
                   <table className="w-full flex-1">
                   <thead className="flex-shrink-0">
                     <tr className="border-b border-gray-100">
-                      <th className="px-2 py-1.25 text-left text-sm font-medium text-gray-500">区域</th>
-                      <th className="px-2 py-1.25 text-left text-sm font-medium text-gray-500">城市</th>
-                      <th className="px-2 py-1.25 text-left text-sm font-medium text-gray-500">责任人</th>
-                      <th className="px-2 py-1.25 text-right text-sm font-medium text-gray-500">目标</th>
-                      <th className="px-2 py-1.25 text-right text-sm font-medium text-gray-500">已完成</th>
-                      <th className="px-2 py-1.25 text-right text-sm font-medium text-gray-500">预测金额</th>
-                      <th className="px-2 py-1.25 text-right text-sm font-medium text-gray-500">缺口</th>
-                      <th className="px-2 py-1.25 text-center text-sm font-medium text-gray-500">预测达成率</th>
-                      <th className="px-2 py-1.25 text-center text-sm font-medium text-gray-500">在手订单数</th>
-                      <th className="px-2 py-1.25 text-center text-sm font-medium text-gray-500">在手项目数</th>
+                      <th className="px-2 py-2.5 text-left text-sm font-medium text-gray-500">区域</th>
+                      <th className="px-2 py-2.5 text-left text-sm font-medium text-gray-500">城市</th>
+                      <th className="px-2 py-2.5 text-left text-sm font-medium text-gray-500">责任人</th>
+                      <th className="px-2 py-2.5 text-right text-sm font-medium text-gray-500">目标</th>
+                      <th className="px-2 py-2.5 text-right text-sm font-medium text-gray-500">已完成</th>
+                      <th className="px-2 py-2.5 text-right text-sm font-medium text-gray-500">预测金额</th>
+                      <th className="px-2 py-2.5 text-right text-sm font-medium text-gray-500">缺口</th>
+                      <th className="px-2 py-2.5 text-center text-sm font-medium text-gray-500">预测达成率</th>
+                      <th className="px-2 py-2.5 text-center text-sm font-medium text-gray-500">在手订单数</th>
+                      <th className="px-2 py-2.5 text-center text-sm font-medium text-gray-500">在手项目数</th>
                     </tr>
                   </thead>
                   <tbody className="flex-1">
@@ -1526,16 +1526,16 @@ export default function SalesDashboard() {
                         key={index}
                         className="border-b border-gray-50 last:border-0"
                       >
-                        <td className="px-2 py-1.75 text-sm font-medium text-gray-900">{item.area}</td>
-                        <td className="px-2 py-1.75 text-sm font-medium text-gray-900">{item.city}</td>
-                        <td className="px-2 py-1.75 text-sm text-gray-500">{item.name}</td>
-                        <td className="px-2 py-1.75 text-sm text-right text-gray-600">{item.target.toLocaleString()}</td>
-                        <td className="px-2 py-1.75 text-sm text-right text-gray-600">{item.completed.toLocaleString()}</td>
-                        <td className="px-2 py-1.75 text-sm text-right text-gray-600">{item.predicted.toLocaleString()}</td>
-                        <td className={`px-2 py-1.75 text-sm text-right font-semibold ${item.gap > 0 ? 'text-red-500' : item.gap === 0 ? 'text-gray-600' : 'text-green-500'}`}>
+                        <td className="px-2 py-2.5 text-sm font-medium text-gray-900">{item.area}</td>
+                        <td className="px-2 py-2.5 text-sm font-medium text-gray-900">{item.city}</td>
+                        <td className="px-2 py-2.5 text-sm text-gray-500">{item.name}</td>
+                        <td className="px-2 py-2.5 text-sm text-right text-gray-600">{item.target.toLocaleString()}</td>
+                        <td className="px-2 py-2.5 text-sm text-right text-gray-600">{item.completed.toLocaleString()}</td>
+                        <td className="px-2 py-2.5 text-sm text-right text-gray-600">{item.predicted.toLocaleString()}</td>
+                        <td className={`px-2 py-2.5 text-sm text-right font-semibold ${item.gap > 0 ? 'text-red-500' : item.gap === 0 ? 'text-gray-600' : 'text-green-500'}`}>
                           {item.gap > 0 ? `${item.gap}` : item.gap === 0 ? '0' : `+${Math.abs(item.gap)}`}
                         </td>
-                        <td className="px-2 py-1.75 text-center">
+                        <td className="px-2 py-2.5 text-center">
                           <div className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-gray-50 border border-gray-100">
                             <span className={`text-sm font-bold ${
                               item.rate >= 100 ? 'text-green-600' : item.rate >= 80 ? 'text-yellow-600' : 'text-red-600'
@@ -1552,21 +1552,21 @@ export default function SalesDashboard() {
                             </div>
                           </div>
                         </td>
-                        <td className="px-2 py-1.75 text-center">
+                        <td className="px-2 py-2.5 text-center">
                           <span className={`text-sm font-bold ${
                             item.orderCount >= 100 ? 'text-green-600' : item.orderCount >= 80 ? 'text-yellow-600' : 'text-red-600'
                           }`}>
                             {item.orderCount}
                           </span>
                         </td>
-                        <td className="px-2 py-1.75 text-center text-sm text-gray-600">{item.projectCount}</td>
+                        <td className="px-2 py-2.5 text-center text-sm text-gray-600">{item.projectCount}</td>
                       </tr>
                     ))}
                   </tbody>
                 </table>
 
                 {/* 分页 */}
-                <div className="flex-shrink-0 flex items-center justify-between mt-2 px-1 py-1.5 border-t border-gray-100">
+                <div className="flex-shrink-0 flex items-center justify-between mt-1.5 px-1 py-1.5 border-t border-gray-100">
                   <div className="text-xs text-gray-500">
                     共 <span className="font-semibold text-gray-700">{cityManagerData[timeRange as keyof typeof cityManagerData].filter((item: any) => cityManagerAreaFilter === 'all' || item.area === cityManagerAreaFilter).length}</span> 条记录，
                     第 <span className="font-semibold text-gray-700">{cityManagerPage}</span> / {Math.ceil(cityManagerData[timeRange as keyof typeof cityManagerData].filter((item: any) => cityManagerAreaFilter === 'all' || item.area === cityManagerAreaFilter).length / cityManagerPageSize)} 页
