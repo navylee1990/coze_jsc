@@ -846,36 +846,36 @@ export default function SalesDashboard() {
           <div className="w-full lg:w-1/2 flex flex-col gap-2">
             {/* 第一行：新增买断指标 */}
             <div className="bg-white border border-gray-200 rounded-lg overflow-hidden">
-              <div className="bg-green-50 px-3 py-1.5 border-b border-green-100">
+              <div className="bg-green-50 px-3 py-1 border-b border-green-100">
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-1.5">
-                    <Target className="w-4 h-4 text-green-600" />
-                    <span className="text-sm font-bold text-gray-800">新增买断</span>
+                    <Target className="w-3.5 h-3.5 text-green-600" />
+                    <span className="text-xs font-bold text-gray-800">新增买断</span>
                   </div>
-                  <div className="flex items-center gap-2">
+                  <div className="flex items-center gap-1.5">
                     {/* 风险等级徽章 */}
-                    <span className="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-bold bg-red-100 text-red-700">
+                    <span className="inline-flex items-center px-1.5 py-0.5 rounded-full text-[9px] font-bold bg-red-100 text-red-700">
                       🔴 高风险
                     </span>
                     {/* 迷你进度条 */}
-                    <div className="flex items-center gap-1.5">
-                      <div className="w-16 h-1.5 bg-gray-200 rounded-full overflow-hidden">
+                    <div className="flex items-center gap-1">
+                      <div className="w-14 h-1 bg-gray-200 rounded-full overflow-hidden">
                         <div className="h-full bg-red-500 rounded-full" style={{ width: `${((currentRangeData.predicted / currentRangeData.target) * 100).toFixed(0)}%` }}></div>
                       </div>
-                      <span className="text-[10px] font-medium text-gray-600">{((currentRangeData.predicted / currentRangeData.target) * 100).toFixed(0)}%</span>
+                      <span className="text-[9px] font-medium text-gray-600">{((currentRangeData.predicted / currentRangeData.target) * 100).toFixed(0)}%</span>
                     </div>
                   </div>
                 </div>
               </div>
               <div className="grid grid-cols-2 sm:grid-cols-4">
                 {/* 目标 */}
-                <div className="border-r border-b sm:border-b-0 border-gray-200 px-2 py-2 relative">
-                  <div className="text-xs font-medium text-gray-500 mb-1">{timeRangeLabel}目标</div>
+                <div className="border-r border-b sm:border-b-0 border-gray-200 px-2 py-1.5 relative">
+                  <div className="text-[11px] font-medium text-gray-500 mb-0.5">{timeRangeLabel}目标</div>
                   <div className="flex items-baseline gap-1">
-                    <span className="text-2xl font-bold text-gray-900 leading-none">{currentRangeData.target.toLocaleString()}</span>
-                    <span className="text-xs text-gray-600">万元</span>
+                    <span className="text-xl font-bold text-gray-900 leading-none">{currentRangeData.target.toLocaleString()}</span>
+                    <span className="text-[11px] text-gray-600">万元</span>
                   </div>
-                  <div className="mt-1 space-y-0.5">
+                  <div className="mt-0.5 space-y-0.5">
                     <div className="text-xs text-blue-600 bg-blue-50 inline-block px-1.5 py-0.5 rounded">
                       {timeRange === 'month' ? `${selectedMonth}月` : timeRange === 'quarter' ? selectedQuarter : '2026'}
                     </div>
@@ -895,48 +895,48 @@ export default function SalesDashboard() {
                 </div>
 
                 {/* 已完成 */}
-                <div className="border-b sm:border-b-0 sm:border-r border-gray-200 px-2 py-2">
-                  <div className="text-xs font-medium text-gray-500 mb-1">{timeRangeLabel}已完成</div>
+                <div className="border-b sm:border-b-0 sm:border-r border-gray-200 px-2 py-1.5">
+                  <div className="text-[11px] font-medium text-gray-500 mb-0.5">{timeRangeLabel}已完成</div>
                   <div className="flex items-baseline gap-1">
-                    <span className="text-2xl font-bold text-gray-900 leading-none">{currentRangeData.completed.toLocaleString()}</span>
-                    <span className="text-xs text-gray-600">万元</span>
+                    <span className="text-xl font-bold text-gray-900 leading-none">{currentRangeData.completed.toLocaleString()}</span>
+                    <span className="text-[11px] text-gray-600">万元</span>
                   </div>
-                  <div className="flex items-center gap-0.5 text-xs text-red-600 mt-1">
-                    <ArrowDown className="w-3 h-3" />
+                  <div className="flex items-center gap-0.5 text-[11px] text-red-600 mt-0.5">
+                    <ArrowDown className="w-2.5 h-2.5" />
                     <span>-8.3%</span>
                   </div>
                 </div>
 
                 {/* 预测完成 */}
-                <div className="border-b sm:border-b-0 sm:border-r border-gray-200 px-2 py-2 bg-gradient-to-b from-green-50/50 to-transparent">
-                  <div className="text-xs font-medium text-gray-500 mb-1">预测完成</div>
+                <div className="border-b sm:border-b-0 sm:border-r border-gray-200 px-2 py-1.5 bg-gradient-to-b from-green-50/50 to-transparent">
+                  <div className="text-[11px] font-medium text-gray-500 mb-0.5">预测完成</div>
                   <div className="flex items-baseline gap-1">
-                    <span className="text-2xl font-bold text-green-600 leading-none">{currentRangeData.predicted.toLocaleString()}</span>
-                    <span className="text-xs text-green-600">万元</span>
+                    <span className="text-xl font-bold text-green-600 leading-none">{currentRangeData.predicted.toLocaleString()}</span>
+                    <span className="text-[11px] text-green-600">万元</span>
                   </div>
-                  <div className="flex items-center gap-0.5 text-xs text-green-600 mt-1">
-                    <ArrowUp className="w-3 h-3" />
+                  <div className="flex items-center gap-0.5 text-[11px] text-green-600 mt-0.5">
+                    <ArrowUp className="w-2.5 h-2.5" />
                     <span>+5.2%</span>
                   </div>
                 </div>
 
                 {/* 任务缺口 - 醒目展示 */}
-                <div className={`px-2 py-2 ${currentRangeData.gap > 0 ? 'bg-red-100 border-l-4 border-red-600' : currentRangeData.gap < 0 ? 'bg-green-100 border-l-4 border-green-600' : 'bg-gray-100 border-l-4 border-gray-400'}`}>
+                <div className={`px-2 py-1.5 ${currentRangeData.gap > 0 ? 'bg-red-100 border-l-4 border-red-600' : currentRangeData.gap < 0 ? 'bg-green-100 border-l-4 border-green-600' : 'bg-gray-100 border-l-4 border-gray-400'}`}>
                   <div className="flex items-center justify-between mb-0.5">
-                    <div className={`inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs font-bold ${currentRangeData.gap > 0 ? 'bg-red-600 text-white' : currentRangeData.gap < 0 ? 'bg-green-600 text-white' : 'bg-gray-400 text-white'}`}>
-                      <AlertTriangle className={`w-3 h-3 ${currentRangeData.gap > 0 ? 'animate-pulse' : ''}`} />
+                    <div className={`inline-flex items-center gap-0.5 px-1.5 py-0.5 rounded-full text-[11px] font-bold ${currentRangeData.gap > 0 ? 'bg-red-600 text-white' : currentRangeData.gap < 0 ? 'bg-green-600 text-white' : 'bg-gray-400 text-white'}`}>
+                      <AlertTriangle className={`w-2.5 h-2.5 ${currentRangeData.gap > 0 ? 'animate-pulse' : ''}`} />
                       <span>{currentRangeData.gap > 0 ? '缺口' : currentRangeData.gap < 0 ? '超额' : '持平'}</span>
                     </div>
                   </div>
                   <div className="flex items-baseline gap-1">
-                    <span className={`text-3xl font-black leading-none ${currentRangeData.gap > 0 ? 'text-red-700' : currentRangeData.gap < 0 ? 'text-green-700' : 'text-gray-700'}`}>
+                    <span className={`text-2xl font-black leading-none ${currentRangeData.gap > 0 ? 'text-red-700' : currentRangeData.gap < 0 ? 'text-green-700' : 'text-gray-700'}`}>
                       {currentRangeData.gap > 0 ? '' : '+'}{currentRangeData.gap.toLocaleString()}
                     </span>
-                    <span className={`text-sm font-bold ${currentRangeData.gap > 0 ? 'text-red-600' : currentRangeData.gap < 0 ? 'text-green-600' : 'text-gray-600'}`}>万元</span>
+                    <span className={`text-xs font-bold ${currentRangeData.gap > 0 ? 'text-red-600' : currentRangeData.gap < 0 ? 'text-green-600' : 'text-gray-600'}`}>万元</span>
                   </div>
                   {currentRangeData.gap !== 0 && (
-                    <div className={`flex items-center gap-0.5 text-xs mt-0.5 ${currentRangeData.gap > 0 ? 'text-red-600' : 'text-green-600'}`}>
-                      {currentRangeData.gap > 0 ? <ArrowDown className="w-3 h-3" /> : <ArrowUp className="w-3 h-3" />}
+                    <div className={`flex items-center gap-0.5 text-[11px] mt-0.5 ${currentRangeData.gap > 0 ? 'text-red-600' : 'text-green-600'}`}>
+                      {currentRangeData.gap > 0 ? <ArrowDown className="w-2.5 h-2.5" /> : <ArrowUp className="w-2.5 h-2.5" />}
                       <span className="font-bold">{currentRangeData.gap > 0 ? '-' : '+'}54.5%</span>
                     </div>
                   )}
@@ -946,36 +946,36 @@ export default function SalesDashboard() {
 
             {/* 第二行：新增租赁指标 */}
             <div className="bg-white border border-gray-200 rounded-lg overflow-hidden">
-              <div className="bg-green-50 px-3 py-1.5 border-b border-green-100">
+              <div className="bg-green-50 px-3 py-1 border-b border-green-100">
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-1.5">
-                    <Database className="w-4 h-4 text-green-600" />
-                    <span className="text-sm font-bold text-gray-800">新增租赁</span>
+                    <Database className="w-3.5 h-3.5 text-green-600" />
+                    <span className="text-xs font-bold text-gray-800">新增租赁</span>
                   </div>
-                  <div className="flex items-center gap-2">
+                  <div className="flex items-center gap-1.5">
                     {/* 风险等级徽章 */}
-                    <span className="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-bold bg-orange-100 text-orange-700">
+                    <span className="inline-flex items-center px-1.5 py-0.5 rounded-full text-[9px] font-bold bg-orange-100 text-orange-700">
                       🟡 中风险
                     </span>
                     {/* 迷你进度条 */}
-                    <div className="flex items-center gap-1.5">
-                      <div className="w-16 h-1.5 bg-gray-200 rounded-full overflow-hidden">
+                    <div className="flex items-center gap-1">
+                      <div className="w-14 h-1 bg-gray-200 rounded-full overflow-hidden">
                         <div className="h-full bg-orange-500 rounded-full" style={{ width: `${((leaseTimeRangeData[timeRange as keyof typeof leaseTimeRangeData].predicted / leaseTimeRangeData[timeRange as keyof typeof leaseTimeRangeData].target) * 100).toFixed(0)}%` }}></div>
                       </div>
-                      <span className="text-[10px] font-medium text-gray-600">{((leaseTimeRangeData[timeRange as keyof typeof leaseTimeRangeData].predicted / leaseTimeRangeData[timeRange as keyof typeof leaseTimeRangeData].target) * 100).toFixed(0)}%</span>
+                      <span className="text-[9px] font-medium text-gray-600">{((leaseTimeRangeData[timeRange as keyof typeof leaseTimeRangeData].predicted / leaseTimeRangeData[timeRange as keyof typeof leaseTimeRangeData].target) * 100).toFixed(0)}%</span>
                     </div>
                   </div>
                 </div>
               </div>
               <div className="grid grid-cols-2 sm:grid-cols-4">
                 {/* 目标 */}
-                <div className="border-r border-b sm:border-b-0 border-gray-200 px-2 py-2 relative">
-                  <div className="text-xs font-medium text-gray-500 mb-1">{timeRangeLabel}目标</div>
+                <div className="border-r border-b sm:border-b-0 border-gray-200 px-2 py-1.5 relative">
+                  <div className="text-[11px] font-medium text-gray-500 mb-0.5">{timeRangeLabel}目标</div>
                   <div className="flex items-baseline gap-1">
-                    <span className="text-2xl font-bold text-gray-900 leading-none">{leaseTimeRangeData[timeRange as keyof typeof leaseTimeRangeData].target.toLocaleString()}</span>
-                    <span className="text-xs text-gray-600">万元</span>
+                    <span className="text-xl font-bold text-gray-900 leading-none">{leaseTimeRangeData[timeRange as keyof typeof leaseTimeRangeData].target.toLocaleString()}</span>
+                    <span className="text-[11px] text-gray-600">万元</span>
                   </div>
-                  <div className="mt-1 space-y-0.5">
+                  <div className="mt-0.5 space-y-0.5">
                     <div className="text-xs text-blue-600 bg-blue-50 inline-block px-1.5 py-0.5 rounded">
                       {timeRange === 'month' ? `${selectedMonth}月` : timeRange === 'quarter' ? selectedQuarter : '2026'}
                     </div>
@@ -995,48 +995,48 @@ export default function SalesDashboard() {
                 </div>
 
                 {/* 已完成 */}
-                <div className="border-b sm:border-b-0 sm:border-r border-gray-200 px-2 py-2">
-                  <div className="text-xs font-medium text-gray-500 mb-1">{timeRangeLabel}已完成</div>
+                <div className="border-b sm:border-b-0 sm:border-r border-gray-200 px-2 py-1.5">
+                  <div className="text-[11px] font-medium text-gray-500 mb-0.5">{timeRangeLabel}已完成</div>
                   <div className="flex items-baseline gap-1">
-                    <span className="text-2xl font-bold text-gray-900 leading-none">{leaseTimeRangeData[timeRange as keyof typeof leaseTimeRangeData].completed.toLocaleString()}</span>
-                    <span className="text-xs text-gray-600">万元</span>
+                    <span className="text-xl font-bold text-gray-900 leading-none">{leaseTimeRangeData[timeRange as keyof typeof leaseTimeRangeData].completed.toLocaleString()}</span>
+                    <span className="text-[11px] text-gray-600">万元</span>
                   </div>
-                  <div className="flex items-center gap-0.5 text-xs text-green-600 mt-1">
-                    <ArrowUp className="w-3 h-3" />
+                  <div className="flex items-center gap-0.5 text-[11px] text-green-600 mt-0.5">
+                    <ArrowUp className="w-2.5 h-2.5" />
                     <span>+12.5%</span>
                   </div>
                 </div>
 
                 {/* 预测完成 */}
-                <div className="border-b sm:border-b-0 sm:border-r border-gray-200 px-2 py-2 bg-gradient-to-b from-green-50/50 to-transparent">
-                  <div className="text-xs font-medium text-gray-500 mb-1">预测完成</div>
+                <div className="border-b sm:border-b-0 sm:border-r border-gray-200 px-2 py-1.5 bg-gradient-to-b from-green-50/50 to-transparent">
+                  <div className="text-[11px] font-medium text-gray-500 mb-0.5">预测完成</div>
                   <div className="flex items-baseline gap-1">
-                    <span className="text-2xl font-bold text-green-600 leading-none">{leaseTimeRangeData[timeRange as keyof typeof leaseTimeRangeData].predicted.toLocaleString()}</span>
-                    <span className="text-xs text-green-600">万元</span>
+                    <span className="text-xl font-bold text-green-600 leading-none">{leaseTimeRangeData[timeRange as keyof typeof leaseTimeRangeData].predicted.toLocaleString()}</span>
+                    <span className="text-[11px] text-green-600">万元</span>
                   </div>
-                  <div className="flex items-center gap-0.5 text-xs text-green-600 mt-1">
-                    <ArrowUp className="w-3 h-3" />
+                  <div className="flex items-center gap-0.5 text-[11px] text-green-600 mt-0.5">
+                    <ArrowUp className="w-2.5 h-2.5" />
                     <span>+8.2%</span>
                   </div>
                 </div>
 
                 {/* 任务缺口 - 醒目展示 */}
-                <div className={`px-2 py-2 ${leaseTimeRangeData[timeRange as keyof typeof leaseTimeRangeData].gap > 0 ? 'bg-red-100 border-l-4 border-red-600' : leaseTimeRangeData[timeRange as keyof typeof leaseTimeRangeData].gap < 0 ? 'bg-green-100 border-l-4 border-green-600' : 'bg-gray-100 border-l-4 border-gray-400'}`}>
+                <div className={`px-2 py-1.5 ${leaseTimeRangeData[timeRange as keyof typeof leaseTimeRangeData].gap > 0 ? 'bg-red-100 border-l-4 border-red-600' : leaseTimeRangeData[timeRange as keyof typeof leaseTimeRangeData].gap < 0 ? 'bg-green-100 border-l-4 border-green-600' : 'bg-gray-100 border-l-4 border-gray-400'}`}>
                   <div className="flex items-center justify-between mb-0.5">
-                    <div className={`inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs font-bold ${leaseTimeRangeData[timeRange as keyof typeof leaseTimeRangeData].gap > 0 ? 'bg-red-600 text-white' : leaseTimeRangeData[timeRange as keyof typeof leaseTimeRangeData].gap < 0 ? 'bg-green-600 text-white' : 'bg-gray-400 text-white'}`}>
-                      <AlertTriangle className={`w-3 h-3 ${leaseTimeRangeData[timeRange as keyof typeof leaseTimeRangeData].gap > 0 ? 'animate-pulse' : ''}`} />
+                    <div className={`inline-flex items-center gap-0.5 px-1.5 py-0.5 rounded-full text-[11px] font-bold ${leaseTimeRangeData[timeRange as keyof typeof leaseTimeRangeData].gap > 0 ? 'bg-red-600 text-white' : leaseTimeRangeData[timeRange as keyof typeof leaseTimeRangeData].gap < 0 ? 'bg-green-600 text-white' : 'bg-gray-400 text-white'}`}>
+                      <AlertTriangle className={`w-2.5 h-2.5 ${leaseTimeRangeData[timeRange as keyof typeof leaseTimeRangeData].gap > 0 ? 'animate-pulse' : ''}`} />
                       <span>{leaseTimeRangeData[timeRange as keyof typeof leaseTimeRangeData].gap > 0 ? '缺口' : leaseTimeRangeData[timeRange as keyof typeof leaseTimeRangeData].gap < 0 ? '超额' : '持平'}</span>
                     </div>
                   </div>
                   <div className="flex items-baseline gap-1">
-                    <span className={`text-3xl font-black leading-none ${leaseTimeRangeData[timeRange as keyof typeof leaseTimeRangeData].gap > 0 ? 'text-red-700' : leaseTimeRangeData[timeRange as keyof typeof leaseTimeRangeData].gap < 0 ? 'text-green-700' : 'text-gray-700'}`}>
+                    <span className={`text-2xl font-black leading-none ${leaseTimeRangeData[timeRange as keyof typeof leaseTimeRangeData].gap > 0 ? 'text-red-700' : leaseTimeRangeData[timeRange as keyof typeof leaseTimeRangeData].gap < 0 ? 'text-green-700' : 'text-gray-700'}`}>
                       {leaseTimeRangeData[timeRange as keyof typeof leaseTimeRangeData].gap > 0 ? '' : '+'}{leaseTimeRangeData[timeRange as keyof typeof leaseTimeRangeData].gap.toLocaleString()}
                     </span>
-                    <span className={`text-sm font-bold ${leaseTimeRangeData[timeRange as keyof typeof leaseTimeRangeData].gap > 0 ? 'text-red-600' : leaseTimeRangeData[timeRange as keyof typeof leaseTimeRangeData].gap < 0 ? 'text-green-600' : 'text-gray-600'}`}>万元</span>
+                    <span className={`text-xs font-bold ${leaseTimeRangeData[timeRange as keyof typeof leaseTimeRangeData].gap > 0 ? 'text-red-600' : leaseTimeRangeData[timeRange as keyof typeof leaseTimeRangeData].gap < 0 ? 'text-green-600' : 'text-gray-600'}`}>万元</span>
                   </div>
                   {leaseTimeRangeData[timeRange as keyof typeof leaseTimeRangeData].gap !== 0 && (
-                    <div className={`flex items-center gap-0.5 text-xs mt-0.5 ${leaseTimeRangeData[timeRange as keyof typeof leaseTimeRangeData].gap > 0 ? 'text-red-600' : 'text-green-600'}`}>
-                      {leaseTimeRangeData[timeRange as keyof typeof leaseTimeRangeData].gap > 0 ? <ArrowDown className="w-3 h-3" /> : <ArrowUp className="w-3 h-3" />}
+                    <div className={`flex items-center gap-0.5 text-[11px] mt-0.5 ${leaseTimeRangeData[timeRange as keyof typeof leaseTimeRangeData].gap > 0 ? 'text-red-600' : 'text-green-600'}`}>
+                      {leaseTimeRangeData[timeRange as keyof typeof leaseTimeRangeData].gap > 0 ? <ArrowDown className="w-2.5 h-2.5" /> : <ArrowUp className="w-2.5 h-2.5" />}
                       <span className="font-bold">{leaseTimeRangeData[timeRange as keyof typeof leaseTimeRangeData].gap > 0 ? '-' : '+'}7.6%</span>
                     </div>
                   )}
@@ -1046,42 +1046,42 @@ export default function SalesDashboard() {
 
             {/* 第三行：续租指标 */}
             <div className="bg-white border border-gray-200 rounded-lg overflow-hidden">
-              <div className="bg-green-50 px-3 py-1.5 border-b border-green-100">
+              <div className="bg-green-50 px-3 py-1 border-b border-green-100">
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-1.5">
-                    <Clock className="w-4 h-4 text-green-600" />
-                    <span className="text-sm font-bold text-gray-800">续租</span>
+                    <Clock className="w-3.5 h-3.5 text-green-600" />
+                    <span className="text-xs font-bold text-gray-800">续租</span>
                   </div>
-                  <div className="flex items-center gap-2">
+                  <div className="flex items-center gap-1.5">
                     {/* 风险等级徽章 */}
-                    <span className="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-bold bg-green-100 text-green-700">
+                    <span className="inline-flex items-center px-1.5 py-0.5 rounded-full text-[9px] font-bold bg-green-100 text-green-700">
                       🟢 低风险
                     </span>
                     {/* 迷你进度条 */}
-                    <div className="flex items-center gap-1.5">
-                      <div className="w-16 h-1.5 bg-gray-200 rounded-full overflow-hidden">
+                    <div className="flex items-center gap-1">
+                      <div className="w-14 h-1 bg-gray-200 rounded-full overflow-hidden">
                         <div className="h-full bg-green-500 rounded-full" style={{ width: `${((renewalTimeRangeData[timeRange as keyof typeof renewalTimeRangeData].predicted / renewalTimeRangeData[timeRange as keyof typeof renewalTimeRangeData].target) * 100).toFixed(0)}%` }}></div>
                       </div>
-                      <span className="text-[10px] font-medium text-gray-600">{((renewalTimeRangeData[timeRange as keyof typeof renewalTimeRangeData].predicted / renewalTimeRangeData[timeRange as keyof typeof renewalTimeRangeData].target) * 100).toFixed(0)}%</span>
+                      <span className="text-[9px] font-medium text-gray-600">{((renewalTimeRangeData[timeRange as keyof typeof renewalTimeRangeData].predicted / renewalTimeRangeData[timeRange as keyof typeof renewalTimeRangeData].target) * 100).toFixed(0)}%</span>
                     </div>
                   </div>
                 </div>
               </div>
               <div className="grid grid-cols-2 sm:grid-cols-4">
                 {/* 目标 */}
-                <div className="border-r border-b sm:border-b-0 border-gray-200 px-2 py-2 relative">
-                  <div className="text-xs font-medium text-gray-500 mb-1">{timeRangeLabel}目标</div>
+                <div className="border-r border-b sm:border-b-0 border-gray-200 px-2 py-1.5 relative">
+                  <div className="text-[11px] font-medium text-gray-500 mb-0.5">{timeRangeLabel}目标</div>
                   <div className="flex items-baseline gap-1">
-                    <span className="text-2xl font-bold text-gray-900 leading-none">{renewalTimeRangeData[timeRange as keyof typeof renewalTimeRangeData].target.toLocaleString()}</span>
-                    <span className="text-xs text-gray-600">万元</span>
+                    <span className="text-xl font-bold text-gray-900 leading-none">{renewalTimeRangeData[timeRange as keyof typeof renewalTimeRangeData].target.toLocaleString()}</span>
+                    <span className="text-[11px] text-gray-600">万元</span>
                   </div>
-                  <div className="mt-1 space-y-0.5">
-                    <div className="text-xs text-blue-600 bg-blue-50 inline-block px-1.5 py-0.5 rounded">
+                  <div className="mt-0.5 space-y-0.5">
+                    <div className="text-[11px] text-blue-600 bg-blue-50 inline-block px-1.5 py-0.5 rounded">
                       {timeRange === 'month' ? `${selectedMonth}月` : timeRange === 'quarter' ? selectedQuarter : '2026'}
                     </div>
                     {/* 对比数据 */}
                     {comparisonMode && (
-                      <div className="flex items-center gap-1 text-[10px]">
+                      <div className="flex items-center gap-1 text-[9px]">
                         <span className="text-gray-500">vs {comparisonTarget === 'lastMonth' ? '上月' : comparisonTarget === 'lastYear' ? '去年' : comparisonTarget === 'lastQuarter' ? '上季' : '对比'}</span>
                         <span className={`font-bold ${renewalTimeRangeData[timeRange as keyof typeof renewalTimeRangeData].target > 680 ? 'text-green-600' : 'text-red-600'}`}>
                           {comparisonTarget === 'lastMonth' ? '650' : comparisonTarget === 'lastYear' ? '620' : '640'}万元
@@ -1095,48 +1095,48 @@ export default function SalesDashboard() {
                 </div>
 
                 {/* 已完成 */}
-                <div className="border-b sm:border-b-0 sm:border-r border-gray-200 px-2 py-2">
-                  <div className="text-xs font-medium text-gray-500 mb-1">{timeRangeLabel}已完成</div>
+                <div className="border-b sm:border-b-0 sm:border-r border-gray-200 px-2 py-1.5">
+                  <div className="text-[11px] font-medium text-gray-500 mb-0.5">{timeRangeLabel}已完成</div>
                   <div className="flex items-baseline gap-1">
-                    <span className="text-2xl font-bold text-gray-900 leading-none">{renewalTimeRangeData[timeRange as keyof typeof renewalTimeRangeData].completed.toLocaleString()}</span>
-                    <span className="text-xs text-gray-600">万元</span>
+                    <span className="text-xl font-bold text-gray-900 leading-none">{renewalTimeRangeData[timeRange as keyof typeof renewalTimeRangeData].completed.toLocaleString()}</span>
+                    <span className="text-[11px] text-gray-600">万元</span>
                   </div>
-                  <div className="flex items-center gap-0.5 text-xs text-green-600 mt-1">
-                    <ArrowUp className="w-3 h-3" />
+                  <div className="flex items-center gap-0.5 text-[11px] text-green-600 mt-0.5">
+                    <ArrowUp className="w-2.5 h-2.5" />
                     <span>+15.2%</span>
                   </div>
                 </div>
 
                 {/* 预测完成 */}
-                <div className="border-b sm:border-b-0 sm:border-r border-gray-200 px-2 py-2 bg-gradient-to-b from-green-50/50 to-transparent">
-                  <div className="text-xs font-medium text-gray-500 mb-1">预测完成</div>
+                <div className="border-b sm:border-b-0 sm:border-r border-gray-200 px-2 py-1.5 bg-gradient-to-b from-green-50/50 to-transparent">
+                  <div className="text-[11px] font-medium text-gray-500 mb-0.5">预测完成</div>
                   <div className="flex items-baseline gap-1">
-                    <span className="text-2xl font-bold text-green-600 leading-none">{renewalTimeRangeData[timeRange as keyof typeof renewalTimeRangeData].predicted.toLocaleString()}</span>
-                    <span className="text-xs text-green-600">万元</span>
+                    <span className="text-xl font-bold text-green-600 leading-none">{renewalTimeRangeData[timeRange as keyof typeof renewalTimeRangeData].predicted.toLocaleString()}</span>
+                    <span className="text-[11px] text-green-600">万元</span>
                   </div>
-                  <div className="flex items-center gap-0.5 text-xs text-green-600 mt-1">
-                    <ArrowUp className="w-3 h-3" />
+                  <div className="flex items-center gap-0.5 text-[11px] text-green-600 mt-0.5">
+                    <ArrowUp className="w-2.5 h-2.5" />
                     <span>+18.5%</span>
                   </div>
                 </div>
 
                 {/* 任务缺口 - 醒目展示 */}
-                <div className={`px-2 py-2 ${renewalTimeRangeData[timeRange as keyof typeof renewalTimeRangeData].gap > 0 ? 'bg-red-100 border-l-4 border-red-600' : renewalTimeRangeData[timeRange as keyof typeof renewalTimeRangeData].gap < 0 ? 'bg-green-100 border-l-4 border-green-600' : 'bg-gray-100 border-l-4 border-gray-400'}`}>
+                <div className={`px-2 py-1.5 ${renewalTimeRangeData[timeRange as keyof typeof renewalTimeRangeData].gap > 0 ? 'bg-red-100 border-l-4 border-red-600' : renewalTimeRangeData[timeRange as keyof typeof renewalTimeRangeData].gap < 0 ? 'bg-green-100 border-l-4 border-green-600' : 'bg-gray-100 border-l-4 border-gray-400'}`}>
                   <div className="flex items-center justify-between mb-0.5">
-                    <div className={`inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs font-bold ${renewalTimeRangeData[timeRange as keyof typeof renewalTimeRangeData].gap > 0 ? 'bg-red-600 text-white' : renewalTimeRangeData[timeRange as keyof typeof renewalTimeRangeData].gap < 0 ? 'bg-green-600 text-white' : 'bg-gray-400 text-white'}`}>
-                      <AlertTriangle className={`w-3 h-3 ${renewalTimeRangeData[timeRange as keyof typeof renewalTimeRangeData].gap > 0 ? 'animate-pulse' : ''}`} />
+                    <div className={`inline-flex items-center gap-0.5 px-1.5 py-0.5 rounded-full text-[11px] font-bold ${renewalTimeRangeData[timeRange as keyof typeof renewalTimeRangeData].gap > 0 ? 'bg-red-600 text-white' : renewalTimeRangeData[timeRange as keyof typeof renewalTimeRangeData].gap < 0 ? 'bg-green-600 text-white' : 'bg-gray-400 text-white'}`}>
+                      <AlertTriangle className={`w-2.5 h-2.5 ${renewalTimeRangeData[timeRange as keyof typeof renewalTimeRangeData].gap > 0 ? 'animate-pulse' : ''}`} />
                       <span>{renewalTimeRangeData[timeRange as keyof typeof renewalTimeRangeData].gap > 0 ? '缺口' : renewalTimeRangeData[timeRange as keyof typeof renewalTimeRangeData].gap < 0 ? '超额' : '持平'}</span>
                     </div>
                   </div>
                   <div className="flex items-baseline gap-1">
-                    <span className={`text-3xl font-black leading-none ${renewalTimeRangeData[timeRange as keyof typeof renewalTimeRangeData].gap > 0 ? 'text-red-700' : renewalTimeRangeData[timeRange as keyof typeof renewalTimeRangeData].gap < 0 ? 'text-green-700' : 'text-gray-700'}`}>
+                    <span className={`text-2xl font-black leading-none ${renewalTimeRangeData[timeRange as keyof typeof renewalTimeRangeData].gap > 0 ? 'text-red-700' : renewalTimeRangeData[timeRange as keyof typeof renewalTimeRangeData].gap < 0 ? 'text-green-700' : 'text-gray-700'}`}>
                       {renewalTimeRangeData[timeRange as keyof typeof renewalTimeRangeData].gap > 0 ? '' : '+'}{renewalTimeRangeData[timeRange as keyof typeof renewalTimeRangeData].gap.toLocaleString()}
                     </span>
-                    <span className={`text-sm font-bold ${renewalTimeRangeData[timeRange as keyof typeof renewalTimeRangeData].gap > 0 ? 'text-red-600' : renewalTimeRangeData[timeRange as keyof typeof renewalTimeRangeData].gap < 0 ? 'text-green-600' : 'text-gray-600'}`}>万元</span>
+                    <span className={`text-xs font-bold ${renewalTimeRangeData[timeRange as keyof typeof renewalTimeRangeData].gap > 0 ? 'text-red-600' : renewalTimeRangeData[timeRange as keyof typeof renewalTimeRangeData].gap < 0 ? 'text-green-600' : 'text-gray-600'}`}>万元</span>
                   </div>
                   {renewalTimeRangeData[timeRange as keyof typeof renewalTimeRangeData].gap !== 0 && (
-                    <div className={`flex items-center gap-0.5 text-xs mt-0.5 ${renewalTimeRangeData[timeRange as keyof typeof renewalTimeRangeData].gap > 0 ? 'text-red-600' : 'text-green-600'}`}>
-                      {renewalTimeRangeData[timeRange as keyof typeof renewalTimeRangeData].gap > 0 ? <ArrowDown className="w-3 h-3" /> : <ArrowUp className="w-3 h-3" />}
+                    <div className={`flex items-center gap-0.5 text-[11px] mt-0.5 ${renewalTimeRangeData[timeRange as keyof typeof renewalTimeRangeData].gap > 0 ? 'text-red-600' : 'text-green-600'}`}>
+                      {renewalTimeRangeData[timeRange as keyof typeof renewalTimeRangeData].gap > 0 ? <ArrowDown className="w-2.5 h-2.5" /> : <ArrowUp className="w-2.5 h-2.5" />}
                       <span className="font-bold">{renewalTimeRangeData[timeRange as keyof typeof renewalTimeRangeData].gap > 0 ? '-' : '+'}4.3%</span>
                     </div>
                   )}
