@@ -285,16 +285,16 @@ const cityData = {
 
 // 经销商达成率排名数据
 const dealerAchievementRanking = [
-  { rank: 1, name: '杭州商用净水', target: 15000, completed: 10275, rate: 68.5, region: '一区', status: 'excellent', scale: '150万以上', yearOnYear: 12.5, ytd: 10275 },
-  { rank: 2, name: '上海净泉科技', target: 12000, completed: 7704, rate: 64.2, region: '二区', status: 'excellent', scale: '100~150万', yearOnYear: 8.3, ytd: 7704 },
-  { rank: 3, name: '南京净源设备', target: 13500, completed: 8343, rate: 61.8, region: '华中', status: 'good', scale: '150万以上', yearOnYear: -2.1, ytd: 8343 },
-  { rank: 4, name: '苏州清泉实业', target: 11000, completed: 6435, rate: 58.5, region: '二区', status: 'good', scale: '50~100万', yearOnYear: 5.6, ytd: 6435 },
-  { rank: 5, name: '无锡净水宝', target: 15000, completed: 8250, rate: 55.0, region: '华中', status: 'warning', scale: '150万以上', yearOnYear: -8.7, ytd: 8250 },
-  { rank: 6, name: '常州净康科技', target: 13000, completed: 6799, rate: 52.3, region: '五区', status: 'warning', scale: '100~150万', yearOnYear: 3.2, ytd: 6799 },
-  { rank: 7, name: '宁波净水达人', target: 14500, completed: 7221, rate: 49.8, region: '华南', status: 'danger', scale: '100~150万', yearOnYear: -15.3, ytd: 7221 },
-  { rank: 8, name: '合肥净源环保', target: 12000, completed: 5880, rate: 49.0, region: '华中', status: 'danger', scale: '50~100万', yearOnYear: -10.2, ytd: 5880 },
-  { rank: 9, name: '南昌净水通', target: 10000, completed: 4650, rate: 46.5, region: '西南', status: 'danger', scale: '50万以内', yearOnYear: -22.5, ytd: 4650 },
-  { rank: 10, name: '昆明净泉科技', target: 11000, completed: 4730, rate: 43.0, region: '西南', status: 'danger', scale: '50~100万', yearOnYear: -18.6, ytd: 4730 },
+  { rank: 1, name: '杭州商用净水', target: 15000, completed: 10275, rate: 68.5, region: '一区', status: 'excellent', scale: '>=300万', yearOnYear: 12.5, ytd: 10275 },
+  { rank: 2, name: '上海净泉科技', target: 12000, completed: 7704, rate: 64.2, region: '二区', status: 'excellent', scale: '150~300万', yearOnYear: 8.3, ytd: 7704 },
+  { rank: 3, name: '南京雪濠洋环保科技有限公司', target: 13500, completed: 8343, rate: 61.8, region: '华中', status: 'good', scale: '>=300万', yearOnYear: -2.1, ytd: 8343 },
+  { rank: 4, name: '苏州清泉实业', target: 11000, completed: 6435, rate: 58.5, region: '二区', status: 'good', scale: '90~150万', yearOnYear: 5.6, ytd: 6435 },
+  { rank: 5, name: '无锡净水宝', target: 15000, completed: 8250, rate: 55.0, region: '华中', status: 'warning', scale: '>=300万', yearOnYear: -8.7, ytd: 8250 },
+  { rank: 6, name: '常州净康科技', target: 13000, completed: 6799, rate: 52.3, region: '五区', status: 'warning', scale: '150~300万', yearOnYear: 3.2, ytd: 6799 },
+  { rank: 7, name: '宁波净水达人', target: 14500, completed: 7221, rate: 49.8, region: '华南', status: 'danger', scale: '150~300万', yearOnYear: -15.3, ytd: 7221 },
+  { rank: 8, name: '合肥净源环保', target: 12000, completed: 5880, rate: 49.0, region: '华中', status: 'danger', scale: '90~150万', yearOnYear: -10.2, ytd: 5880 },
+  { rank: 9, name: '南昌净水通', target: 10000, completed: 4650, rate: 46.5, region: '西南', status: 'danger', scale: '<90万', yearOnYear: -22.5, ytd: 4650 },
+  { rank: 10, name: '昆明净泉科技', target: 11000, completed: 4730, rate: 43.0, region: '西南', status: 'danger', scale: '90~150万', yearOnYear: -18.6, ytd: 4730 },
 ];
 
 // 城市经理数据（城市经理负责单个城市，目标应比区域目标小）
@@ -557,7 +557,7 @@ export default function SalesDashboard() {
       
       switch (dealerSortField) {
         case 'scale':
-          const scaleOrder = ['50万以内', '50~100万', '100~150万', '150万以上'];
+          const scaleOrder = ['<90万', '90~150万', '150~300万', '>=300万'];
           aVal = scaleOrder.indexOf(a.scale);
           bVal = scaleOrder.indexOf(b.scale);
           break;
@@ -1479,17 +1479,17 @@ export default function SalesDashboard() {
                       </select>
                     </div>
                     <div className="flex items-center gap-2">
-                      <span className="text-sm font-medium text-gray-600">规模:</span>
+                      <span className="text-sm font-medium text-gray-600">任务规模:</span>
                       <select
                         value={dealerScaleFilter}
                         onChange={(e) => setDealerScaleFilter(e.target.value)}
                         className="px-2 py-1 text-sm border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500 bg-white"
                       >
                         <option value="all">全部规模</option>
-                        <option value="50万以内">50万以内</option>
-                        <option value="50~100万">50~100万</option>
-                        <option value="100~150万">100~150万</option>
-                        <option value="150万以上">150万以上</option>
+                        <option value="<90万">&lt;90万</option>
+                        <option value="90~150万">90~150万</option>
+                        <option value="150~300万">150~300万</option>
+                        <option value=">=300万">&gt;=300万</option>
                       </select>
                     </div>
                     <div className="flex items-center gap-2">
@@ -1539,17 +1539,17 @@ export default function SalesDashboard() {
                       </select>
                     </div>
                     <div className="flex items-center gap-2">
-                      <span className="text-xs font-medium text-gray-600 whitespace-nowrap">规模:</span>
+                      <span className="text-xs font-medium text-gray-600 whitespace-nowrap">任务规模:</span>
                       <select
                         value={dealerScaleFilter}
                         onChange={(e) => setDealerScaleFilter(e.target.value)}
                         className="flex-1 px-2 py-1.5 text-xs border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500 bg-white"
                       >
                         <option value="all">全部规模</option>
-                        <option value="50万以内">50万以内</option>
-                        <option value="50~100万">50~100万</option>
-                        <option value="100~150万">100~150万</option>
-                        <option value="150万以上">150万以上</option>
+                        <option value="<90万">&lt;90万</option>
+                        <option value="90~150万">90~150万</option>
+                        <option value="150~300万">150~300万</option>
+                        <option value=">=300万">&gt;=300万</option>
                       </select>
                     </div>
                     <div className="flex items-center gap-2">
@@ -1602,7 +1602,7 @@ export default function SalesDashboard() {
                           <th className="px-2 py-2 text-left text-xs font-medium text-gray-500" style={{ width: '55px' }}>区域</th>
                           <th className="px-2 py-2 text-center text-xs font-medium text-gray-500 cursor-pointer hover:text-green-600 transition-colors" style={{ width: '80px' }} onClick={() => handleDealerSort('scale')}>
                             <div className="flex items-center justify-center gap-0.5">
-                              规模
+                              任务规模
                               <ArrowUp className={`w-2.5 h-2.5 ${dealerSortField === 'scale' && dealerSortOrder === 'asc' ? 'text-green-600' : 'text-gray-300'}`} />
                               <ArrowDown className={`w-2.5 h-2.5 ${dealerSortField === 'scale' && dealerSortOrder === 'desc' ? 'text-green-600' : 'text-gray-300'}`} />
                             </div>
@@ -1663,9 +1663,9 @@ export default function SalesDashboard() {
                           <td className="px-2 py-2 text-xs text-gray-500" style={{ width: '55px' }}>{dealer.region}</td>
                           <td className="px-2 py-2 text-center text-[10px]" style={{ width: '80px' }}>
                             <span className={`inline-block px-1 py-0.5 rounded-[10px] text-[10px] font-medium ${
-                              dealer.scale === '150万以上' ? 'bg-green-100 text-green-700' :
-                              dealer.scale === '100~150万' ? 'bg-blue-100 text-blue-700' :
-                              dealer.scale === '50~100万' ? 'bg-yellow-100 text-yellow-700' :
+                              dealer.scale === '>=300万' ? 'bg-green-100 text-green-700' :
+                              dealer.scale === '150~300万' ? 'bg-blue-100 text-blue-700' :
+                              dealer.scale === '90~150万' ? 'bg-yellow-100 text-yellow-700' :
                               'bg-gray-100 text-gray-700'
                             }`}>
                               {dealer.scale}
