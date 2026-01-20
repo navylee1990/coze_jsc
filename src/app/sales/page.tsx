@@ -285,15 +285,15 @@ const cityData = {
 
 // 经销商达成率排名数据
 const dealerAchievementRanking = [
-  { rank: 1, name: '杭州商用净水', target: 15000, completed: 10275, rate: 68.5, region: '一区', status: 'excellent', scale: '>=300万', yearOnYear: 12.5, ytd: 10275 },
+  { rank: 1, name: '杭州商用净水', target: 15000, completed: 10275, rate: 68.5, region: '一区', status: 'excellent', scale: '300万以上', yearOnYear: 12.5, ytd: 10275 },
   { rank: 2, name: '上海净泉科技', target: 12000, completed: 7704, rate: 64.2, region: '二区', status: 'excellent', scale: '150~300万', yearOnYear: 8.3, ytd: 7704 },
-  { rank: 3, name: '南京雪濠洋环保科技有限公司', target: 13500, completed: 8343, rate: 61.8, region: '华中', status: 'good', scale: '>=300万', yearOnYear: -2.1, ytd: 8343 },
+  { rank: 3, name: '南京雪濠洋环保科技有限公司', target: 13500, completed: 8343, rate: 61.8, region: '华中', status: 'good', scale: '300万以上', yearOnYear: -2.1, ytd: 8343 },
   { rank: 4, name: '苏州清泉实业', target: 11000, completed: 6435, rate: 58.5, region: '二区', status: 'good', scale: '90~150万', yearOnYear: 5.6, ytd: 6435 },
-  { rank: 5, name: '无锡净水宝', target: 15000, completed: 8250, rate: 55.0, region: '华中', status: 'warning', scale: '>=300万', yearOnYear: -8.7, ytd: 8250 },
+  { rank: 5, name: '无锡净水宝', target: 15000, completed: 8250, rate: 55.0, region: '华中', status: 'warning', scale: '300万以上', yearOnYear: -8.7, ytd: 8250 },
   { rank: 6, name: '常州净康科技', target: 13000, completed: 6799, rate: 52.3, region: '五区', status: 'warning', scale: '150~300万', yearOnYear: 3.2, ytd: 6799 },
   { rank: 7, name: '宁波净水达人', target: 14500, completed: 7221, rate: 49.8, region: '华南', status: 'danger', scale: '150~300万', yearOnYear: -15.3, ytd: 7221 },
   { rank: 8, name: '合肥净源环保', target: 12000, completed: 5880, rate: 49.0, region: '华中', status: 'danger', scale: '90~150万', yearOnYear: -10.2, ytd: 5880 },
-  { rank: 9, name: '南昌净水通', target: 10000, completed: 4650, rate: 46.5, region: '西南', status: 'danger', scale: '<90万', yearOnYear: -22.5, ytd: 4650 },
+  { rank: 9, name: '南昌净水通', target: 10000, completed: 4650, rate: 46.5, region: '西南', status: 'danger', scale: '90万以内', yearOnYear: -22.5, ytd: 4650 },
   { rank: 10, name: '昆明净泉科技', target: 11000, completed: 4730, rate: 43.0, region: '西南', status: 'danger', scale: '90~150万', yearOnYear: -18.6, ytd: 4730 },
 ];
 
@@ -557,7 +557,7 @@ export default function SalesDashboard() {
       
       switch (dealerSortField) {
         case 'scale':
-          const scaleOrder = ['<90万', '90~150万', '150~300万', '>=300万'];
+          const scaleOrder = ['90万以内', '90~150万', '150~300万', '300万以上'];
           aVal = scaleOrder.indexOf(a.scale);
           bVal = scaleOrder.indexOf(b.scale);
           break;
@@ -1486,10 +1486,10 @@ export default function SalesDashboard() {
                         className="px-2 py-1 text-sm border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500 bg-white"
                       >
                         <option value="all">全部规模</option>
-                        <option value="<90万">&lt;90万</option>
+                        <option value="90万以内">90万以内</option>
                         <option value="90~150万">90~150万</option>
                         <option value="150~300万">150~300万</option>
-                        <option value=">=300万">&gt;=300万</option>
+                        <option value="300万以上">300万以上</option>
                       </select>
                     </div>
                     <div className="flex items-center gap-2">
@@ -1546,10 +1546,10 @@ export default function SalesDashboard() {
                         className="flex-1 px-2 py-1.5 text-xs border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500 bg-white"
                       >
                         <option value="all">全部规模</option>
-                        <option value="<90万">&lt;90万</option>
+                        <option value="90万以内">90万以内</option>
                         <option value="90~150万">90~150万</option>
                         <option value="150~300万">150~300万</option>
-                        <option value=">=300万">&gt;=300万</option>
+                        <option value="300万以上">300万以上</option>
                       </select>
                     </div>
                     <div className="flex items-center gap-2">
@@ -1587,7 +1587,7 @@ export default function SalesDashboard() {
                     <table className="w-full" style={{ tableLayout: 'fixed' }}>
                       <thead>
                         <tr className="border-b border-gray-100">
-                          <th className="px-2 py-2 text-center text-xs font-medium text-gray-500 cursor-pointer hover:text-green-600 transition-colors" style={{ width: '50px' }} onClick={() => handleDealerSort('rank')}>
+                          <th className="px-2 py-2 text-center text-sm font-medium text-gray-500 cursor-pointer hover:text-green-600 transition-colors" style={{ width: '50px' }} onClick={() => handleDealerSort('rank')}>
                             <div className="flex items-center justify-center gap-0.5">
                               <span className="hidden sm:inline">排名</span>
                               <span className="sm:hidden">排</span>
@@ -1595,47 +1595,47 @@ export default function SalesDashboard() {
                               <ArrowDown className={`w-2.5 h-2.5 ${dealerSortField === 'rank' && dealerSortOrder === 'desc' ? 'text-green-600' : 'text-gray-300'}`} />
                             </div>
                           </th>
-                          <th className="px-2 py-2 text-left text-xs font-medium text-gray-500" style={{ width: '140px' }}>
+                          <th className="px-2 py-2 text-left text-sm font-medium text-gray-500" style={{ width: '140px' }}>
                             <span className="hidden sm:inline">经销商名称</span>
                             <span className="sm:hidden">名称</span>
                           </th>
-                          <th className="px-2 py-2 text-left text-xs font-medium text-gray-500" style={{ width: '55px' }}>区域</th>
-                          <th className="px-2 py-2 text-center text-xs font-medium text-gray-500 cursor-pointer hover:text-green-600 transition-colors" style={{ width: '80px' }} onClick={() => handleDealerSort('scale')}>
+                          <th className="px-2 py-2 text-left text-sm font-medium text-gray-500" style={{ width: '55px' }}>区域</th>
+                          <th className="px-2 py-2 text-center text-sm font-medium text-gray-500 cursor-pointer hover:text-green-600 transition-colors" style={{ width: '80px' }} onClick={() => handleDealerSort('scale')}>
                             <div className="flex items-center justify-center gap-0.5">
                               任务规模
                               <ArrowUp className={`w-2.5 h-2.5 ${dealerSortField === 'scale' && dealerSortOrder === 'asc' ? 'text-green-600' : 'text-gray-300'}`} />
                               <ArrowDown className={`w-2.5 h-2.5 ${dealerSortField === 'scale' && dealerSortOrder === 'desc' ? 'text-green-600' : 'text-gray-300'}`} />
                             </div>
                           </th>
-                          <th className="px-2 py-2 text-right text-xs font-medium text-gray-500 cursor-pointer hover:text-green-600 transition-colors hidden sm:table-cell" style={{ width: '75px' }} onClick={() => handleDealerSort('target')}>
+                          <th className="px-2 py-2 text-right text-sm font-medium text-gray-500 cursor-pointer hover:text-green-600 transition-colors hidden sm:table-cell" style={{ width: '75px' }} onClick={() => handleDealerSort('target')}>
                             <div className="flex items-center justify-end gap-0.5">
                               目标金额
                               <ArrowUp className={`w-2.5 h-2.5 ${dealerSortField === 'target' && dealerSortOrder === 'asc' ? 'text-green-600' : 'text-gray-300'}`} />
                               <ArrowDown className={`w-2.5 h-2.5 ${dealerSortField === 'target' && dealerSortOrder === 'desc' ? 'text-green-600' : 'text-gray-300'}`} />
                             </div>
                           </th>
-                          <th className="px-2 py-2 text-right text-xs font-medium text-gray-500 cursor-pointer hover:text-green-600 transition-colors hidden sm:table-cell" style={{ width: '70px' }} onClick={() => handleDealerSort('completed')}>
+                          <th className="px-2 py-2 text-right text-sm font-medium text-gray-500 cursor-pointer hover:text-green-600 transition-colors hidden sm:table-cell" style={{ width: '70px' }} onClick={() => handleDealerSort('completed')}>
                             <div className="flex items-center justify-end gap-0.5">
                               已达成
                               <ArrowUp className={`w-2.5 h-2.5 ${dealerSortField === 'completed' && dealerSortOrder === 'asc' ? 'text-green-600' : 'text-gray-300'}`} />
                               <ArrowDown className={`w-2.5 h-2.5 ${dealerSortField === 'completed' && dealerSortOrder === 'desc' ? 'text-green-600' : 'text-gray-300'}`} />
                             </div>
                           </th>
-                          <th className="px-2 py-2 text-right text-xs font-medium text-gray-500 cursor-pointer hover:text-green-600 transition-colors hidden sm:table-cell" style={{ width: '75px' }} onClick={() => handleDealerSort('ytd')}>
+                          <th className="px-2 py-2 text-right text-sm font-medium text-gray-500 cursor-pointer hover:text-green-600 transition-colors hidden sm:table-cell" style={{ width: '75px' }} onClick={() => handleDealerSort('ytd')}>
                             <div className="flex items-center justify-end gap-0.5">
                               YTD
                               <ArrowUp className={`w-2.5 h-2.5 ${dealerSortField === 'ytd' && dealerSortOrder === 'asc' ? 'text-green-600' : 'text-gray-300'}`} />
                               <ArrowDown className={`w-2.5 h-2.5 ${dealerSortField === 'ytd' && dealerSortOrder === 'desc' ? 'text-green-600' : 'text-gray-300'}`} />
                             </div>
                           </th>
-                          <th className="px-2 py-2 text-center text-xs font-medium text-gray-500 cursor-pointer hover:text-green-600 transition-colors" style={{ width: '120px' }} onClick={() => handleDealerSort('rate')}>
+                          <th className="px-2 py-2 text-center text-sm font-medium text-gray-500 cursor-pointer hover:text-green-600 transition-colors" style={{ width: '120px' }} onClick={() => handleDealerSort('rate')}>
                             <div className="flex items-center justify-center gap-0.5">
                               达成率
                               <ArrowUp className={`w-2.5 h-2.5 ${dealerSortField === 'rate' && dealerSortOrder === 'asc' ? 'text-green-600' : 'text-gray-300'}`} />
                               <ArrowDown className={`w-2.5 h-2.5 ${dealerSortField === 'rate' && dealerSortOrder === 'desc' ? 'text-green-600' : 'text-gray-300'}`} />
                             </div>
                           </th>
-                          <th className="px-2 py-2 text-center text-xs font-medium text-gray-500 cursor-pointer hover:text-green-600 transition-colors hidden sm:table-cell" style={{ width: '75px' }} onClick={() => handleDealerSort('yearOnYear')}>
+                          <th className="px-2 py-2 text-center text-sm font-medium text-gray-500 cursor-pointer hover:text-green-600 transition-colors hidden sm:table-cell" style={{ width: '75px' }} onClick={() => handleDealerSort('yearOnYear')}>
                             <div className="flex items-center justify-center gap-0.5">
                               <span className="hidden sm:inline">达成率同比</span>
                               <span className="sm:hidden">同比</span>
@@ -1643,14 +1643,14 @@ export default function SalesDashboard() {
                               <ArrowDown className={`w-2.5 h-2.5 ${dealerSortField === 'yearOnYear' && dealerSortOrder === 'desc' ? 'text-green-600' : 'text-gray-300'}`} />
                             </div>
                           </th>
-                          <th className="px-2 py-2 text-center text-xs font-medium text-gray-500" style={{ width: '65px' }}>状态</th>
+                          <th className="px-2 py-2 text-center text-sm font-medium text-gray-500" style={{ width: '65px' }}>状态</th>
                         </tr>
                       </thead>
                     <tbody className="min-h-[320px]">
                       {dealerCurrentData.map((dealer) => (
                         <tr key={dealer.rank} className="border-b border-gray-50 last:border-0">
                           <td className="px-2 py-2 text-center" style={{ width: '50px' }}>
-                            <div className={`inline-flex items-center justify-center w-6 h-6 rounded-full text-xs font-bold ${
+                            <div className={`inline-flex items-center justify-center w-6 h-6 rounded-full text-sm font-bold ${
                               dealer.rank === 1 ? 'bg-gradient-to-br from-yellow-400 to-orange-500 text-white' :
                               dealer.rank === 2 ? 'bg-gradient-to-br from-gray-300 to-gray-400 text-white' :
                               dealer.rank === 3 ? 'bg-gradient-to-br from-orange-300 to-orange-400 text-white' :
@@ -1659,11 +1659,11 @@ export default function SalesDashboard() {
                               {dealer.rank}
                             </div>
                           </td>
-                          <td className="px-2 py-2 text-xs font-semibold text-gray-900 truncate" style={{ width: '140px' }} title={dealer.name}>{dealer.name}</td>
-                          <td className="px-2 py-2 text-xs text-gray-500" style={{ width: '55px' }}>{dealer.region}</td>
-                          <td className="px-2 py-2 text-center text-[10px]" style={{ width: '80px' }}>
-                            <span className={`inline-block px-1 py-0.5 rounded-[10px] text-[10px] font-medium ${
-                              dealer.scale === '>=300万' ? 'bg-green-100 text-green-700' :
+                          <td className="px-2 py-2 text-sm font-semibold text-gray-900 truncate" style={{ width: '140px' }} title={dealer.name}>{dealer.name}</td>
+                          <td className="px-2 py-2 text-sm text-gray-500" style={{ width: '55px' }}>{dealer.region}</td>
+                          <td className="px-2 py-2 text-center text-sm" style={{ width: '80px' }}>
+                            <span className={`inline-block px-1 py-0.5 rounded-[10px] text-sm font-medium ${
+                              dealer.scale === '300万以上' ? 'bg-green-100 text-green-700' :
                               dealer.scale === '150~300万' ? 'bg-blue-100 text-blue-700' :
                               dealer.scale === '90~150万' ? 'bg-yellow-100 text-yellow-700' :
                               'bg-gray-100 text-gray-700'
@@ -1671,12 +1671,12 @@ export default function SalesDashboard() {
                               {dealer.scale}
                             </span>
                           </td>
-                          <td className="px-2 py-2 text-xs text-right text-gray-600 hidden sm:table-cell" style={{ width: '75px' }}>{dealer.target.toLocaleString()}万</td>
-                          <td className="px-2 py-2 text-xs text-right font-semibold text-gray-900 hidden sm:table-cell" style={{ width: '70px' }}>{dealer.completed.toLocaleString()}万</td>
-                          <td className="px-2 py-2 text-xs text-right font-semibold text-emerald-600 hidden sm:table-cell" style={{ width: '75px' }}>{dealer.ytd.toLocaleString()}万</td>
+                          <td className="px-2 py-2 text-sm text-right text-gray-600 hidden sm:table-cell" style={{ width: '75px' }}>{dealer.target.toLocaleString()}万</td>
+                          <td className="px-2 py-2 text-sm text-right font-semibold text-gray-900 hidden sm:table-cell" style={{ width: '70px' }}>{dealer.completed.toLocaleString()}万</td>
+                          <td className="px-2 py-2 text-sm text-right font-semibold text-emerald-600 hidden sm:table-cell" style={{ width: '75px' }}>{dealer.ytd.toLocaleString()}万</td>
                           <td className="px-2 py-2 text-center" style={{ width: '120px' }}>
                             <div className="inline-flex items-center gap-1 px-1.5 py-0.5 rounded-full bg-gray-50 border border-gray-100">
-                              <span className={`text-xs font-bold ${
+                              <span className={`text-sm font-bold ${
                                 dealer.rate >= 80 ? 'text-green-600' :
                                 dealer.rate >= 60 ? 'text-yellow-600' : 'text-red-600'
                               }`}>
@@ -1694,7 +1694,7 @@ export default function SalesDashboard() {
                             </div>
                           </td>
                           <td className="px-2 py-2 text-center hidden sm:table-cell" style={{ width: '75px' }}>
-                            <div className={`flex items-center justify-center gap-0.5 text-xs font-bold ${
+                            <div className={`flex items-center justify-center gap-0.5 text-sm font-bold ${
                               dealer.yearOnYear > 0 ? 'text-green-600' :
                               dealer.yearOnYear < 0 ? 'text-red-600' : 'text-gray-600'
                             }`}>
@@ -1704,7 +1704,7 @@ export default function SalesDashboard() {
                             </div>
                           </td>
                           <td className="px-2 py-2 text-center" style={{ width: '65px' }}>
-                            <span className={`inline-flex items-center gap-0.5 px-1.5 py-0.5 rounded-full text-[10px] font-medium ${
+                            <span className={`inline-flex items-center gap-0.5 px-1.5 py-0.5 rounded-full text-sm font-medium ${
                               dealer.status === 'excellent' ? 'bg-green-100 text-green-700' :
                               dealer.status === 'good' ? 'bg-teal-100 text-teal-700' :
                               dealer.status === 'warning' ? 'bg-yellow-100 text-yellow-700' :
