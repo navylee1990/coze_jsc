@@ -832,9 +832,10 @@ export default function SalesDashboard() {
           </TabsTrigger>
         </TabsList>
 
-        <TabsContent value="overview" className="flex-1 overflow-y-auto min-h-0 mt-1">
-        {/* KPI指标 + 月度趋势分析 左右布局 */}
-        <div className="flex flex-col lg:flex-row gap-1.5 mb-1.5">
+        <TabsContent value="overview" className="flex-1 min-h-0 mt-1">
+        <div className="h-full flex flex-col gap-1">
+          {/* KPI指标 + 月度趋势分析 左右布局 */}
+          <div className="flex flex-col lg:flex-row gap-1.5 flex-shrink-0">
           {/* 左侧：KPI指标（买断+租赁+续租）- 三行布局 */}
           <div className="w-full lg:w-1/2 flex flex-col gap-1 flex-shrink-0">
             {/* 第一行：新增买断指标 */}
@@ -1256,9 +1257,9 @@ export default function SalesDashboard() {
         </div>
 
         {/* 区域达成情况 */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-2">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-2 flex-1 min-h-0">
           {/* 左侧：表格 */}
-          <Card className="lg:col-span-1 border border-green-200 bg-gradient-to-br from-green-50 to-emerald-50 flex flex-col">
+          <Card className="lg:col-span-1 border border-green-200 bg-gradient-to-br from-green-50 to-emerald-50 flex flex-col h-full min-h-0">
             <CardContent className="p-1.5 flex flex-col min-h-0">
               {/* 标题 */}
               <div className="flex items-center justify-between mb-1.5">
@@ -1299,7 +1300,7 @@ export default function SalesDashboard() {
 
               {/* 大区维度表格 */}
               <div className="overflow-x-auto -mx-3 px-3 flex-1 min-h-0">
-                <div className="bg-white rounded-lg border-0 overflow-hidden min-w-[900px] h-full">
+                <div className="bg-white rounded-lg border-0 overflow-hidden min-w-[900px] min-h-full">
                   <table className="w-full">
                   <thead>
                     <tr className="border-b border-gray-100">
@@ -1384,7 +1385,7 @@ export default function SalesDashboard() {
           </Card>
 
           {/* 右侧：城市经理达成情况 */}
-          <Card className="lg:col-span-1 border border-green-200 bg-gradient-to-br from-green-50 to-emerald-50 flex flex-col">
+          <Card className="lg:col-span-1 border border-green-200 bg-gradient-to-br from-green-50 to-emerald-50 flex flex-col h-full min-h-0">
             <CardContent className="p-1.5 flex flex-col min-h-0">
               {/* 标题 */}
               <div className="flex items-center justify-between mb-1.5">
@@ -1427,7 +1428,7 @@ export default function SalesDashboard() {
 
               {/* 城市经理表格 */}
               <div className="overflow-x-auto -mx-3 px-3 flex-1 min-h-0">
-                <div className="bg-white rounded-lg border-0 overflow-hidden min-w-[900px] h-full">
+                <div className="bg-white rounded-lg border-0 overflow-hidden min-w-[900px] min-h-full">
                   <table className="w-full">
                   <thead>
                     <tr className="border-b border-gray-100">
@@ -1543,8 +1544,9 @@ export default function SalesDashboard() {
         </div>
           </TabsContent>
 
-          <TabsContent value="distributors" className="flex-1 overflow-y-auto min-h-0 mt-1">
-            <div className="mb-2 flex items-center justify-between">
+          <TabsContent value="distributors" className="flex-1 min-h-0 mt-1">
+            <div className="h-full flex flex-col">
+            <div className="flex-shrink-0 mb-2 flex items-center justify-between">
               <h2 className="text-lg font-semibold text-gray-900 flex items-center gap-2">
                 <Database className="w-5 h-5" />
                 经销商经营分析
@@ -1762,7 +1764,7 @@ export default function SalesDashboard() {
 
                 {/* 表格容器 - 移动端横向滚动 */}
                 <div className="overflow-x-auto -mx-3 px-3 flex-1 min-h-0">
-                  <div className="bg-white rounded-lg border-0 overflow-hidden min-w-[800px] h-full">
+                  <div className="bg-white rounded-lg border-0 overflow-hidden min-w-[800px] min-h-full">
                     <table className="w-full" style={{ tableLayout: 'fixed' }}>
                       <thead>
                         <tr className="border-b border-gray-100">
@@ -1825,7 +1827,7 @@ export default function SalesDashboard() {
                           <th className="px-2 py-1.5 text-center text-sm font-medium text-gray-500" style={{ width: '65px' }}>状态</th>
                         </tr>
                       </thead>
-                    <tbody className="min-h-[320px]">
+                    <tbody>
                       {dealerCurrentData.map((dealer) => (
                         <tr key={dealer.rank} className="border-b border-gray-50 last:border-0">
                           <td className="px-2 py-1.5 text-center" style={{ width: '50px' }}>
@@ -1904,17 +1906,17 @@ export default function SalesDashboard() {
                 </div>
 
                 {/* 分页 */}
-                <div className="flex items-center justify-between mt-3 px-1">
+                <div className="flex-shrink-0 flex items-center justify-between mt-3 px-1">
                   <div className="text-xs text-gray-500">
                     共 <span className="font-semibold text-gray-700">{salesmenRanking.length}</span> 条记录，
                     第 <span className="font-semibold text-gray-700">{salesmenCurrentPage}</span> / {salesmenTotalPages} 页
                   </div>
                   <div className="flex items-center gap-1">
                     <button
-                      onClick={() => setDealerCurrentPage(prev => Math.max(1, prev - 1))}
-                      disabled={dealerCurrentPage === 1}
+                      onClick={() => setSalesmenCurrentPage(prev => Math.max(1, prev - 1))}
+                      disabled={salesmenCurrentPage === 1}
                       className={`px-2 py-1.5 text-xs font-medium rounded-lg transition-all sm:px-3 ${
-                        dealerCurrentPage === 1
+                        salesmenCurrentPage === 1
                           ? 'bg-gray-100 text-gray-400 cursor-not-allowed'
                           : 'bg-white border border-gray-200 text-gray-700 hover:bg-green-50 hover:border-green-300 hover:text-green-700'
                       }`}
@@ -1923,12 +1925,12 @@ export default function SalesDashboard() {
                       <span className="sm:hidden">←</span>
                     </button>
                     <div className="hidden sm:flex items-center gap-1">
-                      {Array.from({ length: dealerTotalPages }, (_, i) => i + 1).map((page) => (
+                      {Array.from({ length: salesmenTotalPages }, (_, i) => i + 1).map((page) => (
                         <button
                           key={page}
-                          onClick={() => setDealerCurrentPage(page)}
+                          onClick={() => setSalesmenCurrentPage(page)}
                           className={`min-w-[32px] h-8 text-xs font-medium rounded-lg transition-all ${
-                            dealerCurrentPage === page
+                            salesmenCurrentPage === page
                               ? 'bg-gradient-to-r from-green-500 to-emerald-600 text-white shadow-md'
                               : 'bg-white border border-gray-200 text-gray-700 hover:bg-green-50 hover:border-green-300 hover:text-green-700'
                           }`}
@@ -1938,13 +1940,13 @@ export default function SalesDashboard() {
                       ))}
                     </div>
                     <div className="sm:hidden text-xs text-gray-600 px-2">
-                      {dealerCurrentPage} / {dealerTotalPages}
+                      {salesmenCurrentPage} / {salesmenTotalPages}
                     </div>
                     <button
-                      onClick={() => setDealerCurrentPage(prev => Math.min(dealerTotalPages, prev + 1))}
-                      disabled={dealerCurrentPage === dealerTotalPages}
+                      onClick={() => setSalesmenCurrentPage(prev => Math.min(salesmenTotalPages, prev + 1))}
+                      disabled={salesmenCurrentPage === salesmenTotalPages}
                       className={`px-2 py-1.5 text-xs font-medium rounded-lg transition-all sm:px-3 ${
-                        dealerCurrentPage === dealerTotalPages
+                        salesmenCurrentPage === salesmenTotalPages
                           ? 'bg-gray-100 text-gray-400 cursor-not-allowed'
                           : 'bg-white border border-gray-200 text-gray-700 hover:bg-green-50 hover:border-green-300 hover:text-green-700'
                       }`}
@@ -1954,13 +1956,16 @@ export default function SalesDashboard() {
                     </button>
                   </div>
                 </div>
+                </div>
               </CardContent>
             </Card>
+            </div>
           </TabsContent>
 
-          <TabsContent value="projects" className="flex-1 overflow-y-auto min-h-0 mt-3">
+          <TabsContent value="projects" className="flex-1 min-h-0 mt-3">
+            <div className="h-full flex flex-col">
             {/* 项目分析标题 */}
-            <div className="mb-3 flex items-center gap-4">
+            <div className="flex-shrink-0 mb-2 flex items-center gap-4">
               <h2 className="text-lg font-semibold text-gray-900 flex items-center gap-2">
                 <Target className="w-5 h-5" />
                 项目分析
@@ -1969,7 +1974,7 @@ export default function SalesDashboard() {
             </div>
 
             {/* 项目KPI指标 */}
-            <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-1.5 mb-3">
+            <div className="flex-shrink-0 grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-1.5 mb-2">
               {/* 项目数 */}
               <Card className="bg-white border border-gray-200">
                 <CardContent className="p-1">
@@ -2038,17 +2043,17 @@ export default function SalesDashboard() {
               </Card>
             </div>
 
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+            <div className="flex-1 min-h-0 grid grid-cols-1 lg:grid-cols-2 gap-4">
               {/* 临期项目/超期项目报警 */}
-              <Card className="border-2 border-orange-200 bg-gradient-to-r from-orange-50 to-yellow-50">
-                <CardHeader>
+              <Card className="border-2 border-orange-200 bg-gradient-to-r from-orange-50 to-yellow-50 flex flex-col min-h-0">
+                <CardHeader className="flex-shrink-0">
                   <CardTitle className="text-base flex items-center gap-2">
                     <Clock className="w-4 h-4 text-orange-500" />
                     临期项目/超期项目报警
                   </CardTitle>
                 </CardHeader>
-                <CardContent>
-                  <div className="grid grid-cols-2 gap-4 mb-4">
+                <CardContent className="flex-1 flex flex-col min-h-0">
+                  <div className="flex-shrink-0 grid grid-cols-2 gap-4 mb-3">
                     <div className="text-center">
                       <div className="text-4xl font-bold text-red-600">23</div>
                       <div className="text-xs text-gray-600 mt-1">超期项目（已逾期）</div>
@@ -2060,9 +2065,10 @@ export default function SalesDashboard() {
                       <div className="text-xs text-gray-400">总金额 420万</div>
                     </div>
                   </div>
-                  <div className="bg-white rounded-lg border border-gray-200 overflow-hidden">
-                    <table className="w-full">
-                      <thead className="bg-gray-50">
+                  <div className="flex-1 min-h-0 bg-white rounded-lg border border-gray-200 overflow-hidden flex flex-col">
+                    <div className="overflow-y-auto flex-1 min-h-0">
+                      <table className="w-full">
+                      <thead className="bg-gray-50 sticky top-0 z-10">
                         <tr>
                           <th className="px-3 py-2 text-left text-xs font-medium text-gray-500">项目名称</th>
                           <th className="px-3 py-2 text-right text-xs font-medium text-gray-500">金额</th>
@@ -2070,7 +2076,7 @@ export default function SalesDashboard() {
                           <th className="px-3 py-2 text-right text-xs font-medium text-gray-500">到期/逾期天数</th>
                         </tr>
                       </thead>
-                      <tbody className="divide-y divide-gray-200 min-h-[200px]">
+                      <tbody className="divide-y divide-gray-200">
                         {urgentCurrentData.map((project, index) => (
                           <tr key={index} className="hover:bg-gray-50">
                             <td className="px-3 py-2 text-sm font-medium text-gray-900">{project.name}</td>
@@ -2091,10 +2097,11 @@ export default function SalesDashboard() {
                         ))}
                       </tbody>
                     </table>
+                    </div>
                   </div>
 
                   {/* 分页 */}
-                  <div className="flex items-center justify-between mt-3 px-1">
+                  <div className="flex-shrink-0 flex items-center justify-between mt-3 px-1">
                     <div className="text-xs text-gray-500">
                       共 <span className="font-semibold text-gray-700">{urgentProjectsData.length}</span> 条记录，
                       第 <span className="font-semibold text-gray-700">{urgentCurrentPage}</span> / {urgentTotalPages} 页
@@ -2141,15 +2148,15 @@ export default function SalesDashboard() {
               </Card>
 
               {/* 关联项目储备分析 */}
-              <Card className="border-2 border-green-200 bg-gradient-to-r from-green-50 to-teal-50">
-                <CardHeader>
+              <Card className="border-2 border-green-200 bg-gradient-to-r from-green-50 to-teal-50 flex flex-col min-h-0">
+                <CardHeader className="flex-shrink-0">
                   <CardTitle className="text-base flex items-center gap-2">
                     <Database className="w-4 h-4 text-green-500" />
                     关联项目储备分析
                   </CardTitle>
                 </CardHeader>
-                <CardContent>
-                  <div className="grid grid-cols-3 gap-4 mb-4">
+                <CardContent className="flex-1 flex flex-col min-h-0">
+                  <div className="flex-shrink-0 grid grid-cols-3 gap-4 mb-3">
                     <div className="text-center">
                       <div className="text-4xl font-bold text-green-600">45</div>
                       <div className="text-xs text-gray-600 mt-1">已成交客户</div>
@@ -2166,9 +2173,10 @@ export default function SalesDashboard() {
                       <div className="text-xs text-gray-400">万元</div>
                     </div>
                   </div>
-                  <div className="bg-white rounded-lg border border-gray-200 overflow-hidden">
-                    <table className="w-full">
-                      <thead className="bg-gray-50">
+                  <div className="flex-1 min-h-0 bg-white rounded-lg border border-gray-200 overflow-hidden flex flex-col">
+                    <div className="overflow-y-auto flex-1 min-h-0">
+                      <table className="w-full">
+                      <thead className="bg-gray-50 sticky top-0 z-10">
                         <tr>
                           <th className="px-3 py-2 text-left text-xs font-medium text-gray-500">客户名称</th>
                           <th className="px-3 py-2 text-left text-xs font-medium text-gray-500">行业</th>
@@ -2178,7 +2186,7 @@ export default function SalesDashboard() {
                           <th className="px-3 py-2 text-center text-xs font-medium text-gray-500">潜力等级</th>
                         </tr>
                       </thead>
-                      <tbody className="divide-y divide-gray-200 min-h-[200px]">
+                      <tbody className="divide-y divide-gray-200">
                         {relatedCurrentData.map((customer, index) => (
                           <tr key={index} className="hover:bg-gray-50">
                             <td className="px-3 py-2 text-sm font-medium text-gray-900">{customer.name}</td>
@@ -2199,10 +2207,11 @@ export default function SalesDashboard() {
                         ))}
                       </tbody>
                     </table>
+                    </div>
                   </div>
 
                   {/* 分页 */}
-                  <div className="flex items-center justify-between mt-3 px-1">
+                  <div className="flex-shrink-0 flex items-center justify-between mt-3 px-1">
                     <div className="text-xs text-gray-500">
                       共 <span className="font-semibold text-gray-700">{relatedProjectsData.length}</span> 条记录，
                       第 <span className="font-semibold text-gray-700">{relatedCurrentPage}</span> / {relatedTotalPages} 页
@@ -2250,9 +2259,10 @@ export default function SalesDashboard() {
             </div>
           </TabsContent>
 
-          <TabsContent value="salesmen" className="flex-1 overflow-y-auto min-h-0 mt-3">
+          <TabsContent value="salesmen" className="flex-1 min-h-0 mt-3">
+            <div className="h-full flex flex-col">
             {/* 业务员分析标题 */}
-            <div className="mb-3 flex items-center gap-4">
+            <div className="flex-shrink-0 mb-2 flex items-center gap-4">
               <h2 className="text-lg font-semibold text-gray-900 flex items-center gap-2">
                 <TrendingUp className="w-5 h-5" />
                 业务员分析
@@ -2261,7 +2271,7 @@ export default function SalesDashboard() {
             </div>
 
             {/* 业务员KPI指标 */}
-            <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-1.5 mb-3">
+            <div className="flex-shrink-0 grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-1.5 mb-2">
               {/* 总业绩 */}
               <Card className="bg-white border-2 border-green-200">
                 <CardContent className="p-1">
@@ -2332,20 +2342,21 @@ export default function SalesDashboard() {
             </div>
 
             {/* 业务员排名表格 */}
-            <Card className="bg-white border border-green-200 bg-gradient-to-br from-green-50 to-emerald-50">
-              <CardContent className="p-3">
-                {/* 标题 */}
-                <div className="flex items-center justify-between mb-3">
+            <Card className="flex-1 min-h-0 bg-white border border-green-200 bg-gradient-to-br from-green-50 to-emerald-50 flex flex-col">
+              <CardHeader className="flex-shrink-0 p-3 pb-2">
+                <div className="flex items-center justify-between mb-2">
                   <div className="text-sm font-bold text-gray-900 flex items-center gap-2">
                     <Activity className="w-4 h-4 text-green-600" />
                     <span className="text-sm font-bold text-gray-900">业务员排名</span>
                   </div>
                   <span className="text-xs text-gray-500">2026年度数据</span>
                 </div>
-
-                <div className="bg-white rounded-lg border-0 overflow-hidden">
+              </CardHeader>
+              <CardContent className="flex-1 p-3 pt-0 flex flex-col min-h-0">
+                <div className="flex-1 min-h-0 bg-white rounded-lg border-0 overflow-hidden flex flex-col">
+                  <div className="overflow-y-auto flex-1 min-h-0">
                   <table className="w-full">
-                    <thead>
+                    <thead className="sticky top-0 z-10 bg-white">
                       <tr className="border-b border-gray-100">
                         <th className="px-2 py-1.5 text-center text-sm font-medium text-gray-500 w-12">排名</th>
                         <th className="px-3 py-1.5 text-left text-sm font-medium text-gray-500">姓名</th>
@@ -2358,7 +2369,7 @@ export default function SalesDashboard() {
                         <th className="px-2 py-1.5 text-center text-sm font-medium text-gray-500">状态</th>
                       </tr>
                     </thead>
-                    <tbody className="min-h-[320px]">
+                    <tbody>
                       {salesmenCurrentData.map((item) => (
                         <tr key={item.rank} className="border-b border-gray-50 hover:bg-blue-50 transition-colors">
                           <td className="px-2 py-1.5 text-center">
@@ -2421,17 +2432,17 @@ export default function SalesDashboard() {
                 </div>
 
                 {/* 分页 */}
-                <div className="flex items-center justify-between mt-3 px-1">
+                <div className="flex-shrink-0 flex items-center justify-between mt-3 px-1">
                   <div className="text-xs text-gray-500">
                     共 <span className="font-semibold text-gray-700">{salesmenRanking.length}</span> 条记录，
                     第 <span className="font-semibold text-gray-700">{salesmenCurrentPage}</span> / {salesmenTotalPages} 页
                   </div>
                   <div className="flex items-center gap-1">
                     <button
-                      onClick={() => setDealerCurrentPage(prev => Math.max(1, prev - 1))}
-                      disabled={dealerCurrentPage === 1}
+                      onClick={() => setSalesmenCurrentPage(prev => Math.max(1, prev - 1))}
+                      disabled={salesmenCurrentPage === 1}
                       className={`px-2 py-1.5 text-xs font-medium rounded-lg transition-all sm:px-3 ${
-                        dealerCurrentPage === 1
+                        salesmenCurrentPage === 1
                           ? 'bg-gray-100 text-gray-400 cursor-not-allowed'
                           : 'bg-white border border-gray-200 text-gray-700 hover:bg-green-50 hover:border-green-300 hover:text-green-700'
                       }`}
@@ -2440,12 +2451,12 @@ export default function SalesDashboard() {
                       <span className="sm:hidden">←</span>
                     </button>
                     <div className="hidden sm:flex items-center gap-1">
-                      {Array.from({ length: dealerTotalPages }, (_, i) => i + 1).map((page) => (
+                      {Array.from({ length: salesmenTotalPages }, (_, i) => i + 1).map((page) => (
                         <button
                           key={page}
-                          onClick={() => setDealerCurrentPage(page)}
+                          onClick={() => setSalesmenCurrentPage(page)}
                           className={`min-w-[32px] h-8 text-xs font-medium rounded-lg transition-all ${
-                            dealerCurrentPage === page
+                            salesmenCurrentPage === page
                               ? 'bg-gradient-to-r from-green-500 to-emerald-600 text-white shadow-md'
                               : 'bg-white border border-gray-200 text-gray-700 hover:bg-green-50 hover:border-green-300 hover:text-green-700'
                           }`}
@@ -2455,13 +2466,13 @@ export default function SalesDashboard() {
                       ))}
                     </div>
                     <div className="sm:hidden text-xs text-gray-600 px-2">
-                      {dealerCurrentPage} / {dealerTotalPages}
+                      {salesmenCurrentPage} / {salesmenTotalPages}
                     </div>
                     <button
-                      onClick={() => setDealerCurrentPage(prev => Math.min(dealerTotalPages, prev + 1))}
-                      disabled={dealerCurrentPage === dealerTotalPages}
+                      onClick={() => setSalesmenCurrentPage(prev => Math.min(salesmenTotalPages, prev + 1))}
+                      disabled={salesmenCurrentPage === salesmenTotalPages}
                       className={`px-2 py-1.5 text-xs font-medium rounded-lg transition-all sm:px-3 ${
-                        dealerCurrentPage === dealerTotalPages
+                        salesmenCurrentPage === salesmenTotalPages
                           ? 'bg-gray-100 text-gray-400 cursor-not-allowed'
                           : 'bg-white border border-gray-200 text-gray-700 hover:bg-green-50 hover:border-green-300 hover:text-green-700'
                       }`}
@@ -2471,8 +2482,10 @@ export default function SalesDashboard() {
                     </button>
                   </div>
                 </div>
+                </div>
               </CardContent>
             </Card>
+            </div>
           </TabsContent>
         </Tabs>
 
