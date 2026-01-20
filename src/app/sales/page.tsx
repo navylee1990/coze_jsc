@@ -1329,12 +1329,12 @@ export default function SalesDashboard() {
         </div>
 
         {/* 区域达成情况 */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-2 flex-1 min-h-0">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-2 min-h-[500px] max-h-[600px]">
           {/* 左侧：表格 */}
           <Card className="lg:col-span-1 border border-green-200 bg-gradient-to-br from-green-50 to-emerald-50 flex flex-col h-full min-h-0">
             <CardContent className="p-1.5 flex flex-col min-h-0">
               {/* 标题 */}
-              <div className="flex items-center justify-between mb-1.5">
+              <div className="flex items-center justify-between mb-1.5 flex-shrink-0">
                 <div className="flex items-center gap-2">
                   <Activity className="w-5 h-5 text-green-600" />
                   {viewLevel === 'city' && (
@@ -1460,7 +1460,7 @@ export default function SalesDashboard() {
           <Card className="lg:col-span-1 border border-green-200 bg-gradient-to-br from-green-50 to-emerald-50 flex flex-col h-full min-h-0">
             <CardContent className="p-1.5 flex flex-col min-h-0">
               {/* 标题 */}
-              <div className="flex items-center justify-between mb-1.5">
+              <div className="flex items-center justify-between mb-1.5 flex-shrink-0">
                 <div className="flex items-center gap-2">
                   <Activity className="w-5 h-5 text-green-600" />
                   <span className="text-base font-bold text-gray-900">城市经理达成情况</span>
