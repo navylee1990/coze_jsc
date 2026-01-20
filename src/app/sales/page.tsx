@@ -790,10 +790,10 @@ export default function SalesDashboard() {
               {/* 紧凑圆环布局 - 横向排列 */}
               <div className="flex items-center justify-center gap-2">
                 {/* 左侧小指标组 */}
-                <div className="flex gap-1.5">
+                <div className="flex gap-2">
                   {/* 目标 */}
                   <div className="flex flex-col items-center">
-                    <div className="w-12 h-12 rounded-full bg-gradient-to-br from-blue-50 to-blue-100 border-2 border-blue-300 flex flex-col items-center justify-center">
+                    <div className="w-14 h-14 rounded-full bg-gradient-to-br from-blue-50 to-blue-100 border-2 border-blue-300 flex flex-col items-center justify-center">
                       <div className="text-[10px] text-blue-600 font-medium">目标</div>
                       <div className="text-sm font-bold text-blue-700 leading-none">{(currentRangeData.target / 1000).toFixed(1)}k</div>
                     </div>
@@ -801,7 +801,7 @@ export default function SalesDashboard() {
 
                   {/* 已完成 */}
                   <div className="flex flex-col items-center">
-                    <div className="w-12 h-12 rounded-full bg-gradient-to-br from-gray-50 to-gray-100 border-2 border-gray-300 flex flex-col items-center justify-center">
+                    <div className="w-14 h-14 rounded-full bg-gradient-to-br from-gray-50 to-gray-100 border-2 border-gray-300 flex flex-col items-center justify-center">
                       <div className="text-[10px] text-gray-600 font-medium">已完成</div>
                       <div className="text-sm font-bold text-gray-700 leading-none">{(currentRangeData.completed / 1000).toFixed(1)}k</div>
                     </div>
@@ -809,7 +809,7 @@ export default function SalesDashboard() {
 
                   {/* 预测完成 */}
                   <div className="flex flex-col items-center">
-                    <div className="w-12 h-12 rounded-full bg-gradient-to-br from-green-50 to-green-100 border-2 border-green-300 flex flex-col items-center justify-center">
+                    <div className="w-14 h-14 rounded-full bg-gradient-to-br from-green-50 to-green-100 border-2 border-green-300 flex flex-col items-center justify-center">
                       <div className="text-[10px] text-green-600 font-medium">预测</div>
                       <div className="text-sm font-bold text-green-700 leading-none">{(currentRangeData.predicted / 1000).toFixed(1)}k</div>
                     </div>
@@ -829,7 +829,6 @@ export default function SalesDashboard() {
                       <span className="text-[10px] font-bold text-white uppercase tracking-wide">缺口</span>
                     </div>
                     <div className="text-xl font-extrabold text-white leading-none">{(currentRangeData.gap / 100).toFixed(1)}k</div>
-                    <div className="text-[10px] text-red-100 font-medium">万元</div>
                   </div>
                   {/* 动画光晕 */}
                   <div className="absolute inset-0 rounded-full bg-red-400 animate-ping opacity-20"></div>
@@ -837,11 +836,10 @@ export default function SalesDashboard() {
 
                 {/* 右侧：在手订单 */}
                 <div className="flex flex-col items-center">
-                  <div className="w-12 h-12 rounded-full bg-gradient-to-br from-purple-50 to-purple-100 border-2 border-purple-300 flex flex-col items-center justify-center">
+                  <div className="w-14 h-14 rounded-full bg-gradient-to-br from-purple-50 to-purple-100 border-2 border-purple-300 flex flex-col items-center justify-center">
                     <div className="text-[10px] text-purple-600 font-medium">订单</div>
                     <div className="text-sm font-bold text-purple-700 leading-none">15单</div>
                   </div>
-                  <div className="text-[10px] text-purple-700 font-bold mt-0.5">1,200万</div>
                 </div>
               </div>
 
@@ -873,10 +871,10 @@ export default function SalesDashboard() {
               {/* 紧凑圆环布局 - 横向排列 */}
               <div className="flex items-center justify-center gap-2">
                 {/* 左侧小指标组 */}
-                <div className="flex gap-1.5">
+                <div className="flex gap-2">
                   {/* 目标 */}
                   <div className="flex flex-col items-center">
-                    <div className="w-12 h-12 rounded-full bg-gradient-to-br from-blue-50 to-blue-100 border-2 border-blue-300 flex flex-col items-center justify-center">
+                    <div className="w-14 h-14 rounded-full bg-gradient-to-br from-blue-50 to-blue-100 border-2 border-blue-300 flex flex-col items-center justify-center">
                       <div className="text-[10px] text-blue-600 font-medium">目标</div>
                       <div className="text-sm font-bold text-blue-700 leading-none">{(leaseTimeRangeData[timeRange as keyof typeof leaseTimeRangeData].target / 1000).toFixed(1)}k</div>
                     </div>
@@ -884,7 +882,7 @@ export default function SalesDashboard() {
 
                   {/* 已完成 */}
                   <div className="flex flex-col items-center">
-                    <div className="w-12 h-12 rounded-full bg-gradient-to-br from-gray-50 to-gray-100 border-2 border-gray-300 flex flex-col items-center justify-center">
+                    <div className="w-14 h-14 rounded-full bg-gradient-to-br from-gray-50 to-gray-100 border-2 border-gray-300 flex flex-col items-center justify-center">
                       <div className="text-[10px] text-gray-600 font-medium">已完成</div>
                       <div className="text-sm font-bold text-gray-700 leading-none">{(leaseTimeRangeData[timeRange as keyof typeof leaseTimeRangeData].completed / 1000).toFixed(1)}k</div>
                     </div>
@@ -892,7 +890,7 @@ export default function SalesDashboard() {
 
                   {/* 预测完成 */}
                   <div className="flex flex-col items-center">
-                    <div className="w-12 h-12 rounded-full bg-gradient-to-br from-green-50 to-green-100 border-2 border-green-300 flex flex-col items-center justify-center">
+                    <div className="w-14 h-14 rounded-full bg-gradient-to-br from-green-50 to-green-100 border-2 border-green-300 flex flex-col items-center justify-center">
                       <div className="text-[10px] text-green-600 font-medium">预测</div>
                       <div className="text-sm font-bold text-green-700 leading-none">{(leaseTimeRangeData[timeRange as keyof typeof leaseTimeRangeData].predicted / 1000).toFixed(1)}k</div>
                     </div>
@@ -912,7 +910,6 @@ export default function SalesDashboard() {
                       <span className="text-[10px] font-bold text-white uppercase tracking-wide">缺口</span>
                     </div>
                     <div className="text-xl font-extrabold text-white leading-none">{(leaseTimeRangeData[timeRange as keyof typeof leaseTimeRangeData].gap / 100).toFixed(1)}k</div>
-                    <div className="text-[10px] text-orange-100 font-medium">万元</div>
                   </div>
                   {/* 动画光晕 */}
                   <div className="absolute inset-0 rounded-full bg-orange-400 animate-ping opacity-20"></div>
@@ -920,11 +917,10 @@ export default function SalesDashboard() {
 
                 {/* 右侧：在手订单 */}
                 <div className="flex flex-col items-center">
-                  <div className="w-12 h-12 rounded-full bg-gradient-to-br from-purple-50 to-purple-100 border-2 border-purple-300 flex flex-col items-center justify-center">
+                  <div className="w-14 h-14 rounded-full bg-gradient-to-br from-purple-50 to-purple-100 border-2 border-purple-300 flex flex-col items-center justify-center">
                     <div className="text-[10px] text-purple-600 font-medium">订单</div>
                     <div className="text-sm font-bold text-purple-700 leading-none">{leaseKPI.orders}单</div>
                   </div>
-                  <div className="text-[10px] text-purple-700 font-bold mt-0.5">{leaseKPI.ordersAmount}万</div>
                 </div>
               </div>
 
@@ -957,10 +953,10 @@ export default function SalesDashboard() {
               {/* 紧凑圆环布局 - 横向排列 */}
               <div className="flex items-center justify-center gap-2">
                 {/* 左侧小指标组 */}
-                <div className="flex gap-1.5">
+                <div className="flex gap-2">
                   {/* 目标 */}
                   <div className="flex flex-col items-center">
-                    <div className="w-12 h-12 rounded-full bg-gradient-to-br from-blue-50 to-blue-100 border-2 border-blue-300 flex flex-col items-center justify-center">
+                    <div className="w-14 h-14 rounded-full bg-gradient-to-br from-blue-50 to-blue-100 border-2 border-blue-300 flex flex-col items-center justify-center">
                       <div className="text-[10px] text-blue-600 font-medium">目标</div>
                       <div className="text-sm font-bold text-blue-700 leading-none">{(renewalTimeRangeData[timeRange as keyof typeof renewalTimeRangeData].target / 1000).toFixed(1)}k</div>
                     </div>
@@ -968,7 +964,7 @@ export default function SalesDashboard() {
 
                   {/* 已完成 */}
                   <div className="flex flex-col items-center">
-                    <div className="w-12 h-12 rounded-full bg-gradient-to-br from-gray-50 to-gray-100 border-2 border-gray-300 flex flex-col items-center justify-center">
+                    <div className="w-14 h-14 rounded-full bg-gradient-to-br from-gray-50 to-gray-100 border-2 border-gray-300 flex flex-col items-center justify-center">
                       <div className="text-[10px] text-gray-600 font-medium">已完成</div>
                       <div className="text-sm font-bold text-gray-700 leading-none">{(renewalTimeRangeData[timeRange as keyof typeof renewalTimeRangeData].completed / 1000).toFixed(1)}k</div>
                     </div>
@@ -976,7 +972,7 @@ export default function SalesDashboard() {
 
                   {/* 预测完成 */}
                   <div className="flex flex-col items-center">
-                    <div className="w-12 h-12 rounded-full bg-gradient-to-br from-green-50 to-green-100 border-2 border-green-300 flex flex-col items-center justify-center">
+                    <div className="w-14 h-14 rounded-full bg-gradient-to-br from-green-50 to-green-100 border-2 border-green-300 flex flex-col items-center justify-center">
                       <div className="text-[10px] text-green-600 font-medium">预测</div>
                       <div className="text-sm font-bold text-green-700 leading-none">{(renewalTimeRangeData[timeRange as keyof typeof renewalTimeRangeData].predicted / 1000).toFixed(1)}k</div>
                     </div>
@@ -996,7 +992,6 @@ export default function SalesDashboard() {
                       <span className="text-[10px] font-bold text-white uppercase tracking-wide">缺口</span>
                     </div>
                     <div className="text-xl font-extrabold text-white leading-none">{(renewalTimeRangeData[timeRange as keyof typeof renewalTimeRangeData].gap / 100).toFixed(1)}k</div>
-                    <div className="text-[10px] text-green-100 font-medium">万元</div>
                   </div>
                   {/* 动画光晕 */}
                   <div className="absolute inset-0 rounded-full bg-green-400 animate-ping opacity-20"></div>
@@ -1004,11 +999,10 @@ export default function SalesDashboard() {
 
                 {/* 右侧：在手订单 */}
                 <div className="flex flex-col items-center">
-                  <div className="w-12 h-12 rounded-full bg-gradient-to-br from-purple-50 to-purple-100 border-2 border-purple-300 flex flex-col items-center justify-center">
+                  <div className="w-14 h-14 rounded-full bg-gradient-to-br from-purple-50 to-purple-100 border-2 border-purple-300 flex flex-col items-center justify-center">
                     <div className="text-[10px] text-purple-600 font-medium">订单</div>
                     <div className="text-sm font-bold text-purple-700 leading-none">{renewalKPI.orders}单</div>
                   </div>
-                  <div className="text-[10px] text-purple-700 font-bold mt-0.5">{renewalKPI.ordersAmount}万</div>
                 </div>
               </div>
 
