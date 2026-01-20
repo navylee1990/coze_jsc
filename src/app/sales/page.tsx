@@ -1365,24 +1365,24 @@ export default function SalesDashboard() {
                 </div>
 
                 <div className="bg-white rounded-lg border-0 overflow-hidden">
-                  <table className="w-full">
+                  <table className="w-full" style={{ tableLayout: 'fixed' }}>
                     <thead>
                       <tr className="border-b border-gray-100">
-                        <th className="px-2 py-2 text-center text-sm font-medium text-gray-500 w-12">排名</th>
-                        <th className="px-3 py-2 text-left text-sm font-medium text-gray-500">经销商名称</th>
-                        <th className="px-2 py-2 text-left text-sm font-medium text-gray-500">区域</th>
-                        <th className="px-2 py-2 text-center text-sm font-medium text-gray-500 w-20">规模</th>
-                        <th className="px-2 py-2 text-right text-sm font-medium text-gray-500">目标金额</th>
-                        <th className="px-2 py-2 text-right text-sm font-medium text-gray-500">已达成</th>
-                        <th className="px-2 py-2 text-center text-sm font-medium text-gray-500">达成率</th>
-                        <th className="px-2 py-2 text-center text-sm font-medium text-gray-500 w-16">达成率同比</th>
-                        <th className="px-2 py-2 text-center text-sm font-medium text-gray-500 w-16">状态</th>
+                        <th className="px-2 py-2 text-center text-sm font-medium text-gray-500" style={{ width: '50px' }}>排名</th>
+                        <th className="px-3 py-2 text-left text-sm font-medium text-gray-500" style={{ width: '160px' }}>经销商名称</th>
+                        <th className="px-2 py-2 text-left text-sm font-medium text-gray-500" style={{ width: '70px' }}>区域</th>
+                        <th className="px-2 py-2 text-center text-sm font-medium text-gray-500" style={{ width: '95px' }}>规模</th>
+                        <th className="px-2 py-2 text-right text-sm font-medium text-gray-500" style={{ width: '85px' }}>目标金额</th>
+                        <th className="px-2 py-2 text-right text-sm font-medium text-gray-500" style={{ width: '80px' }}>已达成</th>
+                        <th className="px-2 py-2 text-center text-sm font-medium text-gray-500" style={{ width: '140px' }}>达成率</th>
+                        <th className="px-2 py-2 text-center text-sm font-medium text-gray-500" style={{ width: '85px' }}>达成率同比</th>
+                        <th className="px-2 py-2 text-center text-sm font-medium text-gray-500" style={{ width: '70px' }}>状态</th>
                       </tr>
                     </thead>
                     <tbody className="min-h-[320px]">
                       {dealerCurrentData.map((dealer) => (
                         <tr key={dealer.rank} className="border-b border-gray-50 last:border-0">
-                          <td className="px-2 py-2.5 text-center">
+                          <td className="px-2 py-2.5 text-center" style={{ width: '50px' }}>
                             <div className={`inline-flex items-center justify-center w-7 h-7 rounded-full text-sm font-bold ${
                               dealer.rank === 1 ? 'bg-gradient-to-br from-yellow-400 to-orange-500 text-white' :
                               dealer.rank === 2 ? 'bg-gradient-to-br from-gray-300 to-gray-400 text-white' :
@@ -1392,9 +1392,9 @@ export default function SalesDashboard() {
                               {dealer.rank}
                             </div>
                           </td>
-                          <td className="px-3 py-2.5 text-sm font-semibold text-gray-900">{dealer.name}</td>
-                          <td className="px-2 py-2.5 text-sm text-gray-500">{dealer.region}</td>
-                          <td className="px-2 py-2.5 text-center text-xs">
+                          <td className="px-3 py-2.5 text-sm font-semibold text-gray-900" style={{ width: '160px' }}>{dealer.name}</td>
+                          <td className="px-2 py-2.5 text-sm text-gray-500" style={{ width: '70px' }}>{dealer.region}</td>
+                          <td className="px-2 py-2.5 text-center text-xs" style={{ width: '95px' }}>
                             <span className={`inline-block px-1.5 py-0.5 rounded text-xs font-medium ${
                               dealer.scale === '150万以上' ? 'bg-green-100 text-green-700' :
                               dealer.scale === '100~150万' ? 'bg-blue-100 text-blue-700' :
@@ -1404,9 +1404,9 @@ export default function SalesDashboard() {
                               {dealer.scale}
                             </span>
                           </td>
-                          <td className="px-2 py-2.5 text-sm text-right text-gray-600">{dealer.target.toLocaleString()}万</td>
-                          <td className="px-2 py-2.5 text-sm text-right font-semibold text-gray-900">{dealer.completed.toLocaleString()}万</td>
-                          <td className="px-2 py-2.5 text-center">
+                          <td className="px-2 py-2.5 text-sm text-right text-gray-600" style={{ width: '85px' }}>{dealer.target.toLocaleString()}万</td>
+                          <td className="px-2 py-2.5 text-sm text-right font-semibold text-gray-900" style={{ width: '80px' }}>{dealer.completed.toLocaleString()}万</td>
+                          <td className="px-2 py-2.5 text-center" style={{ width: '140px' }}>
                             <div className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-gray-50 border border-gray-100">
                               <span className={`text-sm font-bold ${
                                 dealer.rate >= 80 ? 'text-green-600' :
@@ -1425,7 +1425,7 @@ export default function SalesDashboard() {
                               </div>
                             </div>
                           </td>
-                          <td className="px-2 py-2.5 text-center">
+                          <td className="px-2 py-2.5 text-center" style={{ width: '85px' }}>
                             <div className={`flex items-center justify-center gap-0.5 text-sm font-bold ${
                               dealer.yearOnYear > 0 ? 'text-green-600' :
                               dealer.yearOnYear < 0 ? 'text-red-600' : 'text-gray-600'
@@ -1435,7 +1435,7 @@ export default function SalesDashboard() {
                               <span>{Math.abs(dealer.yearOnYear).toFixed(1)}%</span>
                             </div>
                           </td>
-                          <td className="px-2 py-2.5 text-center">
+                          <td className="px-2 py-2.5 text-center" style={{ width: '70px' }}>
                             <span className={`inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs font-medium ${
                               dealer.status === 'excellent' ? 'bg-green-100 text-green-700' :
                               dealer.status === 'good' ? 'bg-teal-100 text-teal-700' :
