@@ -502,6 +502,17 @@ export default function SalesDashboard() {
   const cityManagerPageSize = 6;
   const cityManagerTotalPages = Math.ceil(cityManagerData.month.length / cityManagerPageSize);
 
+  // 对比模式状态
+  const [comparisonMode, setComparisonMode] = useState(false);
+  const [comparisonType, setComparisonType] = useState<'time' | 'region'>('time'); // 时间对比或区域对比
+  const [comparisonTarget, setComparisonTarget] = useState('lastMonth'); // 对比目标：上月、去年、其他区域
+
+  // 数据标注状态
+  const [annotations, setAnnotations] = useState<Record<string, string>>({});
+  const [showAnnotationModal, setShowAnnotationModal] = useState(false);
+  const [currentAnnotationKey, setCurrentAnnotationKey] = useState('');
+  const [annotationText, setAnnotationText] = useState('');
+
   // 业务员排名分页状态
   const [salesmenCurrentPage, setSalesmenCurrentPage] = useState(1);
   const salesmenPageSize = 8;
@@ -689,7 +700,7 @@ export default function SalesDashboard() {
 
       {/* 筛选器 */}
       <div className="mb-3 bg-white p-3 rounded-lg border border-gray-200">
-        <div className="flex items-center gap-4">
+        <div className="flex flex-wrap items-center gap-4">
           <span className="text-sm font-medium text-gray-700">时间范围：</span>
           <select
             value={timeRange}
@@ -701,39 +712,45 @@ export default function SalesDashboard() {
             <option value="year">年度</option>
           </select>
 
-          {/* 二级筛选 */}
-          {timeRange === 'month' && (
-            <>
-              <span className="text-sm font-medium text-gray-700 ml-2">选择月份：</span>
+          {/* 对比模式开关 */}
+          <div className="flex items-center gap-2 ml-auto">
+            <label className="inline-flex items-center cursor-pointer">
+              <input
+                type="checkbox"
+                checked={comparisonMode}
+                onChange={(e) => setComparisonMode(e.target.checked)}
+                className="sr-only peer"
+              />
+              <div className="relative w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-2 peer-focus:ring-blue-500 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-600"></div>
+              <span className="ml-2 text-sm font-medium text-gray-700">对比模式</span>
+            </label>
+
+            {comparisonMode && (
               <select
-                value={selectedMonth}
-                onChange={(e) => setSelectedMonth(e.target.value)}
-                className="px-3 py-1.5 text-sm border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                value={comparisonTarget}
+                onChange={(e) => setComparisonTarget(e.target.value)}
+                className="px-3 py-1.5 text-sm border border-blue-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 bg-blue-50"
               >
-                {Array.from({ length: 12 }, (_, i) => (
-                  <option key={i + 1} value={String(i + 1)}>{i + 1}月</option>
-                ))}
+                {timeRange === 'month' && (
+                  <>
+                    <option value="lastMonth">上月对比</option>
+                    <option value="lastYear">去年同期</option>
+                  </>
+                )}
+                {timeRange === 'quarter' && (
+                  <>
+                    <option value="lastQuarter">上季度对比</option>
+                    <option value="lastYear">去年同期</option>
+                  </>
+                )}
+                {timeRange === 'year' && (
+                  <>
+                    <option value="lastYear">去年对比</option>
+                  </>
+                )}
               </select>
-            </>
-          )}
-          {timeRange === 'quarter' && (
-            <>
-              <span className="text-sm font-medium text-gray-700 ml-2">选择季度：</span>
-              <select
-                value={selectedQuarter}
-                onChange={(e) => setSelectedQuarter(e.target.value)}
-                className="px-3 py-1.5 text-sm border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-              >
-                <option value="Q1">Q1（1-3月）</option>
-                <option value="Q2">Q2（4-6月）</option>
-                <option value="Q3">Q3（7-9月）</option>
-                <option value="Q4">Q4（10-12月）</option>
-              </select>
-            </>
-          )}
-          {timeRange === 'year' && (
-            <span className="text-sm text-gray-500 ml-2">2026年度数据</span>
-          )}
+            )}
+          </div>
         </div>
       </div>
 
@@ -803,18 +820,50 @@ export default function SalesDashboard() {
               </div>
               <div className="grid grid-cols-2 sm:grid-cols-4">
                 {/* 目标 */}
-                <div className="border-r border-b sm:border-b-0 border-gray-200 px-2 py-2">
+                <div className="border-r border-b sm:border-b-0 border-gray-200 px-2 py-2 relative">
                   <div className="flex items-center justify-between mb-1">
                     <div className="flex items-center gap-1 text-xs font-medium text-gray-500">
                       <span>{timeRangeLabel}目标</span>
+                      {/* 数据标注按钮 */}
+                      <button
+                        onClick={() => {
+                          setCurrentAnnotationKey('newBuyout-target');
+                          setAnnotationText(annotations['newBuyout-target'] || '');
+                          setShowAnnotationModal(true);
+                        }}
+                        className="text-gray-400 hover:text-blue-500 transition-colors"
+                        title="添加备注"
+                      >
+                        <Database className="w-3.5 h-3.5" />
+                      </button>
                     </div>
                   </div>
                   <div className="flex items-baseline gap-1">
                     <span className="text-2xl font-bold text-gray-900 leading-none">{currentRangeData.target.toLocaleString()}</span>
                     <span className="text-xs text-gray-600">万元</span>
                   </div>
-                  <div className="text-xs text-blue-600 bg-blue-50 inline-block px-1.5 py-0.5 rounded mt-1">
-                    {timeRange === 'month' ? `${selectedMonth}月` : timeRange === 'quarter' ? selectedQuarter : '2026'}
+                  <div className="mt-1 space-y-0.5">
+                    <div className="text-xs text-blue-600 bg-blue-50 inline-block px-1.5 py-0.5 rounded">
+                      {timeRange === 'month' ? `${selectedMonth}月` : timeRange === 'quarter' ? selectedQuarter : '2026'}
+                    </div>
+                    {/* 对比数据 */}
+                    {comparisonMode && (
+                      <div className="flex items-center gap-1 text-[10px]">
+                        <span className="text-gray-500">vs {comparisonTarget === 'lastMonth' ? '上月' : comparisonTarget === 'lastYear' ? '去年' : comparisonTarget === 'lastQuarter' ? '上季' : '对比'}</span>
+                        <span className={`font-bold ${currentRangeData.target > 1428 ? 'text-green-600' : 'text-red-600'}`}>
+                          {comparisonTarget === 'lastMonth' ? '1350' : comparisonTarget === 'lastYear' ? '1280' : '1300'}万元
+                        </span>
+                        <span className={`font-bold ${currentRangeData.target > 1428 ? 'text-green-600' : 'text-red-600'}`}>
+                          ({currentRangeData.target > 1428 ? '+' : ''}{((currentRangeData.target - (comparisonTarget === 'lastMonth' ? 1350 : comparisonTarget === 'lastYear' ? 1280 : 1300)) / (comparisonTarget === 'lastMonth' ? 1350 : comparisonTarget === 'lastYear' ? 1280 : 1300) * 100).toFixed(1)}%)
+                        </span>
+                      </div>
+                    )}
+                    {/* 标注显示 */}
+                    {annotations['newBuyout-target'] && (
+                      <div className="text-[10px] bg-amber-50 text-amber-700 px-1.5 py-0.5 rounded border border-amber-200">
+                        💬 {annotations['newBuyout-target']}
+                      </div>
+                    )}
                   </div>
                 </div>
 
@@ -893,18 +942,50 @@ export default function SalesDashboard() {
               </div>
               <div className="grid grid-cols-2 sm:grid-cols-4">
                 {/* 目标 */}
-                <div className="border-r border-b sm:border-b-0 border-gray-200 px-2 py-2">
+                <div className="border-r border-b sm:border-b-0 border-gray-200 px-2 py-2 relative">
                   <div className="flex items-center justify-between mb-1">
                     <div className="flex items-center gap-1 text-xs font-medium text-gray-500">
                       <span>{timeRangeLabel}目标</span>
+                      {/* 数据标注按钮 */}
+                      <button
+                        onClick={() => {
+                          setCurrentAnnotationKey('newLease-target');
+                          setAnnotationText(annotations['newLease-target'] || '');
+                          setShowAnnotationModal(true);
+                        }}
+                        className="text-gray-400 hover:text-blue-500 transition-colors"
+                        title="添加备注"
+                      >
+                        <Database className="w-3.5 h-3.5" />
+                      </button>
                     </div>
                   </div>
                   <div className="flex items-baseline gap-1">
                     <span className="text-2xl font-bold text-gray-900 leading-none">{leaseTimeRangeData[timeRange as keyof typeof leaseTimeRangeData].target.toLocaleString()}</span>
                     <span className="text-xs text-gray-600">万元</span>
                   </div>
-                  <div className="text-xs text-blue-600 bg-blue-50 inline-block px-1.5 py-0.5 rounded mt-1">
-                    {timeRange === 'month' ? `${selectedMonth}月` : timeRange === 'quarter' ? selectedQuarter : '2026'}
+                  <div className="mt-1 space-y-0.5">
+                    <div className="text-xs text-blue-600 bg-blue-50 inline-block px-1.5 py-0.5 rounded">
+                      {timeRange === 'month' ? `${selectedMonth}月` : timeRange === 'quarter' ? selectedQuarter : '2026'}
+                    </div>
+                    {/* 对比数据 */}
+                    {comparisonMode && (
+                      <div className="flex items-center gap-1 text-[10px]">
+                        <span className="text-gray-500">vs {comparisonTarget === 'lastMonth' ? '上月' : comparisonTarget === 'lastYear' ? '去年' : comparisonTarget === 'lastQuarter' ? '上季' : '对比'}</span>
+                        <span className={`font-bold ${leaseTimeRangeData[timeRange as keyof typeof leaseTimeRangeData].target > 856 ? 'text-green-600' : 'text-red-600'}`}>
+                          {comparisonTarget === 'lastMonth' ? '820' : comparisonTarget === 'lastYear' ? '760' : '780'}万元
+                        </span>
+                        <span className={`font-bold ${leaseTimeRangeData[timeRange as keyof typeof leaseTimeRangeData].target > 856 ? 'text-green-600' : 'text-red-600'}`}>
+                          ({leaseTimeRangeData[timeRange as keyof typeof leaseTimeRangeData].target > 856 ? '+' : ''}{((leaseTimeRangeData[timeRange as keyof typeof leaseTimeRangeData].target - (comparisonTarget === 'lastMonth' ? 820 : comparisonTarget === 'lastYear' ? 760 : 780)) / (comparisonTarget === 'lastMonth' ? 820 : comparisonTarget === 'lastYear' ? 760 : 780) * 100).toFixed(1)}%)
+                        </span>
+                      </div>
+                    )}
+                    {/* 标注显示 */}
+                    {annotations['newLease-target'] && (
+                      <div className="text-[10px] bg-amber-50 text-amber-700 px-1.5 py-0.5 rounded border border-amber-200">
+                        💬 {annotations['newLease-target']}
+                      </div>
+                    )}
                   </div>
                 </div>
 
@@ -983,18 +1064,50 @@ export default function SalesDashboard() {
               </div>
               <div className="grid grid-cols-2 sm:grid-cols-4">
                 {/* 目标 */}
-                <div className="border-r border-b sm:border-b-0 border-gray-200 px-2 py-2">
+                <div className="border-r border-b sm:border-b-0 border-gray-200 px-2 py-2 relative">
                   <div className="flex items-center justify-between mb-1">
                     <div className="flex items-center gap-1 text-xs font-medium text-gray-500">
                       <span>{timeRangeLabel}目标</span>
+                      {/* 数据标注按钮 */}
+                      <button
+                        onClick={() => {
+                          setCurrentAnnotationKey('renewal-target');
+                          setAnnotationText(annotations['renewal-target'] || '');
+                          setShowAnnotationModal(true);
+                        }}
+                        className="text-gray-400 hover:text-blue-500 transition-colors"
+                        title="添加备注"
+                      >
+                        <Database className="w-3.5 h-3.5" />
+                      </button>
                     </div>
                   </div>
                   <div className="flex items-baseline gap-1">
                     <span className="text-2xl font-bold text-gray-900 leading-none">{renewalTimeRangeData[timeRange as keyof typeof renewalTimeRangeData].target.toLocaleString()}</span>
                     <span className="text-xs text-gray-600">万元</span>
                   </div>
-                  <div className="text-xs text-blue-600 bg-blue-50 inline-block px-1.5 py-0.5 rounded mt-1">
-                    {timeRange === 'month' ? `${selectedMonth}月` : timeRange === 'quarter' ? selectedQuarter : '2026'}
+                  <div className="mt-1 space-y-0.5">
+                    <div className="text-xs text-blue-600 bg-blue-50 inline-block px-1.5 py-0.5 rounded">
+                      {timeRange === 'month' ? `${selectedMonth}月` : timeRange === 'quarter' ? selectedQuarter : '2026'}
+                    </div>
+                    {/* 对比数据 */}
+                    {comparisonMode && (
+                      <div className="flex items-center gap-1 text-[10px]">
+                        <span className="text-gray-500">vs {comparisonTarget === 'lastMonth' ? '上月' : comparisonTarget === 'lastYear' ? '去年' : comparisonTarget === 'lastQuarter' ? '上季' : '对比'}</span>
+                        <span className={`font-bold ${renewalTimeRangeData[timeRange as keyof typeof renewalTimeRangeData].target > 680 ? 'text-green-600' : 'text-red-600'}`}>
+                          {comparisonTarget === 'lastMonth' ? '650' : comparisonTarget === 'lastYear' ? '620' : '640'}万元
+                        </span>
+                        <span className={`font-bold ${renewalTimeRangeData[timeRange as keyof typeof renewalTimeRangeData].target > 680 ? 'text-green-600' : 'text-red-600'}`}>
+                          ({renewalTimeRangeData[timeRange as keyof typeof renewalTimeRangeData].target > 680 ? '+' : ''}{((renewalTimeRangeData[timeRange as keyof typeof renewalTimeRangeData].target - (comparisonTarget === 'lastMonth' ? 650 : comparisonTarget === 'lastYear' ? 620 : 640)) / (comparisonTarget === 'lastMonth' ? 650 : comparisonTarget === 'lastYear' ? 620 : 640) * 100).toFixed(1)}%)
+                        </span>
+                      </div>
+                    )}
+                    {/* 标注显示 */}
+                    {annotations['renewal-target'] && (
+                      <div className="text-[10px] bg-amber-50 text-amber-700 px-1.5 py-0.5 rounded border border-amber-200">
+                        💬 {annotations['renewal-target']}
+                      </div>
+                    )}
                   </div>
                 </div>
 
