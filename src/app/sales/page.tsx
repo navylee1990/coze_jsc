@@ -1148,7 +1148,7 @@ export default function SalesDashboard() {
           {/* 右侧：月度趋势分析 */}
           <div className="w-full lg:w-1/2 border-2 border-blue-200 bg-gradient-to-br from-blue-50 to-cyan-50 rounded-xl p-3 sm:p-4">
             {/* 标题和筛选器 */}
-            <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-2 sm:mb-3 gap-2">
+            <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-2 gap-2">
               <div className="flex items-center gap-2">
                 <BarChart3 className="w-5 h-5 text-blue-600" />
                 <span className="text-base font-bold text-gray-900">月度趋势分析</span>
@@ -1172,9 +1172,28 @@ export default function SalesDashboard() {
               </div>
             </div>
 
+            {/* 关键指标 */}
+            <div className="grid grid-cols-3 gap-2 mb-2">
+              <div className="bg-white rounded-lg p-2 border border-gray-100 shadow-sm">
+                <div className="text-[10px] text-gray-500 mb-0.5">当前月份</div>
+                <div className="text-sm font-bold text-gray-900">{selectedMonth}月</div>
+                <div className="text-[10px] text-green-600 mt-0.5">+8.3%</div>
+              </div>
+              <div className="bg-white rounded-lg p-2 border border-gray-100 shadow-sm">
+                <div className="text-[10px] text-gray-500 mb-0.5">累计完成</div>
+                <div className="text-sm font-bold text-gray-900">{timeRange === 'month' ? monthlyTrendData.all[parseInt(selectedMonth) - 1]?.completed.toLocaleString() : '677'}万</div>
+                <div className="text-[10px] text-blue-600 mt-0.5">达成率 47%</div>
+              </div>
+              <div className="bg-white rounded-lg p-2 border border-gray-100 shadow-sm">
+                <div className="text-[10px] text-gray-500 mb-0.5">累计预测</div>
+                <div className="text-sm font-bold text-orange-600">{timeRange === 'month' ? monthlyTrendData.all[parseInt(selectedMonth) - 1]?.predicted.toLocaleString() : '1327'}万</div>
+                <div className="text-[10px] text-orange-600 mt-0.5">达成率 93%</div>
+              </div>
+            </div>
+
             {/* 趋势图表 */}
-            <div className="bg-white rounded-xl p-2 sm:p-3 shadow-sm border border-gray-100">
-              <div style={{ height: '200px' }} className="sm:h-[280px]">
+            <div className="bg-white rounded-xl p-2 shadow-sm border border-gray-100">
+              <div style={{ height: '180px' }} className="sm:h-[220px]">
                 <ResponsiveContainer width="100%" height="100%">
                   <AreaChart data={monthlyTrendData[trendRegion as keyof typeof monthlyTrendData] || monthlyTrendData.all}>
                     <defs>
