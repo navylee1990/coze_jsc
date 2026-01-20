@@ -687,7 +687,7 @@ export default function SalesDashboard() {
   return (
     <div className="h-screen bg-gray-50 p-2 sm:p-3 overflow-hidden flex flex-col">
       {/* 页面头部 */}
-      <header className="flex-shrink-0 mb-2 sm:mb-3">
+      <header className="mb-2 sm:mb-3">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2 sm:gap-3">
             <Link href="/" className="p-1.5 sm:p-2 hover:bg-gray-100 rounded-lg transition-colors">
@@ -711,7 +711,7 @@ export default function SalesDashboard() {
       </header>
 
       {/* 筛选器 */}
-      <div className="flex-shrink-0 mb-2 bg-white p-2 rounded-lg border border-gray-200">
+      <div className="mb-2 bg-white p-2 rounded-lg border border-gray-200">
         <div className="flex flex-wrap items-center justify-between gap-4">
           <div className="flex flex-wrap items-center gap-4">
             <span className="text-sm font-medium text-gray-700">时间范围：</span>
@@ -804,8 +804,8 @@ export default function SalesDashboard() {
       </div>
 
       {/* Tab页 */}
-      <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full flex-1 flex flex-col overflow-hidden">
-        <TabsList className="flex-shrink-0 w-full mb-2 h-9 bg-white border border-gray-200 rounded-xl shadow-sm p-1">
+      <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full overflow-hidden flex flex-col">
+        <TabsList className="w-full mb-2 h-9 bg-white border border-gray-200 rounded-xl shadow-sm p-1">
           <TabsTrigger value="overview" className="flex-1 h-7 rounded-lg data-[state=active]:bg-gradient-to-r data-[state=active]:from-green-500 data-[state=active]:to-emerald-600 data-[state=active]:text-white data-[state=active]:shadow-md transition-all duration-200">
             <span className="flex items-center gap-1.5 sm:gap-2">
               <Activity className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
@@ -832,13 +832,13 @@ export default function SalesDashboard() {
           </TabsTrigger>
         </TabsList>
 
-        <TabsContent value="overview" className="flex-1 overflow-hidden flex flex-col">
+        <TabsContent value="overview" className="overflow-y-auto">
         {/* KPI指标 + 月度趋势分析 左右布局 */}
-        <div className="flex flex-col lg:flex-row gap-2 flex-shrink-0">
+        <div className="flex flex-col lg:flex-row gap-2">
           {/* 左侧：KPI指标（买断+租赁+续租）- 三行布局 */}
           <div className="w-full lg:w-1/2 flex flex-col gap-1">
             {/* 第一行：新增买断指标 */}
-            <div className="bg-white border border-gray-200 rounded-lg overflow-hidden flex-shrink-0">
+            <div className="bg-white border border-gray-200 rounded-lg overflow-hidden">
               <div className="bg-green-50 px-2 sm:px-3 py-1 border-y border-green-100">
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-1 sm:gap-1.5">
@@ -938,7 +938,7 @@ export default function SalesDashboard() {
             </div>
 
             {/* 第二行：新增租赁指标 */}
-            <div className="bg-white border border-gray-200 rounded-lg overflow-hidden flex-shrink-0">
+            <div className="bg-white border border-gray-200 rounded-lg overflow-hidden">
               <div className="bg-green-50 px-2 sm:px-3 py-1 border-y border-green-100">
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-1 sm:gap-1.5">
@@ -1038,7 +1038,7 @@ export default function SalesDashboard() {
             </div>
 
             {/* 第三行：续租指标 */}
-            <div className="bg-white border border-gray-200 rounded-lg overflow-hidden flex-shrink-0">
+            <div className="bg-white border border-gray-200 rounded-lg overflow-hidden">
               <div className="bg-green-50 px-2 sm:px-3 py-1 border-y border-green-100">
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-1 sm:gap-1.5">
@@ -1139,7 +1139,7 @@ export default function SalesDashboard() {
           </div>
 
           {/* 右侧：月度趋势分析 */}
-          <div className="w-full lg:w-1/2 border-2 border-blue-200 bg-gradient-to-br from-blue-50 to-cyan-50 rounded-xl p-2 sm:p-3 flex-shrink-0">
+          <div className="w-full lg:w-1/2 border-2 border-blue-200 bg-gradient-to-br from-blue-50 to-cyan-50 rounded-xl p-2 sm:p-3">
             {/* 标题和筛选器 */}
             <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-1.5 sm:mb-2 gap-1 sm:gap-2">
               <div className="flex items-center gap-1.5 sm:gap-2">
@@ -1256,12 +1256,12 @@ export default function SalesDashboard() {
         </div>
 
         {/* 区域达成情况 */}
-        <div className="mt-2 grid grid-cols-1 lg:grid-cols-2 gap-2 flex-1 min-h-0">
+        <div className="mt-2 grid grid-cols-1 lg:grid-cols-2 gap-2">
           {/* 左侧：表格 */}
-          <Card className="lg:col-span-1 border border-green-200 bg-gradient-to-br from-green-50 to-emerald-50 flex flex-col min-h-0">
-            <CardContent className="p-2 flex flex-col h-full overflow-hidden">
+          <Card className="lg:col-span-1 border border-green-200 bg-gradient-to-br from-green-50 to-emerald-50">
+            <CardContent className="p-2">
               {/* 标题 */}
-              <div className="flex items-center justify-between mb-2 flex-shrink-0">
+              <div className="flex items-center justify-between mb-2">
                 <div className="flex items-center gap-2">
                   <Activity className="w-5 h-5 text-green-600" />
                   {viewLevel === 'city' && (
@@ -1298,7 +1298,7 @@ export default function SalesDashboard() {
               </div>
 
               {/* 大区维度表格 */}
-              <div className="overflow-x-auto -mx-2 px-2 flex-1 overflow-y-auto min-h-0">
+              <div className="overflow-x-auto -mx-2 px-2">
                 <div className="bg-white rounded-lg border-0 overflow-hidden min-w-[900px]">
                   <table className="w-full">
                   <thead>
@@ -1384,10 +1384,10 @@ export default function SalesDashboard() {
           </Card>
 
           {/* 右侧：城市经理达成情况 */}
-          <Card className="lg:col-span-1 border border-green-200 bg-gradient-to-br from-green-50 to-emerald-50 flex flex-col min-h-0">
-            <CardContent className="p-2 flex flex-col h-full overflow-hidden">
+          <Card className="lg:col-span-1 border border-green-200 bg-gradient-to-br from-green-50 to-emerald-50">
+            <CardContent className="p-2">
               {/* 标题 */}
-              <div className="flex items-center justify-between mb-2 flex-shrink-0">
+              <div className="flex items-center justify-between mb-2">
                 <div className="flex items-center gap-2">
                   <Activity className="w-5 h-5 text-green-600" />
                   <span className="text-base font-bold text-gray-900">城市经理达成情况</span>
@@ -1426,7 +1426,7 @@ export default function SalesDashboard() {
               </div>
 
               {/* 城市经理表格 */}
-              <div className="overflow-x-auto -mx-2 px-2 flex-1 overflow-y-auto min-h-0">
+              <div className="overflow-x-auto -mx-2 px-2">
                 <div className="bg-white rounded-lg border-0 overflow-hidden min-w-[900px]">
                   <table className="w-full">
                   <thead>
@@ -1543,8 +1543,8 @@ export default function SalesDashboard() {
         </div>
           </TabsContent>
 
-          <TabsContent value="distributors" className="flex-1 overflow-hidden flex flex-col">
-            <div className="mb-2 sm:mb-3 flex items-center justify-between flex-shrink-0">
+          <TabsContent value="distributors" className="overflow-y-auto">
+            <div className="mb-2 sm:mb-3 flex items-center justify-between">
               <h2 className="text-lg font-semibold text-gray-900 flex items-center gap-2">
                 <Database className="w-5 h-5" />
                 经销商经营分析
@@ -1958,9 +1958,9 @@ export default function SalesDashboard() {
             </Card>
           </TabsContent>
 
-          <TabsContent value="projects" className="flex-1 overflow-hidden flex flex-col">
+          <TabsContent value="projects" className="overflow-y-auto">
             {/* 项目分析标题 */}
-            <div className="mb-2 sm:mb-3 flex items-center gap-2 sm:gap-4 flex-shrink-0">
+            <div className="mb-2 sm:mb-3 flex items-center gap-2 sm:gap-4">
               <h2 className="text-lg font-semibold text-gray-900 flex items-center gap-2">
                 <Target className="w-5 h-5" />
                 项目分析
@@ -2250,9 +2250,9 @@ export default function SalesDashboard() {
             </div>
           </TabsContent>
 
-          <TabsContent value="salesmen" className="flex-1 overflow-hidden flex flex-col">
+          <TabsContent value="salesmen" className="overflow-y-auto">
             {/* 业务员分析标题 */}
-            <div className="mb-2 sm:mb-3 flex items-center gap-2 sm:gap-4 flex-shrink-0">
+            <div className="mb-2 sm:mb-3 flex items-center gap-2 sm:gap-4">
               <h2 className="text-lg font-semibold text-gray-900 flex items-center gap-2">
                 <TrendingUp className="w-5 h-5" />
                 业务员分析
