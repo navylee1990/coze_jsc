@@ -829,20 +829,26 @@ export default function SalesDashboard() {
                   </div>
                 </div>
 
-                {/* 任务缺口 */}
-                <div className="px-2 py-2 bg-red-50 border-l-4 border-red-500">
-                  <div className="flex items-center gap-1 text-xs font-medium text-gray-500 mb-1">
-                    <AlertTriangle className="w-3 h-3 text-red-500 flex-shrink-0" />
-                    <span>任务缺口</span>
+                {/* 任务缺口 - 醒目展示 */}
+                <div className={`px-2 py-2 ${currentRangeData.gap > 0 ? 'bg-red-100 border-l-4 border-red-600' : currentRangeData.gap < 0 ? 'bg-green-100 border-l-4 border-green-600' : 'bg-gray-100 border-l-4 border-gray-400'}`}>
+                  <div className="flex items-center justify-between mb-0.5">
+                    <div className={`inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs font-bold ${currentRangeData.gap > 0 ? 'bg-red-600 text-white' : currentRangeData.gap < 0 ? 'bg-green-600 text-white' : 'bg-gray-400 text-white'}`}>
+                      <AlertTriangle className={`w-3 h-3 ${currentRangeData.gap > 0 ? 'animate-pulse' : ''}`} />
+                      <span>{currentRangeData.gap > 0 ? '缺口' : currentRangeData.gap < 0 ? '超额' : '持平'}</span>
+                    </div>
                   </div>
                   <div className="flex items-baseline gap-1">
-                    <span className="text-2xl font-bold text-red-600 leading-none">{currentRangeData.gap.toLocaleString()}</span>
-                    <span className="text-xs text-red-600">万元</span>
+                    <span className={`text-3xl font-black leading-none ${currentRangeData.gap > 0 ? 'text-red-700' : currentRangeData.gap < 0 ? 'text-green-700' : 'text-gray-700'}`}>
+                      {currentRangeData.gap > 0 ? '' : '+'}{currentRangeData.gap.toLocaleString()}
+                    </span>
+                    <span className={`text-sm font-bold ${currentRangeData.gap > 0 ? 'text-red-600' : currentRangeData.gap < 0 ? 'text-green-600' : 'text-gray-600'}`}>万元</span>
                   </div>
-                  <div className="flex items-center gap-0.5 text-xs text-red-500 mt-1">
-                    <ArrowDown className="w-3 h-3" />
-                    <span>-54.5%</span>
-                  </div>
+                  {currentRangeData.gap !== 0 && (
+                    <div className={`flex items-center gap-0.5 text-xs mt-0.5 ${currentRangeData.gap > 0 ? 'text-red-600' : 'text-green-600'}`}>
+                      {currentRangeData.gap > 0 ? <ArrowDown className="w-3 h-3" /> : <ArrowUp className="w-3 h-3" />}
+                      <span className="font-bold">{currentRangeData.gap > 0 ? '-' : '+'}54.5%</span>
+                    </div>
+                  )}
                 </div>
               </div>
             </div>
@@ -898,20 +904,26 @@ export default function SalesDashboard() {
                   </div>
                 </div>
 
-                {/* 任务缺口 */}
-                <div className="px-2 py-2 bg-red-50 border-l-4 border-red-500">
-                  <div className="flex items-center gap-1 text-xs font-medium text-gray-500 mb-1">
-                    <AlertTriangle className="w-3 h-3 text-red-500 flex-shrink-0" />
-                    <span>任务缺口</span>
+                {/* 任务缺口 - 醒目展示 */}
+                <div className={`px-2 py-2 ${leaseTimeRangeData[timeRange as keyof typeof leaseTimeRangeData].gap > 0 ? 'bg-red-100 border-l-4 border-red-600' : leaseTimeRangeData[timeRange as keyof typeof leaseTimeRangeData].gap < 0 ? 'bg-green-100 border-l-4 border-green-600' : 'bg-gray-100 border-l-4 border-gray-400'}`}>
+                  <div className="flex items-center justify-between mb-0.5">
+                    <div className={`inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs font-bold ${leaseTimeRangeData[timeRange as keyof typeof leaseTimeRangeData].gap > 0 ? 'bg-red-600 text-white' : leaseTimeRangeData[timeRange as keyof typeof leaseTimeRangeData].gap < 0 ? 'bg-green-600 text-white' : 'bg-gray-400 text-white'}`}>
+                      <AlertTriangle className={`w-3 h-3 ${leaseTimeRangeData[timeRange as keyof typeof leaseTimeRangeData].gap > 0 ? 'animate-pulse' : ''}`} />
+                      <span>{leaseTimeRangeData[timeRange as keyof typeof leaseTimeRangeData].gap > 0 ? '缺口' : leaseTimeRangeData[timeRange as keyof typeof leaseTimeRangeData].gap < 0 ? '超额' : '持平'}</span>
+                    </div>
                   </div>
                   <div className="flex items-baseline gap-1">
-                    <span className="text-2xl font-bold text-red-600 leading-none">{leaseTimeRangeData[timeRange as keyof typeof leaseTimeRangeData].gap.toLocaleString()}</span>
-                    <span className="text-xs text-red-600">万元</span>
+                    <span className={`text-3xl font-black leading-none ${leaseTimeRangeData[timeRange as keyof typeof leaseTimeRangeData].gap > 0 ? 'text-red-700' : leaseTimeRangeData[timeRange as keyof typeof leaseTimeRangeData].gap < 0 ? 'text-green-700' : 'text-gray-700'}`}>
+                      {leaseTimeRangeData[timeRange as keyof typeof leaseTimeRangeData].gap > 0 ? '' : '+'}{leaseTimeRangeData[timeRange as keyof typeof leaseTimeRangeData].gap.toLocaleString()}
+                    </span>
+                    <span className={`text-sm font-bold ${leaseTimeRangeData[timeRange as keyof typeof leaseTimeRangeData].gap > 0 ? 'text-red-600' : leaseTimeRangeData[timeRange as keyof typeof leaseTimeRangeData].gap < 0 ? 'text-green-600' : 'text-gray-600'}`}>万元</span>
                   </div>
-                  <div className="flex items-center gap-0.5 text-xs text-orange-600 mt-1">
-                    <ArrowDown className="w-3 h-3" />
-                    <span>-7.6%</span>
-                  </div>
+                  {leaseTimeRangeData[timeRange as keyof typeof leaseTimeRangeData].gap !== 0 && (
+                    <div className={`flex items-center gap-0.5 text-xs mt-0.5 ${leaseTimeRangeData[timeRange as keyof typeof leaseTimeRangeData].gap > 0 ? 'text-red-600' : 'text-green-600'}`}>
+                      {leaseTimeRangeData[timeRange as keyof typeof leaseTimeRangeData].gap > 0 ? <ArrowDown className="w-3 h-3" /> : <ArrowUp className="w-3 h-3" />}
+                      <span className="font-bold">{leaseTimeRangeData[timeRange as keyof typeof leaseTimeRangeData].gap > 0 ? '-' : '+'}7.6%</span>
+                    </div>
+                  )}
                 </div>
               </div>
             </div>
@@ -967,20 +979,26 @@ export default function SalesDashboard() {
                   </div>
                 </div>
 
-                {/* 任务缺口 */}
-                <div className="px-2 py-2 bg-green-50 border-l-4 border-green-500">
-                  <div className="flex items-center gap-1 text-xs font-medium text-gray-500 mb-1">
-                    <AlertTriangle className="w-3 h-3 text-green-500 flex-shrink-0" />
-                    <span>任务缺口</span>
+                {/* 任务缺口 - 醒目展示 */}
+                <div className={`px-2 py-2 ${renewalTimeRangeData[timeRange as keyof typeof renewalTimeRangeData].gap > 0 ? 'bg-red-100 border-l-4 border-red-600' : renewalTimeRangeData[timeRange as keyof typeof renewalTimeRangeData].gap < 0 ? 'bg-green-100 border-l-4 border-green-600' : 'bg-gray-100 border-l-4 border-gray-400'}`}>
+                  <div className="flex items-center justify-between mb-0.5">
+                    <div className={`inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs font-bold ${renewalTimeRangeData[timeRange as keyof typeof renewalTimeRangeData].gap > 0 ? 'bg-red-600 text-white' : renewalTimeRangeData[timeRange as keyof typeof renewalTimeRangeData].gap < 0 ? 'bg-green-600 text-white' : 'bg-gray-400 text-white'}`}>
+                      <AlertTriangle className={`w-3 h-3 ${renewalTimeRangeData[timeRange as keyof typeof renewalTimeRangeData].gap > 0 ? 'animate-pulse' : ''}`} />
+                      <span>{renewalTimeRangeData[timeRange as keyof typeof renewalTimeRangeData].gap > 0 ? '缺口' : renewalTimeRangeData[timeRange as keyof typeof renewalTimeRangeData].gap < 0 ? '超额' : '持平'}</span>
+                    </div>
                   </div>
                   <div className="flex items-baseline gap-1">
-                    <span className="text-2xl font-bold text-green-600 leading-none">{renewalTimeRangeData[timeRange as keyof typeof renewalTimeRangeData].gap.toLocaleString()}</span>
-                    <span className="text-xs text-green-600">万元</span>
+                    <span className={`text-3xl font-black leading-none ${renewalTimeRangeData[timeRange as keyof typeof renewalTimeRangeData].gap > 0 ? 'text-red-700' : renewalTimeRangeData[timeRange as keyof typeof renewalTimeRangeData].gap < 0 ? 'text-green-700' : 'text-gray-700'}`}>
+                      {renewalTimeRangeData[timeRange as keyof typeof renewalTimeRangeData].gap > 0 ? '' : '+'}{renewalTimeRangeData[timeRange as keyof typeof renewalTimeRangeData].gap.toLocaleString()}
+                    </span>
+                    <span className={`text-sm font-bold ${renewalTimeRangeData[timeRange as keyof typeof renewalTimeRangeData].gap > 0 ? 'text-red-600' : renewalTimeRangeData[timeRange as keyof typeof renewalTimeRangeData].gap < 0 ? 'text-green-600' : 'text-gray-600'}`}>万元</span>
                   </div>
-                  <div className="flex items-center gap-0.5 text-xs text-green-600 mt-1">
-                    <ArrowDown className="w-3 h-3" />
-                    <span>-4.3%</span>
-                  </div>
+                  {renewalTimeRangeData[timeRange as keyof typeof renewalTimeRangeData].gap !== 0 && (
+                    <div className={`flex items-center gap-0.5 text-xs mt-0.5 ${renewalTimeRangeData[timeRange as keyof typeof renewalTimeRangeData].gap > 0 ? 'text-red-600' : 'text-green-600'}`}>
+                      {renewalTimeRangeData[timeRange as keyof typeof renewalTimeRangeData].gap > 0 ? <ArrowDown className="w-3 h-3" /> : <ArrowUp className="w-3 h-3" />}
+                      <span className="font-bold">{renewalTimeRangeData[timeRange as keyof typeof renewalTimeRangeData].gap > 0 ? '-' : '+'}4.3%</span>
+                    </div>
+                  )}
                 </div>
               </div>
             </div>
