@@ -665,7 +665,23 @@ export default function SalesDashboard() {
   currentData.sort((a: any, b: any) => b.rate - a.rate);
 
   // 获取当前时间范围的目标数据
-  const currentRangeData = timeRangeData[timeRange as keyof typeof timeRangeData];
+  // 如果是月度，根据选择的月份获取对应数据
+  let currentRangeData;
+  if (timeRange === 'month') {
+    const monthIndex = parseInt(selectedMonth) - 1;
+    const monthData = monthlyTrendData.all[monthIndex];
+    currentRangeData = {
+      target: monthData?.target || 0,
+      completed: monthData?.completed || 0,
+      predicted: monthData?.predicted || 0,
+      gap: monthData ? (monthData.target - monthData.predicted) : 0,
+      canComplete: monthData ? (monthData.predicted >= monthData.target) : false,
+      risk: monthData && (monthData.predicted / monthData.target) < 0.8 ? 'high' : 'medium',
+    };
+  } else {
+    // 季度或年度使用原有数据
+    currentRangeData = timeRangeData[timeRange as keyof typeof timeRangeData];
+  }
   const timeRangeLabel = timeRange === 'month' ? '月度' : timeRange === 'quarter' ? '季度' : '年度';
 
   return (
@@ -707,6 +723,41 @@ export default function SalesDashboard() {
             <option value="quarter">季度</option>
             <option value="year">年度</option>
           </select>
+
+          {/* 月份选择器 */}
+          {timeRange === 'month' && (
+            <>
+              <span className="text-sm font-medium text-gray-700">月份：</span>
+              <select
+                value={selectedMonth}
+                onChange={(e) => setSelectedMonth(e.target.value)}
+                className="px-3 py-1.5 text-sm border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+              >
+                {Array.from({ length: 12 }, (_, i) => (
+                  <option key={i + 1} value={String(i + 1)}>
+                    {i + 1}月
+                  </option>
+                ))}
+              </select>
+            </>
+          )}
+
+          {/* 季度选择器 */}
+          {timeRange === 'quarter' && (
+            <>
+              <span className="text-sm font-medium text-gray-700">季度：</span>
+              <select
+                value={selectedQuarter}
+                onChange={(e) => setSelectedQuarter(e.target.value)}
+                className="px-3 py-1.5 text-sm border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+              >
+                <option value="Q1">Q1 (1-3月)</option>
+                <option value="Q2">Q2 (4-6月)</option>
+                <option value="Q3">Q3 (7-9月)</option>
+                <option value="Q4">Q4 (10-12月)</option>
+              </select>
+            </>
+          )}
 
           {/* 对比模式开关 */}
           <div className="flex items-center gap-2 ml-auto">
