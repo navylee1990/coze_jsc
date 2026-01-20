@@ -776,246 +776,214 @@ export default function SalesDashboard() {
           </div>
         {/* KPI指标 + 月度趋势分析 左右布局 */}
         <div className="flex flex-col lg:flex-row gap-3">
-          {/* 左侧：KPI指标（买断+租赁+续租）- 同心圆环仪表盘风格 */}
-          <div className="w-full lg:w-1/2 flex flex-col gap-3">
-            {/* 第一行：新增买断指标 - 紧凑圆环布局 */}
-            <div className="bg-white border border-gray-200 rounded-lg p-2">
-              <div className="bg-green-50 px-2 py-0.5 rounded mb-2">
+          {/* 左侧：KPI指标（买断+租赁+续租）- 三行布局 */}
+          <div className="w-full lg:w-1/2 flex flex-col gap-2">
+            {/* 第一行：新增买断指标 */}
+            <div className="bg-white border border-gray-200 rounded-lg overflow-hidden">
+              <div className="bg-green-50 px-3 py-1.5 border-b border-green-100">
                 <div className="flex items-center gap-1.5">
-                  <Target className="w-3.5 h-3.5 text-green-600" />
+                  <Target className="w-4 h-4 text-green-600" />
                   <span className="text-sm font-bold text-gray-800">新增买断</span>
                 </div>
               </div>
-
-              {/* 紧凑圆环布局 - 横向排列 */}
-              <div className="flex items-center justify-center gap-2">
-                {/* 左侧小指标组 */}
-                <div className="flex gap-2">
-                  {/* 目标 */}
-                  <div className="flex flex-col items-center">
-                    <div className="w-14 h-14 rounded-full bg-gradient-to-br from-blue-50 to-blue-100 border-2 border-blue-300 flex flex-col items-center justify-center">
-                      <div className="text-[10px] text-blue-600 font-medium">目标</div>
-                      <div className="text-sm font-bold text-blue-700 leading-none">{(currentRangeData.target / 1000).toFixed(1)}k</div>
+              <div className="grid grid-cols-2 sm:grid-cols-5">
+                {/* 目标 */}
+                <div className="border-r border-b sm:border-b-0 border-gray-200 px-2 py-2">
+                  <div className="flex items-center justify-between mb-1">
+                    <div className="flex items-center gap-1 text-xs font-medium text-gray-500">
+                      <span>{timeRangeLabel}目标</span>
                     </div>
                   </div>
-
-                  {/* 已完成 */}
-                  <div className="flex flex-col items-center">
-                    <div className="w-14 h-14 rounded-full bg-gradient-to-br from-gray-50 to-gray-100 border-2 border-gray-300 flex flex-col items-center justify-center">
-                      <div className="text-[10px] text-gray-600 font-medium">已完成</div>
-                      <div className="text-sm font-bold text-gray-700 leading-none">{(currentRangeData.completed / 1000).toFixed(1)}k</div>
-                    </div>
-                  </div>
-
-                  {/* 预测完成 */}
-                  <div className="flex flex-col items-center">
-                    <div className="w-14 h-14 rounded-full bg-gradient-to-br from-green-50 to-green-100 border-2 border-green-300 flex flex-col items-center justify-center">
-                      <div className="text-[10px] text-green-600 font-medium">预测</div>
-                      <div className="text-sm font-bold text-green-700 leading-none">{(currentRangeData.predicted / 1000).toFixed(1)}k</div>
-                    </div>
+                  <div className="text-2xl font-bold text-gray-900 leading-none">{currentRangeData.target.toLocaleString()}</div>
+                  <div className="text-xs text-blue-600 bg-blue-50 inline-block px-1.5 py-0.5 rounded mt-1">
+                    {timeRange === 'month' ? `${selectedMonth}月` : timeRange === 'quarter' ? selectedQuarter : '2026'}
                   </div>
                 </div>
 
-                {/* 中心：任务缺口 - 紧凑圆环 */}
-                <div className="relative mx-1">
-                  {/* 外圈 */}
-                  <div className="absolute inset-0 rounded-full border-3 border-red-200"></div>
-                  {/* 内圈 */}
-                  <div className="absolute inset-1 rounded-full border-3 border-red-400"></div>
-                  {/* 中心圆 */}
-                  <div className="relative w-16 h-16 rounded-full bg-gradient-to-br from-red-500 to-red-600 flex flex-col items-center justify-center shadow-lg">
-                    <div className="flex items-center gap-0.5 mb-0.5">
-                      <AlertTriangle className="w-3 h-3 text-white" />
-                      <span className="text-[10px] font-bold text-white uppercase tracking-wide">缺口</span>
-                    </div>
-                    <div className="text-xl font-extrabold text-white leading-none">{(currentRangeData.gap / 100).toFixed(1)}k</div>
-                  </div>
-                  {/* 动画光晕 */}
-                  <div className="absolute inset-0 rounded-full bg-red-400 animate-ping opacity-20"></div>
-                </div>
-
-                {/* 右侧：在手订单 */}
-                <div className="flex flex-col items-center">
-                  <div className="w-14 h-14 rounded-full bg-gradient-to-br from-purple-50 to-purple-100 border-2 border-purple-300 flex flex-col items-center justify-center">
-                    <div className="text-[10px] text-purple-600 font-medium">订单</div>
-                    <div className="text-sm font-bold text-purple-700 leading-none">15单</div>
+                {/* 已完成 */}
+                <div className="border-b sm:border-b-0 sm:border-r border-gray-200 px-2 py-2">
+                  <div className="text-xs font-medium text-gray-500 mb-1">{timeRangeLabel}已完成</div>
+                  <div className="text-2xl font-bold text-gray-900 leading-none">{currentRangeData.completed.toLocaleString()}</div>
+                  <div className="flex items-center gap-0.5 text-xs text-red-600 mt-1">
+                    <ArrowDown className="w-3 h-3" />
+                    <span>-8.3%</span>
                   </div>
                 </div>
-              </div>
 
-              {/* 底部趋势指示条 */}
-              <div className="mt-2 flex items-center gap-2">
-                <div className="flex-1 h-1.5 bg-gray-100 rounded-full overflow-hidden">
-                  <div
-                    className="h-full bg-gradient-to-r from-red-500 to-red-600 rounded-full transition-all duration-500"
-                    style={{ width: `${Math.min(100, (currentRangeData.completed / currentRangeData.target) * 100)}%` }}
-                  ></div>
+                {/* 预测完成 */}
+                <div className="border-r border-gray-200 px-2 py-2 bg-gradient-to-b from-green-50/50 to-transparent">
+                  <div className="text-xs font-medium text-gray-500 mb-1">预测完成</div>
+                  <div className="text-2xl font-bold text-green-600 leading-none">{currentRangeData.predicted.toLocaleString()}</div>
+                  <div className="flex items-center gap-0.5 text-xs text-green-600 mt-1">
+                    <ArrowUp className="w-3 h-3" />
+                    <span>+5.2%</span>
+                  </div>
                 </div>
-                <div className="text-xs text-gray-600 font-medium whitespace-nowrap">
-                  达成率 {((currentRangeData.completed / currentRangeData.target) * 100).toFixed(1)}%
+
+                {/* 任务缺口 */}
+                <div className="border-r border-gray-200 px-2 py-2 bg-gradient-to-b from-red-50/50 to-transparent">
+                  <div className="flex items-center gap-1 text-xs font-medium text-gray-500 mb-1">
+                    <AlertTriangle className="w-3 h-3 text-red-500 flex-shrink-0" />
+                    <span>任务缺口</span>
+                  </div>
+                  <div className="text-2xl font-bold text-red-600 leading-none">{currentRangeData.gap.toLocaleString()}</div>
+                  <div className="flex items-center gap-0.5 text-xs text-red-500 mt-1">
+                    <ArrowDown className="w-3 h-3" />
+                    <span>-54.5%</span>
+                  </div>
+                </div>
+
+                {/* 在手订单 */}
+                <div className="px-2 py-2 bg-gradient-to-b from-purple-50/50 to-transparent">
+                  <div className="flex items-center gap-1 text-xs font-medium text-gray-500 mb-1">
+                    <Database className="w-3 h-3 text-purple-500 flex-shrink-0" />
+                    <span>在手订单</span>
+                  </div>
+                  <div className="flex items-baseline gap-1">
+                    <span className="text-2xl font-bold text-purple-600 leading-none">15</span>
+                    <span className="text-xs text-gray-600">单</span>
+                  </div>
+                  <div className="text-xs text-gray-700 font-semibold mt-1">1,200万</div>
                 </div>
               </div>
             </div>
 
-
-
-            {/* 第二行：新增租赁指标 - 紧凑圆环布局 */}
-            <div className="bg-white border border-gray-200 rounded-lg p-2">
-              <div className="bg-green-50 px-2 py-0.5 rounded mb-2">
+            {/* 第二行：新增租赁指标 */}
+            <div className="bg-white border border-gray-200 rounded-lg overflow-hidden">
+              <div className="bg-green-50 px-3 py-1.5 border-b border-green-100">
                 <div className="flex items-center gap-1.5">
-                  <Database className="w-3.5 h-3.5 text-green-600" />
+                  <Database className="w-4 h-4 text-green-600" />
                   <span className="text-sm font-bold text-gray-800">新增租赁</span>
                 </div>
               </div>
-
-              {/* 紧凑圆环布局 - 横向排列 */}
-              <div className="flex items-center justify-center gap-2">
-                {/* 左侧小指标组 */}
-                <div className="flex gap-2">
-                  {/* 目标 */}
-                  <div className="flex flex-col items-center">
-                    <div className="w-14 h-14 rounded-full bg-gradient-to-br from-blue-50 to-blue-100 border-2 border-blue-300 flex flex-col items-center justify-center">
-                      <div className="text-[10px] text-blue-600 font-medium">目标</div>
-                      <div className="text-sm font-bold text-blue-700 leading-none">{(leaseTimeRangeData[timeRange as keyof typeof leaseTimeRangeData].target / 1000).toFixed(1)}k</div>
+              <div className="grid grid-cols-2 sm:grid-cols-5">
+                {/* 目标 */}
+                <div className="border-r border-b sm:border-b-0 border-gray-200 px-2 py-2">
+                  <div className="flex items-center justify-between mb-1">
+                    <div className="flex items-center gap-1 text-xs font-medium text-gray-500">
+                      <span>{timeRangeLabel}目标</span>
                     </div>
                   </div>
-
-                  {/* 已完成 */}
-                  <div className="flex flex-col items-center">
-                    <div className="w-14 h-14 rounded-full bg-gradient-to-br from-gray-50 to-gray-100 border-2 border-gray-300 flex flex-col items-center justify-center">
-                      <div className="text-[10px] text-gray-600 font-medium">已完成</div>
-                      <div className="text-sm font-bold text-gray-700 leading-none">{(leaseTimeRangeData[timeRange as keyof typeof leaseTimeRangeData].completed / 1000).toFixed(1)}k</div>
-                    </div>
-                  </div>
-
-                  {/* 预测完成 */}
-                  <div className="flex flex-col items-center">
-                    <div className="w-14 h-14 rounded-full bg-gradient-to-br from-green-50 to-green-100 border-2 border-green-300 flex flex-col items-center justify-center">
-                      <div className="text-[10px] text-green-600 font-medium">预测</div>
-                      <div className="text-sm font-bold text-green-700 leading-none">{(leaseTimeRangeData[timeRange as keyof typeof leaseTimeRangeData].predicted / 1000).toFixed(1)}k</div>
-                    </div>
+                  <div className="text-2xl font-bold text-gray-900 leading-none">{leaseTimeRangeData[timeRange as keyof typeof leaseTimeRangeData].target.toLocaleString()}</div>
+                  <div className="text-xs text-blue-600 bg-blue-50 inline-block px-1.5 py-0.5 rounded mt-1">
+                    {timeRange === 'month' ? `${selectedMonth}月` : timeRange === 'quarter' ? selectedQuarter : '2026'}
                   </div>
                 </div>
 
-                {/* 中心：任务缺口 - 紧凑圆环 */}
-                <div className="relative mx-1">
-                  {/* 外圈 */}
-                  <div className="absolute inset-0 rounded-full border-3 border-orange-200"></div>
-                  {/* 内圈 */}
-                  <div className="absolute inset-1 rounded-full border-3 border-orange-400"></div>
-                  {/* 中心圆 */}
-                  <div className="relative w-16 h-16 rounded-full bg-gradient-to-br from-orange-500 to-orange-600 flex flex-col items-center justify-center shadow-lg">
-                    <div className="flex items-center gap-0.5 mb-0.5">
-                      <AlertTriangle className="w-3 h-3 text-white" />
-                      <span className="text-[10px] font-bold text-white uppercase tracking-wide">缺口</span>
-                    </div>
-                    <div className="text-xl font-extrabold text-white leading-none">{(leaseTimeRangeData[timeRange as keyof typeof leaseTimeRangeData].gap / 100).toFixed(1)}k</div>
-                  </div>
-                  {/* 动画光晕 */}
-                  <div className="absolute inset-0 rounded-full bg-orange-400 animate-ping opacity-20"></div>
-                </div>
-
-                {/* 右侧：在手订单 */}
-                <div className="flex flex-col items-center">
-                  <div className="w-14 h-14 rounded-full bg-gradient-to-br from-purple-50 to-purple-100 border-2 border-purple-300 flex flex-col items-center justify-center">
-                    <div className="text-[10px] text-purple-600 font-medium">订单</div>
-                    <div className="text-sm font-bold text-purple-700 leading-none">{leaseKPI.orders}单</div>
+                {/* 已完成 */}
+                <div className="border-b sm:border-b-0 sm:border-r border-gray-200 px-2 py-2">
+                  <div className="text-xs font-medium text-gray-500 mb-1">{timeRangeLabel}已完成</div>
+                  <div className="text-2xl font-bold text-gray-900 leading-none">{leaseTimeRangeData[timeRange as keyof typeof leaseTimeRangeData].completed.toLocaleString()}</div>
+                  <div className="flex items-center gap-0.5 text-xs text-green-600 mt-1">
+                    <ArrowUp className="w-3 h-3" />
+                    <span>+12.5%</span>
                   </div>
                 </div>
-              </div>
 
-              {/* 底部趋势指示条 */}
-              <div className="mt-2 flex items-center gap-2">
-                <div className="flex-1 h-1.5 bg-gray-100 rounded-full overflow-hidden">
-                  <div
-                    className="h-full bg-gradient-to-r from-orange-500 to-orange-600 rounded-full transition-all duration-500"
-                    style={{ width: `${Math.min(100, (leaseTimeRangeData[timeRange as keyof typeof leaseTimeRangeData].completed / leaseTimeRangeData[timeRange as keyof typeof leaseTimeRangeData].target) * 100)}%` }}
-                  ></div>
+                {/* 预测完成 */}
+                <div className="border-r border-gray-200 px-2 py-2 bg-gradient-to-b from-green-50/50 to-transparent">
+                  <div className="text-xs font-medium text-gray-500 mb-1">预测完成</div>
+                  <div className="text-2xl font-bold text-green-600 leading-none">{leaseTimeRangeData[timeRange as keyof typeof leaseTimeRangeData].predicted.toLocaleString()}</div>
+                  <div className="flex items-center gap-0.5 text-xs text-green-600 mt-1">
+                    <ArrowUp className="w-3 h-3" />
+                    <span>+8.2%</span>
+                  </div>
                 </div>
-                <div className="text-xs text-gray-600 font-medium whitespace-nowrap">
-                  达成率 {((leaseTimeRangeData[timeRange as keyof typeof leaseTimeRangeData].completed / leaseTimeRangeData[timeRange as keyof typeof leaseTimeRangeData].target) * 100).toFixed(1)}%
+
+                {/* 任务缺口 */}
+                <div className="border-r border-gray-200 px-2 py-2 bg-gradient-to-b from-red-50/50 to-transparent">
+                  <div className="flex items-center gap-1 text-xs font-medium text-gray-500 mb-1">
+                    <AlertTriangle className="w-3 h-3 text-red-500 flex-shrink-0" />
+                    <span>任务缺口</span>
+                  </div>
+                  <div className="text-2xl font-bold text-red-600 leading-none">{leaseTimeRangeData[timeRange as keyof typeof leaseTimeRangeData].gap.toLocaleString()}</div>
+                  <div className="flex items-center gap-0.5 text-xs text-orange-600 mt-1">
+                    <ArrowDown className="w-3 h-3" />
+                    <span>-7.6%</span>
+                  </div>
+                </div>
+
+                {/* 在手订单 */}
+                <div className="px-2 py-2 bg-gradient-to-b from-purple-50/50 to-transparent">
+                  <div className="flex items-center gap-1 text-xs font-medium text-gray-500 mb-1">
+                    <Database className="w-3 h-3 text-purple-500 flex-shrink-0" />
+                    <span>在手订单</span>
+                  </div>
+                  <div className="flex items-baseline gap-1">
+                    <span className="text-2xl font-bold text-purple-600 leading-none">{leaseKPI.orders}</span>
+                    <span className="text-xs text-gray-600">单</span>
+                  </div>
+                  <div className="text-xs text-gray-700 font-semibold mt-1">{leaseKPI.ordersAmount}万</div>
                 </div>
               </div>
             </div>
 
-
-
-
-            {/* 第三行：续租指标 - 紧凑圆环布局 */}
-            <div className="bg-white border border-gray-200 rounded-lg p-2">
-              <div className="bg-green-50 px-2 py-0.5 rounded mb-2">
+            {/* 第三行：续租指标 */}
+            <div className="bg-white border border-gray-200 rounded-lg overflow-hidden">
+              <div className="bg-green-50 px-3 py-1.5 border-b border-green-100">
                 <div className="flex items-center gap-1.5">
-                  <Clock className="w-3.5 h-3.5 text-green-600" />
+                  <Clock className="w-4 h-4 text-green-600" />
                   <span className="text-sm font-bold text-gray-800">续租</span>
                 </div>
               </div>
-
-              {/* 紧凑圆环布局 - 横向排列 */}
-              <div className="flex items-center justify-center gap-2">
-                {/* 左侧小指标组 */}
-                <div className="flex gap-2">
-                  {/* 目标 */}
-                  <div className="flex flex-col items-center">
-                    <div className="w-14 h-14 rounded-full bg-gradient-to-br from-blue-50 to-blue-100 border-2 border-blue-300 flex flex-col items-center justify-center">
-                      <div className="text-[10px] text-blue-600 font-medium">目标</div>
-                      <div className="text-sm font-bold text-blue-700 leading-none">{(renewalTimeRangeData[timeRange as keyof typeof renewalTimeRangeData].target / 1000).toFixed(1)}k</div>
+              <div className="grid grid-cols-2 sm:grid-cols-5">
+                {/* 目标 */}
+                <div className="border-r border-b sm:border-b-0 border-gray-200 px-2 py-2">
+                  <div className="flex items-center justify-between mb-1">
+                    <div className="flex items-center gap-1 text-xs font-medium text-gray-500">
+                      <span>{timeRangeLabel}目标</span>
                     </div>
                   </div>
-
-                  {/* 已完成 */}
-                  <div className="flex flex-col items-center">
-                    <div className="w-14 h-14 rounded-full bg-gradient-to-br from-gray-50 to-gray-100 border-2 border-gray-300 flex flex-col items-center justify-center">
-                      <div className="text-[10px] text-gray-600 font-medium">已完成</div>
-                      <div className="text-sm font-bold text-gray-700 leading-none">{(renewalTimeRangeData[timeRange as keyof typeof renewalTimeRangeData].completed / 1000).toFixed(1)}k</div>
-                    </div>
-                  </div>
-
-                  {/* 预测完成 */}
-                  <div className="flex flex-col items-center">
-                    <div className="w-14 h-14 rounded-full bg-gradient-to-br from-green-50 to-green-100 border-2 border-green-300 flex flex-col items-center justify-center">
-                      <div className="text-[10px] text-green-600 font-medium">预测</div>
-                      <div className="text-sm font-bold text-green-700 leading-none">{(renewalTimeRangeData[timeRange as keyof typeof renewalTimeRangeData].predicted / 1000).toFixed(1)}k</div>
-                    </div>
+                  <div className="text-2xl font-bold text-gray-900 leading-none">{renewalTimeRangeData[timeRange as keyof typeof renewalTimeRangeData].target.toLocaleString()}</div>
+                  <div className="text-xs text-blue-600 bg-blue-50 inline-block px-1.5 py-0.5 rounded mt-1">
+                    {timeRange === 'month' ? `${selectedMonth}月` : timeRange === 'quarter' ? selectedQuarter : '2026'}
                   </div>
                 </div>
 
-                {/* 中心：任务缺口 - 紧凑圆环 */}
-                <div className="relative mx-1">
-                  {/* 外圈 */}
-                  <div className="absolute inset-0 rounded-full border-3 border-green-200"></div>
-                  {/* 内圈 */}
-                  <div className="absolute inset-1 rounded-full border-3 border-green-400"></div>
-                  {/* 中心圆 */}
-                  <div className="relative w-16 h-16 rounded-full bg-gradient-to-br from-green-500 to-green-600 flex flex-col items-center justify-center shadow-lg">
-                    <div className="flex items-center gap-0.5 mb-0.5">
-                      <AlertTriangle className="w-3 h-3 text-white" />
-                      <span className="text-[10px] font-bold text-white uppercase tracking-wide">缺口</span>
-                    </div>
-                    <div className="text-xl font-extrabold text-white leading-none">{(renewalTimeRangeData[timeRange as keyof typeof renewalTimeRangeData].gap / 100).toFixed(1)}k</div>
-                  </div>
-                  {/* 动画光晕 */}
-                  <div className="absolute inset-0 rounded-full bg-green-400 animate-ping opacity-20"></div>
-                </div>
-
-                {/* 右侧：在手订单 */}
-                <div className="flex flex-col items-center">
-                  <div className="w-14 h-14 rounded-full bg-gradient-to-br from-purple-50 to-purple-100 border-2 border-purple-300 flex flex-col items-center justify-center">
-                    <div className="text-[10px] text-purple-600 font-medium">订单</div>
-                    <div className="text-sm font-bold text-purple-700 leading-none">{renewalKPI.orders}单</div>
+                {/* 已完成 */}
+                <div className="border-b sm:border-b-0 sm:border-r border-gray-200 px-2 py-2">
+                  <div className="text-xs font-medium text-gray-500 mb-1">{timeRangeLabel}已完成</div>
+                  <div className="text-2xl font-bold text-gray-900 leading-none">{renewalTimeRangeData[timeRange as keyof typeof renewalTimeRangeData].completed.toLocaleString()}</div>
+                  <div className="flex items-center gap-0.5 text-xs text-green-600 mt-1">
+                    <ArrowUp className="w-3 h-3" />
+                    <span>+15.2%</span>
                   </div>
                 </div>
-              </div>
 
-              {/* 底部趋势指示条 */}
-              <div className="mt-2 flex items-center gap-2">
-                <div className="flex-1 h-1.5 bg-gray-100 rounded-full overflow-hidden">
-                  <div
-                    className="h-full bg-gradient-to-r from-green-500 to-green-600 rounded-full transition-all duration-500"
-                    style={{ width: `${Math.min(100, (renewalTimeRangeData[timeRange as keyof typeof renewalTimeRangeData].completed / renewalTimeRangeData[timeRange as keyof typeof renewalTimeRangeData].target) * 100)}%` }}
-                  ></div>
+                {/* 预测完成 */}
+                <div className="border-r border-gray-200 px-2 py-2 bg-gradient-to-b from-green-50/50 to-transparent">
+                  <div className="text-xs font-medium text-gray-500 mb-1">预测完成</div>
+                  <div className="text-2xl font-bold text-green-600 leading-none">{renewalTimeRangeData[timeRange as keyof typeof renewalTimeRangeData].predicted.toLocaleString()}</div>
+                  <div className="flex items-center gap-0.5 text-xs text-green-600 mt-1">
+                    <ArrowUp className="w-3 h-3" />
+                    <span>+18.5%</span>
+                  </div>
                 </div>
-                <div className="text-xs text-gray-600 font-medium whitespace-nowrap">
-                  达成率 {((renewalTimeRangeData[timeRange as keyof typeof renewalTimeRangeData].completed / renewalTimeRangeData[timeRange as keyof typeof renewalTimeRangeData].target) * 100).toFixed(1)}%
+
+                {/* 任务缺口 */}
+                <div className="border-r border-gray-200 px-2 py-2 bg-gradient-to-b from-green-50/50 to-transparent">
+                  <div className="flex items-center gap-1 text-xs font-medium text-gray-500 mb-1">
+                    <AlertTriangle className="w-3 h-3 text-green-500 flex-shrink-0" />
+                    <span>任务缺口</span>
+                  </div>
+                  <div className="text-2xl font-bold text-green-600 leading-none">{renewalTimeRangeData[timeRange as keyof typeof renewalTimeRangeData].gap.toLocaleString()}</div>
+                  <div className="flex items-center gap-0.5 text-xs text-green-600 mt-1">
+                    <ArrowDown className="w-3 h-3" />
+                    <span>-4.3%</span>
+                  </div>
+                </div>
+
+                {/* 在手订单 */}
+                <div className="px-2 py-2 bg-gradient-to-b from-purple-50/50 to-transparent">
+                  <div className="flex items-center gap-1 text-xs font-medium text-gray-500 mb-1">
+                    <Database className="w-3 h-3 text-purple-500 flex-shrink-0" />
+                    <span>在手订单</span>
+                  </div>
+                  <div className="flex items-baseline gap-1">
+                    <span className="text-2xl font-bold text-purple-600 leading-none">{renewalKPI.orders}</span>
+                    <span className="text-xs text-gray-600">单</span>
+                  </div>
+                  <div className="text-xs text-gray-700 font-semibold mt-1">{renewalKPI.ordersAmount}万</div>
                 </div>
               </div>
             </div>
