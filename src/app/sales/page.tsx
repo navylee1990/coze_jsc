@@ -712,93 +712,97 @@ export default function SalesDashboard() {
 
       {/* 筛选器 */}
       <div className="mb-3 bg-white p-3 rounded-lg border border-gray-200">
-        <div className="flex flex-wrap items-center gap-4">
-          <span className="text-sm font-medium text-gray-700">时间范围：</span>
-          <select
-            value={timeRange}
-            onChange={(e) => setTimeRange(e.target.value)}
-            className="px-3 py-1.5 text-sm border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-          >
-            <option value="month">月度</option>
-            <option value="quarter">季度</option>
-            <option value="year">年度</option>
-          </select>
+        <div className="flex flex-wrap items-center justify-between gap-4">
+          <div className="flex flex-wrap items-center gap-4">
+            <span className="text-sm font-medium text-gray-700">时间范围：</span>
+            <select
+              value={timeRange}
+              onChange={(e) => setTimeRange(e.target.value)}
+              className="px-3 py-1.5 text-sm border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+            >
+              <option value="month">月度</option>
+              <option value="quarter">季度</option>
+              <option value="year">年度</option>
+            </select>
 
-          {/* 月份选择器 */}
-          {timeRange === 'month' && (
-            <>
-              <span className="text-sm font-medium text-gray-700">月份：</span>
-              <select
-                value={selectedMonth}
-                onChange={(e) => setSelectedMonth(e.target.value)}
-                className="px-3 py-1.5 text-sm border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-              >
-                {Array.from({ length: 12 }, (_, i) => (
-                  <option key={i + 1} value={String(i + 1)}>
-                    {i + 1}月
-                  </option>
-                ))}
-              </select>
-            </>
-          )}
-
-          {/* 季度选择器 */}
-          {timeRange === 'quarter' && (
-            <>
-              <span className="text-sm font-medium text-gray-700">季度：</span>
-              <select
-                value={selectedQuarter}
-                onChange={(e) => setSelectedQuarter(e.target.value)}
-                className="px-3 py-1.5 text-sm border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-              >
-                <option value="Q1">Q1 (1-3月)</option>
-                <option value="Q2">Q2 (4-6月)</option>
-                <option value="Q3">Q3 (7-9月)</option>
-                <option value="Q4">Q4 (10-12月)</option>
-              </select>
-            </>
-          )}
-
-          {/* 对比模式开关 */}
-          <div className="flex items-center gap-2 ml-auto">
-            <label className="inline-flex items-center cursor-pointer">
-              <input
-                type="checkbox"
-                checked={comparisonMode}
-                onChange={(e) => setComparisonMode(e.target.checked)}
-                className="sr-only peer"
-              />
-              <div className="relative w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-2 peer-focus:ring-blue-500 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-600"></div>
-              <span className="ml-2 text-sm font-medium text-gray-700">对比模式</span>
-            </label>
-
-            {comparisonMode && (
-              <select
-                value={comparisonTarget}
-                onChange={(e) => setComparisonTarget(e.target.value)}
-                className="px-3 py-1.5 text-sm border border-blue-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 bg-blue-50"
-              >
-                {timeRange === 'month' && (
-                  <>
-                    <option value="lastMonth">上月对比</option>
-                    <option value="lastYear">去年同期</option>
-                  </>
-                )}
-                {timeRange === 'quarter' && (
-                  <>
-                    <option value="lastQuarter">上季度对比</option>
-                    <option value="lastYear">去年同期</option>
-                  </>
-                )}
-                {timeRange === 'year' && (
-                  <>
-                    <option value="lastYear">去年对比</option>
-                  </>
-                )}
-              </select>
+            {/* 月份选择器 */}
+            {timeRange === 'month' && (
+              <>
+                <span className="text-sm font-medium text-gray-700">月份：</span>
+                <select
+                  value={selectedMonth}
+                  onChange={(e) => setSelectedMonth(e.target.value)}
+                  className="px-3 py-1.5 text-sm border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                >
+                  {Array.from({ length: 12 }, (_, i) => (
+                    <option key={i + 1} value={String(i + 1)}>
+                      {i + 1}月
+                    </option>
+                  ))}
+                </select>
+              </>
             )}
 
-            {/* 企业微信拉群 */}
+            {/* 季度选择器 */}
+            {timeRange === 'quarter' && (
+              <>
+                <span className="text-sm font-medium text-gray-700">季度：</span>
+                <select
+                  value={selectedQuarter}
+                  onChange={(e) => setSelectedQuarter(e.target.value)}
+                  className="px-3 py-1.5 text-sm border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                >
+                  <option value="Q1">Q1 (1-3月)</option>
+                  <option value="Q2">Q2 (4-6月)</option>
+                  <option value="Q3">Q3 (7-9月)</option>
+                  <option value="Q4">Q4 (10-12月)</option>
+                </select>
+              </>
+            )}
+
+            {/* 对比模式开关 */}
+            <div className="flex items-center gap-2">
+              <label className="inline-flex items-center cursor-pointer">
+                <input
+                  type="checkbox"
+                  checked={comparisonMode}
+                  onChange={(e) => setComparisonMode(e.target.checked)}
+                  className="sr-only peer"
+                />
+                <div className="relative w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-2 peer-focus:ring-blue-500 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-600"></div>
+                <span className="ml-2 text-sm font-medium text-gray-700">对比模式</span>
+              </label>
+
+              {comparisonMode && (
+                <select
+                  value={comparisonTarget}
+                  onChange={(e) => setComparisonTarget(e.target.value)}
+                  className="px-3 py-1.5 text-sm border border-blue-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 bg-blue-50"
+                >
+                  {timeRange === 'month' && (
+                    <>
+                      <option value="lastMonth">上月对比</option>
+                      <option value="lastYear">去年同期</option>
+                    </>
+                  )}
+                  {timeRange === 'quarter' && (
+                    <>
+                      <option value="lastQuarter">上季度对比</option>
+                      <option value="lastYear">去年同期</option>
+                    </>
+                  )}
+                  {timeRange === 'year' && (
+                    <>
+                      <option value="lastYear">去年对比</option>
+                    </>
+                  )}
+                </select>
+              )}
+            </div>
+          </div>
+
+          {/* 右侧：企业微信拉群 */}
+          <div className="flex items-center gap-2">
             <button
               onClick={() => {
                 // 企业微信拉群逻辑
