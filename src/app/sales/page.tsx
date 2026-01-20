@@ -1176,7 +1176,7 @@ export default function SalesDashboard() {
             <div className="bg-white rounded-xl p-1.5 sm:p-2 shadow-sm border border-gray-100">
               <div style={{ height: '180px' }} className="sm:h-[240px]">
                 <ResponsiveContainer width="100%" height="100%">
-                  <AreaChart data={monthlyTrendData[trendRegion as keyof typeof monthlyTrendData] || monthlyTrendData.all}>
+                  <AreaChart data={monthlyTrendData[trendRegion as keyof typeof monthlyTrendData] || monthlyTrendData.all} margin={{ top: 5, right: 5, left: 0, bottom: 5 }}>
                     <defs>
                       <linearGradient id="colorTarget" x1="0" y1="0" x2="0" y2="1">
                         <stop offset="5%" stopColor="#3B82F6" stopOpacity={0.3}/>
@@ -1197,12 +1197,16 @@ export default function SalesDashboard() {
                       axisLine={false}
                       tickLine={false}
                       tick={{ fill: '#6B7280', fontSize: 11 }}
+                      height={20}
+                      padding={{ left: 0, right: 0 }}
                     />
                     <YAxis
                       axisLine={false}
                       tickLine={false}
                       tick={{ fill: '#6B7280', fontSize: 11 }}
                       tickFormatter={(value) => `${value}万`}
+                      width={40}
+                      padding={{ top: 0, bottom: 0 }}
                     />
                     <Tooltip
                       contentStyle={{
@@ -1216,7 +1220,7 @@ export default function SalesDashboard() {
                     />
                     <Legend
                       verticalAlign="top"
-                      height={30}
+                      height={25}
                       iconType="circle"
                       formatter={(value) => {
                         const colorMap: { [key: string]: string } = {
