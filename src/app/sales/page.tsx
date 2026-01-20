@@ -1457,11 +1457,11 @@ export default function SalesDashboard() {
                 <div className="flex items-center justify-between mb-3">
                   <div className="flex items-center gap-2">
                     <TrendingUp className="w-4 h-4 text-green-600" />
-                    <span className="text-sm font-bold text-gray-900">经销商达成率排名</span>
+                    <span className="text-base font-bold text-gray-900">经销商达成率排名</span>
                   </div>
                   <div className="flex items-center gap-3">
                     <div className="flex items-center gap-2">
-                      <span className="text-xs font-medium text-gray-600">区域:</span>
+                      <span className="text-sm font-medium text-gray-600">区域:</span>
                       <select
                         value={dealerRegionFilter}
                         onChange={(e) => setDealerRegionFilter(e.target.value)}
@@ -1477,7 +1477,7 @@ export default function SalesDashboard() {
                       </select>
                     </div>
                     <div className="flex items-center gap-2">
-                      <span className="text-xs font-medium text-gray-600">规模:</span>
+                      <span className="text-sm font-medium text-gray-600">规模:</span>
                       <select
                         value={dealerScaleFilter}
                         onChange={(e) => setDealerScaleFilter(e.target.value)}
@@ -1491,7 +1491,7 @@ export default function SalesDashboard() {
                       </select>
                     </div>
                     <div className="flex items-center gap-2">
-                      <span className="text-xs font-medium text-gray-600">目标金额:</span>
+                      <span className="text-sm font-medium text-gray-600">目标金额:</span>
                       <select
                         value={dealerTargetRangeFilter}
                         onChange={(e) => setDealerTargetRangeFilter(e.target.value)}
