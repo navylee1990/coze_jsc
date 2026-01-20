@@ -1454,12 +1454,14 @@ export default function SalesDashboard() {
             <Card className="bg-white border border-green-200 bg-gradient-to-br from-green-50 to-emerald-50 mt-3">
               <CardContent className="p-3">
                 {/* 标题和筛选器 */}
-                <div className="flex items-center justify-between mb-3">
-                  <div className="flex items-center gap-2">
+                <div className="mb-3">
+                  <div className="flex items-center gap-2 mb-3">
                     <TrendingUp className="w-4 h-4 text-green-600" />
                     <span className="text-base font-bold text-gray-900">经销商达成率排名</span>
                   </div>
-                  <div className="flex items-center gap-3">
+                  
+                  {/* 筛选器 - 移动端适配 */}
+                  <div className="hidden sm:flex items-center gap-3 flex-wrap">
                     <div className="flex items-center gap-2">
                       <span className="text-sm font-medium text-gray-600">区域:</span>
                       <select
@@ -1517,71 +1519,138 @@ export default function SalesDashboard() {
                       重置
                     </button>
                   </div>
+
+                  {/* 移动端筛选器 - 垂直布局 */}
+                  <div className="sm:hidden space-y-2">
+                    <div className="flex items-center gap-2">
+                      <span className="text-xs font-medium text-gray-600 whitespace-nowrap">区域:</span>
+                      <select
+                        value={dealerRegionFilter}
+                        onChange={(e) => setDealerRegionFilter(e.target.value)}
+                        className="flex-1 px-2 py-1.5 text-xs border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500 bg-white"
+                      >
+                        <option value="all">全部区域</option>
+                        <option value="一区">一区</option>
+                        <option value="二区">二区</option>
+                        <option value="五区">五区</option>
+                        <option value="华中">华中</option>
+                        <option value="华南">华南</option>
+                        <option value="西南">西南</option>
+                      </select>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <span className="text-xs font-medium text-gray-600 whitespace-nowrap">规模:</span>
+                      <select
+                        value={dealerScaleFilter}
+                        onChange={(e) => setDealerScaleFilter(e.target.value)}
+                        className="flex-1 px-2 py-1.5 text-xs border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500 bg-white"
+                      >
+                        <option value="all">全部规模</option>
+                        <option value="50万以内">50万以内</option>
+                        <option value="50~100万">50~100万</option>
+                        <option value="100~150万">100~150万</option>
+                        <option value="150万以上">150万以上</option>
+                      </select>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <span className="text-xs font-medium text-gray-600 whitespace-nowrap">目标:</span>
+                      <select
+                        value={dealerTargetRangeFilter}
+                        onChange={(e) => setDealerTargetRangeFilter(e.target.value)}
+                        className="flex-1 px-2 py-1.5 text-xs border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-500 bg-white"
+                      >
+                        <option value="all">全部区间</option>
+                        <option value="below10000">1万以下</option>
+                        <option value="10000to12000">1万~1.2万</option>
+                        <option value="12000to14000">1.2万~1.4万</option>
+                        <option value="above14000">1.4万以上</option>
+                      </select>
+                    </div>
+                    <button
+                      onClick={() => {
+                        setDealerRegionFilter('all');
+                        setDealerScaleFilter('all');
+                        setDealerTargetRangeFilter('all');
+                        setDealerSortField('rate');
+                        setDealerSortOrder('desc');
+                      }}
+                      className="w-full px-3 py-1.5 text-xs text-gray-600 bg-white border border-gray-300 rounded-md hover:bg-gray-50"
+                    >
+                      重置筛选
+                    </button>
+                  </div>
                 </div>
 
-                <div className="bg-white rounded-lg border-0 overflow-hidden">
-                  <table className="w-full" style={{ tableLayout: 'fixed' }}>
-                    <thead>
-                      <tr className="border-b border-gray-100">
-                        <th className="px-2 py-2 text-center text-sm font-medium text-gray-500 cursor-pointer hover:text-green-600 transition-colors" style={{ width: '50px' }} onClick={() => handleDealerSort('rank')}>
-                          <div className="flex items-center justify-center gap-0.5">
-                            排名
-                            <ArrowUp className={`w-3 h-3 ${dealerSortField === 'rank' && dealerSortOrder === 'asc' ? 'text-green-600' : 'text-gray-300'}`} />
-                            <ArrowDown className={`w-3 h-3 ${dealerSortField === 'rank' && dealerSortOrder === 'desc' ? 'text-green-600' : 'text-gray-300'}`} />
-                          </div>
-                        </th>
-                        <th className="px-3 py-2 text-left text-sm font-medium text-gray-500" style={{ width: '150px' }}>经销商名称</th>
-                        <th className="px-2 py-2 text-left text-sm font-medium text-gray-500" style={{ width: '65px' }}>区域</th>
-                        <th className="px-2 py-2 text-center text-sm font-medium text-gray-500 cursor-pointer hover:text-green-600 transition-colors" style={{ width: '90px' }} onClick={() => handleDealerSort('scale')}>
-                          <div className="flex items-center justify-center gap-0.5">
-                            规模
-                            <ArrowUp className={`w-3 h-3 ${dealerSortField === 'scale' && dealerSortOrder === 'asc' ? 'text-green-600' : 'text-gray-300'}`} />
-                            <ArrowDown className={`w-3 h-3 ${dealerSortField === 'scale' && dealerSortOrder === 'desc' ? 'text-green-600' : 'text-gray-300'}`} />
-                          </div>
-                        </th>
-                        <th className="px-2 py-2 text-right text-sm font-medium text-gray-500 cursor-pointer hover:text-green-600 transition-colors" style={{ width: '80px' }} onClick={() => handleDealerSort('target')}>
-                          <div className="flex items-center justify-end gap-0.5">
-                            目标金额
-                            <ArrowUp className={`w-3 h-3 ${dealerSortField === 'target' && dealerSortOrder === 'asc' ? 'text-green-600' : 'text-gray-300'}`} />
-                            <ArrowDown className={`w-3 h-3 ${dealerSortField === 'target' && dealerSortOrder === 'desc' ? 'text-green-600' : 'text-gray-300'}`} />
-                          </div>
-                        </th>
-                        <th className="px-2 py-2 text-right text-sm font-medium text-gray-500 cursor-pointer hover:text-green-600 transition-colors" style={{ width: '75px' }} onClick={() => handleDealerSort('completed')}>
-                          <div className="flex items-center justify-end gap-0.5">
-                            已达成
-                            <ArrowUp className={`w-3 h-3 ${dealerSortField === 'completed' && dealerSortOrder === 'asc' ? 'text-green-600' : 'text-gray-300'}`} />
-                            <ArrowDown className={`w-3 h-3 ${dealerSortField === 'completed' && dealerSortOrder === 'desc' ? 'text-green-600' : 'text-gray-300'}`} />
-                          </div>
-                        </th>
-                        <th className="px-2 py-2 text-right text-sm font-medium text-gray-500 cursor-pointer hover:text-green-600 transition-colors" style={{ width: '80px' }} onClick={() => handleDealerSort('ytd')}>
-                          <div className="flex items-center justify-end gap-0.5">
-                            YTD
-                            <ArrowUp className={`w-3 h-3 ${dealerSortField === 'ytd' && dealerSortOrder === 'asc' ? 'text-green-600' : 'text-gray-300'}`} />
-                            <ArrowDown className={`w-3 h-3 ${dealerSortField === 'ytd' && dealerSortOrder === 'desc' ? 'text-green-600' : 'text-gray-300'}`} />
-                          </div>
-                        </th>
-                        <th className="px-2 py-2 text-center text-sm font-medium text-gray-500 cursor-pointer hover:text-green-600 transition-colors" style={{ width: '130px' }} onClick={() => handleDealerSort('rate')}>
-                          <div className="flex items-center justify-center gap-0.5">
-                            达成率
-                            <ArrowUp className={`w-3 h-3 ${dealerSortField === 'rate' && dealerSortOrder === 'asc' ? 'text-green-600' : 'text-gray-300'}`} />
-                            <ArrowDown className={`w-3 h-3 ${dealerSortField === 'rate' && dealerSortOrder === 'desc' ? 'text-green-600' : 'text-gray-300'}`} />
-                          </div>
-                        </th>
-                        <th className="px-2 py-2 text-center text-sm font-medium text-gray-500 cursor-pointer hover:text-green-600 transition-colors" style={{ width: '80px' }} onClick={() => handleDealerSort('yearOnYear')}>
-                          <div className="flex items-center justify-center gap-0.5">
-                            达成率同比
-                            <ArrowUp className={`w-3 h-3 ${dealerSortField === 'yearOnYear' && dealerSortOrder === 'asc' ? 'text-green-600' : 'text-gray-300'}`} />
-                            <ArrowDown className={`w-3 h-3 ${dealerSortField === 'yearOnYear' && dealerSortOrder === 'desc' ? 'text-green-600' : 'text-gray-300'}`} />
-                          </div>
-                        </th>
-                        <th className="px-2 py-2 text-center text-sm font-medium text-gray-500" style={{ width: '70px' }}>状态</th>
-                      </tr>
-                    </thead>
+                {/* 表格容器 - 移动端横向滚动 */}
+                <div className="overflow-x-auto -mx-3 px-3">
+                  <div className="bg-white rounded-lg border-0 overflow-hidden min-w-[800px]">
+                    <table className="w-full" style={{ tableLayout: 'fixed' }}>
+                      <thead>
+                        <tr className="border-b border-gray-100">
+                          <th className="px-2 py-2 text-center text-xs font-medium text-gray-500 cursor-pointer hover:text-green-600 transition-colors" style={{ width: '50px' }} onClick={() => handleDealerSort('rank')}>
+                            <div className="flex items-center justify-center gap-0.5">
+                              <span className="hidden sm:inline">排名</span>
+                              <span className="sm:hidden">排</span>
+                              <ArrowUp className={`w-2.5 h-2.5 ${dealerSortField === 'rank' && dealerSortOrder === 'asc' ? 'text-green-600' : 'text-gray-300'}`} />
+                              <ArrowDown className={`w-2.5 h-2.5 ${dealerSortField === 'rank' && dealerSortOrder === 'desc' ? 'text-green-600' : 'text-gray-300'}`} />
+                            </div>
+                          </th>
+                          <th className="px-2 py-2 text-left text-xs font-medium text-gray-500" style={{ width: '140px' }}>
+                            <span className="hidden sm:inline">经销商名称</span>
+                            <span className="sm:hidden">名称</span>
+                          </th>
+                          <th className="px-2 py-2 text-left text-xs font-medium text-gray-500" style={{ width: '55px' }}>区域</th>
+                          <th className="px-2 py-2 text-center text-xs font-medium text-gray-500 cursor-pointer hover:text-green-600 transition-colors" style={{ width: '80px' }} onClick={() => handleDealerSort('scale')}>
+                            <div className="flex items-center justify-center gap-0.5">
+                              规模
+                              <ArrowUp className={`w-2.5 h-2.5 ${dealerSortField === 'scale' && dealerSortOrder === 'asc' ? 'text-green-600' : 'text-gray-300'}`} />
+                              <ArrowDown className={`w-2.5 h-2.5 ${dealerSortField === 'scale' && dealerSortOrder === 'desc' ? 'text-green-600' : 'text-gray-300'}`} />
+                            </div>
+                          </th>
+                          <th className="px-2 py-2 text-right text-xs font-medium text-gray-500 cursor-pointer hover:text-green-600 transition-colors hidden sm:table-cell" style={{ width: '75px' }} onClick={() => handleDealerSort('target')}>
+                            <div className="flex items-center justify-end gap-0.5">
+                              目标金额
+                              <ArrowUp className={`w-2.5 h-2.5 ${dealerSortField === 'target' && dealerSortOrder === 'asc' ? 'text-green-600' : 'text-gray-300'}`} />
+                              <ArrowDown className={`w-2.5 h-2.5 ${dealerSortField === 'target' && dealerSortOrder === 'desc' ? 'text-green-600' : 'text-gray-300'}`} />
+                            </div>
+                          </th>
+                          <th className="px-2 py-2 text-right text-xs font-medium text-gray-500 cursor-pointer hover:text-green-600 transition-colors hidden sm:table-cell" style={{ width: '70px' }} onClick={() => handleDealerSort('completed')}>
+                            <div className="flex items-center justify-end gap-0.5">
+                              已达成
+                              <ArrowUp className={`w-2.5 h-2.5 ${dealerSortField === 'completed' && dealerSortOrder === 'asc' ? 'text-green-600' : 'text-gray-300'}`} />
+                              <ArrowDown className={`w-2.5 h-2.5 ${dealerSortField === 'completed' && dealerSortOrder === 'desc' ? 'text-green-600' : 'text-gray-300'}`} />
+                            </div>
+                          </th>
+                          <th className="px-2 py-2 text-right text-xs font-medium text-gray-500 cursor-pointer hover:text-green-600 transition-colors hidden sm:table-cell" style={{ width: '75px' }} onClick={() => handleDealerSort('ytd')}>
+                            <div className="flex items-center justify-end gap-0.5">
+                              YTD
+                              <ArrowUp className={`w-2.5 h-2.5 ${dealerSortField === 'ytd' && dealerSortOrder === 'asc' ? 'text-green-600' : 'text-gray-300'}`} />
+                              <ArrowDown className={`w-2.5 h-2.5 ${dealerSortField === 'ytd' && dealerSortOrder === 'desc' ? 'text-green-600' : 'text-gray-300'}`} />
+                            </div>
+                          </th>
+                          <th className="px-2 py-2 text-center text-xs font-medium text-gray-500 cursor-pointer hover:text-green-600 transition-colors" style={{ width: '120px' }} onClick={() => handleDealerSort('rate')}>
+                            <div className="flex items-center justify-center gap-0.5">
+                              达成率
+                              <ArrowUp className={`w-2.5 h-2.5 ${dealerSortField === 'rate' && dealerSortOrder === 'asc' ? 'text-green-600' : 'text-gray-300'}`} />
+                              <ArrowDown className={`w-2.5 h-2.5 ${dealerSortField === 'rate' && dealerSortOrder === 'desc' ? 'text-green-600' : 'text-gray-300'}`} />
+                            </div>
+                          </th>
+                          <th className="px-2 py-2 text-center text-xs font-medium text-gray-500 cursor-pointer hover:text-green-600 transition-colors hidden sm:table-cell" style={{ width: '75px' }} onClick={() => handleDealerSort('yearOnYear')}>
+                            <div className="flex items-center justify-center gap-0.5">
+                              <span className="hidden sm:inline">达成率同比</span>
+                              <span className="sm:hidden">同比</span>
+                              <ArrowUp className={`w-2.5 h-2.5 ${dealerSortField === 'yearOnYear' && dealerSortOrder === 'asc' ? 'text-green-600' : 'text-gray-300'}`} />
+                              <ArrowDown className={`w-2.5 h-2.5 ${dealerSortField === 'yearOnYear' && dealerSortOrder === 'desc' ? 'text-green-600' : 'text-gray-300'}`} />
+                            </div>
+                          </th>
+                          <th className="px-2 py-2 text-center text-xs font-medium text-gray-500" style={{ width: '65px' }}>状态</th>
+                        </tr>
+                      </thead>
                     <tbody className="min-h-[320px]">
                       {dealerCurrentData.map((dealer) => (
                         <tr key={dealer.rank} className="border-b border-gray-50 last:border-0">
-                          <td className="px-2 py-2.5 text-center" style={{ width: '50px' }}>
-                            <div className={`inline-flex items-center justify-center w-7 h-7 rounded-full text-sm font-bold ${
+                          <td className="px-2 py-2 text-center" style={{ width: '50px' }}>
+                            <div className={`inline-flex items-center justify-center w-6 h-6 rounded-full text-xs font-bold ${
                               dealer.rank === 1 ? 'bg-gradient-to-br from-yellow-400 to-orange-500 text-white' :
                               dealer.rank === 2 ? 'bg-gradient-to-br from-gray-300 to-gray-400 text-white' :
                               dealer.rank === 3 ? 'bg-gradient-to-br from-orange-300 to-orange-400 text-white' :
@@ -1590,10 +1659,10 @@ export default function SalesDashboard() {
                               {dealer.rank}
                             </div>
                           </td>
-                          <td className="px-3 py-2.5 text-sm font-semibold text-gray-900" style={{ width: '150px' }}>{dealer.name}</td>
-                          <td className="px-2 py-2.5 text-sm text-gray-500" style={{ width: '65px' }}>{dealer.region}</td>
-                          <td className="px-2 py-2.5 text-center text-xs" style={{ width: '90px' }}>
-                            <span className={`inline-block px-1.5 py-0.5 rounded text-xs font-medium ${
+                          <td className="px-2 py-2 text-xs font-semibold text-gray-900 truncate" style={{ width: '140px' }} title={dealer.name}>{dealer.name}</td>
+                          <td className="px-2 py-2 text-xs text-gray-500" style={{ width: '55px' }}>{dealer.region}</td>
+                          <td className="px-2 py-2 text-center text-[10px]" style={{ width: '80px' }}>
+                            <span className={`inline-block px-1 py-0.5 rounded-[10px] text-[10px] font-medium ${
                               dealer.scale === '150万以上' ? 'bg-green-100 text-green-700' :
                               dealer.scale === '100~150万' ? 'bg-blue-100 text-blue-700' :
                               dealer.scale === '50~100万' ? 'bg-yellow-100 text-yellow-700' :
@@ -1602,18 +1671,18 @@ export default function SalesDashboard() {
                               {dealer.scale}
                             </span>
                           </td>
-                          <td className="px-2 py-2.5 text-sm text-right text-gray-600" style={{ width: '80px' }}>{dealer.target.toLocaleString()}万</td>
-                          <td className="px-2 py-2.5 text-sm text-right font-semibold text-gray-900" style={{ width: '75px' }}>{dealer.completed.toLocaleString()}万</td>
-                          <td className="px-2 py-2.5 text-right text-sm font-semibold text-emerald-600" style={{ width: '80px' }}>{dealer.ytd.toLocaleString()}万</td>
-                          <td className="px-2 py-2.5 text-center" style={{ width: '130px' }}>
-                            <div className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-gray-50 border border-gray-100">
-                              <span className={`text-sm font-bold ${
+                          <td className="px-2 py-2 text-xs text-right text-gray-600 hidden sm:table-cell" style={{ width: '75px' }}>{dealer.target.toLocaleString()}万</td>
+                          <td className="px-2 py-2 text-xs text-right font-semibold text-gray-900 hidden sm:table-cell" style={{ width: '70px' }}>{dealer.completed.toLocaleString()}万</td>
+                          <td className="px-2 py-2 text-xs text-right font-semibold text-emerald-600 hidden sm:table-cell" style={{ width: '75px' }}>{dealer.ytd.toLocaleString()}万</td>
+                          <td className="px-2 py-2 text-center" style={{ width: '120px' }}>
+                            <div className="inline-flex items-center gap-1 px-1.5 py-0.5 rounded-full bg-gray-50 border border-gray-100">
+                              <span className={`text-xs font-bold ${
                                 dealer.rate >= 80 ? 'text-green-600' :
                                 dealer.rate >= 60 ? 'text-yellow-600' : 'text-red-600'
                               }`}>
                                 {dealer.rate.toFixed(1)}%
                               </span>
-                              <div className="w-8 h-1.5 rounded-full bg-gray-200 overflow-hidden">
+                              <div className="w-6 h-1 rounded-full bg-gray-200 overflow-hidden">
                                 <div
                                   className={`h-full rounded-full transition-all ${
                                     dealer.rate >= 80 ? 'bg-green-500' :
@@ -1624,18 +1693,18 @@ export default function SalesDashboard() {
                               </div>
                             </div>
                           </td>
-                          <td className="px-2 py-2.5 text-center" style={{ width: '80px' }}>
-                            <div className={`flex items-center justify-center gap-0.5 text-sm font-bold ${
+                          <td className="px-2 py-2 text-center hidden sm:table-cell" style={{ width: '75px' }}>
+                            <div className={`flex items-center justify-center gap-0.5 text-xs font-bold ${
                               dealer.yearOnYear > 0 ? 'text-green-600' :
                               dealer.yearOnYear < 0 ? 'text-red-600' : 'text-gray-600'
                             }`}>
-                              {dealer.yearOnYear > 0 ? <ArrowUp className="w-3 h-3" /> :
-                               dealer.yearOnYear < 0 ? <ArrowDown className="w-3 h-3" /> : null}
+                              {dealer.yearOnYear > 0 ? <ArrowUp className="w-2.5 h-2.5" /> :
+                               dealer.yearOnYear < 0 ? <ArrowDown className="w-2.5 h-2.5" /> : null}
                               <span>{Math.abs(dealer.yearOnYear).toFixed(1)}%</span>
                             </div>
                           </td>
-                          <td className="px-2 py-2.5 text-center" style={{ width: '70px' }}>
-                            <span className={`inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs font-medium ${
+                          <td className="px-2 py-2 text-center" style={{ width: '65px' }}>
+                            <span className={`inline-flex items-center gap-0.5 px-1.5 py-0.5 rounded-full text-[10px] font-medium ${
                               dealer.status === 'excellent' ? 'bg-green-100 text-green-700' :
                               dealer.status === 'good' ? 'bg-teal-100 text-teal-700' :
                               dealer.status === 'warning' ? 'bg-yellow-100 text-yellow-700' :
@@ -1651,48 +1720,56 @@ export default function SalesDashboard() {
                     </tbody>
                   </table>
                 </div>
+                </div>
 
                 {/* 分页 */}
                 <div className="flex items-center justify-between mt-3 px-1">
                   <div className="text-xs text-gray-500">
-                    共 <span className="font-semibold text-gray-700">{filteredDealers.length}</span> 条记录，
-                    第 <span className="font-semibold text-gray-700">{dealerCurrentPage}</span> / {dealerTotalPages} 页
+                    共 <span className="font-semibold text-gray-700">{salesmenRanking.length}</span> 条记录，
+                    第 <span className="font-semibold text-gray-700">{salesmenCurrentPage}</span> / {salesmenTotalPages} 页
                   </div>
                   <div className="flex items-center gap-1">
                     <button
                       onClick={() => setDealerCurrentPage(prev => Math.max(1, prev - 1))}
                       disabled={dealerCurrentPage === 1}
-                      className={`px-3 py-1.5 text-xs font-medium rounded-lg transition-all ${
+                      className={`px-2 py-1.5 text-xs font-medium rounded-lg transition-all sm:px-3 ${
                         dealerCurrentPage === 1
                           ? 'bg-gray-100 text-gray-400 cursor-not-allowed'
                           : 'bg-white border border-gray-200 text-gray-700 hover:bg-green-50 hover:border-green-300 hover:text-green-700'
                       }`}
                     >
-                      上一页
+                      <span className="hidden sm:inline">上一页</span>
+                      <span className="sm:hidden">←</span>
                     </button>
-                    {Array.from({ length: dealerTotalPages }, (_, i) => i + 1).map((page) => (
-                      <button
-                        key={page}
-                        onClick={() => setDealerCurrentPage(page)}
-                        className={`min-w-[32px] h-8 text-xs font-medium rounded-lg transition-all ${
-                          dealerCurrentPage === page
-                            ? 'bg-gradient-to-r from-green-500 to-emerald-600 text-white shadow-md'
-                            : 'bg-white border border-gray-200 text-gray-700 hover:bg-green-50 hover:border-green-300 hover:text-green-700'
-                        }`}
-                      >
-                        {page}
-                      </button>
-                    ))}
+                    <div className="hidden sm:flex items-center gap-1">
+                      {Array.from({ length: dealerTotalPages }, (_, i) => i + 1).map((page) => (
+                        <button
+                          key={page}
+                          onClick={() => setDealerCurrentPage(page)}
+                          className={`min-w-[32px] h-8 text-xs font-medium rounded-lg transition-all ${
+                            dealerCurrentPage === page
+                              ? 'bg-gradient-to-r from-green-500 to-emerald-600 text-white shadow-md'
+                              : 'bg-white border border-gray-200 text-gray-700 hover:bg-green-50 hover:border-green-300 hover:text-green-700'
+                          }`}
+                        >
+                          {page}
+                        </button>
+                      ))}
+                    </div>
+                    <div className="sm:hidden text-xs text-gray-600 px-2">
+                      {dealerCurrentPage} / {dealerTotalPages}
+                    </div>
                     <button
                       onClick={() => setDealerCurrentPage(prev => Math.min(dealerTotalPages, prev + 1))}
                       disabled={dealerCurrentPage === dealerTotalPages}
-                      className={`px-3 py-1.5 text-xs font-medium rounded-lg transition-all ${
+                      className={`px-2 py-1.5 text-xs font-medium rounded-lg transition-all sm:px-3 ${
                         dealerCurrentPage === dealerTotalPages
                           ? 'bg-gray-100 text-gray-400 cursor-not-allowed'
                           : 'bg-white border border-gray-200 text-gray-700 hover:bg-green-50 hover:border-green-300 hover:text-green-700'
                       }`}
                     >
-                      下一页
+                      <span className="hidden sm:inline">下一页</span>
+                      <span className="sm:hidden">→</span>
                     </button>
                   </div>
                 </div>
@@ -2165,44 +2242,51 @@ export default function SalesDashboard() {
                 {/* 分页 */}
                 <div className="flex items-center justify-between mt-3 px-1">
                   <div className="text-xs text-gray-500">
-                    共 <span className="font-semibold text-gray-700">{filteredDealers.length}</span> 条记录，
-                    第 <span className="font-semibold text-gray-700">{dealerCurrentPage}</span> / {dealerTotalPages} 页
+                    共 <span className="font-semibold text-gray-700">{salesmenRanking.length}</span> 条记录，
+                    第 <span className="font-semibold text-gray-700">{salesmenCurrentPage}</span> / {salesmenTotalPages} 页
                   </div>
                   <div className="flex items-center gap-1">
                     <button
                       onClick={() => setDealerCurrentPage(prev => Math.max(1, prev - 1))}
                       disabled={dealerCurrentPage === 1}
-                      className={`px-3 py-1.5 text-xs font-medium rounded-lg transition-all ${
+                      className={`px-2 py-1.5 text-xs font-medium rounded-lg transition-all sm:px-3 ${
                         dealerCurrentPage === 1
                           ? 'bg-gray-100 text-gray-400 cursor-not-allowed'
                           : 'bg-white border border-gray-200 text-gray-700 hover:bg-green-50 hover:border-green-300 hover:text-green-700'
                       }`}
                     >
-                      上一页
+                      <span className="hidden sm:inline">上一页</span>
+                      <span className="sm:hidden">←</span>
                     </button>
-                    {Array.from({ length: dealerTotalPages }, (_, i) => i + 1).map((page) => (
-                      <button
-                        key={page}
-                        onClick={() => setDealerCurrentPage(page)}
-                        className={`min-w-[32px] h-8 text-xs font-medium rounded-lg transition-all ${
-                          dealerCurrentPage === page
-                            ? 'bg-gradient-to-r from-green-500 to-emerald-600 text-white shadow-md'
-                            : 'bg-white border border-gray-200 text-gray-700 hover:bg-green-50 hover:border-green-300 hover:text-green-700'
-                        }`}
-                      >
-                        {page}
-                      </button>
-                    ))}
+                    <div className="hidden sm:flex items-center gap-1">
+                      {Array.from({ length: dealerTotalPages }, (_, i) => i + 1).map((page) => (
+                        <button
+                          key={page}
+                          onClick={() => setDealerCurrentPage(page)}
+                          className={`min-w-[32px] h-8 text-xs font-medium rounded-lg transition-all ${
+                            dealerCurrentPage === page
+                              ? 'bg-gradient-to-r from-green-500 to-emerald-600 text-white shadow-md'
+                              : 'bg-white border border-gray-200 text-gray-700 hover:bg-green-50 hover:border-green-300 hover:text-green-700'
+                          }`}
+                        >
+                          {page}
+                        </button>
+                      ))}
+                    </div>
+                    <div className="sm:hidden text-xs text-gray-600 px-2">
+                      {dealerCurrentPage} / {dealerTotalPages}
+                    </div>
                     <button
                       onClick={() => setDealerCurrentPage(prev => Math.min(dealerTotalPages, prev + 1))}
                       disabled={dealerCurrentPage === dealerTotalPages}
-                      className={`px-3 py-1.5 text-xs font-medium rounded-lg transition-all ${
+                      className={`px-2 py-1.5 text-xs font-medium rounded-lg transition-all sm:px-3 ${
                         dealerCurrentPage === dealerTotalPages
                           ? 'bg-gray-100 text-gray-400 cursor-not-allowed'
                           : 'bg-white border border-gray-200 text-gray-700 hover:bg-green-50 hover:border-green-300 hover:text-green-700'
                       }`}
                     >
-                      下一页
+                      <span className="hidden sm:inline">下一页</span>
+                      <span className="sm:hidden">→</span>
                     </button>
                   </div>
                 </div>
