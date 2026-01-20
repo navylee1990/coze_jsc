@@ -285,10 +285,10 @@ const cityData = {
 
 // 经销商达成率排名数据
 const dealerAchievementRanking = [
-  { rank: 1, name: '杭州商用净水', target: 15000, completed: 10275, rate: 68.5, region: '一区', status: 'excellent', scale: '300万以上', yearOnYear: 12.5, ytd: 10275 },
-  { rank: 2, name: '上海净泉科技', target: 12000, completed: 7704, rate: 64.2, region: '二区', status: 'excellent', scale: '150~300万', yearOnYear: 8.3, ytd: 7704 },
+  { rank: 1, name: '杭州商用净水', target: 15000, completed: 10275, rate: 68.5, region: '一区', status: 'good', scale: '300万以上', yearOnYear: 12.5, ytd: 10275 },
+  { rank: 2, name: '上海净泉科技', target: 12000, completed: 7704, rate: 64.2, region: '二区', status: 'good', scale: '150~300万', yearOnYear: 8.3, ytd: 7704 },
   { rank: 3, name: '南京雪濠洋环保科技有限公司', target: 13500, completed: 8343, rate: 61.8, region: '华中', status: 'good', scale: '300万以上', yearOnYear: -2.1, ytd: 8343 },
-  { rank: 4, name: '苏州清泉实业', target: 11000, completed: 6435, rate: 58.5, region: '二区', status: 'good', scale: '90~150万', yearOnYear: 5.6, ytd: 6435 },
+  { rank: 4, name: '苏州清泉实业', target: 11000, completed: 6435, rate: 58.5, region: '二区', status: 'warning', scale: '90~150万', yearOnYear: 5.6, ytd: 6435 },
   { rank: 5, name: '无锡净水宝', target: 15000, completed: 8250, rate: 55.0, region: '华中', status: 'warning', scale: '300万以上', yearOnYear: -8.7, ytd: 8250 },
   { rank: 6, name: '常州净康科技', target: 13000, completed: 6799, rate: 52.3, region: '五区', status: 'warning', scale: '150~300万', yearOnYear: 3.2, ytd: 6799 },
   { rank: 7, name: '宁波净水达人', target: 14500, completed: 7221, rate: 49.8, region: '华南', status: 'danger', scale: '150~300万', yearOnYear: -15.3, ytd: 7221 },
@@ -1678,7 +1678,8 @@ export default function SalesDashboard() {
                             <div className="inline-flex items-center gap-1 px-1.5 py-0.5 rounded-full bg-gray-50 border border-gray-100">
                               <span className={`text-sm font-bold ${
                                 dealer.rate >= 80 ? 'text-green-600' :
-                                dealer.rate >= 60 ? 'text-yellow-600' : 'text-red-600'
+                                dealer.rate >= 60 ? 'text-blue-600' :
+                                dealer.rate >= 50 ? 'text-yellow-600' : 'text-red-600'
                               }`}>
                                 {dealer.rate.toFixed(1)}%
                               </span>
@@ -1686,7 +1687,8 @@ export default function SalesDashboard() {
                                 <div
                                   className={`h-full rounded-full transition-all ${
                                     dealer.rate >= 80 ? 'bg-green-500' :
-                                    dealer.rate >= 60 ? 'bg-yellow-500' : 'bg-red-500'
+                                    dealer.rate >= 60 ? 'bg-blue-500' :
+                                    dealer.rate >= 50 ? 'bg-yellow-500' : 'bg-red-500'
                                   }`}
                                   style={{ width: `${Math.min(dealer.rate, 100)}%` }}
                                 />
@@ -1706,7 +1708,7 @@ export default function SalesDashboard() {
                           <td className="px-2 py-2 text-center" style={{ width: '65px' }}>
                             <span className={`inline-flex items-center gap-0.5 px-1.5 py-0.5 rounded-full text-sm font-medium ${
                               dealer.status === 'excellent' ? 'bg-green-100 text-green-700' :
-                              dealer.status === 'good' ? 'bg-teal-100 text-teal-700' :
+                              dealer.status === 'good' ? 'bg-blue-100 text-blue-700' :
                               dealer.status === 'warning' ? 'bg-yellow-100 text-yellow-700' :
                               'bg-red-100 text-red-700'
                             }`}>
