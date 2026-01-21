@@ -27,7 +27,7 @@ const salesmenRanking = [
   { rank: 3, name: '王强', region: '二区', target: 150, completed: 150, rate: 100.0, visits: 38, newProjects: 3, status: 'good' },
   { rank: 4, name: '刘芳', region: '华南', target: 145, completed: 148, rate: 102.1, visits: 35, newProjects: 4, status: 'good' },
   { rank: 5, name: '陈明', region: '五区', target: 140, completed: 136, rate: 97.1, visits: 40, newProjects: 3, status: 'warning' },
-  { rank: 6, name: '杨洋', region: '华北、西北', target: 135, completed: 128, rate: 94.8, visits: 32, newProjects: 2, status: 'warning' },
+  { rank: 6, name: '杨洋', region: '华北', target: 135, completed: 128, rate: 94.8, visits: 32, newProjects: 2, status: 'warning' },
   { rank: 7, name: '赵敏', region: '西南', target: 130, completed: 115, rate: 88.5, visits: 28, newProjects: 1, status: 'danger' },
   { rank: 8, name: '孙磊', region: '一区', target: 125, completed: 110, rate: 88.0, visits: 30, newProjects: 1, status: 'danger' },
   { rank: 9, name: '周婷', region: '二区', target: 120, completed: 105, rate: 87.5, visits: 25, newProjects: 0, status: 'danger' },
@@ -183,7 +183,7 @@ const regionData = {
     { name: '二区', owner: '陈超', target: 232, completed: 100, predicted: 100, gap: 132, rate: 43.1, trend: 'down', orderCount: 85, projectCount: 42, pendingAmount: 85 },
     { name: '五区', owner: '张大鹏', target: 260, completed: 120, predicted: 100.4, gap: 159.6, rate: 46.2, trend: 'down', orderCount: 72, projectCount: 35, pendingAmount: 95 },
     { name: '华中', owner: '刘邦军', target: 152, completed: 152, predicted: 150, gap: 2, rate: 100.0, trend: 'up', orderCount: 112, projectCount: 58, pendingAmount: 150 },
-    { name: '华北、西北', owner: '康帅', target: 160, completed: 120, predicted: 69.1, gap: 90.9, rate: 75.0, trend: 'down', orderCount: 62, projectCount: 31, pendingAmount: 75 },
+    { name: '华北', owner: '康帅', target: 160, completed: 120, predicted: 69.1, gap: 90.9, rate: 75.0, trend: 'down', orderCount: 62, projectCount: 31, pendingAmount: 75 },
     { name: '西南', owner: '钟莲', target: 128, completed: 20, predicted: 10.8, gap: 117.2, rate: 15.6, trend: 'down', orderCount: 28, projectCount: 15, pendingAmount: 35 },
     { name: '华南', owner: '徐婷婷', target: 176, completed: 100, predicted: 110, gap: 66, rate: 56.8, trend: 'down', orderCount: 68, projectCount: 36, pendingAmount: 90 },
   ],
@@ -192,7 +192,7 @@ const regionData = {
     { name: '二区', owner: '陈超', target: 696, completed: 300, predicted: 300, gap: 396, rate: 43.1, trend: 'down', orderCount: 255, projectCount: 126, pendingAmount: 255 },
     { name: '五区', owner: '张大鹏', target: 780, completed: 360, predicted: 301.2, gap: 478.8, rate: 46.2, trend: 'down', orderCount: 216, projectCount: 105, pendingAmount: 285 },
     { name: '华中', owner: '刘邦军', target: 456, completed: 456, predicted: 450, gap: 6, rate: 100.0, trend: 'up', orderCount: 336, projectCount: 174, pendingAmount: 450 },
-    { name: '华北、西北', owner: '康帅', target: 480, completed: 360, predicted: 207.3, gap: 272.7, rate: 75.0, trend: 'down', orderCount: 186, projectCount: 93, pendingAmount: 225 },
+    { name: '华北', owner: '康帅', target: 480, completed: 360, predicted: 207.3, gap: 272.7, rate: 75.0, trend: 'down', orderCount: 186, projectCount: 93, pendingAmount: 225 },
     { name: '西南', owner: '钟莲', target: 384, completed: 60, predicted: 32.4, gap: 351.6, rate: 15.6, trend: 'down', orderCount: 84, projectCount: 45, pendingAmount: 105 },
     { name: '华南', owner: '徐婷婷', target: 528, completed: 300, predicted: 330, gap: 198, rate: 56.8, trend: 'down', orderCount: 204, projectCount: 108, pendingAmount: 270 },
   ],
@@ -201,7 +201,7 @@ const regionData = {
     { name: '二区', owner: '陈超', target: 2784, completed: 1200, predicted: 1200, gap: 1584, rate: 43.1, trend: 'down', orderCount: 1020, projectCount: 504, pendingAmount: 1020 },
     { name: '五区', owner: '张大鹏', target: 3120, completed: 1440, predicted: 1204.8, gap: 1915.2, rate: 46.2, trend: 'down', orderCount: 864, projectCount: 420, pendingAmount: 1140 },
     { name: '华中', owner: '刘邦军', target: 1824, completed: 1824, predicted: 1800, gap: 24, rate: 100.0, trend: 'up', orderCount: 1344, projectCount: 696, pendingAmount: 1800 },
-    { name: '华北、西北', owner: '康帅', target: 1920, completed: 1440, predicted: 829.2, gap: 1090.8, rate: 75.0, trend: 'down', orderCount: 744, projectCount: 372, pendingAmount: 900 },
+    { name: '华北', owner: '康帅', target: 1920, completed: 1440, predicted: 829.2, gap: 1090.8, rate: 75.0, trend: 'down', orderCount: 744, projectCount: 372, pendingAmount: 900 },
     { name: '西南', owner: '钟莲', target: 1536, completed: 240, predicted: 129.6, gap: 1406.4, rate: 15.6, trend: 'down', orderCount: 336, projectCount: 180, pendingAmount: 420 },
     { name: '华南', owner: '徐婷婷', target: 2112, completed: 1200, predicted: 1320, gap: 792, rate: 56.8, trend: 'down', orderCount: 816, projectCount: 432, pendingAmount: 1080 },
   ],
@@ -226,7 +226,7 @@ const cityData = {
       { name: '武汉', owner: '刘邦军', target: 80, completed: 80, predicted: 78, gap: 2, rate: 100.0, orderCount: 68, projectCount: 35, pendingAmount: 100 },
       { name: '长沙', owner: '刘邦军', target: 72, completed: 72, predicted: 72, gap: 0, rate: 100.0, orderCount: 44, projectCount: 23, pendingAmount: 80 },
     ],
-    '华北、西北': [
+    '华北': [
       { name: '石家庄', owner: '康帅', target: 90, completed: 65, predicted: 38, gap: 52, rate: 72.2, orderCount: 36, projectCount: 18, pendingAmount: 60 },
       { name: '太原', owner: '康帅', target: 70, completed: 55, predicted: 31.1, gap: 38.9, rate: 78.6, orderCount: 26, projectCount: 13, pendingAmount: 45 },
     ],
@@ -256,7 +256,7 @@ const cityData = {
       { name: '武汉', owner: '刘邦军', target: 240, completed: 240, predicted: 234, gap: 6, rate: 100.0, orderCount: 204, projectCount: 105, pendingAmount: 300 },
       { name: '长沙', owner: '刘邦军', target: 216, completed: 216, predicted: 216, gap: 0, rate: 100.0, orderCount: 132, projectCount: 69, pendingAmount: 240 },
     ],
-    '华北、西北': [
+    '华北': [
       { name: '石家庄', owner: '康帅', target: 270, completed: 195, predicted: 114, gap: 156, rate: 72.2, orderCount: 108, projectCount: 54, pendingAmount: 180 },
       { name: '太原', owner: '康帅', target: 210, completed: 165, predicted: 93.3, gap: 116.7, rate: 78.6, orderCount: 78, projectCount: 39, pendingAmount: 135 },
     ],
@@ -286,7 +286,7 @@ const cityData = {
       { name: '武汉', owner: '刘邦军', target: 960, completed: 960, predicted: 936, gap: 24, rate: 100.0, orderCount: 816, projectCount: 420, pendingAmount: 1200 },
       { name: '长沙', owner: '刘邦军', target: 864, completed: 864, predicted: 864, gap: 0, rate: 100.0, orderCount: 528, projectCount: 276, pendingAmount: 960 },
     ],
-    '华北、西北': [
+    '华北': [
       { name: '石家庄', owner: '康帅', target: 1080, completed: 780, predicted: 456, gap: 624, rate: 72.2, orderCount: 432, projectCount: 216, pendingAmount: 720 },
       { name: '太原', owner: '康帅', target: 840, completed: 660, predicted: 373.2, gap: 466.8, rate: 78.6, orderCount: 312, projectCount: 156, pendingAmount: 540 },
     ],
@@ -323,7 +323,7 @@ const cityManagerData = {
     { name: '张伟', area: '二区', city: '上海', target: 132, completed: 55, predicted: 55, gap: 77, rate: 41.7, orderCount: 52, projectCount: 26, pendingAmount: 85 },
     { name: '李明', area: '五区', city: '广州', target: 150, completed: 70, predicted: 58, gap: 92, rate: 38.7, orderCount: 42, projectCount: 21, pendingAmount: 80 },
     { name: '刘强', area: '华中', city: '武汉', target: 80, completed: 80, predicted: 78, gap: 2, rate: 97.5, orderCount: 68, projectCount: 35, pendingAmount: 100 },
-    { name: '陈刚', area: '华北、西北', city: '石家庄', target: 90, completed: 65, predicted: 38, gap: 52, rate: 72.2, orderCount: 36, projectCount: 18, pendingAmount: 60 },
+    { name: '陈刚', area: '华北', city: '石家庄', target: 90, completed: 65, predicted: 38, gap: 52, rate: 72.2, orderCount: 36, projectCount: 18, pendingAmount: 60 },
     { name: '杨敏', area: '西南', city: '成都', target: 75, completed: 12, predicted: 6.3, gap: 68.7, rate: 16.0, orderCount: 15, projectCount: 8, pendingAmount: 25 },
     { name: '赵芳', area: '华南', city: '南宁', target: 96, completed: 55, predicted: 60, gap: 36, rate: 62.5, orderCount: 38, projectCount: 20, pendingAmount: 70 },
   ],
@@ -333,7 +333,7 @@ const cityManagerData = {
     { name: '张伟', area: '二区', city: '上海', target: 396, completed: 165, predicted: 165, gap: 231, rate: 41.7, orderCount: 156, projectCount: 78, pendingAmount: 255 },
     { name: '李明', area: '五区', city: '广州', target: 450, completed: 210, predicted: 174, gap: 276, rate: 38.7, orderCount: 126, projectCount: 63, pendingAmount: 240 },
     { name: '刘强', area: '华中', city: '武汉', target: 240, completed: 240, predicted: 234, gap: 6, rate: 97.5, orderCount: 204, projectCount: 105, pendingAmount: 300 },
-    { name: '陈刚', area: '华北、西北', city: '石家庄', target: 270, completed: 195, predicted: 114, gap: 156, rate: 72.2, orderCount: 108, projectCount: 54, pendingAmount: 180 },
+    { name: '陈刚', area: '华北', city: '石家庄', target: 270, completed: 195, predicted: 114, gap: 156, rate: 72.2, orderCount: 108, projectCount: 54, pendingAmount: 180 },
     { name: '杨敏', area: '西南', city: '成都', target: 225, completed: 36, predicted: 18.9, gap: 206.1, rate: 16.0, orderCount: 45, projectCount: 24, pendingAmount: 75 },
     { name: '赵芳', area: '华南', city: '南宁', target: 288, completed: 165, predicted: 180, gap: 108, rate: 62.5, orderCount: 114, projectCount: 60, pendingAmount: 210 },
   ],
@@ -343,7 +343,7 @@ const cityManagerData = {
     { name: '张伟', area: '二区', city: '上海', target: 1584, completed: 660, predicted: 660, gap: 924, rate: 41.7, orderCount: 624, projectCount: 312, pendingAmount: 1020 },
     { name: '李明', area: '五区', city: '广州', target: 1800, completed: 840, predicted: 696, gap: 1104, rate: 38.7, orderCount: 504, projectCount: 252, pendingAmount: 960 },
     { name: '刘强', area: '华中', city: '武汉', target: 960, completed: 960, predicted: 936, gap: 24, rate: 97.5, orderCount: 816, projectCount: 420, pendingAmount: 1200 },
-    { name: '陈刚', area: '华北、西北', city: '石家庄', target: 1080, completed: 780, predicted: 456, gap: 624, rate: 72.2, orderCount: 432, projectCount: 216, pendingAmount: 720 },
+    { name: '陈刚', area: '华北', city: '石家庄', target: 1080, completed: 780, predicted: 456, gap: 624, rate: 72.2, orderCount: 432, projectCount: 216, pendingAmount: 720 },
     { name: '杨敏', area: '西南', city: '成都', target: 900, completed: 144, predicted: 75.6, gap: 824.4, rate: 16.0, orderCount: 180, projectCount: 96, pendingAmount: 300 },
     { name: '赵芳', area: '华南', city: '南宁', target: 1152, completed: 660, predicted: 720, gap: 432, rate: 62.5, orderCount: 456, projectCount: 240, pendingAmount: 840 },
   ],
@@ -439,7 +439,7 @@ const monthlyTrendData = {
     { month: '11月', target: 162, completed: 160, predicted: 160, plan: 154 },
     { month: '12月', target: 158, completed: 155, predicted: 155, plan: 150 },
   ],
-  '华北、西北': [
+  '华北': [
     { month: '1月', target: 160, completed: 120, predicted: 189.1, plan: 152 },
     { month: '2月', target: 155, completed: 128, predicted: 200, plan: 147 },
     { month: '3月', target: 165, completed: 135, predicted: 213, plan: 157 },
@@ -1203,7 +1203,7 @@ export default function SalesDashboard() {
                   <option value="二区">二区</option>
                   <option value="五区">五区</option>
                   <option value="华中">华中</option>
-                  <option value="华北、西北">华北、西北</option>
+                  <option value="华北">华北</option>
                   <option value="西南">西南</option>
                   <option value="华南">华南</option>
                 </select>
@@ -1461,7 +1461,7 @@ export default function SalesDashboard() {
                     <option value="二区">二区</option>
                     <option value="五区">五区</option>
                     <option value="华中">华中</option>
-                    <option value="华北、西北">华北、西北</option>
+                    <option value="华北">华北</option>
                     <option value="西南">西南</option>
                     <option value="华南">华南</option>
                   </select>
