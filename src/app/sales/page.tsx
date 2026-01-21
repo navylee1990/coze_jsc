@@ -1254,8 +1254,8 @@ export default function SalesDashboard() {
             </div>
 
             {/* 趋势图表 */}
-            <div className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden" style={{ height: '400px' }}>
-              <div className="h-full">
+            <div className="bg-white rounded-xl shadow-sm border border-gray-100">
+              <div style={{ height: '280px' }}>
                 <ResponsiveContainer width="100%" height="100%">
                   <AreaChart data={monthlyTrendData[trendRegion as keyof typeof monthlyTrendData] || monthlyTrendData.all}>
                     <defs>
