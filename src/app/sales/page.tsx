@@ -875,6 +875,7 @@ export default function SalesDashboard() {
             </Link>
             <div>
               <h1 className="text-2xl font-bold text-gray-900">商用净水经营驾驶舱</h1>
+              <p className="text-sm text-gray-600 mt-0.5">张晖，您好</p>
             </div>
           </div>
           <div className="flex items-center gap-3">
