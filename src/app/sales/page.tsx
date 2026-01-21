@@ -1158,37 +1158,21 @@ export default function SalesDashboard() {
               </div>
             </div>
 
-            {/* 合计信息 - 通知消息样式 */}
-            <div className="bg-emerald-50 border border-emerald-200 rounded-lg px-4 py-2">
-              <div className="flex items-center gap-2 text-xs">
-                <div className="flex items-center gap-1.5 bg-white rounded-md px-2 py-1 border border-emerald-100 shadow-sm">
-                  <Target className="w-3.5 h-3.5 text-emerald-600" />
-                  <span className="font-bold text-emerald-700">合计</span>
-                </div>
-                <div className="flex items-center gap-1">
-                  <span className="text-emerald-700">目标</span>
-                  <span className="font-bold text-emerald-900">{totalTarget.toLocaleString()}</span>
-                </div>
-                <span className="text-emerald-300">|</span>
-                <div className="flex items-center gap-1">
-                  <span className="text-emerald-700">已完成</span>
-                  <span className="font-bold text-emerald-900">{totalCompleted.toLocaleString()}</span>
-                </div>
-                <span className="text-emerald-300">|</span>
-                <div className="flex items-center gap-1">
-                  <span className="text-emerald-700">预测</span>
-                  <span className="font-bold text-emerald-900">{totalPredicted.toLocaleString()}</span>
-                </div>
-                <span className="text-emerald-300">|</span>
-                <div className="flex items-center gap-1">
-                  <span className="text-emerald-700">缺口</span>
-                  <span className={`font-bold ${totalGap > 0 ? 'text-red-600' : totalGap < 0 ? 'text-green-600' : 'text-emerald-900'}`}>{totalGap.toLocaleString()}</span>
-                </div>
-                <span className="text-emerald-300">|</span>
-                <div className="flex items-center gap-1">
-                  <span className="text-emerald-700">在手</span>
-                  <span className="font-bold text-emerald-900">{totalPendingAmount.toLocaleString()}</span>
-                </div>
+            {/* 合计信息 - 系统通知样式 */}
+            <div className="flex items-center gap-3 text-xs">
+              <div className="inline-flex items-center gap-1.5 bg-slate-100 text-slate-700 px-3 py-1.5 rounded-full border border-slate-200">
+                <Activity className="w-3.5 h-3.5 text-emerald-600" />
+                <span className="font-semibold">合计</span>
+                <span className="w-px h-3 bg-slate-300"></span>
+                <span className="text-slate-600">目标 <span className="font-bold text-slate-900">{totalTarget.toLocaleString()}</span></span>
+                <span className="text-slate-400">·</span>
+                <span className="text-slate-600">已完成 <span className="font-bold text-slate-900">{totalCompleted.toLocaleString()}</span></span>
+                <span className="text-slate-400">·</span>
+                <span className="text-slate-600">预测 <span className="font-bold text-slate-900">{totalPredicted.toLocaleString()}</span></span>
+                <span className="text-slate-400">·</span>
+                <span className="text-slate-600">缺口 <span className={`font-bold ${totalGap > 0 ? 'text-red-600' : totalGap < 0 ? 'text-green-600' : 'text-slate-900'}`}>{totalGap.toLocaleString()}</span></span>
+                <span className="text-slate-400">·</span>
+                <span className="text-slate-600">在手 <span className="font-bold text-slate-900">{totalPendingAmount.toLocaleString()}</span></span>
               </div>
             </div>
           </div>
