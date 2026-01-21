@@ -1314,7 +1314,6 @@ export default function SalesDashboard() {
                       dataKey="target"
                       stroke="#3B82F6"
                       strokeWidth={2}
-                      strokeDasharray="4 4"
                       fillOpacity={0}
                       name="目标"
                     />
@@ -1340,7 +1339,6 @@ export default function SalesDashboard() {
                       dataKey="predicted"
                       stroke="#F59E0B"
                       strokeWidth={2}
-                      strokeDasharray="5 5"
                       fillOpacity={1}
                       fill="url(#colorPredicted)"
                       name="预测完成"
