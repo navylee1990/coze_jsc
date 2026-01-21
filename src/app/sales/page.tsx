@@ -7,6 +7,7 @@ import { Progress } from '@/components/ui/progress';
 import { AIInsight } from '@/components/ai-insight';
 import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from '@/components/ui/dialog';
+import { DashboardWrapper } from '@/components/dashboard-wrapper';
 import Link from 'next/link';
 import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 
@@ -791,7 +792,8 @@ export default function SalesDashboard() {
   const totalRisk = totalPredictedRate >= 1 ? 'low' : totalPredictedRate >= 0.8 ? 'medium' : 'high';
 
   return (
-    <div className="min-h-screen bg-gray-50 p-4">
+    <DashboardWrapper>
+      <div className="min-h-screen bg-gray-50 p-4">
       {/* 页面头部 */}
       <header className="mb-4">
         <div className="flex items-center justify-between">
@@ -2745,5 +2747,6 @@ export default function SalesDashboard() {
         </Dialog>
 
       </div>
-    );
-  }
+    </DashboardWrapper>
+  );
+}

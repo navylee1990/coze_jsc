@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { ArrowUp, ArrowDown, TrendingUp, AlertTriangle, Activity, Target, Heart, Shield, Users, DollarSign, PieChart, Package, Award, Sparkles, Lightbulb, TrendingDown, Search, FileText, CheckCircle, Truck } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs';
+import { DashboardWrapper } from '@/components/dashboard-wrapper';
 import Link from 'next/link';
 import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 
@@ -173,7 +174,8 @@ export default function DealerDashboard() {
   const timeRangeLabel = timeRange === 'month' ? '月度' : timeRange === 'quarter' ? '季度' : '年度';
 
   return (
-    <div className="min-h-screen bg-gray-50 p-4">
+    <DashboardWrapper>
+      <div className="min-h-screen bg-gray-50 p-4">
       {/* 页面头部 */}
       <header className="mb-1">
         <div className="flex items-center justify-between">
@@ -725,5 +727,6 @@ export default function DealerDashboard() {
         </TabsContent>
       </Tabs>
     </div>
+    </DashboardWrapper>
   );
 }
