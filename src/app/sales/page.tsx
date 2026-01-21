@@ -1164,15 +1164,15 @@ export default function SalesDashboard() {
                 <Activity className="w-3.5 h-3.5 text-emerald-600" />
                 <span className="font-semibold">合计</span>
                 <span className="w-px h-3 bg-slate-300"></span>
-                <span className="text-slate-600">目标 <span className="font-bold text-slate-900">{totalTarget.toLocaleString()}</span></span>
+                <span className="text-slate-600">目标 <span className="font-bold text-slate-900">{totalTarget.toLocaleString()}</span>万元</span>
                 <span className="text-slate-400">·</span>
-                <span className="text-slate-600">已完成 <span className="font-bold text-slate-900">{totalCompleted.toLocaleString()}</span></span>
+                <span className="text-slate-600">已完成 <span className="font-bold text-slate-900">{totalCompleted.toLocaleString()}</span>万元</span>
                 <span className="text-slate-400">·</span>
-                <span className="text-slate-600">预测 <span className="font-bold text-slate-900">{totalPredicted.toLocaleString()}</span></span>
+                <span className="text-slate-600">预测 <span className="font-bold text-slate-900">{totalPredicted.toLocaleString()}</span>万元</span>
                 <span className="text-slate-400">·</span>
-                <span className="text-slate-600">缺口 <span className={`font-bold ${totalGap > 0 ? 'text-red-600' : totalGap < 0 ? 'text-green-600' : 'text-slate-900'}`}>{totalGap.toLocaleString()}</span></span>
+                <span className="text-slate-600">缺口 <span className={`font-bold ${totalGap > 0 ? 'text-red-600' : totalGap < 0 ? 'text-green-600' : 'text-slate-900'}`}>{totalGap.toLocaleString()}</span>万元</span>
                 <span className="text-slate-400">·</span>
-                <span className="text-slate-600">在手 <span className="font-bold text-slate-900">{totalPendingAmount.toLocaleString()}</span></span>
+                <span className="text-slate-600">在手 <span className="font-bold text-slate-900">{totalPendingAmount.toLocaleString()}</span>万元</span>
               </div>
             </div>
           </div>
