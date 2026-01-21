@@ -2572,7 +2572,7 @@ export default function SalesDashboard() {
 
         {/* 拉群弹窗 */}
         <Dialog open={pullGroupDialog.open} onOpenChange={handleClosePullGroupDialog}>
-          <DialogContent className="max-w-2xl">
+          <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
             <DialogHeader>
               <DialogTitle className="flex items-center gap-2 text-xl">
                 <UserPlus className="w-6 h-6 text-green-600" />
@@ -2583,49 +2583,49 @@ export default function SalesDashboard() {
               </DialogDescription>
             </DialogHeader>
 
-            <div className="space-y-6 py-4">
+            <div className="space-y-4 py-3">
               {/* 基本信息 */}
-              <div className="bg-gray-50 rounded-lg p-4">
-                <h3 className="text-sm font-semibold text-gray-700 mb-3">责任人信息</h3>
-                <div className="grid grid-cols-2 gap-4">
+              <div className="bg-gray-50 rounded-lg p-3">
+                <h3 className="text-sm font-semibold text-gray-700 mb-2">责任人信息</h3>
+                <div className="grid grid-cols-3 gap-3">
                   <div>
-                    <span className="text-sm text-gray-500">责任人</span>
-                    <p className="text-base font-semibold text-gray-900">{pullGroupDialog.ownerName}</p>
+                    <span className="text-xs text-gray-500">责任人</span>
+                    <p className="text-sm font-semibold text-gray-900">{pullGroupDialog.ownerName}</p>
                   </div>
                   <div>
-                    <span className="text-sm text-gray-500">所属区域</span>
-                    <p className="text-base font-semibold text-gray-900">{pullGroupDialog.region || '-'}</p>
+                    <span className="text-xs text-gray-500">所属区域</span>
+                    <p className="text-sm font-semibold text-gray-900">{pullGroupDialog.region || '-'}</p>
                   </div>
                   {pullGroupDialog.city && (
                     <div>
-                      <span className="text-sm text-gray-500">城市</span>
-                      <p className="text-base font-semibold text-gray-900">{pullGroupDialog.city}</p>
+                      <span className="text-xs text-gray-500">城市</span>
+                      <p className="text-sm font-semibold text-gray-900">{pullGroupDialog.city}</p>
                     </div>
                   )}
                   {pullGroupDialog.target && (
                     <div>
-                      <span className="text-sm text-gray-500">目标金额</span>
-                      <p className="text-base font-semibold text-gray-900">{pullGroupDialog.target} 万元</p>
+                      <span className="text-xs text-gray-500">目标金额</span>
+                      <p className="text-sm font-semibold text-gray-900">{pullGroupDialog.target} 万元</p>
                     </div>
                   )}
                   {pullGroupDialog.completed !== undefined && (
                     <div>
-                      <span className="text-sm text-gray-500">已完成</span>
-                      <p className="text-base font-semibold text-gray-900">{pullGroupDialog.completed} 万元</p>
+                      <span className="text-xs text-gray-500">已完成</span>
+                      <p className="text-sm font-semibold text-gray-900">{pullGroupDialog.completed} 万元</p>
                     </div>
                   )}
                   {pullGroupDialog.rate !== undefined && (
                     <div>
-                      <span className="text-sm text-gray-500">达成率</span>
-                      <p className={`text-base font-semibold ${pullGroupDialog.rate >= 100 ? 'text-green-600' : pullGroupDialog.rate >= 80 ? 'text-yellow-600' : 'text-red-600'}`}>
+                      <span className="text-xs text-gray-500">达成率</span>
+                      <p className={`text-sm font-semibold ${pullGroupDialog.rate >= 100 ? 'text-green-600' : pullGroupDialog.rate >= 80 ? 'text-yellow-600' : 'text-red-600'}`}>
                         {pullGroupDialog.rate.toFixed(1)}%
                       </p>
                     </div>
                   )}
                   {pullGroupDialog.pendingAmount !== undefined && (
                     <div>
-                      <span className="text-sm text-gray-500">在手项目</span>
-                      <p className="text-base font-semibold text-gray-900">{pullGroupDialog.pendingAmount} 万元</p>
+                      <span className="text-xs text-gray-500">在手项目</span>
+                      <p className="text-sm font-semibold text-gray-900">{pullGroupDialog.pendingAmount} 万元</p>
                     </div>
                   )}
                 </div>
@@ -2633,54 +2633,54 @@ export default function SalesDashboard() {
 
               {/* 协同内容 */}
               <div>
-                <h3 className="text-sm font-semibold text-gray-700 mb-3">协同内容</h3>
-                <div className="space-y-2">
-                  <div className="flex items-start gap-2 text-sm">
+                <h3 className="text-sm font-semibold text-gray-700 mb-2">协同内容</h3>
+                <div className="grid grid-cols-2 gap-2">
+                  <div className="flex items-start gap-2 text-xs">
                     <span className="w-5 h-5 rounded-full bg-green-100 text-green-600 flex items-center justify-center text-xs flex-shrink-0">1</span>
-                    <span className="text-gray-700">分析当前任务缺口，识别关键障碍</span>
+                    <span className="text-gray-700 leading-tight">分析当前任务缺口，识别关键障碍</span>
                   </div>
-                  <div className="flex items-start gap-2 text-sm">
+                  <div className="flex items-start gap-2 text-xs">
                     <span className="w-5 h-5 rounded-full bg-green-100 text-green-600 flex items-center justify-center text-xs flex-shrink-0">2</span>
-                    <span className="text-gray-700">梳理在手项目，评估转化概率</span>
+                    <span className="text-gray-700 leading-tight">梳理在手项目，评估转化概率</span>
                   </div>
-                  <div className="flex items-start gap-2 text-sm">
+                  <div className="flex items-start gap-2 text-xs">
                     <span className="w-5 h-5 rounded-full bg-green-100 text-green-600 flex items-center justify-center text-xs flex-shrink-0">3</span>
-                    <span className="text-gray-700">制定行动计划，明确里程碑节点</span>
+                    <span className="text-gray-700 leading-tight">制定行动计划，明确里程碑节点</span>
                   </div>
-                  <div className="flex items-start gap-2 text-sm">
+                  <div className="flex items-start gap-2 text-xs">
                     <span className="w-5 h-5 rounded-full bg-green-100 text-green-600 flex items-center justify-center text-xs flex-shrink-0">4</span>
-                    <span className="text-gray-700">协调资源支持，推动项目落地</span>
+                    <span className="text-gray-700 leading-tight">协调资源支持，推动项目落地</span>
                   </div>
                 </div>
               </div>
 
               {/* 消息模板 */}
               <div>
-                <h3 className="text-sm font-semibold text-gray-700 mb-3">拉群消息模板</h3>
-                <div className="bg-gray-50 rounded-lg p-4 space-y-3">
-                  <div className="border-l-4 border-green-500 pl-3">
-                    <p className="text-xs text-gray-500 mb-1">场景1：任务缺口较大</p>
-                        <p className="text-sm text-gray-700 whitespace-pre-line">{`@${pullGroupDialog.ownerName} 您好！${pullGroupDialog.region || ''}${pullGroupDialog.city ? pullGroupDialog.city : ''}当前目标 ${pullGroupDialog.target || 0}万元，已完成 ${pullGroupDialog.completed || 0}万元，预测达成率 ${pullGroupDialog.rate?.toFixed(1) || 0}%。任务缺口 ${pullGroupDialog.target && pullGroupDialog.completed ? (pullGroupDialog.target - pullGroupDialog.completed).toFixed(1) : 0}万元。请梳理在手项目，重点关注转化概率高的项目，制定明确的跟进计划。如有需要支持的资源，请在群内反馈。`}</p>
+                <h3 className="text-sm font-semibold text-gray-700 mb-2">消息模板</h3>
+                <div className="bg-gray-50 rounded-lg p-3 space-y-2">
+                  <div className="border-l-4 border-red-500 pl-2">
+                    <p className="text-xs text-gray-500 mb-1">任务缺口较大</p>
+                        <p className="text-xs text-gray-700 whitespace-pre-line">{`@${pullGroupDialog.ownerName} 您好！${pullGroupDialog.region || ''}${pullGroupDialog.city ? pullGroupDialog.city : ''}当前目标 ${pullGroupDialog.target || 0}万元，已完成 ${pullGroupDialog.completed || 0}万元，预测达成率 ${pullGroupDialog.rate?.toFixed(1) || 0}%。任务缺口 ${pullGroupDialog.target && pullGroupDialog.completed ? (pullGroupDialog.target - pullGroupDialog.completed).toFixed(1) : 0}万元。请梳理在手项目，重点关注转化概率高的项目，制定明确的跟进计划。如有需要支持的资源，请在群内反馈。`}</p>
                   </div>
-                  <div className="border-l-4 border-yellow-500 pl-3">
-                    <p className="text-xs text-gray-500 mb-1">场景2：达成率中等</p>
-                    <p className="text-sm text-gray-700 whitespace-pre-line">{`@${pullGroupDialog.ownerName} 您好！${pullGroupDialog.region || ''}${pullGroupDialog.city ? pullGroupDialog.city : ''}当前达成率 ${pullGroupDialog.rate?.toFixed(1) || 0}%，在手项目 ${pullGroupDialog.pendingAmount || 0}万元。建议聚焦重点客户，加快项目推进。如有需要协调的资源，请及时反馈。`}</p>
+                  <div className="border-l-4 border-yellow-500 pl-2">
+                    <p className="text-xs text-gray-500 mb-1">达成率中等</p>
+                    <p className="text-xs text-gray-700 whitespace-pre-line">{`@${pullGroupDialog.ownerName} 您好！${pullGroupDialog.region || ''}${pullGroupDialog.city ? pullGroupDialog.city : ''}当前达成率 ${pullGroupDialog.rate?.toFixed(1) || 0}%，在手项目 ${pullGroupDialog.pendingAmount || 0}万元。建议聚焦重点客户，加快项目推进。如有需要协调的资源，请及时反馈。`}</p>
                   </div>
-                  <div className="border-l-4 border-green-500 pl-3">
-                    <p className="text-xs text-gray-500 mb-1">场景3：超额完成</p>
-                    <p className="text-sm text-gray-700 whitespace-pre-line">{`@${pullGroupDialog.ownerName} 您好！${pullGroupDialog.region || ''}${pullGroupDialog.city ? pullGroupDialog.city : ''}当前达成率 ${pullGroupDialog.rate?.toFixed(1) || 0}%，超额完成任务！请分享成功经验，并在群内同步后续工作计划。`}</p>
+                  <div className="border-l-4 border-green-500 pl-2">
+                    <p className="text-xs text-gray-500 mb-1">超额完成</p>
+                    <p className="text-xs text-gray-700 whitespace-pre-line">{`@${pullGroupDialog.ownerName} 您好！${pullGroupDialog.region || ''}${pullGroupDialog.city ? pullGroupDialog.city : ''}当前达成率 ${pullGroupDialog.rate?.toFixed(1) || 0}%，超额完成任务！请分享成功经验，并在群内同步后续工作计划。`}</p>
                   </div>
                 </div>
               </div>
 
               {/* 操作按钮 */}
-              <div className="flex gap-3 pt-4 border-t">
+              <div className="flex gap-3 pt-2 border-t">
                 <button
                   onClick={() => {
                     alert('已复制消息模板到剪贴板！');
                     handleClosePullGroupDialog();
                   }}
-                  className="flex-1 px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors text-sm font-medium"
+                  className="flex-1 px-3 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors text-sm font-medium"
                 >
                   复制消息模板
                 </button>
@@ -2689,13 +2689,13 @@ export default function SalesDashboard() {
                     alert('已创建企业微信群并发送消息！');
                     handleClosePullGroupDialog();
                   }}
-                  className="flex-1 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors text-sm font-medium"
+                  className="flex-1 px-3 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors text-sm font-medium"
                 >
                   创建群并发送
                 </button>
                 <button
                   onClick={handleClosePullGroupDialog}
-                  className="px-4 py-2 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300 transition-colors text-sm font-medium"
+                  className="px-3 py-2 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300 transition-colors text-sm font-medium"
                 >
                   取消
                 </button>
