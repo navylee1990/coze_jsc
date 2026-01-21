@@ -939,9 +939,6 @@ export default function SalesDashboard() {
                     </span>
                     <span className="text-xs text-gray-600">万元</span>
                   </div>
-                  <div className={`inline-flex items-center px-2 py-0.5 rounded text-[10px] font-bold mt-1 ${(currentRangeData as any).pendingRate >= 80 ? 'bg-green-600 text-white' : (currentRangeData as any).pendingRate >= 60 ? 'bg-orange-600 text-white' : 'bg-red-600 text-white'}`}>
-                    {(currentRangeData as any).pendingRate >= 80 ? '80~100%' : (currentRangeData as any).pendingRate >= 60 ? '60~80%' : '60%以下'}
-                  </div>
                 </div>
               </div>
             </div>
@@ -1041,9 +1038,6 @@ export default function SalesDashboard() {
                     </span>
                     <span className="text-xs text-gray-600">万元</span>
                   </div>
-                  <div className={`inline-flex items-center px-2 py-0.5 rounded text-[10px] font-bold mt-1 ${(leaseTimeRangeData[timeRange as keyof typeof leaseTimeRangeData] as any).pendingRate >= 80 ? 'bg-green-600 text-white' : (leaseTimeRangeData[timeRange as keyof typeof leaseTimeRangeData] as any).pendingRate >= 60 ? 'bg-orange-600 text-white' : 'bg-red-600 text-white'}`}>
-                    {(leaseTimeRangeData[timeRange as keyof typeof leaseTimeRangeData] as any).pendingRate >= 80 ? '80~100%' : (leaseTimeRangeData[timeRange as keyof typeof leaseTimeRangeData] as any).pendingRate >= 60 ? '60~80%' : '60%以下'}
-                  </div>
                 </div>
               </div>
             </div>
@@ -1142,9 +1136,6 @@ export default function SalesDashboard() {
                       {(renewalTimeRangeData[timeRange as keyof typeof renewalTimeRangeData] as any).pendingAmount?.toLocaleString() || '0'}
                     </span>
                     <span className="text-xs text-gray-600">万元</span>
-                  </div>
-                  <div className={`inline-flex items-center px-2 py-0.5 rounded text-[10px] font-bold mt-1 ${(renewalTimeRangeData[timeRange as keyof typeof renewalTimeRangeData] as any).pendingRate >= 80 ? 'bg-green-600 text-white' : (renewalTimeRangeData[timeRange as keyof typeof renewalTimeRangeData] as any).pendingRate >= 60 ? 'bg-orange-600 text-white' : 'bg-red-600 text-white'}`}>
-                    {(renewalTimeRangeData[timeRange as keyof typeof renewalTimeRangeData] as any).pendingRate >= 80 ? '80~100%' : (renewalTimeRangeData[timeRange as keyof typeof renewalTimeRangeData] as any).pendingRate >= 60 ? '60~80%' : '60%以下'}
                   </div>
                 </div>
               </div>
