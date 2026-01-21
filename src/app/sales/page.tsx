@@ -785,6 +785,41 @@ export default function SalesDashboard() {
     }
   };
 
+  // 根据达成率获取PIPP/1on1内容
+  const getPIPPContent = (rate: number) => {
+    if (rate < 80) {
+      return {
+        title: 'PIPP行动计划',
+        items: [
+          `目标：在${pullGroupDialog.region || ''}区域达成${pullGroupDialog.target || 0}万元的销售目标`,
+          `问题：当前达成率仅${rate.toFixed(1)}%，缺口${(pullGroupDialog.target && pullGroupDialog.completed ? (pullGroupDialog.target - pullGroupDialog.completed).toFixed(1) : 0)}万元`,
+          `计划：梳理在手项目${pullGroupDialog.pendingAmount || 0}万元，重点跟进高转化概率项目`,
+          `跟进：每周Review项目进展，及时调整策略`
+        ]
+      };
+    } else if (rate < 100) {
+      return {
+        title: '1on1沟通要点',
+        items: [
+          `肯定：${pullGroupDialog.region || ''}区域已完成${pullGroupDialog.completed || 0}万元，达成率${rate.toFixed(1)}%`,
+          `优势：在手项目储备充足，${pullGroupDialog.pendingAmount || 0}万元`,
+          `机会：聚焦重点客户，加速项目落地`,
+          `支持：如需资源协调，请及时提出`
+        ]
+      };
+    } else {
+      return {
+        title: '1on1成功经验分享',
+        items: [
+          `业绩：${pullGroupDialog.region || ''}区域超额完成任务，达成率${rate.toFixed(1)}%`,
+          `亮点：高效的项目管理和客户跟进策略`,
+          `分享：请总结成功经验，推广到其他区域`,
+          `规划：设定下一阶段目标，持续保持领先`
+        ]
+      };
+    }
+  };
+
   const handleClosePullGroupDialog = () => {
     setPullGroupDialog({
       open: false,
@@ -2783,6 +2818,25 @@ export default function SalesDashboard() {
                   )}
                 </div>
               </div>
+
+              {/* PIPP/1on1 */}
+              {pullGroupDialog.rate !== undefined && (
+                <div>
+                  <h3 className="text-sm font-semibold text-gray-700 mb-2">{getPIPPContent(pullGroupDialog.rate).title}</h3>
+                  <div className="bg-gradient-to-br from-blue-50 to-indigo-50 rounded-lg p-3 border border-blue-200">
+                    <div className="space-y-2">
+                      {getPIPPContent(pullGroupDialog.rate).items.map((item, index) => (
+                        <div key={index} className="flex items-start gap-2">
+                          <div className="w-5 h-5 rounded-full bg-blue-500 text-white flex items-center justify-center text-xs flex-shrink-0">
+                            {index + 1}
+                          </div>
+                          <p className="text-xs text-gray-700 leading-tight">{item}</p>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+              )}
 
               {/* 操作按钮 */}
               <div className="flex gap-3 pt-2 border-t">
