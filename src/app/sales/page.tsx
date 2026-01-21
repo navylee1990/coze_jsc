@@ -1314,15 +1314,15 @@ export default function SalesDashboard() {
                       dataKey="target"
                       stroke="#3B82F6"
                       strokeWidth={2}
-                      fillOpacity={1}
-                      fill="url(#colorTarget)"
+                      strokeDasharray="4 4"
+                      fillOpacity={0}
                       name="目标"
                     />
                     <Area
                       type="monotone"
                       dataKey="plan"
                       stroke="#8B5CF6"
-                      strokeWidth={2}
+                      strokeWidth={2.5}
                       fillOpacity={0}
                       name="计划"
                     />
@@ -1330,7 +1330,7 @@ export default function SalesDashboard() {
                       type="monotone"
                       dataKey="completed"
                       stroke="#10B981"
-                      strokeWidth={2}
+                      strokeWidth={2.5}
                       fillOpacity={1}
                       fill="url(#colorCompleted)"
                       name="已完成"
