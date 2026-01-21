@@ -10,7 +10,7 @@ export default function PPTPage() {
           {/* 标题区域 */}
           <div className="text-center mb-8">
             <h1 className="text-5xl font-bold bg-gradient-to-r from-green-600 to-emerald-600 bg-clip-text text-transparent mb-3">
-              商用净水经营驾驶舱
+              商用经营驾驶舱
             </h1>
             <p className="text-2xl text-gray-600 font-medium">数据 → 风险 → 行动，精准掌控业务动态</p>
           </div>
