@@ -1382,7 +1382,7 @@ export default function SalesDashboard() {
               </div>
 
               {/* 大区维度表格 */}
-              <div className="overflow-hidden flex flex-col" style={{ height: '380px' }}>
+              <div className="overflow-hidden flex flex-col" style={{ height: '420px' }}>
                 <div className="flex-1 overflow-y-auto overflow-x-auto">
                   <div className="bg-white rounded-lg border-0 overflow-hidden">
                     <table className="w-full" style={{ tableLayout: 'fixed' }}>
@@ -1513,7 +1513,7 @@ export default function SalesDashboard() {
               </div>
 
               {/* 城市经理表格 */}
-              <div className="overflow-hidden flex flex-col" style={{ height: '380px' }}>
+              <div className="overflow-hidden flex flex-col" style={{ height: '420px' }}>
                 <div className="flex-1 overflow-y-auto overflow-x-auto">
                   <div className="bg-white rounded-lg border-0 overflow-hidden">
                     <table className="w-full" style={{ tableLayout: 'fixed' }}>
