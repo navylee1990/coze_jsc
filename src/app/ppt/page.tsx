@@ -110,8 +110,8 @@ export default function PPTPage() {
             </div>
           </div>
 
-          {/* 五大核心特色 */}
-          <div className="grid grid-cols-5 gap-3">
+          {/* 四大核心特色 */}
+          <div className="grid grid-cols-4 gap-4">
             {/* 三色预警 */}
             <div className="bg-gradient-to-br from-orange-50 to-red-50 rounded-xl p-4 border-2 border-orange-200">
               <div className="flex flex-col items-center text-center">
@@ -160,34 +160,32 @@ export default function PPTPage() {
               </div>
             </div>
 
-            {/* 企业微信拉群 */}
-            <div className="bg-gradient-to-br from-emerald-50 to-teal-50 rounded-xl p-4 border-2 border-emerald-200">
+            {/* 拉群协同 & 专属话术 */}
+            <div className="bg-gradient-to-br from-emerald-50 to-blue-50 rounded-xl p-4 border-2 border-emerald-200">
               <div className="flex flex-col items-center text-center">
-                <div className="p-2.5 bg-gradient-to-br from-emerald-500 to-teal-500 rounded-lg mb-2">
-                  <UserPlus className="w-6 h-6 text-white" />
+                <div className="flex gap-2 mb-2">
+                  <div className="p-2.5 bg-gradient-to-br from-emerald-500 to-teal-500 rounded-lg">
+                    <UserPlus className="w-6 h-6 text-white" />
+                  </div>
+                  <div className="p-2.5 bg-gradient-to-br from-blue-500 to-indigo-500 rounded-lg">
+                    <MessageSquare className="w-6 h-6 text-white" />
+                  </div>
                 </div>
-                <div className="flex items-center gap-1 mb-1">
+                <div className="flex items-center gap-1 mb-2">
                   <h3 className="text-sm font-bold text-emerald-700">拉群协同</h3>
-                </div>
-                <div className="text-[11px] text-gray-600 mb-1">企业微信一键拉群</div>
-                <div className="text-[11px] text-emerald-600 bg-emerald-100 px-2 py-0.5 rounded-full">
-                  智能识别责任人
-                </div>
-              </div>
-            </div>
-
-            {/* 专属话术 */}
-            <div className="bg-gradient-to-br from-blue-50 to-indigo-50 rounded-xl p-4 border-2 border-blue-200">
-              <div className="flex flex-col items-center text-center">
-                <div className="p-2.5 bg-gradient-to-br from-blue-500 to-indigo-500 rounded-lg mb-2">
-                  <MessageSquare className="w-6 h-6 text-white" />
-                </div>
-                <div className="flex items-center gap-1 mb-1">
+                  <span className="text-gray-400">·</span>
                   <h3 className="text-sm font-bold text-blue-700">专属话术</h3>
                 </div>
-                <div className="text-[11px] text-gray-600 mb-1">达成率自动匹配</div>
-                <div className="text-[11px] text-blue-600 bg-blue-100 px-2 py-0.5 rounded-full">
-                  精准触达提醒
+                <div className="w-full space-y-2">
+                  <div className="text-[11px] text-gray-600 mb-1">智能识别责任人 · 精准触达提醒</div>
+                  <div className="flex gap-1">
+                    <span className="text-[11px] text-emerald-600 bg-emerald-100 px-2 py-0.5 rounded-full flex-1">
+                      一键拉群
+                    </span>
+                    <span className="text-[11px] text-blue-600 bg-blue-100 px-2 py-0.5 rounded-full flex-1">
+                      话术匹配
+                    </span>
+                  </div>
                 </div>
               </div>
             </div>
