@@ -1,6 +1,6 @@
 'use client';
 
-import { Database, AlertTriangle, Activity, Target, ArrowRight, MessageSquare, Users, Sparkles, CheckCircle } from 'lucide-react';
+import { Database, AlertTriangle, Activity, Target, ArrowRight, Users, Sparkles, CheckCircle, Bot, Shield, RefreshCw } from 'lucide-react';
 
 // 单页PPT：数据→风险→行动，保障目标达成
 
@@ -11,7 +11,7 @@ export default function PPTPage() {
         {/* 单页PPT容器 */}
         <div className="bg-white rounded-2xl shadow-2xl overflow-hidden aspect-video p-12 relative">
           {/* 标题区域 */}
-          <div className="text-center mb-10">
+          <div className="text-center mb-8">
             <h1 className="text-5xl font-bold bg-gradient-to-r from-green-600 to-emerald-600 bg-clip-text text-transparent mb-3">
               商用净水经营驾驶舱
             </h1>
@@ -19,11 +19,11 @@ export default function PPTPage() {
           </div>
 
           {/* 核心流程 */}
-          <div className="mb-10">
-            <div className="flex items-center justify-center gap-6">
+          <div className="mb-8">
+            <div className="flex items-center justify-center gap-5">
               {/* 数据层 */}
               <div className="flex-1 max-w-xs">
-                <div className="bg-gradient-to-br from-blue-50 to-blue-100 rounded-xl p-6 border-2 border-blue-200">
+                <div className="bg-gradient-to-br from-blue-50 to-blue-100 rounded-xl p-5 border-2 border-blue-200">
                   <div className="flex items-center gap-3 mb-3">
                     <Database className="w-8 h-8 text-blue-600" />
                     <h3 className="text-xl font-bold text-blue-600">数据层</h3>
@@ -50,7 +50,7 @@ export default function PPTPage() {
 
               {/* 风险层 */}
               <div className="flex-1 max-w-xs">
-                <div className="bg-gradient-to-br from-orange-50 to-orange-100 rounded-xl p-6 border-2 border-orange-200">
+                <div className="bg-gradient-to-br from-orange-50 to-orange-100 rounded-xl p-5 border-2 border-orange-200">
                   <div className="flex items-center gap-3 mb-3">
                     <AlertTriangle className="w-8 h-8 text-orange-600" />
                     <h3 className="text-xl font-bold text-orange-600">风险层</h3>
@@ -77,7 +77,7 @@ export default function PPTPage() {
 
               {/* 行动层 */}
               <div className="flex-1 max-w-xs">
-                <div className="bg-gradient-to-br from-green-50 to-green-100 rounded-xl p-6 border-2 border-green-200">
+                <div className="bg-gradient-to-br from-green-50 to-green-100 rounded-xl p-5 border-2 border-green-200">
                   <div className="flex items-center gap-3 mb-3">
                     <Activity className="w-8 h-8 text-green-600" />
                     <h3 className="text-xl font-bold text-green-600">行动层</h3>
@@ -101,44 +101,72 @@ export default function PPTPage() {
             </div>
           </div>
 
-          {/* 特色功能 */}
-          <div className="grid grid-cols-2 gap-6">
-            {/* 企业微信拉群 */}
-            <div className="bg-gradient-to-r from-emerald-50 to-teal-50 rounded-xl p-6 border-2 border-emerald-200">
-              <div className="flex items-start gap-4">
-                <div className="p-3 bg-gradient-to-br from-emerald-500 to-teal-500 rounded-lg">
-                  <Users className="w-6 h-6 text-white" />
+          {/* 四大核心特色 */}
+          <div className="grid grid-cols-4 gap-4">
+            {/* 智能协同 */}
+            <div className="bg-gradient-to-br from-emerald-50 to-teal-50 rounded-xl p-5 border-2 border-emerald-200">
+              <div className="flex flex-col items-center text-center">
+                <div className="p-3 bg-gradient-to-br from-emerald-500 to-teal-500 rounded-lg mb-3">
+                  <Users className="w-7 h-7 text-white" />
                 </div>
-                <div className="flex-1">
-                  <div className="flex items-center gap-2 mb-2">
-                    <h3 className="text-lg font-bold text-emerald-700">企业微信拉群</h3>
-                    <Sparkles className="w-5 h-5 text-yellow-500" />
-                  </div>
-                  <p className="text-sm text-gray-700 mb-3">一键拉群，快速协调责任人</p>
-                  <div className="flex items-center gap-2 text-xs text-emerald-600 bg-emerald-100 px-3 py-1.5 rounded-full inline-block">
-                    <CheckCircle className="w-3.5 h-3.5" />
-                    <span>智能识别责任人，自动建群沟通</span>
-                  </div>
+                <div className="flex items-center gap-1 mb-2">
+                  <h3 className="text-base font-bold text-emerald-700">智能协同</h3>
+                  <Sparkles className="w-4 h-4 text-yellow-500" />
+                </div>
+                <div className="text-xs text-gray-600 mb-2">企业微信拉群 + 专属话术</div>
+                <div className="text-xs text-emerald-600 bg-emerald-100 px-2 py-1 rounded-full">
+                  一键拉群，精准触达
                 </div>
               </div>
             </div>
 
-            {/* 专属话术 */}
-            <div className="bg-gradient-to-r from-blue-50 to-indigo-50 rounded-xl p-6 border-2 border-blue-200">
-              <div className="flex items-start gap-4">
-                <div className="p-3 bg-gradient-to-br from-blue-500 to-indigo-500 rounded-lg">
-                  <MessageSquare className="w-6 h-6 text-white" />
+            {/* 三色预警 */}
+            <div className="bg-gradient-to-br from-orange-50 to-red-50 rounded-xl p-5 border-2 border-orange-200">
+              <div className="flex flex-col items-center text-center">
+                <div className="p-3 bg-gradient-to-br from-orange-500 to-red-500 rounded-lg mb-3">
+                  <Shield className="w-7 h-7 text-white" />
                 </div>
-                <div className="flex-1">
-                  <div className="flex items-center gap-2 mb-2">
-                    <h3 className="text-lg font-bold text-blue-700">专属话术</h3>
-                    <Sparkles className="w-5 h-5 text-yellow-500" />
-                  </div>
-                  <p className="text-sm text-gray-700 mb-3">根据达成率自动匹配提醒话术</p>
-                  <div className="flex items-center gap-2 text-xs text-blue-600 bg-blue-100 px-3 py-1.5 rounded-full inline-block">
-                    <CheckCircle className="w-3.5 h-3.5" />
-                    <span>智能生成提醒消息，精准触达</span>
-                  </div>
+                <div className="flex items-center gap-1 mb-2">
+                  <h3 className="text-base font-bold text-orange-700">三色预警</h3>
+                  <Sparkles className="w-4 h-4 text-yellow-500" />
+                </div>
+                <div className="text-xs text-gray-600 mb-2">红/黄/绿风险等级</div>
+                <div className="text-xs text-orange-600 bg-orange-100 px-2 py-1 rounded-full">
+                  &lt;80% 高风险预警
+                </div>
+              </div>
+            </div>
+
+            {/* AI洞察 */}
+            <div className="bg-gradient-to-br from-purple-50 to-indigo-50 rounded-xl p-5 border-2 border-purple-200">
+              <div className="flex flex-col items-center text-center">
+                <div className="p-3 bg-gradient-to-br from-purple-500 to-indigo-500 rounded-lg mb-3">
+                  <Bot className="w-7 h-7 text-white" />
+                </div>
+                <div className="flex items-center gap-1 mb-2">
+                  <h3 className="text-base font-bold text-purple-700">AI洞察</h3>
+                  <Sparkles className="w-4 h-4 text-yellow-500" />
+                </div>
+                <div className="text-xs text-gray-600 mb-2">智能识别关键风险点</div>
+                <div className="text-xs text-purple-600 bg-purple-100 px-2 py-1 rounded-full">
+                  自动生成行动建议
+                </div>
+              </div>
+            </div>
+
+            {/* 目标闭环 */}
+            <div className="bg-gradient-to-br from-blue-50 to-cyan-50 rounded-xl p-5 border-2 border-blue-200">
+              <div className="flex flex-col items-center text-center">
+                <div className="p-3 bg-gradient-to-br from-blue-500 to-cyan-500 rounded-lg mb-3">
+                  <RefreshCw className="w-7 h-7 text-white" />
+                </div>
+                <div className="flex items-center gap-1 mb-2">
+                  <h3 className="text-base font-bold text-blue-700">目标闭环</h3>
+                  <Sparkles className="w-4 h-4 text-yellow-500" />
+                </div>
+                <div className="text-xs text-gray-600 mb-2">发现问题→解决问题</div>
+                <div className="text-xs text-blue-600 bg-blue-100 px-2 py-1 rounded-full">
+                  确保目标达成
                 </div>
               </div>
             </div>
