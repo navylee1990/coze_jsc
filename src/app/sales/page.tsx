@@ -24,21 +24,17 @@ const useAutoScale = () => {
 
       // 暂时移除 transform 来获取内容的自然高度
       const originalTransform = container.style.transform;
-      const originalWidth = container.style.width;
       container.style.transform = 'none';
-      container.style.width = '100%';
-
+      
       // 获取内容的自然高度
       const contentHeight = container.scrollHeight;
-      const contentWidth = container.scrollWidth;
-
-      // 恢复 transform 和宽度
+      
+      // 恢复 transform
       container.style.transform = originalTransform;
-      container.style.width = originalWidth;
 
       // 计算缩放比例，确保缩放后内容高度不超过视口
-      // 预留更多边距，避免出现滚动条
-      const availableHeight = viewportHeight - 60;
+      // 预留40px的边距（上下各20px）
+      const availableHeight = viewportHeight - 40;
       let newScale = availableHeight / contentHeight;
 
       // 限制最大缩放比例为1，最小为0.6
@@ -50,17 +46,13 @@ const useAutoScale = () => {
     // 初始计算
     calculateScale();
 
-    // 多次延迟计算，确保内容完全渲染
-    const timer1 = setTimeout(calculateScale, 200);
-    const timer2 = setTimeout(calculateScale, 500);
-    const timer3 = setTimeout(calculateScale, 1000);
+    // 延迟再次计算，确保内容已完全渲染
+    const timer = setTimeout(calculateScale, 100);
 
     // 监听窗口大小变化
     window.addEventListener('resize', calculateScale);
     return () => {
-      clearTimeout(timer1);
-      clearTimeout(timer2);
-      clearTimeout(timer3);
+      clearTimeout(timer);
       window.removeEventListener('resize', calculateScale);
     };
   }, []);
@@ -860,89 +852,8 @@ export default function SalesDashboard() {
   const totalPredictedRate = totalPredicted / totalTarget;
   const totalRisk = totalPredictedRate >= 1 ? 'low' : totalPredictedRate >= 0.8 ? 'medium' : 'high';
 
-  // 生成智能建议（数据->风险->动作）
-  const generateActionSuggestions = () => {
-    const suggestions = [];
-
-    // 买断业务建议
-    const buyoutRisk = (currentRangeData as any).risk;
-    const buyoutRate = (currentRangeData.predicted / currentRangeData.target * 100).toFixed(0);
-    if (buyoutRisk === 'high') {
-      suggestions.push({
-        type: 'high',
-        category: '买断业务',
-        description: `预测达成率仅${buyoutRate}%，缺口${currentRangeData.gap}万元`,
-        actions: [
-          `立即跟进${(currentRangeData as any).pendingAmount}万在手项目，加快转化`,
-          '联系滞后区域经理，制定冲刺计划',
-          '重点跟进大型项目，争取月底前签约'
-        ]
-      });
-    } else if (buyoutRisk === 'medium') {
-      suggestions.push({
-        type: 'medium',
-        category: '买断业务',
-        description: `预测达成率${buyoutRate}%，仍有提升空间`,
-        actions: [
-          '优化在手项目跟进优先级',
-          '关注潜在意向客户'
-        ]
-      });
-    }
-
-    // 租赁业务建议
-    const leaseRisk = (leaseCurrentData as any).risk;
-    const leaseRate = (leasePredictedRate * 100).toFixed(0);
-    if (leaseRisk === 'high') {
-      suggestions.push({
-        type: 'high',
-        category: '租赁业务',
-        description: `预测达成率仅${leaseRate}%，缺口${leaseCurrentData.gap}万元`,
-        actions: [
-          '加强商务谈判，争取更多租赁订单',
-          '推广租赁优惠政策',
-          '跟进意向客户租赁需求'
-        ]
-      });
-    }
-
-    // 续租业务建议
-    const renewalRisk = (renewalCurrentData as any).risk;
-    const renewalRate = (renewalPredictedRate * 100).toFixed(0);
-    if (renewalRisk === 'high') {
-      suggestions.push({
-        type: 'high',
-        category: '续租业务',
-        description: `预测达成率仅${renewalRate}%，缺口${renewalCurrentData.gap}万元`,
-        actions: [
-          `跟进${Math.round(renewalCurrentData.target * 0.2)}万即将到期客户，争取续签`,
-          '主动联系老客户，提供续租优惠',
-          '分析未续租原因，优化服务'
-        ]
-      });
-    }
-
-    // 如果没有高风险，给出维持建议
-    if (suggestions.length === 0) {
-      suggestions.push({
-        type: 'low',
-        category: '整体经营',
-        description: '当前经营状况良好',
-        actions: [
-          '保持现有节奏，关注项目质量',
-          '储备潜在客户资源',
-          '总结成功经验并推广'
-        ]
-      });
-    }
-
-    return suggestions;
-  };
-
-  const actionSuggestions = generateActionSuggestions();
-
   return (
-    <div className="h-screen bg-gray-50 overflow-auto" style={{ height: '100vh' }}>
+    <div className="h-screen bg-gray-50 overflow-hidden">
       {/* 缩放容器 */}
       <div
         ref={containerRef}
@@ -950,7 +861,6 @@ export default function SalesDashboard() {
           transform: `scale(${scale})`,
           transformOrigin: 'top left',
           width: `${100 / scale}%`,
-          minHeight: `${100 / scale}%`,
         }}
       >
         <div className="p-4">
@@ -1065,52 +975,6 @@ export default function SalesDashboard() {
         </TabsList>
 
         <TabsContent value="overview">
-        {/* 智能动作建议模块 */}
-        {actionSuggestions.length > 0 && (
-          <div className="mb-3 bg-gradient-to-r from-amber-50 to-orange-50 border-2 border-amber-200 rounded-xl p-3">
-            <div className="flex items-center gap-2 mb-2">
-              <AlertTriangle className={`w-5 h-5 ${actionSuggestions.some(s => s.type === 'high') ? 'text-red-600 animate-pulse' : 'text-amber-600'}`} />
-              <span className="text-base font-bold text-gray-900">智能行动建议</span>
-              <span className="ml-auto text-xs text-gray-500">基于当前数据分析</span>
-            </div>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
-              {actionSuggestions.map((suggestion, idx) => (
-                <div
-                  key={idx}
-                  className={`p-2 rounded-lg border ${
-                    suggestion.type === 'high'
-                      ? 'bg-red-50 border-red-200'
-                      : suggestion.type === 'medium'
-                      ? 'bg-orange-50 border-orange-200'
-                      : 'bg-green-50 border-green-200'
-                  }`}
-                >
-                  <div className="flex items-center gap-1.5 mb-1">
-                    <span className={`text-xs font-bold ${
-                      suggestion.type === 'high'
-                        ? 'bg-red-600 text-white'
-                        : suggestion.type === 'medium'
-                        ? 'bg-orange-600 text-white'
-                        : 'bg-green-600 text-white'
-                    } px-2 py-0.5 rounded-full`}>
-                      {suggestion.category}
-                    </span>
-                    <span className="text-xs text-gray-700">{suggestion.description}</span>
-                  </div>
-                  <ul className="text-xs text-gray-600 space-y-0.5 ml-2">
-                    {suggestion.actions.map((action, actionIdx) => (
-                      <li key={actionIdx} className="flex items-start gap-1">
-                        <span className="text-amber-600 mt-0.5">•</span>
-                        <span>{action}</span>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              ))}
-            </div>
-          </div>
-        )}
-
         {/* KPI指标 + 月度趋势分析 左右布局 */}
         <div className="flex flex-col lg:flex-row gap-3">
           {/* 左侧：KPI指标（买断+租赁+续租）- 三行布局 */}
