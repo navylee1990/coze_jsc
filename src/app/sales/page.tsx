@@ -909,7 +909,7 @@ export default function SalesDashboard() {
                 </div>
 
                 {/* 任务缺口 - 醒目展示 */}
-                <div className={`px-2 py-2 ${currentRangeData.gap > 0 ? 'bg-red-100 border-l-4 border-red-600' : currentRangeData.gap < 0 ? 'bg-green-100 border-l-4 border-green-600' : 'bg-gray-100 border-l-4 border-gray-400'}`}>
+                <div className={`px-2 py-2 border-l-4 ${(currentRangeData as any).risk === 'high' ? 'bg-red-100 border-red-600' : (currentRangeData as any).risk === 'medium' ? 'bg-orange-100 border-orange-600' : (currentRangeData as any).risk === 'low' ? 'bg-green-100 border-green-600' : 'bg-gray-100 border-gray-400'}`}>
                   <div className="flex items-center justify-between mb-0.5">
                     <div className={`inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs font-bold ${currentRangeData.gap > 0 ? 'bg-red-600 text-white' : currentRangeData.gap < 0 ? 'bg-green-600 text-white' : 'bg-gray-400 text-white'}`}>
                       <AlertTriangle className={`w-3 h-3 ${currentRangeData.gap > 0 ? 'animate-pulse' : ''}`} />
@@ -1008,7 +1008,7 @@ export default function SalesDashboard() {
                 </div>
 
                 {/* 任务缺口 - 醒目展示 */}
-                <div className={`px-2 py-2 ${leaseTimeRangeData[timeRange as keyof typeof leaseTimeRangeData].gap > 0 ? 'bg-red-100 border-l-4 border-red-600' : leaseTimeRangeData[timeRange as keyof typeof leaseTimeRangeData].gap < 0 ? 'bg-green-100 border-l-4 border-green-600' : 'bg-gray-100 border-l-4 border-gray-400'}`}>
+                <div className={`px-2 py-2 border-l-4 ${(leaseTimeRangeData[timeRange as keyof typeof leaseTimeRangeData] as any).risk === 'high' ? 'bg-red-100 border-red-600' : (leaseTimeRangeData[timeRange as keyof typeof leaseTimeRangeData] as any).risk === 'medium' ? 'bg-orange-100 border-orange-600' : (leaseTimeRangeData[timeRange as keyof typeof leaseTimeRangeData] as any).risk === 'low' ? 'bg-green-100 border-green-600' : 'bg-gray-100 border-gray-400'}`}>
                   <div className="flex items-center justify-between mb-0.5">
                     <div className={`inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs font-bold ${leaseTimeRangeData[timeRange as keyof typeof leaseTimeRangeData].gap > 0 ? 'bg-red-600 text-white' : leaseTimeRangeData[timeRange as keyof typeof leaseTimeRangeData].gap < 0 ? 'bg-green-600 text-white' : 'bg-gray-400 text-white'}`}>
                       <AlertTriangle className={`w-3 h-3 ${leaseTimeRangeData[timeRange as keyof typeof leaseTimeRangeData].gap > 0 ? 'animate-pulse' : ''}`} />
@@ -1107,7 +1107,7 @@ export default function SalesDashboard() {
                 </div>
 
                 {/* 任务缺口 - 醒目展示 */}
-                <div className={`px-2 py-2 ${renewalTimeRangeData[timeRange as keyof typeof renewalTimeRangeData].gap > 0 ? 'bg-red-100 border-l-4 border-red-600' : renewalTimeRangeData[timeRange as keyof typeof renewalTimeRangeData].gap < 0 ? 'bg-green-100 border-l-4 border-green-600' : 'bg-gray-100 border-l-4 border-gray-400'}`}>
+                <div className={`px-2 py-2 border-l-4 ${(renewalTimeRangeData[timeRange as keyof typeof renewalTimeRangeData] as any).risk === 'high' ? 'bg-red-100 border-red-600' : (renewalTimeRangeData[timeRange as keyof typeof renewalTimeRangeData] as any).risk === 'medium' ? 'bg-orange-100 border-orange-600' : (renewalTimeRangeData[timeRange as keyof typeof renewalTimeRangeData] as any).risk === 'low' ? 'bg-green-100 border-green-600' : 'bg-gray-100 border-gray-400'}`}>
                   <div className="flex items-center justify-between mb-0.5">
                     <div className={`inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs font-bold ${renewalTimeRangeData[timeRange as keyof typeof renewalTimeRangeData].gap > 0 ? 'bg-red-600 text-white' : renewalTimeRangeData[timeRange as keyof typeof renewalTimeRangeData].gap < 0 ? 'bg-green-600 text-white' : 'bg-gray-400 text-white'}`}>
                       <AlertTriangle className={`w-3 h-3 ${renewalTimeRangeData[timeRange as keyof typeof renewalTimeRangeData].gap > 0 ? 'animate-pulse' : ''}`} />
