@@ -1333,7 +1333,7 @@ export default function SalesDashboard() {
         </div>
 
         {/* 合计信息 - 系统通知样式 */}
-        <div className="flex items-center gap-3 text-xs">
+        <div className="flex items-center gap-3 text-xs mt-3">
           <div className="inline-flex items-center gap-1.5 bg-slate-100 text-slate-700 px-3 py-1.5 rounded-full border border-slate-200">
             <Activity className="w-3.5 h-3.5 text-emerald-600" />
             <span className="font-semibold">合计</span>
