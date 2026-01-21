@@ -1341,7 +1341,7 @@ export default function SalesDashboard() {
 
               {/* 大区维度表格 */}
               <div className="overflow-x-auto -mx-3 px-3">
-                <div className="bg-white rounded-lg border-0 overflow-hidden min-w-[800px]">
+                <div className="bg-white rounded-lg border-0 overflow-hidden">
                   <table className="w-full" style={{ tableLayout: 'fixed' }}>
                   <colgroup>
                     <col style={{ width: '10%' }} />
@@ -1470,7 +1470,7 @@ export default function SalesDashboard() {
 
               {/* 城市经理表格 */}
               <div className="overflow-x-auto -mx-3 px-3">
-                <div className="bg-white rounded-lg border-0 overflow-hidden min-w-[800px]">
+                <div className="bg-white rounded-lg border-0 overflow-hidden">
                   <table className="w-full" style={{ tableLayout: 'fixed' }}>
                   <colgroup>
                     <col style={{ width: '8%' }} />
@@ -1824,7 +1824,7 @@ export default function SalesDashboard() {
 
                 {/* 表格容器 - 移动端横向滚动 */}
                 <div className="overflow-x-auto -mx-3 px-3">
-                  <div className="bg-white rounded-lg border-0 overflow-hidden min-w-[800px]">
+                  <div className="bg-white rounded-lg border-0 overflow-hidden">
                     <table className="w-full" style={{ tableLayout: 'fixed' }}>
                       <thead>
                         <tr className="border-b border-gray-100">
