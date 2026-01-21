@@ -420,6 +420,42 @@ const dealerKPI = {
   newDealers: 2,          // 新经销商数量
 };
 
+// 不同规模经销商履约分布
+const dealerScaleDistribution = [
+  {
+    scale: '100万以下',
+    total: 3,
+    below60: 2,
+    between60to80: 1,
+    between80to100: 0,
+    above100: 0,
+  },
+  {
+    scale: '100-200万',
+    total: 4,
+    below60: 2,
+    between60to80: 1,
+    between80to100: 1,
+    above100: 0,
+  },
+  {
+    scale: '200-300万',
+    total: 2,
+    below60: 1,
+    between60to80: 1,
+    between80to100: 0,
+    above100: 0,
+  },
+  {
+    scale: '300万以上',
+    total: 1,
+    below60: 0,
+    between60to80: 0,
+    between80to100: 1,
+    above100: 0,
+  },
+];
+
 // 项目KPI数据
 const projectKPI = {
   totalProjects: 89,      // 项目数
@@ -1835,6 +1871,56 @@ export default function SalesDashboard() {
                     <ArrowUp className="w-2 h-2" />
                     <span>较上月+1家</span>
                   </div>
+                </div>
+              </div>
+            </div>
+
+            {/* 不同规模履约分布 */}
+            <div className="bg-white border border-gray-200 rounded-lg overflow-hidden mb-3">
+              <div className="bg-blue-50 px-3 py-1.5 border-b border-blue-100">
+                <div className="flex items-center gap-1.5">
+                  <BarChart3 className="w-4 h-4 text-blue-600" />
+                  <span className="text-sm font-bold text-gray-800">不同规模履约分布</span>
+                </div>
+              </div>
+              <div className="p-3">
+                <div className="overflow-x-auto">
+                  <table className="w-full text-sm">
+                    <thead>
+                      <tr className="border-b border-gray-200">
+                        <th className="px-2 py-1.5 text-left font-medium text-gray-600">规模</th>
+                        <th className="px-2 py-1.5 text-center font-medium text-gray-600">总数</th>
+                        <th className="px-2 py-1.5 text-center font-medium text-red-600">&lt;60%</th>
+                        <th className="px-2 py-1.5 text-center font-medium text-yellow-600">60~80%</th>
+                        <th className="px-2 py-1.5 text-center font-medium text-green-600">80~100%</th>
+                        <th className="px-2 py-1.5 text-center font-medium text-emerald-600">≥100%</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {dealerScaleDistribution.map((item, index) => (
+                        <tr key={index} className="border-b border-gray-100 last:border-0">
+                          <td className="px-2 py-1.5 font-medium text-gray-900">{item.scale}</td>
+                          <td className="px-2 py-1.5 text-center text-gray-700">{item.total}</td>
+                          <td className="px-2 py-1.5 text-center">
+                            <span className="text-red-600 font-bold">{item.below60}</span>
+                            <span className="text-gray-500 text-xs ml-0.5">({((item.below60 / item.total) * 100).toFixed(0)}%)</span>
+                          </td>
+                          <td className="px-2 py-1.5 text-center">
+                            <span className="text-yellow-600 font-bold">{item.between60to80}</span>
+                            <span className="text-gray-500 text-xs ml-0.5">({((item.between60to80 / item.total) * 100).toFixed(0)}%)</span>
+                          </td>
+                          <td className="px-2 py-1.5 text-center">
+                            <span className="text-green-600 font-bold">{item.between80to100}</span>
+                            <span className="text-gray-500 text-xs ml-0.5">({((item.between80to100 / item.total) * 100).toFixed(0)}%)</span>
+                          </td>
+                          <td className="px-2 py-1.5 text-center">
+                            <span className="text-emerald-600 font-bold">{item.above100}</span>
+                            <span className="text-gray-500 text-xs ml-0.5">({((item.above100 / item.total) * 100).toFixed(0)}%)</span>
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
                 </div>
               </div>
             </div>
