@@ -14,46 +14,66 @@ import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, Legend, Responsi
 const useAutoScale = () => {
   const [scale, setScale] = useState(1);
   const containerRef = useRef<HTMLDivElement>(null);
+  const resizeObserverRef = useRef<ResizeObserver | null>(null);
 
   useEffect(() => {
+    const container = containerRef.current;
+    if (!container) return;
+
     const calculateScale = () => {
       const viewportHeight = window.innerHeight;
-      const container = containerRef.current;
 
       if (!container) return;
 
       // 暂时移除 transform 来获取内容的自然高度
       const originalTransform = container.style.transform;
       container.style.transform = 'none';
-      
-      // 获取内容的自然高度
-      const contentHeight = container.scrollHeight;
-      
-      // 恢复 transform
-      container.style.transform = originalTransform;
 
-      // 计算缩放比例，确保缩放后内容高度不超过视口
-      // 预留40px的边距（上下各20px）
-      const availableHeight = viewportHeight - 40;
-      let newScale = availableHeight / contentHeight;
+      // 使用 requestAnimationFrame 确保获取最新的布局
+      requestAnimationFrame(() => {
+        // 获取内容的自然高度
+        const contentHeight = container.scrollHeight;
 
-      // 限制最大缩放比例为1，最小为0.6
-      newScale = Math.min(1, Math.max(newScale, 0.6));
+        // 恢复 transform
+        container.style.transform = originalTransform;
 
-      setScale(newScale);
+        // 计算缩放比例，确保缩放后内容高度不超过视口
+        // 预留40px的边距（上下各20px）
+        const availableHeight = viewportHeight - 40;
+        let newScale = availableHeight / contentHeight;
+
+        // 限制最大缩放比例为1，最小为0.6
+        newScale = Math.min(1, Math.max(newScale, 0.6));
+
+        setScale(newScale);
+      });
     };
 
-    // 初始计算
-    calculateScale();
+    // 多次延迟计算，确保内容完全渲染
+    const delays = [100, 300, 600, 1000, 2000];
+    const timers: NodeJS.Timeout[] = [];
 
-    // 延迟再次计算，确保内容已完全渲染
-    const timer = setTimeout(calculateScale, 100);
+    delays.forEach(delay => {
+      const timer = setTimeout(calculateScale, delay);
+      timers.push(timer);
+    });
 
     // 监听窗口大小变化
     window.addEventListener('resize', calculateScale);
+
+    // 使用 ResizeObserver 监听容器大小变化
+    resizeObserverRef.current = new ResizeObserver(() => {
+      calculateScale();
+    });
+    resizeObserverRef.current.observe(container);
+
     return () => {
-      clearTimeout(timer);
+      timers.forEach(timer => clearTimeout(timer));
       window.removeEventListener('resize', calculateScale);
+      if (resizeObserverRef.current) {
+        resizeObserverRef.current.disconnect();
+        resizeObserverRef.current = null;
+      }
     };
   }, []);
 
