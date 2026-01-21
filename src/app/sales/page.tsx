@@ -853,7 +853,7 @@ export default function SalesDashboard() {
   const totalRisk = totalPredictedRate >= 1 ? 'low' : totalPredictedRate >= 0.8 ? 'medium' : 'high';
 
   return (
-    <div className="h-screen bg-gray-50 overflow-hidden">
+    <div className="h-screen bg-gray-50 overflow-auto">
       {/* 缩放容器 */}
       <div
         ref={containerRef}
