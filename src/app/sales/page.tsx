@@ -698,7 +698,7 @@ export default function SalesDashboard() {
       predicted: monthData?.predicted || 0,
       gap: monthData ? (monthData.target - monthData.predicted) : 0,
       canComplete: monthData ? (monthData.predicted >= monthData.target) : false,
-      risk: monthData && (monthData.predicted / monthData.target) < 0.8 ? 'high' : 'medium',
+      risk: timeRangeData.month.risk, // 使用 timeRangeData 中的风险等级
       pendingAmount: monthData ? Math.round(monthData.predicted * 0.64) : 0, // 模拟在手项目金额
       pendingRate: monthData ? Math.round((monthData.predicted / monthData.target) * 100) : 0,
     };
@@ -854,13 +854,13 @@ export default function SalesDashboard() {
                   </div>
                   <div className="flex items-center gap-2">
                     {/* 风险等级徽章 */}
-                    <span className="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-bold bg-red-100 text-red-700">
-                      🔴 高风险
+                    <span className={`inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-bold ${(currentRangeData as any).risk === 'high' ? 'bg-red-100 text-red-700' : (currentRangeData as any).risk === 'medium' ? 'bg-orange-100 text-orange-700' : 'bg-green-100 text-green-700'}`}>
+                      {(currentRangeData as any).risk === 'high' ? '🔴 高风险' : (currentRangeData as any).risk === 'medium' ? '🟡 中风险' : '🟢 低风险'}
                     </span>
                     {/* 迷你进度条 */}
                     <div className="flex items-center gap-1.5">
-                      <div className="w-16 h-1.5 bg-gray-200 rounded-full overflow-hidden">
-                        <div className="h-full bg-red-500 rounded-full" style={{ width: `${((currentRangeData.predicted / currentRangeData.target) * 100).toFixed(0)}%` }}></div>
+                      <div className={`w-16 h-1.5 bg-gray-200 rounded-full overflow-hidden`}>
+                        <div className={`h-full ${(currentRangeData as any).risk === 'high' ? 'bg-red-500' : (currentRangeData as any).risk === 'medium' ? 'bg-orange-500' : 'bg-green-500'} rounded-full`} style={{ width: `${((currentRangeData.predicted / currentRangeData.target) * 100).toFixed(0)}%` }}></div>
                       </div>
                       <span className="text-[10px] font-medium text-gray-600">{((currentRangeData.predicted / currentRangeData.target) * 100).toFixed(0)}%</span>
                     </div>
@@ -953,13 +953,13 @@ export default function SalesDashboard() {
                   </div>
                   <div className="flex items-center gap-2">
                     {/* 风险等级徽章 */}
-                    <span className="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-bold bg-orange-100 text-orange-700">
-                      🟡 中风险
+                    <span className={`inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-bold ${leaseTimeRangeData[timeRange as keyof typeof leaseTimeRangeData].risk === 'high' ? 'bg-red-100 text-red-700' : leaseTimeRangeData[timeRange as keyof typeof leaseTimeRangeData].risk === 'medium' ? 'bg-orange-100 text-orange-700' : 'bg-green-100 text-green-700'}`}>
+                      {leaseTimeRangeData[timeRange as keyof typeof leaseTimeRangeData].risk === 'high' ? '🔴 高风险' : leaseTimeRangeData[timeRange as keyof typeof leaseTimeRangeData].risk === 'medium' ? '🟡 中风险' : '🟢 低风险'}
                     </span>
                     {/* 迷你进度条 */}
                     <div className="flex items-center gap-1.5">
-                      <div className="w-16 h-1.5 bg-gray-200 rounded-full overflow-hidden">
-                        <div className="h-full bg-orange-500 rounded-full" style={{ width: `${((leaseTimeRangeData[timeRange as keyof typeof leaseTimeRangeData].predicted / leaseTimeRangeData[timeRange as keyof typeof leaseTimeRangeData].target) * 100).toFixed(0)}%` }}></div>
+                      <div className={`w-16 h-1.5 bg-gray-200 rounded-full overflow-hidden`}>
+                        <div className={`h-full ${leaseTimeRangeData[timeRange as keyof typeof leaseTimeRangeData].risk === 'high' ? 'bg-red-500' : leaseTimeRangeData[timeRange as keyof typeof leaseTimeRangeData].risk === 'medium' ? 'bg-orange-500' : 'bg-green-500'} rounded-full`} style={{ width: `${((leaseTimeRangeData[timeRange as keyof typeof leaseTimeRangeData].predicted / leaseTimeRangeData[timeRange as keyof typeof leaseTimeRangeData].target) * 100).toFixed(0)}%` }}></div>
                       </div>
                       <span className="text-[10px] font-medium text-gray-600">{((leaseTimeRangeData[timeRange as keyof typeof leaseTimeRangeData].predicted / leaseTimeRangeData[timeRange as keyof typeof leaseTimeRangeData].target) * 100).toFixed(0)}%</span>
                     </div>
@@ -1052,13 +1052,13 @@ export default function SalesDashboard() {
                   </div>
                   <div className="flex items-center gap-2">
                     {/* 风险等级徽章 */}
-                    <span className="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-bold bg-green-100 text-green-700">
-                      🟢 低风险
+                    <span className={`inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-bold ${renewalTimeRangeData[timeRange as keyof typeof renewalTimeRangeData].risk === 'high' ? 'bg-red-100 text-red-700' : renewalTimeRangeData[timeRange as keyof typeof renewalTimeRangeData].risk === 'medium' ? 'bg-orange-100 text-orange-700' : 'bg-green-100 text-green-700'}`}>
+                      {renewalTimeRangeData[timeRange as keyof typeof renewalTimeRangeData].risk === 'high' ? '🔴 高风险' : renewalTimeRangeData[timeRange as keyof typeof renewalTimeRangeData].risk === 'medium' ? '🟡 中风险' : '🟢 低风险'}
                     </span>
                     {/* 迷你进度条 */}
                     <div className="flex items-center gap-1.5">
-                      <div className="w-16 h-1.5 bg-gray-200 rounded-full overflow-hidden">
-                        <div className="h-full bg-green-500 rounded-full" style={{ width: `${((renewalTimeRangeData[timeRange as keyof typeof renewalTimeRangeData].predicted / renewalTimeRangeData[timeRange as keyof typeof renewalTimeRangeData].target) * 100).toFixed(0)}%` }}></div>
+                      <div className={`w-16 h-1.5 bg-gray-200 rounded-full overflow-hidden`}>
+                        <div className={`h-full ${renewalTimeRangeData[timeRange as keyof typeof renewalTimeRangeData].risk === 'high' ? 'bg-red-500' : renewalTimeRangeData[timeRange as keyof typeof renewalTimeRangeData].risk === 'medium' ? 'bg-orange-500' : 'bg-green-500'} rounded-full`} style={{ width: `${((renewalTimeRangeData[timeRange as keyof typeof renewalTimeRangeData].predicted / renewalTimeRangeData[timeRange as keyof typeof renewalTimeRangeData].target) * 100).toFixed(0)}%` }}></div>
                       </div>
                       <span className="text-[10px] font-medium text-gray-600">{((renewalTimeRangeData[timeRange as keyof typeof renewalTimeRangeData].predicted / renewalTimeRangeData[timeRange as keyof typeof renewalTimeRangeData].target) * 100).toFixed(0)}%</span>
                     </div>
