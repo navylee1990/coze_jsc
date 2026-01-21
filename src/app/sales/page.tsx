@@ -1356,16 +1356,16 @@ export default function SalesDashboard() {
                   </colgroup>
                   <thead>
                     <tr className="border-b border-gray-100">
-                      <th className="px-2 py-2 text-left text-sm font-medium text-gray-500">
+                      <th className="px-2 py-2 text-center text-sm font-medium text-gray-500">
                         {viewLevel === 'city' ? '城市' : '大区'}
                       </th>
-                      <th className="px-2 py-2 text-left text-sm font-medium text-gray-500">责任人</th>
-                      <th className="px-2 py-2 text-right text-sm font-medium text-gray-500">目标</th>
-                      <th className="px-2 py-2 text-right text-sm font-medium text-gray-500">已完成</th>
-                      <th className="px-2 py-2 text-right text-sm font-medium text-gray-500">预测金额</th>
-                      <th className="px-2 py-2 text-right text-sm font-medium text-gray-500">缺口</th>
+                      <th className="px-2 py-2 text-center text-sm font-medium text-gray-500">责任人</th>
+                      <th className="px-2 py-2 text-center text-sm font-medium text-gray-500">目标</th>
+                      <th className="px-2 py-2 text-center text-sm font-medium text-gray-500">已完成</th>
+                      <th className="px-2 py-2 text-center text-sm font-medium text-gray-500">预测金额</th>
+                      <th className="px-2 py-2 text-center text-sm font-medium text-gray-500">缺口</th>
                       <th className="px-2 py-2 text-center text-sm font-medium text-gray-500">预测达成率</th>
-                      <th className="px-2 py-2 text-right text-sm font-medium text-gray-500" style={{ textAlign: 'right' }}>在手项目金额</th>
+                      <th className="px-2 py-2 text-center text-sm font-medium text-gray-500">在手项目金额</th>
                       <th className="px-1 py-2"></th>
                     </tr>
                   </thead>
@@ -1376,16 +1376,16 @@ export default function SalesDashboard() {
                         onClick={() => viewLevel === 'region' ? handleRegionClick(item.name) : undefined}
                         className={`group border-b border-gray-50 last:border-0 ${viewLevel === 'region' ? 'cursor-pointer hover:bg-green-50 hover:border-l-4 hover:border-l-green-500' : ''}`}
                       >
-                        <td className="px-2 py-2.5 text-sm font-medium text-gray-900 group-hover:text-green-600 transition-colors">
-                          <div className="flex items-center gap-2">
+                        <td className="px-2 py-2.5 text-center">
+                          <div className="flex items-center justify-center gap-2">
                             {viewLevel === 'region' && (
                               <ChevronRight className="w-4 h-4 text-gray-400 group-hover:text-green-500 group-hover:translate-x-0.5 transition-all" />
                             )}
-                            {item.name}
+                            <span className="text-sm font-medium text-gray-900 group-hover:text-green-600 transition-colors">{item.name}</span>
                           </div>
                         </td>
-                        <td className="px-2 py-2.5">
-                          <div className="flex items-center gap-2">
+                        <td className="px-2 py-2.5 text-center">
+                          <div className="flex items-center justify-center gap-2">
                             <span className="text-sm text-gray-500 truncate">{item.owner}</span>
                             <button
                               onClick={(e) => {
@@ -1399,10 +1399,10 @@ export default function SalesDashboard() {
                             </button>
                           </div>
                         </td>
-                        <td className="px-2 py-2.5 text-sm text-right text-gray-600">{item.target.toLocaleString()}</td>
-                        <td className="px-2 py-2.5 text-sm text-right text-gray-600">{item.completed.toLocaleString()}</td>
-                        <td className="px-2 py-2.5 text-sm text-right text-gray-600">{item.predicted.toLocaleString()}</td>
-                        <td className={`px-2 py-2.5 text-sm text-right font-semibold ${item.gap > 0 ? 'text-red-500' : item.gap === 0 ? 'text-gray-600' : 'text-green-500'}`}>
+                        <td className="px-2 py-2.5 text-sm text-center text-gray-600">{item.target.toLocaleString()}</td>
+                        <td className="px-2 py-2.5 text-sm text-center text-gray-600">{item.completed.toLocaleString()}</td>
+                        <td className="px-2 py-2.5 text-sm text-center text-gray-600">{item.predicted.toLocaleString()}</td>
+                        <td className={`px-2 py-2.5 text-sm text-center font-semibold ${item.gap > 0 ? 'text-red-500' : item.gap === 0 ? 'text-gray-600' : 'text-green-500'}`}>
                           {item.gap > 0 ? `${item.gap}` : item.gap === 0 ? '0' : `+${Math.abs(item.gap)}`}
                         </td>
                         <td className="px-2 py-2.5 text-center">
@@ -1422,7 +1422,7 @@ export default function SalesDashboard() {
                             </div>
                           </div>
                         </td>
-                        <td className="px-2 py-2.5 text-right text-sm text-gray-600" style={{ textAlign: 'right' }}>
+                        <td className="px-2 py-2.5 text-sm text-center text-gray-600">
                           {item.pendingAmount?.toLocaleString() || '0'}
                         </td>
                         <td className="px-1 py-2.5">
@@ -1485,15 +1485,15 @@ export default function SalesDashboard() {
                   </colgroup>
                   <thead>
                     <tr className="border-b border-gray-100">
-                      <th className="px-2 py-2 text-left text-sm font-medium text-gray-500">区域</th>
-                      <th className="px-2 py-2 text-left text-sm font-medium text-gray-500">城市</th>
-                      <th className="px-2 py-2 text-left text-sm font-medium text-gray-500">责任人</th>
-                      <th className="px-2 py-2 text-right text-sm font-medium text-gray-500">目标</th>
-                      <th className="px-2 py-2 text-right text-sm font-medium text-gray-500">已完成</th>
-                      <th className="px-2 py-2 text-right text-sm font-medium text-gray-500">预测金额</th>
-                      <th className="px-2 py-2 text-right text-sm font-medium text-gray-500">缺口</th>
+                      <th className="px-2 py-2 text-center text-sm font-medium text-gray-500">区域</th>
+                      <th className="px-2 py-2 text-center text-sm font-medium text-gray-500">城市</th>
+                      <th className="px-2 py-2 text-center text-sm font-medium text-gray-500">责任人</th>
+                      <th className="px-2 py-2 text-center text-sm font-medium text-gray-500">目标</th>
+                      <th className="px-2 py-2 text-center text-sm font-medium text-gray-500">已完成</th>
+                      <th className="px-2 py-2 text-center text-sm font-medium text-gray-500">预测金额</th>
+                      <th className="px-2 py-2 text-center text-sm font-medium text-gray-500">缺口</th>
                       <th className="px-2 py-2 text-center text-sm font-medium text-gray-500">预测达成率</th>
-                      <th className="px-2 py-2 text-right text-sm font-medium text-gray-500" style={{ textAlign: 'right' }}>在手项目金额</th>
+                      <th className="px-2 py-2 text-center text-sm font-medium text-gray-500">在手项目金额</th>
                     </tr>
                   </thead>
                   <tbody className="min-h-[320px]">
@@ -1506,10 +1506,10 @@ export default function SalesDashboard() {
                         key={index}
                         className="border-b border-gray-50 last:border-0"
                       >
-                        <td className="px-2 py-2.5 text-sm font-medium text-gray-900">{item.area}</td>
-                        <td className="px-2 py-2.5 text-sm font-medium text-gray-900">{item.city}</td>
-                        <td className="px-2 py-2.5">
-                          <div className="flex items-center gap-2">
+                        <td className="px-2 py-2.5 text-sm text-center font-medium text-gray-900">{item.area}</td>
+                        <td className="px-2 py-2.5 text-sm text-center font-medium text-gray-900">{item.city}</td>
+                        <td className="px-2 py-2.5 text-center">
+                          <div className="flex items-center justify-center gap-2">
                             <span className="text-sm text-gray-500 truncate">{item.name}</span>
                             <button
                               onClick={(e) => {
@@ -1523,10 +1523,10 @@ export default function SalesDashboard() {
                             </button>
                           </div>
                         </td>
-                        <td className="px-2 py-2.5 text-sm text-right text-gray-600">{item.target.toLocaleString()}</td>
-                        <td className="px-2 py-2.5 text-sm text-right text-gray-600">{item.completed.toLocaleString()}</td>
-                        <td className="px-2 py-2.5 text-sm text-right text-gray-600">{item.predicted.toLocaleString()}</td>
-                        <td className={`px-2 py-2.5 text-sm text-right font-semibold ${item.gap > 0 ? 'text-red-500' : item.gap === 0 ? 'text-gray-600' : 'text-green-500'}`}>
+                        <td className="px-2 py-2.5 text-sm text-center text-gray-600">{item.target.toLocaleString()}</td>
+                        <td className="px-2 py-2.5 text-sm text-center text-gray-600">{item.completed.toLocaleString()}</td>
+                        <td className="px-2 py-2.5 text-sm text-center text-gray-600">{item.predicted.toLocaleString()}</td>
+                        <td className={`px-2 py-2.5 text-sm text-center font-semibold ${item.gap > 0 ? 'text-red-500' : item.gap === 0 ? 'text-gray-600' : 'text-green-500'}`}>
                           {item.gap > 0 ? `${item.gap}` : item.gap === 0 ? '0' : `+${Math.abs(item.gap)}`}
                         </td>
                         <td className="px-2 py-2.5 text-center">
@@ -1546,7 +1546,7 @@ export default function SalesDashboard() {
                             </div>
                           </div>
                         </td>
-                        <td className="px-2 py-2.5 text-right text-sm text-gray-600" style={{ textAlign: 'right' }}>
+                        <td className="px-2 py-2.5 text-sm text-center text-gray-600">
                           {item.pendingAmount?.toLocaleString() || '0'}
                         </td>
                       </tr>
