@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect, useRef } from 'react';
-import { ArrowUp, ArrowDown, TrendingUp, AlertTriangle, Activity, Target, Clock, Database, ChevronRight, BarChart3, UserPlus } from 'lucide-react';
+import { ArrowUp, ArrowDown, TrendingUp, AlertTriangle, Activity, Target, Clock, Database, ChevronRight, BarChart3, UserPlus, User } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Progress } from '@/components/ui/progress';
 import { AIInsight } from '@/components/ai-insight';
@@ -875,7 +875,10 @@ export default function SalesDashboard() {
             </Link>
             <div>
               <h1 className="text-2xl font-bold text-gray-900">商用净水经营驾驶舱</h1>
-              <p className="text-sm text-gray-600 mt-0.5">张晖，您好</p>
+              <div className="flex items-center gap-2 mt-1 text-base text-gray-700 bg-gradient-to-r from-blue-50 to-indigo-50 px-3 py-1.5 rounded-lg inline-flex">
+                <User className="w-4 h-4 text-blue-600" />
+                <span className="font-medium">张晖，您好</span>
+              </div>
             </div>
           </div>
           <div className="flex items-center gap-3">
