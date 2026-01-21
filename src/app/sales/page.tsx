@@ -61,7 +61,7 @@ const useAutoScale = () => {
 };
 
 // 页面标题
-const PAGE_TITLE = '商用经营驾驶舱';
+const PAGE_TITLE = '商用净水经营驾驶舱';
 
 // 业务员数据
 const salesmenKPI = {
@@ -874,7 +874,7 @@ export default function SalesDashboard() {
               </svg>
             </Link>
             <div>
-              <h1 className="text-2xl font-bold text-gray-900">商用经营驾驶舱</h1>
+              <h1 className="text-2xl font-bold text-gray-900">商用净水经营驾驶舱</h1>
               <div className="mt-1.5 inline-flex items-center gap-2 px-3 py-1.5 bg-gradient-to-r from-blue-50 to-indigo-50 border border-blue-200 rounded-full">
                 <div className="w-6 h-6 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-full flex items-center justify-center">
                   <User className="w-3.5 h-3.5 text-white" />
