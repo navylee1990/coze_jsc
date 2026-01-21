@@ -1,13 +1,12 @@
 'use client';
 
 import { useState, useEffect, useRef } from 'react';
-import { ArrowUp, ArrowDown, TrendingUp, AlertTriangle, Activity, Target, Clock, Database, ChevronRight, BarChart3, UserPlus, User, Presentation, Play, ChevronLeft, X } from 'lucide-react';
+import { ArrowUp, ArrowDown, TrendingUp, AlertTriangle, Activity, Target, Clock, Database, ChevronRight, BarChart3, UserPlus, User, Play, ChevronLeft, X } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Progress } from '@/components/ui/progress';
 import { AIInsight } from '@/components/ai-insight';
 import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from '@/components/ui/dialog';
-import Link from 'next/link';
 import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 
 // 自定义 Hook：自适应缩放
@@ -2889,15 +2888,6 @@ export default function SalesDashboard() {
 
         </div>
       </div>
-
-      {/* PPT预览按钮 */}
-      <Link
-        href="/ppt"
-        className="fixed bottom-6 right-6 z-50 px-6 py-4 bg-gradient-to-r from-blue-600 to-green-600 text-white rounded-full shadow-2xl hover:shadow-3xl hover:scale-105 transition-all duration-300 flex items-center gap-3 font-bold"
-      >
-        <Presentation className="w-6 h-6" />
-        <span>预览PPT</span>
-      </Link>
 
     </div>
   );
