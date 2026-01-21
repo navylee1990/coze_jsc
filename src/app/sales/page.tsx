@@ -1159,31 +1159,31 @@ export default function SalesDashboard() {
             </div>
 
             {/* 合计行 */}
-            <div className="bg-slate-50">
-              <div className="grid grid-cols-5 gap-1.5 px-1.5 py-1">
+            <div className="bg-slate-50 border-t border-slate-200">
+              <div className="grid grid-cols-5 gap-0 px-2 py-2">
                 {/* 目标合计 */}
-                <div className="text-center border-r border-slate-200 px-1 flex items-center justify-center">
-                  <div className="text-sm font-semibold text-slate-700 mr-1">合计</div>
+                <div className="text-center border-r border-slate-200 px-2">
+                  <div className="text-xs font-semibold text-slate-500 mb-0.5">合计</div>
                   <div className="text-sm font-bold text-slate-900">{totalTarget.toLocaleString()}</div>
                 </div>
 
                 {/* 已完成合计 */}
-                <div className="text-center border-r border-slate-200 px-1 flex items-center justify-center">
+                <div className="text-center border-r border-slate-200 px-2">
                   <div className="text-sm font-bold text-slate-900">{totalCompleted.toLocaleString()}</div>
                 </div>
 
                 {/* 预测完成合计 */}
-                <div className="text-center border-r border-slate-200 px-1 flex items-center justify-center">
+                <div className="text-center border-r border-slate-200 px-2">
                   <div className="text-sm font-bold text-slate-900">{totalPredicted.toLocaleString()}</div>
                 </div>
 
                 {/* 任务缺口合计 */}
-                <div className="text-center px-1 flex items-center justify-center">
+                <div className="text-center border-r border-slate-200 px-2">
                   <div className="text-sm font-bold text-slate-900">{totalGap.toLocaleString()}</div>
                 </div>
 
                 {/* 在手项目合计 */}
-                <div className="text-center px-1 flex items-center justify-center">
+                <div className="text-center px-2">
                   <div className="text-sm font-bold text-slate-900">{totalPendingAmount.toLocaleString()}</div>
                 </div>
               </div>
