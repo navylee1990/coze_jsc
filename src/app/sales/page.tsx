@@ -8,7 +8,7 @@ import { AIInsight } from '@/components/ai-insight';
 import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from '@/components/ui/dialog';
 import Link from 'next/link';
-import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, AreaChart, Area } from 'recharts';
+import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, AreaChart, Area, ComposedChart } from 'recharts';
 
 // 页面标题
 const PAGE_TITLE = 'AO经营看板';
@@ -1257,7 +1257,7 @@ export default function SalesDashboard() {
             <div className="bg-white rounded-xl p-2 sm:p-3 shadow-sm border border-gray-100">
               <div style={{ height: '200px' }} className="sm:h-[280px]">
                 <ResponsiveContainer width="100%" height="100%">
-                  <AreaChart data={monthlyTrendData[trendRegion as keyof typeof monthlyTrendData] || monthlyTrendData.all}>
+                  <ComposedChart data={monthlyTrendData[trendRegion as keyof typeof monthlyTrendData] || monthlyTrendData.all}>
                     <defs>
                       <linearGradient id="colorTarget" x1="0" y1="0" x2="0" y2="1">
                         <stop offset="5%" stopColor="#3B82F6" stopOpacity={0.3}/>
@@ -1346,7 +1346,7 @@ export default function SalesDashboard() {
                       dot={false}
                       name="计划"
                     />
-                  </AreaChart>
+                  </ComposedChart>
                 </ResponsiveContainer>
               </div>
             </div>
