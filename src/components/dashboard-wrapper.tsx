@@ -63,11 +63,10 @@ export function DashboardWrapper({ children }: DashboardWrapperProps) {
       className="dashboard-wrapper"
       style={{
         width: '100vw',
-        height: '100vh',
         display: 'flex',
         justifyContent: 'center',
         alignItems: 'flex-start',
-        overflow: 'hidden',
+        overflow: 'auto',
       }}
     >
       <div
@@ -76,7 +75,6 @@ export function DashboardWrapper({ children }: DashboardWrapperProps) {
           minHeight: '1080px',
           transform: `scale(${scale})`,
           transformOrigin: 'top center',
-          overflow: 'hidden',
         }}
       >
         {children}
