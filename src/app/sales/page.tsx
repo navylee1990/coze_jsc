@@ -871,14 +871,12 @@ export default function SalesDashboard() {
           <div className="flex items-center gap-2">
             <button
               onClick={() => {
-                // 企业微信拉群逻辑
-                alert('已启动企业微信拉群，将邀请相关成员加入讨论');
+                // 引导用户在表格中选择责任人
+                alert('请在下方的区域达成情况或城市经理达成情况表格中，点击对应责任人旁的拉群图标（👤+）来发起协同');
               }}
               className="flex items-center gap-2 px-4 py-2 text-sm font-medium text-white bg-gradient-to-r from-green-500 to-emerald-600 rounded-lg hover:from-green-600 hover:to-emerald-700 transition-all shadow-md hover:shadow-lg"
             >
-              <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
-                <path d="M17.83 5.17c-2.71 0-5.06 1.55-5.83 3.84-1.63-1.03-3.71-1.02-5.34.02C4.94 11.03 4 13.6 4.92 15.79c.92 2.19 3.3 3.55 5.74 3.28 2.44-.27 4.43-2.09 4.68-4.44.25-2.35-1.31-4.55-3.65-5.24 1.04-1.14 2.63-1.62 4.14-1.27 1.51.35 2.76 1.45 3.2 2.88.44 1.43.03 3.01-1.07 4.06l1.41 1.41c1.66-1.59 2.28-3.98 1.59-6.19-.69-2.21-2.69-3.8-5.13-3.8zM8 9c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"/>
-              </svg>
+              <UserPlus className="w-4 h-4" />
               拉群
             </button>
           </div>
