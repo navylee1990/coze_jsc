@@ -1209,7 +1209,7 @@ export default function SalesDashboard() {
           </div>
 
           {/* 右侧：月度趋势分析 */}
-          <div className="w-full lg:w-1/2 border-2 border-blue-200 bg-gradient-to-br from-blue-50 to-cyan-50 rounded-xl p-3 sm:p-4 flex flex-col">
+          <div className="w-full lg:w-1/2 border-2 border-blue-200 bg-gradient-to-br from-blue-50 to-cyan-50 rounded-xl p-2 sm:p-3 flex flex-col">
             {/* 标题和筛选器 */}
             <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-2 sm:mb-3 gap-2 flex-shrink-0">
               <div className="flex items-center gap-2">
@@ -1354,7 +1354,7 @@ export default function SalesDashboard() {
         <div className="mt-2 grid grid-cols-1 lg:grid-cols-2 gap-3">
           {/* 左侧：表格 */}
           <Card className="lg:col-span-1 border border-green-200 bg-gradient-to-br from-green-50 to-emerald-50">
-            <CardContent className="p-3 sm:p-4">
+            <CardContent className="p-2 sm:p-3">
               {/* 标题 */}
               <div className="flex items-center justify-between mb-2 sm:mb-3">
                 <div className="flex items-center gap-2">
@@ -1481,7 +1481,7 @@ export default function SalesDashboard() {
 
           {/* 右侧：城市经理达成情况 */}
           <Card className="lg:col-span-1 border border-green-200 bg-gradient-to-br from-green-50 to-emerald-50">
-            <CardContent className="p-3 sm:p-4">
+            <CardContent className="p-2 sm:p-3">
               {/* 标题 */}
               <div className="flex items-center justify-between mb-2 sm:mb-3">
                 <div className="flex items-center gap-2">
