@@ -1348,8 +1348,8 @@ export default function SalesDashboard() {
                       iconType="circle"
                       formatter={(value) => {
                         const colorMap: { [key: string]: string } = {
-                          '目标': '#3B82F6',
-                          'plan': '#8B5CF6',
+                          '业务目标': '#3B82F6',
+                          '财务目标': '#8B5CF6',
                           '已完成': '#10B981',
                           '预测完成': '#F59E0B',
                         };
@@ -1362,7 +1362,7 @@ export default function SalesDashboard() {
                       stroke="#3B82F6"
                       strokeWidth={2}
                       fillOpacity={0}
-                      name="目标"
+                      name="业务目标"
                     />
                     <Area
                       type="monotone"
@@ -1370,7 +1370,7 @@ export default function SalesDashboard() {
                       stroke="#8B5CF6"
                       strokeWidth={2.5}
                       fillOpacity={0}
-                      name="plan"
+                      name="财务目标"
                     />
                     <Area
                       type="monotone"
