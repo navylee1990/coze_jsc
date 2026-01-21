@@ -1344,16 +1344,15 @@ export default function SalesDashboard() {
                 <div className="bg-white rounded-lg border-0 overflow-hidden min-w-[800px]">
                   <table className="w-full" style={{ tableLayout: 'fixed' }}>
                   <colgroup>
-                    <col style={{ width: '11%' }} />
-                    <col style={{ width: '11%' }} />
-                    <col style={{ width: '8%' }} />
-                    <col style={{ width: '8%' }} />
+                    <col style={{ width: '12%' }} />
+                    <col style={{ width: '12%' }} />
                     <col style={{ width: '9%' }} />
-                    <col style={{ width: '8%' }} />
-                    <col style={{ width: '17%' }} />
+                    <col style={{ width: '9%' }} />
                     <col style={{ width: '10%' }} />
+                    <col style={{ width: '9%' }} />
+                    <col style={{ width: '18%' }} />
+                    <col style={{ width: '11%' }} />
                     <col style={{ width: '10%' }} />
-                    <col style={{ width: '8%' }} />
                   </colgroup>
                   <thead>
                     <tr className="border-b border-gray-100">
@@ -1367,7 +1366,6 @@ export default function SalesDashboard() {
                       <th className="px-2 py-2 text-right text-sm font-medium text-gray-500">缺口</th>
                       <th className="px-2 py-2 text-center text-sm font-medium text-gray-500">预测达成率</th>
                       <th className="px-2 py-2 text-right text-sm font-medium text-gray-500">在手项目金额</th>
-                      <th className="px-2 py-2 text-center text-sm font-medium text-gray-500">在手项目数</th>
                       <th className="px-1 py-2"></th>
                     </tr>
                   </thead>
@@ -1427,9 +1425,6 @@ export default function SalesDashboard() {
                         <td className="px-2 py-2.5 text-right text-sm text-gray-600">
                           {item.pendingAmount?.toLocaleString() || '0'}
                         </td>
-                        <td className="px-2 py-2.5 text-center text-sm text-gray-600">
-                          {item.projectCount}
-                        </td>
                         <td className="px-1 py-2.5">
                           {viewLevel === 'region' && (
                             <ChevronRight className="w-4 h-4 text-gray-300 group-hover:text-green-500 transition-colors" />
@@ -1478,16 +1473,15 @@ export default function SalesDashboard() {
                 <div className="bg-white rounded-lg border-0 overflow-hidden min-w-[800px]">
                   <table className="w-full" style={{ tableLayout: 'fixed' }}>
                   <colgroup>
-                    <col style={{ width: '8%' }} />
-                    <col style={{ width: '8%' }} />
-                    <col style={{ width: '14%' }} />
-                    <col style={{ width: '8%' }} />
-                    <col style={{ width: '8%' }} />
                     <col style={{ width: '9%' }} />
-                    <col style={{ width: '8%' }} />
-                    <col style={{ width: '18%' }} />
+                    <col style={{ width: '9%' }} />
+                    <col style={{ width: '15%' }} />
+                    <col style={{ width: '9%' }} />
                     <col style={{ width: '9%' }} />
                     <col style={{ width: '10%' }} />
+                    <col style={{ width: '9%' }} />
+                    <col style={{ width: '19%' }} />
+                    <col style={{ width: '11%' }} />
                   </colgroup>
                   <thead>
                     <tr className="border-b border-gray-100">
@@ -1500,7 +1494,6 @@ export default function SalesDashboard() {
                       <th className="px-2 py-2 text-right text-sm font-medium text-gray-500">缺口</th>
                       <th className="px-2 py-2 text-center text-sm font-medium text-gray-500">预测达成率</th>
                       <th className="px-2 py-2 text-right text-sm font-medium text-gray-500">在手项目金额</th>
-                      <th className="px-2 py-2 text-center text-sm font-medium text-gray-500">在手项目数</th>
                     </tr>
                   </thead>
                   <tbody className="min-h-[320px]">
@@ -1556,7 +1549,6 @@ export default function SalesDashboard() {
                         <td className="px-2 py-2.5 text-right text-sm text-gray-600">
                           {item.pendingAmount?.toLocaleString() || '0'}
                         </td>
-                        <td className="px-2 py-2.5 text-center text-sm text-gray-600">{item.projectCount}</td>
                       </tr>
                     ))}
                   </tbody>
