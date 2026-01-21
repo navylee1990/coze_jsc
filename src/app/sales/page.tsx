@@ -866,20 +866,6 @@ export default function SalesDashboard() {
               </>
             )}
           </div>
-
-          {/* 右侧：企业微信拉群 */}
-          <div className="flex items-center gap-2">
-            <button
-              onClick={() => {
-                // 引导用户在表格中选择责任人
-                alert('请在下方的区域达成情况或城市经理达成情况表格中，点击对应责任人旁的拉群图标（👤+）来发起协同');
-              }}
-              className="flex items-center gap-2 px-4 py-2 text-sm font-medium text-white bg-gradient-to-r from-green-500 to-emerald-600 rounded-lg hover:from-green-600 hover:to-emerald-700 transition-all shadow-md hover:shadow-lg"
-            >
-              <UserPlus className="w-4 h-4" />
-              拉群
-            </button>
-          </div>
         </div>
       </div>
 
