@@ -1345,14 +1345,14 @@ export default function SalesDashboard() {
                   <table className="w-full" style={{ tableLayout: 'fixed' }}>
                   <colgroup>
                     <col style={{ width: '11%' }} />
-                    <col style={{ width: '11%' }} />
+                    <col style={{ width: '13%' }} />
                     <col style={{ width: '9%' }} />
                     <col style={{ width: '9%' }} />
                     <col style={{ width: '10%' }} />
                     <col style={{ width: '8%' }} />
+                    <col style={{ width: '13%' }} />
                     <col style={{ width: '17%' }} />
-                    <col style={{ width: '17%' }} />
-                    <col style={{ width: '8%' }} />
+                    <col style={{ width: '10%' }} />
                   </colgroup>
                   <thead>
                     <tr className="border-b border-gray-100">
