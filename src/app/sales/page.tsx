@@ -1365,7 +1365,7 @@ export default function SalesDashboard() {
                       <th className="px-2 py-2 text-right text-sm font-medium text-gray-500">预测金额</th>
                       <th className="px-2 py-2 text-right text-sm font-medium text-gray-500">缺口</th>
                       <th className="px-2 py-2 text-center text-sm font-medium text-gray-500">预测达成率</th>
-                      <th className="px-2 py-2 text-right text-sm font-medium text-gray-500">在手项目金额</th>
+                      <th className="px-2 py-2 text-right text-sm font-medium text-gray-500" style={{ textAlign: 'right' }}>在手项目金额</th>
                       <th className="px-1 py-2"></th>
                     </tr>
                   </thead>
@@ -1422,7 +1422,7 @@ export default function SalesDashboard() {
                             </div>
                           </div>
                         </td>
-                        <td className="px-2 py-2.5 text-right text-sm text-gray-600">
+                        <td className="px-2 py-2.5 text-right text-sm text-gray-600" style={{ textAlign: 'right' }}>
                           {item.pendingAmount?.toLocaleString() || '0'}
                         </td>
                         <td className="px-1 py-2.5">
@@ -1493,7 +1493,7 @@ export default function SalesDashboard() {
                       <th className="px-2 py-2 text-right text-sm font-medium text-gray-500">预测金额</th>
                       <th className="px-2 py-2 text-right text-sm font-medium text-gray-500">缺口</th>
                       <th className="px-2 py-2 text-center text-sm font-medium text-gray-500">预测达成率</th>
-                      <th className="px-2 py-2 text-right text-sm font-medium text-gray-500">在手项目金额</th>
+                      <th className="px-2 py-2 text-right text-sm font-medium text-gray-500" style={{ textAlign: 'right' }}>在手项目金额</th>
                     </tr>
                   </thead>
                   <tbody className="min-h-[320px]">
@@ -1546,7 +1546,7 @@ export default function SalesDashboard() {
                             </div>
                           </div>
                         </td>
-                        <td className="px-2 py-2.5 text-right text-sm text-gray-600">
+                        <td className="px-2 py-2.5 text-right text-sm text-gray-600" style={{ textAlign: 'right' }}>
                           {item.pendingAmount?.toLocaleString() || '0'}
                         </td>
                       </tr>
