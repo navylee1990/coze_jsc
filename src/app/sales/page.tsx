@@ -8,7 +8,7 @@ import { AIInsight } from '@/components/ai-insight';
 import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from '@/components/ui/dialog';
 import Link from 'next/link';
-import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
+import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, BarChart, Bar } from 'recharts';
 
 // 自定义 Hook：自适应缩放
 const useAutoScale = () => {
@@ -1884,44 +1884,61 @@ export default function SalesDashboard() {
                 </div>
               </div>
               <div className="p-3">
-                <div className="overflow-x-auto">
-                  <table className="w-full text-sm">
-                    <thead>
-                      <tr className="border-b border-gray-200">
-                        <th className="px-2 py-1.5 text-left font-medium text-gray-600">规模</th>
-                        <th className="px-2 py-1.5 text-center font-medium text-gray-600">总数</th>
-                        <th className="px-2 py-1.5 text-center font-medium text-red-600">&lt;60%</th>
-                        <th className="px-2 py-1.5 text-center font-medium text-yellow-600">60~80%</th>
-                        <th className="px-2 py-1.5 text-center font-medium text-green-600">80~100%</th>
-                        <th className="px-2 py-1.5 text-center font-medium text-emerald-600">≥100%</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {dealerScaleDistribution.map((item, index) => (
-                        <tr key={index} className="border-b border-gray-100 last:border-0">
-                          <td className="px-2 py-1.5 font-medium text-gray-900">{item.scale}</td>
-                          <td className="px-2 py-1.5 text-center text-gray-700">{item.total}</td>
-                          <td className="px-2 py-1.5 text-center">
-                            <span className="text-red-600 font-bold">{item.below60}</span>
-                            <span className="text-gray-500 text-xs ml-0.5">({((item.below60 / item.total) * 100).toFixed(0)}%)</span>
-                          </td>
-                          <td className="px-2 py-1.5 text-center">
-                            <span className="text-yellow-600 font-bold">{item.between60to80}</span>
-                            <span className="text-gray-500 text-xs ml-0.5">({((item.between60to80 / item.total) * 100).toFixed(0)}%)</span>
-                          </td>
-                          <td className="px-2 py-1.5 text-center">
-                            <span className="text-green-600 font-bold">{item.between80to100}</span>
-                            <span className="text-gray-500 text-xs ml-0.5">({((item.between80to100 / item.total) * 100).toFixed(0)}%)</span>
-                          </td>
-                          <td className="px-2 py-1.5 text-center">
-                            <span className="text-emerald-600 font-bold">{item.above100}</span>
-                            <span className="text-gray-500 text-xs ml-0.5">({((item.above100 / item.total) * 100).toFixed(0)}%)</span>
-                          </td>
-                        </tr>
-                      ))}
-                    </tbody>
-                  </table>
-                </div>
+                <ResponsiveContainer width="100%" height={220}>
+                  <BarChart data={dealerScaleDistribution} layout="vertical">
+                    <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#e5e7eb" />
+                    <XAxis 
+                      type="number" 
+                      dataKey="total"
+                      tick={{ fontSize: 11 }}
+                      axisLine={{ stroke: '#e5e7eb' }}
+                      tickLine={{ stroke: '#e5e7eb' }}
+                    />
+                    <YAxis 
+                      type="category" 
+                      dataKey="scale" 
+                      tick={{ fontSize: 11 }}
+                      width={80}
+                      axisLine={{ stroke: '#e5e7eb' }}
+                      tickLine={false}
+                    />
+                    <Tooltip 
+                      content={({ active, payload }) => {
+                        if (!active || !payload || payload.length === 0) return null;
+                        return (
+                          <div className="bg-white border border-gray-200 rounded-lg shadow-lg px-3 py-2">
+                            <div className="text-sm font-medium text-gray-900 mb-2">{payload[0].payload.scale}</div>
+                            {payload.map((entry: any, index: number) => (
+                              <div key={index} className="flex items-center gap-2 text-xs">
+                                <div 
+                                  className="w-2.5 h-2.5 rounded-sm flex-shrink-0" 
+                                  style={{ backgroundColor: entry.color }}
+                                />
+                                <span className="text-gray-700">{entry.name}:</span>
+                                <span className="font-semibold text-gray-900">{entry.value}家</span>
+                                <span className="text-gray-500">({((entry.value / payload[0].payload.total) * 100).toFixed(0)}%)</span>
+                              </div>
+                            ))}
+                            <div className="mt-2 pt-2 border-t border-gray-200 flex items-center gap-2 text-xs">
+                              <span className="text-gray-500">合计:</span>
+                              <span className="font-bold text-gray-900">{payload[0].payload.total}家</span>
+                            </div>
+                          </div>
+                        );
+                      }}
+                    />
+                    <Legend 
+                      verticalAlign="top" 
+                      height={40}
+                      iconType="square"
+                      wrapperStyle={{ fontSize: '11px', paddingBottom: '8px' }}
+                    />
+                    <Bar dataKey="below60" stackId="1" fill="#dc2626" name="<60%" />
+                    <Bar dataKey="between60to80" stackId="1" fill="#ca8a04" name="60~80%" />
+                    <Bar dataKey="between80to100" stackId="1" fill="#16a34a" name="80~100%" />
+                    <Bar dataKey="above100" stackId="1" fill="#059669" name="≥100%" />
+                  </BarChart>
+                </ResponsiveContainer>
               </div>
             </div>
 
