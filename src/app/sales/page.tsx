@@ -1158,36 +1158,31 @@ export default function SalesDashboard() {
               </div>
             </div>
 
-            {/* 合计行 */}
-            <div className="bg-slate-100 border-t-2 border-slate-300">
-              <div className="grid grid-cols-5 gap-0 px-3 py-2">
-                {/* 目标合计 */}
-                <div className="text-center border-r border-slate-300 px-2 py-1">
-                  <div className="flex items-center justify-center gap-1.5 mb-1">
-                    <Target className="w-3.5 h-3.5 text-emerald-600" />
-                    <span className="text-xs font-bold text-emerald-600">合计</span>
+            {/* 合计信息 - 紧凑状态栏 */}
+            <div className="bg-slate-50 border-t border-slate-200 px-3 py-1.5">
+              <div className="flex items-center justify-between text-xs">
+                <div className="flex items-center gap-0.5">
+                  <span className="font-semibold text-slate-600">合计：</span>
+                  <span className="text-slate-500">目标</span>
+                  <span className="font-bold text-slate-900">{totalTarget.toLocaleString()}</span>
+                </div>
+                <div className="flex items-center gap-4">
+                  <div className="flex items-center gap-1">
+                    <span className="text-slate-500">已完成</span>
+                    <span className="font-semibold text-slate-900">{totalCompleted.toLocaleString()}</span>
                   </div>
-                  <div className="text-xl font-black text-slate-900">{totalTarget.toLocaleString()}</div>
-                </div>
-
-                {/* 已完成合计 */}
-                <div className="text-center border-r border-slate-300 px-2 py-1">
-                  <div className="text-xl font-black text-slate-900">{totalCompleted.toLocaleString()}</div>
-                </div>
-
-                {/* 预测完成合计 */}
-                <div className="text-center border-r border-slate-300 px-2 py-1">
-                  <div className="text-xl font-black text-slate-900">{totalPredicted.toLocaleString()}</div>
-                </div>
-
-                {/* 任务缺口合计 */}
-                <div className="text-center border-r border-slate-300 px-2 py-1">
-                  <div className="text-xl font-black text-slate-900">{totalGap.toLocaleString()}</div>
-                </div>
-
-                {/* 在手项目合计 */}
-                <div className="text-center px-2 py-1">
-                  <div className="text-xl font-black text-slate-900">{totalPendingAmount.toLocaleString()}</div>
+                  <div className="flex items-center gap-1">
+                    <span className="text-slate-500">预测</span>
+                    <span className="font-semibold text-slate-900">{totalPredicted.toLocaleString()}</span>
+                  </div>
+                  <div className="flex items-center gap-1">
+                    <span className="text-slate-500">缺口</span>
+                    <span className={`font-semibold ${totalGap > 0 ? 'text-red-600' : totalGap < 0 ? 'text-green-600' : 'text-slate-900'}`}>{totalGap.toLocaleString()}</span>
+                  </div>
+                  <div className="flex items-center gap-1">
+                    <span className="text-slate-500">在手</span>
+                    <span className="font-semibold text-slate-900">{totalPendingAmount.toLocaleString()}</span>
+                  </div>
                 </div>
               </div>
             </div>
