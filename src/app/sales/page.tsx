@@ -6,6 +6,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Progress } from '@/components/ui/progress';
 import { AIInsight } from '@/components/ai-insight';
 import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs';
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from '@/components/ui/dialog';
 import Link from 'next/link';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, AreaChart, Area } from 'recharts';
 
@@ -523,6 +524,21 @@ export default function SalesDashboard() {
   // 数据标注状态
   const [annotations, setAnnotations] = useState<Record<string, string>>({});
 
+  // 拉群弹窗状态
+  const [pullGroupDialog, setPullGroupDialog] = useState<{
+    open: boolean;
+    ownerName: string;
+    region?: string;
+    city?: string;
+    target?: number;
+    completed?: number;
+    rate?: number;
+    pendingAmount?: number;
+  }>({
+    open: false,
+    ownerName: '',
+  });
+
   const [salesmenCurrentPage, setSalesmenCurrentPage] = useState(1);
   const salesmenPageSize = 8;
   const salesmenTotalPages = Math.ceil(salesmenRanking.length / salesmenPageSize);
@@ -666,9 +682,25 @@ export default function SalesDashboard() {
   };
 
   // 拉群功能
-  const handlePullGroup = (ownerName: string, region?: string) => {
-    alert(`正在为 ${region ? region + ' - ' : ''}${ownerName} 创建企业微信群...`);
+  const handlePullGroup = (ownerName: string, region?: string, extraData?: any) => {
+    setPullGroupDialog({
+      open: true,
+      ownerName,
+      region,
+      city: extraData?.city,
+      target: extraData?.target,
+      completed: extraData?.completed,
+      rate: extraData?.rate,
+      pendingAmount: extraData?.pendingAmount,
+    });
     // 这里可以集成企业微信API来创建群组
+  };
+
+  const handleClosePullGroupDialog = () => {
+    setPullGroupDialog({
+      open: false,
+      ownerName: '',
+    });
   };
 
   // 时间范围或区域筛选变化时重置城市经理页码
@@ -1390,7 +1422,7 @@ export default function SalesDashboard() {
                             <button
                               onClick={(e) => {
                                 e.stopPropagation();
-                                handlePullGroup(item.owner, item.name);
+                                handlePullGroup(item.owner, item.name, item);
                               }}
                               className="p-1 text-emerald-600 hover:bg-emerald-100 rounded-md transition-colors flex-shrink-0"
                               title="拉群"
@@ -1514,7 +1546,7 @@ export default function SalesDashboard() {
                             <button
                               onClick={(e) => {
                                 e.stopPropagation();
-                                handlePullGroup(item.name, item.area);
+                                handlePullGroup(item.name, item.area, item);
                               }}
                               className="p-1 text-emerald-600 hover:bg-emerald-100 rounded-md transition-colors flex-shrink-0"
                               title="拉群"
@@ -2537,6 +2569,140 @@ export default function SalesDashboard() {
             </Card>
           </TabsContent>
         </Tabs>
+
+        {/* 拉群弹窗 */}
+        <Dialog open={pullGroupDialog.open} onOpenChange={handleClosePullGroupDialog}>
+          <DialogContent className="max-w-2xl">
+            <DialogHeader>
+              <DialogTitle className="flex items-center gap-2 text-xl">
+                <UserPlus className="w-6 h-6 text-green-600" />
+                拉群协同
+              </DialogTitle>
+              <DialogDescription>
+                为责任人创建企业微信协同群组
+              </DialogDescription>
+            </DialogHeader>
+
+            <div className="space-y-6 py-4">
+              {/* 基本信息 */}
+              <div className="bg-gray-50 rounded-lg p-4">
+                <h3 className="text-sm font-semibold text-gray-700 mb-3">责任人信息</h3>
+                <div className="grid grid-cols-2 gap-4">
+                  <div>
+                    <span className="text-sm text-gray-500">责任人</span>
+                    <p className="text-base font-semibold text-gray-900">{pullGroupDialog.ownerName}</p>
+                  </div>
+                  <div>
+                    <span className="text-sm text-gray-500">所属区域</span>
+                    <p className="text-base font-semibold text-gray-900">{pullGroupDialog.region || '-'}</p>
+                  </div>
+                  {pullGroupDialog.city && (
+                    <div>
+                      <span className="text-sm text-gray-500">城市</span>
+                      <p className="text-base font-semibold text-gray-900">{pullGroupDialog.city}</p>
+                    </div>
+                  )}
+                  {pullGroupDialog.target && (
+                    <div>
+                      <span className="text-sm text-gray-500">目标金额</span>
+                      <p className="text-base font-semibold text-gray-900">{pullGroupDialog.target} 万元</p>
+                    </div>
+                  )}
+                  {pullGroupDialog.completed !== undefined && (
+                    <div>
+                      <span className="text-sm text-gray-500">已完成</span>
+                      <p className="text-base font-semibold text-gray-900">{pullGroupDialog.completed} 万元</p>
+                    </div>
+                  )}
+                  {pullGroupDialog.rate !== undefined && (
+                    <div>
+                      <span className="text-sm text-gray-500">达成率</span>
+                      <p className={`text-base font-semibold ${pullGroupDialog.rate >= 100 ? 'text-green-600' : pullGroupDialog.rate >= 80 ? 'text-yellow-600' : 'text-red-600'}`}>
+                        {pullGroupDialog.rate.toFixed(1)}%
+                      </p>
+                    </div>
+                  )}
+                  {pullGroupDialog.pendingAmount !== undefined && (
+                    <div>
+                      <span className="text-sm text-gray-500">在手项目</span>
+                      <p className="text-base font-semibold text-gray-900">{pullGroupDialog.pendingAmount} 万元</p>
+                    </div>
+                  )}
+                </div>
+              </div>
+
+              {/* 协同内容 */}
+              <div>
+                <h3 className="text-sm font-semibold text-gray-700 mb-3">协同内容</h3>
+                <div className="space-y-2">
+                  <div className="flex items-start gap-2 text-sm">
+                    <span className="w-5 h-5 rounded-full bg-green-100 text-green-600 flex items-center justify-center text-xs flex-shrink-0">1</span>
+                    <span className="text-gray-700">分析当前任务缺口，识别关键障碍</span>
+                  </div>
+                  <div className="flex items-start gap-2 text-sm">
+                    <span className="w-5 h-5 rounded-full bg-green-100 text-green-600 flex items-center justify-center text-xs flex-shrink-0">2</span>
+                    <span className="text-gray-700">梳理在手项目，评估转化概率</span>
+                  </div>
+                  <div className="flex items-start gap-2 text-sm">
+                    <span className="w-5 h-5 rounded-full bg-green-100 text-green-600 flex items-center justify-center text-xs flex-shrink-0">3</span>
+                    <span className="text-gray-700">制定行动计划，明确里程碑节点</span>
+                  </div>
+                  <div className="flex items-start gap-2 text-sm">
+                    <span className="w-5 h-5 rounded-full bg-green-100 text-green-600 flex items-center justify-center text-xs flex-shrink-0">4</span>
+                    <span className="text-gray-700">协调资源支持，推动项目落地</span>
+                  </div>
+                </div>
+              </div>
+
+              {/* 消息模板 */}
+              <div>
+                <h3 className="text-sm font-semibold text-gray-700 mb-3">拉群消息模板</h3>
+                <div className="bg-gray-50 rounded-lg p-4 space-y-3">
+                  <div className="border-l-4 border-green-500 pl-3">
+                    <p className="text-xs text-gray-500 mb-1">场景1：任务缺口较大</p>
+                        <p className="text-sm text-gray-700 whitespace-pre-line">{`@${pullGroupDialog.ownerName} 您好！${pullGroupDialog.region || ''}${pullGroupDialog.city ? pullGroupDialog.city : ''}当前目标 ${pullGroupDialog.target || 0}万元，已完成 ${pullGroupDialog.completed || 0}万元，预测达成率 ${pullGroupDialog.rate?.toFixed(1) || 0}%。任务缺口 ${pullGroupDialog.target && pullGroupDialog.completed ? (pullGroupDialog.target - pullGroupDialog.completed).toFixed(1) : 0}万元。请梳理在手项目，重点关注转化概率高的项目，制定明确的跟进计划。如有需要支持的资源，请在群内反馈。`}</p>
+                  </div>
+                  <div className="border-l-4 border-yellow-500 pl-3">
+                    <p className="text-xs text-gray-500 mb-1">场景2：达成率中等</p>
+                    <p className="text-sm text-gray-700 whitespace-pre-line">{`@${pullGroupDialog.ownerName} 您好！${pullGroupDialog.region || ''}${pullGroupDialog.city ? pullGroupDialog.city : ''}当前达成率 ${pullGroupDialog.rate?.toFixed(1) || 0}%，在手项目 ${pullGroupDialog.pendingAmount || 0}万元。建议聚焦重点客户，加快项目推进。如有需要协调的资源，请及时反馈。`}</p>
+                  </div>
+                  <div className="border-l-4 border-green-500 pl-3">
+                    <p className="text-xs text-gray-500 mb-1">场景3：超额完成</p>
+                    <p className="text-sm text-gray-700 whitespace-pre-line">{`@${pullGroupDialog.ownerName} 您好！${pullGroupDialog.region || ''}${pullGroupDialog.city ? pullGroupDialog.city : ''}当前达成率 ${pullGroupDialog.rate?.toFixed(1) || 0}%，超额完成任务！请分享成功经验，并在群内同步后续工作计划。`}</p>
+                  </div>
+                </div>
+              </div>
+
+              {/* 操作按钮 */}
+              <div className="flex gap-3 pt-4 border-t">
+                <button
+                  onClick={() => {
+                    alert('已复制消息模板到剪贴板！');
+                    handleClosePullGroupDialog();
+                  }}
+                  className="flex-1 px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors text-sm font-medium"
+                >
+                  复制消息模板
+                </button>
+                <button
+                  onClick={() => {
+                    alert('已创建企业微信群并发送消息！');
+                    handleClosePullGroupDialog();
+                  }}
+                  className="flex-1 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors text-sm font-medium"
+                >
+                  创建群并发送
+                </button>
+                <button
+                  onClick={handleClosePullGroupDialog}
+                  className="px-4 py-2 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300 transition-colors text-sm font-medium"
+                >
+                  取消
+                </button>
+              </div>
+            </div>
+          </DialogContent>
+        </Dialog>
 
       </div>
     );
