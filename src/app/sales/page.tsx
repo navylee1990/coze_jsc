@@ -1342,24 +1342,36 @@ export default function SalesDashboard() {
               {/* 大区维度表格 */}
               <div className="overflow-x-auto -mx-3 px-3">
                 <div className="bg-white rounded-lg border-0 overflow-hidden min-w-[900px]">
-                  <table className="w-full">
+                  <table className="w-full" style={{ tableLayout: 'fixed' }}>
+                  <colgroup>
+                    <col style={{ width: '12%' }} />
+                    <col style={{ width: '12%' }} />
+                    <col style={{ width: '9%' }} />
+                    <col style={{ width: '9%' }} />
+                    <col style={{ width: '10%' }} />
+                    <col style={{ width: '9%' }} />
+                    <col style={{ width: '14%' }} />
+                    <col style={{ width: '11%' }} />
+                    <col style={{ width: '11%' }} />
+                    <col style={{ width: '3%' }} />
+                  </colgroup>
                   <thead>
                     <tr className="border-b border-gray-100">
-                      <th className="px-3 py-2 text-left text-sm font-medium text-gray-500">
+                      <th className="px-2 py-2 text-left text-xs font-medium text-gray-500">
                         {viewLevel === 'city' ? '城市' : '大区'}
                         {viewLevel === 'region' && (
-                          <span className="ml-1 text-xs text-green-500 font-normal">（点击查看）</span>
+                          <span className="ml-1 text-[10px] text-green-500 font-normal">（点击查看）</span>
                         )}
                       </th>
-                      <th className="px-2 py-2 text-left text-sm font-medium text-gray-500">责任人</th>
-                      <th className="px-2 py-2 text-right text-sm font-medium text-gray-500">目标</th>
-                      <th className="px-2 py-2 text-right text-sm font-medium text-gray-500">已完成</th>
-                      <th className="px-2 py-2 text-right text-sm font-medium text-gray-500">预测金额</th>
-                      <th className="px-2 py-2 text-right text-sm font-medium text-gray-500">缺口</th>
-                      <th className="px-2 py-2 text-center text-sm font-medium text-gray-500">预测达成率</th>
-                      <th className="px-2 py-2 text-center text-sm font-medium text-gray-500">在手订单数</th>
-                      <th className="px-2 py-2 text-center text-sm font-medium text-gray-500">在手项目数</th>
-                      <th className="px-1 py-2"></th>
+                      <th className="px-1.5 py-2 text-left text-xs font-medium text-gray-500">责任人</th>
+                      <th className="px-1.5 py-2 text-right text-xs font-medium text-gray-500">目标</th>
+                      <th className="px-1.5 py-2 text-right text-xs font-medium text-gray-500">已完成</th>
+                      <th className="px-1.5 py-2 text-right text-xs font-medium text-gray-500">预测金额</th>
+                      <th className="px-1.5 py-2 text-right text-xs font-medium text-gray-500">缺口</th>
+                      <th className="px-1.5 py-2 text-center text-xs font-medium text-gray-500">预测达成率</th>
+                      <th className="px-1.5 py-2 text-center text-xs font-medium text-gray-500">在手订单数</th>
+                      <th className="px-1.5 py-2 text-center text-xs font-medium text-gray-500">在手项目数</th>
+                      <th className="px-0.5 py-2"></th>
                     </tr>
                   </thead>
                   <tbody>
@@ -1369,65 +1381,65 @@ export default function SalesDashboard() {
                         onClick={() => viewLevel === 'region' ? handleRegionClick(item.name) : undefined}
                         className={`group border-b border-gray-50 last:border-0 ${viewLevel === 'region' ? 'cursor-pointer hover:bg-green-50 hover:border-l-4 hover:border-l-green-500' : ''}`}
                       >
-                        <td className="px-3 py-2.5 text-sm font-medium text-gray-900 group-hover:text-green-600 transition-colors">
-                          <div className="flex items-center gap-2">
+                        <td className="px-2 py-2 text-xs font-medium text-gray-900 group-hover:text-green-600 transition-colors">
+                          <div className="flex items-center gap-1">
                             {viewLevel === 'region' && (
-                              <ChevronRight className="w-4 h-4 text-gray-400 group-hover:text-green-500 group-hover:translate-x-0.5 transition-all" />
+                              <ChevronRight className="w-3.5 h-3.5 text-gray-400 group-hover:text-green-500 group-hover:translate-x-0.5 transition-all" />
                             )}
                             {item.name}
                           </div>
                         </td>
-                        <td className="px-2 py-2.5">
-                          <div className="flex items-center gap-2">
-                            <span className="text-sm text-gray-500">{item.owner}</span>
+                        <td className="px-1.5 py-2">
+                          <div className="flex items-center gap-1">
+                            <span className="text-xs text-gray-500 truncate">{item.owner}</span>
                             <button
                               onClick={(e) => {
                                 e.stopPropagation();
                                 handlePullGroup(item.owner, item.name);
                               }}
-                              className="p-1 text-emerald-600 hover:bg-emerald-100 rounded-md transition-colors"
+                              className="p-0.5 text-emerald-600 hover:bg-emerald-100 rounded transition-colors flex-shrink-0"
                               title="拉群"
                             >
-                              <UserPlus className="w-3.5 h-3.5" />
+                              <UserPlus className="w-3 h-3" />
                             </button>
                           </div>
                         </td>
-                        <td className="px-2 py-2.5 text-sm text-right text-gray-600">{item.target.toLocaleString()}</td>
-                        <td className="px-2 py-2.5 text-sm text-right text-gray-600">{item.completed.toLocaleString()}</td>
-                        <td className="px-2 py-2.5 text-sm text-right text-gray-600">{item.predicted.toLocaleString()}</td>
-                        <td className={`px-2 py-2.5 text-sm text-right font-semibold ${item.gap > 0 ? 'text-red-500' : item.gap === 0 ? 'text-gray-600' : 'text-green-500'}`}>
+                        <td className="px-1.5 py-2 text-xs text-right text-gray-600">{item.target.toLocaleString()}</td>
+                        <td className="px-1.5 py-2 text-xs text-right text-gray-600">{item.completed.toLocaleString()}</td>
+                        <td className="px-1.5 py-2 text-xs text-right text-gray-600">{item.predicted.toLocaleString()}</td>
+                        <td className={`px-1.5 py-2 text-xs text-right font-semibold ${item.gap > 0 ? 'text-red-500' : item.gap === 0 ? 'text-gray-600' : 'text-green-500'}`}>
                           {item.gap > 0 ? `${item.gap}` : item.gap === 0 ? '0' : `+${Math.abs(item.gap)}`}
                         </td>
-                        <td className="px-2 py-2.5 text-center">
-                          <div className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-gray-50 border border-gray-100">
-                            <span className={`text-sm font-bold ${
+                        <td className="px-1.5 py-2 text-center">
+                          <div className="inline-flex items-center gap-1 px-1.5 py-0.5 rounded-full bg-gray-50 border border-gray-100">
+                            <span className={`text-xs font-bold ${
                               item.rate >= 100 ? 'text-green-600' : item.rate >= 80 ? 'text-yellow-600' : 'text-red-600'
                             }`}>
                               {item.rate.toFixed(1)}%
                             </span>
-                            <div className="w-8 h-1.5 rounded-full bg-gray-200 overflow-hidden">
+                            <div className="w-6 h-1.5 rounded-full bg-gray-200 overflow-hidden flex-shrink-0">
                               <div
                                 className={`h-full rounded-full transition-all ${
-                                  item.rate >= 100 ? 'bg-green-500' : item.rate >= 80 ? 'bg-yellow-500' : 'bg-red-500'
+                                  item.rate >= 100 ? 'bg-green-500' : item.rate >= 80 ? 'text-yellow-500' : 'bg-red-500'
                                 }`}
                                 style={{ width: `${Math.min(item.rate, 100)}%` }}
                               />
                             </div>
                           </div>
                         </td>
-                        <td className="px-2 py-2.5 text-center">
-                          <span className={`text-sm font-bold ${
+                        <td className="px-1.5 py-2 text-center">
+                          <span className={`text-xs font-bold ${
                             item.orderCount >= 100 ? 'text-green-600' : item.orderCount >= 80 ? 'text-yellow-600' : 'text-red-600'
                           }`}>
                             {item.orderCount}
                           </span>
                         </td>
-                        <td className="px-2 py-2.5 text-center text-sm text-gray-600">
+                        <td className="px-1.5 py-2 text-center text-xs text-gray-600">
                           {item.projectCount}
                         </td>
-                        <td className="px-1 py-2.5">
+                        <td className="px-0.5 py-2">
                           {viewLevel === 'region' && (
-                            <ChevronRight className="w-4 h-4 text-gray-300 group-hover:text-green-500 transition-colors" />
+                            <ChevronRight className="w-3.5 h-3.5 text-gray-300 group-hover:text-green-500 transition-colors" />
                           )}
                         </td>
                       </tr>
@@ -1471,19 +1483,31 @@ export default function SalesDashboard() {
               {/* 城市经理表格 */}
               <div className="overflow-x-auto -mx-3 px-3">
                 <div className="bg-white rounded-lg border-0 overflow-hidden min-w-[900px]">
-                  <table className="w-full">
+                  <table className="w-full" style={{ tableLayout: 'fixed' }}>
+                  <colgroup>
+                    <col style={{ width: '10%' }} />
+                    <col style={{ width: '10%' }} />
+                    <col style={{ width: '13%' }} />
+                    <col style={{ width: '9%' }} />
+                    <col style={{ width: '9%' }} />
+                    <col style={{ width: '10%' }} />
+                    <col style={{ width: '9%' }} />
+                    <col style={{ width: '14%' }} />
+                    <col style={{ width: '11%' }} />
+                    <col style={{ width: '5%' }} />
+                  </colgroup>
                   <thead>
                     <tr className="border-b border-gray-100">
-                      <th className="px-3 py-2 text-left text-sm font-medium text-gray-500">区域</th>
-                      <th className="px-3 py-2 text-left text-sm font-medium text-gray-500">城市</th>
-                      <th className="px-2 py-2 text-left text-sm font-medium text-gray-500">责任人</th>
-                      <th className="px-2 py-2 text-right text-sm font-medium text-gray-500">目标</th>
-                      <th className="px-2 py-2 text-right text-sm font-medium text-gray-500">已完成</th>
-                      <th className="px-2 py-2 text-right text-sm font-medium text-gray-500">预测金额</th>
-                      <th className="px-2 py-2 text-right text-sm font-medium text-gray-500">缺口</th>
-                      <th className="px-2 py-2 text-center text-sm font-medium text-gray-500">预测达成率</th>
-                      <th className="px-2 py-2 text-center text-sm font-medium text-gray-500">在手订单数</th>
-                      <th className="px-2 py-2 text-center text-sm font-medium text-gray-500">在手项目数</th>
+                      <th className="px-2 py-2 text-left text-xs font-medium text-gray-500">区域</th>
+                      <th className="px-2 py-2 text-left text-xs font-medium text-gray-500">城市</th>
+                      <th className="px-1.5 py-2 text-left text-xs font-medium text-gray-500">责任人</th>
+                      <th className="px-1.5 py-2 text-right text-xs font-medium text-gray-500">目标</th>
+                      <th className="px-1.5 py-2 text-right text-xs font-medium text-gray-500">已完成</th>
+                      <th className="px-1.5 py-2 text-right text-xs font-medium text-gray-500">预测金额</th>
+                      <th className="px-1.5 py-2 text-right text-xs font-medium text-gray-500">缺口</th>
+                      <th className="px-1.5 py-2 text-center text-xs font-medium text-gray-500">预测达成率</th>
+                      <th className="px-1.5 py-2 text-center text-xs font-medium text-gray-500">在手订单数</th>
+                      <th className="px-1.5 py-2 text-center text-xs font-medium text-gray-500">在手项目数</th>
                     </tr>
                   </thead>
                   <tbody className="min-h-[320px]">
@@ -1496,54 +1520,54 @@ export default function SalesDashboard() {
                         key={index}
                         className="border-b border-gray-50 last:border-0"
                       >
-                        <td className="px-3 py-2.5 text-sm font-medium text-gray-900">{item.area}</td>
-                        <td className="px-3 py-2.5 text-sm font-medium text-gray-900">{item.city}</td>
-                        <td className="px-2 py-2.5">
-                          <div className="flex items-center gap-2">
-                            <span className="text-sm text-gray-500">{item.name}</span>
+                        <td className="px-2 py-2 text-xs font-medium text-gray-900">{item.area}</td>
+                        <td className="px-2 py-2 text-xs font-medium text-gray-900">{item.city}</td>
+                        <td className="px-1.5 py-2">
+                          <div className="flex items-center gap-1">
+                            <span className="text-xs text-gray-500 truncate">{item.name}</span>
                             <button
                               onClick={(e) => {
                                 e.stopPropagation();
                                 handlePullGroup(item.name, item.area);
                               }}
-                              className="p-1 text-emerald-600 hover:bg-emerald-100 rounded-md transition-colors"
+                              className="p-0.5 text-emerald-600 hover:bg-emerald-100 rounded transition-colors flex-shrink-0"
                               title="拉群"
                             >
-                              <UserPlus className="w-3.5 h-3.5" />
+                              <UserPlus className="w-3 h-3" />
                             </button>
                           </div>
                         </td>
-                        <td className="px-2 py-2.5 text-sm text-right text-gray-600">{item.target.toLocaleString()}</td>
-                        <td className="px-2 py-2.5 text-sm text-right text-gray-600">{item.completed.toLocaleString()}</td>
-                        <td className="px-2 py-2.5 text-sm text-right text-gray-600">{item.predicted.toLocaleString()}</td>
-                        <td className={`px-2 py-2.5 text-sm text-right font-semibold ${item.gap > 0 ? 'text-red-500' : item.gap === 0 ? 'text-gray-600' : 'text-green-500'}`}>
+                        <td className="px-1.5 py-2 text-xs text-right text-gray-600">{item.target.toLocaleString()}</td>
+                        <td className="px-1.5 py-2 text-xs text-right text-gray-600">{item.completed.toLocaleString()}</td>
+                        <td className="px-1.5 py-2 text-xs text-right text-gray-600">{item.predicted.toLocaleString()}</td>
+                        <td className={`px-1.5 py-2 text-xs text-right font-semibold ${item.gap > 0 ? 'text-red-500' : item.gap === 0 ? 'text-gray-600' : 'text-green-500'}`}>
                           {item.gap > 0 ? `${item.gap}` : item.gap === 0 ? '0' : `+${Math.abs(item.gap)}`}
                         </td>
-                        <td className="px-2 py-2.5 text-center">
-                          <div className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-gray-50 border border-gray-100">
-                            <span className={`text-sm font-bold ${
+                        <td className="px-1.5 py-2 text-center">
+                          <div className="inline-flex items-center gap-1 px-1.5 py-0.5 rounded-full bg-gray-50 border border-gray-100">
+                            <span className={`text-xs font-bold ${
                               item.rate >= 100 ? 'text-green-600' : item.rate >= 80 ? 'text-yellow-600' : 'text-red-600'
                             }`}>
                               {item.rate.toFixed(1)}%
                             </span>
-                            <div className="w-8 h-1.5 rounded-full bg-gray-200 overflow-hidden">
+                            <div className="w-6 h-1.5 rounded-full bg-gray-200 overflow-hidden flex-shrink-0">
                               <div
                                 className={`h-full rounded-full transition-all ${
-                                  item.rate >= 100 ? 'bg-green-500' : item.rate >= 80 ? 'bg-yellow-500' : 'bg-red-500'
+                                  item.rate >= 100 ? 'bg-green-500' : item.rate >= 80 ? 'text-yellow-500' : 'bg-red-500'
                                 }`}
                                 style={{ width: `${Math.min(item.rate, 100)}%` }}
                               />
                             </div>
                           </div>
                         </td>
-                        <td className="px-2 py-2.5 text-center">
-                          <span className={`text-sm font-bold ${
+                        <td className="px-1.5 py-2 text-center">
+                          <span className={`text-xs font-bold ${
                             item.orderCount >= 100 ? 'text-green-600' : item.orderCount >= 80 ? 'text-yellow-600' : 'text-red-600'
                           }`}>
                             {item.orderCount}
                           </span>
                         </td>
-                        <td className="px-2 py-2.5 text-center text-sm text-gray-600">{item.projectCount}</td>
+                        <td className="px-1.5 py-2 text-center text-xs text-gray-600">{item.projectCount}</td>
                       </tr>
                     ))}
                   </tbody>
