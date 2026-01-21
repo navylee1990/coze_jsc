@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect, useRef } from 'react';
-import { ArrowUp, ArrowDown, TrendingUp, AlertTriangle, Activity, Target, Clock, Database, ChevronRight, BarChart3, UserPlus, User } from 'lucide-react';
+import { ArrowUp, ArrowDown, TrendingUp, AlertTriangle, Activity, Target, Clock, Database, ChevronRight, BarChart3, UserPlus } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Progress } from '@/components/ui/progress';
 import { AIInsight } from '@/components/ai-insight';
@@ -25,59 +25,35 @@ const useAutoScale = () => {
       // 暂时移除 transform 来获取内容的自然高度
       const originalTransform = container.style.transform;
       container.style.transform = 'none';
+      
+      // 获取内容的自然高度
+      const contentHeight = container.scrollHeight;
+      
+      // 恢复 transform
+      container.style.transform = originalTransform;
 
-      // 使用 requestAnimationFrame 确保获取最新的布局
-      requestAnimationFrame(() => {
-        // 获取内容的自然高度
-        const contentHeight = container.scrollHeight;
+      // 计算缩放比例，确保缩放后内容高度不超过视口
+      // 预留40px的边距（上下各20px）
+      const availableHeight = viewportHeight - 40;
+      let newScale = availableHeight / contentHeight;
 
-        // 恢复 transform
-        container.style.transform = originalTransform;
+      // 限制最大缩放比例为1，最小为0.6
+      newScale = Math.min(1, Math.max(newScale, 0.6));
 
-        // 计算缩放比例，确保缩放后内容高度不超过视口
-        // 预留40px的边距（上下各20px）
-        const availableHeight = viewportHeight - 40;
-        let newScale = availableHeight / contentHeight;
-
-        // 限制最大缩放比例为1，最小为0.6
-        newScale = Math.min(1, Math.max(newScale, 0.6));
-
-        setScale(newScale);
-      });
+      setScale(newScale);
     };
 
     // 初始计算
     calculateScale();
 
-    // 多次延迟计算，确保内容完全渲染
-    const delays = [100, 300, 600, 1000];
-    const timers: NodeJS.Timeout[] = [];
-
-    delays.forEach(delay => {
-      const timer = setTimeout(calculateScale, delay);
-      timers.push(timer);
-    });
+    // 延迟再次计算，确保内容已完全渲染
+    const timer = setTimeout(calculateScale, 100);
 
     // 监听窗口大小变化
     window.addEventListener('resize', calculateScale);
-
-    // 使用 ResizeObserver 监听容器大小变化
-    const resizeObserver = new ResizeObserver(() => {
-      calculateScale();
-    });
-
-    // 延迟绑定 ResizeObserver，确保 container 已经渲染
-    const observerTimer = setTimeout(() => {
-      if (containerRef.current) {
-        resizeObserver.observe(containerRef.current);
-      }
-    }, 50);
-
     return () => {
-      timers.forEach(timer => clearTimeout(timer));
-      clearTimeout(observerTimer);
+      clearTimeout(timer);
       window.removeEventListener('resize', calculateScale);
-      resizeObserver.disconnect();
     };
   }, []);
 
@@ -899,10 +875,7 @@ export default function SalesDashboard() {
             </Link>
             <div>
               <h1 className="text-2xl font-bold text-gray-900">商用净水经营驾驶舱</h1>
-              <div className="flex items-center gap-2 mt-1 text-base text-gray-700 bg-gradient-to-r from-blue-50 to-indigo-50 px-3 py-1.5 rounded-lg inline-flex">
-                <User className="w-4 h-4 text-blue-600" />
-                <span className="font-medium">张晖，您好</span>
-              </div>
+              <p className="text-sm text-gray-600 mt-0.5">张晖，您好</p>
             </div>
           </div>
           <div className="flex items-center gap-3">
