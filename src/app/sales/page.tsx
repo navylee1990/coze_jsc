@@ -420,29 +420,29 @@ const dealerKPI = {
   newDealers: 2,          // 新经销商数量
 };
 
-// 不同规模经销商履约分布（百分比）
+// 不同规模经销商履约分布
 const dealerScaleDistribution = [
   {
     scale: '100万以下',
     total: 3,
-    below60: 67,    // 2/3
-    between60to80: 33, // 1/3
+    below60: 2,
+    between60to80: 1,
     between80to100: 0,
     above100: 0,
   },
   {
     scale: '100-200万',
     total: 4,
-    below60: 50,    // 2/4
-    between60to80: 25, // 1/4
-    between80to100: 25, // 1/4
+    below60: 2,
+    between60to80: 1,
+    between80to100: 1,
     above100: 0,
   },
   {
     scale: '200-300万',
     total: 2,
-    below60: 50,    // 1/2
-    between60to80: 50, // 1/2
+    below60: 1,
+    between60to80: 1,
     between80to100: 0,
     above100: 0,
   },
@@ -451,7 +451,7 @@ const dealerScaleDistribution = [
     total: 1,
     below60: 0,
     between60to80: 0,
-    between80to100: 100, // 1/1
+    between80to100: 1,
     above100: 0,
   },
 ];
@@ -1885,31 +1885,25 @@ export default function SalesDashboard() {
               </div>
               <div className="p-3">
                 <ResponsiveContainer width="100%" height={220}>
-                  <BarChart data={dealerScaleDistribution} layout="horizontal">
+                  <BarChart data={dealerScaleDistribution}>
                     <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#e5e7eb" />
                     <XAxis 
-                      type="number" 
-                      domain={[0, 100]}
+                      dataKey="scale"
                       tick={{ fontSize: 11 }}
                       axisLine={{ stroke: '#e5e7eb' }}
                       tickLine={{ stroke: '#e5e7eb' }}
-                      tickFormatter={(value) => `${value}%`}
                     />
                     <YAxis 
-                      type="category" 
-                      dataKey="scale" 
                       tick={{ fontSize: 11 }}
-                      width={80}
                       axisLine={{ stroke: '#e5e7eb' }}
-                      tickLine={false}
+                      tickLine={{ stroke: '#e5e7eb' }}
                     />
                     <Tooltip 
                       content={({ active, payload }) => {
                         if (!active || !payload || payload.length === 0) return null;
-                        const data = payload[0].payload;
                         return (
                           <div className="bg-white border border-gray-200 rounded-lg shadow-lg px-3 py-2">
-                            <div className="text-sm font-medium text-gray-900 mb-2">{data.scale}</div>
+                            <div className="text-sm font-medium text-gray-900 mb-2">{payload[0].payload.scale}</div>
                             {payload.map((entry: any, index: number) => (
                               <div key={index} className="flex items-center gap-2 text-xs">
                                 <div 
@@ -1917,13 +1911,13 @@ export default function SalesDashboard() {
                                   style={{ backgroundColor: entry.color }}
                                 />
                                 <span className="text-gray-700">{entry.name}:</span>
-                                <span className="font-semibold text-gray-900">{entry.value}%</span>
-                                <span className="text-gray-500">({Math.round((entry.value / 100) * data.total)}家)</span>
+                                <span className="font-semibold text-gray-900">{entry.value}家</span>
+                                <span className="text-gray-500">({((entry.value / payload[0].payload.total) * 100).toFixed(0)}%)</span>
                               </div>
                             ))}
                             <div className="mt-2 pt-2 border-t border-gray-200 flex items-center gap-2 text-xs">
                               <span className="text-gray-500">合计:</span>
-                              <span className="font-bold text-gray-900">{data.total}家</span>
+                              <span className="font-bold text-gray-900">{payload[0].payload.total}家</span>
                             </div>
                           </div>
                         );
@@ -1935,10 +1929,10 @@ export default function SalesDashboard() {
                       iconType="square"
                       wrapperStyle={{ fontSize: '11px', paddingBottom: '8px' }}
                     />
-                    <Bar dataKey="below60" stackId="1" fill="#dc2626" name="<60%" />
-                    <Bar dataKey="between60to80" stackId="1" fill="#ca8a04" name="60~80%" />
-                    <Bar dataKey="between80to100" stackId="1" fill="#16a34a" name="80~100%" />
-                    <Bar dataKey="above100" stackId="1" fill="#059669" name="≥100%" />
+                    <Bar dataKey="below60" fill="#dc2626" name="<60%" radius={[0, 0, 0, 0]} />
+                    <Bar dataKey="between60to80" fill="#ca8a04" name="60~80%" radius={[0, 0, 0, 0]} />
+                    <Bar dataKey="between80to100" fill="#16a34a" name="80~100%" radius={[0, 0, 0, 0]} />
+                    <Bar dataKey="above100" fill="#059669" name="≥100%" radius={[0, 0, 0, 0]} />
                   </BarChart>
                 </ResponsiveContainer>
               </div>
