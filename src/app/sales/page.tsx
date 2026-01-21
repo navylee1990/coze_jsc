@@ -785,39 +785,41 @@ export default function SalesDashboard() {
     }
   };
 
-  // 根据达成率获取PIPP/1on1内容
+  // 根据达成率获取PIPP内容
   const getPIPPContent = (rate: number) => {
-    if (rate < 80) {
-      return {
-        title: 'PIPP行动计划',
-        items: [
-          `目标：在${pullGroupDialog.region || ''}区域达成${pullGroupDialog.target || 0}万元的销售目标`,
-          `问题：当前达成率仅${rate.toFixed(1)}%，缺口${(pullGroupDialog.target && pullGroupDialog.completed ? (pullGroupDialog.target - pullGroupDialog.completed).toFixed(1) : 0)}万元`,
-          `计划：梳理在手项目${pullGroupDialog.pendingAmount || 0}万元，重点跟进高转化概率项目`,
-          `跟进：每周Review项目进展，及时调整策略`
-        ]
-      };
-    } else if (rate < 100) {
-      return {
-        title: '1on1沟通要点',
-        items: [
-          `肯定：${pullGroupDialog.region || ''}区域已完成${pullGroupDialog.completed || 0}万元，达成率${rate.toFixed(1)}%`,
-          `优势：在手项目储备充足，${pullGroupDialog.pendingAmount || 0}万元`,
-          `机会：聚焦重点客户，加速项目落地`,
-          `支持：如需资源协调，请及时提出`
-        ]
-      };
-    } else {
-      return {
-        title: '1on1成功经验分享',
-        items: [
-          `业绩：${pullGroupDialog.region || ''}区域超额完成任务，达成率${rate.toFixed(1)}%`,
-          `亮点：高效的项目管理和客户跟进策略`,
-          `分享：请总结成功经验，推广到其他区域`,
-          `规划：设定下一阶段目标，持续保持领先`
-        ]
-      };
-    }
+    const gap = pullGroupDialog.target && pullGroupDialog.completed
+      ? (pullGroupDialog.target - pullGroupDialog.completed).toFixed(1)
+      : '0';
+
+    return {
+      title: 'PIPP行动计划',
+      items: [
+        `目标：在${pullGroupDialog.region || ''}区域达成${pullGroupDialog.target || 0}万元的销售目标`,
+        `问题：当前达成率仅${rate.toFixed(1)}%，缺口${gap}万元`,
+        `计划：梳理在手项目${pullGroupDialog.pendingAmount || 0}万元，重点跟进高转化概率项目`,
+        `跟进：每周Review项目进展，及时调整策略`,
+        `支持：如需资源协调，请在群内反馈`
+      ]
+    };
+  };
+
+  // 获取1on1历史记录（模拟数据）
+  const get1on1History = (ownerName: string) => {
+    // 实际应该从后端获取历史记录，这里先用模拟数据
+    return [
+      {
+        date: '2025-12-20',
+        content: '沟通了Q4重点项目推进情况，强调了客户A项目的关键节点，建议加强商务支持'
+      },
+      {
+        date: '2025-11-15',
+        content: '复盘了Q3业绩表现，分析了未达成原因，制定了Q4冲刺计划'
+      },
+      {
+        date: '2025-10-10',
+        content: '新项目跟进策略培训，分享了优质客户开发经验'
+      }
+    ];
   };
 
   const handleClosePullGroupDialog = () => {
@@ -2819,7 +2821,7 @@ export default function SalesDashboard() {
                 </div>
               </div>
 
-              {/* PIPP/1on1 */}
+              {/* PIPP */}
               {pullGroupDialog.rate !== undefined && (
                 <div>
                   <h3 className="text-sm font-semibold text-gray-700 mb-2">{getPIPPContent(pullGroupDialog.rate).title}</h3>
@@ -2837,6 +2839,22 @@ export default function SalesDashboard() {
                   </div>
                 </div>
               )}
+
+              {/* 1on1历史记录 */}
+              <div>
+                <h3 className="text-sm font-semibold text-gray-700 mb-2">1on1历史记录</h3>
+                <div className="bg-gradient-to-br from-purple-50 to-pink-50 rounded-lg p-3 border border-purple-200 space-y-2">
+                  {get1on1History(pullGroupDialog.ownerName).map((record, index) => (
+                    <div key={index} className="bg-white rounded p-2 border border-purple-100">
+                      <div className="flex items-center gap-2 mb-1">
+                        <div className="w-2 h-2 rounded-full bg-purple-500"></div>
+                        <span className="text-xs font-medium text-purple-700">{record.date}</span>
+                      </div>
+                      <p className="text-xs text-gray-600 leading-tight">{record.content}</p>
+                    </div>
+                  ))}
+                </div>
+              </div>
 
               {/* 操作按钮 */}
               <div className="flex gap-3 pt-2 border-t">
