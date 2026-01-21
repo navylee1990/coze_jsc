@@ -1354,9 +1354,9 @@ export default function SalesDashboard() {
         <div className="mt-2 grid grid-cols-1 lg:grid-cols-2 gap-3">
           {/* 左侧：表格 */}
           <Card className="lg:col-span-1 border border-green-200 bg-gradient-to-br from-green-50 to-emerald-50">
-            <CardContent className="p-3">
+            <CardContent className="p-3 sm:p-4">
               {/* 标题 */}
-              <div className="flex items-center justify-between mb-3">
+              <div className="flex items-center justify-between mb-2 sm:mb-3">
                 <div className="flex items-center gap-2">
                   <Activity className="w-5 h-5 text-green-600" />
                   {viewLevel === 'city' && (
@@ -1481,9 +1481,9 @@ export default function SalesDashboard() {
 
           {/* 右侧：城市经理达成情况 */}
           <Card className="lg:col-span-1 border border-green-200 bg-gradient-to-br from-green-50 to-emerald-50">
-            <CardContent className="p-3">
+            <CardContent className="p-3 sm:p-4">
               {/* 标题 */}
-              <div className="flex items-center justify-between mb-3">
+              <div className="flex items-center justify-between mb-2 sm:mb-3">
                 <div className="flex items-center gap-2">
                   <Activity className="w-5 h-5 text-green-600" />
                   <span className="text-base font-bold text-gray-900">城市经理达成情况</span>
