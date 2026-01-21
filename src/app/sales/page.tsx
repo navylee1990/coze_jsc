@@ -1379,16 +1379,11 @@ export default function SalesDashboard() {
                         className={`group border-b border-gray-50 last:border-0 ${viewLevel === 'region' ? 'cursor-pointer hover:bg-green-50 hover:border-l-4 hover:border-l-green-500' : ''}`}
                       >
                         <td className="px-2 py-2.5 text-sm font-medium text-gray-900 group-hover:text-green-600 transition-colors">
-                          <div className="flex flex-col gap-0.5">
-                            <div className="flex items-center gap-2">
-                              {viewLevel === 'region' && (
-                                <ChevronRight className="w-4 h-4 text-gray-400 group-hover:text-green-500 group-hover:translate-x-0.5 transition-all" />
-                              )}
-                              {item.name}
-                            </div>
+                          <div className="flex items-center gap-2">
                             {viewLevel === 'region' && (
-                              <span className="text-xs text-green-500 font-normal ml-6">（点击查看）</span>
+                              <ChevronRight className="w-4 h-4 text-gray-400 group-hover:text-green-500 group-hover:translate-x-0.5 transition-all" />
                             )}
+                            {item.name}
                           </div>
                         </td>
                         <td className="px-2 py-2.5">
