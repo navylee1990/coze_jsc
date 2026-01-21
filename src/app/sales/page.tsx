@@ -136,6 +136,7 @@ const timeRangeData = {
     // 在手项目金额
     pendingAmount: 850,
     pendingRate: 85.0,
+    risk: 'high',
   },
   quarter: {
     target: 4284,
@@ -146,6 +147,7 @@ const timeRangeData = {
     // 在手项目金额
     pendingAmount: 2550,
     pendingRate: 85.0,
+    risk: 'high',
   },
   year: {
     target: 17136,
@@ -156,6 +158,7 @@ const timeRangeData = {
     // 在手项目金额
     pendingAmount: 10200,
     pendingRate: 85.0,
+    risk: 'high',
   },
 };
 
@@ -170,6 +173,7 @@ const leaseTimeRangeData = {
     // 在手项目金额
     pendingAmount: 520,
     pendingRate: 67.5,
+    risk: 'medium',
   },
   quarter: {
     target: 2568,
@@ -180,6 +184,7 @@ const leaseTimeRangeData = {
     // 在手项目金额
     pendingAmount: 1560,
     pendingRate: 67.5,
+    risk: 'medium',
   },
   year: {
     target: 10272,
@@ -190,6 +195,7 @@ const leaseTimeRangeData = {
     // 在手项目金额
     pendingAmount: 6240,
     pendingRate: 67.5,
+    risk: 'medium',
   },
 };
 
@@ -204,6 +210,7 @@ const renewalTimeRangeData = {
     // 在手项目金额
     pendingAmount: 600,
     pendingRate: 84.0,
+    risk: 'low',
   },
   quarter: {
     target: 2040,
@@ -214,6 +221,7 @@ const renewalTimeRangeData = {
     // 在手项目金额
     pendingAmount: 1800,
     pendingRate: 84.0,
+    risk: 'low',
   },
   year: {
     target: 8160,
@@ -224,6 +232,7 @@ const renewalTimeRangeData = {
     // 在手项目金额
     pendingAmount: 7200,
     pendingRate: 84.0,
+    risk: 'low',
   },
 };
 
