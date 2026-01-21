@@ -79,32 +79,32 @@ const timeRangeData = {
   month: {
     target: 1428,
     completed: 677,
-    predicted: 1327.3,
-    gap: 100.7,
+    predicted: 1000, // 预测完成率 70.0% -> 高风险
+    gap: 428,
     canComplete: false,
     // 在手项目金额
     pendingAmount: 850,
-    pendingRate: 59.5,
+    pendingRate: 85.0,
   },
   quarter: {
     target: 4284,
     completed: 2031,
-    predicted: 3981.9,
-    gap: 302.1,
+    predicted: 3000, // 预测完成率 70.0% -> 高风险
+    gap: 1284,
     canComplete: false,
     // 在手项目金额
     pendingAmount: 2550,
-    pendingRate: 59.5,
+    pendingRate: 85.0,
   },
   year: {
     target: 17136,
     completed: 8124,
-    predicted: 15927.6,
-    gap: 1208.4,
+    predicted: 12000, // 预测完成率 70.0% -> 高风险
+    gap: 5136,
     canComplete: false,
     // 在手项目金额
     pendingAmount: 10200,
-    pendingRate: 59.5,
+    pendingRate: 85.0,
   },
 };
 
@@ -113,32 +113,32 @@ const leaseTimeRangeData = {
   month: {
     target: 856,
     completed: 412,
-    predicted: 795.2,
-    gap: 60.8,
+    predicted: 770, // 预测完成率 90.0% -> 中风险
+    gap: 86,
     canComplete: false,
     // 在手项目金额
     pendingAmount: 520,
-    pendingRate: 60.7,
+    pendingRate: 67.5,
   },
   quarter: {
     target: 2568,
     completed: 1236,
-    predicted: 2385.6,
-    gap: 182.4,
+    predicted: 2310, // 预测完成率 90.0% -> 中风险
+    gap: 258,
     canComplete: false,
     // 在手项目金额
     pendingAmount: 1560,
-    pendingRate: 60.7,
+    pendingRate: 67.5,
   },
   year: {
     target: 10272,
     completed: 4944,
-    predicted: 9542.4,
-    gap: 729.6,
+    predicted: 9240, // 预测完成率 90.0% -> 中风险
+    gap: 1032,
     canComplete: false,
     // 在手项目金额
     pendingAmount: 6240,
-    pendingRate: 60.7,
+    pendingRate: 67.5,
   },
 };
 
@@ -147,32 +147,32 @@ const renewalTimeRangeData = {
   month: {
     target: 680,
     completed: 520,
-    predicted: 650.5,
-    gap: 29.5,
+    predicted: 714, // 预测完成率 105.0% -> 低风险
+    gap: -34,
     canComplete: true,
     // 在手项目金额
     pendingAmount: 600,
-    pendingRate: 88.2,
+    pendingRate: 84.0,
   },
   quarter: {
     target: 2040,
     completed: 1560,
-    predicted: 1951.5,
-    gap: 88.5,
+    predicted: 2142, // 预测完成率 105.0% -> 低风险
+    gap: -102,
     canComplete: true,
     // 在手项目金额
     pendingAmount: 1800,
-    pendingRate: 88.2,
+    pendingRate: 84.0,
   },
   year: {
     target: 8160,
     completed: 6240,
-    predicted: 7806,
-    gap: 354,
+    predicted: 8568, // 预测完成率 105.0% -> 低风险
+    gap: -408,
     canComplete: true,
     // 在手项目金额
     pendingAmount: 7200,
-    pendingRate: 88.2,
+    pendingRate: 84.0,
   },
 };
 
@@ -370,18 +370,18 @@ const projectKPI = {
 // predicted: 预测完成金额（包含已完成的部分，即最终预计完成总额）
 const monthlyTrendData = {
   all: [
-    { month: '1月', target: 1428, completed: 677, predicted: 1327.3 },
-    { month: '2月', target: 1350, completed: 720, predicted: 1400 },
-    { month: '3月', target: 1480, completed: 850, predicted: 1570 },
-    { month: '4月', target: 1520, completed: 890, predicted: 1670 },
-    { month: '5月', target: 1460, completed: 820, predicted: 1570 },
-    { month: '6月', target: 1500, completed: 880, predicted: 1680 },
-    { month: '7月', target: 1450, completed: 860, predicted: 1650 },
-    { month: '8月', target: 1490, completed: 840, predicted: 1650 },
-    { month: '9月', target: 1470, completed: 870, predicted: 1675 },
-    { month: '10月', target: 1510, completed: 900, predicted: 1740 },
-    { month: '11月', target: 1480, completed: 880, predicted: 1700 },
-    { month: '12月', target: 1460, completed: 850, predicted: 1660 },
+    { month: '1月', target: 1428, completed: 677, predicted: 1000 },
+    { month: '2月', target: 1350, completed: 720, predicted: 1050 },
+    { month: '3月', target: 1480, completed: 850, predicted: 1200 },
+    { month: '4月', target: 1520, completed: 890, predicted: 1250 },
+    { month: '5月', target: 1460, completed: 820, predicted: 1100 },
+    { month: '6月', target: 1500, completed: 880, predicted: 1150 },
+    { month: '7月', target: 1450, completed: 860, predicted: 1100 },
+    { month: '8月', target: 1490, completed: 840, predicted: 1080 },
+    { month: '9月', target: 1470, completed: 870, predicted: 1120 },
+    { month: '10月', target: 1510, completed: 900, predicted: 1180 },
+    { month: '11月', target: 1480, completed: 880, predicted: 1150 },
+    { month: '12月', target: 1460, completed: 850, predicted: 1100 },
   ],
   '一区': [
     { month: '1月', target: 320, completed: 65, predicted: 175 },
