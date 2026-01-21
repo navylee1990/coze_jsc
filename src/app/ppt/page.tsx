@@ -94,7 +94,7 @@ export default function PPTPage() {
                     </div>
                     <div className="flex items-center gap-2">
                       <div className="w-1.5 h-1.5 rounded-full bg-green-500"></div>
-                      <span>专属话术精准触达</span>
+                      <span>PIPP/1on1精准触达</span>
                     </div>
                     <div className="flex items-center gap-2">
                       <div className="w-1.5 h-1.5 rounded-full bg-green-500"></div>
@@ -176,14 +176,14 @@ export default function PPTPage() {
               </div>
             </div>
 
-            {/* 专属话术 */}
+            {/* PIPP/1on1 */}
             <div className="bg-gradient-to-br from-blue-50 to-indigo-50 rounded-xl p-4 border-2 border-blue-200">
               <div className="flex flex-col items-center text-center">
                 <div className="p-2.5 bg-gradient-to-br from-blue-500 to-indigo-500 rounded-lg mb-2">
                   <MessageSquare className="w-6 h-6 text-white" />
                 </div>
                 <div className="flex items-center gap-1 mb-1">
-                  <h3 className="text-sm font-bold text-blue-700">专属话术</h3>
+                  <h3 className="text-sm font-bold text-blue-700">PIPP/1on1</h3>
                 </div>
                 <div className="text-[11px] text-gray-600 mb-1">达成率自动匹配</div>
                 <div className="text-[11px] text-blue-600 bg-blue-100 px-2 py-0.5 rounded-full">
