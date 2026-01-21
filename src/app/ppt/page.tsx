@@ -98,11 +98,11 @@ export default function PPTPage() {
                     </div>
                     <div className="flex items-center gap-2">
                       <div className="w-1.5 h-1.5 rounded-full bg-green-500"></div>
-                      <span>问题闭环管理</span>
+                      <span>快速响应解决问题</span>
                     </div>
                     <div className="flex items-center gap-2">
                       <div className="w-1.5 h-1.5 rounded-full bg-green-500"></div>
-                      <span>协同高效解决</span>
+                      <span>提升团队执行力</span>
                     </div>
                   </div>
                 </div>
