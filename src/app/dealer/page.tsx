@@ -5,7 +5,7 @@ import { ArrowUp, ArrowDown, TrendingUp, AlertTriangle, Activity, Target, Heart,
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs';
 import Link from 'next/link';
-import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, LineChart, Line } from 'recharts';
+import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 
 // 模拟数据 - 不同时间维度
 const timeRangeData = {
@@ -530,7 +530,7 @@ export default function DealerDashboard() {
             <CardContent className="p-2">
               <div className="h-72 mb-3">
                 <ResponsiveContainer width="100%" height="100%">
-                  <LineChart data={monthlyTrendData}>
+                  <AreaChart data={monthlyTrendData}>
                     <defs>
                       <linearGradient id="gradientTarget" x1="0" y1="0" x2="0" y2="1">
                         <stop offset="5%" stopColor="#9ca3af" stopOpacity={0.3}/>
@@ -579,37 +579,38 @@ export default function DealerDashboard() {
                       iconType="circle"
                       height={36}
                     />
-                    <Line
+                    <Area
                       type="monotone"
                       dataKey="target"
                       stroke="#9ca3af"
                       strokeWidth={2}
                       strokeDasharray="6 4"
+                      fill="url(#gradientTarget)"
                       name="月度目标"
                       dot={false}
                       opacity={0.6}
                     />
-                    <Line
+                    <Area
                       type="monotone"
                       dataKey="actual"
                       stroke="#16a34a"
                       strokeWidth={3}
+                      fill="url(#gradientActual)"
                       name="实际达成"
-                      dot={{ fill: '#16a34a', strokeWidth: 3, r: 5, fillOpacity: 1 }}
+                      dot={{ fill: '#16a34a', strokeWidth: 3, r: 5 }}
                       activeDot={{ r: 7, strokeWidth: 3, fill: '#16a34a' }}
-                      fillOpacity={1}
                     />
-                    <Line
+                    <Area
                       type="monotone"
                       dataKey="cumulative"
                       stroke="#0891b2"
                       strokeWidth={3}
+                      fill="url(#gradientCumulative)"
                       name="累计达成"
-                      dot={{ fill: '#0891b2', strokeWidth: 3, r: 5, fillOpacity: 1 }}
+                      dot={{ fill: '#0891b2', strokeWidth: 3, r: 5 }}
                       activeDot={{ r: 7, strokeWidth: 3, fill: '#0891b2' }}
-                      fillOpacity={1}
                     />
-                  </LineChart>
+                  </AreaChart>
                 </ResponsiveContainer>
               </div>
             </CardContent>
