@@ -1359,9 +1359,6 @@ export default function SalesDashboard() {
                     <tr className="border-b border-gray-100">
                       <th className="px-2 py-2 text-left text-sm font-medium text-gray-500">
                         {viewLevel === 'city' ? '城市' : '大区'}
-                        {viewLevel === 'region' && (
-                          <span className="ml-1 text-xs text-green-500 font-normal">（点击查看）</span>
-                        )}
                       </th>
                       <th className="px-2 py-2 text-left text-sm font-medium text-gray-500">责任人</th>
                       <th className="px-2 py-2 text-right text-sm font-medium text-gray-500">目标</th>
@@ -1382,11 +1379,16 @@ export default function SalesDashboard() {
                         className={`group border-b border-gray-50 last:border-0 ${viewLevel === 'region' ? 'cursor-pointer hover:bg-green-50 hover:border-l-4 hover:border-l-green-500' : ''}`}
                       >
                         <td className="px-2 py-2.5 text-sm font-medium text-gray-900 group-hover:text-green-600 transition-colors">
-                          <div className="flex items-center gap-2">
+                          <div className="flex flex-col gap-0.5">
+                            <div className="flex items-center gap-2">
+                              {viewLevel === 'region' && (
+                                <ChevronRight className="w-4 h-4 text-gray-400 group-hover:text-green-500 group-hover:translate-x-0.5 transition-all" />
+                              )}
+                              {item.name}
+                            </div>
                             {viewLevel === 'region' && (
-                              <ChevronRight className="w-4 h-4 text-gray-400 group-hover:text-green-500 group-hover:translate-x-0.5 transition-all" />
+                              <span className="text-xs text-green-500 font-normal ml-6">（点击查看）</span>
                             )}
-                            {item.name}
                           </div>
                         </td>
                         <td className="px-2 py-2.5">
@@ -1485,15 +1487,15 @@ export default function SalesDashboard() {
                 <div className="bg-white rounded-lg border-0 overflow-hidden min-w-[800px]">
                   <table className="w-full" style={{ tableLayout: 'fixed' }}>
                   <colgroup>
-                    <col style={{ width: '9%' }} />
-                    <col style={{ width: '9%' }} />
-                    <col style={{ width: '12%' }} />
+                    <col style={{ width: '8%' }} />
+                    <col style={{ width: '8%' }} />
+                    <col style={{ width: '14%' }} />
                     <col style={{ width: '8%' }} />
                     <col style={{ width: '8%' }} />
                     <col style={{ width: '9%' }} />
                     <col style={{ width: '8%' }} />
-                    <col style={{ width: '17%' }} />
-                    <col style={{ width: '10%' }} />
+                    <col style={{ width: '18%' }} />
+                    <col style={{ width: '9%' }} />
                     <col style={{ width: '10%' }} />
                   </colgroup>
                   <thead>
