@@ -1302,7 +1302,7 @@ export default function SalesDashboard() {
                       formatter={(value) => {
                         const colorMap: { [key: string]: string } = {
                           '目标': '#3B82F6',
-                          '计划': '#8B5CF6',
+                          'plan': '#8B5CF6',
                           '已完成': '#10B981',
                           '预测完成': '#F59E0B',
                         };
@@ -1323,7 +1323,7 @@ export default function SalesDashboard() {
                       stroke="#8B5CF6"
                       strokeWidth={2.5}
                       fillOpacity={0}
-                      name="计划"
+                      name="plan"
                     />
                     <Area
                       type="monotone"
