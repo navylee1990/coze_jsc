@@ -1344,14 +1344,14 @@ export default function SalesDashboard() {
                 <div className="bg-white rounded-lg border-0 overflow-hidden">
                   <table className="w-full" style={{ tableLayout: 'fixed' }}>
                   <colgroup>
-                    <col style={{ width: '10%' }} />
-                    <col style={{ width: '10%' }} />
-                    <col style={{ width: '12%' }} />
-                    <col style={{ width: '12%' }} />
+                    <col style={{ width: '11%' }} />
+                    <col style={{ width: '11%' }} />
+                    <col style={{ width: '9%' }} />
+                    <col style={{ width: '9%' }} />
                     <col style={{ width: '10%' }} />
                     <col style={{ width: '8%' }} />
-                    <col style={{ width: '10%' }} />
-                    <col style={{ width: '10%' }} />
+                    <col style={{ width: '17%' }} />
+                    <col style={{ width: '17%' }} />
                     <col style={{ width: '8%' }} />
                   </colgroup>
                   <thead>
@@ -1364,7 +1364,7 @@ export default function SalesDashboard() {
                       <th className="px-2 py-2 text-center text-sm font-medium text-gray-500">已完成</th>
                       <th className="px-2 py-2 text-center text-sm font-medium text-gray-500 whitespace-nowrap">预测金额</th>
                       <th className="px-2 py-2 text-center text-sm font-medium text-gray-500 whitespace-nowrap">缺口</th>
-                      <th className="px-2 py-2 text-center text-sm font-medium text-gray-500 whitespace-nowrap">达成率</th>
+                      <th className="px-2 py-2 text-center text-sm font-medium text-gray-500 whitespace-nowrap">预测达成率</th>
                       <th className="px-2 py-2 text-center text-sm font-medium text-gray-500 whitespace-nowrap">在手项目</th>
                       <th className="px-1 py-2"></th>
                     </tr>
@@ -1476,12 +1476,12 @@ export default function SalesDashboard() {
                     <col style={{ width: '10%' }} />
                     <col style={{ width: '10%' }} />
                     <col style={{ width: '12%' }} />
-                    <col style={{ width: '13%' }} />
-                    <col style={{ width: '12%' }} />
+                    <col style={{ width: '10%' }} />
+                    <col style={{ width: '10%' }} />
                     <col style={{ width: '12%' }} />
                     <col style={{ width: '9%' }} />
-                    <col style={{ width: '11%' }} />
-                    <col style={{ width: '11%' }} />
+                    <col style={{ width: '13%' }} />
+                    <col style={{ width: '14%' }} />
                   </colgroup>
                   <thead>
                     <tr className="border-b border-gray-100">
@@ -1492,7 +1492,7 @@ export default function SalesDashboard() {
                       <th className="px-2 py-2 text-center text-sm font-medium text-gray-500">已完成</th>
                       <th className="px-2 py-2 text-center text-sm font-medium text-gray-500 whitespace-nowrap">预测金额</th>
                       <th className="px-2 py-2 text-center text-sm font-medium text-gray-500 whitespace-nowrap">缺口</th>
-                      <th className="px-2 py-2 text-center text-sm font-medium text-gray-500 whitespace-nowrap">达成率</th>
+                      <th className="px-2 py-2 text-center text-sm font-medium text-gray-500 whitespace-nowrap">预测达成率</th>
                       <th className="px-2 py-2 text-center text-sm font-medium text-gray-500 whitespace-nowrap">在手项目</th>
                     </tr>
                   </thead>
