@@ -1475,12 +1475,12 @@ export default function SalesDashboard() {
                   <colgroup>
                     <col style={{ width: '10%' }} />
                     <col style={{ width: '10%' }} />
-                    <col style={{ width: '12%' }} />
                     <col style={{ width: '10%' }} />
                     <col style={{ width: '10%' }} />
                     <col style={{ width: '10%' }} />
                     <col style={{ width: '10%' }} />
-                    <col style={{ width: '18%' }} />
+                    <col style={{ width: '10%' }} />
+                    <col style={{ width: '20%' }} />
                     <col style={{ width: '10%' }} />
                   </colgroup>
                   <thead>
