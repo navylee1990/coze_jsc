@@ -696,6 +696,33 @@ export default function SalesDashboard() {
     // 这里可以集成企业微信API来创建群组
   };
 
+  // 根据达成率获取消息模板
+  const getMessageTemplate = (rate: number) => {
+    const gap = pullGroupDialog.target && pullGroupDialog.completed
+      ? (pullGroupDialog.target - pullGroupDialog.completed).toFixed(1)
+      : '0';
+
+    if (rate < 80) {
+      return {
+        label: '任务缺口较大',
+        borderColor: 'border-red-500',
+        message: `@${pullGroupDialog.ownerName} 您好！${pullGroupDialog.region || ''}${pullGroupDialog.city ? pullGroupDialog.city : ''}当前目标 ${pullGroupDialog.target || 0}万元，已完成 ${pullGroupDialog.completed || 0}万元，预测达成率 ${rate.toFixed(1)}%。任务缺口 ${gap}万元。请梳理在手项目，重点关注转化概率高的项目，制定明确的跟进计划。如有需要支持的资源，请在群内反馈。`
+      };
+    } else if (rate < 100) {
+      return {
+        label: '达成率中等',
+        borderColor: 'border-yellow-500',
+        message: `@${pullGroupDialog.ownerName} 您好！${pullGroupDialog.region || ''}${pullGroupDialog.city ? pullGroupDialog.city : ''}当前达成率 ${rate.toFixed(1)}%，在手项目 ${pullGroupDialog.pendingAmount || 0}万元。建议聚焦重点客户，加快项目推进。如有需要协调的资源，请及时反馈。`
+      };
+    } else {
+      return {
+        label: '超额完成',
+        borderColor: 'border-green-500',
+        message: `@${pullGroupDialog.ownerName} 您好！${pullGroupDialog.region || ''}${pullGroupDialog.city ? pullGroupDialog.city : ''}当前达成率 ${rate.toFixed(1)}%，超额完成任务！请分享成功经验，并在群内同步后续工作计划。`
+      };
+    }
+  };
+
   const handleClosePullGroupDialog = () => {
     setPullGroupDialog({
       open: false,
@@ -2657,19 +2684,13 @@ export default function SalesDashboard() {
               {/* 消息模板 */}
               <div>
                 <h3 className="text-sm font-semibold text-gray-700 mb-2">消息模板</h3>
-                <div className="bg-gray-50 rounded-lg p-3 space-y-2">
-                  <div className="border-l-4 border-red-500 pl-2">
-                    <p className="text-xs text-gray-500 mb-1">任务缺口较大</p>
-                        <p className="text-xs text-gray-700 whitespace-pre-line">{`@${pullGroupDialog.ownerName} 您好！${pullGroupDialog.region || ''}${pullGroupDialog.city ? pullGroupDialog.city : ''}当前目标 ${pullGroupDialog.target || 0}万元，已完成 ${pullGroupDialog.completed || 0}万元，预测达成率 ${pullGroupDialog.rate?.toFixed(1) || 0}%。任务缺口 ${pullGroupDialog.target && pullGroupDialog.completed ? (pullGroupDialog.target - pullGroupDialog.completed).toFixed(1) : 0}万元。请梳理在手项目，重点关注转化概率高的项目，制定明确的跟进计划。如有需要支持的资源，请在群内反馈。`}</p>
-                  </div>
-                  <div className="border-l-4 border-yellow-500 pl-2">
-                    <p className="text-xs text-gray-500 mb-1">达成率中等</p>
-                    <p className="text-xs text-gray-700 whitespace-pre-line">{`@${pullGroupDialog.ownerName} 您好！${pullGroupDialog.region || ''}${pullGroupDialog.city ? pullGroupDialog.city : ''}当前达成率 ${pullGroupDialog.rate?.toFixed(1) || 0}%，在手项目 ${pullGroupDialog.pendingAmount || 0}万元。建议聚焦重点客户，加快项目推进。如有需要协调的资源，请及时反馈。`}</p>
-                  </div>
-                  <div className="border-l-4 border-green-500 pl-2">
-                    <p className="text-xs text-gray-500 mb-1">超额完成</p>
-                    <p className="text-xs text-gray-700 whitespace-pre-line">{`@${pullGroupDialog.ownerName} 您好！${pullGroupDialog.region || ''}${pullGroupDialog.city ? pullGroupDialog.city : ''}当前达成率 ${pullGroupDialog.rate?.toFixed(1) || 0}%，超额完成任务！请分享成功经验，并在群内同步后续工作计划。`}</p>
-                  </div>
+                <div className="bg-gray-50 rounded-lg p-3">
+                  {pullGroupDialog.rate !== undefined && (
+                    <div className={`border-l-4 ${getMessageTemplate(pullGroupDialog.rate).borderColor} pl-2`}>
+                      <p className="text-xs text-gray-500 mb-1">{getMessageTemplate(pullGroupDialog.rate).label}</p>
+                      <p className="text-xs text-gray-700 whitespace-pre-line">{getMessageTemplate(pullGroupDialog.rate).message}</p>
+                    </div>
+                  )}
                 </div>
               </div>
 
