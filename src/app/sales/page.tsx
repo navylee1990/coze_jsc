@@ -860,7 +860,8 @@ export default function SalesDashboard() {
                   </div>
                 </div>
               </div>
-              <div className="grid grid-cols-2 sm:grid-cols-4">
+              <div className="overflow-x-auto">
+                <div className="grid grid-cols-5 min-w-[600px]">
                 {/* 目标 */}
                 <div className="border-r border-b sm:border-b-0 border-gray-200 px-2 py-2 relative">
                   <div className="text-xs font-medium text-gray-500 mb-1">{timeRangeLabel}目标</div>
@@ -934,7 +935,19 @@ export default function SalesDashboard() {
                     </div>
                   )}
                 </div>
+
+                {/* 合计 */}
+                <div className="px-2 py-2 bg-blue-50">
+                  <div className="text-xs font-medium text-gray-500 mb-1">合计</div>
+                  <div className="flex items-baseline gap-1">
+                    <span className="text-2xl font-bold text-blue-700 leading-none">
+                      {(currentRangeData.target + currentRangeData.completed + currentRangeData.predicted + Math.abs(currentRangeData.gap)).toLocaleString()}
+                    </span>
+                    <span className="text-xs text-gray-600">万元</span>
+                  </div>
+                </div>
               </div>
+            </div>
             </div>
 
             {/* 第二行：新增租赁指标 */}
@@ -960,7 +973,8 @@ export default function SalesDashboard() {
                   </div>
                 </div>
               </div>
-              <div className="grid grid-cols-2 sm:grid-cols-4">
+              <div className="overflow-x-auto">
+                <div className="grid grid-cols-5 min-w-[600px]">
                 {/* 目标 */}
                 <div className="border-r border-b sm:border-b-0 border-gray-200 px-2 py-2 relative">
                   <div className="text-xs font-medium text-gray-500 mb-1">{timeRangeLabel}目标</div>
@@ -1034,7 +1048,19 @@ export default function SalesDashboard() {
                     </div>
                   )}
                 </div>
+
+                {/* 合计 */}
+                <div className="px-2 py-2 bg-blue-50">
+                  <div className="text-xs font-medium text-gray-500 mb-1">合计</div>
+                  <div className="flex items-baseline gap-1">
+                    <span className="text-2xl font-bold text-blue-700 leading-none">
+                      {(leaseTimeRangeData[timeRange as keyof typeof leaseTimeRangeData].target + leaseTimeRangeData[timeRange as keyof typeof leaseTimeRangeData].completed + leaseTimeRangeData[timeRange as keyof typeof leaseTimeRangeData].predicted + Math.abs(leaseTimeRangeData[timeRange as keyof typeof leaseTimeRangeData].gap)).toLocaleString()}
+                    </span>
+                    <span className="text-xs text-gray-600">万元</span>
+                  </div>
+                </div>
               </div>
+            </div>
             </div>
 
             {/* 第三行：续租指标 */}
@@ -1060,7 +1086,8 @@ export default function SalesDashboard() {
                   </div>
                 </div>
               </div>
-              <div className="grid grid-cols-2 sm:grid-cols-4">
+              <div className="overflow-x-auto">
+                <div className="grid grid-cols-5 min-w-[600px]">
                 {/* 目标 */}
                 <div className="border-r border-b sm:border-b-0 border-gray-200 px-2 py-2 relative">
                   <div className="text-xs font-medium text-gray-500 mb-1">{timeRangeLabel}目标</div>
@@ -1134,8 +1161,20 @@ export default function SalesDashboard() {
                     </div>
                   )}
                 </div>
+
+                {/* 合计 */}
+                <div className="px-2 py-2 bg-blue-50">
+                  <div className="text-xs font-medium text-gray-500 mb-1">合计</div>
+                  <div className="flex items-baseline gap-1">
+                    <span className="text-2xl font-bold text-blue-700 leading-none">
+                      {(renewalTimeRangeData[timeRange as keyof typeof renewalTimeRangeData].target + renewalTimeRangeData[timeRange as keyof typeof renewalTimeRangeData].completed + renewalTimeRangeData[timeRange as keyof typeof renewalTimeRangeData].predicted + Math.abs(renewalTimeRangeData[timeRange as keyof typeof renewalTimeRangeData].gap)).toLocaleString()}
+                    </span>
+                    <span className="text-xs text-gray-600">万元</span>
+                  </div>
+                </div>
               </div>
             </div>
+          </div>
           </div>
 
           {/* 右侧：月度趋势分析 */}
