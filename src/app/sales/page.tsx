@@ -1158,29 +1158,36 @@ export default function SalesDashboard() {
               </div>
             </div>
 
-            {/* 合计信息 - 紧凑状态栏 */}
-            <div className="bg-slate-50 border-t border-slate-200 px-3 py-1.5">
-              <div className="flex items-center gap-3 text-xs">
-                <span className="font-semibold text-slate-600">合计：</span>
-                <div className="flex items-center gap-0.5">
-                  <span className="text-slate-500">目标</span>
-                  <span className="font-bold text-slate-900">{totalTarget.toLocaleString()}</span>
+            {/* 合计信息 - 通知消息样式 */}
+            <div className="bg-emerald-50 border border-emerald-200 rounded-lg px-4 py-2">
+              <div className="flex items-center gap-2 text-xs">
+                <div className="flex items-center gap-1.5 bg-white rounded-md px-2 py-1 border border-emerald-100 shadow-sm">
+                  <Target className="w-3.5 h-3.5 text-emerald-600" />
+                  <span className="font-bold text-emerald-700">合计</span>
                 </div>
-                <div className="flex items-center gap-0.5">
-                  <span className="text-slate-500">已完成</span>
-                  <span className="font-semibold text-slate-900">{totalCompleted.toLocaleString()}</span>
+                <div className="flex items-center gap-1">
+                  <span className="text-emerald-700">目标</span>
+                  <span className="font-bold text-emerald-900">{totalTarget.toLocaleString()}</span>
                 </div>
-                <div className="flex items-center gap-0.5">
-                  <span className="text-slate-500">预测</span>
-                  <span className="font-semibold text-slate-900">{totalPredicted.toLocaleString()}</span>
+                <span className="text-emerald-300">|</span>
+                <div className="flex items-center gap-1">
+                  <span className="text-emerald-700">已完成</span>
+                  <span className="font-bold text-emerald-900">{totalCompleted.toLocaleString()}</span>
                 </div>
-                <div className="flex items-center gap-0.5">
-                  <span className="text-slate-500">缺口</span>
-                  <span className={`font-semibold ${totalGap > 0 ? 'text-red-600' : totalGap < 0 ? 'text-green-600' : 'text-slate-900'}`}>{totalGap.toLocaleString()}</span>
+                <span className="text-emerald-300">|</span>
+                <div className="flex items-center gap-1">
+                  <span className="text-emerald-700">预测</span>
+                  <span className="font-bold text-emerald-900">{totalPredicted.toLocaleString()}</span>
                 </div>
-                <div className="flex items-center gap-0.5">
-                  <span className="text-slate-500">在手</span>
-                  <span className="font-semibold text-slate-900">{totalPendingAmount.toLocaleString()}</span>
+                <span className="text-emerald-300">|</span>
+                <div className="flex items-center gap-1">
+                  <span className="text-emerald-700">缺口</span>
+                  <span className={`font-bold ${totalGap > 0 ? 'text-red-600' : totalGap < 0 ? 'text-green-600' : 'text-emerald-900'}`}>{totalGap.toLocaleString()}</span>
+                </div>
+                <span className="text-emerald-300">|</span>
+                <div className="flex items-center gap-1">
+                  <span className="text-emerald-700">在手</span>
+                  <span className="font-bold text-emerald-900">{totalPendingAmount.toLocaleString()}</span>
                 </div>
               </div>
             </div>
