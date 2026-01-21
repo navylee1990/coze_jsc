@@ -12,7 +12,7 @@ export default function PPTPage() {
             <h1 className="text-5xl font-bold bg-gradient-to-r from-green-600 to-emerald-600 bg-clip-text text-transparent mb-3">
               商用净水经营驾驶舱
             </h1>
-            <p className="text-2xl text-gray-600 font-medium">数据 → 风险 → 协同，精准掌控业务动态</p>
+            <p className="text-2xl text-gray-600 font-medium">数据 → 风险 → 行动，精准掌控业务动态</p>
           </div>
 
           {/* 核心流程 */}
@@ -80,12 +80,12 @@ export default function PPTPage() {
               {/* 箭头 */}
               <ArrowRight className="w-8 h-8 text-gray-400 flex-shrink-0" />
 
-              {/* 协同层 */}
+              {/* 行动层 */}
               <div className="flex-1 max-w-xs">
                 <div className="bg-gradient-to-br from-green-50 to-green-100 rounded-xl p-5 border-2 border-green-200">
                   <div className="flex items-center gap-3 mb-3">
                     <TrendingUp className="w-8 h-8 text-green-600" />
-                    <h3 className="text-xl font-bold text-green-600">协同层</h3>
+                    <h3 className="text-xl font-bold text-green-600">行动层</h3>
                   </div>
                   <div className="space-y-2 text-sm text-gray-700">
                     <div className="flex items-center gap-2">
@@ -98,11 +98,11 @@ export default function PPTPage() {
                     </div>
                     <div className="flex items-center gap-2">
                       <div className="w-1.5 h-1.5 rounded-full bg-green-500"></div>
-                      <span>快速响应解决问题</span>
+                      <span>问题闭环管理</span>
                     </div>
                     <div className="flex items-center gap-2">
                       <div className="w-1.5 h-1.5 rounded-full bg-green-500"></div>
-                      <span>责任人快速沟通</span>
+                      <span>协同高效解决</span>
                     </div>
                   </div>
                 </div>
