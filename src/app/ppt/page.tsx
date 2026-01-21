@@ -98,6 +98,10 @@ export default function PPTPage() {
                     </div>
                     <div className="flex items-center gap-2">
                       <div className="w-1.5 h-1.5 rounded-full bg-green-500"></div>
+                      <span>人员绩效在线跟踪</span>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <div className="w-1.5 h-1.5 rounded-full bg-green-500"></div>
                       <span>推动业务SOP落地</span>
                     </div>
                   </div>
