@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { ArrowUp, ArrowDown, TrendingUp, AlertTriangle, Activity, Target, Clock, Database, ChevronRight, BarChart3, MessagePlus } from 'lucide-react';
+import { ArrowUp, ArrowDown, TrendingUp, AlertTriangle, Activity, Target, Clock, Database, ChevronRight, BarChart3, UserPlus } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Progress } from '@/components/ui/progress';
 import { AIInsight } from '@/components/ai-insight';
@@ -1388,7 +1388,7 @@ export default function SalesDashboard() {
                               className="p-1 text-emerald-600 hover:bg-emerald-100 rounded-md transition-colors"
                               title="拉群"
                             >
-                              <MessagePlus className="w-3.5 h-3.5" />
+                              <UserPlus className="w-3.5 h-3.5" />
                             </button>
                           </div>
                         </td>
@@ -1509,7 +1509,7 @@ export default function SalesDashboard() {
                               className="p-1 text-emerald-600 hover:bg-emerald-100 rounded-md transition-colors"
                               title="拉群"
                             >
-                              <MessagePlus className="w-3.5 h-3.5" />
+                              <UserPlus className="w-3.5 h-3.5" />
                             </button>
                           </div>
                         </td>
