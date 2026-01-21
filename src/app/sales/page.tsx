@@ -931,7 +931,7 @@ export default function SalesDashboard() {
                 </div>
 
                 {/* 在手项目金额 */}
-                <div className={`px-2 py-2 border-l-4 ${(currentRangeData as any).pendingRate >= 80 ? 'bg-green-50 border-green-600' : (currentRangeData as any).pendingRate >= 60 ? 'bg-orange-50 border-orange-600' : 'bg-red-50 border-red-600'}`}>
+                <div className={`px-2 py-2 border-l-4 ${(currentRangeData as any).pendingRate >= 80 ? 'border-green-600' : (currentRangeData as any).pendingRate >= 60 ? 'border-orange-600' : 'border-red-600'}`}>
                   <div className="text-xs font-medium text-gray-500 mb-1">在手项目</div>
                   <div className="flex items-baseline gap-1">
                     <span className={`text-2xl font-bold leading-none ${(currentRangeData as any).pendingRate >= 80 ? 'text-green-700' : (currentRangeData as any).pendingRate >= 60 ? 'text-orange-700' : 'text-red-700'}`}>
@@ -1030,7 +1030,7 @@ export default function SalesDashboard() {
                 </div>
 
                 {/* 在手项目金额 */}
-                <div className={`px-2 py-2 border-l-4 ${(leaseTimeRangeData[timeRange as keyof typeof leaseTimeRangeData] as any).pendingRate >= 80 ? 'bg-green-50 border-green-600' : (leaseTimeRangeData[timeRange as keyof typeof leaseTimeRangeData] as any).pendingRate >= 60 ? 'bg-orange-50 border-orange-600' : 'bg-red-50 border-red-600'}`}>
+                <div className={`px-2 py-2 border-l-4 ${(leaseTimeRangeData[timeRange as keyof typeof leaseTimeRangeData] as any).pendingRate >= 80 ? 'border-green-600' : (leaseTimeRangeData[timeRange as keyof typeof leaseTimeRangeData] as any).pendingRate >= 60 ? 'border-orange-600' : 'border-red-600'}`}>
                   <div className="text-xs font-medium text-gray-500 mb-1">在手项目</div>
                   <div className="flex items-baseline gap-1">
                     <span className={`text-2xl font-bold leading-none ${(leaseTimeRangeData[timeRange as keyof typeof leaseTimeRangeData] as any).pendingRate >= 80 ? 'text-green-700' : (leaseTimeRangeData[timeRange as keyof typeof leaseTimeRangeData] as any).pendingRate >= 60 ? 'text-orange-700' : 'text-red-700'}`}>
@@ -1129,7 +1129,7 @@ export default function SalesDashboard() {
                 </div>
 
                 {/* 在手项目金额 */}
-                <div className={`px-2 py-2 border-l-4 ${(renewalTimeRangeData[timeRange as keyof typeof renewalTimeRangeData] as any).pendingRate >= 80 ? 'bg-green-50 border-green-600' : (renewalTimeRangeData[timeRange as keyof typeof renewalTimeRangeData] as any).pendingRate >= 60 ? 'bg-orange-50 border-orange-600' : 'bg-red-50 border-red-600'}`}>
+                <div className={`px-2 py-2 border-l-4 ${(renewalTimeRangeData[timeRange as keyof typeof renewalTimeRangeData] as any).pendingRate >= 80 ? 'border-green-600' : (renewalTimeRangeData[timeRange as keyof typeof renewalTimeRangeData] as any).pendingRate >= 60 ? 'border-orange-600' : 'border-red-600'}`}>
                   <div className="text-xs font-medium text-gray-500 mb-1">在手项目</div>
                   <div className="flex items-baseline gap-1">
                     <span className={`text-2xl font-bold leading-none ${(renewalTimeRangeData[timeRange as keyof typeof renewalTimeRangeData] as any).pendingRate >= 80 ? 'text-green-700' : (renewalTimeRangeData[timeRange as keyof typeof renewalTimeRangeData] as any).pendingRate >= 60 ? 'text-orange-700' : 'text-red-700'}`}>
