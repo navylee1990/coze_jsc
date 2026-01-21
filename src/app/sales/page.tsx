@@ -83,6 +83,9 @@ const timeRangeData = {
     gap: 100.7,
     canComplete: false,
     risk: 'high',
+    // 在手项目金额
+    pendingAmount: 850,
+    pendingRate: 59.5,
   },
   quarter: {
     target: 4284,
@@ -91,6 +94,9 @@ const timeRangeData = {
     gap: 302.1,
     canComplete: false,
     risk: 'high',
+    // 在手项目金额
+    pendingAmount: 2550,
+    pendingRate: 59.5,
   },
   year: {
     target: 17136,
@@ -99,6 +105,9 @@ const timeRangeData = {
     gap: 1208.4,
     canComplete: false,
     risk: 'high',
+    // 在手项目金额
+    pendingAmount: 10200,
+    pendingRate: 59.5,
   },
 };
 
@@ -111,6 +120,9 @@ const leaseTimeRangeData = {
     gap: 60.8,
     canComplete: false,
     risk: 'medium',
+    // 在手项目金额
+    pendingAmount: 520,
+    pendingRate: 60.7,
   },
   quarter: {
     target: 2568,
@@ -119,6 +131,9 @@ const leaseTimeRangeData = {
     gap: 182.4,
     canComplete: false,
     risk: 'medium',
+    // 在手项目金额
+    pendingAmount: 1560,
+    pendingRate: 60.7,
   },
   year: {
     target: 10272,
@@ -127,6 +142,9 @@ const leaseTimeRangeData = {
     gap: 729.6,
     canComplete: false,
     risk: 'medium',
+    // 在手项目金额
+    pendingAmount: 6240,
+    pendingRate: 60.7,
   },
 };
 
@@ -139,6 +157,9 @@ const renewalTimeRangeData = {
     gap: 29.5,
     canComplete: true,
     risk: 'low',
+    // 在手项目金额
+    pendingAmount: 600,
+    pendingRate: 88.2,
   },
   quarter: {
     target: 2040,
@@ -147,6 +168,9 @@ const renewalTimeRangeData = {
     gap: 88.5,
     canComplete: true,
     risk: 'low',
+    // 在手项目金额
+    pendingAmount: 1800,
+    pendingRate: 88.2,
   },
   year: {
     target: 8160,
@@ -155,6 +179,9 @@ const renewalTimeRangeData = {
     gap: 354,
     canComplete: true,
     risk: 'low',
+    // 在手项目金额
+    pendingAmount: 7200,
+    pendingRate: 88.2,
   },
 };
 
@@ -672,6 +699,8 @@ export default function SalesDashboard() {
       gap: monthData ? (monthData.target - monthData.predicted) : 0,
       canComplete: monthData ? (monthData.predicted >= monthData.target) : false,
       risk: monthData && (monthData.predicted / monthData.target) < 0.8 ? 'high' : 'medium',
+      pendingAmount: monthData ? Math.round(monthData.predicted * 0.64) : 0, // 模拟在手项目金额
+      pendingRate: monthData ? Math.round((monthData.predicted / monthData.target) * 100) : 0,
     };
   } else {
     // 季度或年度使用原有数据
@@ -838,7 +867,7 @@ export default function SalesDashboard() {
                   </div>
                 </div>
               </div>
-              <div className="grid grid-cols-2 sm:grid-cols-4">
+              <div className="grid grid-cols-2 sm:grid-cols-5">
                 {/* 目标 */}
                 <div className="border-r border-b sm:border-b-0 border-gray-200 px-2 py-2 relative">
                   <div className="text-xs font-medium text-gray-500 mb-1">{timeRangeLabel}目标</div>
@@ -900,6 +929,20 @@ export default function SalesDashboard() {
                     </div>
                   )}
                 </div>
+
+                {/* 在手项目金额 */}
+                <div className={`px-2 py-2 border-l-4 ${(currentRangeData as any).pendingRate >= 80 ? 'bg-green-50 border-green-600' : (currentRangeData as any).pendingRate >= 60 ? 'bg-orange-50 border-orange-600' : 'bg-red-50 border-red-600'}`}>
+                  <div className="text-xs font-medium text-gray-500 mb-1">在手项目</div>
+                  <div className="flex items-baseline gap-1">
+                    <span className={`text-2xl font-bold leading-none ${(currentRangeData as any).pendingRate >= 80 ? 'text-green-700' : (currentRangeData as any).pendingRate >= 60 ? 'text-orange-700' : 'text-red-700'}`}>
+                      {(currentRangeData as any).pendingAmount?.toLocaleString() || '0'}
+                    </span>
+                    <span className="text-xs text-gray-600">万元</span>
+                  </div>
+                  <div className={`inline-flex items-center px-2 py-0.5 rounded text-[10px] font-bold mt-1 ${(currentRangeData as any).pendingRate >= 80 ? 'bg-green-600 text-white' : (currentRangeData as any).pendingRate >= 60 ? 'bg-orange-600 text-white' : 'bg-red-600 text-white'}`}>
+                    {(currentRangeData as any).pendingRate >= 80 ? '80~100%' : (currentRangeData as any).pendingRate >= 60 ? '60~80%' : '60%以下'}
+                  </div>
+                </div>
               </div>
             </div>
 
@@ -926,7 +969,7 @@ export default function SalesDashboard() {
                   </div>
                 </div>
               </div>
-              <div className="grid grid-cols-2 sm:grid-cols-4">
+              <div className="grid grid-cols-2 sm:grid-cols-5">
                 {/* 目标 */}
                 <div className="border-r border-b sm:border-b-0 border-gray-200 px-2 py-2 relative">
                   <div className="text-xs font-medium text-gray-500 mb-1">{timeRangeLabel}目标</div>
@@ -988,6 +1031,20 @@ export default function SalesDashboard() {
                     </div>
                   )}
                 </div>
+
+                {/* 在手项目金额 */}
+                <div className={`px-2 py-2 border-l-4 ${(leaseTimeRangeData[timeRange as keyof typeof leaseTimeRangeData] as any).pendingRate >= 80 ? 'bg-green-50 border-green-600' : (leaseTimeRangeData[timeRange as keyof typeof leaseTimeRangeData] as any).pendingRate >= 60 ? 'bg-orange-50 border-orange-600' : 'bg-red-50 border-red-600'}`}>
+                  <div className="text-xs font-medium text-gray-500 mb-1">在手项目</div>
+                  <div className="flex items-baseline gap-1">
+                    <span className={`text-2xl font-bold leading-none ${(leaseTimeRangeData[timeRange as keyof typeof leaseTimeRangeData] as any).pendingRate >= 80 ? 'text-green-700' : (leaseTimeRangeData[timeRange as keyof typeof leaseTimeRangeData] as any).pendingRate >= 60 ? 'text-orange-700' : 'text-red-700'}`}>
+                      {(leaseTimeRangeData[timeRange as keyof typeof leaseTimeRangeData] as any).pendingAmount?.toLocaleString() || '0'}
+                    </span>
+                    <span className="text-xs text-gray-600">万元</span>
+                  </div>
+                  <div className={`inline-flex items-center px-2 py-0.5 rounded text-[10px] font-bold mt-1 ${(leaseTimeRangeData[timeRange as keyof typeof leaseTimeRangeData] as any).pendingRate >= 80 ? 'bg-green-600 text-white' : (leaseTimeRangeData[timeRange as keyof typeof leaseTimeRangeData] as any).pendingRate >= 60 ? 'bg-orange-600 text-white' : 'bg-red-600 text-white'}`}>
+                    {(leaseTimeRangeData[timeRange as keyof typeof leaseTimeRangeData] as any).pendingRate >= 80 ? '80~100%' : (leaseTimeRangeData[timeRange as keyof typeof leaseTimeRangeData] as any).pendingRate >= 60 ? '60~80%' : '60%以下'}
+                  </div>
+                </div>
               </div>
             </div>
 
@@ -1014,7 +1071,7 @@ export default function SalesDashboard() {
                   </div>
                 </div>
               </div>
-              <div className="grid grid-cols-2 sm:grid-cols-4">
+              <div className="grid grid-cols-2 sm:grid-cols-5">
                 {/* 目标 */}
                 <div className="border-r border-b sm:border-b-0 border-gray-200 px-2 py-2 relative">
                   <div className="text-xs font-medium text-gray-500 mb-1">{timeRangeLabel}目标</div>
@@ -1075,6 +1132,20 @@ export default function SalesDashboard() {
                       <span className="font-bold">{renewalTimeRangeData[timeRange as keyof typeof renewalTimeRangeData].gap > 0 ? '-' : '+'}4.3%</span>
                     </div>
                   )}
+                </div>
+
+                {/* 在手项目金额 */}
+                <div className={`px-2 py-2 border-l-4 ${(renewalTimeRangeData[timeRange as keyof typeof renewalTimeRangeData] as any).pendingRate >= 80 ? 'bg-green-50 border-green-600' : (renewalTimeRangeData[timeRange as keyof typeof renewalTimeRangeData] as any).pendingRate >= 60 ? 'bg-orange-50 border-orange-600' : 'bg-red-50 border-red-600'}`}>
+                  <div className="text-xs font-medium text-gray-500 mb-1">在手项目</div>
+                  <div className="flex items-baseline gap-1">
+                    <span className={`text-2xl font-bold leading-none ${(renewalTimeRangeData[timeRange as keyof typeof renewalTimeRangeData] as any).pendingRate >= 80 ? 'text-green-700' : (renewalTimeRangeData[timeRange as keyof typeof renewalTimeRangeData] as any).pendingRate >= 60 ? 'text-orange-700' : 'text-red-700'}`}>
+                      {(renewalTimeRangeData[timeRange as keyof typeof renewalTimeRangeData] as any).pendingAmount?.toLocaleString() || '0'}
+                    </span>
+                    <span className="text-xs text-gray-600">万元</span>
+                  </div>
+                  <div className={`inline-flex items-center px-2 py-0.5 rounded text-[10px] font-bold mt-1 ${(renewalTimeRangeData[timeRange as keyof typeof renewalTimeRangeData] as any).pendingRate >= 80 ? 'bg-green-600 text-white' : (renewalTimeRangeData[timeRange as keyof typeof renewalTimeRangeData] as any).pendingRate >= 60 ? 'bg-orange-600 text-white' : 'bg-red-600 text-white'}`}>
+                    {(renewalTimeRangeData[timeRange as keyof typeof renewalTimeRangeData] as any).pendingRate >= 80 ? '80~100%' : (renewalTimeRangeData[timeRange as keyof typeof renewalTimeRangeData] as any).pendingRate >= 60 ? '60~80%' : '60%以下'}
+                  </div>
                 </div>
               </div>
             </div>
