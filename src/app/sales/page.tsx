@@ -800,6 +800,22 @@ export default function SalesDashboard() {
               )}
             </div>
           </div>
+
+          {/* 右侧：企业微信拉群 */}
+          <div className="flex items-center gap-2">
+            <button
+              onClick={() => {
+                // 企业微信拉群逻辑
+                alert('已启动企业微信拉群，将邀请相关成员加入讨论');
+              }}
+              className="flex items-center gap-2 px-4 py-2 text-sm font-medium text-white bg-gradient-to-r from-green-500 to-emerald-600 rounded-lg hover:from-green-600 hover:to-emerald-700 transition-all shadow-md hover:shadow-lg"
+            >
+              <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M17.83 5.17c-2.71 0-5.06 1.55-5.83 3.84-1.63-1.03-3.71-1.02-5.34.02C4.94 11.03 4 13.6 4.92 15.79c.92 2.19 3.3 3.55 5.74 3.28 2.44-.27 4.43-2.09 4.68-4.44.25-2.35-1.31-4.55-3.65-5.24 1.04-1.14 2.63-1.62 4.14-1.27 1.51.35 2.76 1.45 3.2 2.88.44 1.43.03 3.01-1.07 4.06l1.41 1.41c1.66-1.59 2.28-3.98 1.59-6.19-.69-2.21-2.69-3.8-5.13-3.8zM8 9c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"/>
+              </svg>
+              拉群
+            </button>
+          </div>
         </div>
       </div>
 
@@ -833,6 +849,13 @@ export default function SalesDashboard() {
         </TabsList>
 
         <TabsContent value="overview">
+          {/* 目标达成标题 */}
+          <div className="mb-4 flex items-center justify-between">
+            <h2 className="text-lg font-semibold text-gray-900 flex items-center gap-2">
+              <Activity className="w-5 h-5" />
+              目标达成
+            </h2>
+          </div>
         {/* KPI指标 + 月度趋势分析 左右布局 */}
         <div className="flex flex-col lg:flex-row gap-3">
           {/* 左侧：KPI指标（买断+租赁+续租）- 三行布局 */}
@@ -860,8 +883,7 @@ export default function SalesDashboard() {
                   </div>
                 </div>
               </div>
-              <div className="overflow-x-auto">
-                <div className="grid grid-cols-5 min-w-[600px]">
+              <div className="grid grid-cols-2 sm:grid-cols-4">
                 {/* 目标 */}
                 <div className="border-r border-b sm:border-b-0 border-gray-200 px-2 py-2 relative">
                   <div className="text-xs font-medium text-gray-500 mb-1">{timeRangeLabel}目标</div>
@@ -935,17 +957,6 @@ export default function SalesDashboard() {
                     </div>
                   )}
                 </div>
-
-                {/* 合计 */}
-                <div className="px-2 py-2 bg-blue-50">
-                  <div className="text-xs font-medium text-gray-500 mb-1">合计</div>
-                  <div className="flex items-baseline gap-1">
-                    <span className="text-2xl font-bold text-blue-700 leading-none">
-                      {(currentRangeData.target + currentRangeData.completed + currentRangeData.predicted + Math.abs(currentRangeData.gap)).toLocaleString()}
-                    </span>
-                    <span className="text-xs text-gray-600">万元</span>
-                  </div>
-                </div>
               </div>
             </div>
 
@@ -972,8 +983,7 @@ export default function SalesDashboard() {
                   </div>
                 </div>
               </div>
-              <div className="overflow-x-auto">
-                <div className="grid grid-cols-5 min-w-[600px]">
+              <div className="grid grid-cols-2 sm:grid-cols-4">
                 {/* 目标 */}
                 <div className="border-r border-b sm:border-b-0 border-gray-200 px-2 py-2 relative">
                   <div className="text-xs font-medium text-gray-500 mb-1">{timeRangeLabel}目标</div>
@@ -1047,19 +1057,7 @@ export default function SalesDashboard() {
                     </div>
                   )}
                 </div>
-
-                {/* 合计 */}
-                <div className="px-2 py-2 bg-blue-50">
-                  <div className="text-xs font-medium text-gray-500 mb-1">合计</div>
-                  <div className="flex items-baseline gap-1">
-                    <span className="text-2xl font-bold text-blue-700 leading-none">
-                      {(leaseTimeRangeData[timeRange as keyof typeof leaseTimeRangeData].target + leaseTimeRangeData[timeRange as keyof typeof leaseTimeRangeData].completed + leaseTimeRangeData[timeRange as keyof typeof leaseTimeRangeData].predicted + Math.abs(leaseTimeRangeData[timeRange as keyof typeof leaseTimeRangeData].gap)).toLocaleString()}
-                    </span>
-                    <span className="text-xs text-gray-600">万元</span>
-                  </div>
-                </div>
               </div>
-            </div>
             </div>
 
             {/* 第三行：续租指标 */}
@@ -1085,8 +1083,7 @@ export default function SalesDashboard() {
                   </div>
                 </div>
               </div>
-              <div className="overflow-x-auto">
-                <div className="grid grid-cols-5 min-w-[600px]">
+              <div className="grid grid-cols-2 sm:grid-cols-4">
                 {/* 目标 */}
                 <div className="border-r border-b sm:border-b-0 border-gray-200 px-2 py-2 relative">
                   <div className="text-xs font-medium text-gray-500 mb-1">{timeRangeLabel}目标</div>
@@ -1160,17 +1157,6 @@ export default function SalesDashboard() {
                     </div>
                   )}
                 </div>
-
-                {/* 合计 */}
-                <div className="px-2 py-2 bg-blue-50">
-                  <div className="text-xs font-medium text-gray-500 mb-1">合计</div>
-                  <div className="flex items-baseline gap-1">
-                    <span className="text-2xl font-bold text-blue-700 leading-none">
-                      {(renewalTimeRangeData[timeRange as keyof typeof renewalTimeRangeData].target + renewalTimeRangeData[timeRange as keyof typeof renewalTimeRangeData].completed + renewalTimeRangeData[timeRange as keyof typeof renewalTimeRangeData].predicted + Math.abs(renewalTimeRangeData[timeRange as keyof typeof renewalTimeRangeData].gap)).toLocaleString()}
-                    </span>
-                    <span className="text-xs text-gray-600">万元</span>
-                  </div>
-                </div>
               </div>
             </div>
           </div>
@@ -1204,7 +1190,7 @@ export default function SalesDashboard() {
 
             {/* 趋势图表 */}
             <div className="bg-white rounded-xl p-2 sm:p-3 shadow-sm border border-gray-100">
-              <div style={{ height: '240px' }} className="sm:h-[340px]">
+              <div style={{ height: '200px' }} className="sm:h-[280px]">
                 <ResponsiveContainer width="100%" height="100%">
                   <AreaChart data={monthlyTrendData[trendRegion as keyof typeof monthlyTrendData] || monthlyTrendData.all}>
                     <defs>
@@ -1319,19 +1305,6 @@ export default function SalesDashboard() {
                     <span className="text-base font-bold text-gray-900 ml-1">({timeRange === 'month' ? `${selectedMonth}月` : timeRange === 'quarter' ? selectedQuarter : '2026年'})</span>
                   )}
                 </div>
-                <button
-                  onClick={() => {
-                    // 企业微信拉群逻辑 - 区域达成情况
-                    alert('已启动企业微信拉群，将邀请区域负责人讨论达成缺口问题');
-                  }}
-                  className="flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium text-white bg-green-400 rounded-md hover:bg-green-500 transition-colors"
-                  title="企业微信拉群"
-                >
-                  <svg className="w-4 h-4" viewBox="0 0 1024 1024" fill="currentColor">
-                    <path d="M866.133333 268.8c-21.333333-38.4-64-64-110.933333-64-74.666667 0-136 61.333333-136 136 0 21.333333 4.266667 42.666667 12.8 64-64-42.666667-149.333333-64-234.666667-64-185.6 0-341.333333 140.8-341.333333 315.733333 0 149.333333 98.133333 277.333333 234.666667 311.466667-4.266667 17.066667-8.533333 38.4-8.533333 59.733333 0 38.4 21.333333 72.533333 55.466667 89.6 17.066667 8.533333 38.4 12.8 55.466667 12.8 42.666667 0 81.066667-21.333333 102.4-55.466667 21.333333 8.533333 46.933333 12.8 72.533333 12.8 149.333333 0 277.333333-123.733333 277.333333-277.333333 0-21.333333-4.266667-42.666667-8.533333-59.733333 89.6-42.666667 153.6-132.266667 153.6-234.666667 0-123.733333-93.866667-226.133333-224-243.2zM362.666667 810.666667c-29.866667 0-55.466667-25.6-55.466667-55.466667 0-29.866667 25.6-55.466667 55.466667-55.466667 29.866667 0 55.466667 25.6 55.466667 55.466667 0 29.866667-25.6 55.466667-55.466667 55.466667z m384-128c-29.866667 0-55.466667-25.6-55.466667-55.466667 0-29.866667 25.6-55.466667 55.466667-55.466667 29.866667 0 55.466667 25.6 55.466667 55.466667 0 29.866667-25.6 55.466667-55.466667 55.466667z"/>
-                  </svg>
-                  拉群
-                </button>
               </div>
 
               {/* 大区维度表格 */}
@@ -1419,7 +1392,6 @@ export default function SalesDashboard() {
             </div>
             </CardContent>
           </Card>
-          </div>
 
           {/* 右侧：城市经理达成情况 */}
           <Card className="lg:col-span-1 border border-green-200 bg-gradient-to-br from-green-50 to-emerald-50">
@@ -1447,19 +1419,6 @@ export default function SalesDashboard() {
                     <option value="西南">西南</option>
                     <option value="华南">华南</option>
                   </select>
-                  <button
-                    onClick={() => {
-                      // 企业微信拉群逻辑 - 城市经理达成情况
-                      alert('已启动企业微信拉群，将邀请城市经理讨论达成问题');
-                    }}
-                    className="flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium text-white bg-green-400 rounded-md hover:bg-green-500 transition-colors"
-                    title="企业微信拉群"
-                  >
-                    <svg className="w-4 h-4" viewBox="0 0 1024 1024" fill="currentColor">
-                      <path d="M866.133333 268.8c-21.333333-38.4-64-64-110.933333-64-74.666667 0-136 61.333333-136 136 0 21.333333 4.266667 42.666667 12.8 64-64-42.666667-149.333333-64-234.666667-64-185.6 0-341.333333 140.8-341.333333 315.733333 0 149.333333 98.133333 277.333333 234.666667 311.466667-4.266667 17.066667-8.533333 38.4-8.533333 59.733333 0 38.4 21.333333 72.533333 55.466667 89.6 17.066667 8.533333 38.4 12.8 55.466667 12.8 42.666667 0 81.066667-21.333333 102.4-55.466667 21.333333 8.533333 46.933333 12.8 72.533333 12.8 149.333333 0 277.333333-123.733333 277.333333-277.333333 0-21.333333-4.266667-42.666667-8.533333-59.733333 89.6-42.666667 153.6-132.266667 153.6-234.666667 0-123.733333-93.866667-226.133333-224-243.2zM362.666667 810.666667c-29.866667 0-55.466667-25.6-55.466667-55.466667 0-29.866667 25.6-55.466667 55.466667-55.466667 29.866667 0 55.466667 25.6 55.466667 55.466667 0 29.866667-25.6 55.466667-55.466667 55.466667z m384-128c-29.866667 0-55.466667-25.6-55.466667-55.466667 0-29.866667 25.6-55.466667 55.466667-55.466667 29.866667 0 55.466667 25.6 55.466667 55.466667 0 29.866667-25.6 55.466667-55.466667 55.466667z"/>
-                    </svg>
-                    拉群
-                  </button>
                 </div>
               </div>
 
@@ -1579,8 +1538,7 @@ export default function SalesDashboard() {
             </CardContent>
           </Card>
         </div>
-        </div>
-        </TabsContent>
+          </TabsContent>
 
           <TabsContent value="distributors">
             <div className="mb-4 flex items-center justify-between">
@@ -2516,7 +2474,5 @@ export default function SalesDashboard() {
         </Tabs>
 
       </div>
-    </div>
-  </div>
-);
-}
+    );
+  }
