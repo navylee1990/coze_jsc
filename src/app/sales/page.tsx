@@ -2612,47 +2612,85 @@ export default function SalesDashboard() {
 
             <div className="space-y-4 py-3">
               {/* 基本信息 */}
-              <div className="bg-gray-50 rounded-lg p-3">
-                <h3 className="text-sm font-semibold text-gray-700 mb-2">责任人信息</h3>
-                <div className="grid grid-cols-3 gap-3">
-                  <div>
-                    <span className="text-xs text-gray-500">责任人</span>
-                    <p className="text-sm font-semibold text-gray-900">{pullGroupDialog.ownerName}</p>
+              <div className="bg-gradient-to-br from-gray-50 to-gray-100 rounded-xl p-4 border border-gray-200">
+                <div className="flex items-center gap-2 mb-3">
+                  <div className="w-8 h-8 rounded-lg bg-green-500 flex items-center justify-center">
+                    <UserPlus className="w-5 h-5 text-white" />
                   </div>
-                  <div>
-                    <span className="text-xs text-gray-500">所属区域</span>
-                    <p className="text-sm font-semibold text-gray-900">{pullGroupDialog.region || '-'}</p>
+                  <h3 className="text-base font-bold text-gray-800">责任人信息</h3>
+                </div>
+                <div className="grid grid-cols-3 gap-4">
+                  <div className="bg-white rounded-lg p-3 shadow-sm border border-gray-100">
+                    <div className="flex items-center gap-2 mb-1">
+                      <div className="w-2 h-2 rounded-full bg-blue-500"></div>
+                      <span className="text-xs text-gray-500 font-medium">责任人</span>
+                    </div>
+                    <p className="text-base font-bold text-gray-900">{pullGroupDialog.ownerName}</p>
+                  </div>
+                  <div className="bg-white rounded-lg p-3 shadow-sm border border-gray-100">
+                    <div className="flex items-center gap-2 mb-1">
+                      <div className="w-2 h-2 rounded-full bg-purple-500"></div>
+                      <span className="text-xs text-gray-500 font-medium">所属区域</span>
+                    </div>
+                    <p className="text-base font-bold text-gray-900">{pullGroupDialog.region || '-'}</p>
                   </div>
                   {pullGroupDialog.city && (
-                    <div>
-                      <span className="text-xs text-gray-500">城市</span>
-                      <p className="text-sm font-semibold text-gray-900">{pullGroupDialog.city}</p>
+                    <div className="bg-white rounded-lg p-3 shadow-sm border border-gray-100">
+                      <div className="flex items-center gap-2 mb-1">
+                        <div className="w-2 h-2 rounded-full bg-orange-500"></div>
+                        <span className="text-xs text-gray-500 font-medium">城市</span>
+                      </div>
+                      <p className="text-base font-bold text-gray-900">{pullGroupDialog.city}</p>
                     </div>
                   )}
                   {pullGroupDialog.target && (
-                    <div>
-                      <span className="text-xs text-gray-500">目标金额</span>
-                      <p className="text-sm font-semibold text-gray-900">{pullGroupDialog.target} 万元</p>
+                    <div className="bg-white rounded-lg p-3 shadow-sm border border-gray-100">
+                      <div className="flex items-center gap-2 mb-1">
+                        <div className="w-2 h-2 rounded-full bg-gray-500"></div>
+                        <span className="text-xs text-gray-500 font-medium">目标金额</span>
+                      </div>
+                      <p className="text-base font-bold text-gray-900">{pullGroupDialog.target} <span className="text-xs font-normal text-gray-500">万元</span></p>
                     </div>
                   )}
                   {pullGroupDialog.completed !== undefined && (
-                    <div>
-                      <span className="text-xs text-gray-500">已完成</span>
-                      <p className="text-sm font-semibold text-gray-900">{pullGroupDialog.completed} 万元</p>
+                    <div className="bg-white rounded-lg p-3 shadow-sm border border-gray-100">
+                      <div className="flex items-center gap-2 mb-1">
+                        <div className="w-2 h-2 rounded-full bg-teal-500"></div>
+                        <span className="text-xs text-gray-500 font-medium">已完成</span>
+                      </div>
+                      <p className="text-base font-bold text-gray-900">{pullGroupDialog.completed} <span className="text-xs font-normal text-gray-500">万元</span></p>
                     </div>
                   )}
                   {pullGroupDialog.rate !== undefined && (
-                    <div>
-                      <span className="text-xs text-gray-500">达成率</span>
-                      <p className={`text-sm font-semibold ${pullGroupDialog.rate >= 100 ? 'text-green-600' : pullGroupDialog.rate >= 80 ? 'text-yellow-600' : 'text-red-600'}`}>
+                    <div className={`rounded-lg p-3 shadow-sm border ${
+                      pullGroupDialog.rate >= 100 ? 'bg-green-50 border-green-200' :
+                      pullGroupDialog.rate >= 80 ? 'bg-yellow-50 border-yellow-200' :
+                      'bg-red-50 border-red-200'
+                    }`}>
+                      <div className="flex items-center gap-2 mb-1">
+                        <div className={`w-2 h-2 rounded-full ${
+                          pullGroupDialog.rate >= 100 ? 'bg-green-500' :
+                          pullGroupDialog.rate >= 80 ? 'bg-yellow-500' :
+                          'bg-red-500'
+                        }`}></div>
+                        <span className="text-xs text-gray-500 font-medium">达成率</span>
+                      </div>
+                      <p className={`text-base font-bold ${
+                        pullGroupDialog.rate >= 100 ? 'text-green-600' :
+                        pullGroupDialog.rate >= 80 ? 'text-yellow-600' :
+                        'text-red-600'
+                      }`}>
                         {pullGroupDialog.rate.toFixed(1)}%
                       </p>
                     </div>
                   )}
                   {pullGroupDialog.pendingAmount !== undefined && (
-                    <div>
-                      <span className="text-xs text-gray-500">在手项目</span>
-                      <p className="text-sm font-semibold text-gray-900">{pullGroupDialog.pendingAmount} 万元</p>
+                    <div className="bg-white rounded-lg p-3 shadow-sm border border-gray-100">
+                      <div className="flex items-center gap-2 mb-1">
+                        <div className="w-2 h-2 rounded-full bg-indigo-500"></div>
+                        <span className="text-xs text-gray-500 font-medium">在手项目</span>
+                      </div>
+                      <p className="text-base font-bold text-gray-900">{pullGroupDialog.pendingAmount} <span className="text-xs font-normal text-gray-500">万元</span></p>
                     </div>
                   )}
                 </div>
