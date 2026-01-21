@@ -1419,6 +1419,7 @@ export default function SalesDashboard() {
             </div>
             </CardContent>
           </Card>
+          </div>
 
           {/* 右侧：城市经理达成情况 */}
           <Card className="lg:col-span-1 border border-green-200 bg-gradient-to-br from-green-50 to-emerald-50">
@@ -1578,7 +1579,8 @@ export default function SalesDashboard() {
             </CardContent>
           </Card>
         </div>
-          </TabsContent>
+        </div>
+        </TabsContent>
 
           <TabsContent value="distributors">
             <div className="mb-4 flex items-center justify-between">
@@ -2515,5 +2517,6 @@ export default function SalesDashboard() {
 
       </div>
     </div>
-    );
-  }
+  </div>
+);
+}
