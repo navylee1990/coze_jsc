@@ -8,25 +8,27 @@ interface DashboardWrapperProps {
 
 export function DashboardWrapper({ children }: DashboardWrapperProps) {
   const containerRef = useRef<HTMLDivElement>(null);
+  const contentRef = useRef<HTMLDivElement>(null);
   const [scale, setScale] = useState(1);
 
   useEffect(() => {
     const updateScale = () => {
-      if (!containerRef.current) return;
+      if (!containerRef.current || !contentRef.current) return;
 
       const windowWidth = window.innerWidth;
       const windowHeight = window.innerHeight;
 
-      // 基准设计尺寸 (1920x1080)
+      // 基准设计宽度
       const designWidth = 1920;
-      const designHeight = 1080;
 
-      // 计算宽度和高度的缩放比例
+      // 获取实际内容高度
+      const contentHeight = contentRef.current.scrollHeight;
+
+      // 计算宽度的缩放比例
       const scaleX = windowWidth / designWidth;
-      const scaleY = windowHeight / designHeight;
 
-      // 取较小的比例，确保内容完整显示在屏幕内
-      const newScale = Math.min(scaleX, scaleY, 1); // 最大不超过 1（不放大）
+      // 取较小的比例，确保内容在屏幕宽度内显示
+      const newScale = Math.min(scaleX, 1); // 最大不超过 1（不放大）
 
       setScale(newScale);
     };
@@ -67,12 +69,13 @@ export function DashboardWrapper({ children }: DashboardWrapperProps) {
         justifyContent: 'center',
         alignItems: 'flex-start',
         overflow: 'auto',
+        backgroundColor: '#f3f4f6',
       }}
     >
       <div
+        ref={contentRef}
         style={{
           width: '1920px',
-          minHeight: '1080px',
           transform: `scale(${scale})`,
           transformOrigin: 'top center',
         }}
