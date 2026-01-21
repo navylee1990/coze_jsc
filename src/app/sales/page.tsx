@@ -14,14 +14,11 @@ import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, Legend, Responsi
 const useAutoScale = () => {
   const [scale, setScale] = useState(1);
   const containerRef = useRef<HTMLDivElement>(null);
-  const resizeObserverRef = useRef<ResizeObserver | null>(null);
 
   useEffect(() => {
-    const container = containerRef.current;
-    if (!container) return;
-
     const calculateScale = () => {
       const viewportHeight = window.innerHeight;
+      const container = containerRef.current;
 
       if (!container) return;
 
@@ -49,8 +46,11 @@ const useAutoScale = () => {
       });
     };
 
+    // 初始计算
+    calculateScale();
+
     // 多次延迟计算，确保内容完全渲染
-    const delays = [100, 300, 600, 1000, 2000];
+    const delays = [100, 300, 600, 1000];
     const timers: NodeJS.Timeout[] = [];
 
     delays.forEach(delay => {
@@ -62,18 +62,22 @@ const useAutoScale = () => {
     window.addEventListener('resize', calculateScale);
 
     // 使用 ResizeObserver 监听容器大小变化
-    resizeObserverRef.current = new ResizeObserver(() => {
+    const resizeObserver = new ResizeObserver(() => {
       calculateScale();
     });
-    resizeObserverRef.current.observe(container);
+
+    // 延迟绑定 ResizeObserver，确保 container 已经渲染
+    const observerTimer = setTimeout(() => {
+      if (containerRef.current) {
+        resizeObserver.observe(containerRef.current);
+      }
+    }, 50);
 
     return () => {
       timers.forEach(timer => clearTimeout(timer));
+      clearTimeout(observerTimer);
       window.removeEventListener('resize', calculateScale);
-      if (resizeObserverRef.current) {
-        resizeObserverRef.current.disconnect();
-        resizeObserverRef.current = null;
-      }
+      resizeObserver.disconnect();
     };
   }, []);
 
