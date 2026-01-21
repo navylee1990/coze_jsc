@@ -1159,33 +1159,31 @@ export default function SalesDashboard() {
             </div>
 
             {/* 合计行 */}
-            <div className="bg-slate-50 border-t-2 border-slate-200">
-              <div className="grid grid-cols-5 gap-1.5 px-1.5 py-1.5">
+            <div className="bg-slate-50">
+              <div className="grid grid-cols-5 gap-1.5 px-1.5 py-1">
                 {/* 目标合计 */}
-                <div className="text-center border-r border-slate-200 px-1">
-                  <div className="text-[11px] font-semibold text-slate-600 mb-0.5">合计</div>
+                <div className="text-center border-r border-slate-200 px-1 flex items-center justify-center">
+                  <div className="text-sm font-semibold text-slate-700 mr-1">合计</div>
                   <div className="text-sm font-bold text-slate-900">{totalTarget.toLocaleString()}</div>
                 </div>
 
                 {/* 已完成合计 */}
-                <div className="text-center border-r border-slate-200 px-1">
+                <div className="text-center border-r border-slate-200 px-1 flex items-center justify-center">
                   <div className="text-sm font-bold text-slate-900">{totalCompleted.toLocaleString()}</div>
                 </div>
 
                 {/* 预测完成合计 */}
-                <div className="text-center border-r border-slate-200 px-1">
+                <div className="text-center border-r border-slate-200 px-1 flex items-center justify-center">
                   <div className="text-sm font-bold text-slate-900">{totalPredicted.toLocaleString()}</div>
                 </div>
 
                 {/* 任务缺口合计 */}
-                <div className={`text-center border-l-3 px-1 py-1 ${totalRisk === 'high' ? 'border-l-red-500' : totalRisk === 'medium' ? 'border-l-orange-500' : 'border-l-green-500'}`}>
-                  <div className={`text-base font-bold ${totalGap > 0 ? 'text-red-600' : totalGap < 0 ? 'text-green-600' : 'text-slate-700'}`}>
-                    {totalGap.toLocaleString()}
-                  </div>
+                <div className="text-center px-1 flex items-center justify-center">
+                  <div className="text-sm font-bold text-slate-900">{totalGap.toLocaleString()}</div>
                 </div>
 
                 {/* 在手项目合计 */}
-                <div className="text-center px-1">
+                <div className="text-center px-1 flex items-center justify-center">
                   <div className="text-sm font-bold text-slate-900">{totalPendingAmount.toLocaleString()}</div>
                 </div>
               </div>
