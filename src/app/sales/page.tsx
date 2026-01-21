@@ -420,29 +420,29 @@ const dealerKPI = {
   newDealers: 2,          // 新经销商数量
 };
 
-// 不同规模经销商履约分布
+// 不同规模经销商履约分布（百分比）
 const dealerScaleDistribution = [
   {
     scale: '100万以下',
     total: 3,
-    below60: 2,
-    between60to80: 1,
+    below60: 67,    // 2/3
+    between60to80: 33, // 1/3
     between80to100: 0,
     above100: 0,
   },
   {
     scale: '100-200万',
     total: 4,
-    below60: 2,
-    between60to80: 1,
-    between80to100: 1,
+    below60: 50,    // 2/4
+    between60to80: 25, // 1/4
+    between80to100: 25, // 1/4
     above100: 0,
   },
   {
     scale: '200-300万',
     total: 2,
-    below60: 1,
-    between60to80: 1,
+    below60: 50,    // 1/2
+    between60to80: 50, // 1/2
     between80to100: 0,
     above100: 0,
   },
@@ -451,7 +451,7 @@ const dealerScaleDistribution = [
     total: 1,
     below60: 0,
     between60to80: 0,
-    between80to100: 1,
+    between80to100: 100, // 1/1
     above100: 0,
   },
 ];
@@ -1885,14 +1885,15 @@ export default function SalesDashboard() {
               </div>
               <div className="p-3">
                 <ResponsiveContainer width="100%" height={220}>
-                  <BarChart data={dealerScaleDistribution} layout="vertical">
+                  <BarChart data={dealerScaleDistribution} layout="horizontal">
                     <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#e5e7eb" />
                     <XAxis 
                       type="number" 
-                      dataKey="total"
+                      domain={[0, 100]}
                       tick={{ fontSize: 11 }}
                       axisLine={{ stroke: '#e5e7eb' }}
                       tickLine={{ stroke: '#e5e7eb' }}
+                      tickFormatter={(value) => `${value}%`}
                     />
                     <YAxis 
                       type="category" 
@@ -1905,9 +1906,10 @@ export default function SalesDashboard() {
                     <Tooltip 
                       content={({ active, payload }) => {
                         if (!active || !payload || payload.length === 0) return null;
+                        const data = payload[0].payload;
                         return (
                           <div className="bg-white border border-gray-200 rounded-lg shadow-lg px-3 py-2">
-                            <div className="text-sm font-medium text-gray-900 mb-2">{payload[0].payload.scale}</div>
+                            <div className="text-sm font-medium text-gray-900 mb-2">{data.scale}</div>
                             {payload.map((entry: any, index: number) => (
                               <div key={index} className="flex items-center gap-2 text-xs">
                                 <div 
@@ -1915,13 +1917,13 @@ export default function SalesDashboard() {
                                   style={{ backgroundColor: entry.color }}
                                 />
                                 <span className="text-gray-700">{entry.name}:</span>
-                                <span className="font-semibold text-gray-900">{entry.value}家</span>
-                                <span className="text-gray-500">({((entry.value / payload[0].payload.total) * 100).toFixed(0)}%)</span>
+                                <span className="font-semibold text-gray-900">{entry.value}%</span>
+                                <span className="text-gray-500">({Math.round((entry.value / 100) * data.total)}家)</span>
                               </div>
                             ))}
                             <div className="mt-2 pt-2 border-t border-gray-200 flex items-center gap-2 text-xs">
                               <span className="text-gray-500">合计:</span>
-                              <span className="font-bold text-gray-900">{payload[0].payload.total}家</span>
+                              <span className="font-bold text-gray-900">{data.total}家</span>
                             </div>
                           </div>
                         );
