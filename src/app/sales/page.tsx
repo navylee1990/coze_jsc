@@ -926,7 +926,7 @@ export default function SalesDashboard() {
                   </div>
                   <div className="flex items-baseline gap-1">
                     <span className={`text-3xl font-black leading-none ${currentRangeData.gap > 0 ? 'text-red-700' : currentRangeData.gap < 0 ? 'text-green-700' : 'text-gray-700'}`}>
-                      {currentRangeData.gap > 0 ? '' : '+'}{currentRangeData.gap.toLocaleString()}
+                      {currentRangeData.gap.toLocaleString()}
                     </span>
                     <span className={`text-sm font-bold ${currentRangeData.gap > 0 ? 'text-red-600' : currentRangeData.gap < 0 ? 'text-green-600' : 'text-gray-600'}`}>万元</span>
                   </div>
@@ -1025,7 +1025,7 @@ export default function SalesDashboard() {
                   </div>
                   <div className="flex items-baseline gap-1">
                     <span className={`text-3xl font-black leading-none ${leaseTimeRangeData[timeRange as keyof typeof leaseTimeRangeData].gap > 0 ? 'text-red-700' : leaseTimeRangeData[timeRange as keyof typeof leaseTimeRangeData].gap < 0 ? 'text-green-700' : 'text-gray-700'}`}>
-                      {leaseTimeRangeData[timeRange as keyof typeof leaseTimeRangeData].gap > 0 ? '' : '+'}{leaseTimeRangeData[timeRange as keyof typeof leaseTimeRangeData].gap.toLocaleString()}
+                      {leaseTimeRangeData[timeRange as keyof typeof leaseTimeRangeData].gap.toLocaleString()}
                     </span>
                     <span className={`text-sm font-bold ${leaseTimeRangeData[timeRange as keyof typeof leaseTimeRangeData].gap > 0 ? 'text-red-600' : leaseTimeRangeData[timeRange as keyof typeof leaseTimeRangeData].gap < 0 ? 'text-green-600' : 'text-gray-600'}`}>万元</span>
                   </div>
@@ -1124,7 +1124,7 @@ export default function SalesDashboard() {
                   </div>
                   <div className="flex items-baseline gap-1">
                     <span className={`text-3xl font-black leading-none ${renewalTimeRangeData[timeRange as keyof typeof renewalTimeRangeData].gap > 0 ? 'text-red-700' : renewalTimeRangeData[timeRange as keyof typeof renewalTimeRangeData].gap < 0 ? 'text-green-700' : 'text-gray-700'}`}>
-                      {renewalTimeRangeData[timeRange as keyof typeof renewalTimeRangeData].gap > 0 ? '' : '+'}{renewalTimeRangeData[timeRange as keyof typeof renewalTimeRangeData].gap.toLocaleString()}
+                      {renewalTimeRangeData[timeRange as keyof typeof renewalTimeRangeData].gap.toLocaleString()}
                     </span>
                     <span className={`text-sm font-bold ${renewalTimeRangeData[timeRange as keyof typeof renewalTimeRangeData].gap > 0 ? 'text-red-600' : renewalTimeRangeData[timeRange as keyof typeof renewalTimeRangeData].gap < 0 ? 'text-green-600' : 'text-gray-600'}`}>万元</span>
                   </div>
