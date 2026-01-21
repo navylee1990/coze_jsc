@@ -24,17 +24,21 @@ const useAutoScale = () => {
 
       // 暂时移除 transform 来获取内容的自然高度
       const originalTransform = container.style.transform;
+      const originalWidth = container.style.width;
       container.style.transform = 'none';
-      
+      container.style.width = '100%';
+
       // 获取内容的自然高度
       const contentHeight = container.scrollHeight;
-      
-      // 恢复 transform
+      const contentWidth = container.scrollWidth;
+
+      // 恢复 transform 和宽度
       container.style.transform = originalTransform;
+      container.style.width = originalWidth;
 
       // 计算缩放比例，确保缩放后内容高度不超过视口
-      // 预留40px的边距（上下各20px）
-      const availableHeight = viewportHeight - 40;
+      // 预留更多边距，避免出现滚动条
+      const availableHeight = viewportHeight - 60;
       let newScale = availableHeight / contentHeight;
 
       // 限制最大缩放比例为1，最小为0.6
@@ -46,13 +50,17 @@ const useAutoScale = () => {
     // 初始计算
     calculateScale();
 
-    // 延迟再次计算，确保内容已完全渲染
-    const timer = setTimeout(calculateScale, 100);
+    // 多次延迟计算，确保内容完全渲染
+    const timer1 = setTimeout(calculateScale, 200);
+    const timer2 = setTimeout(calculateScale, 500);
+    const timer3 = setTimeout(calculateScale, 1000);
 
     // 监听窗口大小变化
     window.addEventListener('resize', calculateScale);
     return () => {
-      clearTimeout(timer);
+      clearTimeout(timer1);
+      clearTimeout(timer2);
+      clearTimeout(timer3);
       window.removeEventListener('resize', calculateScale);
     };
   }, []);
@@ -853,7 +861,7 @@ export default function SalesDashboard() {
   const totalRisk = totalPredictedRate >= 1 ? 'low' : totalPredictedRate >= 0.8 ? 'medium' : 'high';
 
   return (
-    <div className="h-screen bg-gray-50 overflow-auto">
+    <div className="h-screen bg-gray-50 overflow-auto" style={{ height: '100vh' }}>
       {/* 缩放容器 */}
       <div
         ref={containerRef}
@@ -861,6 +869,7 @@ export default function SalesDashboard() {
           transform: `scale(${scale})`,
           transformOrigin: 'top left',
           width: `${100 / scale}%`,
+          minHeight: `${100 / scale}%`,
         }}
       >
         <div className="p-4">
