@@ -12,7 +12,7 @@ export default function PPTPage() {
             <h1 className="text-5xl font-bold bg-gradient-to-r from-green-600 to-emerald-600 bg-clip-text text-transparent mb-3">
               商用经营驾驶舱
             </h1>
-            <p className="text-2xl text-gray-600 font-medium">数据 → 风险 → 行动，精准掌控业务动态</p>
+            <p className="text-lg text-gray-600">涵盖商用净水 · 商用热水两大业务板块</p>
           </div>
 
           {/* 核心流程 */}
