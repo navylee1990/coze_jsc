@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { ArrowUp, ArrowDown, TrendingUp, AlertTriangle, Activity, Target, Clock, Database, ChevronRight, BarChart3 } from 'lucide-react';
+import { ArrowUp, ArrowDown, TrendingUp, AlertTriangle, Activity, Target, Clock, Database, ChevronRight, BarChart3, Users } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Progress } from '@/components/ui/progress';
 import { AIInsight } from '@/components/ai-insight';
@@ -663,6 +663,12 @@ export default function SalesDashboard() {
   const handleBack = () => {
     setViewLevel('region');
     setSelectedRegion('');
+  };
+
+  // 拉群功能
+  const handlePullGroup = (ownerName: string, region?: string) => {
+    alert(`正在为 ${region ? region + ' - ' : ''}${ownerName} 创建企业微信群...`);
+    // 这里可以集成企业微信API来创建群组
   };
 
   // 时间范围或区域筛选变化时重置城市经理页码
@@ -1371,7 +1377,21 @@ export default function SalesDashboard() {
                             {item.name}
                           </div>
                         </td>
-                        <td className="px-2 py-2.5 text-sm text-gray-500">{item.owner}</td>
+                        <td className="px-2 py-2.5">
+                          <div className="flex items-center gap-2">
+                            <span className="text-sm text-gray-500">{item.owner}</span>
+                            <button
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                handlePullGroup(item.owner, item.name);
+                              }}
+                              className="p-1 text-emerald-600 hover:bg-emerald-100 rounded-md transition-colors"
+                              title="拉群"
+                            >
+                              <Users className="w-3.5 h-3.5" />
+                            </button>
+                          </div>
+                        </td>
                         <td className="px-2 py-2.5 text-sm text-right text-gray-600">{item.target.toLocaleString()}</td>
                         <td className="px-2 py-2.5 text-sm text-right text-gray-600">{item.completed.toLocaleString()}</td>
                         <td className="px-2 py-2.5 text-sm text-right text-gray-600">{item.predicted.toLocaleString()}</td>
@@ -1478,7 +1498,21 @@ export default function SalesDashboard() {
                       >
                         <td className="px-3 py-2.5 text-sm font-medium text-gray-900">{item.area}</td>
                         <td className="px-3 py-2.5 text-sm font-medium text-gray-900">{item.city}</td>
-                        <td className="px-2 py-2.5 text-sm text-gray-500">{item.name}</td>
+                        <td className="px-2 py-2.5">
+                          <div className="flex items-center gap-2">
+                            <span className="text-sm text-gray-500">{item.name}</span>
+                            <button
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                handlePullGroup(item.name, item.area);
+                              }}
+                              className="p-1 text-emerald-600 hover:bg-emerald-100 rounded-md transition-colors"
+                              title="拉群"
+                            >
+                              <Users className="w-3.5 h-3.5" />
+                            </button>
+                          </div>
+                        </td>
                         <td className="px-2 py-2.5 text-sm text-right text-gray-600">{item.target.toLocaleString()}</td>
                         <td className="px-2 py-2.5 text-sm text-right text-gray-600">{item.completed.toLocaleString()}</td>
                         <td className="px-2 py-2.5 text-sm text-right text-gray-600">{item.predicted.toLocaleString()}</td>
