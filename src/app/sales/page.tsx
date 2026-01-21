@@ -2926,17 +2926,20 @@ export default function SalesDashboard() {
           </DialogContent>
         </Dialog>
 
-        {/* PPT预览按钮 */}
-        <button
-          onClick={() => setPptPreview(true)}
-          className="fixed bottom-6 right-6 z-50 px-6 py-4 bg-gradient-to-r from-blue-600 to-green-600 text-white rounded-full shadow-2xl hover:shadow-3xl hover:scale-105 transition-all duration-300 flex items-center gap-3 font-bold"
-        >
-          <Presentation className="w-6 h-6" />
-          <span>预览PPT</span>
-        </button>
+        </div>
+      </div>
 
-        {/* PPT预览模态框 */}
-        {pptPreview && (
+      {/* PPT预览按钮 */}
+      <button
+        onClick={() => setPptPreview(true)}
+        className="fixed bottom-6 right-6 z-50 px-6 py-4 bg-gradient-to-r from-blue-600 to-green-600 text-white rounded-full shadow-2xl hover:shadow-3xl hover:scale-105 transition-all duration-300 flex items-center gap-3 font-bold"
+      >
+        <Presentation className="w-6 h-6" />
+        <span>预览PPT</span>
+      </button>
+
+      {/* PPT预览模态框 */}
+      {pptPreview && (
           <div className="fixed inset-0 z-[100] bg-black bg-opacity-90 flex items-center justify-center p-4">
             <div className="relative w-full max-w-7xl">
               {/* 关闭按钮 */}
@@ -3057,8 +3060,6 @@ export default function SalesDashboard() {
           </div>
         )}
 
-        </div>
-      </div>
     </div>
   );
   }
