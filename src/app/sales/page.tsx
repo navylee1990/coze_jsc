@@ -1473,15 +1473,15 @@ export default function SalesDashboard() {
                 <div className="bg-white rounded-lg border-0 overflow-hidden min-w-[800px]">
                   <table className="w-full" style={{ tableLayout: 'fixed' }}>
                   <colgroup>
-                    <col style={{ width: '9%' }} />
-                    <col style={{ width: '9%' }} />
-                    <col style={{ width: '15%' }} />
-                    <col style={{ width: '9%' }} />
-                    <col style={{ width: '9%' }} />
                     <col style={{ width: '10%' }} />
-                    <col style={{ width: '9%' }} />
-                    <col style={{ width: '19%' }} />
-                    <col style={{ width: '11%' }} />
+                    <col style={{ width: '10%' }} />
+                    <col style={{ width: '12%' }} />
+                    <col style={{ width: '10%' }} />
+                    <col style={{ width: '10%' }} />
+                    <col style={{ width: '10%' }} />
+                    <col style={{ width: '10%' }} />
+                    <col style={{ width: '18%' }} />
+                    <col style={{ width: '10%' }} />
                   </colgroup>
                   <thead>
                     <tr className="border-b border-gray-100">
