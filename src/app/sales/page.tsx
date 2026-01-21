@@ -1159,61 +1159,41 @@ export default function SalesDashboard() {
             </div>
 
             {/* 合计行 */}
-            <div className="bg-gray-100 border-t-2 border-gray-300">
-              <div className="grid grid-cols-2 sm:grid-cols-5">
+            <div className="bg-slate-50 border-t-2 border-slate-200">
+              <div className="grid grid-cols-5 gap-1.5 px-1.5 py-1.5">
                 {/* 目标合计 */}
-                <div className="border-r border-gray-300 px-2 py-2 sm:border-r">
-                  <div className="text-xs font-bold text-gray-900 mb-1">目标合计</div>
-                  <div className="flex items-baseline gap-1">
-                    <span className="text-sm font-bold text-gray-900">{totalTarget.toLocaleString()}</span>
-                    <span className="text-xs text-gray-600">万元</span>
-                  </div>
+                <div className="text-center border-r border-slate-200 px-1">
+                  <div className="text-[11px] font-semibold text-slate-600 mb-0.5">目标合计</div>
+                  <div className="text-sm font-bold text-slate-900">{totalTarget.toLocaleString()}</div>
                 </div>
 
                 {/* 已完成合计 */}
-                <div className="border-r border-gray-300 px-2 py-2 sm:border-r">
-                  <div className="text-xs font-bold text-gray-900 mb-1">已完成合计</div>
-                  <div className="flex items-baseline gap-1">
-                    <span className="text-sm font-bold text-gray-900">{totalCompleted.toLocaleString()}</span>
-                    <span className="text-xs text-gray-600">万元</span>
-                  </div>
+                <div className="text-center border-r border-slate-200 px-1">
+                  <div className="text-[11px] font-semibold text-slate-600 mb-0.5">已完成合计</div>
+                  <div className="text-sm font-bold text-slate-900">{totalCompleted.toLocaleString()}</div>
                 </div>
 
                 {/* 预测完成合计 */}
-                <div className="border-r border-gray-300 px-2 py-2 sm:border-r">
-                  <div className="text-xs font-bold text-gray-900 mb-1">预测完成合计</div>
-                  <div className="flex items-baseline gap-1">
-                    <span className="text-sm font-bold text-gray-900">{totalPredicted.toLocaleString()}</span>
-                    <span className="text-xs text-gray-600">万元</span>
-                  </div>
-                  <div className={`text-xs mt-1 ${totalPredictedRate >= 1 ? 'text-green-600' : totalPredictedRate >= 0.8 ? 'text-orange-600' : 'text-red-600'}`}>
+                <div className="text-center border-r border-slate-200 px-1">
+                  <div className="text-[11px] font-semibold text-slate-600 mb-0.5">预测完成合计</div>
+                  <div className="text-sm font-bold text-slate-900">{totalPredicted.toLocaleString()}</div>
+                  <div className={`text-[10px] mt-0.5 ${totalPredictedRate >= 1 ? 'text-green-600' : totalPredictedRate >= 0.8 ? 'text-orange-600' : 'text-red-600'}`}>
                     {(totalPredictedRate * 100).toFixed(1)}%
                   </div>
                 </div>
 
                 {/* 任务缺口合计 */}
-                <div className={`px-2 py-2 border-l-4 ${totalRisk === 'high' ? 'border-red-600 bg-red-100' : totalRisk === 'medium' ? 'border-orange-600 bg-orange-100' : 'border-green-600 bg-green-100'}`}>
-                  <div className="flex items-center justify-between mb-0.5">
-                    <div className={`inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-bold ${totalRisk === 'high' ? 'bg-red-600 text-white' : totalRisk === 'medium' ? 'bg-orange-600 text-white' : 'bg-green-600 text-white'}`}>
-                      <AlertTriangle className={`w-2.5 h-2.5 ${totalGap > 0 ? 'animate-pulse' : ''}`} />
-                      <span>缺口合计</span>
-                    </div>
-                  </div>
-                  <div className="flex items-baseline gap-1">
-                    <span className={`text-xl font-black leading-none ${totalGap > 0 ? 'text-red-700' : totalGap < 0 ? 'text-green-700' : 'text-gray-700'}`}>
-                      {totalGap.toLocaleString()}
-                    </span>
-                    <span className={`text-xs font-bold ${totalGap > 0 ? 'text-red-600' : totalGap < 0 ? 'text-green-600' : 'text-gray-600'}`}>万元</span>
+                <div className={`text-center border-l-3 px-1 py-1 ${totalRisk === 'high' ? 'border-l-red-500 bg-red-50' : totalRisk === 'medium' ? 'border-l-orange-500 bg-orange-50' : 'border-l-green-500 bg-green-50'}`}>
+                  <div className="text-[11px] font-semibold text-slate-600 mb-0.5">缺口合计</div>
+                  <div className={`text-base font-bold ${totalGap > 0 ? 'text-red-600' : totalGap < 0 ? 'text-green-600' : 'text-slate-700'}`}>
+                    {totalGap.toLocaleString()}
                   </div>
                 </div>
 
                 {/* 在手项目合计 */}
-                <div className="px-2 py-2 border-l-4 border-gray-600 bg-gray-50">
-                  <div className="text-xs font-medium text-gray-500 mb-1">在手项目合计</div>
-                  <div className="flex items-baseline gap-1">
-                    <span className="text-sm font-bold text-gray-900">{totalPendingAmount.toLocaleString()}</span>
-                    <span className="text-xs text-gray-600">万元</span>
-                  </div>
+                <div className="text-center px-1">
+                  <div className="text-[11px] font-semibold text-slate-600 mb-0.5">在手项目合计</div>
+                  <div className="text-sm font-bold text-slate-900">{totalPendingAmount.toLocaleString()}</div>
                 </div>
               </div>
             </div>
