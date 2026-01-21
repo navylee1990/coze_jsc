@@ -850,7 +850,7 @@ export default function SalesDashboard() {
         ref={containerRef}
         style={{
           transform: `scale(${scale})`,
-          transformOrigin: 'top center',
+          transformOrigin: 'top left',
           width: `${100 / scale}%`,
         }}
       >
