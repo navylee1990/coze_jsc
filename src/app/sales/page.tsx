@@ -82,7 +82,6 @@ const timeRangeData = {
     predicted: 1327.3,
     gap: 100.7,
     canComplete: false,
-    risk: 'high',
     // 在手项目金额
     pendingAmount: 850,
     pendingRate: 59.5,
@@ -93,7 +92,6 @@ const timeRangeData = {
     predicted: 3981.9,
     gap: 302.1,
     canComplete: false,
-    risk: 'high',
     // 在手项目金额
     pendingAmount: 2550,
     pendingRate: 59.5,
@@ -104,7 +102,6 @@ const timeRangeData = {
     predicted: 15927.6,
     gap: 1208.4,
     canComplete: false,
-    risk: 'high',
     // 在手项目金额
     pendingAmount: 10200,
     pendingRate: 59.5,
@@ -119,7 +116,6 @@ const leaseTimeRangeData = {
     predicted: 795.2,
     gap: 60.8,
     canComplete: false,
-    risk: 'medium',
     // 在手项目金额
     pendingAmount: 520,
     pendingRate: 60.7,
@@ -130,7 +126,6 @@ const leaseTimeRangeData = {
     predicted: 2385.6,
     gap: 182.4,
     canComplete: false,
-    risk: 'medium',
     // 在手项目金额
     pendingAmount: 1560,
     pendingRate: 60.7,
@@ -141,7 +136,6 @@ const leaseTimeRangeData = {
     predicted: 9542.4,
     gap: 729.6,
     canComplete: false,
-    risk: 'medium',
     // 在手项目金额
     pendingAmount: 6240,
     pendingRate: 60.7,
@@ -156,7 +150,6 @@ const renewalTimeRangeData = {
     predicted: 650.5,
     gap: 29.5,
     canComplete: true,
-    risk: 'low',
     // 在手项目金额
     pendingAmount: 600,
     pendingRate: 88.2,
@@ -167,7 +160,6 @@ const renewalTimeRangeData = {
     predicted: 1951.5,
     gap: 88.5,
     canComplete: true,
-    risk: 'low',
     // 在手项目金额
     pendingAmount: 1800,
     pendingRate: 88.2,
@@ -178,7 +170,6 @@ const renewalTimeRangeData = {
     predicted: 7806,
     gap: 354,
     canComplete: true,
-    risk: 'low',
     // 在手项目金额
     pendingAmount: 7200,
     pendingRate: 88.2,
@@ -692,21 +683,38 @@ export default function SalesDashboard() {
   if (timeRange === 'month') {
     const monthIndex = parseInt(selectedMonth) - 1;
     const monthData = monthlyTrendData.all[monthIndex];
+    const predictedRate = monthData ? (monthData.predicted / monthData.target) : 0;
     currentRangeData = {
       target: monthData?.target || 0,
       completed: monthData?.completed || 0,
       predicted: monthData?.predicted || 0,
       gap: monthData ? (monthData.target - monthData.predicted) : 0,
       canComplete: monthData ? (monthData.predicted >= monthData.target) : false,
-      risk: timeRangeData.month.risk, // 使用 timeRangeData 中的风险等级
+      risk: predictedRate >= 1 ? 'low' : predictedRate >= 0.8 ? 'medium' : 'high',
       pendingAmount: monthData ? Math.round(monthData.predicted * 0.64) : 0, // 模拟在手项目金额
-      pendingRate: monthData ? Math.round((monthData.predicted / monthData.target) * 100) : 0,
+      pendingRate: monthData ? Math.round(predictedRate * 100) : 0,
     };
   } else {
     // 季度或年度使用原有数据
     currentRangeData = timeRangeData[timeRange as keyof typeof timeRangeData];
   }
+
+  // 为季度和年度数据添加动态计算的 risk
+  if (timeRange !== 'month') {
+    const predictedRate = currentRangeData.predicted / currentRangeData.target;
+    (currentRangeData as any).risk = predictedRate >= 1 ? 'low' : predictedRate >= 0.8 ? 'medium' : 'high';
+  }
   const timeRangeLabel = timeRange === 'month' ? '月度' : timeRange === 'quarter' ? '季度' : '年度';
+
+  // 为租赁数据计算风险等级
+  const leaseCurrentData = leaseTimeRangeData[timeRange as keyof typeof leaseTimeRangeData];
+  const leasePredictedRate = leaseCurrentData.predicted / leaseCurrentData.target;
+  (leaseCurrentData as any).risk = leasePredictedRate >= 1 ? 'low' : leasePredictedRate >= 0.8 ? 'medium' : 'high';
+
+  // 为续租数据计算风险等级
+  const renewalCurrentData = renewalTimeRangeData[timeRange as keyof typeof renewalTimeRangeData];
+  const renewalPredictedRate = renewalCurrentData.predicted / renewalCurrentData.target;
+  (renewalCurrentData as any).risk = renewalPredictedRate >= 1 ? 'low' : renewalPredictedRate >= 0.8 ? 'medium' : 'high';
 
   return (
     <div className="min-h-screen bg-gray-50 p-4">
