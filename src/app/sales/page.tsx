@@ -1354,7 +1354,7 @@ export default function SalesDashboard() {
         <div className="mt-2 grid grid-cols-1 lg:grid-cols-2 gap-3">
           {/* 左侧：表格 */}
           <Card className="lg:col-span-1 border border-green-200 bg-gradient-to-br from-green-50 to-emerald-50">
-            <CardContent className="p-1.5">
+            <CardContent className="p-2">
               {/* 标题 */}
               <div className="flex items-center justify-between mb-3">
                 <div className="flex items-center gap-2">
@@ -1481,7 +1481,7 @@ export default function SalesDashboard() {
 
           {/* 右侧：城市经理达成情况 */}
           <Card className="lg:col-span-1 border border-green-200 bg-gradient-to-br from-green-50 to-emerald-50">
-            <CardContent className="p-1.5">
+            <CardContent className="p-2">
               {/* 标题 */}
               <div className="flex items-center justify-between mb-3">
                 <div className="flex items-center gap-2">
