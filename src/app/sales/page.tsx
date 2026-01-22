@@ -2697,179 +2697,222 @@ export default function SalesDashboard() {
           {/* 预测tab */}
           <TabsContent value="forecast">
             <div className="flex flex-col gap-3">
-              {/* 时间范围选择 */}
-              <Card className="bg-gradient-to-br from-blue-50 to-indigo-50 border-2 border-blue-200">
-                <CardContent className="p-4">
-                  <div className="flex items-center justify-between">
-                    <div className="flex items-center gap-3">
-                      <div className="w-10 h-10 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-xl flex items-center justify-center">
-                        <AlertTriangle className="w-5 h-5 text-white" />
-                      </div>
-                      <div>
-                        <h3 className="text-base font-bold text-gray-800">未来预测分析</h3>
-                        <p className="text-xs text-gray-600">基于历史数据和当前在手项目预测未来完成情况</p>
-                      </div>
+              {/* 时间范围选择 - 驾驶舱风格标题栏 */}
+              <div className="bg-gradient-to-r from-slate-900 via-blue-900 to-indigo-900 rounded-2xl p-5 shadow-2xl border border-blue-700/50">
+                <div className="flex items-center justify-between flex-wrap gap-4">
+                  <div className="flex items-center gap-4">
+                    <div className="w-14 h-14 bg-gradient-to-br from-cyan-400 to-blue-500 rounded-2xl flex items-center justify-center shadow-lg shadow-cyan-500/30">
+                      <AlertTriangle className="w-7 h-7 text-white" />
                     </div>
-                    <div className="flex items-center gap-2">
-                      <button
-                        onClick={() => setForecastPeriod('quarter')}
-                        className={`px-4 py-2 rounded-lg text-sm font-medium transition-all ${
-                          forecastPeriod === 'quarter'
-                            ? 'bg-gradient-to-r from-blue-500 to-indigo-600 text-white shadow-md'
-                            : 'bg-white border border-gray-200 text-gray-700 hover:bg-blue-50'
-                        }`}
-                      >
-                        季度预测（1-3个月）
-                      </button>
-                      <button
-                        onClick={() => setForecastPeriod('halfYear')}
-                        className={`px-4 py-2 rounded-lg text-sm font-medium transition-all ${
-                          forecastPeriod === 'halfYear'
-                            ? 'bg-gradient-to-r from-blue-500 to-indigo-600 text-white shadow-md'
-                            : 'bg-white border border-gray-200 text-gray-700 hover:bg-blue-50'
-                        }`}
-                      >
-                        半年度预测（6-9个月）
-                      </button>
+                    <div>
+                      <h3 className="text-xl font-black text-white tracking-wide">未来预测驾驶舱</h3>
+                      <p className="text-xs text-cyan-200 mt-1">AI智能预测 · 数据驱动决策</p>
                     </div>
                   </div>
-                </CardContent>
-              </Card>
-
-              {/* 预测完成情况 */}
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
-                {/* 预测目标 */}
-                <Card className="bg-gradient-to-br from-gray-50 to-gray-100 border border-gray-200">
-                  <CardContent className="p-4">
-                    <div className="flex items-center justify-between mb-2">
-                      <div className="flex items-center gap-2">
-                        <Target className="w-4 h-4 text-gray-600" />
-                        <span className="text-xs font-medium text-gray-600">预测目标</span>
-                      </div>
-                      <span className="text-xs text-gray-500">
-                        {forecastPeriod === 'quarter' ? 'Q1-Q3' : 'H1-H2'}
-                      </span>
-                    </div>
-                    <div className="flex items-baseline gap-1">
-                      <span className="text-2xl font-bold text-gray-900">
-                        {forecastPeriod === 'quarter' ? '1,850' : '5,200'}
-                      </span>
-                      <span className="text-xs text-gray-600">万元</span>
-                    </div>
-                    <div className="mt-2 text-xs text-gray-500">
-                      同比增长 <span className="text-green-600 font-medium">+12.5%</span>
-                    </div>
-                  </CardContent>
-                </Card>
-
-                {/* 预测完成 */}
-                <Card className={`bg-gradient-to-br ${
-                  forecastPeriod === 'quarter'
-                    ? 'from-orange-50 to-red-50 border-2 border-orange-300'
-                    : 'from-yellow-50 to-orange-50 border-2 border-yellow-300'
-                }`}>
-                  <CardContent className="p-4">
-                    <div className="flex items-center justify-between mb-2">
-                      <div className="flex items-center gap-2">
-                        <TrendingUp className={`w-4 h-4 ${
-                          forecastPeriod === 'quarter' ? 'text-orange-600' : 'text-yellow-600'
-                        }`} />
-                        <span className={`text-xs font-medium ${
-                          forecastPeriod === 'quarter' ? 'text-orange-700' : 'text-yellow-700'
-                        }`}>预测完成</span>
-                      </div>
-                      <span className={`text-xs px-2 py-0.5 rounded-full ${
+                  <div className="flex items-center gap-2 bg-black/30 rounded-xl p-1.5 backdrop-blur-sm">
+                    <button
+                      onClick={() => setForecastPeriod('quarter')}
+                      className={`px-5 py-2.5 rounded-lg text-sm font-bold transition-all duration-300 ${
                         forecastPeriod === 'quarter'
-                          ? 'bg-red-100 text-red-700'
-                          : 'bg-yellow-100 text-yellow-700'
-                      }`}>
-                        {forecastPeriod === 'quarter' ? '高风险' : '中风险'}
-                      </span>
-                    </div>
-                    <div className="flex items-baseline gap-1">
-                      <span className={`text-2xl font-bold ${
-                        forecastPeriod === 'quarter' ? 'text-orange-600' : 'text-yellow-600'
-                      }`}>
-                        {forecastPeriod === 'quarter' ? '1,480' : '4,420'}
-                      </span>
-                      <span className="text-xs text-gray-600">万元</span>
-                    </div>
-                    <div className="mt-2">
-                      <Progress
-                        value={forecastPeriod === 'quarter' ? 80 : 85}
-                        className="h-2"
-                      />
-                      <div className="flex justify-between mt-1">
-                        <span className={`text-xs font-medium ${
-                          forecastPeriod === 'quarter' ? 'text-orange-600' : 'text-yellow-600'
-                        }`}>
-                          预测达成率 {forecastPeriod === 'quarter' ? '80.0%' : '85.0%'}
-                        </span>
-                        <span className="text-xs text-gray-500">
-                          缺口 {forecastPeriod === 'quarter' ? '370' : '780'}万元
-                        </span>
-                      </div>
-                    </div>
-                  </CardContent>
-                </Card>
-
-                {/* 置信度 */}
-                <Card className="bg-gradient-to-br from-green-50 to-teal-50 border border-green-200">
-                  <CardContent className="p-4">
-                    <div className="flex items-center justify-between mb-2">
-                      <div className="flex items-center gap-2">
-                        <Activity className="w-4 h-4 text-green-600" />
-                        <span className="text-xs font-medium text-green-700">预测置信度</span>
-                      </div>
-                      <span className="text-xs text-gray-500">
-                        高
-                      </span>
-                    </div>
-                    <div className="flex items-baseline gap-1">
-                      <span className="text-2xl font-bold text-green-600">
-                        {forecastPeriod === 'quarter' ? '92' : '85'}
-                      </span>
-                      <span className="text-xs text-gray-600">%</span>
-                    </div>
-                    <div className="mt-2 text-xs text-gray-500">
-                      基于历史准确率
-                    </div>
-                  </CardContent>
-                </Card>
+                          ? 'bg-gradient-to-r from-cyan-500 to-blue-500 text-white shadow-lg shadow-cyan-500/30'
+                          : 'text-gray-300 hover:text-white hover:bg-white/10'
+                      }`}
+                    >
+                      季度预测
+                    </button>
+                    <button
+                      onClick={() => setForecastPeriod('halfYear')}
+                      className={`px-5 py-2.5 rounded-lg text-sm font-bold transition-all duration-300 ${
+                        forecastPeriod === 'halfYear'
+                          ? 'bg-gradient-to-r from-cyan-500 to-blue-500 text-white shadow-lg shadow-cyan-500/30'
+                          : 'text-gray-300 hover:text-white hover:bg-white/10'
+                      }`}
+                    >
+                      半年度预测
+                    </button>
+                  </div>
+                </div>
               </div>
 
-              {/* 原因分析 */}
-              <Card className="bg-white border-2 border-gray-200">
-                <CardHeader className="bg-gradient-to-r from-red-50 to-orange-50 border-b-2 border-red-200">
-                  <CardTitle className="flex items-center gap-2 text-base">
-                    <AlertTriangle className="w-5 h-5 text-red-600" />
-                    <span className="text-gray-800">预测未达成原因分析</span>
-                  </CardTitle>
-                </CardHeader>
-                <CardContent className="p-4">
-                  <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
+              {/* 预测完成情况 - 仪表盘风格大卡片 */}
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                {/* 预测目标 - 科技感数字 */}
+                <div className="bg-gradient-to-br from-slate-800 to-slate-900 rounded-2xl p-5 shadow-2xl border border-slate-700/50 relative overflow-hidden">
+                  <div className="absolute top-0 right-0 w-32 h-32 bg-blue-500/10 rounded-full blur-3xl"></div>
+                  <div className="flex items-center justify-between mb-4 relative z-10">
+                    <div className="flex items-center gap-2">
+                      <div className="w-10 h-10 bg-blue-500/20 rounded-xl flex items-center justify-center border border-blue-400/30">
+                        <Target className="w-5 h-5 text-blue-400" />
+                      </div>
+                      <span className="text-xs font-bold text-blue-300 uppercase tracking-wider">预测目标</span>
+                    </div>
+                    <div className="bg-blue-500/20 px-3 py-1 rounded-full border border-blue-400/30">
+                      <span className="text-xs font-bold text-blue-300">{forecastPeriod === 'quarter' ? 'Q1-Q3' : 'H1-H2'}</span>
+                    </div>
+                  </div>
+                  <div className="flex items-baseline gap-2 mb-3 relative z-10">
+                    <span className="text-5xl font-black text-white tracking-tight">
+                      {forecastPeriod === 'quarter' ? '1,850' : '5,200'}
+                    </span>
+                    <span className="text-sm font-bold text-gray-400">万元</span>
+                  </div>
+                  <div className="flex items-center gap-2 relative z-10">
+                    <div className="w-2 h-2 rounded-full bg-green-400 animate-pulse"></div>
+                    <span className="text-xs text-gray-400">同比 </span>
+                    <span className="text-xs font-black text-green-400">+12.5%</span>
+                  </div>
+                </div>
+
+                {/* 预测完成 - 环形进度条 */}
+                <div className={`bg-gradient-to-br ${
+                  forecastPeriod === 'quarter'
+                    ? 'from-slate-800 via-orange-900/50 to-slate-900'
+                    : 'from-slate-800 via-yellow-900/50 to-slate-900'
+                } rounded-2xl p-5 shadow-2xl border ${
+                  forecastPeriod === 'quarter'
+                    ? 'border-orange-700/50'
+                    : 'border-yellow-700/50'
+                } relative overflow-hidden`}>
+                  <div className={`absolute top-0 right-0 w-32 h-32 ${
+                    forecastPeriod === 'quarter'
+                      ? 'bg-orange-500/10'
+                      : 'bg-yellow-500/10'
+                  } rounded-full blur-3xl`}></div>
+                  <div className="flex items-center justify-between mb-3 relative z-10">
+                    <div className="flex items-center gap-2">
+                      <div className={`w-10 h-10 ${
+                        forecastPeriod === 'quarter'
+                          ? 'bg-orange-500/20 border-orange-400/30'
+                          : 'bg-yellow-500/20 border-yellow-400/30'
+                      } rounded-xl flex items-center justify-center border`}>
+                        <TrendingUp className={`w-5 h-5 ${
+                          forecastPeriod === 'quarter' ? 'text-orange-400' : 'text-yellow-400'
+                        }`} />
+                      </div>
+                      <span className={`text-xs font-bold ${
+                        forecastPeriod === 'quarter' ? 'text-orange-300' : 'text-yellow-300'
+                      } uppercase tracking-wider`}>预测完成</span>
+                    </div>
+                    <div className={`px-3 py-1 rounded-full text-xs font-black ${
+                      forecastPeriod === 'quarter'
+                        ? 'bg-red-500 text-white'
+                        : 'bg-yellow-500 text-black'
+                    }`}>
+                      {forecastPeriod === 'quarter' ? '高风险' : '中风险'}
+                    </div>
+                  </div>
+                  <div className="flex items-center gap-4 relative z-10">
+                    {/* 环形进度 */}
+                    <div className="relative w-20 h-20 flex-shrink-0">
+                      <svg className="w-full h-full transform -rotate-90" viewBox="0 0 36 36">
+                        <path
+                          d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"
+                          fill="none"
+                          stroke={forecastPeriod === 'quarter' ? '#1f2937' : '#1f2937'}
+                          strokeWidth="3"
+                        />
+                        <path
+                          d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"
+                          fill="none"
+                          stroke={forecastPeriod === 'quarter' ? '#f97316' : '#eab308'}
+                          strokeWidth="3"
+                          strokeDasharray={`${forecastPeriod === 'quarter' ? 80 : 85}, 100`}
+                          strokeLinecap="round"
+                        />
+                      </svg>
+                      <div className="absolute inset-0 flex items-center justify-center">
+                        <span className={`text-lg font-black ${
+                          forecastPeriod === 'quarter' ? 'text-orange-400' : 'text-yellow-400'
+                        }`}>
+                          {forecastPeriod === 'quarter' ? '80' : '85'}%
+                        </span>
+                      </div>
+                    </div>
+                    <div className="flex-1">
+                      <div className="flex items-baseline gap-1 mb-1">
+                        <span className={`text-4xl font-black ${
+                          forecastPeriod === 'quarter' ? 'text-orange-400' : 'text-yellow-400'
+                        }`}>
+                          {forecastPeriod === 'quarter' ? '1,480' : '4,420'}
+                        </span>
+                        <span className="text-xs font-bold text-gray-400">万元</span>
+                      </div>
+                      <div className="text-xs text-gray-400">
+                        缺口 <span className={`font-black ${
+                          forecastPeriod === 'quarter' ? 'text-orange-400' : 'text-yellow-400'
+                        }`}>{forecastPeriod === 'quarter' ? '370' : '780'}</span> 万元
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                {/* 置信度 - 仪表盘风格 */}
+                <div className="bg-gradient-to-br from-slate-800 to-slate-900 rounded-2xl p-5 shadow-2xl border border-emerald-700/50 relative overflow-hidden">
+                  <div className="absolute top-0 right-0 w-32 h-32 bg-emerald-500/10 rounded-full blur-3xl"></div>
+                  <div className="flex items-center justify-between mb-4 relative z-10">
+                    <div className="flex items-center gap-2">
+                      <div className="w-10 h-10 bg-emerald-500/20 rounded-xl flex items-center justify-center border border-emerald-400/30">
+                        <Activity className="w-5 h-5 text-emerald-400" />
+                      </div>
+                      <span className="text-xs font-bold text-emerald-300 uppercase tracking-wider">预测置信度</span>
+                    </div>
+                    <div className="bg-emerald-500/20 px-3 py-1 rounded-full border border-emerald-400/30">
+                      <span className="text-xs font-bold text-emerald-300">高</span>
+                    </div>
+                  </div>
+                  <div className="flex items-baseline gap-2 mb-3 relative z-10">
+                    <span className="text-5xl font-black text-emerald-400 tracking-tight">
+                      {forecastPeriod === 'quarter' ? '92' : '85'}
+                    </span>
+                    <span className="text-sm font-bold text-gray-400">%</span>
+                  </div>
+                  <div className="relative z-10">
+                    <div className="h-2 bg-slate-700 rounded-full overflow-hidden">
+                      <div
+                        className="h-full bg-gradient-to-r from-emerald-600 to-emerald-400 rounded-full transition-all duration-500"
+                        style={{ width: `${forecastPeriod === 'quarter' ? 92 : 85}%` }}
+                      ></div>
+                    </div>
+                    <div className="text-xs text-gray-400 mt-2">基于历史准确率</div>
+                  </div>
+                </div>
+              </div>
+
+              {/* 原因分析 - 驾驶舱风格数据展示 */}
+              <div className="bg-gradient-to-br from-slate-800 to-slate-900 rounded-2xl shadow-2xl border border-slate-700/50 overflow-hidden">
+                <div className="bg-gradient-to-r from-red-900/50 via-orange-900/50 to-slate-800 px-5 py-4 border-b border-red-700/30">
+                  <div className="flex items-center gap-3">
+                    <div className="w-10 h-10 bg-gradient-to-br from-red-500 to-orange-500 rounded-xl flex items-center justify-center shadow-lg shadow-red-500/30">
+                      <AlertTriangle className="w-5 h-5 text-white" />
+                    </div>
+                    <h3 className="text-base font-black text-white tracking-wide">预测未达成原因分析</h3>
+                  </div>
+                </div>
+                <div className="p-5">
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                     {/* 原因1：项目进度状态不及时 */}
-                    <div className="bg-gradient-to-br from-red-50 to-pink-50 rounded-xl p-4 border-2 border-red-200">
-                      <div className="flex items-start gap-3">
-                        <div className="w-12 h-12 bg-gradient-to-br from-red-500 to-red-600 rounded-xl flex items-center justify-center flex-shrink-0">
-                          <AlertTriangle className="w-6 h-6 text-white" />
+                    <div className="bg-gradient-to-br from-red-900/30 to-slate-800/50 rounded-2xl p-5 border border-red-700/30 relative overflow-hidden group hover:border-red-600/50 transition-all duration-300">
+                      <div className="absolute top-0 right-0 w-24 h-24 bg-red-500/10 rounded-full blur-2xl group-hover:bg-red-500/20 transition-all duration-300"></div>
+                      <div className="flex items-start gap-4 relative z-10">
+                        <div className="w-14 h-14 bg-gradient-to-br from-red-500 to-red-600 rounded-2xl flex items-center justify-center shadow-lg shadow-red-500/30 flex-shrink-0">
+                          <AlertTriangle className="w-7 h-7 text-white" />
                         </div>
                         <div className="flex-1">
-                          <h4 className="text-sm font-bold text-red-700 mb-1">项目进度状态不及时</h4>
-                          <p className="text-xs text-gray-600 mb-2 leading-relaxed">
-                            部分在手项目未及时更新进度，导致未纳入预测统计，影响预测准确性
+                          <h4 className="text-sm font-black text-red-300 mb-2 uppercase tracking-wide">项目进度不及时</h4>
+                          <p className="text-xs text-gray-400 mb-4 leading-relaxed">
+                            部分在手项目未及时更新进度，导致未纳入预测统计
                           </p>
-                          <div className="bg-white rounded-lg p-2 border border-red-100">
-                            <div className="flex items-center justify-between mb-1">
-                              <span className="text-xs text-gray-600">影响金额</span>
-                              <span className="text-xs font-bold text-red-600">
-                                {forecastPeriod === 'quarter' ? '-180' : '-320'}万元
+                          <div className="bg-black/30 rounded-xl p-3 border border-red-700/30 backdrop-blur-sm">
+                            <div className="flex items-center justify-between mb-2">
+                              <span className="text-xs text-gray-400">影响金额</span>
+                              <span className="text-lg font-black text-red-400">
+                                {forecastPeriod === 'quarter' ? '180' : '320'}
                               </span>
                             </div>
                             <div className="flex items-center justify-between">
-                              <span className="text-xs text-gray-600">涉及项目</span>
-                              <span className="text-xs font-bold text-red-600">
-                                {forecastPeriod === 'quarter' ? '12' : '23'}个
+                              <span className="text-xs text-gray-400">涉及项目</span>
+                              <span className="text-lg font-black text-red-400">
+                                {forecastPeriod === 'quarter' ? '12' : '23'}
                               </span>
                             </div>
                           </div>
@@ -2877,28 +2920,29 @@ export default function SalesDashboard() {
                       </div>
                     </div>
 
-                    {/* 原因2：项目进度及时，但项目数不够 */}
-                    <div className="bg-gradient-to-br from-orange-50 to-yellow-50 rounded-xl p-4 border-2 border-orange-200">
-                      <div className="flex items-start gap-3">
-                        <div className="w-12 h-12 bg-gradient-to-br from-orange-500 to-orange-600 rounded-xl flex items-center justify-center flex-shrink-0">
-                          <Target className="w-6 h-6 text-white" />
+                    {/* 原因2：项目数量不足 */}
+                    <div className="bg-gradient-to-br from-orange-900/30 to-slate-800/50 rounded-2xl p-5 border border-orange-700/30 relative overflow-hidden group hover:border-orange-600/50 transition-all duration-300">
+                      <div className="absolute top-0 right-0 w-24 h-24 bg-orange-500/10 rounded-full blur-2xl group-hover:bg-orange-500/20 transition-all duration-300"></div>
+                      <div className="flex items-start gap-4 relative z-10">
+                        <div className="w-14 h-14 bg-gradient-to-br from-orange-500 to-orange-600 rounded-2xl flex items-center justify-center shadow-lg shadow-orange-500/30 flex-shrink-0">
+                          <Target className="w-7 h-7 text-white" />
                         </div>
                         <div className="flex-1">
-                          <h4 className="text-sm font-bold text-orange-700 mb-1">项目数量不足</h4>
-                          <p className="text-xs text-gray-600 mb-2 leading-relaxed">
-                            在手项目数量少于同期平均水平，项目储备不足，影响预测达成
+                          <h4 className="text-sm font-black text-orange-300 mb-2 uppercase tracking-wide">项目数量不足</h4>
+                          <p className="text-xs text-gray-400 mb-4 leading-relaxed">
+                            在手项目数量少于同期平均水平，项目储备不足
                           </p>
-                          <div className="bg-white rounded-lg p-2 border border-orange-100">
-                            <div className="flex items-center justify-between mb-1">
-                              <span className="text-xs text-gray-600">影响金额</span>
-                              <span className="text-xs font-bold text-orange-600">
-                                {forecastPeriod === 'quarter' ? '-120' : '-320'}万元
+                          <div className="bg-black/30 rounded-xl p-3 border border-orange-700/30 backdrop-blur-sm">
+                            <div className="flex items-center justify-between mb-2">
+                              <span className="text-xs text-gray-400">影响金额</span>
+                              <span className="text-lg font-black text-orange-400">
+                                {forecastPeriod === 'quarter' ? '120' : '320'}
                               </span>
                             </div>
                             <div className="flex items-center justify-between">
-                              <span className="text-xs text-gray-600">缺口项目数</span>
-                              <span className="text-xs font-bold text-orange-600">
-                                {forecastPeriod === 'quarter' ? '8' : '18'}个
+                              <span className="text-xs text-gray-400">缺口项目数</span>
+                              <span className="text-lg font-black text-orange-400">
+                                {forecastPeriod === 'quarter' ? '8' : '18'}
                               </span>
                             </div>
                           </div>
@@ -2906,28 +2950,29 @@ export default function SalesDashboard() {
                       </div>
                     </div>
 
-                    {/* 原因3：渠道分布细分市场问题 */}
-                    <div className="bg-gradient-to-br from-yellow-50 to-amber-50 rounded-xl p-4 border-2 border-yellow-200">
-                      <div className="flex items-start gap-3">
-                        <div className="w-12 h-12 bg-gradient-to-br from-yellow-500 to-yellow-600 rounded-xl flex items-center justify-center flex-shrink-0">
-                          <Database className="w-6 h-6 text-white" />
+                    {/* 原因3：渠道分布问题 */}
+                    <div className="bg-gradient-to-br from-yellow-900/30 to-slate-800/50 rounded-2xl p-5 border border-yellow-700/30 relative overflow-hidden group hover:border-yellow-600/50 transition-all duration-300">
+                      <div className="absolute top-0 right-0 w-24 h-24 bg-yellow-500/10 rounded-full blur-2xl group-hover:bg-yellow-500/20 transition-all duration-300"></div>
+                      <div className="flex items-start gap-4 relative z-10">
+                        <div className="w-14 h-14 bg-gradient-to-br from-yellow-500 to-yellow-600 rounded-2xl flex items-center justify-center shadow-lg shadow-yellow-500/30 flex-shrink-0">
+                          <Database className="w-7 h-7 text-white" />
                         </div>
                         <div className="flex-1">
-                          <h4 className="text-sm font-bold text-yellow-700 mb-1">渠道分布问题</h4>
-                          <p className="text-xs text-gray-600 mb-2 leading-relaxed">
-                            渠道分布不均衡，细分市场覆盖不足，部分高价值区域项目占比偏低
+                          <h4 className="text-sm font-black text-yellow-300 mb-2 uppercase tracking-wide">渠道分布问题</h4>
+                          <p className="text-xs text-gray-400 mb-4 leading-relaxed">
+                            渠道分布不均衡，细分市场覆盖不足
                           </p>
-                          <div className="bg-white rounded-lg p-2 border border-yellow-100">
-                            <div className="flex items-center justify-between mb-1">
-                              <span className="text-xs text-gray-600">影响金额</span>
-                              <span className="text-xs font-bold text-yellow-600">
-                                {forecastPeriod === 'quarter' ? '-70' : '-140'}万元
+                          <div className="bg-black/30 rounded-xl p-3 border border-yellow-700/30 backdrop-blur-sm">
+                            <div className="flex items-center justify-between mb-2">
+                              <span className="text-xs text-gray-400">影响金额</span>
+                              <span className="text-lg font-black text-yellow-400">
+                                {forecastPeriod === 'quarter' ? '70' : '140'}
                               </span>
                             </div>
                             <div className="flex items-center justify-between">
-                              <span className="text-xs text-gray-600">待优化区域</span>
-                              <span className="text-xs font-bold text-yellow-600">
-                                {forecastPeriod === 'quarter' ? '3' : '5'}个
+                              <span className="text-xs text-gray-400">待优化区域</span>
+                              <span className="text-lg font-black text-yellow-400">
+                                {forecastPeriod === 'quarter' ? '3' : '5'}
                               </span>
                             </div>
                           </div>
@@ -2936,23 +2981,25 @@ export default function SalesDashboard() {
                     </div>
                   </div>
 
-                  {/* 总结建议 */}
-                  <div className="mt-4 bg-gradient-to-r from-blue-50 to-indigo-50 rounded-xl p-4 border border-blue-200">
-                    <div className="flex items-start gap-3">
-                      <div className="w-8 h-8 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-lg flex items-center justify-center flex-shrink-0">
-                        <TrendingUp className="w-4 h-4 text-white" />
+                  {/* 总结建议 - 行动卡片 */}
+                  <div className="mt-5 bg-gradient-to-r from-cyan-900/30 via-blue-900/30 to-indigo-900/30 rounded-2xl p-5 border border-cyan-700/30 backdrop-blur-sm relative overflow-hidden">
+                    <div className="absolute top-0 right-0 w-40 h-40 bg-cyan-500/10 rounded-full blur-3xl"></div>
+                    <div className="flex items-start gap-4 relative z-10">
+                      <div className="w-12 h-12 bg-gradient-to-br from-cyan-500 to-blue-500 rounded-xl flex items-center justify-center shadow-lg shadow-cyan-500/30 flex-shrink-0">
+                        <TrendingUp className="w-6 h-6 text-white" />
                       </div>
-                      <div>
-                        <h4 className="text-sm font-bold text-blue-700 mb-1">优化建议</h4>
-                        <p className="text-xs text-gray-700 leading-relaxed">
-                          建议立即开展项目进度专项检查，督促责任人及时更新；同时加强项目拓展，
-                          特别是在高价值细分市场和薄弱区域，增加项目储备，提升预测达成率。
+                      <div className="flex-1">
+                        <h4 className="text-sm font-black text-cyan-300 mb-2 uppercase tracking-wide">优化建议</h4>
+                        <p className="text-sm text-gray-300 leading-relaxed">
+                          建议立即开展<span className="text-cyan-400 font-bold">项目进度专项检查</span>，督促责任人及时更新；
+                          同时加强项目拓展，特别是在<span className="text-cyan-400 font-bold">高价值细分市场和薄弱区域</span>，
+                          增加项目储备，提升预测达成率。
                         </p>
                       </div>
                     </div>
                   </div>
-                </CardContent>
-              </Card>
+                </div>
+              </div>
             </div>
           </TabsContent>
         </Tabs>
