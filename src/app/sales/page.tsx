@@ -11,7 +11,7 @@ import Link from 'next/link';
 import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 
 // 自定义 Hook：自适应缩放
-const useAutoScale = () => {
+const useAutoScale = (dependencies: any[] = []) => {
   const [scale, setScale] = useState(1);
   const containerRef = useRef<HTMLDivElement>(null);
 
@@ -25,10 +25,10 @@ const useAutoScale = () => {
       // 暂时移除 transform 来获取内容的自然高度
       const originalTransform = container.style.transform;
       container.style.transform = 'none';
-      
-      // 获取内容的自然高度
+
+      // 获取内容的自然高度（只计算可见部分）
       const contentHeight = container.scrollHeight;
-      
+
       // 恢复 transform
       container.style.transform = originalTransform;
 
@@ -37,8 +37,8 @@ const useAutoScale = () => {
       const availableHeight = viewportHeight - 40;
       let newScale = availableHeight / contentHeight;
 
-      // 限制最大缩放比例为1，最小为0.6
-      newScale = Math.min(1, Math.max(newScale, 0.6));
+      // 限制最大缩放比例为1，最小为0.5
+      newScale = Math.min(1, Math.max(newScale, 0.5));
 
       setScale(newScale);
     };
@@ -55,7 +55,7 @@ const useAutoScale = () => {
       clearTimeout(timer);
       window.removeEventListener('resize', calculateScale);
     };
-  }, []);
+  }, dependencies);
 
   return { scale, containerRef };
 };
@@ -568,11 +568,11 @@ const relatedProjectsData = [
 ];
 
 export default function SalesDashboard() {
-  // 使用自适应缩放 Hook
-  const { scale, containerRef } = useAutoScale();
-
   const [timeRange, setTimeRange] = useState('month');
   const [activeTab, setActiveTab] = useState('overview');
+
+  // 使用自适应缩放 Hook，传入 activeTab 作为依赖
+  const { scale, containerRef } = useAutoScale([activeTab]);
   const [viewLevel, setViewLevel] = useState<'region' | 'city'>('region');
   const [selectedRegion, setSelectedRegion] = useState<string>('');
   const [selectedMonth, setSelectedMonth] = useState('1');
