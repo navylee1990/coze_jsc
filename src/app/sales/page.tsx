@@ -543,6 +543,23 @@ const monthlyTrendData = {
   ],
 };
 
+// 预测趋势数据 - 季度预测（1-3个月）
+const forecastTrendDataQuarter = [
+  { month: '1月', target: 1428, completed: 677, predicted: 1000, confidence: 92 },
+  { month: '2月', target: 1350, completed: 720, predicted: 1050, confidence: 91 },
+  { month: '3月', target: 1480, completed: 850, predicted: 1200, confidence: 90 },
+];
+
+// 预测趋势数据 - 半年度预测（6-9个月）
+const forecastTrendDataHalfYear = [
+  { month: '1月', target: 1428, completed: 677, predicted: 1000, confidence: 92 },
+  { month: '2月', target: 1350, completed: 720, predicted: 1050, confidence: 91 },
+  { month: '3月', target: 1480, completed: 850, predicted: 1200, confidence: 90 },
+  { month: '4月', target: 1520, completed: 890, predicted: 1250, confidence: 89 },
+  { month: '5月', target: 1460, completed: 820, predicted: 1100, confidence: 88 },
+  { month: '6月', target: 1500, completed: 880, predicted: 1150, confidence: 87 },
+];
+
 // 临期/超期项目数据
 const urgentProjectsData = [
   { name: '某某连锁餐饮总部', amount: '120万', status: 'expired', days: -15 },
@@ -2734,151 +2751,231 @@ export default function SalesDashboard() {
                 </div>
               </div>
 
-              {/* 预测完成情况 - 仪表盘风格大卡片 */}
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                {/* 预测目标 - 科技感数字 */}
-                <div className="bg-gradient-to-br from-slate-800 to-slate-900 rounded-2xl p-5 shadow-2xl border border-slate-700/50 relative overflow-hidden">
-                  <div className="absolute top-0 right-0 w-32 h-32 bg-blue-500/10 rounded-full blur-3xl"></div>
-                  <div className="flex items-center justify-between mb-4 relative z-10">
-                    <div className="flex items-center gap-2">
-                      <div className="w-10 h-10 bg-blue-500/20 rounded-xl flex items-center justify-center border border-blue-400/30">
-                        <Target className="w-5 h-5 text-blue-400" />
-                      </div>
-                      <span className="text-xs font-bold text-blue-300 uppercase tracking-wider">预测目标</span>
-                    </div>
-                    <div className="bg-blue-500/20 px-3 py-1 rounded-full border border-blue-400/30">
-                      <span className="text-xs font-bold text-blue-300">{forecastPeriod === 'quarter' ? 'Q1-Q3' : 'H1-H2'}</span>
-                    </div>
-                  </div>
-                  <div className="flex items-baseline gap-2 mb-3 relative z-10">
-                    <span className="text-5xl font-black text-white tracking-tight">
-                      {forecastPeriod === 'quarter' ? '1,850' : '5,200'}
+              {/* 预测趋势图表 - 参考月度趋势分析 */}
+              <div className="bg-white border-2 border-blue-200 bg-gradient-to-br from-blue-50 to-cyan-50 rounded-xl p-3 sm:p-4 flex flex-col">
+                {/* 标题和筛选器 */}
+                <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-2 sm:mb-3 gap-2 flex-shrink-0">
+                  <div className="flex items-center gap-2">
+                    <BarChart3 className="w-5 h-5 text-blue-600" />
+                    <span className="text-base font-bold text-gray-900">
+                      {forecastPeriod === 'quarter' ? '季度预测趋势' : '半年度预测趋势'}
                     </span>
-                    <span className="text-sm font-bold text-gray-400">万元</span>
-                  </div>
-                  <div className="flex items-center gap-2 relative z-10">
-                    <div className="w-2 h-2 rounded-full bg-green-400 animate-pulse"></div>
-                    <span className="text-xs text-gray-400">同比 </span>
-                    <span className="text-xs font-black text-green-400">+12.5%</span>
+                    <span className="text-xs text-gray-500">
+                      ({forecastPeriod === 'quarter' ? '1-3月' : '1-6月'})
+                    </span>
                   </div>
                 </div>
 
-                {/* 预测完成 - 环形进度条 */}
-                <div className={`bg-gradient-to-br ${
-                  forecastPeriod === 'quarter'
-                    ? 'from-slate-800 via-orange-900/50 to-slate-900'
-                    : 'from-slate-800 via-yellow-900/50 to-slate-900'
-                } rounded-2xl p-5 shadow-2xl border ${
-                  forecastPeriod === 'quarter'
-                    ? 'border-orange-700/50'
-                    : 'border-yellow-700/50'
-                } relative overflow-hidden`}>
-                  <div className={`absolute top-0 right-0 w-32 h-32 ${
-                    forecastPeriod === 'quarter'
-                      ? 'bg-orange-500/10'
-                      : 'bg-yellow-500/10'
-                  } rounded-full blur-3xl`}></div>
-                  <div className="flex items-center justify-between mb-3 relative z-10">
-                    <div className="flex items-center gap-2">
-                      <div className={`w-10 h-10 ${
-                        forecastPeriod === 'quarter'
-                          ? 'bg-orange-500/20 border-orange-400/30'
-                          : 'bg-yellow-500/20 border-yellow-400/30'
-                      } rounded-xl flex items-center justify-center border`}>
-                        <TrendingUp className={`w-5 h-5 ${
-                          forecastPeriod === 'quarter' ? 'text-orange-400' : 'text-yellow-400'
-                        }`} />
-                      </div>
-                      <span className={`text-xs font-bold ${
-                        forecastPeriod === 'quarter' ? 'text-orange-300' : 'text-yellow-300'
-                      } uppercase tracking-wider`}>预测完成</span>
-                    </div>
-                    <div className={`px-3 py-1 rounded-full text-xs font-black ${
-                      forecastPeriod === 'quarter'
-                        ? 'bg-red-500 text-white'
-                        : 'bg-yellow-500 text-black'
-                    }`}>
-                      {forecastPeriod === 'quarter' ? '高风险' : '中风险'}
-                    </div>
-                  </div>
-                  <div className="flex items-center gap-4 relative z-10">
-                    {/* 环形进度 */}
-                    <div className="relative w-20 h-20 flex-shrink-0">
-                      <svg className="w-full h-full transform -rotate-90" viewBox="0 0 36 36">
-                        <path
-                          d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"
-                          fill="none"
-                          stroke={forecastPeriod === 'quarter' ? '#1f2937' : '#1f2937'}
-                          strokeWidth="3"
+                {/* 趋势图表 */}
+                <div className="bg-white rounded-xl shadow-sm border border-gray-100 flex-1" style={{ minHeight: '350px' }}>
+                  <div className="h-full">
+                    <ResponsiveContainer width="100%" height="100%">
+                      <AreaChart data={forecastPeriod === 'quarter' ? forecastTrendDataQuarter : forecastTrendDataHalfYear}>
+                        <defs>
+                          <linearGradient id="colorForecastTarget" x1="0" y1="0" x2="0" y2="1">
+                            <stop offset="5%" stopColor="#3B82F6" stopOpacity={0.3}/>
+                            <stop offset="95%" stopColor="#3B82F6" stopOpacity={0}/>
+                          </linearGradient>
+                          <linearGradient id="colorForecastCompleted" x1="0" y1="0" x2="0" y2="1">
+                            <stop offset="5%" stopColor="#10B981" stopOpacity={0.3}/>
+                            <stop offset="95%" stopColor="#10B981" stopOpacity={0}/>
+                          </linearGradient>
+                          <linearGradient id="colorForecastPredicted" x1="0" y1="0" x2="0" y2="1">
+                            <stop offset="5%" stopColor="#F59E0B" stopOpacity={0.3}/>
+                            <stop offset="95%" stopColor="#F59E0B" stopOpacity={0}/>
+                          </linearGradient>
+                          <linearGradient id="colorForecastConfidence" x1="0" y1="0" x2="0" y2="1">
+                            <stop offset="5%" stopColor="#8B5CF6" stopOpacity={0.3}/>
+                            <stop offset="95%" stopColor="#8B5CF6" stopOpacity={0}/>
+                          </linearGradient>
+                        </defs>
+                        <CartesianGrid strokeDasharray="3 3" stroke="#E5E7EB" vertical={false} />
+                        <XAxis
+                          dataKey="month"
+                          axisLine={false}
+                          tickLine={false}
+                          tick={{ fill: '#6B7280', fontSize: 11 }}
                         />
-                        <path
-                          d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"
-                          fill="none"
-                          stroke={forecastPeriod === 'quarter' ? '#f97316' : '#eab308'}
-                          strokeWidth="3"
-                          strokeDasharray={`${forecastPeriod === 'quarter' ? 80 : 85}, 100`}
-                          strokeLinecap="round"
+                        <YAxis
+                          axisLine={false}
+                          tickLine={false}
+                          tick={{ fill: '#6B7280', fontSize: 11 }}
+                          tickFormatter={(value) => `${value}万`}
                         />
-                      </svg>
-                      <div className="absolute inset-0 flex items-center justify-center">
-                        <span className={`text-lg font-black ${
-                          forecastPeriod === 'quarter' ? 'text-orange-400' : 'text-yellow-400'
-                        }`}>
-                          {forecastPeriod === 'quarter' ? '80' : '85'}%
-                        </span>
-                      </div>
-                    </div>
-                    <div className="flex-1">
-                      <div className="flex items-baseline gap-1 mb-1">
-                        <span className={`text-4xl font-black ${
-                          forecastPeriod === 'quarter' ? 'text-orange-400' : 'text-yellow-400'
-                        }`}>
-                          {forecastPeriod === 'quarter' ? '1,480' : '4,420'}
-                        </span>
-                        <span className="text-xs font-bold text-gray-400">万元</span>
-                      </div>
-                      <div className="text-xs text-gray-400">
-                        缺口 <span className={`font-black ${
-                          forecastPeriod === 'quarter' ? 'text-orange-400' : 'text-yellow-400'
-                        }`}>{forecastPeriod === 'quarter' ? '370' : '780'}</span> 万元
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
-                {/* 置信度 - 仪表盘风格 */}
-                <div className="bg-gradient-to-br from-slate-800 to-slate-900 rounded-2xl p-5 shadow-2xl border border-emerald-700/50 relative overflow-hidden">
-                  <div className="absolute top-0 right-0 w-32 h-32 bg-emerald-500/10 rounded-full blur-3xl"></div>
-                  <div className="flex items-center justify-between mb-4 relative z-10">
-                    <div className="flex items-center gap-2">
-                      <div className="w-10 h-10 bg-emerald-500/20 rounded-xl flex items-center justify-center border border-emerald-400/30">
-                        <Activity className="w-5 h-5 text-emerald-400" />
-                      </div>
-                      <span className="text-xs font-bold text-emerald-300 uppercase tracking-wider">预测置信度</span>
-                    </div>
-                    <div className="bg-emerald-500/20 px-3 py-1 rounded-full border border-emerald-400/30">
-                      <span className="text-xs font-bold text-emerald-300">高</span>
-                    </div>
-                  </div>
-                  <div className="flex items-baseline gap-2 mb-3 relative z-10">
-                    <span className="text-5xl font-black text-emerald-400 tracking-tight">
-                      {forecastPeriod === 'quarter' ? '92' : '85'}
-                    </span>
-                    <span className="text-sm font-bold text-gray-400">%</span>
-                  </div>
-                  <div className="relative z-10">
-                    <div className="h-2 bg-slate-700 rounded-full overflow-hidden">
-                      <div
-                        className="h-full bg-gradient-to-r from-emerald-600 to-emerald-400 rounded-full transition-all duration-500"
-                        style={{ width: `${forecastPeriod === 'quarter' ? 92 : 85}%` }}
-                      ></div>
-                    </div>
-                    <div className="text-xs text-gray-400 mt-2">基于历史准确率</div>
+                        <Tooltip
+                          contentStyle={{
+                            backgroundColor: 'white',
+                            border: '1px solid #E5E7EB',
+                            borderRadius: '8px',
+                            boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1)',
+                          }}
+                          formatter={(value: number, name: string) => {
+                            if (name === '置信度') return [`${value}%`, name];
+                            return [`${value}万`, name];
+                          }}
+                          labelStyle={{ color: '#374151', fontWeight: 'bold' }}
+                        />
+                        <Legend
+                          verticalAlign="top"
+                          height={30}
+                          iconType="circle"
+                          formatter={(value) => {
+                            const colorMap: { [key: string]: string } = {
+                              '目标': '#3B82F6',
+                              '已完成': '#10B981',
+                              '预测完成': '#F59E0B',
+                              '置信度': '#8B5CF6',
+                            };
+                            return <span style={{ color: '#374151', fontSize: 13 }}>{value}</span>;
+                          }}
+                        />
+                        <Area
+                          type="monotone"
+                          dataKey="target"
+                          stroke="#3B82F6"
+                          strokeWidth={2}
+                          fillOpacity={0}
+                          name="目标"
+                        />
+                        <Area
+                          type="monotone"
+                          dataKey="completed"
+                          stroke="#10B981"
+                          strokeWidth={2.5}
+                          fillOpacity={1}
+                          fill="url(#colorForecastCompleted)"
+                          name="已完成"
+                        />
+                        <Area
+                          type="monotone"
+                          dataKey="predicted"
+                          stroke="#F59E0B"
+                          strokeWidth={2}
+                          fillOpacity={1}
+                          fill="url(#colorForecastPredicted)"
+                          name="预测完成"
+                        />
+                        <Area
+                          type="monotone"
+                          dataKey="confidence"
+                          stroke="#8B5CF6"
+                          strokeWidth={2}
+                          fillOpacity={1}
+                          fill="url(#colorForecastConfidence)"
+                          name="置信度"
+                        />
+                      </AreaChart>
+                    </ResponsiveContainer>
                   </div>
                 </div>
               </div>
 
-              {/* 原因分析 - 驾驶舱风格数据展示 */}
+              {/* 预测关键指标 - 驾驶舱风格 */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
+                {/* 总目标 */}
+                <div className="bg-gradient-to-br from-slate-800 to-slate-900 rounded-2xl p-4 shadow-2xl border border-slate-700/50 relative overflow-hidden">
+                  <div className="absolute top-0 right-0 w-24 h-24 bg-blue-500/10 rounded-full blur-3xl"></div>
+                  <div className="flex items-center gap-2 mb-3 relative z-10">
+                    <div className="w-8 h-8 bg-blue-500/20 rounded-lg flex items-center justify-center border border-blue-400/30">
+                      <Target className="w-4 h-4 text-blue-400" />
+                    </div>
+                    <span className="text-xs font-bold text-blue-300 uppercase tracking-wider">总目标</span>
+                  </div>
+                  <div className="flex items-baseline gap-1 relative z-10">
+                    <span className="text-3xl font-black text-white">
+                      {forecastPeriod === 'quarter'
+                        ? forecastTrendDataQuarter.reduce((sum, d) => sum + d.target, 0).toLocaleString()
+                        : forecastTrendDataHalfYear.reduce((sum, d) => sum + d.target, 0).toLocaleString()
+                      }
+                    </span>
+                    <span className="text-xs font-bold text-gray-400">万元</span>
+                  </div>
+                </div>
+
+                {/* 预测完成 */}
+                <div className={`bg-gradient-to-br ${
+                  forecastPeriod === 'quarter'
+                    ? 'from-slate-800 via-orange-900/50 to-slate-900'
+                    : 'from-slate-800 via-yellow-900/50 to-slate-900'
+                } rounded-2xl p-4 shadow-2xl border ${
+                  forecastPeriod === 'quarter'
+                    ? 'border-orange-700/50'
+                    : 'border-yellow-700/50'
+                } relative overflow-hidden`}>
+                  <div className={`absolute top-0 right-0 w-24 h-24 ${
+                    forecastPeriod === 'quarter'
+                      ? 'bg-orange-500/10'
+                      : 'bg-yellow-500/10'
+                  } rounded-full blur-3xl`}></div>
+                  <div className="flex items-center gap-2 mb-3 relative z-10">
+                    <div className={`w-8 h-8 ${
+                      forecastPeriod === 'quarter'
+                        ? 'bg-orange-500/20 border-orange-400/30'
+                        : 'bg-yellow-500/20 border-yellow-400/30'
+                    } rounded-lg flex items-center justify-center border`}>
+                      <TrendingUp className={`w-4 h-4 ${
+                        forecastPeriod === 'quarter' ? 'text-orange-400' : 'text-yellow-400'
+                      }`} />
+                    </div>
+                    <span className={`text-xs font-bold ${
+                      forecastPeriod === 'quarter' ? 'text-orange-300' : 'text-yellow-300'
+                    } uppercase tracking-wider`}>预测完成</span>
+                  </div>
+                  <div className="flex items-baseline gap-1 relative z-10">
+                    <span className={`text-3xl font-black ${
+                      forecastPeriod === 'quarter' ? 'text-orange-400' : 'text-yellow-400'
+                    }`}>
+                      {forecastPeriod === 'quarter'
+                        ? forecastTrendDataQuarter.reduce((sum, d) => sum + d.predicted, 0).toLocaleString()
+                        : forecastTrendDataHalfYear.reduce((sum, d) => sum + d.predicted, 0).toLocaleString()
+                      }
+                    </span>
+                    <span className="text-xs font-bold text-gray-400">万元</span>
+                  </div>
+                </div>
+
+                {/* 平均置信度 */}
+                <div className="bg-gradient-to-br from-slate-800 to-slate-900 rounded-2xl p-4 shadow-2xl border border-emerald-700/50 relative overflow-hidden">
+                  <div className="absolute top-0 right-0 w-24 h-24 bg-emerald-500/10 rounded-full blur-3xl"></div>
+                  <div className="flex items-center gap-2 mb-3 relative z-10">
+                    <div className="w-8 h-8 bg-emerald-500/20 rounded-lg flex items-center justify-center border border-emerald-400/30">
+                      <Activity className="w-4 h-4 text-emerald-400" />
+                    </div>
+                    <span className="text-xs font-bold text-emerald-300 uppercase tracking-wider">平均置信度</span>
+                  </div>
+                  <div className="flex items-baseline gap-1 relative z-10">
+                    <span className="text-3xl font-black text-emerald-400">
+                      {forecastPeriod === 'quarter'
+                        ? Math.round(forecastTrendDataQuarter.reduce((sum, d) => sum + d.confidence, 0) / forecastTrendDataQuarter.length)
+                        : Math.round(forecastTrendDataHalfYear.reduce((sum, d) => sum + d.confidence, 0) / forecastTrendDataHalfYear.length)
+                      }
+                    </span>
+                    <span className="text-xs font-bold text-gray-400">%</span>
+                  </div>
+                </div>
+
+                {/* 总体缺口 */}
+                <div className="bg-gradient-to-br from-slate-800 to-slate-900 rounded-2xl p-4 shadow-2xl border border-red-700/50 relative overflow-hidden">
+                  <div className="absolute top-0 right-0 w-24 h-24 bg-red-500/10 rounded-full blur-3xl"></div>
+                  <div className="flex items-center gap-2 mb-3 relative z-10">
+                    <div className="w-8 h-8 bg-red-500/20 rounded-lg flex items-center justify-center border border-red-400/30">
+                      <AlertTriangle className="w-4 h-4 text-red-400" />
+                    </div>
+                    <span className="text-xs font-bold text-red-300 uppercase tracking-wider">总体缺口</span>
+                  </div>
+                  <div className="flex items-baseline gap-1 relative z-10">
+                    <span className="text-3xl font-black text-red-400">
+                      {forecastPeriod === 'quarter'
+                        ? (forecastTrendDataQuarter.reduce((sum, d) => sum + d.target, 0) - forecastTrendDataQuarter.reduce((sum, d) => sum + d.predicted, 0)).toLocaleString()
+                        : (forecastTrendDataHalfYear.reduce((sum, d) => sum + d.target, 0) - forecastTrendDataHalfYear.reduce((sum, d) => sum + d.predicted, 0)).toLocaleString()
+                      }
+                    </span>
+                    <span className="text-xs font-bold text-gray-400">万元</span>
+                  </div>
+                </div>
+              </div>
+
+              {/* 原因分析 - 驾驶舱风格 */}
               <div className="bg-gradient-to-br from-slate-800 to-slate-900 rounded-2xl shadow-2xl border border-slate-700/50 overflow-hidden">
                 <div className="bg-gradient-to-r from-red-900/50 via-orange-900/50 to-slate-800 px-5 py-4 border-b border-red-700/30">
                   <div className="flex items-center gap-3">
@@ -2981,7 +3078,7 @@ export default function SalesDashboard() {
                     </div>
                   </div>
 
-                  {/* 总结建议 - 行动卡片 */}
+                  {/* 总结建议 */}
                   <div className="mt-5 bg-gradient-to-r from-cyan-900/30 via-blue-900/30 to-indigo-900/30 rounded-2xl p-5 border border-cyan-700/30 backdrop-blur-sm relative overflow-hidden">
                     <div className="absolute top-0 right-0 w-40 h-40 bg-cyan-500/10 rounded-full blur-3xl"></div>
                     <div className="flex items-start gap-4 relative z-10">
