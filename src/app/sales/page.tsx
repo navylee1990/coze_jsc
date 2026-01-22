@@ -2706,7 +2706,7 @@ export default function SalesDashboard() {
                     </div>
                     <div>
                       <h3 className="text-xl font-black text-white tracking-wide">未来预测驾驶舱</h3>
-                      <p className="text-xs text-cyan-200 mt-1">AI智能预测 · 数据驱动决策</p>
+                      <p className="text-xs text-cyan-200 mt-1">预测模型分析 · 数据驱动决策</p>
                     </div>
                   </div>
                   <div className="flex items-center gap-2 bg-black/30 rounded-xl p-1.5 backdrop-blur-sm">
