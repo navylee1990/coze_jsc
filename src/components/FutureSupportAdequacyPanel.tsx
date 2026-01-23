@@ -1355,84 +1355,16 @@ export default function FutureSupportAdequacyPanel({
         </div>
       </div>
 
-      {/* 主内容区 - 5大核心区块 */}
+      {/* 主内容区 - 时间段 + 行动建议 */}
       <div className="grid grid-cols-12 gap-0">
-        {/* 【1）核心数值区 - 左侧3列】 */}
+        {/* 左侧7列 - 未来支撑结构区 */}
         <div
           className={cn(
-            'col-span-3 p-6 border-r flex flex-col justify-center',
-            theme === 'dark' ? 'border-slate-700 bg-slate-900/30' : 'border-slate-200 bg-white'
+            'col-span-7 p-4 border-r',
+            theme === 'dark' ? 'border-slate-700' : 'border-slate-200'
           )}
         >
-          {/* 覆盖度大数字 */}
-          <div className="mb-6">
-            <div className="flex items-center gap-3 mb-2">
-              <Target className="w-5 h-5 text-slate-600" />
-              <span className="text-sm text-slate-600">未来90天支撑覆盖度</span>
-            </div>
-            <div className="flex items-baseline gap-3 mb-3">
-              <span className="text-6xl font-bold" style={{ color: getStatusColor(data.coreMetrics.coverageStatus).text }}>
-                {data.coreMetrics.coverage}
-              </span>
-              <span className="text-2xl text-slate-600">%</span>
-              {getTrendIcon(data.coreMetrics.trend)}
-            </div>
-            <div className="flex items-center gap-2">
-              <div
-                className={cn(
-                  'w-3 h-3 rounded-full',
-                  getStatusColor(data.coreMetrics.coverageStatus).bg
-                )}
-              />
-              <span className="text-sm text-slate-600">
-                {data.coreMetrics.coverageStatus === 'green' && '充足'}
-                {data.coreMetrics.coverageStatus === 'yellow' && '基本达标'}
-                {data.coreMetrics.coverageStatus === 'red' && '不足'}
-              </span>
-            </div>
-          </div>
-
-          {/* 目标金额 vs 可支撑金额 */}
-          <div className="space-y-4">
-            <div>
-              <div className="flex items-center justify-between mb-1">
-                <span className="text-sm text-slate-600">未来目标金额</span>
-                <span className="text-lg font-bold text-slate-900">{data.coreMetrics.targetAmount.toLocaleString()}万</span>
-              </div>
-              <div className="h-2 bg-slate-200 rounded-full overflow-hidden">
-                <div className="h-full bg-slate-400" style={{ width: '100%' }} />
-              </div>
-            </div>
-            <div>
-              <div className="flex items-center justify-between mb-1">
-                <span className="text-sm text-slate-600">可支撑金额</span>
-                <span className="text-lg font-bold text-green-600">{data.coreMetrics.supportAmount.toLocaleString()}万</span>
-              </div>
-              <div className="h-2 bg-slate-200 rounded-full overflow-hidden">
-                <div className="h-full bg-green-500" style={{ width: `${data.coreMetrics.coverage}%` }} />
-              </div>
-            </div>
-            <div
-              className={cn(
-                'p-3 rounded-lg flex items-center justify-between',
-                theme === 'dark' ? 'bg-red-500/20' : 'bg-red-50'
-              )}
-            >
-              <span className="text-sm text-slate-700">缺口金额</span>
-              <span className="text-xl font-bold text-red-600">- {data.coreMetrics.gap.toLocaleString()}万</span>
-            </div>
-          </div>
-        </div>
-
-        {/* 右侧9列 - 包含其他4个区块 */}
-        <div className="col-span-9">
-          {/* 【2）未来支撑结构区 - 横向三段结构条】 */}
-          <div
-            className={cn(
-              'p-4 border-b grid grid-cols-3 gap-0',
-              theme === 'dark' ? 'border-slate-700' : 'border-slate-200'
-            )}
-          >
+          <div className="grid grid-cols-3 gap-3">
             {(['0-30天', '1-3月', '3-6月'] as const).map((period, index) => {
               const level = data.supportStructure[period];
               const statusColor = getStatusColor(level.status);
@@ -1440,9 +1372,8 @@ export default function FutureSupportAdequacyPanel({
                 <div
                   key={period}
                   className={cn(
-                    'p-4 relative',
-                    index > 0 && 'border-l',
-                    theme === 'dark' ? `border-slate-700 bg-gradient-to-b from-slate-800/50 to-slate-900/30` : `border-slate-200 bg-gradient-to-b ${index === 0 ? 'from-red-50/50 to-slate-50/30' : index === 1 ? 'from-yellow-50/50 to-slate-50/30' : 'from-green-50/50 to-slate-50/30'}`
+                    'p-4 rounded-lg relative',
+                    theme === 'dark' ? `bg-slate-800/50` : `bg-gradient-to-b ${index === 0 ? 'from-red-50/50 to-slate-50/30' : index === 1 ? 'from-yellow-50/50 to-slate-50/30' : 'from-green-50/50 to-slate-50/30'}`
                   )}
                 >
                   {/* 时间段标签 */}
@@ -1499,7 +1430,7 @@ export default function FutureSupportAdequacyPanel({
                         key={project.id}
                         className={cn(
                           'p-1.5 rounded text-xs relative',
-                          theme === 'dark' ? 'bg-slate-800/50' : 'bg-white/60'
+                          theme === 'dark' ? 'bg-slate-700/50' : 'bg-white/60'
                         )}
                       >
                         <div className="flex items-center justify-between mb-1">
@@ -1532,165 +1463,63 @@ export default function FutureSupportAdequacyPanel({
               );
             })}
           </div>
+        </div>
 
-          {/* 【3）未来支撑缺失诊断区 - 3个诊断卡条】 */}
-          <div
-            className={cn(
-              'p-4 border-b',
-              theme === 'dark' ? 'border-slate-700 bg-slate-900/20' : 'border-slate-200 bg-slate-50/50'
-            )}
-          >
-            <div className="flex items-center gap-2 mb-3">
-              <AlertTriangle className="w-4 h-4 text-red-600" />
-              <span className="text-sm font-semibold text-slate-900">支撑缺失诊断</span>
-            </div>
-            <div className="grid grid-cols-3 gap-3">
-              {data.diagnosticIssues.map((issue) => (
-                <div
-                  key={issue.id}
-                  className={cn(
-                    'p-3 rounded-lg relative',
-                    theme === 'dark' ? 'bg-slate-800/50' : 'bg-white border border-slate-200'
-                  )}
-                >
-                  <div className="absolute top-2 right-2">
-                    <div className={cn('w-2 h-2 rounded-full', getRiskLevelColor(issue.riskLevel))} />
-                  </div>
-                  <div className="text-xs text-slate-600 mb-1">{issue.name}</div>
-                  <div className="flex items-baseline gap-1 mb-2">
-                    <span className="text-lg font-bold text-red-600">{issue.impact}</span>
-                    <span className="text-xs text-slate-600">万</span>
-                  </div>
-                  <div className="text-[10px] text-slate-600 line-clamp-2">{issue.reason}</div>
-                </div>
-              ))}
-            </div>
+        {/* 右侧5列 - 行动建议区 */}
+        <div
+          className={cn(
+            'col-span-5 p-4',
+            theme === 'dark' ? 'bg-slate-900/20' : 'bg-slate-50/50'
+          )}
+        >
+          <div className="flex items-center gap-2 mb-3">
+            <Zap className="w-4 h-4 text-orange-600" />
+            <span className="text-sm font-semibold text-slate-900">行动建议</span>
+            <span className="text-xs px-2 py-0.5 rounded-full bg-orange-500/20 text-orange-700">
+              {data.actions.length}项关键行动
+            </span>
           </div>
-
-          {/* 【4）未来支撑路径图 - 横向Timeline】 */}
-          <div
-            className={cn(
-              'p-4 border-b',
-              theme === 'dark' ? 'border-slate-700' : 'border-slate-200'
-            )}
-          >
-            <div className="flex items-center gap-2 mb-3">
-              <Clock className="w-4 h-4 text-blue-600" />
-              <span className="text-sm font-semibold text-slate-900">未来支撑路径</span>
-            </div>
-            <div className="relative">
-              {/* 横向时间轴线 */}
+          <div className="space-y-2">
+            {data.actions.map((action) => (
               <div
+                key={action.id}
                 className={cn(
-                  'absolute left-0 right-0 h-0.5 top-4',
-                  theme === 'dark' ? 'bg-slate-700' : 'bg-slate-200'
+                  'p-3 rounded-lg flex items-start gap-3',
+                  getActionTypeBg(action.type, theme),
+                  action.type === 'urgent' && theme === 'dark' ? 'border border-red-500/30' : action.type === 'urgent' ? 'border border-red-200' : ''
                 )}
-              />
-              {/* 时间节点 */}
-              <div className="flex justify-between relative">
-                {data.timeline.map((node, index) => (
+              >
+                {/* 优先级标记 */}
+                <div className="flex-shrink-0">
                   <div
-                    key={node.period}
-                    className="relative flex flex-col items-center flex-shrink-0"
-                    style={{ minWidth: '60px' }}
+                    className={cn(
+                      'w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold',
+                      action.priority === 1 ? 'bg-red-500 text-white' : action.priority === 2 ? 'bg-yellow-500 text-white' : action.priority === 3 ? 'bg-blue-500 text-white' : 'bg-slate-500 text-white'
+                    )}
                   >
-                    {/* 时间点 */}
-                    <div
-                      className={cn(
-                        'w-3 h-3 rounded-full border-2 bg-white z-10 mb-2',
-                        node.totalAmount > 0 ? 'border-green-500' : 'border-slate-400'
-                      )}
-                    />
-                    {/* 时间标签 */}
-                    <div className="text-[10px] text-slate-600 text-center mb-1 whitespace-nowrap">{node.label}</div>
-                    {/* 金额 */}
-                    {node.totalAmount > 0 && (
-                      <div className="text-xs font-bold text-green-600">+{node.totalAmount}万</div>
-                    )}
-                    {/* 项目列表 */}
-                    {node.projects.length > 0 && (
-                      <div className="mt-2 space-y-1 w-full">
-                        {node.projects.slice(0, 2).map((project, pIndex) => (
-                          <div
-                            key={pIndex}
-                            className={cn(
-                              'p-1 rounded text-[10px] text-center',
-                              theme === 'dark' ? 'bg-slate-800/50' : 'bg-slate-100/80'
-                            )}
-                          >
-                            <div className="flex items-center justify-center gap-1 mb-0.5">
-                              {project.isNew && <span className="w-1 h-1 rounded-full bg-blue-500" />}
-                              {project.isDelayed && <span className="w-1 h-1 rounded-full bg-red-500" />}
-                              {project.isRisk && <span className="w-1 h-1 rounded-full bg-orange-500" />}
-                              <span className="truncate text-slate-900">{project.name.substring(0, 8)}...</span>
-                            </div>
-                            <div className="text-slate-600">{project.amount}万</div>
-                          </div>
-                        ))}
-                      </div>
-                    )}
-                  </div>
-                ))}
-              </div>
-            </div>
-          </div>
-
-          {/* 【5）行动建议区 - 任务条风格】 */}
-          <div
-            className={cn(
-              'p-4',
-              theme === 'dark' ? 'bg-slate-900/20' : 'bg-slate-50/50'
-            )}
-          >
-            <div className="flex items-center gap-2 mb-3">
-              <Zap className="w-4 h-4 text-orange-600" />
-              <span className="text-sm font-semibold text-slate-900">行动建议</span>
-              <span className="text-xs px-2 py-0.5 rounded-full bg-orange-500/20 text-orange-700">
-                {data.actions.length}项关键行动
-              </span>
-            </div>
-            <div className="grid grid-cols-2 gap-2">
-              {data.actions.map((action) => (
-                <div
-                  key={action.id}
-                  className={cn(
-                    'p-3 rounded-lg flex items-start gap-3',
-                    getActionTypeBg(action.type, theme),
-                    action.type === 'urgent' && theme === 'dark' ? 'border border-red-500/30' : action.type === 'urgent' ? 'border border-red-200' : ''
-                  )}
-                >
-                  {/* 优先级标记 */}
-                  <div className="flex-shrink-0">
-                    <div
-                      className={cn(
-                        'w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold',
-                        action.priority === 1 ? 'bg-red-500 text-white' : action.priority === 2 ? 'bg-yellow-500 text-white' : action.priority === 3 ? 'bg-blue-500 text-white' : 'bg-slate-500 text-white'
-                      )}
-                    >
-                      {action.priority}
-                    </div>
-                  </div>
-                  {/* 图标 */}
-                  <div className="flex-shrink-0 mt-0.5">
-                    {getActionIcon(action.type)}
-                  </div>
-                  {/* 内容 */}
-                  <div className="flex-1 min-w-0">
-                    <div className="flex items-center gap-2 mb-1">
-                      <span className="text-xs font-bold text-slate-900">{action.title}</span>
-                      <span className={cn('text-xs font-bold', action.type === 'urgent' ? 'text-red-600' : action.type === 'supplement' ? 'text-yellow-600' : action.type === 'channel' ? 'text-blue-600' : 'text-purple-600')}>
-                        {action.impact}
-                      </span>
-                    </div>
-                    <div className="text-[10px] text-slate-600 line-clamp-2 mb-1">{action.description}</div>
-                    <div className="flex items-center gap-2 text-[10px] text-slate-500">
-                      {action.owner && <span>负责人：{action.owner}</span>}
-                      {action.deadline && <span>· 截止：{action.deadline}</span>}
-                    </div>
+                    {action.priority}
                   </div>
                 </div>
-              ))}
-            </div>
+                {/* 图标 */}
+                <div className="flex-shrink-0 mt-0.5">
+                  {getActionIcon(action.type)}
+                </div>
+                {/* 内容 */}
+                <div className="flex-1 min-w-0">
+                  <div className="flex items-center gap-2 mb-1">
+                    <span className="text-xs font-bold text-slate-900">{action.title}</span>
+                    <span className={cn('text-xs font-bold', action.type === 'urgent' ? 'text-red-600' : action.type === 'supplement' ? 'text-yellow-600' : action.type === 'channel' ? 'text-blue-600' : 'text-purple-600')}>
+                      {action.impact}
+                    </span>
+                  </div>
+                  <div className="text-[10px] text-slate-600 line-clamp-2 mb-1">{action.description}</div>
+                  <div className="flex items-center gap-2 text-[10px] text-slate-500">
+                    {action.owner && <span>负责人：{action.owner}</span>}
+                    {action.deadline && <span>· 截止：{action.deadline}</span>}
+                  </div>
+                </div>
+              </div>
+            ))}
           </div>
         </div>
       </div>
