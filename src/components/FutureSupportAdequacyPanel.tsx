@@ -1,11 +1,15 @@
 'use client';
 
-import { ArrowUp, ArrowDown, ArrowRight, AlertTriangle, CheckCircle2, XCircle, TrendingUp, Activity, Clock, Target, DollarSign, Zap, Flame, Lightbulb, Compass, BarChart3 } from 'lucide-react';
+import { useState } from 'react';
+import { ArrowUp, ArrowDown, ArrowRight, AlertTriangle, CheckCircle2, XCircle, TrendingUp, Activity, Clock, Target, DollarSign, Zap, Flame, Lightbulb, Compass, BarChart3, ChevronDown, MapPin } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, ResponsiveContainer, Tooltip as RechartsTooltip } from 'recharts';
 
 // 主题类型
 type Theme = 'dark' | 'light';
+
+// 区域类型
+type Region = 'national' | 'north' | 'east' | 'south' | 'southwest' | 'northwest';
 
 // 支撑层级数据
 interface SupportLevel {
@@ -88,8 +92,24 @@ interface FutureSupportAdequacyData {
   actions: ActionRecommendation[];
 }
 
-// 默认数据
-const defaultData: FutureSupportAdequacyData = {
+// 区域数据
+interface RegionData {
+  [key: string]: FutureSupportAdequacyData;
+}
+
+// 区域配置
+const regionConfig: Record<Region, { label: string; color: string }> = {
+  national: { label: '全国总览', color: '#3b82f6' },
+  north: { label: '华北区', color: '#22c55e' },
+  east: { label: '华东区', color: '#f59e0b' },
+  south: { label: '华南区', color: '#ef4444' },
+  southwest: { label: '西南区', color: '#8b5cf6' },
+  northwest: { label: '西北区', color: '#06b6d4' }
+};
+
+// 区域默认数据
+const regionData: RegionData = {
+  national: {
   coreMetrics: {
     coverage: 78,
     coverageStatus: 'red',
@@ -311,20 +331,855 @@ const defaultData: FutureSupportAdequacyData = {
       deadline: '3天内'
     }
   ]
+  },
+  // 华北区
+  north: {
+    coreMetrics: {
+      coverage: 85,
+      coverageStatus: 'yellow',
+      targetAmount: 450,
+      supportAmount: 382.5,
+      gap: 67.5,
+      trend: 'stable',
+      trendValue: 0
+    },
+    supportStructure: {
+      '0-30天': {
+        period: '0-30天',
+        label: '核心支撑期',
+        amount: 180,
+        coverage: 60,
+        status: 'yellow',
+        target: 300,
+        gap: 120,
+        projects: [
+          {
+            id: 1,
+            name: '北京协和医院净化项目',
+            amount: 120,
+            probability: 'high',
+            health: 'high',
+            isOnTrack: true
+          },
+          {
+            id: 2,
+            name: '天津天河城净水项目',
+            amount: 60,
+            probability: 'medium',
+            health: 'medium',
+            isOnTrack: true
+          }
+        ]
+      },
+      '1-3月': {
+        period: '1-3月',
+        label: '中期支撑期',
+        amount: 120,
+        coverage: 80,
+        status: 'green',
+        target: 150,
+        gap: 30,
+        projects: [
+          {
+            id: 3,
+            name: '石家庄第一医院项目',
+            amount: 80,
+            probability: 'medium',
+            health: 'high',
+            isOnTrack: true
+          },
+          {
+            id: 4,
+            name: '唐山五星级酒店净化项目',
+            amount: 40,
+            probability: 'low',
+            health: 'medium',
+            isOnTrack: true
+          }
+        ]
+      },
+      '3-6月': {
+        period: '3-6月',
+        label: '储备支撑期',
+        amount: 82.5,
+        coverage: 100,
+        status: 'green',
+        target: 82.5,
+        gap: 0,
+        projects: [
+          {
+            id: 5,
+            name: '雄安新区管委会项目',
+            amount: 50,
+            probability: 'low',
+            health: 'low',
+            isOnTrack: true,
+            isNew: true
+          }
+        ]
+      }
+    },
+    diagnosticIssues: [
+      {
+        id: '1',
+        type: 'reserve_shortage',
+        name: '储备新增不足',
+        impact: -45,
+        reason: '本月新增储备项目仅1个，低于目标3个',
+        riskLevel: 'orange'
+      },
+      {
+        id: '2',
+        type: 'channel_decline',
+        name: '渠道贡献下滑',
+        impact: -22.5,
+        reason: '河北地区渠道近20天无新增项目',
+        riskLevel: 'yellow'
+      }
+    ],
+    timeline: [
+      {
+        period: 'Week 1',
+        label: 'Week 1',
+        projects: [
+          { name: '北京协和医院净化项目', amount: 120, probability: 'high' }
+        ],
+        totalAmount: 120
+      },
+      {
+        period: 'Week 2',
+        label: 'Week 2',
+        projects: [
+          { name: '天津天河城净水项目', amount: 60, probability: 'medium' }
+        ],
+        totalAmount: 60
+      },
+      {
+        period: 'Week 3',
+        label: 'Week 3',
+        projects: [],
+        totalAmount: 0
+      },
+      {
+        period: 'Week 4',
+        label: 'Week 4',
+        projects: [],
+        totalAmount: 0
+      },
+      {
+        period: '1-3 Month',
+        label: '1-3 Month',
+        projects: [
+          { name: '石家庄第一医院项目', amount: 80, probability: 'medium' },
+          { name: '唐山五星级酒店净化项目', amount: 40, probability: 'low' }
+        ],
+        totalAmount: 120
+      },
+      {
+        period: '3-6 Month',
+        label: '3-6 Month',
+        projects: [
+          { name: '雄安新区管委会项目', amount: 50, probability: 'low', isNew: true }
+        ],
+        totalAmount: 50
+      }
+    ],
+    actions: [
+      {
+        id: '1',
+        type: 'supplement',
+        priority: 1,
+        title: '补齐支撑',
+        description: '需新增 2 个中期储备项目（填补 +45 万缺口）',
+        impact: '+45 万',
+        owner: '张伟',
+        deadline: '15天内'
+      },
+      {
+        id: '2',
+        type: 'channel',
+        priority: 2,
+        title: '渠道动作',
+        description: '激活河北地区渠道，本周需新增项目≥2 个',
+        impact: '+30 万',
+        owner: '李娜',
+        deadline: '本周内'
+      }
+    ]
+  },
+  // 华东区
+  east: {
+    coreMetrics: {
+      coverage: 92,
+      coverageStatus: 'green',
+      targetAmount: 500,
+      supportAmount: 460,
+      gap: 40,
+      trend: 'up',
+      trendValue: 8.5
+    },
+    supportStructure: {
+      '0-30天': {
+        period: '0-30天',
+        label: '核心支撑期',
+        amount: 250,
+        coverage: 83,
+        status: 'green',
+        target: 300,
+        gap: 50,
+        projects: [
+          {
+            id: 1,
+            name: '上海外国语学校净水项目',
+            amount: 170,
+            probability: 'high',
+            health: 'high',
+            isOnTrack: true
+          },
+          {
+            id: 2,
+            name: '南京鼓楼医院项目',
+            amount: 80,
+            probability: 'medium',
+            health: 'high',
+            isOnTrack: true
+          }
+        ]
+      },
+      '1-3月': {
+        period: '1-3月',
+        label: '中期支撑期',
+        amount: 150,
+        coverage: 100,
+        status: 'green',
+        target: 150,
+        gap: 0,
+        projects: [
+          {
+            id: 3,
+            name: '杭州阿里巴巴园区项目',
+            amount: 130,
+            probability: 'medium',
+            health: 'high',
+            isOnTrack: true
+          },
+          {
+            id: 4,
+            name: '苏州工业园区项目',
+            amount: 20,
+            probability: 'low',
+            health: 'medium',
+            isOnTrack: true
+          }
+        ]
+      },
+      '3-6月': {
+        period: '3-6月',
+        label: '储备支撑期',
+        amount: 60,
+        coverage: 100,
+        status: 'green',
+        target: 60,
+        gap: 0,
+        projects: [
+          {
+            id: 5,
+            name: '宁波北仑港项目',
+            amount: 40,
+            probability: 'low',
+            health: 'low',
+            isOnTrack: true,
+            isNew: true
+          }
+        ]
+      }
+    },
+    diagnosticIssues: [
+      {
+        id: '1',
+        type: 'project_delay',
+        name: '项目推进延迟',
+        impact: -25,
+        reason: '1个项目延迟超过5天，影响较小',
+        riskLevel: 'yellow'
+      }
+    ],
+    timeline: [
+      {
+        period: 'Week 1',
+        label: 'Week 1',
+        projects: [
+          { name: '上海外国语学校净水项目', amount: 170, probability: 'high' }
+        ],
+        totalAmount: 170
+      },
+      {
+        period: 'Week 2',
+        label: 'Week 2',
+        projects: [
+          { name: '南京鼓楼医院项目', amount: 80, probability: 'medium' }
+        ],
+        totalAmount: 80
+      },
+      {
+        period: 'Week 3',
+        label: 'Week 3',
+        projects: [],
+        totalAmount: 0
+      },
+      {
+        period: 'Week 4',
+        label: 'Week 4',
+        projects: [],
+        totalAmount: 0
+      },
+      {
+        period: '1-3 Month',
+        label: '1-3 Month',
+        projects: [
+          { name: '杭州阿里巴巴园区项目', amount: 130, probability: 'medium' }
+        ],
+        totalAmount: 130
+      },
+      {
+        period: '3-6 Month',
+        label: '3-6 Month',
+        projects: [
+          { name: '宁波北仑港项目', amount: 40, probability: 'low', isNew: true }
+        ],
+        totalAmount: 40
+      }
+    ],
+    actions: [
+      {
+        id: '1',
+        type: 'urgent',
+        priority: 1,
+        title: '推进项目',
+        description: '加快杭州阿里巴巴园区项目推进速度',
+        impact: '+25 万',
+        owner: '王强',
+        deadline: '本周内'
+      }
+    ]
+  },
+  // 华南区
+  south: {
+    coreMetrics: {
+      coverage: 65,
+      coverageStatus: 'red',
+      targetAmount: 350,
+      supportAmount: 227.5,
+      gap: 122.5,
+      trend: 'down',
+      trendValue: -12.3
+    },
+    supportStructure: {
+      '0-30天': {
+        period: '0-30天',
+        label: '核心支撑期',
+        amount: 80,
+        coverage: 32,
+        status: 'red',
+        target: 250,
+        gap: 170,
+        projects: [
+          {
+            id: 1,
+            name: '深圳四季酒店净化项目',
+            amount: 80,
+            probability: 'medium',
+            health: 'medium',
+            isOnTrack: false,
+            delayDays: 15
+          }
+        ]
+      },
+      '1-3月': {
+        period: '1-3月',
+        label: '中期支撑期',
+        amount: 90,
+        coverage: 60,
+        status: 'yellow',
+        target: 150,
+        gap: 60,
+        projects: [
+          {
+            id: 2,
+            name: '广州腾讯大厦项目',
+            amount: 60,
+            probability: 'medium',
+            health: 'medium',
+            isOnTrack: true
+          },
+          {
+            id: 3,
+            name: '珠海长隆度假区项目',
+            amount: 30,
+            probability: 'low',
+            health: 'low',
+            isOnTrack: false,
+            delayDays: 10
+          }
+        ]
+      },
+      '3-6月': {
+        period: '3-6月',
+        label: '储备支撑期',
+        amount: 57.5,
+        coverage: 100,
+        status: 'green',
+        target: 57.5,
+        gap: 0,
+        projects: [
+          {
+            id: 4,
+            name: '东莞松山湖项目',
+            amount: 40,
+            probability: 'low',
+            health: 'low',
+            isOnTrack: true,
+            isNew: true
+          },
+          {
+            id: 5,
+            name: '佛山顺德区项目',
+            amount: 17.5,
+            probability: 'low',
+            health: 'low',
+            isOnTrack: true
+          }
+        ]
+      }
+    },
+    diagnosticIssues: [
+      {
+        id: '1',
+        type: 'project_delay',
+        name: '项目推进延迟',
+        impact: -70,
+        reason: '2个项目延迟超过10天，严重支撑不足',
+        riskLevel: 'red'
+      },
+      {
+        id: '2',
+        type: 'reserve_shortage',
+        name: '储备新增不足',
+        impact: -35,
+        reason: '本月新增储备项目仅1个，低于目标4个',
+        riskLevel: 'orange'
+      },
+      {
+        id: '3',
+        type: 'channel_decline',
+        name: '渠道贡献下滑',
+        impact: -17.5,
+        reason: '深圳渠道近30天无新增项目',
+        riskLevel: 'yellow'
+      }
+    ],
+    timeline: [
+      {
+        period: 'Week 1',
+        label: 'Week 1',
+        projects: [
+          { name: '深圳四季酒店净化项目', amount: 80, probability: 'medium', isDelayed: true }
+        ],
+        totalAmount: 80
+      },
+      {
+        period: 'Week 2',
+        label: 'Week 2',
+        projects: [],
+        totalAmount: 0
+      },
+      {
+        period: 'Week 3',
+        label: 'Week 3',
+        projects: [],
+        totalAmount: 0
+      },
+      {
+        period: 'Week 4',
+        label: 'Week 4',
+        projects: [],
+        totalAmount: 0
+      },
+      {
+        period: '1-3 Month',
+        label: '1-3 Month',
+        projects: [
+          { name: '广州腾讯大厦项目', amount: 60, probability: 'medium' },
+          { name: '珠海长隆度假区项目', amount: 30, probability: 'low', isDelayed: true }
+        ],
+        totalAmount: 90
+      },
+      {
+        period: '3-6 Month',
+        label: '3-6 Month',
+        projects: [
+          { name: '东莞松山湖项目', amount: 40, probability: 'low', isNew: true }
+        ],
+        totalAmount: 40
+      }
+    ],
+    actions: [
+      {
+        id: '1',
+        type: 'urgent',
+        priority: 1,
+        title: '紧急推进',
+        description: '立刻推进深圳四季酒店、珠海长隆项目（释放 +70 万）',
+        impact: '+70 万',
+        owner: '陈明',
+        deadline: '本周内'
+      },
+      {
+        id: '2',
+        type: 'supplement',
+        priority: 2,
+        title: '补齐支撑',
+        description: '需新增 3 个中期储备项目（填补 +35 万缺口）',
+        impact: '+35 万',
+        owner: '刘芳',
+        deadline: '15天内'
+      },
+      {
+        id: '3',
+        type: 'channel',
+        priority: 3,
+        title: '渠道动作',
+        description: '激活深圳渠道，本周需新增项目≥3 个',
+        impact: '+50 万',
+        owner: '赵敏',
+        deadline: '本周内'
+      }
+    ]
+  },
+  // 西南区
+  southwest: {
+    coreMetrics: {
+      coverage: 72,
+      coverageStatus: 'yellow',
+      targetAmount: 200,
+      supportAmount: 144,
+      gap: 56,
+      trend: 'up',
+      trendValue: 3.5
+    },
+    supportStructure: {
+      '0-30天': {
+        period: '0-30天',
+        label: '核心支撑期',
+        amount: 60,
+        coverage: 50,
+        status: 'yellow',
+        target: 120,
+        gap: 60,
+        projects: [
+          {
+            id: 1,
+            name: '重庆环球中心项目',
+            amount: 40,
+            probability: 'high',
+            health: 'high',
+            isOnTrack: true
+          },
+          {
+            id: 2,
+            name: '成都IFS国际金融中心项目',
+            amount: 20,
+            probability: 'medium',
+            health: 'medium',
+            isOnTrack: false,
+            delayDays: 8
+          }
+        ]
+      },
+      '1-3月': {
+        period: '1-3月',
+        label: '中期支撑期',
+        amount: 60,
+        coverage: 75,
+        status: 'yellow',
+        target: 80,
+        gap: 20,
+        projects: [
+          {
+            id: 3,
+            name: '昆明长水机场项目',
+            amount: 40,
+            probability: 'medium',
+            health: 'high',
+            isOnTrack: true
+          },
+          {
+            id: 4,
+            name: '贵阳国际会展中心项目',
+            amount: 20,
+            probability: 'low',
+            health: 'low',
+            isOnTrack: true
+          }
+        ]
+      },
+      '3-6月': {
+        period: '3-6月',
+        label: '储备支撑期',
+        amount: 24,
+        coverage: 100,
+        status: 'green',
+        target: 24,
+        gap: 0,
+        projects: [
+          {
+            id: 5,
+            name: '成都天府新区项目',
+            amount: 24,
+            probability: 'low',
+            health: 'low',
+            isOnTrack: true,
+            isNew: true
+          }
+        ]
+      }
+    },
+    diagnosticIssues: [
+      {
+        id: '1',
+        type: 'project_delay',
+        name: '项目推进延迟',
+        impact: -15,
+        reason: '1个项目延迟超过5天',
+        riskLevel: 'yellow'
+      },
+      {
+        id: '2',
+        type: 'reserve_shortage',
+        name: '储备新增不足',
+        impact: -24,
+        reason: '本月新增储备项目仅1个，低于目标2个',
+        riskLevel: 'yellow'
+      }
+    ],
+    timeline: [
+      {
+        period: 'Week 1',
+        label: 'Week 1',
+        projects: [
+          { name: '重庆环球中心项目', amount: 40, probability: 'high' }
+        ],
+        totalAmount: 40
+      },
+      {
+        period: 'Week 2',
+        label: 'Week 2',
+        projects: [
+          { name: '成都IFS国际金融中心项目', amount: 20, probability: 'medium', isDelayed: true }
+        ],
+        totalAmount: 20
+      },
+      {
+        period: 'Week 3',
+        label: 'Week 3',
+        projects: [],
+        totalAmount: 0
+      },
+      {
+        period: 'Week 4',
+        label: 'Week 4',
+        projects: [],
+        totalAmount: 0
+      },
+      {
+        period: '1-3 Month',
+        label: '1-3 Month',
+        projects: [
+          { name: '昆明长水机场项目', amount: 40, probability: 'medium' }
+        ],
+        totalAmount: 40
+      },
+      {
+        period: '3-6 Month',
+        label: '3-6 Month',
+        projects: [
+          { name: '成都天府新区项目', amount: 24, probability: 'low', isNew: true }
+        ],
+        totalAmount: 24
+      }
+    ],
+    actions: [
+      {
+        id: '1',
+        type: 'urgent',
+        priority: 1,
+        title: '推进项目',
+        description: '加快成都IFS国际金融中心项目推进',
+        impact: '+15 万',
+        owner: '孙丽',
+        deadline: '本周内'
+      },
+      {
+        id: '2',
+        type: 'supplement',
+        priority: 2,
+        title: '补齐支撑',
+        description: '需新增 1 个中期储备项目',
+        impact: '+20 万',
+        owner: '周杰',
+        deadline: '15天内'
+      }
+    ]
+  },
+  // 西北区
+  northwest: {
+    coreMetrics: {
+      coverage: 95,
+      coverageStatus: 'green',
+      targetAmount: 150,
+      supportAmount: 142.5,
+      gap: 7.5,
+      trend: 'up',
+      trendValue: 12.8
+    },
+    supportStructure: {
+      '0-30天': {
+        period: '0-30天',
+        label: '核心支撑期',
+        amount: 80,
+        coverage: 100,
+        status: 'green',
+        target: 80,
+        gap: 0,
+        projects: [
+          {
+            id: 1,
+            name: '西安交通大学项目',
+            amount: 80,
+            probability: 'high',
+            health: 'high',
+            isOnTrack: true
+          }
+        ]
+      },
+      '1-3月': {
+        period: '1-3月',
+        label: '中期支撑期',
+        amount: 40,
+        coverage: 100,
+        status: 'green',
+        target: 40,
+        gap: 0,
+        projects: [
+          {
+            id: 2,
+            name: '兰州中心医院项目',
+            amount: 40,
+            probability: 'medium',
+            health: 'high',
+            isOnTrack: true
+          }
+        ]
+      },
+      '3-6月': {
+        period: '3-6月',
+        label: '储备支撑期',
+        amount: 22.5,
+        coverage: 100,
+        status: 'green',
+        target: 22.5,
+        gap: 0,
+        projects: [
+          {
+            id: 3,
+            name: '乌鲁木齐高铁站项目',
+            amount: 22.5,
+            probability: 'low',
+            health: 'low',
+            isOnTrack: true,
+            isNew: true
+          }
+        ]
+      }
+    },
+    diagnosticIssues: [],
+    timeline: [
+      {
+        period: 'Week 1',
+        label: 'Week 1',
+        projects: [
+          { name: '西安交通大学项目', amount: 80, probability: 'high' }
+        ],
+        totalAmount: 80
+      },
+      {
+        period: 'Week 2',
+        label: 'Week 2',
+        projects: [],
+        totalAmount: 0
+      },
+      {
+        period: 'Week 3',
+        label: 'Week 3',
+        projects: [],
+        totalAmount: 0
+      },
+      {
+        period: 'Week 4',
+        label: 'Week 4',
+        projects: [],
+        totalAmount: 0
+      },
+      {
+        period: '1-3 Month',
+        label: '1-3 Month',
+        projects: [
+          { name: '兰州中心医院项目', amount: 40, probability: 'medium' }
+        ],
+        totalAmount: 40
+      },
+      {
+        period: '3-6 Month',
+        label: '3-6 Month',
+        projects: [
+          { name: '乌鲁木齐高铁站项目', amount: 22.5, probability: 'low', isNew: true }
+        ],
+        totalAmount: 22.5
+      }
+    ],
+    actions: [
+      {
+        id: '1',
+        type: 'supplement',
+        priority: 1,
+        title: '持续开拓',
+        description: '保持当前态势，继续开拓新项目',
+        impact: '+10 万',
+        owner: '吴刚',
+        deadline: '30天内'
+      }
+    ]
+  }
 };
 
 // 组件属性
 interface FutureSupportAdequacyPanelProps {
-  data?: Partial<FutureSupportAdequacyData>;
+  data?: Partial<RegionData>;
   theme?: Theme;
+  defaultRegion?: Region;
 }
 
 export default function FutureSupportAdequacyPanel({
   data: customData,
-  theme = 'light'
+  theme = 'light',
+  defaultRegion = 'national'
 }: FutureSupportAdequacyPanelProps) {
+  // 区域选择状态
+  const [selectedRegion, setSelectedRegion] = useState<Region>(defaultRegion);
+
   // 合并默认数据和自定义数据
-  const data = { ...defaultData, ...customData };
+  const allRegionData = { ...regionData, ...customData };
+  const data = allRegionData[selectedRegion] || regionData.national; // 默认回退到全国数据
 
   // 获取状态颜色
   const getStatusColor = (status: 'green' | 'yellow' | 'red') => {
@@ -443,6 +1298,36 @@ export default function FutureSupportAdequacyPanel({
           <span className="text-xs px-2 py-0.5 rounded-full bg-green-500/20 text-green-700">未来90天</span>
         </div>
         <div className="flex items-center gap-4">
+          {/* 区域选择器 */}
+          <div className="flex items-center gap-2">
+            <MapPin className="w-4 h-4 text-slate-600" />
+            <div className="relative">
+              <select
+                value={selectedRegion}
+                onChange={(e) => setSelectedRegion(e.target.value as Region)}
+                className={cn(
+                  'appearance-none pl-3 pr-8 py-1.5 text-sm rounded-lg border cursor-pointer',
+                  'transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500',
+                  theme === 'dark'
+                    ? 'bg-slate-800 border-slate-700 text-white hover:bg-slate-700'
+                    : 'bg-white border-slate-200 text-slate-900 hover:bg-slate-50'
+                )}
+              >
+                {Object.entries(regionConfig).map(([key, config]) => (
+                  <option key={key} value={key}>
+                    {config.label}
+                  </option>
+                ))}
+              </select>
+              <ChevronDown className="absolute right-2 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-600 pointer-events-none" />
+            </div>
+          </div>
+          <div
+            className={cn(
+              'h-6 w-px',
+              theme === 'dark' ? 'bg-slate-700' : 'bg-slate-200'
+            )}
+          />
           <div className="flex items-center gap-2">
             <span className="text-xs text-slate-600">驾驶舱模式</span>
             <BarChart3 className="w-4 h-4 text-slate-600" />
