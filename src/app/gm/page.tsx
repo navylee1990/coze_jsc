@@ -235,7 +235,7 @@ const forecastTrendData = [
 ];
 
 export default function GMDashboard() {
-  const [theme, setTheme] = useState<Theme>('dark');
+  const [theme, setTheme] = useState<Theme>('light');
   const [selectedTimeRange, setSelectedTimeRange] = useState<'current' | 'threeMonth' | 'sixMonth'>('current');
   const [selectedView, setSelectedView] = useState<'overview' | 'projects' | 'personnel' | 'logic'>('overview');
   const [selectedProject, setSelectedProject] = useState<typeof projectList[0] | null>(null);
