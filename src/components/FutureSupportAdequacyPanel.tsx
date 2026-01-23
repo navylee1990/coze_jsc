@@ -1426,29 +1426,33 @@ export default function FutureSupportAdequacyPanel({
                   )}
                 >
                   {/* 时间段标签 */}
-                  <div className="flex items-center justify-between mb-2">
-                    <span className="text-xs text-slate-600">{period}</span>
+                  <div className="flex items-center justify-between mb-3">
+                    <span className="text-sm font-semibold text-slate-900">{period}</span>
                     <div className={cn('w-2 h-2 rounded-full', statusColor.bg)} />
                   </div>
-                  
-                  {/* 金额 vs 目标 */}
-                  <div className="space-y-1 mb-2">
-                    <div className="flex items-baseline gap-1">
-                      <span className="text-sm text-slate-600">支撑</span>
-                      <span className="text-2xl font-bold text-slate-900">{level.amount.toLocaleString()}</span>
-                      <span className="text-sm text-slate-600">万</span>
+
+                  {/* 支撑进度条 */}
+                  <div className="mb-3">
+                    <div className="h-3 bg-slate-200 rounded-full overflow-hidden mb-2">
+                      <div
+                        className={cn('h-full transition-all duration-500', statusColor.bg)}
+                        style={{ width: `${Math.min(level.coverage, 100)}%` }}
+                      />
                     </div>
-                    <div className="flex items-baseline gap-1">
-                      <span className="text-sm text-slate-600">目标</span>
-                      <span className={cn('text-sm font-semibold', level.gap > 0 ? 'text-red-600' : 'text-green-600')}>{level.target.toLocaleString()}</span>
-                      <span className="text-xs text-slate-600">万</span>
+                    <div className="flex items-center justify-between text-xs">
+                      <span className="text-slate-600">
+                        支撑 <span className="font-semibold text-slate-900">{level.amount.toLocaleString()}</span>万
+                      </span>
+                      <span className="text-slate-600">
+                        目标 <span className="font-semibold text-slate-900">{level.target.toLocaleString()}</span>万
+                      </span>
                     </div>
                   </div>
 
                   {/* 覆盖度 */}
-                  <div className="flex items-center gap-2 mb-3">
+                  <div className="flex items-center justify-center mb-3">
                     <span className="text-xs text-slate-600">覆盖度</span>
-                    <span className={cn('text-sm font-bold', statusColor.text)}>{level.coverage}%</span>
+                    <span className={cn('text-lg font-bold ml-2', statusColor.text)}>{level.coverage}%</span>
                   </div>
                   
                   {/* Top项目列表 */}
