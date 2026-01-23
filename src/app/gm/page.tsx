@@ -9,6 +9,9 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } f
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import PredictionDecisionCard from '@/components/PredictionDecisionCard';
+import KeySupportPanel from '@/components/KeySupportPanel';
+import FutureSupportAdequacyPanel from '@/components/FutureSupportAdequacyPanel';
+import FutureSupportSummaryPanel from '@/components/FutureSupportSummaryPanel';
 import { Separator } from '@/components/ui/separator';
 import Link from 'next/link';
 import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, LineChart, Line, RadarChart, PolarGrid, PolarAngleAxis, PolarRadiusAxis, Radar, Cell } from 'recharts';
@@ -385,8 +388,104 @@ export default function GMDashboard() {
               }}
             />
 
-            {/* 项目储备金字塔 */}
-            <Card className={`${theme === 'dark' ? 'bg-slate-900/50 border-slate-800' : 'bg-white border-slate-200'}`}>
+            {/* 未来支撑够不够？摘要面板 - 高度浓缩 */}
+            <FutureSupportSummaryPanel
+              theme={theme}
+              futureTarget={2000}
+              futureSupport={1350}
+              trendDirection="down"
+              periods={[
+                { period: '0-30天', amount: 520, coverageRate: 63, status: 'critical' },
+                { period: '1-3月', amount: 680, coverageRate: 110, status: 'good' },
+                { period: '3-6月', amount: 360, coverageRate: 45, status: 'critical' }
+              ]}
+              gaps={[
+                { type: '项目延迟', gap: 180 },
+                { type: '储备新增不足', gap: 90 },
+                { type: '渠道贡献下滑', gap: 60 }
+              ]}
+              improvedCoverageRate={84}
+              remainingGap={300}
+              actions={[
+                { priority: 'high', icon: '🔥', title: '补齐短期支撑', detail: '需新增300万（建议来源：XX渠道/XX客户池）', link: '/gm/projects' },
+                { priority: 'medium', icon: '⚠️', title: '推进延迟项目', detail: '3个关键项目滞后（点击查看）', link: '/gm/projects' },
+                { priority: 'low', icon: '💡', title: '补充储备池', detail: '需新增3个中期项目，目标储备+200万', link: '/gm/projects' }
+              ]}
+              onPeriodClick={(period) => {
+                console.log('点击支撑段:', period);
+                setSelectedView('projects');
+              }}
+              onGapClick={() => {
+                console.log('点击支撑缺失诊断');
+                setSelectedView('projects');
+              }}
+              onActionClick={(action) => {
+                console.log('点击行动建议:', action);
+                if (action.link === '/gm/projects') {
+                  setSelectedView('projects');
+                }
+              }}
+            />
+
+            {/* 中间区域：目标支撑雷达图 + 项目储备金字塔 */}
+            <div className="grid grid-cols-2 gap-6">
+              {/* 目标支撑性雷达图 */}
+              <Card className={`${theme === 'dark' ? 'bg-slate-900/50 border-slate-800' : 'bg-white border-slate-200'}`}>
+                <CardHeader>
+                  <CardTitle className="flex items-center gap-2">
+                    <Activity className="w-5 h-5 text-green-500" />
+                    目标支撑性分析
+                  </CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <div className="h-80">
+                    <ResponsiveContainer width="100%" height="100%">
+                      <RadarChart data={radarData.categories.map((cat, i) => ({
+                        subject: cat,
+                        current: radarData.current[i],
+                        target: radarData.target[i],
+                        fullMark: 100
+                      }))}>
+                        <PolarGrid stroke={theme === 'dark' ? '#334155' : '#e2e8f0'} />
+                        <PolarAngleAxis dataKey="subject" stroke={theme === 'dark' ? '#94a3b8' : '#64748b'} tick={{ fontSize: 12 }} />
+                        <PolarRadiusAxis angle={90} domain={[0, 100]} stroke={theme === 'dark' ? '#334155' : '#e2e8f0'} />
+                        <Radar
+                          name="当前"
+                          dataKey="current"
+                          stroke="#3b82f6"
+                          fill="#3b82f6"
+                          fillOpacity={0.3}
+                          strokeWidth={2}
+                        >
+                          {radarData.current.map((_, index) => (
+                            <Cell key={index} fill={getRadarColor(index)} />
+                          ))}
+                        </Radar>
+                        <Radar
+                          name="目标"
+                          dataKey="target"
+                          stroke="#22c55e"
+                          fill="#22c55e"
+                          fillOpacity={0.1}
+                          strokeWidth={2}
+                        />
+                        <Tooltip
+                          contentStyle={{
+                            backgroundColor: theme === 'dark' ? '#1e293b' : '#ffffff',
+                            border: `1px solid ${theme === 'dark' ? '#334155' : '#e2e8f0'}`,
+                            borderRadius: '8px',
+                            color: theme === 'dark' ? '#ffffff' : '#0f172a'
+                          }}
+                        />
+                        <Legend />
+                      </RadarChart>
+                    </ResponsiveContainer>
+                  </div>
+                </CardContent>
+              </Card>
+
+              {/* 项目储备金字塔 */}
+              <Card className={`${theme === 'dark' ? 'bg-slate-900/50 border-slate-800' : 'bg-white border-slate-200'}`}>
                 <CardHeader>
                   <CardTitle className="flex items-center gap-2">
                     <Database className="w-5 h-5 text-purple-500" />
@@ -487,6 +586,21 @@ export default function GMDashboard() {
                   </div>
                 </CardContent>
               </Card>
+            </div>
+
+            {/* 关键支撑模块 - 驾驶舱式面板 */}
+            <KeySupportPanel
+              theme={theme}
+              onProjectHover={(project) => {
+                console.log('支撑项目悬停:', project);
+              }}
+              onTimelineHover={(timeLabel) => {
+                console.log('时间轴悬停:', timeLabel);
+              }}
+            />
+
+            {/* 未来支撑充分性面板 - Future Support Adequacy Panel */}
+            <FutureSupportAdequacyPanel theme={theme} />
 
             {/* 底部区域：因果链 + 风险面板 */}
             <div className="grid grid-cols-2 gap-6">
