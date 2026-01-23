@@ -9,6 +9,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } f
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import PredictionDecisionCard from '@/components/PredictionDecisionCard';
+import FutureSupportSummaryPanel from '@/components/FutureSupportSummaryPanel';
 import { Separator } from '@/components/ui/separator';
 import Link from 'next/link';
 import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, LineChart, Line, RadarChart, PolarGrid, PolarAngleAxis, PolarRadiusAxis, Radar, Cell } from 'recharts';
@@ -382,6 +383,45 @@ export default function GMDashboard() {
               }}
               onRiskFactorHover={(risk) => {
                 console.log('风险因子悬停:', risk);
+              }}
+            />
+
+            {/* 未来支撑够不够？摘要面板 - 高度浓缩 */}
+            <FutureSupportSummaryPanel
+              theme={theme}
+              futureTarget={2000}
+              futureSupport={1350}
+              trendDirection="down"
+              periods={[
+                { period: '0-30天', amount: 520, coverageRate: 63, status: 'critical' },
+                { period: '1-3月', amount: 680, coverageRate: 110, status: 'good' },
+                { period: '3-6月', amount: 360, coverageRate: 45, status: 'critical' }
+              ]}
+              gaps={[
+                { type: '项目延迟', gap: 180 },
+                { type: '储备新增不足', gap: 90 },
+                { type: '渠道贡献下滑', gap: 60 }
+              ]}
+              improvedCoverageRate={84}
+              remainingGap={300}
+              actions={[
+                { priority: 'high', icon: '🔥', title: '补齐短期支撑', detail: '需新增300万（建议来源：XX渠道/XX客户池）', link: '/gm/projects' },
+                { priority: 'medium', icon: '⚠️', title: '推进延迟项目', detail: '3个关键项目滞后（点击查看）', link: '/gm/projects' },
+                { priority: 'low', icon: '💡', title: '补充储备池', detail: '需新增3个中期项目，目标储备+200万', link: '/gm/projects' }
+              ]}
+              onPeriodClick={(period) => {
+                console.log('点击支撑段:', period);
+                setSelectedView('projects');
+              }}
+              onGapClick={() => {
+                console.log('点击支撑缺失诊断');
+                setSelectedView('projects');
+              }}
+              onActionClick={(action) => {
+                console.log('点击行动建议:', action);
+                if (action.link === '/gm/projects') {
+                  setSelectedView('projects');
+                }
               }}
             />
 
