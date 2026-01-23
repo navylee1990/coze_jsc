@@ -6,7 +6,7 @@ import { cn } from '@/lib/utils';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, ResponsiveContainer, Tooltip as RechartsTooltip } from 'recharts';
 
 // 主题类型
-type Theme = 'dark' | 'light' | 'dashboard';
+type Theme = 'dark' | 'dashboard';
 
 // 区域类型
 type Region = 'national' | 'north' | 'east' | 'south' | 'southwest' | 'northwest';
@@ -1191,7 +1191,7 @@ interface FutureSupportAdequacyPanelProps {
 
 export default function FutureSupportAdequacyPanel({
   data: customData,
-  theme = 'light',
+  theme = 'dark',
   defaultRegion = 'national'
 }: FutureSupportAdequacyPanelProps) {
   // 区域选择状态

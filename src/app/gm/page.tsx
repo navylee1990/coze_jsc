@@ -15,7 +15,7 @@ import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, Legend, Responsi
 const PAGE_TITLE = '商用总经理驾驶舱';
 
 // 主题类型
-type Theme = 'dark' | 'light' | 'dashboard';
+type Theme = 'dark' | 'dashboard';
 
 // 主题颜色映射 - 驾驶舱风格
 const getThemeColors = (theme: Theme) => {
@@ -34,14 +34,14 @@ const getThemeColors = (theme: Theme) => {
     };
   }
   return {
-    bg: theme === 'dark' ? 'bg-slate-950' : 'bg-slate-50',
-    text: theme === 'dark' ? 'text-white' : 'text-slate-900',
-    textMuted: theme === 'dark' ? 'text-slate-600' : 'text-slate-600',
-    textSecondary: theme === 'dark' ? 'text-slate-700' : 'text-slate-700',
-    cardBg: theme === 'dark' ? 'bg-slate-900/50' : 'bg-white',
-    cardBorder: theme === 'dark' ? 'border-slate-800' : 'border-slate-200',
-    subCardBg: theme === 'dark' ? 'bg-slate-800/50' : 'bg-slate-50',
-    subCardBorder: theme === 'dark' ? 'border-slate-700' : 'border-slate-200',
+    bg: 'bg-slate-950',
+    text: 'text-white',
+    textMuted: 'text-slate-600',
+    textSecondary: 'text-slate-700',
+    cardBg: 'bg-slate-900/50',
+    cardBorder: 'border-slate-800',
+    subCardBg: 'bg-slate-800/50',
+    subCardBorder: 'border-slate-700',
     glow: '',
     neon: '',
   };
@@ -293,11 +293,7 @@ export default function GMDashboard() {
 
   // 切换主题
   const toggleTheme = () => {
-    setTheme(prev => {
-      if (prev === 'light') return 'dark';
-      if (prev === 'dark') return 'dashboard';
-      return 'light';
-    });
+    setTheme(prev => (prev === 'dark' ? 'dashboard' : 'dark'));
   };
 
   return (
@@ -342,8 +338,6 @@ export default function GMDashboard() {
               >
                 {theme === 'dashboard' ? (
                   <Activity className="w-4 h-4" />
-                ) : theme === 'dark' ? (
-                  <Sun className="w-4 h-4" />
                 ) : (
                   <Moon className="w-4 h-4" />
                 )}

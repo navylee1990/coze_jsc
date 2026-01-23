@@ -7,7 +7,7 @@ import { cn } from '@/lib/utils';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip as RechartsTooltip, ResponsiveContainer, PieChart, Pie, Cell } from 'recharts';
 
 // 主题类型
-type Theme = 'dark' | 'light' | 'dashboard';
+type Theme = 'dark' | 'dashboard';
 
 // 趋势类型
 type TrendDirection = 'up' | 'down' | 'stable';
@@ -166,7 +166,7 @@ interface PredictionDecisionCardProps {
 
 export default function PredictionDecisionCard({
   data: customData,
-  theme = 'light',
+  theme = 'dark',
   onActionClick,
   onSupportFactorHover,
   onRiskFactorHover
