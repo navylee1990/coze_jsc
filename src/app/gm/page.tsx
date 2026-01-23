@@ -18,6 +18,18 @@ const PAGE_TITLE = '商用总经理驾驶舱';
 // 主题类型
 type Theme = 'dark' | 'light';
 
+// 主题颜色映射 - 解决浅色模式对比度问题
+const getThemeColors = (theme: Theme) => ({
+  bg: theme === 'dark' ? 'bg-slate-950' : 'bg-slate-50',
+  text: theme === 'dark' ? 'text-white' : 'text-slate-900',
+  textMuted: theme === 'dark' ? 'text-slate-600' : 'text-slate-600',
+  textSecondary: theme === 'dark' ? 'text-slate-700' : 'text-slate-700',
+  cardBg: theme === 'dark' ? 'bg-slate-900/50' : 'bg-white',
+  cardBorder: theme === 'dark' ? 'border-slate-800' : 'border-slate-200',
+  subCardBg: theme === 'dark' ? 'bg-slate-800/50' : 'bg-slate-50',
+  subCardBorder: theme === 'dark' ? 'border-slate-700' : 'border-slate-200',
+});
+
 // 核心预测总览数据
 const forecastOverviewData = {
   currentMonth: {
@@ -229,6 +241,14 @@ export default function GMDashboard() {
   const [selectedProject, setSelectedProject] = useState<typeof projectList[0] | null>(null);
   const [selectedNode, setSelectedNode] = useState<typeof causalChainData[0] | null>(null);
 
+  // 主题颜色类 - 解决浅色模式对比度问题
+  const textMuted = theme === 'dark' ? 'text-slate-600' : 'text-slate-600';
+  const textSecondary = theme === 'dark' ? 'text-slate-700' : 'text-slate-700';
+  const cardBg = theme === 'dark' ? 'bg-slate-900/50' : 'bg-white';
+  const cardBorder = theme === 'dark' ? 'border-slate-800' : 'border-slate-200';
+  const subCardBg = theme === 'dark' ? 'bg-slate-800/50' : 'bg-slate-50';
+  const subCardBorder = theme === 'dark' ? 'border-slate-700' : 'border-slate-200';
+
   // 获取当前时间范围的数据
   const getTimeRangeData = () => {
     if (selectedTimeRange === 'current') return forecastOverviewData.currentMonth;
@@ -268,12 +288,12 @@ export default function GMDashboard() {
         <div className="max-w-[1920px] mx-auto px-6 py-4">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-4">
-              <Link href="/" className={`${theme === 'dark' ? 'text-slate-400 hover:text-white' : 'text-slate-600 hover:text-slate-900'}`}>
+              <Link href="/" className={`${theme === 'dark' ? 'text-slate-600 hover:text-white' : 'text-slate-600 hover:text-slate-900'}`}>
                 <ChevronLeft className="w-5 h-5" />
               </Link>
               <div>
                 <h1 className="text-2xl font-bold">{PAGE_TITLE}</h1>
-                <p className="text-sm text-slate-500">预测驱动 · 数据赋能 · 精准决策</p>
+                <p className={`text-sm ${textSecondary}`}>预测驱动 · 数据赋能 · 精准决策</p>
               </div>
             </div>
 
@@ -418,25 +438,25 @@ export default function GMDashboard() {
                   {/* 关键指标 */}
                   <div className="col-span-4 space-y-4">
                     <div className={`${theme === 'dark' ? 'bg-slate-800/50' : 'bg-slate-50'} rounded-lg p-4`}>
-                      <div className="text-sm text-slate-500 mb-1">本月预测</div>
+                      <div className="text-sm text-slate-700 mb-1">本月预测</div>
                       <div className="text-3xl font-bold text-blue-500">{getTimeRangeData().forecast.toLocaleString()}</div>
-                      <div className="text-xs text-slate-400 mt-1">目标: {getTimeRangeData().target.toLocaleString()}万</div>
+                      <div className="text-xs text-slate-600 mt-1">目标: {getTimeRangeData().target.toLocaleString()}万</div>
                     </div>
 
                     <div className={`${theme === 'dark' ? 'bg-slate-800/50' : 'bg-slate-50'} rounded-lg p-4`}>
-                      <div className="text-sm text-slate-500 mb-1">1-3月预测</div>
+                      <div className="text-sm text-slate-700 mb-1">1-3月预测</div>
                       <div className="text-3xl font-bold text-green-500">{forecastOverviewData.threeMonth.forecast.toLocaleString()}</div>
-                      <div className="text-xs text-slate-400 mt-1">目标: {forecastOverviewData.threeMonth.target.toLocaleString()}万</div>
+                      <div className="text-xs text-slate-600 mt-1">目标: {forecastOverviewData.threeMonth.target.toLocaleString()}万</div>
                     </div>
 
                     <div className={`${theme === 'dark' ? 'bg-slate-800/50' : 'bg-slate-50'} rounded-lg p-4`}>
-                      <div className="text-sm text-slate-500 mb-1">3-6月预测</div>
+                      <div className="text-sm text-slate-700 mb-1">3-6月预测</div>
                       <div className="text-3xl font-bold text-purple-500">{forecastOverviewData.sixMonth.forecast.toLocaleString()}</div>
-                      <div className="text-xs text-slate-400 mt-1">目标: {forecastOverviewData.sixMonth.target.toLocaleString()}万</div>
+                      <div className="text-xs text-slate-600 mt-1">目标: {forecastOverviewData.sixMonth.target.toLocaleString()}万</div>
                     </div>
 
                     <div className={`${theme === 'dark' ? 'bg-gradient-to-r from-blue-600/20 to-purple-600/20 border-blue-500/30' : 'bg-blue-50 border-blue-200'} border rounded-lg p-4`}>
-                      <div className="text-xs text-slate-500 mb-2">模型权重来源</div>
+                      <div className="text-xs text-slate-700 mb-2">模型权重来源</div>
                       <div className="flex items-center justify-between text-sm">
                         <span className="flex items-center gap-1">
                           <CheckCircle2 className="w-4 h-4 text-green-500" />
@@ -540,15 +560,15 @@ export default function GMDashboard() {
                       </div>
                       <div className="grid grid-cols-3 gap-4 text-sm">
                         <div>
-                          <div className="text-slate-500">项目数</div>
+                          <div className="text-slate-700">项目数</div>
                           <div className="text-xl font-bold text-green-600">{pyramidData['30天'].count}个</div>
                         </div>
                         <div>
-                          <div className="text-slate-500">金额</div>
+                          <div className="text-slate-700">金额</div>
                           <div className="text-xl font-bold">{pyramidData['30天'].amount}万</div>
                         </div>
                         <div>
-                          <div className="text-slate-500">加权成交</div>
+                          <div className="text-slate-700">加权成交</div>
                           <div className="text-xl font-bold text-blue-600">{pyramidData['30天'].weightedAmount}万</div>
                         </div>
                       </div>
@@ -570,15 +590,15 @@ export default function GMDashboard() {
                       </div>
                       <div className="grid grid-cols-3 gap-4 text-sm">
                         <div>
-                          <div className="text-slate-500">项目数</div>
+                          <div className="text-slate-700">项目数</div>
                           <div className="text-xl font-bold text-blue-600">{pyramidData['1-3月'].count}个</div>
                         </div>
                         <div>
-                          <div className="text-slate-500">金额</div>
+                          <div className="text-slate-700">金额</div>
                           <div className="text-xl font-bold">{pyramidData['1-3月'].amount}万</div>
                         </div>
                         <div>
-                          <div className="text-slate-500">加权成交</div>
+                          <div className="text-slate-700">加权成交</div>
                           <div className="text-xl font-bold text-blue-600">{pyramidData['1-3月'].weightedAmount}万</div>
                         </div>
                       </div>
@@ -600,15 +620,15 @@ export default function GMDashboard() {
                       </div>
                       <div className="grid grid-cols-3 gap-4 text-sm">
                         <div>
-                          <div className="text-slate-500">项目数</div>
+                          <div className="text-slate-700">项目数</div>
                           <div className="text-xl font-bold text-purple-600">{pyramidData['3月以上'].count}个</div>
                         </div>
                         <div>
-                          <div className="text-slate-500">金额</div>
+                          <div className="text-slate-700">金额</div>
                           <div className="text-xl font-bold">{pyramidData['3月以上'].amount}万</div>
                         </div>
                         <div>
-                          <div className="text-slate-500">加权成交</div>
+                          <div className="text-slate-700">加权成交</div>
                           <div className="text-xl font-bold text-purple-600">{pyramidData['3月以上'].weightedAmount}万</div>
                         </div>
                       </div>
@@ -654,23 +674,23 @@ export default function GMDashboard() {
                               )}
                             </div>
                             {index < causalChainData.length - 1 && (
-                              <ArrowRight className={`w-4 h-4 text-slate-400`} />
+                              <ArrowRight className={`w-4 h-4 text-slate-600`} />
                             )}
                           </div>
 
                           {/* 核心指标 */}
                           <div className="grid grid-cols-2 gap-2 mb-2">
                             <div>
-                              <div className="text-xs text-slate-500">输出金额</div>
+                              <div className="text-xs text-slate-700">输出金额</div>
                               <div className={`text-base font-bold ${node.outputAmount > 0 ? 'text-blue-600' : 'text-slate-600'}`}>
                                 {node.outputAmount.toLocaleString()}万
                               </div>
                             </div>
                             <div>
-                              <div className="text-xs text-slate-500">转化率</div>
+                              <div className="text-xs text-slate-700">转化率</div>
                               <div className={`text-base font-bold ${node.conversionRate < node.targetRate ? 'text-red-500' : 'text-green-600'}`}>
                                 {node.conversionRate}%
-                                {node.targetRate > 0 && <span className="text-xs text-slate-500"> / 目标{node.targetRate}%</span>}
+                                {node.targetRate > 0 && <span className="text-xs text-slate-700"> / 目标{node.targetRate}%</span>}
                               </div>
                             </div>
                           </div>
@@ -679,12 +699,12 @@ export default function GMDashboard() {
                           {node.loss > 0 && (
                             <div className="grid grid-cols-2 gap-2">
                               <div className="text-xs">
-                                <span className="text-slate-500">损耗: </span>
+                                <span className="text-slate-700">损耗: </span>
                                 <span className="text-red-500 font-semibold">{node.loss}万</span>
                               </div>
                               {node.optimizationPotential > 0 && (
                                 <div className="text-xs">
-                                  <span className="text-slate-500">可优化: </span>
+                                  <span className="text-slate-700">可优化: </span>
                                   <span className="text-green-600 font-semibold">+{node.optimizationPotential}万</span>
                                 </div>
                               )}
@@ -750,21 +770,21 @@ export default function GMDashboard() {
                           {/* 核心数据 */}
                           <div className="grid grid-cols-4 gap-3">
                             <div className={`${theme === 'dark' ? 'bg-slate-800/50' : 'bg-slate-50'} rounded-lg p-3 text-center`}>
-                              <div className="text-xs text-slate-500 mb-1">输入金额</div>
+                              <div className="text-xs text-slate-700 mb-1">输入金额</div>
                               <div className="text-lg font-bold">{selectedNode.inputAmount.toLocaleString()}万</div>
                             </div>
                             <div className={`${theme === 'dark' ? 'bg-slate-800/50' : 'bg-slate-50'} rounded-lg p-3 text-center`}>
-                              <div className="text-xs text-slate-500 mb-1">输出金额</div>
+                              <div className="text-xs text-slate-700 mb-1">输出金额</div>
                               <div className="text-lg font-bold text-blue-600">{selectedNode.outputAmount.toLocaleString()}万</div>
                             </div>
                             <div className={`${theme === 'dark' ? 'bg-slate-800/50' : 'bg-slate-50'} rounded-lg p-3 text-center`}>
-                              <div className="text-xs text-slate-500 mb-1">当前转化率</div>
+                              <div className="text-xs text-slate-700 mb-1">当前转化率</div>
                               <div className={`text-lg font-bold ${selectedNode.conversionRate < selectedNode.targetRate ? 'text-red-500' : 'text-green-600'}`}>
                                 {selectedNode.conversionRate}%
                               </div>
                             </div>
                             <div className={`${theme === 'dark' ? 'bg-slate-800/50' : 'bg-slate-50'} rounded-lg p-3 text-center`}>
-                              <div className="text-xs text-slate-500 mb-1">目标转化率</div>
+                              <div className="text-xs text-slate-700 mb-1">目标转化率</div>
                               <div className="text-lg font-bold text-green-600">{selectedNode.targetRate}%</div>
                             </div>
                           </div>
@@ -773,12 +793,12 @@ export default function GMDashboard() {
                           {selectedNode.loss > 0 && (
                             <div className={`grid grid-cols-2 gap-3 ${theme === 'dark' ? 'bg-red-950/20 border-red-500/30' : 'bg-red-50 border-red-200'} border rounded-lg p-4`}>
                               <div>
-                                <div className="text-sm text-slate-500 mb-1">损耗金额</div>
+                                <div className="text-sm text-slate-700 mb-1">损耗金额</div>
                                 <div className="text-2xl font-bold text-red-500">{selectedNode.loss.toLocaleString()}万</div>
                               </div>
                               {selectedNode.optimizationPotential > 0 && (
                                 <div>
-                                  <div className="text-sm text-slate-500 mb-1">可优化空间</div>
+                                  <div className="text-sm text-slate-700 mb-1">可优化空间</div>
                                   <div className="text-2xl font-bold text-green-600">+{selectedNode.optimizationPotential.toLocaleString()}万</div>
                                 </div>
                               )}
@@ -790,10 +810,10 @@ export default function GMDashboard() {
                             <div className="text-sm font-semibold mb-2">历史趋势</div>
                             <div className="grid grid-cols-2 gap-3">
                               <div className={`${theme === 'dark' ? 'bg-slate-800/50' : 'bg-slate-50'} rounded-lg p-3`}>
-                                <div className="text-xs text-slate-500 mb-1">上月数据</div>
+                                <div className="text-xs text-slate-700 mb-1">上月数据</div>
                                 <div className="text-sm">
                                   <span className="font-semibold">{selectedNode.history.lastMonth.amount.toLocaleString()}万</span>
-                                  <span className="text-slate-500 ml-1">({selectedNode.history.lastMonth.rate}%)</span>
+                                  <span className="text-slate-700 ml-1">({selectedNode.history.lastMonth.rate}%)</span>
                                 </div>
                                 <div className="text-xs mt-1">
                                   {selectedNode.outputAmount > selectedNode.history.lastMonth.amount ? (
@@ -804,10 +824,10 @@ export default function GMDashboard() {
                                 </div>
                               </div>
                               <div className={`${theme === 'dark' ? 'bg-slate-800/50' : 'bg-slate-50'} rounded-lg p-3`}>
-                                <div className="text-xs text-slate-500 mb-1">去年同期</div>
+                                <div className="text-xs text-slate-700 mb-1">去年同期</div>
                                 <div className="text-sm">
                                   <span className="font-semibold">{selectedNode.history.lastYear.amount.toLocaleString()}万</span>
-                                  <span className="text-slate-500 ml-1">({selectedNode.history.lastYear.rate}%)</span>
+                                  <span className="text-slate-700 ml-1">({selectedNode.history.lastYear.rate}%)</span>
                                 </div>
                                 <div className="text-xs mt-1">
                                   {selectedNode.outputAmount > selectedNode.history.lastYear.amount ? (
@@ -838,7 +858,7 @@ export default function GMDashboard() {
 
                           {/* 详细说明 */}
                           <div className={`${theme === 'dark' ? 'bg-slate-800/50' : 'bg-slate-50'} rounded-lg p-3`}>
-                            <div className="text-xs text-slate-500 mb-1">详细说明</div>
+                            <div className="text-xs text-slate-700 mb-1">详细说明</div>
                             <div className="text-sm">{selectedNode.detail}</div>
                           </div>
                         </div>
@@ -876,7 +896,7 @@ export default function GMDashboard() {
                                 影响-{risk.impact}万
                               </Badge>
                             </div>
-                            <div className="text-slate-500">
+                            <div className="text-slate-700">
                               责任人: {risk.owner} · {risk.days}天无动作
                             </div>
                           </div>
@@ -904,7 +924,7 @@ export default function GMDashboard() {
                                 SOP合规率 {risk.sopRate}%
                               </Badge>
                             </div>
-                            <div className="text-slate-500">
+                            <div className="text-slate-700">
                               影响预测-{Math.abs(risk.impact)}万 · 管辖{risk.projectCount}个项目
                             </div>
                           </div>
@@ -964,7 +984,7 @@ export default function GMDashboard() {
                         onClick={() => setSelectedProject(project)}
                       >
                         <td className="py-3 px-4 font-medium">{project.name}</td>
-                        <td className="py-3 px-4 text-slate-500">{project.customer}</td>
+                        <td className="py-3 px-4 text-slate-700">{project.customer}</td>
                         <td className="py-3 px-4">
                           <Badge variant="outline" className="text-xs">
                             {project.stage}
@@ -972,7 +992,7 @@ export default function GMDashboard() {
                         </td>
                         <td className="py-3 px-4 text-right font-semibold">{project.amount}</td>
                         <td className="py-3 px-4 text-right text-blue-600 font-semibold">{project.weightedAmount}</td>
-                        <td className="py-3 px-4 text-slate-500">{project.expectedDate}</td>
+                        <td className="py-3 px-4 text-slate-700">{project.expectedDate}</td>
                         <td className="py-3 px-4">
                           <Badge variant={project.sopStatus === '合规' ? 'default' : 'outline'} className={`text-xs ${project.sopStatus === '合规' ? 'bg-green-600' : ''}`}>
                             {project.sopStatus}
@@ -987,7 +1007,7 @@ export default function GMDashboard() {
                             {project.score}
                           </div>
                         </td>
-                        <td className="py-3 px-4 text-slate-500">{project.lastAction}</td>
+                        <td className="py-3 px-4 text-slate-700">{project.lastAction}</td>
                         <td className="py-3 px-4 text-center">
                           <Badge variant="outline" className={`text-xs ${
                             project.risk === 'high' ? 'bg-red-500/10 text-red-600 border-red-500/30' :
@@ -1046,7 +1066,7 @@ export default function GMDashboard() {
                           </div>
                         </td>
                         <td className="py-3 px-4 font-semibold flex items-center gap-2">
-                          <User className="w-4 h-4 text-slate-400" />
+                          <User className="w-4 h-4 text-slate-600" />
                           {person.name}
                         </td>
                         <td className="py-3 px-4 text-right font-semibold">{person.currentMonth}</td>
@@ -1054,7 +1074,7 @@ export default function GMDashboard() {
                         <td className="py-3 px-4 text-right">
                           <div className="flex items-center justify-end gap-2">
                             <Progress value={person.sopCompliance} className="w-16" />
-                            <span className="text-xs text-slate-500">{person.sopCompliance}%</span>
+                            <span className="text-xs text-slate-700">{person.sopCompliance}%</span>
                           </div>
                         </td>
                         <td className="py-3 px-4 text-center">{person.projectCount}</td>
@@ -1064,7 +1084,7 @@ export default function GMDashboard() {
                               {person.stagnantCount}
                             </Badge>
                           ) : (
-                            <span className="text-slate-400">-</span>
+                            <span className="text-slate-600">-</span>
                           )}
                         </td>
                         <td className="py-3 px-4 text-center">
@@ -1100,15 +1120,15 @@ export default function GMDashboard() {
               <CardContent>
                 <div className="grid grid-cols-3 gap-6">
                   <div className={`${theme === 'dark' ? 'bg-slate-800/50' : 'bg-slate-50'} rounded-lg p-4`}>
-                    <div className="text-sm text-slate-500 mb-2">数据来源</div>
+                    <div className="text-sm text-slate-700 mb-2">数据来源</div>
                     <div className="text-lg font-semibold">{forecastLogic.conversionRate.source}</div>
                   </div>
                   <div className={`${theme === 'dark' ? 'bg-slate-800/50' : 'bg-slate-50'} rounded-lg p-4`}>
-                    <div className="text-sm text-slate-500 mb-2">基准成交率</div>
+                    <div className="text-sm text-slate-700 mb-2">基准成交率</div>
                     <div className="text-2xl font-bold text-blue-600">{forecastLogic.conversionRate.rate}</div>
                   </div>
                   <div className={`${theme === 'dark' ? 'bg-slate-800/50' : 'bg-slate-50'} rounded-lg p-4`}>
-                    <div className="text-sm text-slate-500 mb-2">计算逻辑</div>
+                    <div className="text-sm text-slate-700 mb-2">计算逻辑</div>
                     <div className="text-sm text-slate-600">{forecastLogic.conversionRate.description}</div>
                   </div>
                 </div>
@@ -1129,7 +1149,7 @@ export default function GMDashboard() {
                   <div className="text-2xl font-bold text-blue-600 mb-6 font-mono">
                     {forecastLogic.weightedLogic.method}
                   </div>
-                  <div className="text-sm text-slate-500 mb-2">示例计算</div>
+                  <div className="text-sm text-slate-700 mb-2">示例计算</div>
                   <div className="text-lg font-mono bg-slate-900 text-green-400 p-4 rounded-lg inline-block">
                     {forecastLogic.weightedLogic.example}
                   </div>
@@ -1146,7 +1166,7 @@ export default function GMDashboard() {
                 </CardTitle>
               </CardHeader>
               <CardContent>
-                <div className="text-sm text-slate-500 mb-4">{forecastLogic.sopCorrection.algorithm}</div>
+                <div className="text-sm text-slate-700 mb-4">{forecastLogic.sopCorrection.algorithm}</div>
                 <div className="space-y-3">
                   {forecastLogic.sopCorrection.levels.map((level, index) => (
                     <div
@@ -1169,7 +1189,7 @@ export default function GMDashboard() {
                           {level.coefficient}
                         </div>
                       </div>
-                      <div className="text-xs text-slate-500">{level.description}</div>
+                      <div className="text-xs text-slate-700">{level.description}</div>
                     </div>
                   ))}
                 </div>
@@ -1192,44 +1212,44 @@ export default function GMDashboard() {
             <div className="space-y-4">
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <div className="text-sm text-slate-500 mb-1">项目名称</div>
+                  <div className="text-sm text-slate-700 mb-1">项目名称</div>
                   <div className="font-semibold">{selectedProject.name}</div>
                 </div>
                 <div>
-                  <div className="text-sm text-slate-500 mb-1">客户</div>
+                  <div className="text-sm text-slate-700 mb-1">客户</div>
                   <div className="font-semibold">{selectedProject.customer}</div>
                 </div>
                 <div>
-                  <div className="text-sm text-slate-500 mb-1">阶段</div>
+                  <div className="text-sm text-slate-700 mb-1">阶段</div>
                   <Badge variant="outline">{selectedProject.stage}</Badge>
                 </div>
                 <div>
-                  <div className="text-sm text-slate-500 mb-1">预计签约时间</div>
+                  <div className="text-sm text-slate-700 mb-1">预计签约时间</div>
                   <div className="font-semibold">{selectedProject.expectedDate}</div>
                 </div>
                 <div>
-                  <div className="text-sm text-slate-500 mb-1">项目金额</div>
+                  <div className="text-sm text-slate-700 mb-1">项目金额</div>
                   <div className="font-semibold">{selectedProject.amount}万</div>
                 </div>
                 <div>
-                  <div className="text-sm text-slate-500 mb-1">加权成交额</div>
+                  <div className="text-sm text-slate-700 mb-1">加权成交额</div>
                   <div className="font-semibold text-blue-600">{selectedProject.weightedAmount}万</div>
                 </div>
                 <div>
-                  <div className="text-sm text-slate-500 mb-1">SOP状态</div>
+                  <div className="text-sm text-slate-700 mb-1">SOP状态</div>
                   <Badge variant={selectedProject.sopStatus === '合规' ? 'default' : 'outline'} className={selectedProject.sopStatus === '合规' ? 'bg-green-600' : ''}>
                     {selectedProject.sopStatus}
                   </Badge>
                 </div>
                 <div>
-                  <div className="text-sm text-slate-500 mb-1">模型评分</div>
+                  <div className="text-sm text-slate-700 mb-1">模型评分</div>
                   <div className="font-semibold">{selectedProject.score}分</div>
                 </div>
               </div>
               <Separator />
               <div className="flex items-center justify-between">
                 <div>
-                  <div className="text-sm text-slate-500 mb-1">风险等级</div>
+                  <div className="text-sm text-slate-700 mb-1">风险等级</div>
                   <Badge variant="outline" className={`${
                     selectedProject.risk === 'high' ? 'bg-red-500/10 text-red-600 border-red-500/30' :
                     selectedProject.risk === 'medium' ? 'bg-yellow-500/10 text-yellow-600 border-yellow-500/30' :
@@ -1239,7 +1259,7 @@ export default function GMDashboard() {
                   </Badge>
                 </div>
                 <div>
-                  <div className="text-sm text-slate-500 mb-1">最后动作</div>
+                  <div className="text-sm text-slate-700 mb-1">最后动作</div>
                   <div className="font-semibold">{selectedProject.lastAction}</div>
                 </div>
               </div>
