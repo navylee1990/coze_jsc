@@ -1,9 +1,9 @@
 'use client';
 
 import { useState } from 'react';
-import { ArrowUp, ArrowDown, ArrowRight, AlertTriangle, CheckCircle2, XCircle, TrendingUp, Activity, Clock, Target, DollarSign, Zap, Flame, Lightbulb, Compass, BarChart3, ChevronDown, MapPin } from 'lucide-react';
+import { ArrowUp, ArrowDown, ArrowRight, AlertTriangle, CheckCircle2, XCircle, TrendingUp, Activity, Clock, Target, DollarSign, Zap, Flame, Lightbulb, Compass, BarChart3, ChevronDown, MapPin, TrendingDown, Layers } from 'lucide-react';
 import { cn } from '@/lib/utils';
-import { LineChart, Line, XAxis, YAxis, CartesianGrid, ResponsiveContainer, Tooltip as RechartsTooltip } from 'recharts';
+import { LineChart, Line, XAxis, YAxis, CartesianGrid, ResponsiveContainer, Tooltip as RechartsTooltip, Area, AreaChart } from 'recharts';
 
 // 主题类型
 type Theme = 'dark' | 'light';
@@ -110,229 +110,228 @@ const regionConfig: Record<Region, { label: string; color: string }> = {
 // 区域默认数据
 const regionData: RegionData = {
   national: {
-  coreMetrics: {
-    coverage: 78,
-    coverageStatus: 'red',
-    targetAmount: 1500,
-    supportAmount: 1170,
-    gap: 330,
-    trend: 'down',
-    trendValue: -5.2
+    coreMetrics: {
+      coverage: 78,
+      coverageStatus: 'red',
+      targetAmount: 1500,
+      supportAmount: 1170,
+      gap: 330,
+      trend: 'down',
+      trendValue: -5.2
+    },
+    supportStructure: {
+      '0-30天': {
+        period: '0-30天',
+        label: '核心支撑期',
+        amount: 520,
+        coverage: 52,
+        status: 'red',
+        target: 1000,
+        gap: 480,
+        projects: [
+          {
+            id: 1,
+            name: '北京协和医院净化项目',
+            amount: 350,
+            probability: 'high',
+            health: 'high',
+            isOnTrack: true
+          },
+          {
+            id: 2,
+            name: '上海外国语学校净水项目',
+            amount: 170,
+            probability: 'medium',
+            health: 'medium',
+            isOnTrack: false,
+            delayDays: 12
+          }
+        ]
+      },
+      '1-3月': {
+        period: '1-3月',
+        label: '中期支撑期',
+        amount: 450,
+        coverage: 75,
+        status: 'yellow',
+        target: 600,
+        gap: 150,
+        projects: [
+          {
+            id: 3,
+            name: '南京鼓楼医院项目',
+            amount: 180,
+            probability: 'medium',
+            health: 'high',
+            isOnTrack: true
+          },
+          {
+            id: 4,
+            name: '深圳四季酒店净化项目',
+            amount: 140,
+            probability: 'medium',
+            health: 'medium',
+            isOnTrack: true
+          },
+          {
+            id: 5,
+            name: '杭州阿里巴巴园区项目',
+            amount: 130,
+            probability: 'low',
+            health: 'low',
+            isOnTrack: false,
+            delayDays: 8
+          }
+        ]
+      },
+      '3-6月': {
+        period: '3-6月',
+        label: '储备支撑期',
+        amount: 200,
+        coverage: 100,
+        status: 'green',
+        target: 200,
+        gap: 0,
+        projects: [
+          {
+            id: 6,
+            name: '武汉绿地中心项目',
+            amount: 120,
+            probability: 'low',
+            health: 'low',
+            isOnTrack: true,
+            isNew: true
+          },
+          {
+            id: 7,
+            name: '西安交通大学项目',
+            amount: 80,
+            probability: 'low',
+            health: 'low',
+            isOnTrack: false,
+            isRisk: true
+          }
+        ]
+      }
+    },
+    diagnosticIssues: [
+      {
+        id: '1',
+        type: 'project_delay',
+        name: '项目推进延迟',
+        impact: -180,
+        reason: '2个项目延迟超过10天，降低短期支撑',
+        riskLevel: 'red'
+      },
+      {
+        id: '2',
+        type: 'reserve_shortage',
+        name: '储备新增不足',
+        impact: -90,
+        reason: '本月新增储备项目仅2个，低于目标5个',
+        riskLevel: 'orange'
+      },
+      {
+        id: '3',
+        type: 'channel_decline',
+        name: '渠道贡献下滑',
+        impact: -60,
+        reason: '华北渠道近30天无新增项目',
+        riskLevel: 'yellow'
+      }
+    ],
+    timeline: [
+      {
+        period: 'Week 1',
+        label: 'Week 1',
+        projects: [
+          { name: '北京协和医院净化项目', amount: 350, probability: 'high' },
+          { name: '上海外国语学校净水项目', amount: 170, probability: 'medium', isDelayed: true }
+        ],
+        totalAmount: 520
+      },
+      {
+        period: 'Week 2',
+        label: 'Week 2',
+        projects: [],
+        totalAmount: 0
+      },
+      {
+        period: 'Week 3',
+        label: 'Week 3',
+        projects: [],
+        totalAmount: 0
+      },
+      {
+        period: 'Week 4',
+        label: 'Week 4',
+        projects: [
+          { name: '南京鼓楼医院项目', amount: 180, probability: 'medium' }
+        ],
+        totalAmount: 180
+      },
+      {
+        period: '1-3 Month',
+        label: '1-3 Month',
+        projects: [
+          { name: '深圳四季酒店净化项目', amount: 140, probability: 'medium' },
+          { name: '杭州阿里巴巴园区项目', amount: 130, probability: 'low', isDelayed: true }
+        ],
+        totalAmount: 270
+      },
+      {
+        period: '3-6 Month',
+        label: '3-6 Month',
+        projects: [
+          { name: '武汉绿地中心项目', amount: 120, probability: 'low', isNew: true },
+          { name: '西安交通大学项目', amount: 80, probability: 'low', isRisk: true }
+        ],
+        totalAmount: 200
+      }
+    ],
+    actions: [
+      {
+        id: '1',
+        type: 'urgent',
+        priority: 1,
+        title: '紧急推进',
+        description: '立刻推进上海外国语学校、杭州阿里巴巴园区项目（释放 +310 万）',
+        impact: '+310 万',
+        owner: '李娜、王强',
+        deadline: '本周内'
+      },
+      {
+        id: '2',
+        type: 'supplement',
+        priority: 2,
+        title: '补齐支撑',
+        description: '需新增 3 个中期储备项目（填补 +180 万缺口）',
+        impact: '+180 万',
+        owner: '张伟',
+        deadline: '15天内'
+      },
+      {
+        id: '3',
+        type: 'channel',
+        priority: 3,
+        title: '渠道动作',
+        description: '激活华北渠道代理，本周需新增项目≥4 个',
+        impact: '+200 万',
+        owner: '刘芳',
+        deadline: '本周内'
+      },
+      {
+        id: '4',
+        type: 'sop',
+        priority: 4,
+        title: 'SOP督办',
+        description: '陈明、赵敏 SOP 未更新>14天，影响支撑 +120 万',
+        impact: '+120 万',
+        owner: '张伟',
+        deadline: '3天内'
+      }
+    ]
   },
-  supportStructure: {
-    '0-30天': {
-      period: '0-30天',
-      label: '核心支撑期',
-      amount: 520,
-      coverage: 52,
-      status: 'red',
-      target: 1000,
-      gap: 480,
-      projects: [
-        {
-          id: 1,
-          name: '北京协和医院净化项目',
-          amount: 350,
-          probability: 'high',
-          health: 'high',
-          isOnTrack: true
-        },
-        {
-          id: 2,
-          name: '上海外国语学校净水项目',
-          amount: 170,
-          probability: 'medium',
-          health: 'medium',
-          isOnTrack: false,
-          delayDays: 12
-        }
-      ]
-    },
-    '1-3月': {
-      period: '1-3月',
-      label: '中期支撑期',
-      amount: 450,
-      coverage: 75,
-      status: 'yellow',
-      target: 600,
-      gap: 150,
-      projects: [
-        {
-          id: 3,
-          name: '南京鼓楼医院项目',
-          amount: 180,
-          probability: 'medium',
-          health: 'high',
-          isOnTrack: true
-        },
-        {
-          id: 4,
-          name: '深圳四季酒店净化项目',
-          amount: 140,
-          probability: 'medium',
-          health: 'medium',
-          isOnTrack: true
-        },
-        {
-          id: 5,
-          name: '杭州阿里巴巴园区项目',
-          amount: 130,
-          probability: 'low',
-          health: 'low',
-          isOnTrack: false,
-          delayDays: 8
-        }
-      ]
-    },
-    '3-6月': {
-      period: '3-6月',
-      label: '储备支撑期',
-      amount: 200,
-      coverage: 100,
-      status: 'green',
-      target: 200,
-      gap: 0,
-      projects: [
-        {
-          id: 6,
-          name: '武汉绿地中心项目',
-          amount: 120,
-          probability: 'low',
-          health: 'low',
-          isOnTrack: true,
-          isNew: true
-        },
-        {
-          id: 7,
-          name: '西安交通大学项目',
-          amount: 80,
-          probability: 'low',
-          health: 'low',
-          isOnTrack: false,
-          isRisk: true
-        }
-      ]
-    }
-  },
-  diagnosticIssues: [
-    {
-      id: '1',
-      type: 'project_delay',
-      name: '项目推进延迟',
-      impact: -180,
-      reason: '2个项目延迟超过10天，降低短期支撑',
-      riskLevel: 'red'
-    },
-    {
-      id: '2',
-      type: 'reserve_shortage',
-      name: '储备新增不足',
-      impact: -90,
-      reason: '本月新增储备项目仅2个，低于目标5个',
-      riskLevel: 'orange'
-    },
-    {
-      id: '3',
-      type: 'channel_decline',
-      name: '渠道贡献下滑',
-      impact: -60,
-      reason: '华北渠道近30天无新增项目',
-      riskLevel: 'yellow'
-    }
-  ],
-  timeline: [
-    {
-      period: 'Week 1',
-      label: 'Week 1',
-      projects: [
-        { name: '北京协和医院净化项目', amount: 350, probability: 'high' },
-        { name: '上海外国语学校净水项目', amount: 170, probability: 'medium', isDelayed: true }
-      ],
-      totalAmount: 520
-    },
-    {
-      period: 'Week 2',
-      label: 'Week 2',
-      projects: [],
-      totalAmount: 0
-    },
-    {
-      period: 'Week 3',
-      label: 'Week 3',
-      projects: [],
-      totalAmount: 0
-    },
-    {
-      period: 'Week 4',
-      label: 'Week 4',
-      projects: [
-        { name: '南京鼓楼医院项目', amount: 180, probability: 'medium' }
-      ],
-      totalAmount: 180
-    },
-    {
-      period: '1-3 Month',
-      label: '1-3 Month',
-      projects: [
-        { name: '深圳四季酒店净化项目', amount: 140, probability: 'medium' },
-        { name: '杭州阿里巴巴园区项目', amount: 130, probability: 'low', isDelayed: true }
-      ],
-      totalAmount: 270
-    },
-    {
-      period: '3-6 Month',
-      label: '3-6 Month',
-      projects: [
-        { name: '武汉绿地中心项目', amount: 120, probability: 'low', isNew: true },
-        { name: '西安交通大学项目', amount: 80, probability: 'low', isRisk: true }
-      ],
-      totalAmount: 200
-    }
-  ],
-  actions: [
-    {
-      id: '1',
-      type: 'urgent',
-      priority: 1,
-      title: '紧急推进',
-      description: '立刻推进上海外国语学校、杭州阿里巴巴园区项目（释放 +310 万）',
-      impact: '+310 万',
-      owner: '李娜、王强',
-      deadline: '本周内'
-    },
-    {
-      id: '2',
-      type: 'supplement',
-      priority: 2,
-      title: '补齐支撑',
-      description: '需新增 3 个中期储备项目（填补 +180 万缺口）',
-      impact: '+180 万',
-      owner: '张伟',
-      deadline: '15天内'
-    },
-    {
-      id: '3',
-      type: 'channel',
-      priority: 3,
-      title: '渠道动作',
-      description: '激活华北渠道代理，本周需新增项目≥4 个',
-      impact: '+200 万',
-      owner: '刘芳',
-      deadline: '本周内'
-    },
-    {
-      id: '4',
-      type: 'sop',
-      priority: 4,
-      title: 'SOP督办',
-      description: '陈明、赵敏 SOP 未更新>14天，影响支撑 +120 万',
-      impact: '+120 万',
-      owner: '张伟',
-      deadline: '3天内'
-    }
-  ]
-  },
-  // 华北区
   north: {
     coreMetrics: {
       coverage: 85,
@@ -507,7 +506,6 @@ const regionData: RegionData = {
       }
     ]
   },
-  // 华东区
   east: {
     coreMetrics: {
       coverage: 92,
@@ -594,32 +592,22 @@ const regionData: RegionData = {
         ]
       }
     },
-    diagnosticIssues: [
-      {
-        id: '1',
-        type: 'project_delay',
-        name: '项目推进延迟',
-        impact: -25,
-        reason: '1个项目延迟超过5天，影响较小',
-        riskLevel: 'yellow'
-      }
-    ],
+    diagnosticIssues: [],
     timeline: [
       {
         period: 'Week 1',
         label: 'Week 1',
         projects: [
-          { name: '上海外国语学校净水项目', amount: 170, probability: 'high' }
+          { name: '上海外国语学校净水项目', amount: 170, probability: 'high' },
+          { name: '南京鼓楼医院项目', amount: 80, probability: 'medium' }
         ],
-        totalAmount: 170
+        totalAmount: 250
       },
       {
         period: 'Week 2',
         label: 'Week 2',
-        projects: [
-          { name: '南京鼓楼医院项目', amount: 80, probability: 'medium' }
-        ],
-        totalAmount: 80
+        projects: [],
+        totalAmount: 0
       },
       {
         period: 'Week 3',
@@ -637,9 +625,10 @@ const regionData: RegionData = {
         period: '1-3 Month',
         label: '1-3 Month',
         projects: [
-          { name: '杭州阿里巴巴园区项目', amount: 130, probability: 'medium' }
+          { name: '杭州阿里巴巴园区项目', amount: 130, probability: 'medium' },
+          { name: '苏州工业园区项目', amount: 20, probability: 'low' }
         ],
-        totalAmount: 130
+        totalAmount: 150
       },
       {
         period: '3-6 Month',
@@ -655,39 +644,46 @@ const regionData: RegionData = {
         id: '1',
         type: 'urgent',
         priority: 1,
-        title: '推进项目',
-        description: '加快杭州阿里巴巴园区项目推进速度',
-        impact: '+25 万',
-        owner: '王强',
-        deadline: '本周内'
+        title: '保持优势',
+        description: '当前态势良好，继续保持优势',
+        impact: '+40 万',
+        owner: '刘芳',
+        deadline: '30天内'
       }
     ]
   },
-  // 华南区
   south: {
     coreMetrics: {
       coverage: 65,
       coverageStatus: 'red',
-      targetAmount: 350,
-      supportAmount: 227.5,
-      gap: 122.5,
+      targetAmount: 300,
+      supportAmount: 195,
+      gap: 105,
       trend: 'down',
-      trendValue: -12.3
+      trendValue: -8.3
     },
     supportStructure: {
       '0-30天': {
         period: '0-30天',
         label: '核心支撑期',
-        amount: 80,
-        coverage: 32,
+        amount: 90,
+        coverage: 45,
         status: 'red',
-        target: 250,
-        gap: 170,
+        target: 200,
+        gap: 110,
         projects: [
           {
             id: 1,
+            name: '广州腾讯大厦项目',
+            amount: 60,
+            probability: 'high',
+            health: 'high',
+            isOnTrack: true
+          },
+          {
+            id: 2,
             name: '深圳四季酒店净化项目',
-            amount: 80,
+            amount: 30,
             probability: 'medium',
             health: 'medium',
             isOnTrack: false,
@@ -698,56 +694,47 @@ const regionData: RegionData = {
       '1-3月': {
         period: '1-3月',
         label: '中期支撑期',
-        amount: 90,
-        coverage: 60,
+        amount: 65,
+        coverage: 65,
         status: 'yellow',
-        target: 150,
-        gap: 60,
+        target: 100,
+        gap: 35,
         projects: [
-          {
-            id: 2,
-            name: '广州腾讯大厦项目',
-            amount: 60,
-            probability: 'medium',
-            health: 'medium',
-            isOnTrack: true
-          },
           {
             id: 3,
             name: '珠海长隆度假区项目',
+            amount: 35,
+            probability: 'medium',
+            health: 'high',
+            isOnTrack: true
+          },
+          {
+            id: 4,
+            name: '东莞松山湖项目',
             amount: 30,
             probability: 'low',
             health: 'low',
-            isOnTrack: false,
-            delayDays: 10
+            isOnTrack: true
           }
         ]
       },
       '3-6月': {
         period: '3-6月',
         label: '储备支撑期',
-        amount: 57.5,
+        amount: 40,
         coverage: 100,
         status: 'green',
-        target: 57.5,
+        target: 40,
         gap: 0,
         projects: [
           {
-            id: 4,
-            name: '东莞松山湖项目',
+            id: 5,
+            name: '海口自贸区项目',
             amount: 40,
             probability: 'low',
             health: 'low',
             isOnTrack: true,
             isNew: true
-          },
-          {
-            id: 5,
-            name: '佛山顺德区项目',
-            amount: 17.5,
-            probability: 'low',
-            health: 'low',
-            isOnTrack: true
           }
         ]
       }
@@ -757,8 +744,8 @@ const regionData: RegionData = {
         id: '1',
         type: 'project_delay',
         name: '项目推进延迟',
-        impact: -70,
-        reason: '2个项目延迟超过10天，严重支撑不足',
+        impact: -60,
+        reason: '1个项目延迟超过15天',
         riskLevel: 'red'
       },
       {
@@ -766,16 +753,8 @@ const regionData: RegionData = {
         type: 'reserve_shortage',
         name: '储备新增不足',
         impact: -35,
-        reason: '本月新增储备项目仅1个，低于目标4个',
+        reason: '本月新增储备项目仅1个，低于目标3个',
         riskLevel: 'orange'
-      },
-      {
-        id: '3',
-        type: 'channel_decline',
-        name: '渠道贡献下滑',
-        impact: -17.5,
-        reason: '深圳渠道近30天无新增项目',
-        riskLevel: 'yellow'
       }
     ],
     timeline: [
@@ -783,9 +762,9 @@ const regionData: RegionData = {
         period: 'Week 1',
         label: 'Week 1',
         projects: [
-          { name: '深圳四季酒店净化项目', amount: 80, probability: 'medium', isDelayed: true }
+          { name: '广州腾讯大厦项目', amount: 60, probability: 'high' }
         ],
-        totalAmount: 80
+        totalAmount: 60
       },
       {
         period: 'Week 2',
@@ -802,23 +781,24 @@ const regionData: RegionData = {
       {
         period: 'Week 4',
         label: 'Week 4',
-        projects: [],
-        totalAmount: 0
+        projects: [
+          { name: '深圳四季酒店净化项目', amount: 30, probability: 'medium' }
+        ],
+        totalAmount: 30
       },
       {
         period: '1-3 Month',
         label: '1-3 Month',
         projects: [
-          { name: '广州腾讯大厦项目', amount: 60, probability: 'medium' },
-          { name: '珠海长隆度假区项目', amount: 30, probability: 'low', isDelayed: true }
+          { name: '珠海长隆度假区项目', amount: 35, probability: 'medium' }
         ],
-        totalAmount: 90
+        totalAmount: 35
       },
       {
         period: '3-6 Month',
         label: '3-6 Month',
         projects: [
-          { name: '东莞松山湖项目', amount: 40, probability: 'low', isNew: true }
+          { name: '海口自贸区项目', amount: 40, probability: 'low', isNew: true }
         ],
         totalAmount: 40
       }
@@ -829,8 +809,8 @@ const regionData: RegionData = {
         type: 'urgent',
         priority: 1,
         title: '紧急推进',
-        description: '立刻推进深圳四季酒店、珠海长隆项目（释放 +70 万）',
-        impact: '+70 万',
+        description: '立刻推进深圳四季酒店项目（释放 +30 万）',
+        impact: '+30 万',
         owner: '陈明',
         deadline: '本周内'
       },
@@ -839,7 +819,7 @@ const regionData: RegionData = {
         type: 'supplement',
         priority: 2,
         title: '补齐支撑',
-        description: '需新增 3 个中期储备项目（填补 +35 万缺口）',
+        description: '需新增 2 个中期储备项目（填补 +35 万缺口）',
         impact: '+35 万',
         owner: '刘芳',
         deadline: '15天内'
@@ -849,14 +829,13 @@ const regionData: RegionData = {
         type: 'channel',
         priority: 3,
         title: '渠道动作',
-        description: '激活深圳渠道，本周需新增项目≥3 个',
+        description: '激活深圳渠道，本周需新增项目≥2 个',
         impact: '+50 万',
         owner: '赵敏',
         deadline: '本周内'
       }
     ]
   },
-  // 西南区
   southwest: {
     coreMetrics: {
       coverage: 72,
@@ -1031,7 +1010,6 @@ const regionData: RegionData = {
       }
     ]
   },
-  // 西北区
   northwest: {
     coreMetrics: {
       coverage: 95,
@@ -1179,17 +1157,17 @@ export default function FutureSupportAdequacyPanel({
 
   // 合并默认数据和自定义数据
   const allRegionData = { ...regionData, ...customData };
-  const data = allRegionData[selectedRegion] || regionData.national; // 默认回退到全国数据
+  const data = allRegionData[selectedRegion] || regionData.national;
 
   // 获取状态颜色
   const getStatusColor = (status: 'green' | 'yellow' | 'red') => {
     switch (status) {
       case 'green':
-        return { bg: theme === 'dark' ? 'bg-green-500' : 'bg-green-500', text: 'text-green-600', border: theme === 'dark' ? 'border-green-500' : 'border-green-500' };
+        return { bg: theme === 'dark' ? 'bg-green-500' : 'bg-green-500', text: theme === 'dark' ? 'text-green-400' : 'text-green-600', border: theme === 'dark' ? 'border-green-500' : 'border-green-500' };
       case 'yellow':
-        return { bg: theme === 'dark' ? 'bg-yellow-500' : 'bg-yellow-500', text: 'text-yellow-600', border: theme === 'dark' ? 'border-yellow-500' : 'border-yellow-500' };
+        return { bg: theme === 'dark' ? 'bg-yellow-500' : 'bg-yellow-500', text: theme === 'dark' ? 'text-yellow-400' : 'text-yellow-600', border: theme === 'dark' ? 'border-yellow-500' : 'border-yellow-500' };
       case 'red':
-        return { bg: theme === 'dark' ? 'bg-red-500' : 'bg-red-500', text: 'text-red-600', border: theme === 'dark' ? 'border-red-500' : 'border-red-500' };
+        return { bg: theme === 'dark' ? 'bg-red-500' : 'bg-red-500', text: theme === 'dark' ? 'text-red-400' : 'text-red-600', border: theme === 'dark' ? 'border-red-500' : 'border-red-500' };
     }
   };
 
@@ -1213,7 +1191,7 @@ export default function FutureSupportAdequacyPanel({
       case 'medium':
         return theme === 'dark' ? 'bg-yellow-500' : 'bg-yellow-500';
       case 'low':
-        return theme === 'dark' ? 'bg-gray-500' : 'bg-gray-500';
+        return theme === 'dark' ? 'bg-gray-500' : 'bg-gray-400';
     }
   };
 
@@ -1221,11 +1199,11 @@ export default function FutureSupportAdequacyPanel({
   const getHealthColor = (health: 'high' | 'medium' | 'low') => {
     switch (health) {
       case 'high':
-        return theme === 'dark' ? 'text-green-500' : 'text-green-600';
+        return theme === 'dark' ? 'text-green-400' : 'text-green-600';
       case 'medium':
-        return theme === 'dark' ? 'text-yellow-500' : 'text-yellow-600';
+        return theme === 'dark' ? 'text-yellow-400' : 'text-yellow-600';
       case 'low':
-        return theme === 'dark' ? 'text-red-500' : 'text-red-600';
+        return theme === 'dark' ? 'text-red-400' : 'text-red-600';
     }
   };
 
@@ -1233,11 +1211,11 @@ export default function FutureSupportAdequacyPanel({
   const getTrendIcon = (trend: 'up' | 'stable' | 'down') => {
     switch (trend) {
       case 'up':
-        return <ArrowUp className="w-5 h-5 text-green-600" />;
+        return <TrendingUp className="w-5 h-5 text-green-500" />;
       case 'stable':
-        return <ArrowRight className="w-5 h-5 text-slate-600" />;
+        return <ArrowRight className="w-5 h-5 text-slate-500" />;
       case 'down':
-        return <ArrowDown className="w-5 h-5 text-red-600" />;
+        return <TrendingDown className="w-5 h-5 text-red-500" />;
     }
   };
 
@@ -1245,27 +1223,13 @@ export default function FutureSupportAdequacyPanel({
   const getActionIcon = (type: 'urgent' | 'supplement' | 'channel' | 'sop') => {
     switch (type) {
       case 'urgent':
-        return <Flame className="w-4 h-4 text-red-600" />;
+        return <Flame className="w-5 h-5 text-red-500" />;
       case 'supplement':
-        return <AlertTriangle className="w-4 h-4 text-yellow-600" />;
+        return <AlertTriangle className="w-5 h-5 text-yellow-500" />;
       case 'channel':
-        return <Lightbulb className="w-4 h-4 text-blue-600" />;
+        return <Lightbulb className="w-5 h-5 text-blue-500" />;
       case 'sop':
-        return <Compass className="w-4 h-4 text-purple-600" />;
-    }
-  };
-
-  // 获取行动类型背景色
-  const getActionTypeBg = (type: 'urgent' | 'supplement' | 'channel' | 'sop', theme: Theme) => {
-    switch (type) {
-      case 'urgent':
-        return theme === 'dark' ? 'bg-red-500/20' : 'bg-red-50';
-      case 'supplement':
-        return theme === 'dark' ? 'bg-yellow-500/20' : 'bg-yellow-50';
-      case 'channel':
-        return theme === 'dark' ? 'bg-blue-500/20' : 'bg-blue-50';
-      case 'sop':
-        return theme === 'dark' ? 'bg-purple-500/20' : 'bg-purple-50';
+        return <Compass className="w-5 h-5 text-purple-500" />;
     }
   };
 
@@ -1277,40 +1241,42 @@ export default function FutureSupportAdequacyPanel({
   ];
 
   return (
-    <div
-      className={cn(
-        'w-full rounded-lg overflow-hidden transition-all duration-300',
-        theme === 'dark'
-          ? 'bg-slate-900/80 border border-slate-700'
-          : 'bg-gradient-to-br from-slate-50 to-slate-100 border border-slate-200'
-      )}
-    >
-      {/* 标题区 */}
-      <div
-        className={cn(
-          'px-6 py-3 border-b flex items-center justify-between',
-          theme === 'dark' ? 'border-slate-700 bg-slate-900/50' : 'border-slate-200 bg-white'
-        )}
-      >
+    <div className={cn(
+      'w-full rounded-xl overflow-hidden',
+      theme === 'dark' ? 'bg-slate-900' : 'bg-gradient-to-br from-slate-100 via-white to-slate-50'
+    )}>
+      {/* 顶部标题栏 - 驾驶舱风格 */}
+      <div className={cn(
+        'px-6 py-4 flex items-center justify-between',
+        theme === 'dark' ? 'bg-slate-900' : 'bg-gradient-to-r from-slate-800 to-slate-900'
+      )}>
         <div className="flex items-center gap-3">
-          <Activity className="w-5 h-5 text-green-600" />
-          <h3 className="font-bold text-lg text-slate-900">未来支撑够不够？</h3>
-          <span className="text-xs px-2 py-0.5 rounded-full bg-green-500/20 text-green-700">未来90天</span>
+          <div className={cn(
+            'w-10 h-10 rounded-lg flex items-center justify-center',
+            theme === 'dark' ? 'bg-blue-500/20' : 'bg-white/20'
+          )}>
+            <BarChart3 className={cn('w-6 h-6', theme === 'dark' ? 'text-blue-400' : 'text-white')} />
+          </div>
+          <div>
+            <h3 className={cn('text-xl font-bold', theme === 'dark' ? 'text-white' : 'text-white')}>未来支撑充分性分析</h3>
+            <p className={cn('text-xs', theme === 'dark' ? 'text-slate-400' : 'text-white/70')}>驾驶舱模式 · 未来90天支撑预测</p>
+          </div>
         </div>
+
         <div className="flex items-center gap-4">
           {/* 区域选择器 */}
           <div className="flex items-center gap-2">
-            <MapPin className="w-4 h-4 text-slate-600" />
+            <MapPin className={cn('w-4 h-4', theme === 'dark' ? 'text-slate-400' : 'text-white/70')} />
             <div className="relative">
               <select
                 value={selectedRegion}
                 onChange={(e) => setSelectedRegion(e.target.value as Region)}
                 className={cn(
-                  'appearance-none pl-3 pr-8 py-1.5 text-sm rounded-lg border cursor-pointer',
-                  'transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500',
+                  'appearance-none pl-4 pr-10 py-2 text-sm rounded-lg cursor-pointer',
+                  'transition-colors focus:outline-none',
                   theme === 'dark'
-                    ? 'bg-slate-800 border-slate-700 text-white hover:bg-slate-700'
-                    : 'bg-white border-slate-200 text-slate-900 hover:bg-slate-50'
+                    ? 'bg-slate-800 text-white border border-slate-700'
+                    : 'bg-white/20 text-white border border-white/30 backdrop-blur-sm'
                 )}
               >
                 {Object.entries(regionConfig).map(([key, config]) => (
@@ -1319,329 +1285,272 @@ export default function FutureSupportAdequacyPanel({
                   </option>
                 ))}
               </select>
-              <ChevronDown className="absolute right-2 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-600 pointer-events-none" />
+              <ChevronDown className={cn('absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 pointer-events-none', theme === 'dark' ? 'text-slate-400' : 'text-white/70')} />
             </div>
-          </div>
-          <div
-            className={cn(
-              'h-6 w-px',
-              theme === 'dark' ? 'bg-slate-700' : 'bg-slate-200'
-            )}
-          />
-          <div className="flex items-center gap-2">
-            <span className="text-xs text-slate-600">驾驶舱模式</span>
-            <BarChart3 className="w-4 h-4 text-slate-600" />
           </div>
         </div>
       </div>
 
-      {/* 主内容区 - 5大核心区块 */}
-      <div className="grid grid-cols-12 gap-0">
-        {/* 【1）核心数值区 - 左侧3列】 */}
-        <div
-          className={cn(
-            'col-span-3 p-6 border-r flex flex-col justify-center',
-            theme === 'dark' ? 'border-slate-700 bg-slate-900/30' : 'border-slate-200 bg-white'
-          )}
-        >
-          {/* 覆盖度大数字 */}
-          <div className="mb-6">
-            <div className="flex items-center gap-3 mb-2">
-              <Target className="w-5 h-5 text-slate-600" />
-              <span className="text-sm text-slate-600">未来90天支撑覆盖度</span>
+      {/* 驾驶舱主内容区 - 网格布局 */}
+      <div className="grid grid-cols-12 gap-0.5 p-0.5">
+        
+        {/* 【核心指标区 - 左侧3列】深色背景 */}
+        <div className={cn(
+          'col-span-3 p-6 rounded-lg',
+          theme === 'dark' ? 'bg-slate-800/50' : 'bg-gradient-to-br from-slate-800 to-slate-900'
+        )}>
+          {/* 覆盖度 - 大数字 */}
+          <div className="mb-8">
+            <div className="flex items-center gap-2 mb-3">
+              <Target className={cn('w-5 h-5', theme === 'dark' ? 'text-blue-400' : 'text-blue-300')} />
+              <span className={cn('text-sm font-medium', theme === 'dark' ? 'text-slate-400' : 'text-slate-300')}>支撑覆盖度</span>
             </div>
             <div className="flex items-baseline gap-3 mb-3">
-              <span className="text-6xl font-bold" style={{ color: getStatusColor(data.coreMetrics.coverageStatus).text }}>
+              <span className="text-7xl font-black" style={{ color: getStatusColor(data.coreMetrics.coverageStatus).text }}>
                 {data.coreMetrics.coverage}
               </span>
-              <span className="text-2xl text-slate-600">%</span>
-              {getTrendIcon(data.coreMetrics.trend)}
+              <span className={cn('text-3xl font-bold', theme === 'dark' ? 'text-slate-400' : 'text-slate-300')}>%</span>
+              <div className="flex items-center gap-2">
+                {getTrendIcon(data.coreMetrics.trend)}
+                <span className={cn('text-sm font-medium', data.coreMetrics.trendValue >= 0 ? 'text-green-400' : 'text-red-400')}>
+                  {data.coreMetrics.trendValue > 0 ? '+' : ''}{data.coreMetrics.trendValue}%
+                </span>
+              </div>
             </div>
-            <div className="flex items-center gap-2">
-              <div
-                className={cn(
-                  'w-3 h-3 rounded-full',
-                  getStatusColor(data.coreMetrics.coverageStatus).bg
-                )}
-              />
-              <span className="text-sm text-slate-600">
-                {data.coreMetrics.coverageStatus === 'green' && '充足'}
-                {data.coreMetrics.coverageStatus === 'yellow' && '基本达标'}
-                {data.coreMetrics.coverageStatus === 'red' && '不足'}
-              </span>
+            <div className={cn(
+              'inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-sm font-medium',
+              data.coreMetrics.coverageStatus === 'green' ? 'bg-green-500/20 text-green-400' :
+              data.coreMetrics.coverageStatus === 'yellow' ? 'bg-yellow-500/20 text-yellow-400' :
+              'bg-red-500/20 text-red-400'
+            )}>
+              {data.coreMetrics.coverageStatus === 'green' ? '支撑充足' :
+               data.coreMetrics.coverageStatus === 'yellow' ? '基本达标' :
+               '支撑不足'}
             </div>
           </div>
 
-          {/* 目标金额 vs 可支撑金额 */}
-          <div className="space-y-4">
+          {/* 目标 vs 支撑 */}
+          <div className="space-y-5">
             <div>
-              <div className="flex items-center justify-between mb-1">
-                <span className="text-sm text-slate-600">未来目标金额</span>
-                <span className="text-lg font-bold text-slate-900">{data.coreMetrics.targetAmount.toLocaleString()}万</span>
+              <div className="flex items-center justify-between mb-2">
+                <span className={cn('text-sm', theme === 'dark' ? 'text-slate-400' : 'text-slate-300')}>未来目标</span>
+                <span className={cn('text-2xl font-bold', theme === 'dark' ? 'text-white' : 'text-white')}>{data.coreMetrics.targetAmount.toLocaleString()}万</span>
               </div>
-              <div className="h-2 bg-slate-200 rounded-full overflow-hidden">
-                <div className="h-full bg-slate-400" style={{ width: '100%' }} />
+              <div className="h-3 rounded-full overflow-hidden" style={{ backgroundColor: theme === 'dark' ? 'rgba(255,255,255,0.1)' : 'rgba(255,255,255,0.2)' }}>
+                <div className="h-full rounded-full transition-all duration-500" style={{ width: '100%', backgroundColor: theme === 'dark' ? 'rgba(255,255,255,0.3)' : 'rgba(255,255,255,0.5)' }} />
               </div>
             </div>
             <div>
-              <div className="flex items-center justify-between mb-1">
-                <span className="text-sm text-slate-600">可支撑金额</span>
-                <span className="text-lg font-bold text-green-600">{data.coreMetrics.supportAmount.toLocaleString()}万</span>
+              <div className="flex items-center justify-between mb-2">
+                <span className={cn('text-sm', theme === 'dark' ? 'text-slate-400' : 'text-slate-300')}>可支撑</span>
+                <span className={cn('text-2xl font-bold', theme === 'dark' ? 'text-green-400' : 'text-green-400')}>{data.coreMetrics.supportAmount.toLocaleString()}万</span>
               </div>
-              <div className="h-2 bg-slate-200 rounded-full overflow-hidden">
-                <div className="h-full bg-green-500" style={{ width: `${data.coreMetrics.coverage}%` }} />
+              <div className="h-3 rounded-full overflow-hidden" style={{ backgroundColor: theme === 'dark' ? 'rgba(255,255,255,0.1)' : 'rgba(255,255,255,0.2)' }}>
+                <div className="h-full rounded-full transition-all duration-500 bg-green-500" style={{ width: `${data.coreMetrics.coverage}%` }} />
               </div>
             </div>
-            <div
-              className={cn(
-                'p-3 rounded-lg flex items-center justify-between',
-                theme === 'dark' ? 'bg-red-500/20' : 'bg-red-50'
-              )}
-            >
-              <span className="text-sm text-slate-700">缺口金额</span>
-              <span className="text-xl font-bold text-red-600">- {data.coreMetrics.gap.toLocaleString()}万</span>
+            <div className={cn(
+              'p-4 rounded-xl flex items-center justify-between',
+              theme === 'dark' ? 'bg-red-500/10' : 'bg-red-500/10'
+            )}>
+              <span className={cn('text-sm font-medium', theme === 'dark' ? 'text-slate-400' : 'text-slate-300')}>缺口</span>
+              <span className="text-2xl font-bold text-red-400">{data.coreMetrics.gap > 0 ? '-' : '+'}{Math.abs(data.coreMetrics.gap).toLocaleString()}万</span>
             </div>
           </div>
         </div>
 
-        {/* 右侧9列 - 包含其他4个区块 */}
-        <div className="col-span-9">
-          {/* 【2）未来支撑结构区 - 横向三段结构条】 */}
-          <div
-            className={cn(
-              'p-4 border-b grid grid-cols-3 gap-0',
-              theme === 'dark' ? 'border-slate-700' : 'border-slate-200'
-            )}
-          >
-            {(['0-30天', '1-3月', '3-6月'] as const).map((period, index) => {
-              const level = data.supportStructure[period];
-              const statusColor = getStatusColor(level.status);
-              return (
-                <div
-                  key={period}
-                  className={cn(
-                    'p-4 relative',
-                    index > 0 && 'border-l',
-                    theme === 'dark' ? `border-slate-700 bg-gradient-to-b from-slate-800/50 to-slate-900/30` : `border-slate-200 bg-gradient-to-b ${index === 0 ? 'from-red-50/50 to-slate-50/30' : index === 1 ? 'from-yellow-50/50 to-slate-50/30' : 'from-green-50/50 to-slate-50/30'}`
-                  )}
-                >
-                  {/* 时间段标签 */}
-                  <div className="flex items-center justify-between mb-2">
-                    <span className="text-xs text-slate-600">{period}</span>
-                    <div className={cn('w-2 h-2 rounded-full', statusColor.bg)} />
-                  </div>
-                  
-                  {/* 金额 */}
-                  <div className="flex items-baseline gap-1 mb-1">
-                    <span className="text-2xl font-bold text-slate-900">{level.amount.toLocaleString()}</span>
-                    <span className="text-sm text-slate-600">万</span>
-                  </div>
-                  
-                  {/* 覆盖度 */}
-                  <div className="flex items-center gap-2 mb-3">
-                    <span className="text-xs text-slate-600">覆盖度</span>
-                    <span className={cn('text-sm font-bold', statusColor.text)}>{level.coverage}%</span>
-                  </div>
-                  
-                  {/* Top项目列表 */}
-                  <div className="space-y-2">
-                    {level.projects.slice(0, 3).map((project, pIndex) => (
-                      <div
-                        key={project.id}
-                        className={cn(
-                          'p-1.5 rounded text-xs relative',
-                          theme === 'dark' ? 'bg-slate-800/50' : 'bg-white/60'
-                        )}
-                      >
-                        <div className="flex items-center justify-between mb-1">
-                          <span className="font-medium text-slate-900 truncate flex-1 mr-2">{project.name}</span>
-                          <div className="flex items-center gap-1 flex-shrink-0">
-                            {project.isNew && <span className="px-1 rounded bg-blue-500 text-white text-[10px]">新</span>}
-                            {project.isDelayed && <span className="px-1 rounded bg-red-500 text-white text-[10px]">延</span>}
-                            {project.isRisk && <span className="px-1 rounded bg-orange-500 text-white text-[10px]">险</span>}
-                            <span className="font-bold text-slate-900">{project.amount}万</span>
-                          </div>
-                        </div>
-                        <div className="flex items-center justify-between">
-                          <div className="flex items-center gap-1">
-                            <div className={cn('w-1.5 h-1.5 rounded-full', getProbabilityColor(project.probability))} />
-                            <span className="text-[10px] text-slate-600">{project.probability === 'high' ? '高' : project.probability === 'medium' ? '中' : '低'}概率</span>
-                          </div>
-                          <div className="flex items-center gap-1">
-                            <span className={cn('text-[10px]', getHealthColor(project.health))}>
-                              {project.health === 'high' ? '健康' : project.health === 'medium' ? '一般' : '风险'}
-                            </span>
-                            {!project.isOnTrack && project.delayDays && (
-                              <span className="text-[10px] text-red-600">延迟{project.delayDays}天</span>
-                            )}
-                          </div>
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              );
-            })}
+        {/* 【支撑结构区 - 中间5列】浅色背景 */}
+        <div className={cn(
+          'col-span-5 p-6 rounded-lg',
+          theme === 'dark' ? 'bg-slate-900/30' : 'bg-white'
+        )}>
+          <div className="flex items-center justify-between mb-4">
+            <div className="flex items-center gap-2">
+              <Layers className={cn('w-5 h-5', theme === 'dark' ? 'text-purple-400' : 'text-purple-600')} />
+              <span className={cn('text-base font-semibold', theme === 'dark' ? 'text-white' : 'text-slate-800')}>支撑结构</span>
+            </div>
           </div>
 
-          {/* 【3）未来支撑缺失诊断区 - 3个诊断卡条】 */}
-          <div
-            className={cn(
-              'p-4 border-b',
-              theme === 'dark' ? 'border-slate-700 bg-slate-900/20' : 'border-slate-200 bg-slate-50/50'
-            )}
-          >
-            <div className="flex items-center gap-2 mb-3">
-              <AlertTriangle className="w-4 h-4 text-red-600" />
-              <span className="text-sm font-semibold text-slate-900">支撑缺失诊断</span>
+          {/* 三段支撑结构 */}
+          <div className="space-y-3">
+            {Object.entries(data.supportStructure).map(([key, level]) => (
+              <div
+                key={key}
+                className={cn(
+                  'p-4 rounded-xl',
+                  theme === 'dark' ? 'bg-slate-800/30' : 'bg-slate-50'
+                )}
+              >
+                <div className="flex items-center justify-between mb-3">
+                  <div>
+                    <div className={cn('text-sm font-semibold mb-1', theme === 'dark' ? 'text-white' : 'text-slate-800')}>{level.label}</div>
+                    <div className={cn('text-xs', theme === 'dark' ? 'text-slate-400' : 'text-slate-500')}>{level.period}</div>
+                  </div>
+                  <div className="flex items-center gap-4">
+                    <div className="text-right">
+                      <div className={cn('text-xs', theme === 'dark' ? 'text-slate-400' : 'text-slate-500')}>覆盖度</div>
+                      <div className={cn('text-lg font-bold', getStatusColor(level.status).text)}>{level.coverage}%</div>
+                    </div>
+                    <div className={cn('w-3 h-3 rounded-full', getStatusColor(level.status).bg)} />
+                  </div>
+                </div>
+                <div className="h-2 rounded-full overflow-hidden mb-2" style={{ backgroundColor: theme === 'dark' ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.1)' }}>
+                  <div className="h-full rounded-full transition-all duration-500" style={{ width: `${level.coverage}%`, backgroundColor: getStatusColor(level.status).bg }} />
+                </div>
+                <div className="flex items-center justify-between text-xs">
+                  <span className={cn(theme === 'dark' ? 'text-slate-400' : 'text-slate-500')}>
+                    支撑: <span className={cn('font-semibold', theme === 'dark' ? 'text-white' : 'text-slate-700')}>{level.amount}万</span>
+                  </span>
+                  <span className={cn(theme === 'dark' ? 'text-slate-400' : 'text-slate-500')}>
+                    目标: <span className={cn('font-semibold', theme === 'dark' ? 'text-white' : 'text-slate-700')}>{level.target}万</span>
+                  </span>
+                  {level.gap > 0 && (
+                    <span className={cn('font-semibold', theme === 'dark' ? 'text-red-400' : 'text-red-600')}>
+                      缺口 {level.gap}万
+                    </span>
+                  )}
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* 【缺失诊断区 - 右侧4列】深色背景 */}
+        <div className={cn(
+          'col-span-4 p-6 rounded-lg',
+          theme === 'dark' ? 'bg-slate-800/50' : 'bg-gradient-to-br from-slate-800 to-slate-900'
+        )}>
+          <div className="flex items-center gap-2 mb-4">
+            <XCircle className={cn('w-5 h-5', theme === 'dark' ? 'text-red-400' : 'text-red-400')} />
+            <span className={cn('text-base font-semibold', theme === 'dark' ? 'text-white' : 'text-white')}>缺失诊断</span>
+          </div>
+
+          {data.diagnosticIssues.length === 0 ? (
+            <div className="flex flex-col items-center justify-center h-64">
+              <CheckCircle2 className={cn('w-16 h-16 mb-3', theme === 'dark' ? 'text-green-400' : 'text-green-400')} />
+              <div className={cn('text-lg font-medium mb-1', theme === 'dark' ? 'text-white' : 'text-white')}>支撑充足</div>
+              <div className={cn('text-sm', theme === 'dark' ? 'text-slate-400' : 'text-slate-300')}>当前无缺失风险</div>
             </div>
-            <div className="grid grid-cols-3 gap-3">
+          ) : (
+            <div className="space-y-3">
               {data.diagnosticIssues.map((issue) => (
                 <div
                   key={issue.id}
                   className={cn(
-                    'p-3 rounded-lg relative',
-                    theme === 'dark' ? 'bg-slate-800/50' : 'bg-white border border-slate-200'
+                    'p-4 rounded-xl border-l-4',
+                    theme === 'dark' ? 'bg-slate-900/30' : 'bg-white/10',
+                    { 'border-red-500': issue.riskLevel === 'red', 'border-orange-500': issue.riskLevel === 'orange', 'border-yellow-500': issue.riskLevel === 'yellow' }
                   )}
                 >
-                  <div className="absolute top-2 right-2">
-                    <div className={cn('w-2 h-2 rounded-full', getRiskLevelColor(issue.riskLevel))} />
+                  <div className="flex items-start justify-between mb-2">
+                    <div className="flex-1">
+                      <div className={cn('text-sm font-semibold mb-1', theme === 'dark' ? 'text-white' : 'text-white')}>{issue.name}</div>
+                      <div className={cn('text-xs', theme === 'dark' ? 'text-slate-400' : 'text-slate-300')}>{issue.reason}</div>
+                    </div>
+                    <div className={cn('text-lg font-bold', issue.riskLevel === 'red' ? 'text-red-400' : issue.riskLevel === 'orange' ? 'text-orange-400' : 'text-yellow-400')}>
+                      {issue.impact > 0 ? '+' : ''}{issue.impact}
+                    </div>
                   </div>
-                  <div className="text-xs text-slate-600 mb-1">{issue.name}</div>
-                  <div className="flex items-baseline gap-1 mb-2">
-                    <span className="text-lg font-bold text-red-600">{issue.impact}</span>
-                    <span className="text-xs text-slate-600">万</span>
+                  <div className={cn('text-xs', theme === 'dark' ? 'text-slate-500' : 'text-slate-400')}>
+                    影响: {Math.abs(issue.impact)}万
                   </div>
-                  <div className="text-[10px] text-slate-600 line-clamp-2">{issue.reason}</div>
                 </div>
               ))}
             </div>
+          )}
+        </div>
+      </div>
+
+      {/* 底部双列区域 */}
+      <div className="grid grid-cols-2 gap-0.5 p-0.5 mt-0.5">
+        
+        {/* 【时间路径图 - 左侧】深色背景 */}
+        <div className={cn(
+          'p-6 rounded-lg',
+          theme === 'dark' ? 'bg-slate-800/50' : 'bg-gradient-to-br from-slate-800 to-slate-900'
+        )}>
+          <div className="flex items-center gap-2 mb-4">
+            <Clock className={cn('w-5 h-5', theme === 'dark' ? 'text-cyan-400' : 'text-cyan-400')} />
+            <span className={cn('text-base font-semibold', theme === 'dark' ? 'text-white' : 'text-white')}>支撑路径图</span>
           </div>
 
-          {/* 【4）未来支撑路径图 - 横向Timeline】 */}
-          <div
-            className={cn(
-              'p-4 border-b',
-              theme === 'dark' ? 'border-slate-700' : 'border-slate-200'
-            )}
-          >
-            <div className="flex items-center gap-2 mb-3">
-              <Clock className="w-4 h-4 text-blue-600" />
-              <span className="text-sm font-semibold text-slate-900">未来支撑路径</span>
-            </div>
-            <div className="relative">
-              {/* 横向时间轴线 */}
+          <div className="h-48">
+            <ResponsiveContainer width="100%" height="100%">
+              <AreaChart data={supportStructureData}>
+                <defs>
+                  <linearGradient id="colorAmount" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="5%" stopColor="#3b82f6" stopOpacity={0.3}/>
+                    <stop offset="95%" stopColor="#3b82f6" stopOpacity={0}/>
+                  </linearGradient>
+                </defs>
+                <CartesianGrid strokeDasharray="3 3" stroke={theme === 'dark' ? 'rgba(255,255,255,0.1)' : 'rgba(255,255,255,0.1)'} />
+                <XAxis 
+                  dataKey="name" 
+                  stroke={theme === 'dark' ? '#94a3b8' : '#e2e8f0'}
+                  tick={{ fontSize: 12 }}
+                />
+                <YAxis
+                  stroke={theme === 'dark' ? '#94a3b8' : '#e2e8f0'}
+                  tick={{ fontSize: 12 }}
+                />
+                <RechartsTooltip
+                  contentStyle={{
+                    backgroundColor: theme === 'dark' ? '#1e293b' : '#0f172a',
+                    border: 'none',
+                    borderRadius: '8px',
+                    color: '#fff'
+                  }}
+                />
+                <Area 
+                  type="monotone" 
+                  dataKey="amount" 
+                  stroke="#3b82f6" 
+                  fillOpacity={1} 
+                  fill="url(#colorAmount)"
+                  strokeWidth={2}
+                />
+              </AreaChart>
+            </ResponsiveContainer>
+          </div>
+        </div>
+
+        {/* 【行动建议区 - 右侧】浅色背景 */}
+        <div className={cn(
+          'p-6 rounded-lg',
+          theme === 'dark' ? 'bg-slate-900/30' : 'bg-white'
+        )}>
+          <div className="flex items-center gap-2 mb-4">
+            <Lightbulb className={cn('w-5 h-5', theme === 'dark' ? 'text-amber-400' : 'text-amber-500')} />
+            <span className={cn('text-base font-semibold', theme === 'dark' ? 'text-white' : 'text-slate-800')}>行动建议</span>
+          </div>
+
+          <div className="grid grid-cols-2 gap-3">
+            {data.actions.slice(0, 4).map((action) => (
               <div
+                key={action.id}
                 className={cn(
-                  'absolute left-0 right-0 h-0.5 top-4',
-                  theme === 'dark' ? 'bg-slate-700' : 'bg-slate-200'
+                  'p-4 rounded-xl',
+                  theme === 'dark' ? 'bg-slate-800/30' : 'bg-slate-50'
                 )}
-              />
-              {/* 时间节点 */}
-              <div className="flex justify-between relative">
-                {data.timeline.map((node, index) => (
-                  <div
-                    key={node.period}
-                    className="relative flex flex-col items-center flex-shrink-0"
-                    style={{ minWidth: '60px' }}
-                  >
-                    {/* 时间点 */}
-                    <div
-                      className={cn(
-                        'w-3 h-3 rounded-full border-2 bg-white z-10 mb-2',
-                        node.totalAmount > 0 ? 'border-green-500' : 'border-slate-400'
-                      )}
-                    />
-                    {/* 时间标签 */}
-                    <div className="text-[10px] text-slate-600 text-center mb-1 whitespace-nowrap">{node.label}</div>
-                    {/* 金额 */}
-                    {node.totalAmount > 0 && (
-                      <div className="text-xs font-bold text-green-600">+{node.totalAmount}万</div>
-                    )}
-                    {/* 项目列表 */}
-                    {node.projects.length > 0 && (
-                      <div className="mt-2 space-y-1 w-full">
-                        {node.projects.slice(0, 2).map((project, pIndex) => (
-                          <div
-                            key={pIndex}
-                            className={cn(
-                              'p-1 rounded text-[10px] text-center',
-                              theme === 'dark' ? 'bg-slate-800/50' : 'bg-slate-100/80'
-                            )}
-                          >
-                            <div className="flex items-center justify-center gap-1 mb-0.5">
-                              {project.isNew && <span className="w-1 h-1 rounded-full bg-blue-500" />}
-                              {project.isDelayed && <span className="w-1 h-1 rounded-full bg-red-500" />}
-                              {project.isRisk && <span className="w-1 h-1 rounded-full bg-orange-500" />}
-                              <span className="truncate text-slate-900">{project.name.substring(0, 8)}...</span>
-                            </div>
-                            <div className="text-slate-600">{project.amount}万</div>
-                          </div>
-                        ))}
-                      </div>
-                    )}
+              >
+                <div className="flex items-center gap-2 mb-2">
+                  <div className={cn(
+                    'w-6 h-6 rounded-lg flex items-center justify-center',
+                    action.priority === 1 ? 'bg-red-500' : 
+                    action.priority === 2 ? 'bg-orange-500' : 
+                    action.priority === 3 ? 'bg-yellow-500' : 'bg-slate-500'
+                  )}>
+                    <span className="text-xs font-bold text-white">{action.priority}</span>
                   </div>
-                ))}
-              </div>
-            </div>
-          </div>
-
-          {/* 【5）行动建议区 - 任务条风格】 */}
-          <div
-            className={cn(
-              'p-4',
-              theme === 'dark' ? 'bg-slate-900/20' : 'bg-slate-50/50'
-            )}
-          >
-            <div className="flex items-center gap-2 mb-3">
-              <Zap className="w-4 h-4 text-orange-600" />
-              <span className="text-sm font-semibold text-slate-900">行动建议</span>
-              <span className="text-xs px-2 py-0.5 rounded-full bg-orange-500/20 text-orange-700">
-                {data.actions.length}项关键行动
-              </span>
-            </div>
-            <div className="grid grid-cols-2 gap-2">
-              {data.actions.map((action) => (
-                <div
-                  key={action.id}
-                  className={cn(
-                    'p-3 rounded-lg flex items-start gap-3',
-                    getActionTypeBg(action.type, theme),
-                    action.type === 'urgent' && theme === 'dark' ? 'border border-red-500/30' : action.type === 'urgent' ? 'border border-red-200' : ''
-                  )}
-                >
-                  {/* 优先级标记 */}
-                  <div className="flex-shrink-0">
-                    <div
-                      className={cn(
-                        'w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold',
-                        action.priority === 1 ? 'bg-red-500 text-white' : action.priority === 2 ? 'bg-yellow-500 text-white' : action.priority === 3 ? 'bg-blue-500 text-white' : 'bg-slate-500 text-white'
-                      )}
-                    >
-                      {action.priority}
-                    </div>
-                  </div>
-                  {/* 图标 */}
-                  <div className="flex-shrink-0 mt-0.5">
-                    {getActionIcon(action.type)}
-                  </div>
-                  {/* 内容 */}
-                  <div className="flex-1 min-w-0">
-                    <div className="flex items-center gap-2 mb-1">
-                      <span className="text-xs font-bold text-slate-900">{action.title}</span>
-                      <span className={cn('text-xs font-bold', action.type === 'urgent' ? 'text-red-600' : action.type === 'supplement' ? 'text-yellow-600' : action.type === 'channel' ? 'text-blue-600' : 'text-purple-600')}>
-                        {action.impact}
-                      </span>
-                    </div>
-                    <div className="text-[10px] text-slate-600 line-clamp-2 mb-1">{action.description}</div>
-                    <div className="flex items-center gap-2 text-[10px] text-slate-500">
-                      {action.owner && <span>负责人：{action.owner}</span>}
-                      {action.deadline && <span>· 截止：{action.deadline}</span>}
-                    </div>
-                  </div>
+                  {getActionIcon(action.type)}
+                  <span className={cn('text-xs font-bold', theme === 'dark' ? 'text-white' : 'text-slate-700')}>{action.title}</span>
                 </div>
-              ))}
-            </div>
+                <div className={cn('text-xs mb-2 line-clamp-2', theme === 'dark' ? 'text-slate-400' : 'text-slate-600')}>
+                  {action.description}
+                </div>
+                <div className={cn('text-sm font-bold text-green-500')}>{action.impact}</div>
+              </div>
+            ))}
           </div>
         </div>
       </div>
