@@ -364,7 +364,9 @@ export default function GMDashboard() {
                 forecast: getTimeRangeData().forecast,
                 completed: getTimeRangeData().completed,
                 achievementRate: parseFloat(getAchievementRate()),
-                gap: getGap()
+                gap: getGap(),
+                trendDirection: getGap() < 0 ? 'up' : getGap() === 0 ? 'stable' : 'down',
+                trendData: forecastTrendData
               }}
               onActionClick={(action) => {
                 if (action.link) {

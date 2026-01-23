@@ -1,13 +1,16 @@
 'use client';
 
-import { Target, TrendingUp, TrendingDown, AlertTriangle, Zap, ChevronRight, ArrowUp, ArrowDown, CheckCircle, XCircle, AlertCircle } from 'lucide-react';
+import { Target, TrendingUp, TrendingDown, AlertTriangle, Zap, ChevronRight, ArrowUp, ArrowDown, CheckCircle, XCircle, AlertCircle, TrendingDown as TrendDown, ArrowUpRight, ArrowDownRight, Minus } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
-import { Progress } from '@/components/ui/progress';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
 import { cn } from '@/lib/utils';
+import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip as RechartsTooltip, ResponsiveContainer, PieChart, Pie, Cell } from 'recharts';
 
 // 主题类型
 type Theme = 'dark' | 'light';
+
+// 趋势类型
+type TrendDirection = 'up' | 'down' | 'stable';
 
 // 支撑因子数据类型
 interface SupportFactor {
@@ -15,6 +18,7 @@ interface SupportFactor {
   amount: number;
   percentage: number;
   isNew?: boolean;
+  timeLabel: string; // 时间标签：如"30天内生效"、"1-3月支撑"
   details?: string[];
 }
 
@@ -24,6 +28,7 @@ interface RiskFactor {
   amount: number;
   level: 'high' | 'medium' | 'low';
   owner?: string;
+  timeLabel: string; // 时间标签：如"30天内爆发风险"、"1-3月下滑风险"
   details?: string;
 }
 
@@ -33,6 +38,16 @@ interface ActionItem {
   text: string;
   link?: string;
   priority: 'high' | 'medium' | 'low';
+  impact?: string; // 影响金额描述
+}
+
+// 未来趋势数据点
+interface TrendDataPoint {
+  month: string;
+  target: number;
+  forecast: number;
+  forecastLower?: number; // 预测区间下限
+  forecastUpper?: number; // 预测区间上限
 }
 
 // 核心预测决策卡片数据接口
@@ -42,6 +57,8 @@ interface PredictionDecisionCardData {
   completed: number;
   achievementRate: number;
   gap: number;
+  trendDirection: TrendDirection;
+  trendData: TrendDataPoint[]; // 未来趋势数据
   supportFactors: SupportFactor[];
   riskFactors: RiskFactor[];
   actionItems: ActionItem[];
@@ -54,12 +71,20 @@ const defaultData: PredictionDecisionCardData = {
   completed: 800,
   achievementRate: 90,
   gap: 150,
+  trendDirection: 'up',
+  trendData: [
+    { month: '本月', target: 1500, forecast: 1350, forecastLower: 1280, forecastUpper: 1420 },
+    { month: '下月', target: 1500, forecast: 1420, forecastLower: 1350, forecastUpper: 1490 },
+    { month: '1-3月', target: 4500, forecast: 4200, forecastLower: 4000, forecastUpper: 4400 },
+    { month: '3-6月', target: 9000, forecast: 8500, forecastLower: 8100, forecastUpper: 8900 },
+  ],
   supportFactors: [
     {
       name: '高质量商机池',
       amount: 580,
       percentage: 43,
       isNew: false,
+      timeLabel: '30天内生效',
       details: ['北京协和医院 280万', '上海外国语学校 350万', '杭州阿里巴巴园区 380万']
     },
     {
@@ -67,6 +92,7 @@ const defaultData: PredictionDecisionCardData = {
       amount: 270,
       percentage: 20,
       isNew: true,
+      timeLabel: '1-3月支撑',
       details: ['整体SOP合规率提升至85%', '新增5个合规项目', '累计预测提升270万']
     },
     {
@@ -74,6 +100,7 @@ const defaultData: PredictionDecisionCardData = {
       amount: 210,
       percentage: 15.5,
       isNew: true,
+      timeLabel: '1-3月支撑',
       details: ['南京鼓楼医院进入谈判阶段', '深圳四季酒店进入商务阶段', '累计提升预测210万']
     }
   ],
@@ -83,6 +110,7 @@ const defaultData: PredictionDecisionCardData = {
       amount: -180,
       level: 'high',
       owner: '王强、赵敏',
+      timeLabel: '30天内爆发风险',
       details: '广州某企业办公楼(405万)、西安某学校(84万)停滞超过30天'
     },
     {
@@ -90,6 +118,7 @@ const defaultData: PredictionDecisionCardData = {
       amount: -95,
       level: 'medium',
       owner: '陈明',
+      timeLabel: '1-3月下滑风险',
       details: '陈明负责项目SOP合规率仅78%，4个项目被降权'
     },
     {
@@ -97,27 +126,31 @@ const defaultData: PredictionDecisionCardData = {
       amount: -60,
       level: 'medium',
       owner: '李娜',
+      timeLabel: '1-3月下滑风险',
       details: '上海项目价格敏感度高，存在降价风险'
     }
   ],
   actionItems: [
     {
       icon: 'fire',
-      text: '本月需推进 A、B 两个卡点项目（价值 489 万）',
+      text: '优先推进项目A（预计影响 +260万）',
       link: '/gm/projects',
-      priority: 'high'
+      priority: 'high',
+      impact: '+260万'
     },
     {
       icon: 'warning',
-      text: '销售张三 SOP 未更新 14 天，影响预测 60 万',
-      link: '/gm/personnel',
-      priority: 'high'
+      text: '跟进项目B已停滞45天（风险-120万）',
+      link: '/gm/projects',
+      priority: 'high',
+      impact: '-120万'
     },
     {
       icon: 'lightbulb',
-      text: '复盘重点项目 C 的价格谈判，可提升 120 万',
+      text: '与客户C重新对齐商务条款（潜在+80万）',
       link: '/gm/projects',
-      priority: 'medium'
+      priority: 'medium',
+      impact: '+80万'
     }
   ]
 };
@@ -179,6 +212,42 @@ export default function PredictionDecisionCard({
 
   const statusColor = getStatusColor();
 
+  // 获取趋势方向
+  const getTrendDirection = () => {
+    switch (data.trendDirection) {
+      case 'up':
+        return {
+          text: '上升',
+          icon: <ArrowUpRight className="w-4 h-4" />,
+          color: 'text-green-600 bg-green-500/10 border-green-500/30'
+        };
+      case 'down':
+        return {
+          text: '下滑',
+          icon: <ArrowDownRight className="w-4 h-4" />,
+          color: 'text-red-600 bg-red-500/10 border-red-500/30'
+        };
+      default:
+        return {
+          text: '稳定',
+          icon: <Minus className="w-4 h-4" />,
+          color: 'text-slate-600 bg-slate-500/10 border-slate-500/30'
+        };
+    }
+  };
+
+  const trendDirection = getTrendDirection();
+
+  // 计算支撑和风险总额
+  const totalSupport = data.supportFactors.reduce((sum, f) => sum + f.amount, 0);
+  const totalRisk = Math.abs(data.riskFactors.reduce((sum, f) => sum + f.amount, 0));
+
+  // 迷你对冲图数据
+  const hedgeChartData = [
+    { name: '支撑', value: totalSupport, color: '#22c55e' },
+    { name: '风险', value: totalRisk, color: '#ef4444' }
+  ];
+
   // 获取风险等级颜色
   const getRiskLevelColor = (level: string) => {
     switch (level) {
@@ -219,6 +288,32 @@ export default function PredictionDecisionCard({
     }
   };
 
+  // 自定义迷你图表Tooltip
+  const MiniChartTooltip = ({ active, payload, label }: any) => {
+    if (active && payload && payload.length) {
+      return (
+        <div
+          className={cn(
+            'rounded-lg p-2 text-xs',
+            theme === 'dark' ? 'bg-slate-900 border border-slate-700' : 'bg-white border border-slate-200 shadow-lg'
+          )}
+        >
+          <div className="font-semibold mb-1">{label}</div>
+          {payload.map((entry: any, index: number) => (
+            <div key={index} className="flex items-center gap-2">
+              <div
+                className={cn('w-2 h-2 rounded-full', entry.dataKey === 'target' ? 'bg-slate-400' : 'bg-blue-500')}
+              />
+              <span className="text-slate-600">{entry.name}：</span>
+              <span className="font-semibold">{entry.value}万</span>
+            </div>
+          ))}
+        </div>
+      );
+    }
+    return null;
+  };
+
   return (
     <TooltipProvider>
       <div
@@ -240,32 +335,42 @@ export default function PredictionDecisionCard({
             <Target className="w-5 h-5 text-blue-600" />
             <h3 className="font-bold text-lg text-slate-900">核心预测决策卡片</h3>
           </div>
-          <Badge
-            variant="outline"
-            className={cn(
-              'text-xs px-3 py-1',
-              status === 'success' && 'bg-green-500/10 text-green-600 border-green-500/30',
-              status === 'warning' && 'bg-yellow-500/10 text-yellow-600 border-yellow-500/30',
-              status === 'danger' && 'bg-red-500/10 text-red-600 border-red-500/30'
-            )}
-          >
-            {status === 'success' ? '预计超额' : status === 'warning' ? '接近目标' : '存在风险'}
-          </Badge>
+          <div className="flex items-center gap-3">
+            {/* 趋势方向标签 */}
+            <Badge
+              variant="outline"
+              className={cn('text-xs px-3 py-1', trendDirection.color)}
+            >
+              {trendDirection.icon}
+              趋势：{trendDirection.text}
+            </Badge>
+            <Badge
+              variant="outline"
+              className={cn(
+                'text-xs px-3 py-1',
+                status === 'success' && 'bg-green-500/10 text-green-600 border-green-500/30',
+                status === 'warning' && 'bg-yellow-500/10 text-yellow-600 border-yellow-500/30',
+                status === 'danger' && 'bg-red-500/10 text-red-600 border-red-500/30'
+              )}
+            >
+              {status === 'success' ? '预计超额' : status === 'warning' ? '接近目标' : '存在风险'}
+            </Badge>
+          </div>
         </div>
 
         {/* 主内容区：四区布局 */}
         <div className="p-5 grid grid-cols-12 gap-4">
-          {/* 左侧（20%）：目标达成状态 - 红绿灯 + 指标 */}
+          {/* 左侧（20%）：未来预测趋势 */}
           <div className="col-span-3">
             <div className={cn('rounded-lg p-4', statusColor.bg, statusColor.border, 'border-2')}>
               {/* 状态图标 */}
-              <div className={cn('flex items-center justify-center mb-2', statusColor.text)}>
+              <div className={cn('flex items-center justify-center mb-3', statusColor.text)}>
                 {statusColor.icon}
               </div>
 
               {/* 预测金额 - 超大数字 */}
-              <div className="text-center">
-                <div className={cn('text-4xl font-bold mb-1', data.forecast >= data.target ? 'text-green-600' : 'text-red-600')}>
+              <div className="text-center mb-3">
+                <div className={cn('text-5xl font-bold mb-1', data.forecast >= data.target ? 'text-green-600' : 'text-red-600')}>
                   {data.forecast.toLocaleString()}
                   <span className="text-base text-slate-600 ml-1">万</span>
                 </div>
@@ -293,6 +398,46 @@ export default function PredictionDecisionCard({
                   )}
                 </div>
               </div>
+
+              {/* 迷你趋势图 */}
+              <div className="h-24 mt-3">
+                <ResponsiveContainer width="100%" height="100%">
+                  <LineChart data={data.trendData.slice(0, 2)}>
+                    <CartesianGrid strokeDasharray="2 2" stroke={theme === 'dark' ? '#334155' : '#e2e8f0'} />
+                    <XAxis
+                      dataKey="month"
+                      stroke={theme === 'dark' ? '#94a3b8' : '#64748b'}
+                      tick={{ fontSize: 10 }}
+                      axisLine={false}
+                      tickLine={false}
+                    />
+                    <YAxis
+                      stroke={theme === 'dark' ? '#94a3b8' : '#64748b'}
+                      tick={{ fontSize: 10 }}
+                      axisLine={false}
+                      tickLine={false}
+                    />
+                    <RechartsTooltip content={<MiniChartTooltip />} />
+                    {/* 目标线 - 虚线 */}
+                    <Line
+                      dataKey="target"
+                      stroke="#94a3b8"
+                      strokeWidth={1.5}
+                      strokeDasharray="4 4"
+                      name="目标"
+                      dot={false}
+                    />
+                    {/* 预测线 - 实线 */}
+                    <Line
+                      dataKey="forecast"
+                      stroke="#3b82f6"
+                      strokeWidth={2}
+                      name="预测"
+                      dot={{ fill: '#3b82f6', r: 3 }}
+                    />
+                  </LineChart>
+                </ResponsiveContainer>
+              </div>
             </div>
 
             {/* 小提示 */}
@@ -303,12 +448,12 @@ export default function PredictionDecisionCard({
             </div>
           </div>
 
-          {/* 中间（35%）：支撑性驱动因子 - 正向贡献 Top3 */}
+          {/* 中间（35%）：支撑性驱动因子 */}
           <div className="col-span-4">
             <div className={cn('h-full rounded-lg p-3', theme === 'dark' ? 'bg-slate-800/50' : 'bg-slate-50')}>
               <div className="flex items-center justify-between mb-3">
                 <h4 className="font-semibold text-sm text-slate-900 flex items-center gap-1.5">
-                  <TrendingUp className="w-4 h-4 text-blue-600" />
+                  <TrendingUp className="w-4 h-4 text-green-600" />
                   支撑因子
                 </h4>
                 <Badge variant="outline" className="text-xs text-slate-600">
@@ -316,30 +461,35 @@ export default function PredictionDecisionCard({
                 </Badge>
               </div>
 
-              <div className="space-y-2.5">
+              <div className="space-y-2">
                 {data.supportFactors.map((factor, index) => (
                   <Tooltip key={index}>
                     <TooltipTrigger asChild>
                       <div
-                        className="cursor-pointer hover:bg-white/50 rounded transition-colors"
+                        className="cursor-pointer hover:bg-white/50 rounded transition-colors p-2 border border-slate-200/50"
                         onMouseEnter={() => onSupportFactorHover?.(factor)}
                       >
                         <div className="flex items-center justify-between mb-1">
-                          <div className="flex items-center gap-1.5">
+                          <div className="flex items-center gap-1.5 flex-1 min-w-0">
                             {factor.isNew && (
-                              <Badge className="h-4 px-1.5 text-[10px] bg-green-500 text-white">
+                              <Badge className="h-4 px-1.5 text-[10px] bg-green-500 text-white flex-shrink-0">
                                 新增
                               </Badge>
                             )}
-                            <span className="text-xs font-medium text-slate-900">{factor.name}</span>
+                            <span className="text-xs font-medium text-slate-900 truncate">{factor.name}</span>
                           </div>
-                          <div className="text-right">
-                            <span className="text-xs font-bold text-blue-600">
-                              {factor.amount >= 0 ? '+' : ''}{factor.amount.toLocaleString()}万
+                          <div className="text-right flex-shrink-0 ml-2">
+                            <span className="text-xs font-bold text-green-600">
+                              +{factor.amount.toLocaleString()}万
                             </span>
                           </div>
                         </div>
-                        <div className="relative h-1.5 bg-slate-200 rounded-full overflow-hidden">
+                        <div className="flex items-center justify-between">
+                          <span className="text-[10px] text-slate-500">{factor.timeLabel}</span>
+                          <span className="text-[10px] text-slate-600">占比 {factor.percentage}%</span>
+                        </div>
+                        {/* 进度条 */}
+                        <div className="relative h-1.5 bg-slate-200 rounded-full overflow-hidden mt-1.5">
                           <div
                             className={cn(
                               'h-full transition-all',
@@ -347,9 +497,6 @@ export default function PredictionDecisionCard({
                             )}
                             style={{ width: `${factor.percentage}%` }}
                           />
-                        </div>
-                        <div className="text-[10px] text-slate-500 mt-0.5">
-                          贡献占比 {factor.percentage}%
                         </div>
                       </div>
                     </TooltipTrigger>
@@ -372,15 +519,50 @@ export default function PredictionDecisionCard({
                   </Tooltip>
                 ))}
               </div>
+
+              {/* 迷你对冲图 - 支撑vs风险 */}
+              <div className="mt-3 pt-3 border-t border-slate-200/50">
+                <div className="flex items-center justify-between">
+                  <div className="w-20 h-20">
+                    <ResponsiveContainer width="100%" height="100%">
+                      <PieChart>
+                        <Pie
+                          data={hedgeChartData}
+                          cx="50%"
+                          cy="50%"
+                          innerRadius={20}
+                          outerRadius={35}
+                          paddingAngle={5}
+                          dataKey="value"
+                        >
+                          {hedgeChartData.map((entry, index) => (
+                            <Cell key={index} fill={entry.color} />
+                          ))}
+                        </Pie>
+                      </PieChart>
+                    </ResponsiveContainer>
+                  </div>
+                  <div className="flex-1 space-y-1">
+                    <div className="flex items-center justify-between text-xs">
+                      <span className="text-slate-600">支撑总额</span>
+                      <span className="font-bold text-green-600">{totalSupport.toLocaleString()}万</span>
+                    </div>
+                    <div className="flex items-center justify-between text-xs">
+                      <span className="text-slate-600">风险总额</span>
+                      <span className="font-bold text-red-600">-{totalRisk.toLocaleString()}万</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
 
-          {/* 中间右（30%）：风险因子 - 负向 Top3 */}
+          {/* 中右（30%）：风险因子 */}
           <div className="col-span-3">
             <div className={cn('h-full rounded-lg p-3', theme === 'dark' ? 'bg-slate-800/50' : 'bg-slate-50')}>
               <div className="flex items-center justify-between mb-3">
                 <h4 className="font-semibold text-sm text-slate-900 flex items-center gap-1.5">
-                  <TrendingDown className="w-4 h-4 text-red-600" />
+                  <TrendDown className="w-4 h-4 text-red-600" />
                   风险因子
                 </h4>
                 <Badge variant="outline" className="text-xs text-slate-600">
@@ -388,7 +570,7 @@ export default function PredictionDecisionCard({
                 </Badge>
               </div>
 
-              <div className="space-y-2.5">
+              <div className="space-y-2">
                 {data.riskFactors.map((risk, index) => (
                   <Tooltip key={index}>
                     <TooltipTrigger asChild>
@@ -397,7 +579,7 @@ export default function PredictionDecisionCard({
                         onMouseEnter={() => onRiskFactorHover?.(risk)}
                       >
                         <div className="flex items-center justify-between mb-1">
-                          <span className="text-xs font-medium text-slate-900 flex-1 pr-2 truncate">
+                          <span className="text-xs font-medium text-slate-900 flex-1 min-w-0 pr-2 truncate">
                             {risk.source}
                           </span>
                           <div className="text-right flex-shrink-0">
@@ -413,11 +595,7 @@ export default function PredictionDecisionCard({
                           >
                             {risk.level === 'high' ? '高风险' : risk.level === 'medium' ? '中风险' : '低风险'}
                           </Badge>
-                          {risk.owner && (
-                            <span className="text-[10px] text-slate-500 truncate ml-2">
-                              {risk.owner}
-                            </span>
-                          )}
+                          <span className="text-[10px] text-slate-500 truncate ml-1">{risk.timeLabel}</span>
                         </div>
                       </div>
                     </TooltipTrigger>
@@ -444,7 +622,7 @@ export default function PredictionDecisionCard({
             </div>
           </div>
 
-          {/* 右侧（15%）：管理动作建议 - 真正驱动决策 */}
+          {/* 右侧（15%）：管理动作建议 */}
           <div className="col-span-2">
             <div
               className={cn(
@@ -479,9 +657,16 @@ export default function PredictionDecisionCard({
                       <div className="flex-shrink-0 mt-0.5">
                         {getActionIcon(action.icon)}
                       </div>
-                      <p className="text-xs text-slate-700 leading-relaxed">
-                        {action.text}
-                      </p>
+                      <div className="flex-1 min-w-0">
+                        <p className="text-xs text-slate-700 leading-relaxed mb-1">
+                          {action.text}
+                        </p>
+                        {action.impact && (
+                          <div className="text-[10px] text-slate-500">
+                            预计影响：{action.impact}
+                          </div>
+                        )}
+                      </div>
                     </div>
                     {action.link && (
                       <div className="flex items-center justify-end mt-1">
