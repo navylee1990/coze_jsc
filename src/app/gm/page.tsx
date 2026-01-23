@@ -9,7 +9,6 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } f
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import PredictionDecisionCard from '@/components/PredictionDecisionCard';
-import KeySupportPanel from '@/components/KeySupportPanel';
 import FutureSupportAdequacyPanel from '@/components/FutureSupportAdequacyPanel';
 import FutureSupportSummaryPanel from '@/components/FutureSupportSummaryPanel';
 import { Separator } from '@/components/ui/separator';
@@ -424,72 +423,6 @@ export default function GMDashboard() {
                 if (action.link === '/gm/projects') {
                   setSelectedView('projects');
                 }
-              }}
-            />
-
-            {/* 目标支撑性分析 */}
-            <Card className={`${theme === 'dark' ? 'bg-slate-900/50 border-slate-800' : 'bg-white border-slate-200'}`}>
-              <CardHeader>
-                <CardTitle className="flex items-center gap-2">
-                  <Activity className="w-5 h-5 text-green-500" />
-                  目标支撑性分析
-                </CardTitle>
-              </CardHeader>
-              <CardContent>
-                <div className="h-80">
-                  <ResponsiveContainer width="100%" height="100%">
-                    <RadarChart data={radarData.categories.map((cat, i) => ({
-                      subject: cat,
-                      current: radarData.current[i],
-                      target: radarData.target[i],
-                      fullMark: 100
-                    }))}>
-                      <PolarGrid stroke={theme === 'dark' ? '#334155' : '#e2e8f0'} />
-                      <PolarAngleAxis dataKey="subject" stroke={theme === 'dark' ? '#94a3b8' : '#64748b'} tick={{ fontSize: 12 }} />
-                      <PolarRadiusAxis angle={90} domain={[0, 100]} stroke={theme === 'dark' ? '#334155' : '#e2e8f0'} />
-                      <Radar
-                        name="当前"
-                        dataKey="current"
-                        stroke="#3b82f6"
-                        fill="#3b82f6"
-                        fillOpacity={0.3}
-                        strokeWidth={2}
-                      >
-                        {radarData.current.map((_, index) => (
-                          <Cell key={index} fill={getRadarColor(index)} />
-                        ))}
-                      </Radar>
-                      <Radar
-                        name="目标"
-                        dataKey="target"
-                        stroke="#22c55e"
-                        fill="#22c55e"
-                        fillOpacity={0.1}
-                        strokeWidth={2}
-                      />
-                      <Tooltip
-                        contentStyle={{
-                          backgroundColor: theme === 'dark' ? '#1e293b' : '#ffffff',
-                          border: `1px solid ${theme === 'dark' ? '#334155' : '#e2e8f0'}`,
-                          borderRadius: '8px',
-                          color: theme === 'dark' ? '#ffffff' : '#0f172a'
-                        }}
-                      />
-                      <Legend />
-                    </RadarChart>
-                  </ResponsiveContainer>
-                </div>
-              </CardContent>
-            </Card>
-
-            {/* 关键支撑模块 - 驾驶舱式面板 */}
-            <KeySupportPanel
-              theme={theme}
-              onProjectHover={(project) => {
-                console.log('支撑项目悬停:', project);
-              }}
-              onTimelineHover={(timeLabel) => {
-                console.log('时间轴悬停:', timeLabel);
               }}
             />
 
