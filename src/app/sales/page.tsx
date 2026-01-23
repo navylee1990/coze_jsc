@@ -7,6 +7,7 @@ import { Progress } from '@/components/ui/progress';
 import { AIInsight } from '@/components/ai-insight';
 import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from '@/components/ui/dialog';
+import FutureSupportDecisionPanel from '@/components/FutureSupportDecisionPanel';
 import Link from 'next/link';
 import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 
@@ -1040,6 +1041,44 @@ export default function SalesDashboard() {
         </TabsList>
 
         <TabsContent value="overview">
+        {/* 未来支撑决策面板 - 驾驶舱风格 */}
+        <div className="mb-3">
+          <FutureSupportDecisionPanel
+            theme="light"
+            futureTarget={2000}
+            futureSupport={1350}
+            coverageRate={67}
+            gap={-650}
+            trendDirection="down"
+            periods={[
+              { period: '0-30天', amount: 520, coverageRate: 63, trend: 'down', status: 'critical', summary: '短期严重不足' },
+              { period: '1-3月', amount: 680, coverageRate: 110, trend: 'stable', status: 'good', summary: '中期稳定' },
+              { period: '3-6月', amount: 360, coverageRate: 45, trend: 'down', status: 'critical', summary: '储备薄弱' }
+            ]}
+            gapSources={[
+              { type: '项目推进延迟', impact: 180 },
+              { type: '新项目储备不足', impact: 90 },
+              { type: '渠道贡献下滑', impact: 60 }
+            ]}
+            improvedCoverageRate={84}
+            remainingGap={300}
+            actions={[
+              { priority: 'high', icon: '🔥', title: '补齐短期支撑', detail: '需新增300万项目（点击查看来源）' },
+              { priority: 'medium', icon: '⚠️', title: '处理关键延迟', detail: '3项目滞后>10天（点击查看责任人）' },
+              { priority: 'low', icon: '💡', title: '补充储备池', detail: '需新增3个中期项目' }
+            ]}
+            trendData={[
+              { label: '本月', target: 500, predicted: 450 },
+              { label: '下月', target: 500, predicted: 450 },
+              { label: '1-3月', target: 500, predicted: 450 },
+              { label: '3-6月', target: 500, predicted: 300 }
+            ]}
+            onPeriodClick={(period) => console.log('点击支撑段:', period)}
+            onGapClick={() => console.log('点击缺口诊断')}
+            onActionClick={(action) => console.log('点击行动建议:', action)}
+          />
+        </div>
+
         {/* KPI指标 + 月度趋势分析 左右布局 */}
         <div className="flex flex-col lg:flex-row gap-3">
           {/* 左侧：KPI指标（买断+租赁+续租）- 三行布局 */}
