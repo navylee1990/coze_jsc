@@ -1205,11 +1205,23 @@ export default function FutureSupportAdequacyPanel({
   const getStatusColor = (status: 'green' | 'yellow' | 'red') => {
     switch (status) {
       case 'green':
-        return { bg: theme === 'dark' ? 'bg-green-500' : 'bg-green-500', text: 'text-green-600', border: theme === 'dark' ? 'border-green-500' : 'border-green-500' };
+        return {
+          bg: theme === 'dashboard' ? 'bg-cyan-500' : 'bg-green-500',
+          text: theme === 'dashboard' ? 'text-cyan-400' : 'text-green-600',
+          border: theme === 'dashboard' ? 'border-cyan-500' : 'border-green-500'
+        };
       case 'yellow':
-        return { bg: theme === 'dark' ? 'bg-yellow-500' : 'bg-yellow-500', text: 'text-yellow-600', border: theme === 'dark' ? 'border-yellow-500' : 'border-yellow-500' };
+        return {
+          bg: 'bg-yellow-500',
+          text: 'text-yellow-600',
+          border: 'border-yellow-500'
+        };
       case 'red':
-        return { bg: theme === 'dark' ? 'bg-red-500' : 'bg-red-500', text: 'text-red-600', border: theme === 'dark' ? 'border-red-500' : 'border-red-500' };
+        return {
+          bg: 'bg-red-500',
+          text: 'text-red-600',
+          border: 'border-red-500'
+        };
     }
   };
 
@@ -1229,11 +1241,11 @@ export default function FutureSupportAdequacyPanel({
   const getProbabilityColor = (probability: 'high' | 'medium' | 'low') => {
     switch (probability) {
       case 'high':
-        return theme === 'dark' ? 'bg-green-500' : 'bg-green-500';
+        return theme === 'dashboard' ? 'bg-cyan-500' : 'bg-green-500';
       case 'medium':
-        return theme === 'dark' ? 'bg-yellow-500' : 'bg-yellow-500';
+        return 'bg-yellow-500';
       case 'low':
-        return theme === 'dark' ? 'bg-gray-500' : 'bg-gray-500';
+        return theme === 'dashboard' ? 'bg-slate-500' : 'bg-gray-500';
     }
   };
 
@@ -1241,7 +1253,7 @@ export default function FutureSupportAdequacyPanel({
   const getHealthColor = (health: 'high' | 'medium' | 'low') => {
     switch (health) {
       case 'high':
-        return theme === 'dark' ? 'text-green-500' : 'text-green-600';
+        return theme === 'dashboard' ? 'text-cyan-400' : theme === 'dark' ? 'text-green-500' : 'text-green-600';
       case 'medium':
         return theme === 'dark' ? 'text-yellow-500' : 'text-yellow-600';
       case 'low':
@@ -1265,18 +1277,21 @@ export default function FutureSupportAdequacyPanel({
   const getActionIcon = (type: 'urgent' | 'supplement' | 'channel' | 'sop') => {
     switch (type) {
       case 'urgent':
-        return <Flame className="w-4 h-4 text-red-600" />;
+        return <Flame className={cn('w-4 h-4', theme === 'dashboard' ? 'text-red-400' : 'text-red-600')} />;
       case 'supplement':
-        return <AlertTriangle className="w-4 h-4 text-yellow-600" />;
+        return <AlertTriangle className={cn('w-4 h-4', theme === 'dashboard' ? 'text-yellow-400' : 'text-yellow-600')} />;
       case 'channel':
-        return <Lightbulb className="w-4 h-4 text-blue-600" />;
+        return <Lightbulb className={cn('w-4 h-4', theme === 'dashboard' ? 'text-blue-400' : 'text-blue-600')} />;
       case 'sop':
-        return <Compass className="w-4 h-4 text-purple-600" />;
+        return <Compass className={cn('w-4 h-4', theme === 'dashboard' ? 'text-purple-400' : 'text-purple-600')} />;
     }
   };
 
   // 获取行动类型背景色
   const getActionTypeBg = (type: 'urgent' | 'supplement' | 'channel' | 'sop', theme: Theme) => {
+    if (theme === 'dashboard') {
+      return 'bg-transparent'; // dashboard模式使用边框发光效果
+    }
     switch (type) {
       case 'urgent':
         return theme === 'dark' ? 'bg-red-500/20' : 'bg-red-50';
@@ -1300,7 +1315,9 @@ export default function FutureSupportAdequacyPanel({
     <div
       className={cn(
         'w-full rounded-lg overflow-hidden transition-all duration-300',
-        theme === 'dark'
+        theme === 'dashboard'
+          ? 'bg-slate-900/80 border border-cyan-500/30 shadow-[0_0_30px_rgba(6,182,212,0.3)]'
+          : theme === 'dark'
           ? 'bg-slate-900/80 border border-slate-700'
           : 'bg-gradient-to-br from-slate-50 to-slate-100 border border-slate-200'
       )}
@@ -1339,17 +1356,19 @@ export default function FutureSupportAdequacyPanel({
         <div className="flex items-center gap-4">
           {/* 区域选择器 */}
           <div className="flex items-center gap-2">
-            <MapPin className="w-4 h-4 text-slate-600" />
+            <MapPin className={cn('w-4 h-4', theme === 'dashboard' ? 'text-cyan-400' : 'text-slate-600')} />
             <div className="relative">
               <select
                 value={selectedRegion}
                 onChange={(e) => setSelectedRegion(e.target.value as Region)}
                 className={cn(
                   'appearance-none pl-3 pr-8 py-1.5 text-sm rounded-lg border cursor-pointer',
-                  'transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500',
-                  theme === 'dark'
-                    ? 'bg-slate-800 border-slate-700 text-white hover:bg-slate-700'
-                    : 'bg-white border-slate-200 text-slate-900 hover:bg-slate-50'
+                  'transition-colors focus:outline-none focus:ring-2',
+                  theme === 'dashboard'
+                    ? 'bg-slate-800/60 border-cyan-500/30 text-cyan-100 hover:bg-cyan-500/20 focus:ring-cyan-500'
+                    : theme === 'dark'
+                    ? 'bg-slate-800 border-slate-700 text-white hover:bg-slate-700 focus:ring-blue-500'
+                    : 'bg-white border-slate-200 text-slate-900 hover:bg-slate-50 focus:ring-blue-500'
                 )}
               >
                 {Object.entries(regionConfig).map(([key, config]) => (
@@ -1358,18 +1377,18 @@ export default function FutureSupportAdequacyPanel({
                   </option>
                 ))}
               </select>
-              <ChevronDown className="absolute right-2 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-600 pointer-events-none" />
+              <ChevronDown className={cn('absolute right-2 top-1/2 -translate-y-1/2 w-4 h-4 pointer-events-none', theme === 'dashboard' ? 'text-cyan-400' : 'text-slate-600')} />
             </div>
           </div>
           <div
             className={cn(
               'h-6 w-px',
-              theme === 'dark' ? 'bg-slate-700' : 'bg-slate-200'
+              theme === 'dashboard' ? 'bg-cyan-500/30' : theme === 'dark' ? 'bg-slate-700' : 'bg-slate-200'
             )}
           />
           <div className="flex items-center gap-2">
-            <span className="text-xs text-slate-600">驾驶舱模式</span>
-            <BarChart3 className="w-4 h-4 text-slate-600" />
+            <span className={cn('text-xs', theme === 'dashboard' ? 'text-cyan-400/70' : 'text-slate-600')}>驾驶舱模式</span>
+            <BarChart3 className={cn('w-4 h-4', theme === 'dashboard' ? 'text-cyan-400' : 'text-slate-600')} />
           </div>
         </div>
       </div>
@@ -1380,7 +1399,11 @@ export default function FutureSupportAdequacyPanel({
         <div
           className={cn(
             'col-span-7 p-4 border-r',
-            theme === 'dark' ? 'border-slate-700' : 'border-slate-200'
+            theme === 'dashboard'
+              ? 'border-cyan-500/20'
+              : theme === 'dark'
+              ? 'border-slate-700'
+              : 'border-slate-200'
           )}
         >
           <div className="grid grid-cols-3 gap-3">
@@ -1391,51 +1414,95 @@ export default function FutureSupportAdequacyPanel({
                 <div
                   key={period}
                   className={cn(
-                    'p-4 rounded-lg relative',
-                    theme === 'dark' ? `bg-slate-800/50` : `bg-gradient-to-b ${index === 0 ? 'from-red-50/50 to-slate-50/30' : index === 1 ? 'from-yellow-50/50 to-slate-50/30' : 'from-green-50/50 to-slate-50/30'}`
+                    'p-4 rounded-lg relative border transition-all duration-300',
+                    theme === 'dashboard'
+                      ? cn(
+                          'bg-slate-800/40 backdrop-blur-sm',
+                          index === 0
+                            ? 'border-red-500/30 shadow-[0_0_15px_rgba(239,68,68,0.2)]'
+                            : index === 1
+                            ? 'border-yellow-500/30 shadow-[0_0_15px_rgba(234,179,8,0.2)]'
+                            : 'border-cyan-500/30 shadow-[0_0_15px_rgba(6,182,212,0.2)]'
+                        )
+                      : theme === 'dark'
+                      ? 'bg-slate-800/50 border-slate-700/50'
+                      : `bg-gradient-to-b ${index === 0 ? 'from-red-50/50 to-slate-50/30' : index === 1 ? 'from-yellow-50/50 to-slate-50/30' : 'from-green-50/50 to-slate-50/30'}`
                   )}
                 >
                   {/* 时间段标签 */}
                   <div className="flex items-center justify-between mb-3">
-                    <span className="text-sm font-semibold text-slate-900">{period}</span>
-                    <div className={cn('w-2 h-2 rounded-full', statusColor.bg)} />
+                    <span className={cn(
+                      'text-sm font-semibold',
+                      theme === 'dashboard'
+                        ? 'text-cyan-200 drop-shadow-[0_0_6px_rgba(6,182,212,0.5)]'
+                        : 'text-slate-900'
+                    )}>{period}</span>
+                    <div className={cn(
+                      'w-2 h-2 rounded-full',
+                      statusColor.bg,
+                      theme === 'dashboard' && 'shadow-[0_0_8px_currentColor]'
+                    )} />
                   </div>
 
                   {/* 支撑进度条 */}
                   <div className="mb-3">
-                    <div className="h-3 bg-slate-200 rounded-full overflow-hidden mb-2">
+                    <div className={cn('h-3 rounded-full overflow-hidden mb-2', theme === 'dashboard' ? 'bg-slate-700/50' : 'bg-slate-200')}>
                       <div
-                        className={cn('h-full transition-all duration-500', statusColor.bg)}
+                        className={cn(
+                          'h-full transition-all duration-500',
+                          statusColor.bg,
+                          theme === 'dashboard' && 'shadow-[0_0_10px_currentColor]'
+                        )}
                         style={{ width: `${Math.min(level.coverage, 100)}%` }}
                       />
                     </div>
-                    <div className="flex items-center justify-between text-xs">
-                      <span className="text-slate-600">
-                        支撑 <span className="font-semibold text-slate-900">{level.amount.toLocaleString()}</span>万
+                    <div className={cn('flex items-center justify-between text-xs', theme === 'dashboard' ? 'text-cyan-400/70' : 'text-slate-600')}>
+                      <span className={theme === 'dashboard' ? 'text-cyan-400/70' : 'text-slate-600'}>
+                        支撑 <span className={cn('font-semibold', theme === 'dashboard' ? 'text-cyan-200' : 'text-slate-900')}>{level.amount.toLocaleString()}</span>万
                       </span>
-                      <span className="text-slate-600">
-                        目标 <span className="font-semibold text-slate-900">{level.target.toLocaleString()}</span>万
+                      <span className={theme === 'dashboard' ? 'text-cyan-400/70' : 'text-slate-600'}>
+                        目标 <span className={cn('font-semibold', theme === 'dashboard' ? 'text-cyan-200' : 'text-slate-900')}>{level.target.toLocaleString()}</span>万
                       </span>
                     </div>
                   </div>
 
                   {/* 覆盖度 */}
                   <div className="flex items-center justify-center mb-2">
-                    <span className="text-xs text-slate-600">覆盖度</span>
-                    <span className={cn('text-lg font-bold ml-2', statusColor.text)}>{level.coverage}%</span>
+                    <span className={cn('text-xs', theme === 'dashboard' ? 'text-cyan-400/70' : 'text-slate-600')}>覆盖度</span>
+                    <span className={cn(
+                      'text-lg font-bold ml-2',
+                      statusColor.text,
+                      theme === 'dashboard' && 'drop-shadow-[0_0_8px_currentColor]'
+                    )}>{level.coverage}%</span>
                   </div>
 
                   {/* 针对性建议 */}
                   {level.coverage < 70 && (
                     <div className={cn(
-                      'p-2 rounded text-[10px] mb-2',
-                      theme === 'dark' ? 'bg-red-500/20 border border-red-500/30' : 'bg-red-50 border border-red-200'
+                      'p-2 rounded text-[10px] mb-2 border',
+                      theme === 'dashboard'
+                        ? 'bg-red-500/10 border-red-500/40 shadow-[0_0_10px_rgba(239,68,68,0.3)]'
+                        : theme === 'dark'
+                        ? 'bg-red-500/20 border border-red-500/30'
+                        : 'bg-red-50 border border-red-200'
                     )}>
                       <div className="flex items-center gap-1 mb-1">
-                        <AlertTriangle className="w-3 h-3 text-red-600" />
-                        <span className="font-bold text-red-700">支撑不足</span>
+                        <AlertTriangle className={cn(
+                          'w-3 h-3',
+                          theme === 'dashboard'
+                            ? 'text-red-400 drop-shadow-[0_0_6px_rgba(239,68,68,0.8)]'
+                            : 'text-red-600'
+                        )} />
+                        <span className={cn(
+                          'font-bold',
+                          theme === 'dashboard'
+                            ? 'text-red-300'
+                            : 'text-red-700'
+                        )}>支撑不足</span>
                       </div>
-                      <div className="text-slate-700">
+                      <div className={cn(
+                        theme === 'dashboard' ? 'text-red-200/80' : 'text-slate-700'
+                      )}>
                         {level.coverage < 50 && '紧急：需新增' + (level.target - level.amount) + '万（开发新项目）'}
                         {level.coverage >= 50 && level.coverage < 70 && '建议：推进' + level.projects.filter(p => !p.isOnTrack).length + '个延迟项目'}
                       </div>
@@ -1448,30 +1515,77 @@ export default function FutureSupportAdequacyPanel({
                       <div
                         key={project.id}
                         className={cn(
-                          'p-1.5 rounded text-xs relative',
-                          theme === 'dark' ? 'bg-slate-700/50' : 'bg-white/60'
+                          'p-1.5 rounded text-xs relative border transition-all duration-200',
+                          theme === 'dashboard'
+                            ? 'bg-slate-800/30 border-cyan-500/20 hover:border-cyan-500/40'
+                            : theme === 'dark'
+                            ? 'bg-slate-700/50'
+                            : 'bg-white/60'
                         )}
                       >
                         <div className="flex items-center justify-between mb-1">
-                          <span className="font-medium text-slate-900 truncate flex-1 mr-2">{project.name}</span>
+                          <span className={cn(
+                            'font-medium truncate flex-1 mr-2',
+                            theme === 'dashboard'
+                              ? 'text-cyan-100'
+                              : 'text-slate-900'
+                          )}>{project.name}</span>
                           <div className="flex items-center gap-1 flex-shrink-0">
-                            {project.isNew && <span className="px-1 rounded bg-blue-500 text-white text-[10px]">新</span>}
-                            {project.isDelayed && <span className="px-1 rounded bg-red-500 text-white text-[10px]">延</span>}
-                            {project.isRisk && <span className="px-1 rounded bg-orange-500 text-white text-[10px]">险</span>}
-                            <span className="font-bold text-slate-900">{project.amount}万</span>
+                            {project.isNew && <span className={cn(
+                              'px-1 rounded text-[10px]',
+                              theme === 'dashboard'
+                                ? 'bg-blue-500/40 text-blue-300 border border-blue-500/40'
+                                : 'bg-blue-500 text-white'
+                            )}>新</span>}
+                            {project.isDelayed && <span className={cn(
+                              'px-1 rounded text-[10px]',
+                              theme === 'dashboard'
+                                ? 'bg-red-500/40 text-red-300 border border-red-500/40'
+                                : 'bg-red-500 text-white'
+                            )}>延</span>}
+                            {project.isRisk && <span className={cn(
+                              'px-1 rounded text-[10px]',
+                              theme === 'dashboard'
+                                ? 'bg-orange-500/40 text-orange-300 border border-orange-500/40'
+                                : 'bg-orange-500 text-white'
+                            )}>险</span>}
+                            <span className={cn(
+                              'font-bold',
+                              theme === 'dashboard'
+                                ? 'text-cyan-200'
+                                : 'text-slate-900'
+                            )}>{project.amount}万</span>
                           </div>
                         </div>
                         <div className="flex items-center justify-between">
                           <div className="flex items-center gap-1">
-                            <div className={cn('w-1.5 h-1.5 rounded-full', getProbabilityColor(project.probability))} />
-                            <span className="text-[10px] text-slate-600">{project.probability === 'high' ? '高' : project.probability === 'medium' ? '中' : '低'}概率</span>
+                            <div className={cn(
+                              'w-1.5 h-1.5 rounded-full',
+                              getProbabilityColor(project.probability),
+                              theme === 'dashboard' && 'shadow-[0_0_6px_currentColor]'
+                            )} />
+                            <span className={cn(
+                              'text-[10px]',
+                              theme === 'dashboard'
+                                ? 'text-cyan-400/70'
+                                : 'text-slate-600'
+                            )}>{project.probability === 'high' ? '高' : project.probability === 'medium' ? '中' : '低'}概率</span>
                           </div>
                           <div className="flex items-center gap-1">
-                            <span className={cn('text-[10px]', getHealthColor(project.health))}>
+                            <span className={cn(
+                              'text-[10px]',
+                              getHealthColor(project.health),
+                              theme === 'dashboard' && 'drop-shadow-[0_0_6px_currentColor]'
+                            )}>
                               {project.health === 'high' ? '健康' : project.health === 'medium' ? '一般' : '风险'}
                             </span>
                             {!project.isOnTrack && project.delayDays && (
-                              <span className="text-[10px] text-red-600">延迟{project.delayDays}天</span>
+                              <span className={cn(
+                                'text-[10px]',
+                                theme === 'dashboard'
+                                  ? 'text-red-400'
+                                  : 'text-red-600'
+                              )}>延迟{project.delayDays}天</span>
                             )}
                           </div>
                         </div>
@@ -1487,14 +1601,33 @@ export default function FutureSupportAdequacyPanel({
         {/* 右侧5列 - 行动建议区 */}
         <div
           className={cn(
-            'col-span-5 p-4',
-            theme === 'dark' ? 'bg-slate-900/20' : 'bg-slate-50/50'
+            'col-span-5 p-4 border-l',
+            theme === 'dashboard'
+              ? 'bg-slate-900/30 border-cyan-500/20'
+              : theme === 'dark'
+              ? 'bg-slate-900/20'
+              : 'bg-slate-50/50'
           )}
         >
           <div className="flex items-center gap-2 mb-3">
-            <Zap className="w-4 h-4 text-orange-600" />
-            <span className="text-sm font-semibold text-slate-900">行动建议</span>
-            <span className="text-xs px-2 py-0.5 rounded-full bg-orange-500/20 text-orange-700">
+            <Zap className={cn(
+              'w-4 h-4',
+              theme === 'dashboard'
+                ? 'text-orange-400 drop-shadow-[0_0_8px_rgba(251,146,60,0.8)]'
+                : 'text-orange-600'
+            )} />
+            <span className={cn(
+              'text-sm font-semibold',
+              theme === 'dashboard'
+                ? 'text-cyan-200 drop-shadow-[0_0_6px_rgba(6,182,212,0.5)]'
+                : 'text-slate-900'
+            )}>行动建议</span>
+            <span className={cn(
+              'text-xs px-2 py-0.5 rounded-full',
+              theme === 'dashboard'
+                ? 'bg-orange-500/20 text-orange-300 border border-orange-500/40'
+                : 'bg-orange-500/20 text-orange-700'
+            )}>
               {data.actions.length}项关键行动
             </span>
           </div>
@@ -1503,9 +1636,22 @@ export default function FutureSupportAdequacyPanel({
               <div
                 key={action.id}
                 className={cn(
-                  'p-3 rounded-lg flex items-start gap-3',
-                  getActionTypeBg(action.type, theme),
-                  action.type === 'urgent' && theme === 'dark' ? 'border border-red-500/30' : action.type === 'urgent' ? 'border border-red-200' : ''
+                  'p-3 rounded-lg flex items-start gap-3 border transition-all duration-200',
+                  theme === 'dashboard'
+                    ? cn(
+                        'bg-slate-800/40 backdrop-blur-sm',
+                        action.type === 'urgent'
+                          ? 'border-red-500/30 shadow-[0_0_15px_rgba(239,68,68,0.2)]'
+                          : action.type === 'supplement'
+                          ? 'border-yellow-500/30 shadow-[0_0_15px_rgba(234,179,8,0.2)]'
+                          : action.type === 'channel'
+                          ? 'border-blue-500/30 shadow-[0_0_15px_rgba(59,130,246,0.2)]'
+                          : 'border-purple-500/30 shadow-[0_0_15px_rgba(168,85,247,0.2)]'
+                      )
+                    : theme === 'dark'
+                    ? getActionTypeBg(action.type, theme)
+                    : getActionTypeBg(action.type, theme),
+                  action.type === 'urgent' && theme !== 'dashboard' && (theme === 'dark' ? 'border border-red-500/30' : 'border border-red-200')
                 )}
               >
                 {/* 优先级标记 */}
@@ -1513,7 +1659,21 @@ export default function FutureSupportAdequacyPanel({
                   <div
                     className={cn(
                       'w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold',
-                      action.priority === 1 ? 'bg-red-500 text-white' : action.priority === 2 ? 'bg-yellow-500 text-white' : action.priority === 3 ? 'bg-blue-500 text-white' : 'bg-slate-500 text-white'
+                      theme === 'dashboard'
+                        ? action.priority === 1
+                          ? 'bg-red-500/40 text-red-300 border border-red-500/50 shadow-[0_0_10px_rgba(239,68,68,0.6)]'
+                          : action.priority === 2
+                          ? 'bg-yellow-500/40 text-yellow-300 border border-yellow-500/50 shadow-[0_0_10px_rgba(234,179,8,0.6)]'
+                          : action.priority === 3
+                          ? 'bg-blue-500/40 text-blue-300 border border-blue-500/50 shadow-[0_0_10px_rgba(59,130,246,0.6)]'
+                          : 'bg-slate-500/40 text-slate-300 border border-slate-500/50'
+                        : action.priority === 1
+                        ? 'bg-red-500 text-white'
+                        : action.priority === 2
+                        ? 'bg-yellow-500 text-white'
+                        : action.priority === 3
+                        ? 'bg-blue-500 text-white'
+                        : 'bg-slate-500 text-white'
                     )}
                   >
                     {action.priority}
@@ -1521,18 +1681,52 @@ export default function FutureSupportAdequacyPanel({
                 </div>
                 {/* 图标 */}
                 <div className="flex-shrink-0 mt-0.5">
-                  {getActionIcon(action.type)}
+                  <div className={cn(theme === 'dashboard' && 'drop-shadow-[0_0_6px_rgba(251,146,60,0.6)]')}>
+                    {getActionIcon(action.type)}
+                  </div>
                 </div>
                 {/* 内容 */}
                 <div className="flex-1 min-w-0">
                   <div className="flex items-center gap-2 mb-1">
-                    <span className="text-xs font-bold text-slate-900">{action.title}</span>
-                    <span className={cn('text-xs font-bold', action.type === 'urgent' ? 'text-red-600' : action.type === 'supplement' ? 'text-yellow-600' : action.type === 'channel' ? 'text-blue-600' : 'text-purple-600')}>
+                    <span className={cn(
+                      'text-xs font-bold',
+                      theme === 'dashboard'
+                        ? 'text-cyan-100'
+                        : 'text-slate-900'
+                    )}>{action.title}</span>
+                    <span className={cn(
+                      'text-xs font-bold',
+                      theme === 'dashboard'
+                        ? action.type === 'urgent'
+                          ? 'text-red-300 drop-shadow-[0_0_6px_rgba(239,68,68,0.6)]'
+                          : action.type === 'supplement'
+                          ? 'text-yellow-300 drop-shadow-[0_0_6px_rgba(234,179,8,0.6)]'
+                          : action.type === 'channel'
+                          ? 'text-blue-300 drop-shadow-[0_0_6px_rgba(59,130,246,0.6)]'
+                          : 'text-purple-300 drop-shadow-[0_0_6px_rgba(168,85,247,0.6)]'
+                        : action.type === 'urgent'
+                        ? 'text-red-600'
+                        : action.type === 'supplement'
+                        ? 'text-yellow-600'
+                        : action.type === 'channel'
+                        ? 'text-blue-600'
+                        : 'text-purple-600'
+                    )}>
                       {action.impact}
                     </span>
                   </div>
-                  <div className="text-[10px] text-slate-600 line-clamp-2 mb-1">{action.description}</div>
-                  <div className="flex items-center gap-2 text-[10px] text-slate-500">
+                  <div className={cn(
+                    'text-[10px] line-clamp-2 mb-1',
+                    theme === 'dashboard'
+                      ? 'text-cyan-400/70'
+                      : 'text-slate-600'
+                  )}>{action.description}</div>
+                  <div className={cn(
+                    'flex items-center gap-2 text-[10px]',
+                    theme === 'dashboard'
+                      ? 'text-cyan-400/50'
+                      : 'text-slate-500'
+                  )}>
                     {action.owner && <span>负责人：{action.owner}</span>}
                     {action.deadline && <span>· 截止：{action.deadline}</span>}
                   </div>
