@@ -7,8 +7,6 @@ import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import PredictionDecisionCard from '@/components/PredictionDecisionCard';
 import FutureSupportAdequacyPanel from '@/components/FutureSupportAdequacyPanel';
-import DashboardGauge from '@/components/DashboardGauge';
-import MiniGauge from '@/components/MiniGauge';
 import { Separator } from '@/components/ui/separator';
 import Link from 'next/link';
 import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
@@ -446,15 +444,29 @@ export default function GMDashboard() {
                 </div>
               </div>
 
-              {/* 核心数据展示 - 仪表盘 */}
-              <div className="flex items-center justify-center mb-6">
-                <DashboardGauge
-                  target={getTimeRangeData().target}
-                  predicted={getTimeRangeData().forecast}
-                  gap={getGap()}
-                  size={320}
-                  showDetails={true}
-                />
+              {/* 核心数据展示 */}
+              <div className="grid grid-cols-3 gap-4 mb-6">
+                <div className="text-center p-4 rounded-xl bg-gradient-to-br from-cyan-500/10 to-blue-500/10 border border-cyan-500/30">
+                  <div className="text-xs text-cyan-400/70 mb-1">目标</div>
+                  <div className="text-2xl font-bold text-cyan-300 drop-shadow-[0_0_10px_rgba(6,182,212,0.8)]">
+                    {getTimeRangeData().target.toLocaleString()}
+                  </div>
+                  <div className="text-xs text-cyan-400/50 mt-1">万元</div>
+                </div>
+                <div className="text-center p-4 rounded-xl bg-gradient-to-br from-green-500/10 to-emerald-500/10 border border-green-500/30">
+                  <div className="text-xs text-green-400/70 mb-1">预测完成</div>
+                  <div className="text-2xl font-bold text-green-300 drop-shadow-[0_0_10px_rgba(34,197,94,0.8)]">
+                    {getTimeRangeData().forecast.toLocaleString()}
+                  </div>
+                  <div className="text-xs text-green-400/50 mt-1">万元</div>
+                </div>
+                <div className={`text-center p-4 rounded-xl bg-gradient-to-br ${getGap() >= 0 ? 'from-red-500/10 to-orange-500/10 border-red-500/30' : 'from-green-500/10 to-emerald-500/10 border-green-500/30'} border`}>
+                  <div className={`text-xs ${getGap() >= 0 ? 'text-red-400/70' : 'text-green-400/70'} mb-1`}>缺口</div>
+                  <div className={`text-2xl font-bold ${getGap() >= 0 ? 'text-red-300 drop-shadow-[0_0_10px_rgba(248,113,113,0.8)]' : 'text-green-300 drop-shadow-[0_0_10px_rgba(34,197,94,0.8)]'}`}>
+                    {getGap() >= 0 ? getGap().toFixed(0) : `+${Math.abs(getGap()).toFixed(0)}`}
+                  </div>
+                  <div className={`text-xs ${getGap() >= 0 ? 'text-red-400/50' : 'text-green-400/50'} mt-1`}>万元</div>
+                </div>
               </div>
 
               {/* 趋势图表 */}
@@ -552,22 +564,26 @@ export default function GMDashboard() {
                 {currentData.map((item: any, index: number) => (
                   <div
                     key={index}
-                    className="flex items-center gap-3 p-2 rounded-lg bg-slate-800/30 border border-slate-700/30 hover:border-cyan-500/50 transition-all cursor-pointer"
+                    className="p-2 rounded-lg bg-slate-800/30 border border-slate-700/30 hover:border-cyan-500/50 transition-all cursor-pointer"
                   >
-                    {/* 小型仪表盘 */}
-                    <MiniGauge value={item.rate} size={50} strokeWidth={5} />
-
-                    {/* 区域信息 */}
-                    <div className="flex-1 min-w-0">
-                      <div className="flex items-center justify-between mb-1">
-                        <span className="text-sm font-medium text-cyan-200">{item.name}</span>
-                        <span className={`text-xs font-semibold ${item.gap > 0 ? 'text-red-400' : 'text-green-400'}`}>
-                          {item.gap > 0 ? `${item.gap}` : `+${Math.abs(item.gap)}`}
-                        </span>
-                      </div>
-                      <div className="flex items-center justify-between text-xs">
-                        <span className="text-cyan-400/50">{item.owner}</span>
+                    <div className="flex items-center justify-between mb-1">
+                      <span className="text-sm font-medium text-cyan-200">{item.name}</span>
+                      <span className={`text-xs font-semibold ${item.gap > 0 ? 'text-red-400' : 'text-green-400'}`}>
+                        {item.gap > 0 ? `${item.gap}` : `+${Math.abs(item.gap)}`}
+                      </span>
+                    </div>
+                    <div className="flex items-center justify-between text-xs">
+                      <span className="text-cyan-400/50">{item.owner}</span>
+                      <div className="flex items-center gap-2">
                         <span className="text-cyan-400/70">{item.rate.toFixed(1)}%</span>
+                        <div className="w-12 h-1.5 rounded-full bg-slate-700 overflow-hidden">
+                          <div
+                            className={`h-full ${
+                              item.rate >= 100 ? 'bg-green-500' : item.rate >= 80 ? 'bg-yellow-500' : 'bg-red-500'
+                            }`}
+                            style={{ width: `${Math.min(item.rate, 100)}%` }}
+                          />
+                        </div>
                       </div>
                     </div>
                   </div>
