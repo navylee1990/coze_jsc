@@ -1309,13 +1309,32 @@ export default function FutureSupportAdequacyPanel({
       <div
         className={cn(
           'px-6 py-3 border-b flex items-center justify-between',
-          theme === 'dark' ? 'border-slate-700 bg-slate-900/50' : 'border-slate-200 bg-white'
+          theme === 'dashboard'
+            ? 'border-cyan-500/30 bg-slate-900/60'
+            : theme === 'dark'
+            ? 'border-slate-700 bg-slate-900/50'
+            : 'border-slate-200 bg-white'
         )}
       >
         <div className="flex items-center gap-3">
-          <Activity className="w-5 h-5 text-green-600" />
-          <h3 className="font-bold text-lg text-slate-900">未来支撑够不够？</h3>
-          <span className="text-xs px-2 py-0.5 rounded-full bg-green-500/20 text-green-700">未来90天</span>
+          <Activity className={cn(
+            'w-5 h-5',
+            theme === 'dashboard'
+              ? 'text-cyan-400 drop-shadow-[0_0_8px_rgba(6,182,212,0.8)]'
+              : 'text-green-600'
+          )} />
+          <h3 className={cn(
+            'font-bold text-lg',
+            theme === 'dashboard'
+              ? 'text-cyan-300 drop-shadow-[0_0_10px_rgba(6,182,212,0.6)]'
+              : 'text-slate-900'
+          )}>关键支撑</h3>
+          <span className={cn(
+            'text-xs px-2 py-0.5 rounded-full',
+            theme === 'dashboard'
+              ? 'bg-cyan-500/20 text-cyan-300 border border-cyan-500/30'
+              : 'bg-green-500/20 text-green-700'
+          )}>未来90天</span>
         </div>
         <div className="flex items-center gap-4">
           {/* 区域选择器 */}
