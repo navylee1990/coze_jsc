@@ -15,19 +15,37 @@ import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, Legend, Responsi
 const PAGE_TITLE = '商用总经理驾驶舱';
 
 // 主题类型
-type Theme = 'dark' | 'light';
+type Theme = 'dark' | 'light' | 'dashboard';
 
-// 主题颜色映射 - 解决浅色模式对比度问题
-const getThemeColors = (theme: Theme) => ({
-  bg: theme === 'dark' ? 'bg-slate-950' : 'bg-slate-50',
-  text: theme === 'dark' ? 'text-white' : 'text-slate-900',
-  textMuted: theme === 'dark' ? 'text-slate-600' : 'text-slate-600',
-  textSecondary: theme === 'dark' ? 'text-slate-700' : 'text-slate-700',
-  cardBg: theme === 'dark' ? 'bg-slate-900/50' : 'bg-white',
-  cardBorder: theme === 'dark' ? 'border-slate-800' : 'border-slate-200',
-  subCardBg: theme === 'dark' ? 'bg-slate-800/50' : 'bg-slate-50',
-  subCardBorder: theme === 'dark' ? 'border-slate-700' : 'border-slate-200',
-});
+// 主题颜色映射 - 驾驶舱风格
+const getThemeColors = (theme: Theme) => {
+  if (theme === 'dashboard') {
+    return {
+      bg: 'bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950',
+      text: 'text-cyan-50',
+      textMuted: 'text-cyan-300/70',
+      textSecondary: 'text-cyan-200',
+      cardBg: 'bg-slate-900/60 backdrop-blur-sm',
+      cardBorder: 'border-cyan-500/30',
+      subCardBg: 'bg-slate-800/40 backdrop-blur-sm',
+      subCardBorder: 'border-cyan-400/20',
+      glow: 'shadow-[0_0_30px_rgba(6,182,212,0.3)]',
+      neon: 'text-cyan-400 drop-shadow-[0_0_8px_rgba(6,182,212,0.8)]',
+    };
+  }
+  return {
+    bg: theme === 'dark' ? 'bg-slate-950' : 'bg-slate-50',
+    text: theme === 'dark' ? 'text-white' : 'text-slate-900',
+    textMuted: theme === 'dark' ? 'text-slate-600' : 'text-slate-600',
+    textSecondary: theme === 'dark' ? 'text-slate-700' : 'text-slate-700',
+    cardBg: theme === 'dark' ? 'bg-slate-900/50' : 'bg-white',
+    cardBorder: theme === 'dark' ? 'border-slate-800' : 'border-slate-200',
+    subCardBg: theme === 'dark' ? 'bg-slate-800/50' : 'bg-slate-50',
+    subCardBorder: theme === 'dark' ? 'border-slate-700' : 'border-slate-200',
+    glow: '',
+    neon: '',
+  };
+};
 
 // 核心预测总览数据
 const forecastOverviewData = {
@@ -218,20 +236,24 @@ const monthlyTrendData = {
 };
 
 export default function GMDashboard() {
-  const [theme, setTheme] = useState<Theme>('light');
+  const [theme, setTheme] = useState<Theme>('dashboard');
   const [selectedTimeRange, setSelectedTimeRange] = useState<'current' | 'threeMonth' | 'sixMonth'>('current');
   const [timeRange, setTimeRange] = useState('month');
   const [selectedMonth, setSelectedMonth] = useState('1');
   const [selectedQuarter, setSelectedQuarter] = useState('Q1');
   const [trendRegion, setTrendRegion] = useState('all');
 
-  // 主题颜色类 - 解决浅色模式对比度问题
-  const textMuted = theme === 'dark' ? 'text-slate-600' : 'text-slate-600';
-  const textSecondary = theme === 'dark' ? 'text-slate-700' : 'text-slate-700';
-  const cardBg = theme === 'dark' ? 'bg-slate-900/50' : 'bg-white';
-  const cardBorder = theme === 'dark' ? 'border-slate-800' : 'border-slate-200';
-  const subCardBg = theme === 'dark' ? 'bg-slate-800/50' : 'bg-slate-50';
-  const subCardBorder = theme === 'dark' ? 'border-slate-700' : 'border-slate-200';
+  // 获取主题颜色
+  const themeColors = getThemeColors(theme);
+  const { bg, text, textMuted, textSecondary, cardBg, cardBorder, subCardBg, subCardBorder, glow, neon } = themeColors;
+
+  // 主题颜色类 - 兼容旧代码
+  const textMutedClass = theme === 'dark' ? 'text-slate-600' : 'text-slate-600';
+  const textSecondaryClass = theme === 'dark' ? 'text-slate-700' : 'text-slate-700';
+  const cardBgClass = theme === 'dark' ? 'bg-slate-900/50' : 'bg-white';
+  const cardBorderClass = theme === 'dark' ? 'border-slate-800' : 'border-slate-200';
+  const subCardBgClass = theme === 'dark' ? 'bg-slate-800/50' : 'bg-slate-50';
+  const subCardBorderClass = theme === 'dark' ? 'border-slate-700' : 'border-slate-200';
 
   // 获取当前时间范围的数据
   const getTimeRangeData = () => {
@@ -271,27 +293,34 @@ export default function GMDashboard() {
 
   // 切换主题
   const toggleTheme = () => {
-    setTheme(prev => prev === 'dark' ? 'light' : 'dark');
+    setTheme(prev => {
+      if (prev === 'light') return 'dark';
+      if (prev === 'dark') return 'dashboard';
+      return 'light';
+    });
   };
 
   return (
-    <div className={`${theme === 'dark' ? 'bg-slate-950 text-white' : 'bg-slate-50 text-gray-900'} min-h-screen`}>
+    <div className={`${bg} ${text} min-h-screen`}>
       {/* 顶部导航栏 */}
-      <header className={`${theme === 'dark' ? 'bg-slate-900/50 border-slate-800' : 'bg-white border-slate-200'} border-b backdrop-blur-sm sticky top-0 z-50`}>
+      <header className={`${cardBg} ${cardBorder} border-b backdrop-blur-sm sticky top-0 z-50 ${glow}`}>
         <div className="max-w-[1920px] mx-auto px-6 py-4">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-4">
-              <Link href="/" className={`${theme === 'dark' ? 'text-slate-600 hover:text-white' : 'text-slate-600 hover:text-slate-900'}`}>
+              <Link href="/" className={`${textMuted} hover:text-white transition-colors`}>
                 <ChevronLeft className="w-5 h-5" />
               </Link>
               <div>
-                <h1 className="text-2xl font-bold">{PAGE_TITLE}</h1>
+                <h1 className={`text-2xl font-bold ${theme === 'dashboard' ? neon : ''}`}>{PAGE_TITLE}</h1>
                 <p className={`text-sm ${textSecondary}`}>预测驱动 · 数据赋能 · 精准决策</p>
               </div>
             </div>
 
             <div className="flex items-center gap-4">
-              <Badge variant={getGap() < 0 ? 'default' : 'destructive'} className="text-sm px-4 py-1.5">
+              <Badge
+                variant={getGap() < 0 ? 'default' : 'destructive'}
+                className={`text-sm px-4 py-1.5 ${theme === 'dashboard' ? 'bg-cyan-500/20 border-cyan-500/50 text-cyan-300' : ''}`}
+              >
                 {getGap() < 0 ? (
                   <>
                     <TrendingUp className="w-4 h-4 mr-1" />
@@ -305,11 +334,25 @@ export default function GMDashboard() {
                 )}
               </Badge>
 
-              <Button variant="outline" size="icon" onClick={toggleTheme}>
-                {theme === 'dark' ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
+              <Button
+                variant="outline"
+                size="icon"
+                onClick={toggleTheme}
+                className={`${theme === 'dashboard' ? 'border-cyan-500/50 text-cyan-400 hover:bg-cyan-500/20' : ''}`}
+              >
+                {theme === 'dashboard' ? (
+                  <Activity className="w-4 h-4" />
+                ) : theme === 'dark' ? (
+                  <Sun className="w-4 h-4" />
+                ) : (
+                  <Moon className="w-4 h-4" />
+                )}
               </Button>
 
-              <Badge variant="outline" className="text-sm">
+              <Badge
+                variant="outline"
+                className={`text-sm ${theme === 'dashboard' ? 'bg-cyan-500/20 border-cyan-500/50 text-cyan-300' : ''}`}
+              >
                 张晖
               </Badge>
             </div>
@@ -317,10 +360,365 @@ export default function GMDashboard() {
         </div>
       </header>
 
-      {/* 主要内容区 */}
+      {/* 主要内容区 - 仪表盘布局 */}
       <main className="max-w-[1920px] mx-auto p-6">
+        {theme === 'dashboard' ? (
+          /* 驾驶舱风格布局 */
+          <div className="grid grid-cols-12 gap-4">
+            {/* 左侧仪表区 */}
+            <div className="col-span-3 space-y-4">
+              {/* 时间范围选择器 - 仪表盘风格 */}
+              <div className={`${cardBg} ${cardBorder} rounded-xl p-4 ${glow}`}>
+                <h3 className={`text-sm font-semibold mb-3 ${neon}`}>时间范围</h3>
+                <div className="flex flex-col gap-2">
+                  <button
+                    onClick={() => setTimeRange('month')}
+                    className={`px-4 py-2 rounded-lg text-sm font-medium transition-all ${
+                      timeRange === 'month'
+                        ? 'bg-cyan-500/30 border-cyan-500/50 text-cyan-300 shadow-[0_0_15px_rgba(6,182,212,0.4)]'
+                        : 'bg-slate-800/50 border-cyan-400/20 text-cyan-400/70 hover:bg-cyan-500/20'
+                    } border`}
+                  >
+                    月度
+                  </button>
+                  <button
+                    onClick={() => setTimeRange('quarter')}
+                    className={`px-4 py-2 rounded-lg text-sm font-medium transition-all ${
+                      timeRange === 'quarter'
+                        ? 'bg-cyan-500/30 border-cyan-500/50 text-cyan-300 shadow-[0_0_15px_rgba(6,182,212,0.4)]'
+                        : 'bg-slate-800/50 border-cyan-400/20 text-cyan-400/70 hover:bg-cyan-500/20'
+                    } border`}
+                  >
+                    季度
+                  </button>
+                  <button
+                    onClick={() => setTimeRange('year')}
+                    className={`px-4 py-2 rounded-lg text-sm font-medium transition-all ${
+                      timeRange === 'year'
+                        ? 'bg-cyan-500/30 border-cyan-500/50 text-cyan-300 shadow-[0_0_15px_rgba(6,182,212,0.4)]'
+                        : 'bg-slate-800/50 border-cyan-400/20 text-cyan-400/70 hover:bg-cyan-500/20'
+                    } border`}
+                  >
+                    年度
+                  </button>
+                </div>
+              </div>
+
+              {/* 风险预警 - 警告灯风格 */}
+              <div className={`${cardBg} ${cardBorder} rounded-xl p-4 ${glow}`}>
+                <h3 className={`text-sm font-semibold mb-3 flex items-center gap-2 ${neon}`}>
+                  <AlertTriangle className="w-4 h-4 text-red-400" />
+                  风险预警
+                </h3>
+                <div className="space-y-3">
+                  <div className="flex items-center justify-between p-2 rounded-lg bg-red-500/10 border border-red-500/30">
+                    <span className="text-xs text-red-300">高风险项目</span>
+                    <span className="text-lg font-bold text-red-400 drop-shadow-[0_0_8px_rgba(248,113,113,0.8)]">
+                      2
+                    </span>
+                  </div>
+                  <div className="flex items-center justify-between p-2 rounded-lg bg-orange-500/10 border border-orange-500/30">
+                    <span className="text-xs text-orange-300">风险人员</span>
+                    <span className="text-lg font-bold text-orange-400 drop-shadow-[0_0_8px_rgba(251,146,60,0.8)]">
+                      2
+                    </span>
+                  </div>
+                  <div className="flex items-center justify-between p-2 rounded-lg bg-yellow-500/10 border border-yellow-500/30">
+                    <span className="text-xs text-yellow-300">关注事项</span>
+                    <span className="text-lg font-bold text-yellow-400 drop-shadow-[0_0_8px_rgba(250,204,21,0.8)]">
+                      5
+                    </span>
+                  </div>
+                </div>
+              </div>
+
+              {/* 核心指标速览 */}
+              <div className={`${cardBg} ${cardBorder} rounded-xl p-4 ${glow}`}>
+                <h3 className={`text-sm font-semibold mb-3 ${neon}`}>核心指标</h3>
+                <div className="space-y-3">
+                  <div className="flex items-center justify-between">
+                    <span className="text-xs text-cyan-400/70">目标</span>
+                    <span className="text-lg font-bold text-cyan-300">{getTimeRangeData().target.toLocaleString()}万</span>
+                  </div>
+                  <div className="flex items-center justify-between">
+                    <span className="text-xs text-cyan-400/70">预测</span>
+                    <span className="text-lg font-bold text-cyan-300">{getTimeRangeData().forecast.toLocaleString()}万</span>
+                  </div>
+                  <div className="flex items-center justify-between">
+                    <span className="text-xs text-cyan-400/70">已完成</span>
+                    <span className="text-lg font-bold text-cyan-300">{getTimeRangeData().completed.toLocaleString()}万</span>
+                  </div>
+                  <div className="flex items-center justify-between">
+                    <span className="text-xs text-cyan-400/70">达成率</span>
+                    <span className={`text-lg font-bold ${parseFloat(getAchievementRate()) >= 100 ? 'text-green-400' : 'text-red-400'}`}>
+                      {getAchievementRate()}%
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* 中央仪表区 */}
+            <div className="col-span-6 space-y-4">
+              {/* 核心预测决策卡片 - 占据大部分空间 */}
+              <div className={`${cardBg} ${cardBorder} rounded-xl p-6 ${glow}`}>
+                <div className="flex items-center justify-between mb-6">
+                  <h2 className={`text-lg font-bold ${neon} flex items-center gap-2`}>
+                    <Target className="w-5 h-5" />
+                    核心预测决策
+                  </h2>
+                  <div className="flex gap-2">
+                    <button
+                      onClick={() => setSelectedTimeRange('current')}
+                      className={`px-3 py-1.5 rounded-lg text-xs font-medium transition-all ${
+                        selectedTimeRange === 'current'
+                          ? 'bg-cyan-500/30 border-cyan-500/50 text-cyan-300'
+                          : 'bg-slate-800/50 border-cyan-400/20 text-cyan-400/70'
+                      } border`}
+                    >
+                      本月
+                    </button>
+                    <button
+                      onClick={() => setSelectedTimeRange('threeMonth')}
+                      className={`px-3 py-1.5 rounded-lg text-xs font-medium transition-all ${
+                        selectedTimeRange === 'threeMonth'
+                          ? 'bg-cyan-500/30 border-cyan-500/50 text-cyan-300'
+                          : 'bg-slate-800/50 border-cyan-400/20 text-cyan-400/70'
+                      } border`}
+                    >
+                      3个月
+                    </button>
+                    <button
+                      onClick={() => setSelectedTimeRange('sixMonth')}
+                      className={`px-3 py-1.5 rounded-lg text-xs font-medium transition-all ${
+                        selectedTimeRange === 'sixMonth'
+                          ? 'bg-cyan-500/30 border-cyan-500/50 text-cyan-300'
+                          : 'bg-slate-800/50 border-cyan-400/20 text-cyan-400/70'
+                      } border`}
+                    >
+                      6个月
+                    </button>
+                  </div>
+                </div>
+
+                {/* 核心数据展示 */}
+                <div className="grid grid-cols-3 gap-4 mb-6">
+                  <div className="text-center p-4 rounded-xl bg-gradient-to-br from-cyan-500/10 to-blue-500/10 border border-cyan-500/30">
+                    <div className="text-xs text-cyan-400/70 mb-1">目标</div>
+                    <div className="text-2xl font-bold text-cyan-300 drop-shadow-[0_0_10px_rgba(6,182,212,0.8)]">
+                      {getTimeRangeData().target.toLocaleString()}
+                    </div>
+                    <div className="text-xs text-cyan-400/50 mt-1">万元</div>
+                  </div>
+                  <div className="text-center p-4 rounded-xl bg-gradient-to-br from-green-500/10 to-emerald-500/10 border border-green-500/30">
+                    <div className="text-xs text-green-400/70 mb-1">预测完成</div>
+                    <div className="text-2xl font-bold text-green-300 drop-shadow-[0_0_10px_rgba(34,197,94,0.8)]">
+                      {getTimeRangeData().forecast.toLocaleString()}
+                    </div>
+                    <div className="text-xs text-green-400/50 mt-1">万元</div>
+                  </div>
+                  <div className={`text-center p-4 rounded-xl bg-gradient-to-br ${getGap() >= 0 ? 'from-red-500/10 to-orange-500/10 border-red-500/30' : 'from-green-500/10 to-emerald-500/10 border-green-500/30'} border`}>
+                    <div className={`text-xs ${getGap() >= 0 ? 'text-red-400/70' : 'text-green-400/70'} mb-1`}>缺口</div>
+                    <div className={`text-2xl font-bold ${getGap() >= 0 ? 'text-red-300 drop-shadow-[0_0_10px_rgba(248,113,113,0.8)]' : 'text-green-300 drop-shadow-[0_0_10px_rgba(34,197,94,0.8)]'}`}>
+                      {getGap() >= 0 ? getGap().toFixed(0) : `+${Math.abs(getGap()).toFixed(0)}`}
+                    </div>
+                    <div className={`text-xs ${getGap() >= 0 ? 'text-red-400/50' : 'text-green-400/50'} mt-1`}>万元</div>
+                  </div>
+                </div>
+
+                {/* 趋势图表 */}
+                <div className="bg-slate-800/30 rounded-xl p-4 border border-cyan-400/10">
+                  <div style={{ height: '200px' }}>
+                    <ResponsiveContainer width="100%" height="100%">
+                      <AreaChart data={forecastTrendData}>
+                        <defs>
+                          <linearGradient id="colorForecast" x1="0" y1="0" x2="0" y2="1">
+                            <stop offset="5%" stopColor="#22d3ee" stopOpacity={0.3}/>
+                            <stop offset="95%" stopColor="#22d3ee" stopOpacity={0}/>
+                          </linearGradient>
+                          <linearGradient id="colorTarget" x1="0" y1="0" x2="0" y2="1">
+                            <stop offset="5%" stopColor="#3b82f6" stopOpacity={0.3}/>
+                            <stop offset="95%" stopColor="#3b82f6" stopOpacity={0}/>
+                          </linearGradient>
+                        </defs>
+                        <CartesianGrid strokeDasharray="3 3" stroke="rgba(6,182,212,0.1)" vertical={false} />
+                        <XAxis
+                          dataKey="month"
+                          axisLine={false}
+                          tickLine={false}
+                          tick={{ fill: 'rgba(6,182,212,0.7)', fontSize: 11 }}
+                        />
+                        <YAxis
+                          axisLine={false}
+                          tickLine={false}
+                          tick={{ fill: 'rgba(6,182,212,0.7)', fontSize: 11 }}
+                          tickFormatter={(value) => `${value}万`}
+                        />
+                        <Tooltip
+                          contentStyle={{
+                            backgroundColor: 'rgba(15,23,42,0.9)',
+                            border: '1px solid rgba(6,182,212,0.3)',
+                            borderRadius: '8px',
+                            boxShadow: '0 0 20px rgba(6,182,212,0.2)',
+                          }}
+                          formatter={(value: number, name: string) => [`${value}万`, name]}
+                          labelStyle={{ color: '#22d3ee', fontWeight: 'bold' }}
+                        />
+                        <Area
+                          type="monotone"
+                          dataKey="target"
+                          stroke="#3b82f6"
+                          strokeWidth={2}
+                          fill="url(#colorTarget)"
+                          name="目标"
+                        />
+                        <Area
+                          type="monotone"
+                          dataKey="forecast"
+                          stroke="#22d3ee"
+                          strokeWidth={2.5}
+                          fill="url(#colorForecast)"
+                          name="预测"
+                        />
+                      </AreaChart>
+                    </ResponsiveContainer>
+                  </div>
+                </div>
+              </div>
+
+              {/* 未来支撑充分性面板 */}
+              <FutureSupportAdequacyPanel theme={theme} />
+            </div>
+
+            {/* 右侧仪表区 */}
+            <div className="col-span-3 space-y-4">
+              {/* 区域达成情况 */}
+              <div className={`${cardBg} ${cardBorder} rounded-xl p-4 ${glow}`}>
+                <h3 className={`text-sm font-semibold mb-3 ${neon} flex items-center gap-2`}>
+                  <Activity className="w-4 h-4" />
+                  区域达成
+                  <span className="text-xs font-normal text-cyan-400/70">
+                    ({timeRange === 'month' ? `${selectedMonth}月` : timeRange === 'quarter' ? selectedQuarter : '2026年'})
+                  </span>
+                </h3>
+
+                {/* 合计 */}
+                <div className="mb-3 p-2 rounded-lg bg-cyan-500/10 border border-cyan-500/20">
+                  <div className="grid grid-cols-2 gap-2 text-xs">
+                    <div>
+                      <span className="text-cyan-400/70">目标：</span>
+                      <span className="text-cyan-300 font-semibold ml-1">{totalTarget.toLocaleString()}万</span>
+                    </div>
+                    <div>
+                      <span className="text-cyan-400/70">预测：</span>
+                      <span className="text-cyan-300 font-semibold ml-1">{totalPredicted.toLocaleString()}万</span>
+                    </div>
+                  </div>
+                </div>
+
+                {/* 区域列表 */}
+                <div className="space-y-2 max-h-80 overflow-y-auto pr-2">
+                  {currentData.map((item: any, index: number) => (
+                    <div
+                      key={index}
+                      className="p-2 rounded-lg bg-slate-800/30 border border-slate-700/30 hover:border-cyan-500/50 transition-all cursor-pointer"
+                    >
+                      <div className="flex items-center justify-between mb-1">
+                        <span className="text-sm font-medium text-cyan-200">{item.name}</span>
+                        <span className={`text-xs font-semibold ${item.gap > 0 ? 'text-red-400' : 'text-green-400'}`}>
+                          {item.gap > 0 ? `${item.gap}` : `+${Math.abs(item.gap)}`}
+                        </span>
+                      </div>
+                      <div className="flex items-center justify-between text-xs">
+                        <span className="text-cyan-400/50">{item.owner}</span>
+                        <div className="flex items-center gap-2">
+                          <span className="text-cyan-400/70">{item.rate.toFixed(1)}%</span>
+                          <div className="w-12 h-1.5 rounded-full bg-slate-700 overflow-hidden">
+                            <div
+                              className={`h-full ${
+                                item.rate >= 100 ? 'bg-green-500' : item.rate >= 80 ? 'bg-yellow-500' : 'bg-red-500'
+                              }`}
+                              style={{ width: `${Math.min(item.rate, 100)}%` }}
+                            />
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              {/* 月度趋势 */}
+              <div className={`${cardBg} ${cardBorder} rounded-xl p-4 ${glow}`}>
+                <h3 className={`text-sm font-semibold mb-3 ${neon} flex items-center gap-2`}>
+                  <BarChart3 className="w-4 h-4" />
+                  月度趋势
+                </h3>
+                <div className="mb-2">
+                  <select
+                    value={trendRegion}
+                    onChange={(e) => setTrendRegion(e.target.value)}
+                    className="w-full px-2 py-1 text-xs border border-cyan-500/30 rounded-md bg-slate-800/50 text-cyan-300 focus:outline-none focus:ring-1 focus:ring-cyan-500/50"
+                  >
+                    <option value="all">全部地区</option>
+                    <option value="一区">一区</option>
+                    <option value="二区">二区</option>
+                    <option value="五区">五区</option>
+                    <option value="华中">华中</option>
+                    <option value="华北">华北</option>
+                    <option value="西南">西南</option>
+                    <option value="华南">华南</option>
+                  </select>
+                </div>
+                <div className="bg-slate-800/30 rounded-lg p-2 border border-cyan-400/10">
+                  <div style={{ height: '200px' }}>
+                    <ResponsiveContainer width="100%" height="100%">
+                      <AreaChart data={monthlyTrendData[trendRegion as keyof typeof monthlyTrendData] || monthlyTrendData.all}>
+                        <defs>
+                          <linearGradient id="colorPred2" x1="0" y1="0" x2="0" y2="1">
+                            <stop offset="5%" stopColor="#22d3ee" stopOpacity={0.3}/>
+                            <stop offset="95%" stopColor="#22d3ee" stopOpacity={0}/>
+                          </linearGradient>
+                        </defs>
+                        <CartesianGrid strokeDasharray="3 3" stroke="rgba(6,182,212,0.1)" vertical={false} />
+                        <XAxis
+                          dataKey="month"
+                          axisLine={false}
+                          tickLine={false}
+                          tick={{ fill: 'rgba(6,182,212,0.7)', fontSize: 9 }}
+                        />
+                        <YAxis
+                          axisLine={false}
+                          tickLine={false}
+                          tick={{ fill: 'rgba(6,182,212,0.7)', fontSize: 9 }}
+                          tickFormatter={(value) => `${value}`}
+                        />
+                        <Tooltip
+                          contentStyle={{
+                            backgroundColor: 'rgba(15,23,42,0.9)',
+                            border: '1px solid rgba(6,182,212,0.3)',
+                            borderRadius: '8px',
+                          }}
+                          formatter={(value: number) => [`${value}万`, '预测']}
+                        />
+                        <Area
+                          type="monotone"
+                          dataKey="predicted"
+                          stroke="#22d3ee"
+                          strokeWidth={2}
+                          fill="url(#colorPred2)"
+                        />
+                      </AreaChart>
+                    </ResponsiveContainer>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        ) : (
+          /* 传统布局（light/dark模式）*/
           <div className="space-y-6">
-            {/* 核心预测决策卡片 - 新设计 */}
+            {/* 核心预测决策卡片 */}
             <PredictionDecisionCard
               theme={theme}
               data={{
@@ -340,7 +738,7 @@ export default function GMDashboard() {
               }}
             />
 
-            {/* 未来支撑充分性面板 - Future Support Adequacy Panel */}
+            {/* 未来支撑充分性面板 */}
             <FutureSupportAdequacyPanel theme={theme} />
 
             {/* 时间范围选择器 */}
@@ -358,7 +756,7 @@ export default function GMDashboard() {
             </div>
 
             {/* 区域达成情况 */}
-            <Card className={`${cardBg} ${cardBorder}`}>
+            <Card className={`${cardBgClass} ${cardBorderClass}`}>
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
                   <Activity className="w-5 h-5 text-green-600" />
@@ -456,7 +854,7 @@ export default function GMDashboard() {
             </Card>
 
             {/* 月度趋势分析 */}
-            <Card className={`${cardBg} ${cardBorder}`}>
+            <Card className={`${cardBgClass} ${cardBorderClass}`}>
               <CardHeader>
                 <div className="flex items-center justify-between">
                   <CardTitle className="flex items-center gap-2">
@@ -578,7 +976,7 @@ export default function GMDashboard() {
             </Card>
 
             {/* 风险预警面板 */}
-            <Card className={`${theme === 'dark' ? 'bg-slate-900/50 border-slate-800' : 'bg-white border-slate-200'}`}>
+            <Card className={`${cardBgClass} ${cardBorderClass}`}>
                 <CardHeader>
                   <CardTitle className="flex items-center gap-2">
                     <AlertTriangle className="w-5 h-5 text-red-500" />
@@ -644,6 +1042,7 @@ export default function GMDashboard() {
                 </CardContent>
               </Card>
           </div>
+        )}
       </main>
     </div>
   );

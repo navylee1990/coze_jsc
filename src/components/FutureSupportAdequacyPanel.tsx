@@ -6,7 +6,7 @@ import { cn } from '@/lib/utils';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, ResponsiveContainer, Tooltip as RechartsTooltip } from 'recharts';
 
 // 主题类型
-type Theme = 'dark' | 'light';
+type Theme = 'dark' | 'light' | 'dashboard';
 
 // 区域类型
 type Region = 'national' | 'north' | 'east' | 'south' | 'southwest' | 'northwest';
