@@ -8,6 +8,7 @@ import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
+import PredictionDecisionCard from '@/components/PredictionDecisionCard';
 import { Separator } from '@/components/ui/separator';
 import Link from 'next/link';
 import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, LineChart, Line, RadarChart, PolarGrid, PolarAngleAxis, PolarRadiusAxis, Radar, Cell } from 'recharts';
@@ -355,165 +356,32 @@ export default function GMDashboard() {
       <main className="max-w-[1920px] mx-auto p-6">
         {selectedView === 'overview' && (
           <div className="space-y-6">
-            {/* 紧凑版核心预测总览卡片 - 新设计 */}
-            <div className="w-full">
-              <div className={`${theme === 'dark' ? 'bg-slate-900/80 border-slate-700' : 'bg-white border-slate-200'} border-2 rounded-xl p-5 hover:shadow-xl transition-all duration-300 cursor-pointer group`}>
-                {/* 顶部：标题和时间切换 */}
-                <div className="flex items-center justify-between mb-4">
-                  <div className="flex items-center gap-2">
-                    <Target className="w-5 h-5 text-blue-600" />
-                    <h3 className="font-bold text-lg">核心预测总览</h3>
-                  </div>
-                  <div className="flex items-center gap-1">
-                    <Button
-                      variant={selectedTimeRange === 'current' ? 'default' : 'ghost'}
-                      size="sm"
-                      className={`h-7 px-3 text-xs ${selectedTimeRange === 'current' ? 'bg-blue-600' : ''}`}
-                      onClick={(e) => { e.stopPropagation(); setSelectedTimeRange('current'); }}
-                    >
-                      本月
-                    </Button>
-                    <Button
-                      variant={selectedTimeRange === 'threeMonth' ? 'default' : 'ghost'}
-                      size="sm"
-                      className={`h-7 px-3 text-xs ${selectedTimeRange === 'threeMonth' ? 'bg-blue-600' : ''}`}
-                      onClick={(e) => { e.stopPropagation(); setSelectedTimeRange('threeMonth'); }}
-                    >
-                      1-3月
-                    </Button>
-                  </div>
-                </div>
-
-                {/* 主要内容：三区布局 */}
-                <div className="grid grid-cols-12 gap-4 mb-3">
-                  {/* 左侧：迷你趋势图 */}
-                  <div className="col-span-3">
-                    <div className="h-24">
-                      <ResponsiveContainer width="100%" height="100%">
-                        <LineChart data={forecastTrendData.slice(0, 2)}>
-                          <CartesianGrid strokeDasharray="2 2" stroke={theme === 'dark' ? '#334155' : '#e2e8f0'} />
-                          <XAxis dataKey="month" stroke={theme === 'dark' ? '#94a3b8' : '#64748b'} tick={{ fontSize: 10 }} />
-                          <YAxis stroke={theme === 'dark' ? '#94a3b8' : '#64748b'} tick={{ fontSize: 10 }} />
-                          <Tooltip
-                            contentStyle={{
-                              backgroundColor: theme === 'dark' ? '#1e293b' : '#ffffff',
-                              border: `1px solid ${theme === 'dark' ? '#334155' : '#e2e8f0'}`,
-                              borderRadius: '4px',
-                              fontSize: '11px',
-                              padding: '8px'
-                            }}
-                          />
-                          <Line
-                            type="dashed"
-                            dataKey="target"
-                            stroke="#94a3b8"
-                            strokeWidth={1.5}
-                            name="目标"
-                            dot={false}
-                          />
-                          <Line
-                            type="monotone"
-                            dataKey="forecast"
-                            stroke="#3b82f6"
-                            strokeWidth={2}
-                            name="预测"
-                            dot={{ fill: '#3b82f6', r: 3 }}
-                          />
-                        </LineChart>
-                      </ResponsiveContainer>
-                    </div>
-                    <div className="flex items-center justify-center gap-3 mt-2 text-xs">
-                      <div className="flex items-center gap-1">
-                        <div className="w-2 h-0.5 bg-slate-400 border-dashed border-t"></div>
-                        <span className="text-slate-600">目标</span>
-                      </div>
-                      <div className="flex items-center gap-1">
-                        <div className="w-2 h-0.5 bg-blue-600"></div>
-                        <span className="text-slate-600">预测</span>
-                      </div>
-                    </div>
-                  </div>
-
-                  {/* 中间：预测金额 + 支撑率（重点） */}
-                  <div className="col-span-5 flex flex-col justify-center">
-                    <div className="text-center">
-                      <div className={`text-5xl font-bold ${getTimeRangeData().forecast >= getTimeRangeData().target ? 'text-green-600' : 'text-red-600'} mb-1`}>
-                        {getTimeRangeData().forecast.toLocaleString()}
-                        <span className="text-lg text-slate-600 ml-1">万</span>
-                      </div>
-                      <div className="flex items-center justify-center gap-2 mb-2">
-                        <span className="text-xs text-slate-600">目标支撑率</span>
-                        <Badge variant={getAchievementRate() >= 100 ? 'default' : getAchievementRate() >= 80 ? 'secondary' : 'destructive'} className="text-sm px-2 py-0.5">
-                          {getAchievementRate()}%
-                        </Badge>
-                      </div>
-                      <div className="text-xs text-slate-600">
-                        目标 {getTimeRangeData().target.toLocaleString()}万
-                        {getTimeRangeData().forecast < getTimeRangeData().target && (
-                          <span className="text-red-600 ml-2">缺口 {getGap().toLocaleString()}万</span>
-                        )}
-                      </div>
-                    </div>
-                  </div>
-
-                  {/* 右侧：预测构成瀑布图 */}
-                  <div className="col-span-4 flex flex-col justify-center">
-                    <div className="text-xs text-slate-600 mb-2 font-semibold">预测构成</div>
-                    <div className="space-y-1.5">
-                      {/* 基础预测 */}
-                      <div className="relative h-5">
-                        <div className="flex items-center justify-between text-xs mb-0.5">
-                          <span className="text-slate-600">基础预测</span>
-                          <span className="font-semibold">2,100万</span>
-                        </div>
-                        <Progress value={100} className="h-1.5" />
-                      </div>
-                      {/* SOP健康提升 */}
-                      <div className="relative h-5">
-                        <div className="flex items-center justify-between text-xs mb-0.5">
-                          <span className="text-green-600">SOP提升</span>
-                          <span className="font-semibold text-green-600">+420万</span>
-                        </div>
-                        <Progress value={80} className="h-1.5" indicatorClassName="bg-green-500" />
-                      </div>
-                      {/* 重点项目提升 */}
-                      <div className="relative h-5">
-                        <div className="flex items-center justify-between text-xs mb-0.5">
-                          <span className="text-blue-600">重点项目</span>
-                          <span className="font-semibold text-blue-600">+280万</span>
-                        </div>
-                        <Progress value={60} className="h-1.5" indicatorClassName="bg-blue-500" />
-                      </div>
-                      {/* 停滞项目扣减 */}
-                      <div className="relative h-5">
-                        <div className="flex items-center justify-between text-xs mb-0.5">
-                          <span className="text-red-600">停滞扣减</span>
-                          <span className="font-semibold text-red-600">-135万</span>
-                        </div>
-                        <Progress value={35} className="h-1.5" indicatorClassName="bg-red-500" />
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
-                {/* 底部：风险/亮点提示 */}
-                <div className={`mt-3 pt-3 border-t ${theme === 'dark' ? 'border-slate-700' : 'border-slate-200'}`}>
-                  <div className={`flex items-center gap-2 text-xs ${getGap() < 0 ? 'text-green-600' : 'text-orange-600'}`}>
-                    {getGap() < 0 ? (
-                      <>
-                        <TrendingUp className="w-3.5 h-3.5" />
-                        <span className="font-semibold">亮点：重点项目推进，预测上调 280万</span>
-                      </>
-                    ) : (
-                      <>
-                        <AlertTriangle className="w-3.5 h-3.5" />
-                        <span className="font-semibold">风险：3个项目停滞 &gt;30天，预测下调 65万</span>
-                      </>
-                    )}
-                  </div>
-                </div>
-              </div>
-            </div>
+            {/* 核心预测决策卡片 - 新设计 */}
+            <PredictionDecisionCard
+              theme={theme}
+              data={{
+                target: getTimeRangeData().target,
+                forecast: getTimeRangeData().forecast,
+                completed: getTimeRangeData().completed,
+                achievementRate: parseFloat(getAchievementRate()),
+                gap: getGap()
+              }}
+              onActionClick={(action) => {
+                if (action.link) {
+                  if (action.link === '/gm/projects') {
+                    setSelectedView('projects');
+                  } else if (action.link === '/gm/personnel') {
+                    setSelectedView('personnel');
+                  }
+                }
+              }}
+              onSupportFactorHover={(factor) => {
+                console.log('支撑因子悬停:', factor);
+              }}
+              onRiskFactorHover={(risk) => {
+                console.log('风险因子悬停:', risk);
+              }}
+            />
 
             {/* 完整版核心预测总览 - 可展开查看 */}
             <Card className={`${theme === 'dark' ? 'bg-slate-900/50 border-slate-800' : 'bg-white border-slate-200'}`}>
@@ -548,12 +416,12 @@ export default function GMDashboard() {
                           />
                           <Legend />
                           <Line
-                            type="dashed"
                             dataKey="target"
                             stroke="#94a3b8"
                             strokeWidth={2}
                             name="目标"
                             strokeDasharray="5 5"
+                            dot={false}
                           />
                           <Line
                             type="monotone"
