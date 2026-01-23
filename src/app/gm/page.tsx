@@ -10,6 +10,7 @@ import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import PredictionDecisionCard from '@/components/PredictionDecisionCard';
 import KeySupportPanel from '@/components/KeySupportPanel';
+import FutureSupportAdequacyPanel from '@/components/FutureSupportAdequacyPanel';
 import { Separator } from '@/components/ui/separator';
 import Link from 'next/link';
 import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, LineChart, Line, RadarChart, PolarGrid, PolarAngleAxis, PolarRadiusAxis, Radar, Cell } from 'recharts';
@@ -557,6 +558,9 @@ export default function GMDashboard() {
                 console.log('时间轴悬停:', timeLabel);
               }}
             />
+
+            {/* 未来支撑充分性面板 - Future Support Adequacy Panel */}
+            <FutureSupportAdequacyPanel theme={theme} />
 
             {/* 底部区域：因果链 + 风险面板 */}
             <div className="grid grid-cols-2 gap-6">
