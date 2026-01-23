@@ -87,13 +87,96 @@ const personContribution = [
   { id: 6, name: '赵敏', currentMonth: 220, threeMonth: 650, sopCompliance: 72, projectCount: 3, stagnantCount: 2, performance: 'warning' },
 ];
 
-// 因果链数据
-const causalChainData = [
-  { stage: '项目储备', label: '项目储备', impact: 5200, detail: '73个项目，总金额5200万元' },
-  { stage: 'SOP动作', label: 'SOP动作', impact: 4200, detail: '合规项目占比85%，加权系数0.8' },
-  { stage: '阶段权重', label: '阶段权重', impact: 3500, detail: '根据阶段调整成交率' },
-  { stage: '预测金额', label: '预测金额', impact: 2850, detail: '加权预测完成金额' },
-  { stage: '目标差距', label: '目标差距', impact: -350, detail: '距离目标还有350万缺口' },
+// 因果链数据 - 增强版，体现业务价值
+type CausalChainNode = {
+  stage: string;
+  label: string;
+  inputAmount: number;      // 输入金额（万元）
+  outputAmount: number;     // 输出金额（万元）
+  conversionRate: number;   // 转化率(%)
+  targetRate: number;       // 目标转化率(%)
+  loss: number;             // 损耗金额（万元）
+  optimizationPotential: number; // 可优化空间（万元）
+  isBottleneck: boolean;    // 是否瓶颈
+  actionItems: string[];    // 行动建议
+  history: {               // 历史数据
+    lastMonth: { amount: number; rate: number };
+    lastYear: { amount: number; rate: number };
+  };
+  detail: string;           // 详细说明
+};
+
+const causalChainData: CausalChainNode[] = [
+  {
+    stage: 'project_reserve',
+    label: '项目储备',
+    inputAmount: 8450,
+    outputAmount: 8450,
+    conversionRate: 100,
+    targetRate: 100,
+    loss: 0,
+    optimizationPotential: 0,
+    isBottleneck: false,
+    actionItems: ['持续开拓新项目', '增加项目储备量'],
+    history: { lastMonth: { amount: 8200, rate: 100 }, lastYear: { amount: 7500, rate: 100 } },
+    detail: '73个项目在手，总储备金额8450万元，较上月增长3%'
+  },
+  {
+    stage: 'sop_compliance',
+    label: 'SOP合规',
+    inputAmount: 8450,
+    outputAmount: 6760,
+    conversionRate: 80,
+    targetRate: 90,
+    loss: 1690,
+    optimizationPotential: 845,
+    isBottleneck: true,
+    actionItems: ['加强SOP培训和执行监控', '每周检查SOP完成情况', '对不达标项目进行重点跟进'],
+    history: { lastMonth: { amount: 7380, rate: 75 }, lastYear: { amount: 6375, rate: 85 } },
+    detail: 'SOP合规率80%，距离目标90%还有差距，导致1690万被降权'
+  },
+  {
+    stage: 'stage_weight',
+    label: '阶段权重',
+    inputAmount: 6760,
+    outputAmount: 4732,
+    conversionRate: 70,
+    targetRate: 75,
+    loss: 2028,
+    optimizationPotential: 338,
+    isBottleneck: true,
+    actionItems: ['推动项目快速进入高权重阶段', '缩短方案和初步接触周期', '加强商务谈判支持'],
+    history: { lastMonth: { amount: 4428, rate: 60 }, lastYear: { amount: 4475, rate: 70 } },
+    detail: '平均阶段权重0.7，项目主要集中在低权重阶段，流失2028万'
+  },
+  {
+    stage: 'conversion_rate',
+    label: '成交转化',
+    inputAmount: 4732,
+    outputAmount: 2130,
+    conversionRate: 45,
+    targetRate: 50,
+    loss: 2602,
+    optimizationPotential: 237,
+    isBottleneck: true,
+    actionItems: ['提升销售人员成交技巧', '优化报价策略', '加强竞争对手分析'],
+    history: { lastMonth: { amount: 1845, rate: 40 }, lastYear: { amount: 2010, rate: 45 } },
+    detail: '历史成交率45%，较上月提升5个百分点，仍有提升空间'
+  },
+  {
+    stage: 'forecast_vs_target',
+    label: '预测达标',
+    inputAmount: 2130,
+    outputAmount: 2130,
+    conversionRate: 142,
+    targetRate: 100,
+    loss: 0,
+    optimizationPotential: 0,
+    isBottleneck: false,
+    actionItems: ['继续保持当前策略', '确保预测准确度'],
+    history: { lastMonth: { amount: 1845, rate: 123 }, lastYear: { amount: 1590, rate: 106 } },
+    detail: '预测完成2130万，目标1500万，超额完成42%'
+  }
 ];
 
 // 风险面板数据
@@ -537,39 +620,230 @@ export default function GMDashboard() {
 
             {/* 底部区域：因果链 + 风险面板 */}
             <div className="grid grid-cols-2 gap-6">
-              {/* 因果链展示 */}
+              {/* 因果链展示 - 增强版 */}
               <Card className={`${theme === 'dark' ? 'bg-slate-900/50 border-slate-800' : 'bg-white border-slate-200'}`}>
                 <CardHeader>
-                  <CardTitle className="flex items-center gap-2">
-                    <ArrowRight className="w-5 h-5 text-orange-500" />
-                    预测因果链
+                  <CardTitle className="flex items-center justify-between">
+                    <span className="flex items-center gap-2">
+                      <ArrowRight className="w-5 h-5 text-orange-500" />
+                      预测因果链分析
+                    </span>
+                    <Badge variant="outline" className="text-xs bg-orange-500/10 text-orange-600 border-orange-500/30">
+                      共3个瓶颈环节
+                    </Badge>
                   </CardTitle>
                 </CardHeader>
                 <CardContent>
-                  <div className="flex items-center justify-between gap-2">
+                  <div className="space-y-3">
                     {causalChainData.map((node, index) => (
-                      <div key={node.stage} className="flex-1">
+                      <div key={node.stage} className="flex items-center gap-3">
+                        {/* 节点卡片 */}
                         <div
-                          className={`${theme === 'dark' ? 'bg-slate-800 hover:bg-slate-700' : 'bg-slate-100 hover:bg-slate-200'} border ${node.impact < 0 ? 'border-red-500/50' : 'border-slate-300'} rounded-lg p-3 cursor-pointer transition-all hover:shadow-lg`}
+                          className={`flex-1 ${theme === 'dark' ? 'bg-slate-800/50 hover:bg-slate-800' : 'bg-slate-50 hover:bg-slate-100'} ${node.isBottleneck ? 'ring-2 ring-red-500/50' : ''} border ${node.isBottleneck ? 'border-red-500/30' : 'border-slate-300'} rounded-lg p-3 cursor-pointer transition-all hover:shadow-md`}
                           onClick={() => setSelectedNode(node)}
                         >
-                          <div className="text-xs text-slate-500 mb-1">{node.label}</div>
-                          <div className={`text-lg font-bold ${node.impact < 0 ? 'text-red-500' : 'text-blue-600'}`}>
-                            {node.impact > 0 ? '+' : ''}{node.impact}万
+                          {/* 标题和瓶颈标识 */}
+                          <div className="flex items-center justify-between mb-2">
+                            <div className="flex items-center gap-2">
+                              <span className="text-sm font-semibold">{node.label}</span>
+                              {node.isBottleneck && (
+                                <Badge variant="destructive" className="text-xs px-1.5 py-0.5">
+                                  <AlertTriangle className="w-3 h-3 mr-0.5" />
+                                  瓶颈
+                                </Badge>
+                              )}
+                            </div>
+                            {index < causalChainData.length - 1 && (
+                              <ArrowRight className={`w-4 h-4 text-slate-400`} />
+                            )}
+                          </div>
+
+                          {/* 核心指标 */}
+                          <div className="grid grid-cols-2 gap-2 mb-2">
+                            <div>
+                              <div className="text-xs text-slate-500">输出金额</div>
+                              <div className={`text-base font-bold ${node.outputAmount > 0 ? 'text-blue-600' : 'text-slate-600'}`}>
+                                {node.outputAmount.toLocaleString()}万
+                              </div>
+                            </div>
+                            <div>
+                              <div className="text-xs text-slate-500">转化率</div>
+                              <div className={`text-base font-bold ${node.conversionRate < node.targetRate ? 'text-red-500' : 'text-green-600'}`}>
+                                {node.conversionRate}%
+                                {node.targetRate > 0 && <span className="text-xs text-slate-500"> / 目标{node.targetRate}%</span>}
+                              </div>
+                            </div>
+                          </div>
+
+                          {/* 损耗和优化空间 */}
+                          {node.loss > 0 && (
+                            <div className="grid grid-cols-2 gap-2">
+                              <div className="text-xs">
+                                <span className="text-slate-500">损耗: </span>
+                                <span className="text-red-500 font-semibold">{node.loss}万</span>
+                              </div>
+                              {node.optimizationPotential > 0 && (
+                                <div className="text-xs">
+                                  <span className="text-slate-500">可优化: </span>
+                                  <span className="text-green-600 font-semibold">+{node.optimizationPotential}万</span>
+                                </div>
+                              )}
+                            </div>
+                          )}
+
+                          {/* 转化率进度条 */}
+                          <div className="mt-2">
+                            <Progress
+                              value={node.conversionRate}
+                              className="h-1.5"
+                            />
                           </div>
                         </div>
-                        {index < causalChainData.length - 1 && (
-                          <ArrowRight className={`w-5 h-5 text-slate-400 mx-auto mt-2`} />
-                        )}
                       </div>
                     ))}
                   </div>
 
-                  {selectedNode && (
-                    <div className={`mt-4 p-3 rounded-lg ${theme === 'dark' ? 'bg-blue-600/20' : 'bg-blue-50'}`}>
-                      <div className="text-sm font-semibold mb-1">{selectedNode.label}</div>
-                      <div className="text-xs text-slate-500">{selectedNode.detail}</div>
+                  {/* 总体分析 */}
+                  <div className={`mt-4 p-3 rounded-lg ${theme === 'dark' ? 'bg-orange-600/10 border-orange-500/30' : 'bg-orange-50 border-orange-200'} border`}>
+                    <div className="text-sm font-semibold mb-2 flex items-center gap-2">
+                      <Zap className="w-4 h-4 text-orange-500" />
+                      关键洞察
                     </div>
+                    <div className="space-y-1 text-xs">
+                      <div className="flex items-center gap-2">
+                        <span className="text-slate-600">•</span>
+                        <span>
+                          <span className="font-semibold">SOP合规环节</span>是最大瓶颈，转化率80%距离目标90%，可优化空间845万
+                        </span>
+                      </div>
+                      <div className="flex items-center gap-2">
+                        <span className="text-slate-600">•</span>
+                        <span>
+                          <span className="font-semibold">阶段权重</span>和<span className="font-semibold">成交转化</span>也需改善，合计损失4630万
+                        </span>
+                      </div>
+                      <div className="flex items-center gap-2">
+                        <span className="text-slate-600">•</span>
+                        <span>
+                          总计<span className="text-orange-600 font-semibold">可优化空间1420万</span>，建议优先改善SOP合规率
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* 选中节点详情 */}
+                  {selectedNode && (
+                    <Dialog open={!!selectedNode} onOpenChange={() => setSelectedNode(null)}>
+                      <DialogContent className={`${theme === 'dark' ? 'bg-slate-900 border-slate-800' : 'bg-white border-slate-200'} max-w-2xl`}>
+                        <DialogHeader>
+                          <DialogTitle className="flex items-center gap-2">
+                            {selectedNode.isBottleneck && (
+                              <Badge variant="destructive" className="text-xs">
+                                <AlertTriangle className="w-3 h-3 mr-0.5" />
+                                瓶颈环节
+                              </Badge>
+                            )}
+                            {selectedNode.label} - 详细分析
+                          </DialogTitle>
+                        </DialogHeader>
+                        <div className="space-y-4">
+                          {/* 核心数据 */}
+                          <div className="grid grid-cols-4 gap-3">
+                            <div className={`${theme === 'dark' ? 'bg-slate-800/50' : 'bg-slate-50'} rounded-lg p-3 text-center`}>
+                              <div className="text-xs text-slate-500 mb-1">输入金额</div>
+                              <div className="text-lg font-bold">{selectedNode.inputAmount.toLocaleString()}万</div>
+                            </div>
+                            <div className={`${theme === 'dark' ? 'bg-slate-800/50' : 'bg-slate-50'} rounded-lg p-3 text-center`}>
+                              <div className="text-xs text-slate-500 mb-1">输出金额</div>
+                              <div className="text-lg font-bold text-blue-600">{selectedNode.outputAmount.toLocaleString()}万</div>
+                            </div>
+                            <div className={`${theme === 'dark' ? 'bg-slate-800/50' : 'bg-slate-50'} rounded-lg p-3 text-center`}>
+                              <div className="text-xs text-slate-500 mb-1">当前转化率</div>
+                              <div className={`text-lg font-bold ${selectedNode.conversionRate < selectedNode.targetRate ? 'text-red-500' : 'text-green-600'}`}>
+                                {selectedNode.conversionRate}%
+                              </div>
+                            </div>
+                            <div className={`${theme === 'dark' ? 'bg-slate-800/50' : 'bg-slate-50'} rounded-lg p-3 text-center`}>
+                              <div className="text-xs text-slate-500 mb-1">目标转化率</div>
+                              <div className="text-lg font-bold text-green-600">{selectedNode.targetRate}%</div>
+                            </div>
+                          </div>
+
+                          {/* 损耗和优化空间 */}
+                          {selectedNode.loss > 0 && (
+                            <div className={`grid grid-cols-2 gap-3 ${theme === 'dark' ? 'bg-red-950/20 border-red-500/30' : 'bg-red-50 border-red-200'} border rounded-lg p-4`}>
+                              <div>
+                                <div className="text-sm text-slate-500 mb-1">损耗金额</div>
+                                <div className="text-2xl font-bold text-red-500">{selectedNode.loss.toLocaleString()}万</div>
+                              </div>
+                              {selectedNode.optimizationPotential > 0 && (
+                                <div>
+                                  <div className="text-sm text-slate-500 mb-1">可优化空间</div>
+                                  <div className="text-2xl font-bold text-green-600">+{selectedNode.optimizationPotential.toLocaleString()}万</div>
+                                </div>
+                              )}
+                            </div>
+                          )}
+
+                          {/* 历史对比 */}
+                          <div>
+                            <div className="text-sm font-semibold mb-2">历史趋势</div>
+                            <div className="grid grid-cols-2 gap-3">
+                              <div className={`${theme === 'dark' ? 'bg-slate-800/50' : 'bg-slate-50'} rounded-lg p-3`}>
+                                <div className="text-xs text-slate-500 mb-1">上月数据</div>
+                                <div className="text-sm">
+                                  <span className="font-semibold">{selectedNode.history.lastMonth.amount.toLocaleString()}万</span>
+                                  <span className="text-slate-500 ml-1">({selectedNode.history.lastMonth.rate}%)</span>
+                                </div>
+                                <div className="text-xs mt-1">
+                                  {selectedNode.outputAmount > selectedNode.history.lastMonth.amount ? (
+                                    <span className="text-green-600">↑ 增长{((selectedNode.outputAmount - selectedNode.history.lastMonth.amount) / selectedNode.history.lastMonth.amount * 100).toFixed(1)}%</span>
+                                  ) : (
+                                    <span className="text-red-500">↓ 下降{((selectedNode.history.lastMonth.amount - selectedNode.outputAmount) / selectedNode.history.lastMonth.amount * 100).toFixed(1)}%</span>
+                                  )}
+                                </div>
+                              </div>
+                              <div className={`${theme === 'dark' ? 'bg-slate-800/50' : 'bg-slate-50'} rounded-lg p-3`}>
+                                <div className="text-xs text-slate-500 mb-1">去年同期</div>
+                                <div className="text-sm">
+                                  <span className="font-semibold">{selectedNode.history.lastYear.amount.toLocaleString()}万</span>
+                                  <span className="text-slate-500 ml-1">({selectedNode.history.lastYear.rate}%)</span>
+                                </div>
+                                <div className="text-xs mt-1">
+                                  {selectedNode.outputAmount > selectedNode.history.lastYear.amount ? (
+                                    <span className="text-green-600">↑ 增长{((selectedNode.outputAmount - selectedNode.history.lastYear.amount) / selectedNode.history.lastYear.amount * 100).toFixed(1)}%</span>
+                                  ) : (
+                                    <span className="text-red-500">↓ 下降{((selectedNode.history.lastYear.amount - selectedNode.outputAmount) / selectedNode.history.lastYear.amount * 100).toFixed(1)}%</span>
+                                  )}
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+
+                          {/* 行动建议 */}
+                          <div>
+                            <div className="text-sm font-semibold mb-2 flex items-center gap-2">
+                              <Target className="w-4 h-4 text-blue-500" />
+                              行动建议
+                            </div>
+                            <div className="space-y-2">
+                              {selectedNode.actionItems.map((item, i) => (
+                                <div key={i} className={`flex items-start gap-2 text-sm ${theme === 'dark' ? 'text-slate-300' : 'text-slate-700'}`}>
+                                  <div className={`w-1.5 h-1.5 rounded-full mt-2 ${selectedNode.isBottleneck ? 'bg-red-500' : 'bg-blue-500'}`} />
+                                  {item}
+                                </div>
+                              ))}
+                            </div>
+                          </div>
+
+                          {/* 详细说明 */}
+                          <div className={`${theme === 'dark' ? 'bg-slate-800/50' : 'bg-slate-50'} rounded-lg p-3`}>
+                            <div className="text-xs text-slate-500 mb-1">详细说明</div>
+                            <div className="text-sm">{selectedNode.detail}</div>
+                          </div>
+                        </div>
+                      </DialogContent>
+                    </Dialog>
                   )}
                 </CardContent>
               </Card>
