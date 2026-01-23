@@ -143,7 +143,7 @@ export default function FutureSupportSummaryPanel({
             <TrendingDown className="w-4 h-4 text-white" />
           </div>
           <div>
-            <h3 className="text-lg font-bold text-slate-700">未来支撑够不够？</h3>
+            <h3 className="text-lg font-bold text-slate-700">未来</h3>
             <p className="text-xs text-slate-600">未来支撑充分性摘要</p>
           </div>
         </div>
