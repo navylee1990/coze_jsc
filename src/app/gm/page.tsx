@@ -1,18 +1,14 @@
 'use client';
 
 import { useState, useMemo } from 'react';
-import { ArrowUp, ArrowDown, TrendingUp, AlertTriangle, Activity, Target, Clock, Database, ChevronRight, BarChart3, UserPlus, User, Play, ChevronLeft, X, Moon, Sun, Filter, Search, MoreVertical, ArrowRight, TrendingDown, Zap, Layers, DollarSign, Users, Shield, Info, CheckCircle2, XCircle } from 'lucide-react';
+import { ArrowUp, ArrowDown, TrendingUp, AlertTriangle, Activity, Target, Clock, ChevronRight, BarChart3, Play, ChevronLeft, X, Moon, Sun, TrendingDown, DollarSign, CheckCircle2, XCircle } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Progress } from '@/components/ui/progress';
-import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs';
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import PredictionDecisionCard from '@/components/PredictionDecisionCard';
 import FutureSupportAdequacyPanel from '@/components/FutureSupportAdequacyPanel';
 import { Separator } from '@/components/ui/separator';
 import Link from 'next/link';
-import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, LineChart, Line, RadarChart, PolarGrid, PolarAngleAxis, PolarRadiusAxis, Radar, Cell } from 'recharts';
 
 // 页面标题
 const PAGE_TITLE = '商用总经理驾驶舱';
@@ -51,148 +47,6 @@ const forecastOverviewData = {
   }
 };
 
-// 目标支撑性雷达图数据
-const radarData = {
-  categories: ['在手项目量', '30天可转化金额', '人均储备', 'SOP健康度', '关键项目风险指数'],
-  current: [85, 75, 90, 80, 70],
-  target: [90, 85, 90, 90, 80]
-};
-
-// 项目储备金字塔数据
-const pyramidData = {
-  '30天': {
-    count: 12,
-    amount: 850,
-    weightedAmount: 680
-  },
-  '1-3月': {
-    count: 28,
-    amount: 2400,
-    weightedAmount: 1440
-  },
-  '3月以上': {
-    count: 45,
-    amount: 5200,
-    weightedAmount: 2080
-  }
-};
-
-// 模拟项目列表数据
-const projectList = [
-  { id: 1, name: '北京某医院净化项目', customer: '北京协和医院', stage: '方案阶段', amount: 280, weightedAmount: 168, expectedDate: '2026-02-15', sopStatus: '合规', score: 85, lastAction: '3天前', risk: 'medium' },
-  { id: 2, name: '上海某学校净水项目', customer: '上海外国语学校', stage: '商务阶段', amount: 350, weightedAmount: 262.5, expectedDate: '2026-03-01', sopStatus: '合规', score: 88, lastAction: '5天前', risk: 'low' },
-  { id: 3, name: '广州某企业办公楼项目', customer: '广州腾讯大厦', stage: '谈判阶段', amount: 450, weightedAmount: 405, expectedDate: '2026-03-10', sopStatus: '部分合规', score: 72, lastAction: '2天前', risk: 'high' },
-  { id: 4, name: '深圳某酒店净化项目', customer: '深圳四季酒店', stage: '方案阶段', amount: 320, weightedAmount: 192, expectedDate: '2026-04-20', sopStatus: '合规', score: 82, lastAction: '7天前', risk: 'low' },
-  { id: 5, name: '成都某商场净水项目', customer: '成都IFS国际金融中心', stage: '初步接触', amount: 280, weightedAmount: 84, expectedDate: '2026-05-15', sopStatus: '待跟进', score: 65, lastAction: '10天前', risk: 'medium' },
-  { id: 6, name: '杭州某工厂净化项目', customer: '杭州阿里巴巴园区', stage: '商务阶段', amount: 380, weightedAmount: 285, expectedDate: '2026-02-28', sopStatus: '合规', score: 87, lastAction: '1天前', risk: 'low' },
-  { id: 7, name: '南京某医院项目', customer: '南京鼓楼医院', stage: '谈判阶段', amount: 420, weightedAmount: 378, expectedDate: '2026-03-05', sopStatus: '合规', score: 90, lastAction: '4天前', risk: 'low' },
-  { id: 8, name: '武汉某写字楼项目', customer: '武汉绿地中心', stage: '方案阶段', amount: 350, weightedAmount: 210, expectedDate: '2026-04-10', sopStatus: '部分合规', score: 75, lastAction: '6天前', risk: 'medium' },
-  { id: 9, name: '西安某学校项目', customer: '西安交通大学', stage: '初步接触', amount: 280, weightedAmount: 84, expectedDate: '2026-06-01', sopStatus: '待跟进', score: 60, lastAction: '15天前', risk: 'high' },
-  { id: 10, name: '天津某商场项目', customer: '天津天河城', stage: '商务阶段', amount: 320, weightedAmount: 240, expectedDate: '2026-03-20', sopStatus: '合规', score: 83, lastAction: '2天前', risk: 'low' },
-];
-
-// 人员贡献榜数据
-const personContribution = [
-  { id: 1, name: '张伟', currentMonth: 380, threeMonth: 1120, sopCompliance: 95, projectCount: 8, stagnantCount: 0, performance: 'excellent' },
-  { id: 2, name: '李娜', currentMonth: 350, threeMonth: 1050, sopCompliance: 92, projectCount: 7, stagnantCount: 1, performance: 'excellent' },
-  { id: 3, name: '王强', currentMonth: 320, threeMonth: 980, sopCompliance: 88, projectCount: 6, stagnantCount: 2, performance: 'good' },
-  { id: 4, name: '刘芳', currentMonth: 280, threeMonth: 850, sopCompliance: 85, projectCount: 5, stagnantCount: 1, performance: 'good' },
-  { id: 5, name: '陈明', currentMonth: 250, threeMonth: 720, sopCompliance: 78, projectCount: 4, stagnantCount: 3, performance: 'warning' },
-  { id: 6, name: '赵敏', currentMonth: 220, threeMonth: 650, sopCompliance: 72, projectCount: 3, stagnantCount: 2, performance: 'warning' },
-];
-
-// 因果链数据 - 增强版，体现业务价值
-type CausalChainNode = {
-  stage: string;
-  label: string;
-  inputAmount: number;      // 输入金额（万元）
-  outputAmount: number;     // 输出金额（万元）
-  conversionRate: number;   // 转化率(%)
-  targetRate: number;       // 目标转化率(%)
-  loss: number;             // 损耗金额（万元）
-  optimizationPotential: number; // 可优化空间（万元）
-  isBottleneck: boolean;    // 是否瓶颈
-  actionItems: string[];    // 行动建议
-  history: {               // 历史数据
-    lastMonth: { amount: number; rate: number };
-    lastYear: { amount: number; rate: number };
-  };
-  detail: string;           // 详细说明
-};
-
-const causalChainData: CausalChainNode[] = [
-  {
-    stage: 'project_reserve',
-    label: '项目储备',
-    inputAmount: 8450,
-    outputAmount: 8450,
-    conversionRate: 100,
-    targetRate: 100,
-    loss: 0,
-    optimizationPotential: 0,
-    isBottleneck: false,
-    actionItems: ['持续开拓新项目', '增加项目储备量'],
-    history: { lastMonth: { amount: 8200, rate: 100 }, lastYear: { amount: 7500, rate: 100 } },
-    detail: '73个项目在手，总储备金额8450万元，较上月增长3%'
-  },
-  {
-    stage: 'sop_compliance',
-    label: 'SOP合规',
-    inputAmount: 8450,
-    outputAmount: 6760,
-    conversionRate: 80,
-    targetRate: 90,
-    loss: 1690,
-    optimizationPotential: 845,
-    isBottleneck: true,
-    actionItems: ['加强SOP培训和执行监控', '每周检查SOP完成情况', '对不达标项目进行重点跟进'],
-    history: { lastMonth: { amount: 7380, rate: 75 }, lastYear: { amount: 6375, rate: 85 } },
-    detail: 'SOP合规率80%，距离目标90%还有差距，导致1690万被降权'
-  },
-  {
-    stage: 'stage_weight',
-    label: '阶段权重',
-    inputAmount: 6760,
-    outputAmount: 4732,
-    conversionRate: 70,
-    targetRate: 75,
-    loss: 2028,
-    optimizationPotential: 338,
-    isBottleneck: true,
-    actionItems: ['推动项目快速进入高权重阶段', '缩短方案和初步接触周期', '加强商务谈判支持'],
-    history: { lastMonth: { amount: 4428, rate: 60 }, lastYear: { amount: 4475, rate: 70 } },
-    detail: '平均阶段权重0.7，项目主要集中在低权重阶段，流失2028万'
-  },
-  {
-    stage: 'conversion_rate',
-    label: '成交转化',
-    inputAmount: 4732,
-    outputAmount: 2130,
-    conversionRate: 45,
-    targetRate: 50,
-    loss: 2602,
-    optimizationPotential: 237,
-    isBottleneck: true,
-    actionItems: ['提升销售人员成交技巧', '优化报价策略', '加强竞争对手分析'],
-    history: { lastMonth: { amount: 1845, rate: 40 }, lastYear: { amount: 2010, rate: 45 } },
-    detail: '历史成交率45%，较上月提升5个百分点，仍有提升空间'
-  },
-  {
-    stage: 'forecast_vs_target',
-    label: '预测达标',
-    inputAmount: 2130,
-    outputAmount: 2130,
-    conversionRate: 142,
-    targetRate: 100,
-    loss: 0,
-    optimizationPotential: 0,
-    isBottleneck: false,
-    actionItems: ['继续保持当前策略', '确保预测准确度'],
-    history: { lastMonth: { amount: 1845, rate: 123 }, lastYear: { amount: 1590, rate: 106 } },
-    detail: '预测完成2130万，目标1500万，超额完成42%'
-  }
-];
-
 // 风险面板数据
 const riskData = {
   projectRisks: [
@@ -203,27 +57,6 @@ const riskData = {
     { personId: 5, name: '陈明', riskType: 'SOP不达标', sopRate: 78, impact: -55, projectCount: 4 },
     { personId: 6, name: '赵敏', riskType: 'SOP不达标', sopRate: 72, impact: -68, projectCount: 3 },
   ]
-};
-
-// 预测逻辑说明
-const forecastLogic = {
-  conversionRate: {
-    source: '历史成交率统计',
-    rate: '45%',
-    description: '基于近12个月同类项目的实际成交数据计算'
-  },
-  weightedLogic: {
-    method: '加权成交额 = 项目金额 × 阶段权重 × SOP修正系数',
-    example: '500万 × 0.8(商务) × 0.9(合规) = 360万'
-  },
-  sopCorrection: {
-    algorithm: 'SOP修正系数基于项目合规程度动态调整',
-    levels: [
-      { level: '合规', coefficient: 1.0, description: '所有SOP动作均已完成' },
-      { level: '部分合规', coefficient: 0.8, description: '完成60%以上SOP动作' },
-      { level: '待跟进', coefficient: 0.5, description: '完成不足60% S​​OP动作' }
-    ]
-  }
 };
 
 // 预测趋势图数据
@@ -239,9 +72,6 @@ const forecastTrendData = [
 export default function GMDashboard() {
   const [theme, setTheme] = useState<Theme>('light');
   const [selectedTimeRange, setSelectedTimeRange] = useState<'current' | 'threeMonth' | 'sixMonth'>('current');
-  const [selectedView, setSelectedView] = useState<'overview' | 'projects' | 'personnel' | 'logic'>('overview');
-  const [selectedProject, setSelectedProject] = useState<typeof projectList[0] | null>(null);
-  const [selectedNode, setSelectedNode] = useState<typeof causalChainData[0] | null>(null);
 
   // 主题颜色类 - 解决浅色模式对比度问题
   const textMuted = theme === 'dark' ? 'text-slate-600' : 'text-slate-600';
@@ -273,14 +103,6 @@ export default function GMDashboard() {
   // 切换主题
   const toggleTheme = () => {
     setTheme(prev => prev === 'dark' ? 'light' : 'dark');
-  };
-
-  // 渲染雷达图颜色
-  const getRadarColor = (index: number) => {
-    const value = radarData.current[index];
-    if (value >= 85) return '#22c55e'; // 绿色
-    if (value >= 70) return '#eab308'; // 黄色
-    return '#ef4444'; // 红色
   };
 
   return (
@@ -319,7 +141,6 @@ export default function GMDashboard() {
               </Button>
 
               <Badge variant="outline" className="text-sm">
-                <User className="w-4 h-4 mr-1" />
                 张晖
               </Badge>
             </div>
@@ -327,35 +148,8 @@ export default function GMDashboard() {
         </div>
       </header>
 
-      {/* 视图切换标签 */}
-      <div className={`${theme === 'dark' ? 'bg-slate-900/30 border-slate-800' : 'bg-white border-slate-200'} border-b`}>
-        <div className="max-w-[1920px] mx-auto px-6">
-          <Tabs value={selectedView} onValueChange={(v) => setSelectedView(v as any)} className="w-full">
-            <TabsList className={`${theme === 'dark' ? 'bg-slate-900/50 border-slate-800' : 'bg-slate-100 border-slate-200'} border inline-flex rounded-lg p-1`}>
-              <TabsTrigger value="overview" className="rounded-md data-[state=active]:bg-blue-600 data-[state=active]:text-white">
-                <BarChart3 className="w-4 h-4 mr-2" />
-                首页总览
-              </TabsTrigger>
-              <TabsTrigger value="projects" className="rounded-md data-[state=active]:bg-blue-600 data-[state=active]:text-white">
-                <Database className="w-4 h-4 mr-2" />
-                项目分析
-              </TabsTrigger>
-              <TabsTrigger value="personnel" className="rounded-md data-[state=active]:bg-blue-600 data-[state=active]:text-white">
-                <Users className="w-4 h-4 mr-2" />
-                人员贡献
-              </TabsTrigger>
-              <TabsTrigger value="logic" className="rounded-md data-[state=active]:bg-blue-600 data-[state=active]:text-white">
-                <Info className="w-4 h-4 mr-2" />
-                预测逻辑
-              </TabsTrigger>
-            </TabsList>
-          </Tabs>
-        </div>
-      </div>
-
       {/* 主要内容区 */}
       <main className="max-w-[1920px] mx-auto p-6">
-        {selectedView === 'overview' && (
           <div className="space-y-6">
             {/* 核心预测决策卡片 - 新设计 */}
             <PredictionDecisionCard
@@ -368,15 +162,6 @@ export default function GMDashboard() {
                 gap: getGap(),
                 trendDirection: getGap() < 0 ? 'up' : getGap() === 0 ? 'stable' : 'down',
                 trendData: forecastTrendData
-              }}
-              onActionClick={(action) => {
-                if (action.link) {
-                  if (action.link === '/gm/projects') {
-                    setSelectedView('projects');
-                  } else if (action.link === '/gm/personnel') {
-                    setSelectedView('personnel');
-                  }
-                }
               }}
               onSupportFactorHover={(factor) => {
                 console.log('支撑因子悬停:', factor);
@@ -456,337 +241,7 @@ export default function GMDashboard() {
                 </CardContent>
               </Card>
           </div>
-        )}
-
-        {/* 项目分析视图 */}
-        {selectedView === 'projects' && (
-          <Card className={`${theme === 'dark' ? 'bg-slate-900/50 border-slate-800' : 'bg-white border-slate-200'}`}>
-            <CardHeader>
-              <CardTitle className="flex items-center justify-between">
-                <span className="flex items-center gap-2">
-                  <Database className="w-5 h-5 text-blue-500" />
-                  项目储备列表
-                </span>
-                <div className="flex items-center gap-2">
-                  <Button variant="outline" size="sm">
-                    <Filter className="w-4 h-4 mr-1" />
-                    筛选
-                  </Button>
-                  <Button variant="outline" size="sm">
-                    <Search className="w-4 h-4 mr-1" />
-                    搜索
-                  </Button>
-                </div>
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="overflow-x-auto">
-                <table className="w-full text-sm">
-                  <thead>
-                    <tr className={`${theme === 'dark' ? 'border-slate-700' : 'border-slate-200'} border-b`}>
-                      <th className="text-left py-3 px-4 font-semibold">项目名称</th>
-                      <th className="text-left py-3 px-4 font-semibold">客户</th>
-                      <th className="text-left py-3 px-4 font-semibold">阶段</th>
-                      <th className="text-right py-3 px-4 font-semibold">金额(万)</th>
-                      <th className="text-right py-3 px-4 font-semibold">加权成交(万)</th>
-                      <th className="text-left py-3 px-4 font-semibold">预计签约时间</th>
-                      <th className="text-left py-3 px-4 font-semibold">SOP状态</th>
-                      <th className="text-center py-3 px-4 font-semibold">模型评分</th>
-                      <th className="text-left py-3 px-4 font-semibold">最后动作</th>
-                      <th className="text-center py-3 px-4 font-semibold">风险</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {projectList.map((project) => (
-                      <tr
-                        key={project.id}
-                        className={`${theme === 'dark' ? 'hover:bg-slate-800/50 border-slate-800' : 'hover:bg-slate-50 border-slate-200'} border-b cursor-pointer transition-colors`}
-                        onClick={() => setSelectedProject(project)}
-                      >
-                        <td className="py-3 px-4 font-medium">{project.name}</td>
-                        <td className="py-3 px-4 text-slate-700">{project.customer}</td>
-                        <td className="py-3 px-4">
-                          <Badge variant="outline" className="text-xs">
-                            {project.stage}
-                          </Badge>
-                        </td>
-                        <td className="py-3 px-4 text-right font-semibold">{project.amount}</td>
-                        <td className="py-3 px-4 text-right text-blue-600 font-semibold">{project.weightedAmount}</td>
-                        <td className="py-3 px-4 text-slate-700">{project.expectedDate}</td>
-                        <td className="py-3 px-4">
-                          <Badge variant={project.sopStatus === '合规' ? 'default' : 'outline'} className={`text-xs ${project.sopStatus === '合规' ? 'bg-green-600' : ''}`}>
-                            {project.sopStatus}
-                          </Badge>
-                        </td>
-                        <td className="py-3 px-4 text-center">
-                          <div className={`inline-flex items-center justify-center w-8 h-8 rounded-full font-semibold ${
-                            project.score >= 80 ? 'bg-green-100 text-green-700' :
-                            project.score >= 70 ? 'bg-yellow-100 text-yellow-700' :
-                            'bg-red-100 text-red-700'
-                          }`}>
-                            {project.score}
-                          </div>
-                        </td>
-                        <td className="py-3 px-4 text-slate-700">{project.lastAction}</td>
-                        <td className="py-3 px-4 text-center">
-                          <Badge variant="outline" className={`text-xs ${
-                            project.risk === 'high' ? 'bg-red-500/10 text-red-600 border-red-500/30' :
-                            project.risk === 'medium' ? 'bg-yellow-500/10 text-yellow-600 border-yellow-500/30' :
-                            'bg-green-500/10 text-green-600 border-green-500/30'
-                          }`}>
-                            {project.risk === 'high' ? '高' : project.risk === 'medium' ? '中' : '低'}
-                          </Badge>
-                        </td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </div>
-            </CardContent>
-          </Card>
-        )}
-
-        {/* 人员贡献视图 */}
-        {selectedView === 'personnel' && (
-          <Card className={`${theme === 'dark' ? 'bg-slate-900/50 border-slate-800' : 'bg-white border-slate-200'}`}>
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <Users className="w-5 h-5 text-green-500" />
-                人员贡献榜
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="overflow-x-auto">
-                <table className="w-full text-sm">
-                  <thead>
-                    <tr className={`${theme === 'dark' ? 'border-slate-700' : 'border-slate-200'} border-b`}>
-                      <th className="text-left py-3 px-4 font-semibold">排名</th>
-                      <th className="text-left py-3 px-4 font-semibold">销售姓名</th>
-                      <th className="text-right py-3 px-4 font-semibold">本月预测(万)</th>
-                      <th className="text-right py-3 px-4 font-semibold">1-3月预测(万)</th>
-                      <th className="text-right py-3 px-4 font-semibold">SOP合规率</th>
-                      <th className="text-center py-3 px-4 font-semibold">在手项目数</th>
-                      <th className="text-center py-3 px-4 font-semibold">停滞项目数</th>
-                      <th className="text-center py-3 px-4 font-semibold">表现</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {personContribution.map((person) => (
-                      <tr
-                        key={person.id}
-                        className={`${theme === 'dark' ? 'hover:bg-slate-800/50 border-slate-800' : 'hover:bg-slate-50 border-slate-200'} border-b transition-colors`}
-                      >
-                        <td className="py-3 px-4">
-                          <div className={`w-6 h-6 rounded-full flex items-center justify-center font-bold text-xs ${
-                            person.performance === 'excellent' ? 'bg-green-500 text-white' :
-                            person.performance === 'good' ? 'bg-blue-500 text-white' :
-                            'bg-red-500 text-white'
-                          }`}>
-                            {person.id}
-                          </div>
-                        </td>
-                        <td className="py-3 px-4 font-semibold flex items-center gap-2">
-                          <User className="w-4 h-4 text-slate-600" />
-                          {person.name}
-                        </td>
-                        <td className="py-3 px-4 text-right font-semibold">{person.currentMonth}</td>
-                        <td className="py-3 px-4 text-right text-blue-600 font-semibold">{person.threeMonth}</td>
-                        <td className="py-3 px-4 text-right">
-                          <div className="flex items-center justify-end gap-2">
-                            <Progress value={person.sopCompliance} className="w-16" />
-                            <span className="text-xs text-slate-700">{person.sopCompliance}%</span>
-                          </div>
-                        </td>
-                        <td className="py-3 px-4 text-center">{person.projectCount}</td>
-                        <td className="py-3 px-4 text-center">
-                          {person.stagnantCount > 0 ? (
-                            <Badge variant="destructive" className="text-xs">
-                              {person.stagnantCount}
-                            </Badge>
-                          ) : (
-                            <span className="text-slate-600">-</span>
-                          )}
-                        </td>
-                        <td className="py-3 px-4 text-center">
-                          <Badge variant="outline" className={`text-xs ${
-                            person.performance === 'excellent' ? 'bg-green-500/10 text-green-600 border-green-500/30' :
-                            person.performance === 'good' ? 'bg-blue-500/10 text-blue-600 border-blue-500/30' :
-                            'bg-red-500/10 text-red-600 border-red-500/30'
-                          }`}>
-                            {person.performance === 'excellent' ? '优秀' :
-                             person.performance === 'good' ? '良好' : '需改进'}
-                          </Badge>
-                        </td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </div>
-            </CardContent>
-          </Card>
-        )}
-
-        {/* 预测逻辑视图 */}
-        {selectedView === 'logic' && (
-          <div className="space-y-6">
-            {/* 成交率来源 */}
-            <Card className={`${theme === 'dark' ? 'bg-slate-900/50 border-slate-800' : 'bg-white border-slate-200'}`}>
-              <CardHeader>
-                <CardTitle className="flex items-center gap-2">
-                  <Activity className="w-5 h-5 text-blue-500" />
-                  成交率来源
-                </CardTitle>
-              </CardHeader>
-              <CardContent>
-                <div className="grid grid-cols-3 gap-6">
-                  <div className={`${theme === 'dark' ? 'bg-slate-800/50' : 'bg-slate-50'} rounded-lg p-4`}>
-                    <div className="text-sm text-slate-700 mb-2">数据来源</div>
-                    <div className="text-lg font-semibold">{forecastLogic.conversionRate.source}</div>
-                  </div>
-                  <div className={`${theme === 'dark' ? 'bg-slate-800/50' : 'bg-slate-50'} rounded-lg p-4`}>
-                    <div className="text-sm text-slate-700 mb-2">基准成交率</div>
-                    <div className="text-2xl font-bold text-blue-600">{forecastLogic.conversionRate.rate}</div>
-                  </div>
-                  <div className={`${theme === 'dark' ? 'bg-slate-800/50' : 'bg-slate-50'} rounded-lg p-4`}>
-                    <div className="text-sm text-slate-700 mb-2">计算逻辑</div>
-                    <div className="text-sm text-slate-600">{forecastLogic.conversionRate.description}</div>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
-
-            {/* 加权逻辑 */}
-            <Card className={`${theme === 'dark' ? 'bg-slate-900/50 border-slate-800' : 'bg-white border-slate-200'}`}>
-              <CardHeader>
-                <CardTitle className="flex items-center gap-2">
-                  <Zap className="w-5 h-5 text-yellow-500" />
-                  加权逻辑说明
-                </CardTitle>
-              </CardHeader>
-              <CardContent>
-                <div className={`${theme === 'dark' ? 'bg-slate-800/50' : 'bg-slate-50'} rounded-lg p-6`}>
-                  <div className="text-lg font-semibold mb-4">计算公式</div>
-                  <div className="text-2xl font-bold text-blue-600 mb-6 font-mono">
-                    {forecastLogic.weightedLogic.method}
-                  </div>
-                  <div className="text-sm text-slate-700 mb-2">示例计算</div>
-                  <div className="text-lg font-mono bg-slate-900 text-green-400 p-4 rounded-lg inline-block">
-                    {forecastLogic.weightedLogic.example}
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
-
-            {/* SOP修正算法 */}
-            <Card className={`${theme === 'dark' ? 'bg-slate-900/50 border-slate-800' : 'bg-white border-slate-200'}`}>
-              <CardHeader>
-                <CardTitle className="flex items-center gap-2">
-                  <Shield className="w-5 h-5 text-green-500" />
-                  SOP修正算法
-                </CardTitle>
-              </CardHeader>
-              <CardContent>
-                <div className="text-sm text-slate-700 mb-4">{forecastLogic.sopCorrection.algorithm}</div>
-                <div className="space-y-3">
-                  {forecastLogic.sopCorrection.levels.map((level, index) => (
-                    <div
-                      key={index}
-                      className={`${theme === 'dark' ? 'bg-slate-800/50 border-slate-700' : 'bg-slate-50 border-slate-200'} border rounded-lg p-4`}
-                    >
-                      <div className="flex items-center justify-between mb-2">
-                        <Badge variant="outline" className={`text-sm ${
-                          level.level === '合规' ? 'bg-green-500/10 text-green-600 border-green-500/30' :
-                          level.level === '部分合规' ? 'bg-yellow-500/10 text-yellow-600 border-yellow-500/30' :
-                          'bg-red-500/10 text-red-600 border-red-500/30'
-                        }`}>
-                          {level.level}
-                        </Badge>
-                        <div className={`text-2xl font-bold ${
-                          level.coefficient === 1.0 ? 'text-green-600' :
-                          level.coefficient === 0.8 ? 'text-yellow-600' :
-                          'text-red-600'
-                        }`}>
-                          {level.coefficient}
-                        </div>
-                      </div>
-                      <div className="text-xs text-slate-700">{level.description}</div>
-                    </div>
-                  ))}
-                </div>
-              </CardContent>
-            </Card>
-          </div>
-        )}
       </main>
-
-      {/* 项目详情弹窗 */}
-      <Dialog open={!!selectedProject} onOpenChange={() => setSelectedProject(null)}>
-        <DialogContent className={`${theme === 'dark' ? 'bg-slate-900 border-slate-800' : 'bg-white border-slate-200'} max-w-2xl`}>
-          <DialogHeader>
-            <DialogTitle className="flex items-center gap-2">
-              <Database className="w-5 h-5 text-blue-500" />
-              项目详情
-            </DialogTitle>
-          </DialogHeader>
-          {selectedProject && (
-            <div className="space-y-4">
-              <div className="grid grid-cols-2 gap-4">
-                <div>
-                  <div className="text-sm text-slate-700 mb-1">项目名称</div>
-                  <div className="font-semibold">{selectedProject.name}</div>
-                </div>
-                <div>
-                  <div className="text-sm text-slate-700 mb-1">客户</div>
-                  <div className="font-semibold">{selectedProject.customer}</div>
-                </div>
-                <div>
-                  <div className="text-sm text-slate-700 mb-1">阶段</div>
-                  <Badge variant="outline">{selectedProject.stage}</Badge>
-                </div>
-                <div>
-                  <div className="text-sm text-slate-700 mb-1">预计签约时间</div>
-                  <div className="font-semibold">{selectedProject.expectedDate}</div>
-                </div>
-                <div>
-                  <div className="text-sm text-slate-700 mb-1">项目金额</div>
-                  <div className="font-semibold">{selectedProject.amount}万</div>
-                </div>
-                <div>
-                  <div className="text-sm text-slate-700 mb-1">加权成交额</div>
-                  <div className="font-semibold text-blue-600">{selectedProject.weightedAmount}万</div>
-                </div>
-                <div>
-                  <div className="text-sm text-slate-700 mb-1">SOP状态</div>
-                  <Badge variant={selectedProject.sopStatus === '合规' ? 'default' : 'outline'} className={selectedProject.sopStatus === '合规' ? 'bg-green-600' : ''}>
-                    {selectedProject.sopStatus}
-                  </Badge>
-                </div>
-                <div>
-                  <div className="text-sm text-slate-700 mb-1">模型评分</div>
-                  <div className="font-semibold">{selectedProject.score}分</div>
-                </div>
-              </div>
-              <Separator />
-              <div className="flex items-center justify-between">
-                <div>
-                  <div className="text-sm text-slate-700 mb-1">风险等级</div>
-                  <Badge variant="outline" className={`${
-                    selectedProject.risk === 'high' ? 'bg-red-500/10 text-red-600 border-red-500/30' :
-                    selectedProject.risk === 'medium' ? 'bg-yellow-500/10 text-yellow-600 border-yellow-500/30' :
-                    'bg-green-500/10 text-green-600 border-green-500/30'
-                  }`}>
-                    {selectedProject.risk === 'high' ? '高风险' : selectedProject.risk === 'medium' ? '中风险' : '低风险'}
-                  </Badge>
-                </div>
-                <div>
-                  <div className="text-sm text-slate-700 mb-1">最后动作</div>
-                  <div className="font-semibold">{selectedProject.lastAction}</div>
-                </div>
-              </div>
-            </div>
-          )}
-        </DialogContent>
-      </Dialog>
     </div>
   );
 }
