@@ -427,166 +427,60 @@ export default function GMDashboard() {
               }}
             />
 
-            {/* 中间区域：目标支撑雷达图 + 项目储备金字塔 */}
-            <div className="grid grid-cols-2 gap-6">
-              {/* 目标支撑性雷达图 */}
-              <Card className={`${theme === 'dark' ? 'bg-slate-900/50 border-slate-800' : 'bg-white border-slate-200'}`}>
-                <CardHeader>
-                  <CardTitle className="flex items-center gap-2">
-                    <Activity className="w-5 h-5 text-green-500" />
-                    目标支撑性分析
-                  </CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <div className="h-80">
-                    <ResponsiveContainer width="100%" height="100%">
-                      <RadarChart data={radarData.categories.map((cat, i) => ({
-                        subject: cat,
-                        current: radarData.current[i],
-                        target: radarData.target[i],
-                        fullMark: 100
-                      }))}>
-                        <PolarGrid stroke={theme === 'dark' ? '#334155' : '#e2e8f0'} />
-                        <PolarAngleAxis dataKey="subject" stroke={theme === 'dark' ? '#94a3b8' : '#64748b'} tick={{ fontSize: 12 }} />
-                        <PolarRadiusAxis angle={90} domain={[0, 100]} stroke={theme === 'dark' ? '#334155' : '#e2e8f0'} />
-                        <Radar
-                          name="当前"
-                          dataKey="current"
-                          stroke="#3b82f6"
-                          fill="#3b82f6"
-                          fillOpacity={0.3}
-                          strokeWidth={2}
-                        >
-                          {radarData.current.map((_, index) => (
-                            <Cell key={index} fill={getRadarColor(index)} />
-                          ))}
-                        </Radar>
-                        <Radar
-                          name="目标"
-                          dataKey="target"
-                          stroke="#22c55e"
-                          fill="#22c55e"
-                          fillOpacity={0.1}
-                          strokeWidth={2}
-                        />
-                        <Tooltip
-                          contentStyle={{
-                            backgroundColor: theme === 'dark' ? '#1e293b' : '#ffffff',
-                            border: `1px solid ${theme === 'dark' ? '#334155' : '#e2e8f0'}`,
-                            borderRadius: '8px',
-                            color: theme === 'dark' ? '#ffffff' : '#0f172a'
-                          }}
-                        />
-                        <Legend />
-                      </RadarChart>
-                    </ResponsiveContainer>
-                  </div>
-                </CardContent>
-              </Card>
-
-              {/* 项目储备金字塔 */}
-              <Card className={`${theme === 'dark' ? 'bg-slate-900/50 border-slate-800' : 'bg-white border-slate-200'}`}>
-                <CardHeader>
-                  <CardTitle className="flex items-center gap-2">
-                    <Database className="w-5 h-5 text-purple-500" />
-                    项目储备金字塔（时间维度）
-                  </CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <div className="space-y-4">
-                    {/* 30天池 */}
-                    <div
-                      className={`${theme === 'dark' ? 'bg-gradient-to-r from-green-600/20 to-green-500/10 border-green-500/30' : 'bg-green-50 border-green-200'} border rounded-lg p-4 cursor-pointer hover:border-green-500 transition-colors`}
-                      onClick={() => setSelectedView('projects')}
-                    >
-                      <div className="flex items-center justify-between mb-2">
-                        <div className="flex items-center gap-2">
-                          <Clock className="w-4 h-4 text-green-500" />
-                          <span className="font-semibold">30天转化池</span>
-                        </div>
-                        <Badge variant="outline" className="bg-green-500/10 text-green-600 border-green-500/30">
-                          高优先级
-                        </Badge>
-                      </div>
-                      <div className="grid grid-cols-3 gap-4 text-sm">
-                        <div>
-                          <div className="text-slate-700">项目数</div>
-                          <div className="text-xl font-bold text-green-600">{pyramidData['30天'].count}个</div>
-                        </div>
-                        <div>
-                          <div className="text-slate-700">金额</div>
-                          <div className="text-xl font-bold">{pyramidData['30天'].amount}万</div>
-                        </div>
-                        <div>
-                          <div className="text-slate-700">加权成交</div>
-                          <div className="text-xl font-bold text-blue-600">{pyramidData['30天'].weightedAmount}万</div>
-                        </div>
-                      </div>
-                    </div>
-
-                    {/* 1-3月池 */}
-                    <div
-                      className={`${theme === 'dark' ? 'bg-gradient-to-r from-blue-600/20 to-blue-500/10 border-blue-500/30' : 'bg-blue-50 border-blue-200'} border rounded-lg p-4 cursor-pointer hover:border-blue-500 transition-colors`}
-                      onClick={() => setSelectedView('projects')}
-                    >
-                      <div className="flex items-center justify-between mb-2">
-                        <div className="flex items-center gap-2">
-                          <Clock className="w-4 h-4 text-blue-500" />
-                          <span className="font-semibold">1-3月储备池</span>
-                        </div>
-                        <Badge variant="outline" className="bg-blue-500/10 text-blue-600 border-blue-500/30">
-                          中优先级
-                        </Badge>
-                      </div>
-                      <div className="grid grid-cols-3 gap-4 text-sm">
-                        <div>
-                          <div className="text-slate-700">项目数</div>
-                          <div className="text-xl font-bold text-blue-600">{pyramidData['1-3月'].count}个</div>
-                        </div>
-                        <div>
-                          <div className="text-slate-700">金额</div>
-                          <div className="text-xl font-bold">{pyramidData['1-3月'].amount}万</div>
-                        </div>
-                        <div>
-                          <div className="text-slate-700">加权成交</div>
-                          <div className="text-xl font-bold text-blue-600">{pyramidData['1-3月'].weightedAmount}万</div>
-                        </div>
-                      </div>
-                    </div>
-
-                    {/* 3月以上池 */}
-                    <div
-                      className={`${theme === 'dark' ? 'bg-gradient-to-r from-purple-600/20 to-purple-500/10 border-purple-500/30' : 'bg-purple-50 border-purple-200'} border rounded-lg p-4 cursor-pointer hover:border-purple-500 transition-colors`}
-                      onClick={() => setSelectedView('projects')}
-                    >
-                      <div className="flex items-center justify-between mb-2">
-                        <div className="flex items-center gap-2">
-                          <Clock className="w-4 h-4 text-purple-500" />
-                          <span className="font-semibold">3月以上长期池</span>
-                        </div>
-                        <Badge variant="outline" className="bg-purple-500/10 text-purple-600 border-purple-500/30">
-                          低优先级
-                        </Badge>
-                      </div>
-                      <div className="grid grid-cols-3 gap-4 text-sm">
-                        <div>
-                          <div className="text-slate-700">项目数</div>
-                          <div className="text-xl font-bold text-purple-600">{pyramidData['3月以上'].count}个</div>
-                        </div>
-                        <div>
-                          <div className="text-slate-700">金额</div>
-                          <div className="text-xl font-bold">{pyramidData['3月以上'].amount}万</div>
-                        </div>
-                        <div>
-                          <div className="text-slate-700">加权成交</div>
-                          <div className="text-xl font-bold text-purple-600">{pyramidData['3月以上'].weightedAmount}万</div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </CardContent>
-              </Card>
-            </div>
+            {/* 目标支撑性分析 */}
+            <Card className={`${theme === 'dark' ? 'bg-slate-900/50 border-slate-800' : 'bg-white border-slate-200'}`}>
+              <CardHeader>
+                <CardTitle className="flex items-center gap-2">
+                  <Activity className="w-5 h-5 text-green-500" />
+                  目标支撑性分析
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div className="h-80">
+                  <ResponsiveContainer width="100%" height="100%">
+                    <RadarChart data={radarData.categories.map((cat, i) => ({
+                      subject: cat,
+                      current: radarData.current[i],
+                      target: radarData.target[i],
+                      fullMark: 100
+                    }))}>
+                      <PolarGrid stroke={theme === 'dark' ? '#334155' : '#e2e8f0'} />
+                      <PolarAngleAxis dataKey="subject" stroke={theme === 'dark' ? '#94a3b8' : '#64748b'} tick={{ fontSize: 12 }} />
+                      <PolarRadiusAxis angle={90} domain={[0, 100]} stroke={theme === 'dark' ? '#334155' : '#e2e8f0'} />
+                      <Radar
+                        name="当前"
+                        dataKey="current"
+                        stroke="#3b82f6"
+                        fill="#3b82f6"
+                        fillOpacity={0.3}
+                        strokeWidth={2}
+                      >
+                        {radarData.current.map((_, index) => (
+                          <Cell key={index} fill={getRadarColor(index)} />
+                        ))}
+                      </Radar>
+                      <Radar
+                        name="目标"
+                        dataKey="target"
+                        stroke="#22c55e"
+                        fill="#22c55e"
+                        fillOpacity={0.1}
+                        strokeWidth={2}
+                      />
+                      <Tooltip
+                        contentStyle={{
+                          backgroundColor: theme === 'dark' ? '#1e293b' : '#ffffff',
+                          border: `1px solid ${theme === 'dark' ? '#334155' : '#e2e8f0'}`,
+                          borderRadius: '8px',
+                          color: theme === 'dark' ? '#ffffff' : '#0f172a'
+                        }}
+                      />
+                      <Legend />
+                    </RadarChart>
+                  </ResponsiveContainer>
+                </div>
+              </CardContent>
+            </Card>
 
             {/* 关键支撑模块 - 驾驶舱式面板 */}
             <KeySupportPanel
@@ -602,238 +496,8 @@ export default function GMDashboard() {
             {/* 未来支撑充分性面板 - Future Support Adequacy Panel */}
             <FutureSupportAdequacyPanel theme={theme} />
 
-            {/* 底部区域：因果链 + 风险面板 */}
-            <div className="grid grid-cols-2 gap-6">
-              {/* 因果链展示 - 增强版 */}
-              <Card className={`${theme === 'dark' ? 'bg-slate-900/50 border-slate-800' : 'bg-white border-slate-200'}`}>
-                <CardHeader>
-                  <CardTitle className="flex items-center justify-between">
-                    <span className="flex items-center gap-2">
-                      <ArrowRight className="w-5 h-5 text-orange-500" />
-                      预测因果链分析
-                    </span>
-                    <Badge variant="outline" className="text-xs bg-orange-500/10 text-orange-600 border-orange-500/30">
-                      共3个瓶颈环节
-                    </Badge>
-                  </CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <div className="space-y-3">
-                    {causalChainData.map((node, index) => (
-                      <div key={node.stage} className="flex items-center gap-3">
-                        {/* 节点卡片 */}
-                        <div
-                          className={`flex-1 ${theme === 'dark' ? 'bg-slate-800/50 hover:bg-slate-800' : 'bg-slate-50 hover:bg-slate-100'} ${node.isBottleneck ? 'ring-2 ring-red-500/50' : ''} border ${node.isBottleneck ? 'border-red-500/30' : 'border-slate-300'} rounded-lg p-3 cursor-pointer transition-all hover:shadow-md`}
-                          onClick={() => setSelectedNode(node)}
-                        >
-                          {/* 标题和瓶颈标识 */}
-                          <div className="flex items-center justify-between mb-2">
-                            <div className="flex items-center gap-2">
-                              <span className="text-sm font-semibold">{node.label}</span>
-                              {node.isBottleneck && (
-                                <Badge variant="destructive" className="text-xs px-1.5 py-0.5">
-                                  <AlertTriangle className="w-3 h-3 mr-0.5" />
-                                  瓶颈
-                                </Badge>
-                              )}
-                            </div>
-                            {index < causalChainData.length - 1 && (
-                              <ArrowRight className={`w-4 h-4 text-slate-600`} />
-                            )}
-                          </div>
-
-                          {/* 核心指标 */}
-                          <div className="grid grid-cols-2 gap-2 mb-2">
-                            <div>
-                              <div className="text-xs text-slate-700">输出金额</div>
-                              <div className={`text-base font-bold ${node.outputAmount > 0 ? 'text-blue-600' : 'text-slate-600'}`}>
-                                {node.outputAmount.toLocaleString()}万
-                              </div>
-                            </div>
-                            <div>
-                              <div className="text-xs text-slate-700">转化率</div>
-                              <div className={`text-base font-bold ${node.conversionRate < node.targetRate ? 'text-red-500' : 'text-green-600'}`}>
-                                {node.conversionRate}%
-                                {node.targetRate > 0 && <span className="text-xs text-slate-700"> / 目标{node.targetRate}%</span>}
-                              </div>
-                            </div>
-                          </div>
-
-                          {/* 损耗和优化空间 */}
-                          {node.loss > 0 && (
-                            <div className="grid grid-cols-2 gap-2">
-                              <div className="text-xs">
-                                <span className="text-slate-700">损耗: </span>
-                                <span className="text-red-500 font-semibold">{node.loss}万</span>
-                              </div>
-                              {node.optimizationPotential > 0 && (
-                                <div className="text-xs">
-                                  <span className="text-slate-700">可优化: </span>
-                                  <span className="text-green-600 font-semibold">+{node.optimizationPotential}万</span>
-                                </div>
-                              )}
-                            </div>
-                          )}
-
-                          {/* 转化率进度条 */}
-                          <div className="mt-2">
-                            <Progress
-                              value={node.conversionRate}
-                              className="h-1.5"
-                            />
-                          </div>
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-
-                  {/* 总体分析 */}
-                  <div className={`mt-4 p-3 rounded-lg ${theme === 'dark' ? 'bg-orange-600/10 border-orange-500/30' : 'bg-orange-50 border-orange-200'} border`}>
-                    <div className="text-sm font-semibold mb-2 flex items-center gap-2">
-                      <Zap className="w-4 h-4 text-orange-500" />
-                      关键洞察
-                    </div>
-                    <div className="space-y-1 text-xs">
-                      <div className="flex items-center gap-2">
-                        <span className="text-slate-600">•</span>
-                        <span>
-                          <span className="font-semibold">SOP合规环节</span>是最大瓶颈，转化率80%距离目标90%，可优化空间845万
-                        </span>
-                      </div>
-                      <div className="flex items-center gap-2">
-                        <span className="text-slate-600">•</span>
-                        <span>
-                          <span className="font-semibold">阶段权重</span>和<span className="font-semibold">成交转化</span>也需改善，合计损失4630万
-                        </span>
-                      </div>
-                      <div className="flex items-center gap-2">
-                        <span className="text-slate-600">•</span>
-                        <span>
-                          总计<span className="text-orange-600 font-semibold">可优化空间1420万</span>，建议优先改善SOP合规率
-                        </span>
-                      </div>
-                    </div>
-                  </div>
-
-                  {/* 选中节点详情 */}
-                  {selectedNode && (
-                    <Dialog open={!!selectedNode} onOpenChange={() => setSelectedNode(null)}>
-                      <DialogContent className={`${theme === 'dark' ? 'bg-slate-900 border-slate-800' : 'bg-white border-slate-200'} max-w-2xl`}>
-                        <DialogHeader>
-                          <DialogTitle className="flex items-center gap-2">
-                            {selectedNode.isBottleneck && (
-                              <Badge variant="destructive" className="text-xs">
-                                <AlertTriangle className="w-3 h-3 mr-0.5" />
-                                瓶颈环节
-                              </Badge>
-                            )}
-                            {selectedNode.label} - 详细分析
-                          </DialogTitle>
-                        </DialogHeader>
-                        <div className="space-y-4">
-                          {/* 核心数据 */}
-                          <div className="grid grid-cols-4 gap-3">
-                            <div className={`${theme === 'dark' ? 'bg-slate-800/50' : 'bg-slate-50'} rounded-lg p-3 text-center`}>
-                              <div className="text-xs text-slate-700 mb-1">输入金额</div>
-                              <div className="text-lg font-bold">{selectedNode.inputAmount.toLocaleString()}万</div>
-                            </div>
-                            <div className={`${theme === 'dark' ? 'bg-slate-800/50' : 'bg-slate-50'} rounded-lg p-3 text-center`}>
-                              <div className="text-xs text-slate-700 mb-1">输出金额</div>
-                              <div className="text-lg font-bold text-blue-600">{selectedNode.outputAmount.toLocaleString()}万</div>
-                            </div>
-                            <div className={`${theme === 'dark' ? 'bg-slate-800/50' : 'bg-slate-50'} rounded-lg p-3 text-center`}>
-                              <div className="text-xs text-slate-700 mb-1">当前转化率</div>
-                              <div className={`text-lg font-bold ${selectedNode.conversionRate < selectedNode.targetRate ? 'text-red-500' : 'text-green-600'}`}>
-                                {selectedNode.conversionRate}%
-                              </div>
-                            </div>
-                            <div className={`${theme === 'dark' ? 'bg-slate-800/50' : 'bg-slate-50'} rounded-lg p-3 text-center`}>
-                              <div className="text-xs text-slate-700 mb-1">目标转化率</div>
-                              <div className="text-lg font-bold text-green-600">{selectedNode.targetRate}%</div>
-                            </div>
-                          </div>
-
-                          {/* 损耗和优化空间 */}
-                          {selectedNode.loss > 0 && (
-                            <div className={`grid grid-cols-2 gap-3 ${theme === 'dark' ? 'bg-red-950/20 border-red-500/30' : 'bg-red-50 border-red-200'} border rounded-lg p-4`}>
-                              <div>
-                                <div className="text-sm text-slate-700 mb-1">损耗金额</div>
-                                <div className="text-2xl font-bold text-red-500">{selectedNode.loss.toLocaleString()}万</div>
-                              </div>
-                              {selectedNode.optimizationPotential > 0 && (
-                                <div>
-                                  <div className="text-sm text-slate-700 mb-1">可优化空间</div>
-                                  <div className="text-2xl font-bold text-green-600">+{selectedNode.optimizationPotential.toLocaleString()}万</div>
-                                </div>
-                              )}
-                            </div>
-                          )}
-
-                          {/* 历史对比 */}
-                          <div>
-                            <div className="text-sm font-semibold mb-2">历史趋势</div>
-                            <div className="grid grid-cols-2 gap-3">
-                              <div className={`${theme === 'dark' ? 'bg-slate-800/50' : 'bg-slate-50'} rounded-lg p-3`}>
-                                <div className="text-xs text-slate-700 mb-1">上月数据</div>
-                                <div className="text-sm">
-                                  <span className="font-semibold">{selectedNode.history.lastMonth.amount.toLocaleString()}万</span>
-                                  <span className="text-slate-700 ml-1">({selectedNode.history.lastMonth.rate}%)</span>
-                                </div>
-                                <div className="text-xs mt-1">
-                                  {selectedNode.outputAmount > selectedNode.history.lastMonth.amount ? (
-                                    <span className="text-green-600">↑ 增长{((selectedNode.outputAmount - selectedNode.history.lastMonth.amount) / selectedNode.history.lastMonth.amount * 100).toFixed(1)}%</span>
-                                  ) : (
-                                    <span className="text-red-500">↓ 下降{((selectedNode.history.lastMonth.amount - selectedNode.outputAmount) / selectedNode.history.lastMonth.amount * 100).toFixed(1)}%</span>
-                                  )}
-                                </div>
-                              </div>
-                              <div className={`${theme === 'dark' ? 'bg-slate-800/50' : 'bg-slate-50'} rounded-lg p-3`}>
-                                <div className="text-xs text-slate-700 mb-1">去年同期</div>
-                                <div className="text-sm">
-                                  <span className="font-semibold">{selectedNode.history.lastYear.amount.toLocaleString()}万</span>
-                                  <span className="text-slate-700 ml-1">({selectedNode.history.lastYear.rate}%)</span>
-                                </div>
-                                <div className="text-xs mt-1">
-                                  {selectedNode.outputAmount > selectedNode.history.lastYear.amount ? (
-                                    <span className="text-green-600">↑ 增长{((selectedNode.outputAmount - selectedNode.history.lastYear.amount) / selectedNode.history.lastYear.amount * 100).toFixed(1)}%</span>
-                                  ) : (
-                                    <span className="text-red-500">↓ 下降{((selectedNode.history.lastYear.amount - selectedNode.outputAmount) / selectedNode.history.lastYear.amount * 100).toFixed(1)}%</span>
-                                  )}
-                                </div>
-                              </div>
-                            </div>
-                          </div>
-
-                          {/* 行动建议 */}
-                          <div>
-                            <div className="text-sm font-semibold mb-2 flex items-center gap-2">
-                              <Target className="w-4 h-4 text-blue-500" />
-                              行动建议
-                            </div>
-                            <div className="space-y-2">
-                              {selectedNode.actionItems.map((item, i) => (
-                                <div key={i} className={`flex items-start gap-2 text-sm ${theme === 'dark' ? 'text-slate-300' : 'text-slate-700'}`}>
-                                  <div className={`w-1.5 h-1.5 rounded-full mt-2 ${selectedNode.isBottleneck ? 'bg-red-500' : 'bg-blue-500'}`} />
-                                  {item}
-                                </div>
-                              ))}
-                            </div>
-                          </div>
-
-                          {/* 详细说明 */}
-                          <div className={`${theme === 'dark' ? 'bg-slate-800/50' : 'bg-slate-50'} rounded-lg p-3`}>
-                            <div className="text-xs text-slate-700 mb-1">详细说明</div>
-                            <div className="text-sm">{selectedNode.detail}</div>
-                          </div>
-                        </div>
-                      </DialogContent>
-                    </Dialog>
-                  )}
-                </CardContent>
-              </Card>
-
-              {/* 风险面板 */}
-              <Card className={`${theme === 'dark' ? 'bg-slate-900/50 border-slate-800' : 'bg-white border-slate-200'}`}>
+            {/* 风险预警面板 */}
+            <Card className={`${theme === 'dark' ? 'bg-slate-900/50 border-slate-800' : 'bg-white border-slate-200'}`}>
                 <CardHeader>
                   <CardTitle className="flex items-center gap-2">
                     <AlertTriangle className="w-5 h-5 text-red-500" />
@@ -898,7 +562,6 @@ export default function GMDashboard() {
                   </div>
                 </CardContent>
               </Card>
-            </div>
           </div>
         )}
 
