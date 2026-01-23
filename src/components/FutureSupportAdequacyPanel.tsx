@@ -294,8 +294,8 @@ const regionData: RegionData = {
       id: '1',
       type: 'urgent',
       priority: 1,
-      title: '紧急推进',
-      description: '立刻推进上海外国语学校、杭州阿里巴巴园区项目（释放 +310 万）',
+      title: '0-30天：推进延迟项目',
+      description: '上海外国语学校、杭州阿里巴巴园区项目已延迟12天，优先推进可释放+310万支撑',
       impact: '+310 万',
       owner: '李娜、王强',
       deadline: '本周内'
@@ -304,31 +304,31 @@ const regionData: RegionData = {
       id: '2',
       type: 'supplement',
       priority: 2,
-      title: '补齐支撑',
-      description: '需新增 3 个中期储备项目（填补 +180 万缺口）',
-      impact: '+180 万',
+      title: '0-30天：开发新项目',
+      description: '短期缺口480万，建议优先开拓医院、学校类项目（转化周期短、概率高）',
+      impact: '+480 万',
       owner: '张伟',
-      deadline: '15天内'
+      deadline: '30天内'
     },
     {
       id: '3',
-      type: 'channel',
+      type: 'supplement',
       priority: 3,
-      title: '渠道动作',
-      description: '激活华北渠道代理，本周需新增项目≥4 个',
-      impact: '+200 万',
+      title: '1-3月：补齐中期储备',
+      description: '中期缺口150万，需新增2个商务阶段项目（建议从现有线索中转化）',
+      impact: '+150 万',
       owner: '刘芳',
-      deadline: '本周内'
+      deadline: '15天内'
     },
     {
       id: '4',
-      type: 'sop',
+      type: 'channel',
       priority: 4,
-      title: 'SOP督办',
-      description: '陈明、赵敏 SOP 未更新>14天，影响支撑 +120 万',
-      impact: '+120 万',
-      owner: '张伟',
-      deadline: '3天内'
+      title: '渠道激活计划',
+      description: '华北渠道近30天无新增，本周需拜访≥5家渠道，目标新增项目4个',
+      impact: '+200 万',
+      owner: '刘芳',
+      deadline: '本周内'
     }
   ]
   },
@@ -487,22 +487,32 @@ const regionData: RegionData = {
     actions: [
       {
         id: '1',
-        type: 'supplement',
+        type: 'urgent',
         priority: 1,
-        title: '补齐支撑',
-        description: '需新增 2 个中期储备项目（填补 +45 万缺口）',
-        impact: '+45 万',
+        title: '0-30天：开发新项目',
+        description: '短期缺口120万，建议开拓石家庄、保定地区医院项目（转化周期约20天）',
+        impact: '+120 万',
         owner: '张伟',
-        deadline: '15天内'
+        deadline: '20天内'
       },
       {
         id: '2',
-        type: 'channel',
+        type: 'supplement',
         priority: 2,
-        title: '渠道动作',
-        description: '激活河北地区渠道，本周需新增项目≥2 个',
+        title: '1-3月：补齐中期储备',
+        description: '中期缺口30万，需新增1个商务阶段项目',
         impact: '+30 万',
         owner: '李娜',
+        deadline: '15天内'
+      },
+      {
+        id: '3',
+        type: 'channel',
+        priority: 3,
+        title: '激活河北渠道',
+        description: '河北渠道近20天无新增，本周拜访2家渠道，目标新增项目2个',
+        impact: '+40 万',
+        owner: '刘芳',
         deadline: '本周内'
       }
     ]
@@ -828,8 +838,8 @@ const regionData: RegionData = {
         id: '1',
         type: 'urgent',
         priority: 1,
-        title: '紧急推进',
-        description: '立刻推进深圳四季酒店、珠海长隆项目（释放 +70 万）',
+        title: '0-30天：紧急推进延迟项目',
+        description: '深圳四季酒店、珠海长隆项目已延迟15天和10天，优先推进可释放+70万',
         impact: '+70 万',
         owner: '陈明',
         deadline: '本周内'
@@ -838,18 +848,28 @@ const regionData: RegionData = {
         id: '2',
         type: 'supplement',
         priority: 2,
-        title: '补齐支撑',
-        description: '需新增 3 个中期储备项目（填补 +35 万缺口）',
-        impact: '+35 万',
+        title: '0-30天：开发新项目',
+        description: '短期缺口170万，建议开拓广州、深圳地区酒店项目（成交周期15-20天）',
+        impact: '+170 万',
         owner: '刘芳',
-        deadline: '15天内'
+        deadline: '25天内'
       },
       {
         id: '3',
-        type: 'channel',
+        type: 'supplement',
         priority: 3,
-        title: '渠道动作',
-        description: '激活深圳渠道，本周需新增项目≥3 个',
+        title: '1-3月：补齐中期储备',
+        description: '中期缺口60万，需新增2个商务阶段项目',
+        impact: '+60 万',
+        owner: '赵敏',
+        deadline: '20天内'
+      },
+      {
+        id: '4',
+        type: 'channel',
+        priority: 4,
+        title: '激活深圳渠道',
+        description: '深圳渠道近30天无新增，本周拜访3家，目标新增项目3个',
         impact: '+50 万',
         owner: '赵敏',
         deadline: '本周内'
@@ -1013,9 +1033,9 @@ const regionData: RegionData = {
         id: '1',
         type: 'urgent',
         priority: 1,
-        title: '推进项目',
-        description: '加快成都IFS国际金融中心项目推进',
-        impact: '+15 万',
+        title: '0-30天：推进延迟项目',
+        description: '成都IFS项目已延迟，优先推进可释放+20万',
+        impact: '+20 万',
         owner: '孙丽',
         deadline: '本周内'
       },
@@ -1023,8 +1043,8 @@ const regionData: RegionData = {
         id: '2',
         type: 'supplement',
         priority: 2,
-        title: '补齐支撑',
-        description: '需新增 1 个中期储备项目',
+        title: '1-3月：补齐中期储备',
+        description: '中期缺口20万，需新增1个商务阶段项目',
         impact: '+20 万',
         owner: '周杰',
         deadline: '15天内'
@@ -1153,7 +1173,7 @@ const regionData: RegionData = {
         type: 'supplement',
         priority: 1,
         title: '持续开拓',
-        description: '保持当前态势，继续开拓新项目',
+        description: '当前支撑充足（95%），保持现有项目推进节奏，继续开拓西安、兰州地区新项目',
         impact: '+10 万',
         owner: '吴刚',
         deadline: '30天内'
@@ -1450,11 +1470,28 @@ export default function FutureSupportAdequacyPanel({
                   </div>
 
                   {/* 覆盖度 */}
-                  <div className="flex items-center justify-center mb-3">
+                  <div className="flex items-center justify-center mb-2">
                     <span className="text-xs text-slate-600">覆盖度</span>
                     <span className={cn('text-lg font-bold ml-2', statusColor.text)}>{level.coverage}%</span>
                   </div>
-                  
+
+                  {/* 针对性建议 */}
+                  {level.coverage < 70 && (
+                    <div className={cn(
+                      'p-2 rounded text-[10px] mb-2',
+                      theme === 'dark' ? 'bg-red-500/20 border border-red-500/30' : 'bg-red-50 border border-red-200'
+                    )}>
+                      <div className="flex items-center gap-1 mb-1">
+                        <AlertTriangle className="w-3 h-3 text-red-600" />
+                        <span className="font-bold text-red-700">支撑不足</span>
+                      </div>
+                      <div className="text-slate-700">
+                        {level.coverage < 50 && '紧急：需新增' + (level.target - level.amount) + '万（开发新项目）'}
+                        {level.coverage >= 50 && level.coverage < 70 && '建议：推进' + level.projects.filter(p => !p.isOnTrack).length + '个延迟项目'}
+                      </div>
+                    </div>
+                  )}
+
                   {/* Top项目列表 */}
                   <div className="space-y-2">
                     {level.projects.slice(0, 3).map((project, pIndex) => (
