@@ -1431,12 +1431,20 @@ export default function FutureSupportAdequacyPanel({
                     <div className={cn('w-2 h-2 rounded-full', statusColor.bg)} />
                   </div>
                   
-                  {/* 金额 */}
-                  <div className="flex items-baseline gap-1 mb-1">
-                    <span className="text-2xl font-bold text-slate-900">{level.amount.toLocaleString()}</span>
-                    <span className="text-sm text-slate-600">万</span>
+                  {/* 金额 vs 目标 */}
+                  <div className="space-y-1 mb-2">
+                    <div className="flex items-baseline gap-1">
+                      <span className="text-sm text-slate-600">支撑</span>
+                      <span className="text-2xl font-bold text-slate-900">{level.amount.toLocaleString()}</span>
+                      <span className="text-sm text-slate-600">万</span>
+                    </div>
+                    <div className="flex items-baseline gap-1">
+                      <span className="text-sm text-slate-600">目标</span>
+                      <span className={cn('text-sm font-semibold', level.gap > 0 ? 'text-red-600' : 'text-green-600')}>{level.target.toLocaleString()}</span>
+                      <span className="text-xs text-slate-600">万</span>
+                    </div>
                   </div>
-                  
+
                   {/* 覆盖度 */}
                   <div className="flex items-center gap-2 mb-3">
                     <span className="text-xs text-slate-600">覆盖度</span>
