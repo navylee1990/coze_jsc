@@ -662,68 +662,66 @@ export default function KeySupportPanel({
                 <Clock className="w-4 h-4 text-orange-600" />
                 未来生效时间线
               </h4>
-              <div className="relative">
-                {/* 时间轴线 */}
-                <div
-                  className={cn(
-                    'absolute top-1/2 left-0 right-0 h-0.5 -translate-y-1/2',
-                    theme === 'dark' ? 'bg-slate-700' : 'bg-slate-200'
-                  )}
-                />
-                {/* 时间节点 */}
-                <div className="flex justify-between relative">
-                  {timelineData.map((item, index) => (
-                    <Tooltip key={index}>
-                      <TooltipTrigger asChild>
-                        <div
-                          className="relative cursor-pointer group"
-                          onMouseEnter={() => onTimelineHover?.(item.label)}
-                        >
+              <div className="space-y-4">
+                {/* 时间线 */}
+                <div className="relative">
+                  {/* 横向时间轴线 */}
+                  <div
+                    className={cn(
+                      'absolute left-0 right-0 h-0.5 top-2',
+                      theme === 'dark' ? 'bg-slate-700' : 'bg-slate-200'
+                    )}
+                  />
+                  {/* 时间节点容器 */}
+                  <div className="flex justify-between relative">
+                    {timelineData.map((item, index) => (
+                      <Tooltip key={index}>
+                        <TooltipTrigger asChild>
                           <div
-                            className={cn(
-                              'w-3 h-3 rounded-full border-2 bg-white',
-                              index < 3 ? 'border-green-500' : index < 5 ? 'border-blue-500' : 'border-purple-500',
-                              'group-hover:scale-125 transition-transform'
-                            )}
-                          />
-                          <div className="absolute -top-6 left-1/2 -translate-x-1/2 text-[10px] text-slate-600 whitespace-nowrap">
-                            {item.label}
-                          </div>
-                          {index < timelineData.length - 1 && (
+                            className="relative flex flex-col items-center cursor-pointer group flex-shrink-0"
+                            style={{ minWidth: '40px' }}
+                            onMouseEnter={() => onTimelineHover?.(item.label)}
+                          >
+                            {/* 节点圆点 */}
                             <div
                               className={cn(
-                                'absolute top-1/2 -translate-y-1/2 w-full h-0.5',
-                                index < 2 ? 'bg-green-500/50' : index < 4 ? 'bg-blue-500/50' : 'bg-purple-500/50'
+                                'w-3 h-3 rounded-full border-2 bg-white z-10 mb-2',
+                                index < 3 ? 'border-green-500' : index < 5 ? 'border-blue-500' : 'border-purple-500',
+                                'group-hover:scale-125 transition-transform'
                               )}
                             />
+                            {/* 时间标签 */}
+                            <div className="text-[10px] text-slate-600 text-center whitespace-nowrap">
+                              {item.label}
+                            </div>
+                          </div>
+                        </TooltipTrigger>
+                        <TooltipContent
+                          side="bottom"
+                          className={cn(
+                            theme === 'dark' ? 'bg-slate-900 border-slate-700' : 'bg-white border-slate-200'
                           )}
-                        </div>
-                      </TooltipTrigger>
-                      <TooltipContent
-                        side="top"
-                        className={cn(
-                          theme === 'dark' ? 'bg-slate-900 border-slate-700' : 'bg-white border-slate-200'
-                        )}
-                      >
-                        <div className="text-xs">{item.label}</div>
-                      </TooltipContent>
-                    </Tooltip>
-                  ))}
+                        >
+                          <div className="text-xs">{item.label}</div>
+                        </TooltipContent>
+                      </Tooltip>
+                    ))}
+                  </div>
                 </div>
-              </div>
-              {/* 时间线图例 */}
-              <div className="mt-4 pt-3 border-t border-slate-200 flex items-center gap-3 text-[10px]">
-                <div className="flex items-center gap-1">
-                  <div className="w-2 h-2 rounded-full bg-green-500" />
-                  <span className="text-slate-600">核心支撑（0-30天）</span>
-                </div>
-                <div className="flex items-center gap-1">
-                  <div className="w-2 h-2 rounded-full bg-blue-500" />
-                  <span className="text-slate-600">中期支撑（1-3月）</span>
-                </div>
-                <div className="flex items-center gap-1">
-                  <div className="w-2 h-2 rounded-full bg-purple-500" />
-                  <span className="text-slate-600">储备支撑（3-6月）</span>
+                {/* 时间线图例 */}
+                <div className="pt-2 border-t border-slate-200 flex flex-wrap items-center gap-x-3 gap-y-1 text-[10px]">
+                  <div className="flex items-center gap-1">
+                    <div className="w-2 h-2 rounded-full bg-green-500" />
+                    <span className="text-slate-600">核心支撑（0-30天）</span>
+                  </div>
+                  <div className="flex items-center gap-1">
+                    <div className="w-2 h-2 rounded-full bg-blue-500" />
+                    <span className="text-slate-600">中期支撑（1-3月）</span>
+                  </div>
+                  <div className="flex items-center gap-1">
+                    <div className="w-2 h-2 rounded-full bg-purple-500" />
+                    <span className="text-slate-600">储备支撑（3-6月）</span>
+                  </div>
                 </div>
               </div>
             </div>
