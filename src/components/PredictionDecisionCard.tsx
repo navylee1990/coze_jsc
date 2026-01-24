@@ -400,9 +400,9 @@ export default function PredictionDecisionCard({
           </div>
         </div>
 
-        {/* 主内容区：四区布局 */}
+        {/* 主内容区：三区布局 */}
         <div className="p-5 grid grid-cols-12 gap-4">
-          {/* 左侧（20%）：汽车仪表盘展示 */}
+          {/* 左侧（25%）：汽车仪表盘展示 */}
           <div className="col-span-3">
             <div className="space-y-3">
               {/* 仪表盘1 - 目标 */}
