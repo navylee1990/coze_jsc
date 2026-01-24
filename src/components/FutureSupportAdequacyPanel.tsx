@@ -1745,6 +1745,16 @@ export default function FutureSupportAdequacyPanel({
                       'w-4 h-4',
                       theme === 'dashboard' ? 'text-cyan-400/50' : 'text-slate-400'
                     )} />
+                    {newDevNeeded > 0 && (
+                      <span className={cn(
+                        'text-xs font-medium px-2 py-0.5 rounded-full',
+                        theme === 'dashboard'
+                          ? 'bg-orange-500/30 text-orange-300 border border-orange-500/30'
+                          : 'bg-orange-100 text-orange-700'
+                      )}>
+                        需新开发{newDevNeeded.toFixed(0)}万
+                      </span>
+                    )}
                   </div>
                   <div className="flex items-center gap-2">
                     <div className={cn(
