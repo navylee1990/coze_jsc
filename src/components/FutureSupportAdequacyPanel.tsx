@@ -1733,6 +1733,21 @@ export default function FutureSupportAdequacyPanel({
                   setIsDrillDownOpen(true);
                 }}
               >
+                {/* 需新开发提醒角标 */}
+                {newDevNeeded > 0 && (
+                  <div className={cn(
+                    'absolute -top-2 -right-2 z-30 rounded-full p-1.5 animate-pulse',
+                    theme === 'dashboard'
+                      ? 'bg-purple-500/40 shadow-[0_0_12px_rgba(168,85,247,0.8)]'
+                      : 'bg-purple-500/30 shadow-lg'
+                  )}>
+                    <Target className={cn(
+                      'w-5 h-5',
+                      theme === 'dashboard' ? 'text-purple-300' : 'text-purple-600'
+                    )} />
+                  </div>
+                )}
+
                 {/* 时间段标签 */}
                 <div className="flex items-center justify-between mb-3">
                   <div className="flex items-center gap-2">
@@ -1862,19 +1877,7 @@ export default function FutureSupportAdequacyPanel({
                       </div>
                       {/* 需要新开发项目 */}
                       {newDevNeeded > 0 && (
-                        <div className="relative flex justify-between text-xs">
-                          {/* 右上角标识 */}
-                          <div className={cn(
-                            'absolute -top-1.5 -right-1 z-20 rounded-full p-1 animate-pulse',
-                            theme === 'dashboard'
-                              ? 'bg-purple-500/40 shadow-[0_0_8px_rgba(168,85,247,0.6)]'
-                              : 'bg-purple-500/30 shadow-md'
-                          )}>
-                            <Target className={cn(
-                              'w-4 h-4',
-                              theme === 'dashboard' ? 'text-purple-300' : 'text-purple-600'
-                            )} />
-                          </div>
+                        <div className="flex justify-between text-xs">
                           <span className={cn(theme === 'dashboard' ? 'text-cyan-400/60' : 'text-slate-500')}>需新开发</span>
                           <span className={cn(
                             'font-semibold text-purple-400',
