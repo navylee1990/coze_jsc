@@ -1738,12 +1738,12 @@ export default function FutureSupportAdequacyPanel({
                   <div className={cn(
                     'absolute -top-2 -right-2 z-30 rounded-full p-1.5 animate-pulse',
                     theme === 'dashboard'
-                      ? 'bg-purple-500/40 shadow-[0_0_12px_rgba(168,85,247,0.8)]'
-                      : 'bg-purple-500/30 shadow-lg'
+                      ? 'bg-red-500/40 shadow-[0_0_12px_rgba(239,68,68,0.8)]'
+                      : 'bg-red-500/30 shadow-lg'
                   )}>
-                    <Target className={cn(
+                    <AlertTriangle className={cn(
                       'w-5 h-5',
-                      theme === 'dashboard' ? 'text-purple-300' : 'text-purple-600'
+                      theme === 'dashboard' ? 'text-red-300' : 'text-red-600'
                     )} />
                   </div>
                 )}
