@@ -116,109 +116,6 @@ const forecastTrendData = [
   { month: '12月', businessTarget: 1500, financialTarget: 1200, completed: null, forecast: 880 },
 ];
 
-// 各区域趋势数据
-const regionTrendData: Record<string, typeof forecastTrendData> = {
-  'all': forecastTrendData,
-  '一区': [
-    { month: '1月', businessTarget: 320, financialTarget: 256, completed: 65, forecast: 80 },
-    { month: '2月', businessTarget: 320, financialTarget: 256, completed: null, forecast: 75 },
-    { month: '3月', businessTarget: 320, financialTarget: 256, completed: null, forecast: 70 },
-    { month: '4月', businessTarget: 320, financialTarget: 256, completed: null, forecast: 72 },
-    { month: '5月', businessTarget: 320, financialTarget: 256, completed: null, forecast: 68 },
-    { month: '6月', businessTarget: 320, financialTarget: 256, completed: null, forecast: 65 },
-    { month: '7月', businessTarget: 320, financialTarget: 256, completed: null, forecast: 70 },
-    { month: '8月', businessTarget: 320, financialTarget: 256, completed: null, forecast: 72 },
-    { month: '9月', businessTarget: 320, financialTarget: 256, completed: null, forecast: 68 },
-    { month: '10月', businessTarget: 320, financialTarget: 256, completed: null, forecast: 75 },
-    { month: '11月', businessTarget: 320, financialTarget: 256, completed: null, forecast: 70 },
-    { month: '12月', businessTarget: 320, financialTarget: 256, completed: null, forecast: 65 },
-  ],
-  '二区': [
-    { month: '1月', businessTarget: 232, financialTarget: 186, completed: 100, forecast: 110 },
-    { month: '2月', businessTarget: 232, financialTarget: 186, completed: null, forecast: 105 },
-    { month: '3月', businessTarget: 232, financialTarget: 186, completed: null, forecast: 95 },
-    { month: '4月', businessTarget: 232, financialTarget: 186, completed: null, forecast: 98 },
-    { month: '5月', businessTarget: 232, financialTarget: 186, completed: null, forecast: 102 },
-    { month: '6月', businessTarget: 232, financialTarget: 186, completed: null, forecast: 100 },
-    { month: '7月', businessTarget: 232, financialTarget: 186, completed: null, forecast: 95 },
-    { month: '8月', businessTarget: 232, financialTarget: 186, completed: null, forecast: 98 },
-    { month: '9月', businessTarget: 232, financialTarget: 186, completed: null, forecast: 102 },
-    { month: '10月', businessTarget: 232, financialTarget: 186, completed: null, forecast: 105 },
-    { month: '11月', businessTarget: 232, financialTarget: 186, completed: null, forecast: 100 },
-    { month: '12月', businessTarget: 232, financialTarget: 186, completed: null, forecast: 98 },
-  ],
-  '五区': [
-    { month: '1月', businessTarget: 260, financialTarget: 208, completed: 120, forecast: 130 },
-    { month: '2月', businessTarget: 260, financialTarget: 208, completed: null, forecast: 125 },
-    { month: '3月', businessTarget: 260, financialTarget: 208, completed: null, forecast: 115 },
-    { month: '4月', businessTarget: 260, financialTarget: 208, completed: null, forecast: 118 },
-    { month: '5月', businessTarget: 260, financialTarget: 208, completed: null, forecast: 122 },
-    { month: '6月', businessTarget: 260, financialTarget: 208, completed: null, forecast: 120 },
-    { month: '7月', businessTarget: 260, financialTarget: 208, completed: null, forecast: 115 },
-    { month: '8月', businessTarget: 260, financialTarget: 208, completed: null, forecast: 118 },
-    { month: '9月', businessTarget: 260, financialTarget: 208, completed: null, forecast: 122 },
-    { month: '10月', businessTarget: 260, financialTarget: 208, completed: null, forecast: 125 },
-    { month: '11月', businessTarget: 260, financialTarget: 208, completed: null, forecast: 120 },
-    { month: '12月', businessTarget: 260, financialTarget: 208, completed: null, forecast: 118 },
-  ],
-  '华中': [
-    { month: '1月', businessTarget: 152, financialTarget: 122, completed: 152, forecast: 150 },
-    { month: '2月', businessTarget: 152, financialTarget: 122, completed: null, forecast: 148 },
-    { month: '3月', businessTarget: 152, financialTarget: 122, completed: null, forecast: 145 },
-    { month: '4月', businessTarget: 152, financialTarget: 122, completed: null, forecast: 147 },
-    { month: '5月', businessTarget: 152, financialTarget: 122, completed: null, forecast: 149 },
-    { month: '6月', businessTarget: 152, financialTarget: 122, completed: null, forecast: 148 },
-    { month: '7月', businessTarget: 152, financialTarget: 122, completed: null, forecast: 145 },
-    { month: '8月', businessTarget: 152, financialTarget: 122, completed: null, forecast: 147 },
-    { month: '9月', businessTarget: 152, financialTarget: 122, completed: null, forecast: 149 },
-    { month: '10月', businessTarget: 152, financialTarget: 122, completed: null, forecast: 150 },
-    { month: '11月', businessTarget: 152, financialTarget: 122, completed: null, forecast: 148 },
-    { month: '12月', businessTarget: 152, financialTarget: 122, completed: null, forecast: 147 },
-  ],
-  '华北': [
-    { month: '1月', businessTarget: 160, financialTarget: 128, completed: 120, forecast: 110 },
-    { month: '2月', businessTarget: 160, financialTarget: 128, completed: null, forecast: 105 },
-    { month: '3月', businessTarget: 160, financialTarget: 128, completed: null, forecast: 95 },
-    { month: '4月', businessTarget: 160, financialTarget: 128, completed: null, forecast: 98 },
-    { month: '5月', businessTarget: 160, financialTarget: 128, completed: null, forecast: 102 },
-    { month: '6月', businessTarget: 160, financialTarget: 128, completed: null, forecast: 100 },
-    { month: '7月', businessTarget: 160, financialTarget: 128, completed: null, forecast: 95 },
-    { month: '8月', businessTarget: 160, financialTarget: 128, completed: null, forecast: 98 },
-    { month: '9月', businessTarget: 160, financialTarget: 128, completed: null, forecast: 102 },
-    { month: '10月', businessTarget: 160, financialTarget: 128, completed: null, forecast: 105 },
-    { month: '11月', businessTarget: 160, financialTarget: 128, completed: null, forecast: 100 },
-    { month: '12月', businessTarget: 160, financialTarget: 128, completed: null, forecast: 98 },
-  ],
-  '西南': [
-    { month: '1月', businessTarget: 128, financialTarget: 102, completed: 20, forecast: 25 },
-    { month: '2月', businessTarget: 128, financialTarget: 102, completed: null, forecast: 22 },
-    { month: '3月', businessTarget: 128, financialTarget: 102, completed: null, forecast: 20 },
-    { month: '4月', businessTarget: 128, financialTarget: 102, completed: null, forecast: 21 },
-    { month: '5月', businessTarget: 128, financialTarget: 102, completed: null, forecast: 23 },
-    { month: '6月', businessTarget: 128, financialTarget: 102, completed: null, forecast: 22 },
-    { month: '7月', businessTarget: 128, financialTarget: 102, completed: null, forecast: 20 },
-    { month: '8月', businessTarget: 128, financialTarget: 102, completed: null, forecast: 21 },
-    { month: '9月', businessTarget: 128, financialTarget: 102, completed: null, forecast: 23 },
-    { month: '10月', businessTarget: 128, financialTarget: 102, completed: null, forecast: 25 },
-    { month: '11月', businessTarget: 128, financialTarget: 102, completed: null, forecast: 22 },
-    { month: '12月', businessTarget: 128, financialTarget: 102, completed: null, forecast: 21 },
-  ],
-  '华南': [
-    { month: '1月', businessTarget: 176, financialTarget: 141, completed: 100, forecast: 110 },
-    { month: '2月', businessTarget: 176, financialTarget: 141, completed: null, forecast: 105 },
-    { month: '3月', businessTarget: 176, financialTarget: 141, completed: null, forecast: 95 },
-    { month: '4月', businessTarget: 176, financialTarget: 141, completed: null, forecast: 98 },
-    { month: '5月', businessTarget: 176, financialTarget: 141, completed: null, forecast: 102 },
-    { month: '6月', businessTarget: 176, financialTarget: 141, completed: null, forecast: 100 },
-    { month: '7月', businessTarget: 176, financialTarget: 141, completed: null, forecast: 95 },
-    { month: '8月', businessTarget: 176, financialTarget: 141, completed: null, forecast: 98 },
-    { month: '9月', businessTarget: 176, financialTarget: 141, completed: null, forecast: 102 },
-    { month: '10月', businessTarget: 176, financialTarget: 141, completed: null, forecast: 105 },
-    { month: '11月', businessTarget: 176, financialTarget: 141, completed: null, forecast: 100 },
-    { month: '12月', businessTarget: 176, financialTarget: 141, completed: null, forecast: 98 },
-  ],
-};
-
 // 大区维度数据
 const regionData = {
   month: [
@@ -361,7 +258,6 @@ export default function GMDashboard() {
   const [timeRange, setTimeRange] = useState('month');
   const [selectedMonth, setSelectedMonth] = useState('1');
   const [selectedQuarter, setSelectedQuarter] = useState('Q1');
-  const [selectedTrendRegion, setSelectedTrendRegion] = useState<'all' | '一区' | '二区' | '五区' | '华中' | '华北' | '西南' | '华南'>('all');
 
   // 默认时间范围为月度
   useEffect(() => {
@@ -826,29 +722,12 @@ export default function GMDashboard() {
 
               {/* 趋势图表 */}
               <div className="bg-slate-800/30 rounded-xl p-4 border border-cyan-400/10">
-                <div className="mb-3 flex items-center justify-between">
+                <div className="mb-3">
                   <h4 className={`text-sm font-semibold ${DASHBOARD_STYLES.neon}`}>趋势分析</h4>
-                  <div className="flex items-center gap-2">
-                    <span className={`text-xs ${DASHBOARD_STYLES.textMuted}`}>区域:</span>
-                    <select
-                      value={selectedTrendRegion}
-                      onChange={(e) => setSelectedTrendRegion(e.target.value as any)}
-                      className="bg-slate-900/80 border border-cyan-500/40 text-white text-xs rounded px-2 py-1 cursor-pointer hover:bg-cyan-500/20 transition-colors focus:outline-none focus:ring-2 focus:ring-cyan-500"
-                    >
-                      <option value="all">全部区域</option>
-                      <option value="一区">一区</option>
-                      <option value="二区">二区</option>
-                      <option value="五区">五区</option>
-                      <option value="华中">华中</option>
-                      <option value="华北">华北</option>
-                      <option value="西南">西南</option>
-                      <option value="华南">华南</option>
-                    </select>
-                  </div>
                 </div>
                 <div style={{ height: '220px' }}>
                   <ResponsiveContainer width="100%" height="100%">
-                    <AreaChart data={regionTrendData[selectedTrendRegion]}>
+                    <AreaChart data={forecastTrendData}>
                       <CartesianGrid strokeDasharray="3 3" stroke="rgba(6,182,212,0.1)" vertical={false} />
                       <XAxis
                         dataKey="month"
