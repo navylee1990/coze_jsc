@@ -836,8 +836,8 @@ export default function GMDashboard() {
                       <defs>
                         {/* 缺口区域填充 - 更明显的红色 */}
                         <linearGradient id="colorGap" x1="0" y1="0" x2="0" y2="1">
-                          <stop offset="0%" stopColor="#ef4444" stopOpacity={0.25}/>
-                          <stop offset="100%" stopColor="#ef4444" stopOpacity={0.1}/>
+                          <stop offset="0%" stopColor="#ef4444" stopOpacity={0.4}/>
+                          <stop offset="100%" stopColor="#ef4444" stopOpacity={0.2}/>
                         </linearGradient>
                         {/* 已完成区域填充 */}
                         <linearGradient id="colorCompleted" x1="0" y1="0" x2="0" y2="1">
@@ -890,14 +890,14 @@ export default function GMDashboard() {
                         label={{ value: '当前', position: 'topLeft', fill: '#22d3ee', fontSize: 10, fontWeight: 'bold' }}
                       />
 
-                      {/* 缺口区域 - 在业务目标和预测之间填充 */}
+                      {/* 缺口区域 - 从X轴到业务目标线（红色半透明） */}
                       <Area
                         type="monotone"
-                        dataKey="forecast"
+                        dataKey="businessTarget"
                         stroke="none"
                         fill="url(#colorGap)"
                         name="缺口区域"
-                        opacity={1}
+                        opacity={0.95}
                       />
 
                       {/* 业务目标线 - 蓝色 */}
@@ -938,6 +938,16 @@ export default function GMDashboard() {
                           }
                           return <circle r={0} />;
                         }}
+                      />
+
+                      {/* 预测线下方填充 - 青色半透明，用于遮挡红色区域，形成缺口视觉 */}
+                      <Area
+                        type="monotone"
+                        dataKey="forecast"
+                        stroke="none"
+                        fill="#22d3ee"
+                        name="预测填充"
+                        opacity={0.15}
                       />
 
                       {/* 预测线 - 青色虚线，只在之后月份显示 */}
