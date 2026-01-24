@@ -9,7 +9,7 @@ import PredictionDecisionCard from '@/components/PredictionDecisionCard';
 import FutureSupportAdequacyPanel from '@/components/FutureSupportAdequacyPanel';
 import { Separator } from '@/components/ui/separator';
 import Link from 'next/link';
-import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
+import { AreaChart, Area, LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 import { cn } from '@/lib/utils';
 
 // 页面标题
@@ -62,12 +62,12 @@ const riskData = {
 
 // 预测趋势图数据
 const forecastTrendData = [
-  { month: '1月', target: 1500, forecast: 1350, completed: 800 },
-  { month: '2月', target: 1500, forecast: 1480, completed: 0 },
-  { month: '3月', target: 1500, forecast: 1370, completed: 0 },
-  { month: '4月', target: 1500, forecast: 1420, completed: 0 },
-  { month: '5月', target: 1500, forecast: 1380, completed: 0 },
-  { month: '6月', target: 1500, forecast: 1450, completed: 0 },
+  { month: '1月', businessTarget: 1500, financialTarget: 1500, completed: 800, forecast: 1140 },
+  { month: '2月', businessTarget: 1500, financialTarget: 1500, completed: 0, forecast: 1180 },
+  { month: '3月', businessTarget: 1500, financialTarget: 1500, completed: 0, forecast: 1120 },
+  { month: '4月', businessTarget: 1500, financialTarget: 1500, completed: 0, forecast: 1160 },
+  { month: '5月', businessTarget: 1500, financialTarget: 1500, completed: 0, forecast: 1140 },
+  { month: '6月', businessTarget: 1500, financialTarget: 1500, completed: 0, forecast: 1200 },
 ];
 
 // 大区维度数据
@@ -789,15 +789,11 @@ export default function GMDashboard() {
               <div className="bg-slate-800/30 rounded-xl p-4 border border-cyan-400/10">
                 <div style={{ height: '200px' }}>
                   <ResponsiveContainer width="100%" height="100%">
-                    <AreaChart data={forecastTrendData}>
+                    <LineChart data={forecastTrendData}>
                       <defs>
-                        <linearGradient id="colorForecast" x1="0" y1="0" x2="0" y2="1">
-                          <stop offset="5%" stopColor="#22d3ee" stopOpacity={0.3}/>
-                          <stop offset="95%" stopColor="#22d3ee" stopOpacity={0}/>
-                        </linearGradient>
-                        <linearGradient id="colorTarget" x1="0" y1="0" x2="0" y2="1">
-                          <stop offset="5%" stopColor="#3b82f6" stopOpacity={0.3}/>
-                          <stop offset="95%" stopColor="#3b82f6" stopOpacity={0}/>
+                        <linearGradient id="colorCompleted" x1="0" y1="0" x2="0" y2="1">
+                          <stop offset="5%" stopColor="#22c55e" stopOpacity={0.3}/>
+                          <stop offset="95%" stopColor="#22c55e" stopOpacity={0}/>
                         </linearGradient>
                       </defs>
                       <CartesianGrid strokeDasharray="3 3" stroke="rgba(6,182,212,0.1)" vertical={false} />
@@ -823,23 +819,44 @@ export default function GMDashboard() {
                         formatter={(value: number, name: string) => [`${value}万`, name]}
                         labelStyle={{ color: '#22d3ee', fontWeight: 'bold' }}
                       />
-                      <Area
+                      <Legend
+                        wrapperStyle={{ paddingTop: '10px' }}
+                        iconType="line"
+                      />
+                      <Line
                         type="monotone"
-                        dataKey="target"
+                        dataKey="businessTarget"
                         stroke="#3b82f6"
                         strokeWidth={2}
-                        fill="url(#colorTarget)"
-                        name="目标"
+                        dot={{ r: 3, fill: '#3b82f6' }}
+                        name="业务目标"
+                      />
+                      <Line
+                        type="monotone"
+                        dataKey="financialTarget"
+                        stroke="#8b5cf6"
+                        strokeWidth={2}
+                        dot={{ r: 3, fill: '#8b5cf6' }}
+                        name="财务目标"
                       />
                       <Area
+                        type="monotone"
+                        dataKey="completed"
+                        stroke="#22c55e"
+                        strokeWidth={2}
+                        fill="url(#colorCompleted)"
+                        dot={{ r: 3, fill: '#22c55e' }}
+                        name="已完成"
+                      />
+                      <Line
                         type="monotone"
                         dataKey="forecast"
                         stroke="#22d3ee"
                         strokeWidth={2.5}
-                        fill="url(#colorForecast)"
-                        name="预测"
+                        dot={{ r: 3, fill: '#22d3ee' }}
+                        name="预计完成"
                       />
-                    </AreaChart>
+                    </LineChart>
                   </ResponsiveContainer>
                 </div>
               </div>
