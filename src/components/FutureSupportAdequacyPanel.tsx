@@ -1732,21 +1732,6 @@ export default function FutureSupportAdequacyPanel({
                   setIsDrillDownOpen(true);
                 }}
               >
-                {/* 需新开发提醒角标 */}
-                {newDevNeeded > 0 && (
-                  <div className={cn(
-                    'absolute -top-2 -right-2 z-30 rounded-full p-1.5 animate-pulse',
-                    theme === 'dashboard'
-                      ? 'bg-red-500/40 shadow-[0_0_12px_rgba(239,68,68,0.8)]'
-                      : 'bg-red-500/30 shadow-lg'
-                  )}>
-                    <AlertTriangle className={cn(
-                      'w-5 h-5',
-                      theme === 'dashboard' ? 'text-red-300' : 'text-red-600'
-                    )} />
-                  </div>
-                )}
-
                 {/* 时间段标签 */}
                 <div className="flex items-center justify-between mb-3">
                   <div className="flex items-center gap-2">
