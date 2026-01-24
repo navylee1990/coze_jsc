@@ -103,17 +103,17 @@ const actionRecommendationsData: ActionItem[] = [
 // 预测完成比财务目标低15%~30%: 1200 * (0.7~0.85) = 840~1020万
 const forecastTrendData = [
   { month: '1月', businessTarget: 1500, financialTarget: 1200, completed: 800, forecast: 900 },
-  { month: '2月', businessTarget: 1500, financialTarget: 1200, completed: null, forecast: 950 },
-  { month: '3月', businessTarget: 1500, financialTarget: 1200, completed: null, forecast: 880 },
-  { month: '4月', businessTarget: 1500, financialTarget: 1200, completed: null, forecast: 920 },
-  { month: '5月', businessTarget: 1500, financialTarget: 1200, completed: null, forecast: 960 },
-  { month: '6月', businessTarget: 1500, financialTarget: 1200, completed: null, forecast: 910 },
-  { month: '7月', businessTarget: 1500, financialTarget: 1200, completed: null, forecast: 930 },
-  { month: '8月', businessTarget: 1500, financialTarget: 1200, completed: null, forecast: 890 },
-  { month: '9月', businessTarget: 1500, financialTarget: 1200, completed: null, forecast: 940 },
-  { month: '10月', businessTarget: 1500, financialTarget: 1200, completed: null, forecast: 970 },
-  { month: '11月', businessTarget: 1500, financialTarget: 1200, completed: null, forecast: 920 },
-  { month: '12月', businessTarget: 1500, financialTarget: 1200, completed: null, forecast: 880 },
+  { month: '2月', businessTarget: 1500, financialTarget: 1200, completed: 800, forecast: 950 },
+  { month: '3月', businessTarget: 1500, financialTarget: 1200, completed: 800, forecast: 880 },
+  { month: '4月', businessTarget: 1500, financialTarget: 1200, completed: 800, forecast: 920 },
+  { month: '5月', businessTarget: 1500, financialTarget: 1200, completed: 800, forecast: 960 },
+  { month: '6月', businessTarget: 1500, financialTarget: 1200, completed: 800, forecast: 910 },
+  { month: '7月', businessTarget: 1500, financialTarget: 1200, completed: 800, forecast: 930 },
+  { month: '8月', businessTarget: 1500, financialTarget: 1200, completed: 800, forecast: 890 },
+  { month: '9月', businessTarget: 1500, financialTarget: 1200, completed: 800, forecast: 940 },
+  { month: '10月', businessTarget: 1500, financialTarget: 1200, completed: 800, forecast: 970 },
+  { month: '11月', businessTarget: 1500, financialTarget: 1200, completed: 800, forecast: 920 },
+  { month: '12月', businessTarget: 1500, financialTarget: 1200, completed: 800, forecast: 880 },
 ];
 
 // 大区维度数据
@@ -790,7 +790,6 @@ export default function GMDashboard() {
                         name="已完成"
                         dot={{ fill: '#22c55e', r: 5 }}
                         activeDot={{ r: 7, stroke: '#22c55e', strokeWidth: 2 }}
-                        connectNulls={false}
                       />
                       {/* 未来预测完成 - 面积填充（虚线边框） */}
                       <Area
