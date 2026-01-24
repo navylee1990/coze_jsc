@@ -68,8 +68,8 @@ interface PredictionDecisionCardData {
 const defaultData: PredictionDecisionCardData = {
   target: 1500,
   forecast: 1350,
-  completed: 800,
-  achievementRate: 90,
+  completed: 1140,
+  achievementRate: 76,
   gap: 150,
   trendDirection: 'up',
   trendData: [
