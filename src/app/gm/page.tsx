@@ -834,10 +834,10 @@ export default function GMDashboard() {
                   <ResponsiveContainer width="100%" height="100%">
                     <LineChart data={forecastTrendData}>
                       <defs>
-                        {/* 缺口区域填充 - 更明显的红色 */}
+                        {/* 缺口区域填充 - 红色渐变，从预测线到目标线 */}
                         <linearGradient id="colorGap" x1="0" y1="0" x2="0" y2="1">
-                          <stop offset="0%" stopColor="#ef4444" stopOpacity={0.25}/>
-                          <stop offset="100%" stopColor="#ef4444" stopOpacity={0.1}/>
+                          <stop offset="0%" stopColor="#ef4444" stopOpacity={0.5}/>
+                          <stop offset="100%" stopColor="#ef4444" stopOpacity={0.2}/>
                         </linearGradient>
                         {/* 已完成区域填充 */}
                         <linearGradient id="colorCompleted" x1="0" y1="0" x2="0" y2="1">
@@ -890,14 +890,14 @@ export default function GMDashboard() {
                         label={{ value: '当前', position: 'topLeft', fill: '#22d3ee', fontSize: 10, fontWeight: 'bold' }}
                       />
 
-                      {/* 缺口区域 - 在业务目标和预测之间填充 */}
+                      {/* 缺口区域 - 使用businessTarget填充，表示目标线 */}
                       <Area
                         type="monotone"
-                        dataKey="forecast"
+                        dataKey="businessTarget"
                         stroke="none"
                         fill="url(#colorGap)"
                         name="缺口区域"
-                        opacity={1}
+                        opacity={0.6}
                       />
 
                       {/* 业务目标线 - 蓝色 */}
