@@ -925,6 +925,9 @@ export default function GMDashboard() {
               </div>
             </div>
 
+            {/* 未来支撑充分性面板 */}
+            <FutureSupportAdequacyPanel theme="dashboard" />
+
             {/* 行动建议模块 */}
             <div className={`${DASHBOARD_STYLES.cardBg} ${DASHBOARD_STYLES.cardBorder} rounded-xl p-6 ${DASHBOARD_STYLES.glow}`}>
               <div className="flex items-center justify-between mb-6">
@@ -1012,9 +1015,6 @@ export default function GMDashboard() {
                 ))}
               </div>
             </div>
-
-            {/* 未来支撑充分性面板 */}
-            <FutureSupportAdequacyPanel theme="dashboard" />
           </div>
 
           {/* 右侧仪表区 */}
