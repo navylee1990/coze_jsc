@@ -7,6 +7,8 @@ import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import PredictionDecisionCard from '@/components/PredictionDecisionCard';
 import FutureSupportAdequacyPanel from '@/components/FutureSupportAdequacyPanel';
+import RegionMatrix from '@/components/RegionMatrix';
+import DrillDownModal from '@/components/DrillDownModal';
 import { Separator } from '@/components/ui/separator';
 import Link from 'next/link';
 import { LineChart, Line, AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
@@ -385,6 +387,13 @@ export default function GMDashboard() {
   const [selectedRegion, setSelectedRegion] = useState<string>('');
   const [selectedCity, setSelectedCity] = useState<string>('');
 
+  // 弹窗状态
+  const [isDrillDownModalOpen, setIsDrillDownModalOpen] = useState(false);
+  const [modalData, setModalData] = useState<any[]>([]);
+  const [modalTitle, setModalTitle] = useState('');
+  const [modalSubtitle, setModalSubtitle] = useState('');
+  const [modalLevel, setModalLevel] = useState<'city' | 'salesperson'>('city');
+
   // 获取当前时间范围的数据
   const getTimeRangeData = () => {
     if (selectedTimeRange === 'current') return forecastOverviewData.currentMonth;
@@ -429,6 +438,37 @@ export default function GMDashboard() {
   const totalPredicted = totals.predicted;
   const totalGap = totalTarget - totalPredicted;
   const totalPendingAmount = totals.pendingAmount;
+
+  // 处理区域点击 - 打开城市弹窗
+  const handleRegionClick = (regionName: string) => {
+    setSelectedRegion(regionName);
+    const cities = cityData[regionName] || [];
+    setModalTitle(`${regionName} - 城市达成情况`);
+    setModalSubtitle(`(${timeRange === 'month' ? `${selectedMonth}月` : timeRange === 'quarter' ? selectedQuarter : '2026年'})`);
+    setModalData(cities);
+    setModalLevel('city');
+    setIsDrillDownModalOpen(true);
+  };
+
+  // 处理城市点击 - 打开业务员弹窗
+  const handleCityClick = (cityName: string) => {
+    setSelectedCity(cityName);
+    const salespersons = salespersonData[cityName] || [];
+    setModalTitle(`${cityName} - 业务员达成情况`);
+    setModalSubtitle(`${selectedRegion}区域 · (${timeRange === 'month' ? `${selectedMonth}月` : timeRange === 'quarter' ? selectedQuarter : '2026年'})`);
+    setModalData(salespersons);
+    setModalLevel('salesperson');
+  };
+
+  // 返回城市层级
+  const handleBackToCity = () => {
+    const cities = cityData[selectedRegion] || [];
+    setModalTitle(`${selectedRegion} - 城市达成情况`);
+    setModalSubtitle(`(${timeRange === 'month' ? `${selectedMonth}月` : timeRange === 'quarter' ? selectedQuarter : '2026年'})`);
+    setModalData(cities);
+    setModalLevel('city');
+    setSelectedCity('');
+  };
 
   return (
     <div className={`${DASHBOARD_STYLES.bg} ${DASHBOARD_STYLES.text} min-h-screen`}>
@@ -1139,128 +1179,32 @@ export default function GMDashboard() {
 
           {/* 右侧仪表区 */}
           <div className="col-span-3 space-y-4">
-            {/* 区域达成情况 */}
+            {/* 区域达成情况 - 矩阵卡片展示 */}
             <div className={`${DASHBOARD_STYLES.cardBg} ${DASHBOARD_STYLES.cardBorder} rounded-xl p-4 ${DASHBOARD_STYLES.glow}`}>
-              {/* 标题与面包屑 */}
-              <div className="flex items-center justify-between mb-3">
-                <h3 className={`text-sm font-semibold ${DASHBOARD_STYLES.neon} flex items-center gap-2`}>
-                  <Activity className="w-4 h-4" />
-                  {drillDownView === 'region' ? '区域达成' : drillDownView === 'city' ? '城市达成' : '业务员达成'}
-                </h3>
-                <div className="flex items-center gap-2">
-                  <span className="text-xs font-normal text-cyan-400/70">
-                    ({timeRange === 'month' ? `${selectedMonth}月` : timeRange === 'quarter' ? selectedQuarter : '2026年'})
-                  </span>
-                  {/* 返回按钮 */}
-                  {(drillDownView === 'city' || drillDownView === 'salesperson') && (
-                    <button
-                      onClick={() => {
-                        if (drillDownView === 'salesperson') {
-                          setDrillDownView('city');
-                        } else {
-                          setDrillDownView('region');
-                          setSelectedRegion('');
-                        }
-                      }}
-                      className="px-2 py-1 text-xs rounded bg-cyan-500/20 border border-cyan-500/30 text-cyan-300 hover:bg-cyan-500/30 transition-colors"
-                    >
-                      返回
-                    </button>
-                  )}
-                </div>
-              </div>
-
-              {/* 面包屑导航 */}
-              {drillDownView !== 'region' && (
-                <div className="mb-3 text-xs text-cyan-400/70 flex items-center gap-1">
-                  <span className="cursor-pointer hover:text-cyan-300" onClick={() => setDrillDownView('region')}>
-                    区域
-                  </span>
-                  {drillDownView !== 'region' && <span>/</span>}
-                  {drillDownView !== 'region' && selectedRegion && (
-                    <span className="cursor-pointer hover:text-cyan-300" onClick={() => setDrillDownView('city')}>
-                      {selectedRegion}
-                    </span>
-                  )}
-                  {drillDownView === 'salesperson' && selectedCity && <span>/</span>}
-                  {drillDownView === 'salesperson' && selectedCity && (
-                    <span className="text-cyan-300">{selectedCity}</span>
-                  )}
-                </div>
-              )}
-
-              {/* 合计 */}
-              <div className="mb-2 p-1.5 rounded-lg bg-cyan-500/10 border border-cyan-500/20">
-                <div className="grid grid-cols-3 gap-1 text-xs">
-                  <div className="text-center">
-                    <div className="text-cyan-400/60 mb-0.5">目标</div>
-                    <div className="text-cyan-300 font-semibold">{totalTarget.toLocaleString()}万</div>
-                  </div>
-                  <div className="text-center">
-                    <div className="text-cyan-400/60 mb-0.5">预测</div>
-                    <div className="text-cyan-300 font-semibold">{totalPredicted.toLocaleString()}万</div>
-                  </div>
-                  <div className="text-center">
-                    <div className="text-cyan-400/60 mb-0.5">在手项目</div>
-                    <div className="text-cyan-300 font-semibold">{totalPendingAmount.toLocaleString()}万</div>
-                  </div>
-                </div>
-              </div>
-
-              {/* 数据列表 */}
-              <div className={`space-y-1.5 overflow-y-auto pr-2 ${
-                drillDownView === 'region' ? 'max-h-96' : 'max-h-72'
-              }`}>
-                {currentData.map((item: any, index: number) => (
-                  <div
-                    key={index}
-                    className={`p-1.5 rounded-lg bg-slate-800/30 border border-slate-700/30 hover:border-cyan-500/50 transition-all ${
-                      drillDownView === 'salesperson' ? '' : 'cursor-pointer'
-                    }`}
-                    onClick={() => {
-                      if (drillDownView === 'region') {
-                        setSelectedRegion(item.name);
-                        setDrillDownView('city');
-                      } else if (drillDownView === 'city') {
-                        setSelectedCity(item.name);
-                        setDrillDownView('salesperson');
-                      }
-                    }}
-                  >
-                    {/* 第一行：名称 + 缺口 */}
-                    <div className="flex items-center justify-between mb-1">
-                      <span className="text-sm font-medium text-cyan-200">{item.name}</span>
-                      <div className="flex items-center gap-2">
-                        <span className={`text-xs font-semibold ${item.gap > 0 ? 'text-red-400' : 'text-green-400'}`}>
-                          {item.gap > 0 ? `${item.gap}` : `+${Math.abs(item.gap)}`}
-                        </span>
-                        {(drillDownView === 'region' || drillDownView === 'city') && (
-                          <ChevronRight className="w-3 h-3 text-cyan-400/50" />
-                        )}
-                      </div>
-                    </div>
-                    {/* 第二行：负责人/业务员 + 达成率 + 在手项目 */}
-                    <div className="flex items-center justify-between text-xs">
-                      <div className="flex items-center gap-2">
-                        <span className="text-cyan-400/50">{drillDownView === 'salesperson' ? item.name : item.owner}</span>
-                      </div>
-                      <div className="flex items-center gap-2">
-                        <span className="text-cyan-400/70">{item.rate.toFixed(1)}%</span>
-                        <div className="w-12 h-1.5 rounded-full bg-slate-700 overflow-hidden">
-                          <div
-                            className={`h-full ${
-                              item.rate >= 100 ? 'bg-green-500' : item.rate >= 80 ? 'bg-yellow-500' : 'bg-red-500'
-                            }`}
-                            style={{ width: `${Math.min(item.rate, 100)}%` }}
-                          />
-                        </div>
-                        <span className="text-cyan-300 font-semibold ml-2">{(item.pendingAmount || 0).toLocaleString()}万</span>
-                      </div>
-                    </div>
-                  </div>
-                ))}
-              </div>
+              <RegionMatrix
+                data={currentData}
+                title="区域达成"
+                subtitle={`(${timeRange === 'month' ? `${selectedMonth}月` : timeRange === 'quarter' ? selectedQuarter : '2026年'})`}
+                onRegionClick={handleRegionClick}
+                theme="dashboard"
+              />
             </div>
+
+            {/* 钻取弹窗 */}
+            <DrillDownModal
+              isOpen={isDrillDownModalOpen}
+              onClose={() => {
+                setIsDrillDownModalOpen(false);
+                setSelectedRegion('');
+                setSelectedCity('');
+              }}
+              title={modalTitle}
+              subtitle={modalSubtitle}
+              data={modalData}
+              level={modalLevel}
+              onBack={modalLevel === 'salesperson' ? handleBackToCity : undefined}
+              onItemClick={modalLevel === 'city' ? handleCityClick : undefined}
+            />
 
             {/* 月度趋势 */}
             <div className={`${DASHBOARD_STYLES.cardBg} ${DASHBOARD_STYLES.cardBorder} rounded-xl p-4 ${DASHBOARD_STYLES.glow}`}>
