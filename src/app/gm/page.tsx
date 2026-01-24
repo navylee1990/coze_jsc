@@ -61,16 +61,18 @@ const riskData = {
 };
 
 // 预测趋势图数据
-// 业务目标通常略高于财务目标（约高5-8%），用于内部激励
-// completed: 实际完成值（过去月份有值，未来月份为0）
-// forecast: 预测完成值（所有月份都有值）
+// businessTarget: 业务目标（内部激励目标，高于财务目标）
+// financialTarget: 财务目标（公司考核目标）
+// completed: 已达成（实际完成值，过去月份有值，未来月份为0）
+// forecast: 未来可达成（预测完成值，所有月份都有值）
+// riskLevel: 风险等级（high/medium/low，基于缺口比例）
 const forecastTrendData = [
-  { month: '1月', monthIndex: 1, businessTarget: 1580, financialTarget: 1500, completed: 800, forecast: 1140 },
-  { month: '2月', monthIndex: 2, businessTarget: 1580, financialTarget: 1500, completed: 850, forecast: 1180 },
-  { month: '3月', monthIndex: 3, businessTarget: 1580, financialTarget: 1500, completed: 900, forecast: 1120 },
-  { month: '4月', monthIndex: 4, businessTarget: 1580, financialTarget: 1500, completed: 0, forecast: 1160 },
-  { month: '5月', monthIndex: 5, businessTarget: 1580, financialTarget: 1500, completed: 0, forecast: 1140 },
-  { month: '6月', monthIndex: 6, businessTarget: 1580, financialTarget: 1500, completed: 0, forecast: 1200 },
+  { month: '1月', monthIndex: 1, businessTarget: 1580, financialTarget: 1500, completed: 800, forecast: 1140, riskLevel: 'high' },
+  { month: '2月', monthIndex: 2, businessTarget: 1580, financialTarget: 1500, completed: 850, forecast: 1180, riskLevel: 'high' },
+  { month: '3月', monthIndex: 3, businessTarget: 1580, financialTarget: 1500, completed: 900, forecast: 1120, riskLevel: 'high' },
+  { month: '4月', monthIndex: 4, businessTarget: 1580, financialTarget: 1500, completed: 0, forecast: 1160, riskLevel: 'high' },
+  { month: '5月', monthIndex: 5, businessTarget: 1580, financialTarget: 1500, completed: 0, forecast: 1140, riskLevel: 'high' },
+  { month: '6月', monthIndex: 6, businessTarget: 1580, financialTarget: 1500, completed: 0, forecast: 1200, riskLevel: 'medium' },
 ];
 
 // 大区维度数据
@@ -232,6 +234,26 @@ export default function GMDashboard() {
 
   // 判断某个月是否为已完成（实绩）
   const isCompleted = (monthIndex: number) => monthIndex <= currentMonth;
+
+  // 获取风险等级颜色
+  const getRiskColor = (riskLevel: string) => {
+    switch (riskLevel) {
+      case 'high': return '#ef4444';
+      case 'medium': return '#f59e0b';
+      case 'low': return '#22c55e';
+      default: return '#22d3ee';
+    }
+  };
+
+  // 获取风险等级标签
+  const getRiskLabel = (riskLevel: string) => {
+    switch (riskLevel) {
+      case 'high': return '高风险';
+      case 'medium': return '中风险';
+      case 'low': return '低风险';
+      default: return '无风险';
+    }
+  };
 
   // 获取当前时间范围的数据
   const getTimeRangeData = () => {
@@ -796,76 +818,87 @@ export default function GMDashboard() {
 
               {/* 趋势图表 */}
               <div className="bg-slate-800/30 rounded-xl p-4 border border-cyan-400/10">
-                {/* 缺口统计 */}
-                {/* 图例说明 */}
-                <div className="mb-3 px-2 py-2 rounded-lg bg-slate-800/40 border border-cyan-500/10">
-                  <div className="flex items-center justify-between mb-2">
-                    <span className="text-xs font-semibold text-cyan-400">趋势图例</span>
-                    <span className="text-xs text-cyan-300/60">1-{currentMonth}月实绩 · {currentMonth + 1}-6月预测</span>
+                {/* 增强版图例说明 */}
+                <div className="mb-3 px-3 py-3 rounded-lg bg-slate-800/50 border border-cyan-500/20">
+                  <div className="flex items-center justify-between mb-3">
+                    <span className="text-sm font-bold text-cyan-400 flex items-center gap-2">
+                      <BarChart3 className="w-4 h-4" />
+                      趋势分析图例
+                    </span>
+                    <span className="text-xs text-cyan-300/70 bg-cyan-500/10 px-2 py-1 rounded-md border border-cyan-500/20">
+                      1-{currentMonth}月实绩 · {currentMonth + 1}-6月预测
+                    </span>
                   </div>
-                  <div className="flex items-center gap-4 flex-wrap">
-                    {/* 实绩图例 */}
-                    <div className="flex items-center gap-2">
-                      <div className="flex items-center gap-0.5">
-                        <div className="w-6 h-0.5 bg-green-500 rounded-full"></div>
+                  <div className="grid grid-cols-2 gap-2 mb-2">
+                    {/* 左侧：目标线 */}
+                    <div className="space-y-1.5">
+                      <div className="flex items-center gap-2">
+                        <div className="w-8 h-0.5 bg-blue-500 rounded-full"></div>
+                        <span className="text-xs text-cyan-300/80 font-medium">业务目标</span>
+                      </div>
+                      <div className="flex items-center gap-2">
+                        <div className="w-8 h-0.5 bg-purple-500 rounded-full"></div>
+                        <span className="text-xs text-cyan-300/80 font-medium">财务目标</span>
+                      </div>
+                    </div>
+                    {/* 右侧：实绩与预测 */}
+                    <div className="space-y-1.5">
+                      <div className="flex items-center gap-2">
+                        <div className="w-8 h-0.5 bg-green-500 rounded-full"></div>
                         <div className="w-3 h-3 rounded-full bg-green-500 border-2 border-white"></div>
+                        <span className="text-xs text-cyan-300/80 font-medium">已达成</span>
                       </div>
-                      <span className="text-xs text-cyan-300/80">实绩</span>
-                    </div>
-                    {/* 预测图例 */}
-                    <div className="flex items-center gap-2">
-                      <div className="flex items-center gap-0.5">
-                        <div className="w-6 h-0.5 bg-cyan-400 rounded-full" style={{ background: 'repeating-linear-gradient(90deg, #22d3ee 0, #22d3ee 8px, transparent 8px, transparent 13px)' }}></div>
+                      <div className="flex items-center gap-2">
+                        <div className="w-8 h-0.5 bg-cyan-400 rounded-full" style={{ background: 'repeating-linear-gradient(90deg, #22d3ee 0, #22d3ee 8px, transparent 8px, transparent 13px)' }}></div>
                         <div className="w-3 h-3 rounded-full bg-cyan-400 border-2 border-sky-500"></div>
+                        <span className="text-xs text-cyan-300/80 font-medium">未来可达成</span>
                       </div>
-                      <span className="text-xs text-cyan-300/80">预测</span>
-                    </div>
-                    {/* 缺口区域图例 */}
-                    <div className="flex items-center gap-2">
-                      <div className="flex items-center gap-0.5">
-                        <div className="w-6 h-3 bg-red-500/50 rounded-sm"></div>
-                      </div>
-                      <span className="text-xs text-cyan-300/80">缺口区域（红&gt;青）</span>
                     </div>
                   </div>
-                  <div className="mt-2 pt-2 border-t border-cyan-500/10 text-xs text-cyan-300/50">
-                    💡 红色填充区域高于青色填充区域的部分 = 缺口（目标与预测的差距）
+                  <div className="pt-2 border-t border-cyan-500/10">
+                    <div className="flex items-center gap-2 mb-1">
+                      <div className="w-6 h-3 bg-red-500/60 rounded-sm"></div>
+                      <span className="text-xs text-red-400 font-medium">缺口区域（风险区间）</span>
+                    </div>
+                    <div className="text-xs text-cyan-300/50">
+                      💡 红色填充区域表示目标与预测的差距，填充越大风险越高
+                    </div>
                   </div>
                 </div>
 
-                <div style={{ height: '220px' }}>
+                <div style={{ height: '240px' }}>
                   <ResponsiveContainer width="100%" height="100%">
                     <AreaChart data={forecastTrendData}>
                       <defs>
-                        {/* 缺口区域 - 红色 */}
+                        {/* 缺口区域 - 红色（增强透明度） */}
                         <linearGradient id="colorGap" x1="0" y1="0" x2="0" y2="1">
-                          <stop offset="0%" stopColor="#ef4444" stopOpacity={0.5}/>
-                          <stop offset="100%" stopColor="#ef4444" stopOpacity={0.2}/>
+                          <stop offset="0%" stopColor="#ef4444" stopOpacity={0.6}/>
+                          <stop offset="100%" stopColor="#ef4444" stopOpacity={0.3}/>
                         </linearGradient>
                         {/* 预测区域 - 青色 */}
                         <linearGradient id="colorForecast" x1="0" y1="0" x2="0" y2="1">
-                          <stop offset="0%" stopColor="#22d3ee" stopOpacity={0.4}/>
-                          <stop offset="100%" stopColor="#22d3ee" stopOpacity={0.1}/>
+                          <stop offset="0%" stopColor="#22d3ee" stopOpacity={0.5}/>
+                          <stop offset="100%" stopColor="#22d3ee" stopOpacity={0.15}/>
                         </linearGradient>
                         {/* 已完成区域 - 绿色 */}
                         <linearGradient id="colorCompleted" x1="0" y1="0" x2="0" y2="1">
-                          <stop offset="0%" stopColor="#22c55e" stopOpacity={0.4}/>
-                          <stop offset="100%" stopColor="#22c55e" stopOpacity={0.05}/>
+                          <stop offset="0%" stopColor="#22c55e" stopOpacity={0.5}/>
+                          <stop offset="100%" stopColor="#22c55e" stopOpacity={0.1}/>
                         </linearGradient>
                       </defs>
 
-                      <CartesianGrid strokeDasharray="3 3" stroke="rgba(6,182,212,0.1)" vertical={false} />
+                      <CartesianGrid strokeDasharray="3 3" stroke="rgba(6,182,212,0.15)" vertical={false} />
                       <XAxis
                         dataKey="month"
                         axisLine={false}
                         tickLine={false}
-                        tick={{ fill: 'rgba(6,182,212,0.7)', fontSize: 11 }}
+                        tick={{ fill: 'rgba(6,182,212,0.7)', fontSize: 12 }}
                       />
                       <YAxis
                         axisLine={false}
                         tickLine={false}
                         tick={{ fill: 'rgba(6,182,212,0.7)', fontSize: 11 }}
-                        tickFormatter={(value) => `${value}万`}
+                        tickFormatter={(value) => `${value}`}
                       />
                       <Tooltip
                         contentStyle={{
@@ -878,23 +911,43 @@ export default function GMDashboard() {
                           const monthIndex = props.payload?.monthIndex;
                           const isPast = isCompleted(monthIndex);
                           const gap = props.payload?.businessTarget - props.payload?.forecast;
-                          const suffix = name === '预计完成' && !isPast ? `(缺口: ${gap.toFixed(0)}万)` : '';
-                          return [`${value}万`, name, suffix];
+                          const gapPercent = ((gap / props.payload?.businessTarget) * 100).toFixed(1);
+                          const riskLevel = props.payload?.riskLevel;
+                          const riskColor = getRiskColor(riskLevel);
+
+                          let formattedValue = `${value}万`;
+                          let label = name;
+
+                          // 重新命名
+                          if (name === 'businessTarget') {
+                            label = '业务目标';
+                          } else if (name === 'financialTarget') {
+                            label = '财务目标';
+                          } else if (name === 'completed') {
+                            label = '已达成';
+                          } else if (name === 'forecast') {
+                            label = isPast ? '实际达成' : '未来可达成';
+                            if (!isPast && gap > 0) {
+                              formattedValue = `${value}万 <span style="color:${riskColor}">(缺口${gap.toFixed(0)}万 ${gapPercent}%)</span>`;
+                            }
+                          }
+
+                          return [<span dangerouslySetInnerHTML={{ __html: formattedValue }} />, label];
                         }}
                         labelStyle={{ color: '#22d3ee', fontWeight: 'bold' }}
                       />
 
-                      {/* 分界线 */}
+                      {/* 分界线 - 当前时间点 */}
                       <ReferenceLine
                         x={`${currentMonth}.5`}
                         stroke="#22d3ee"
-                        strokeWidth={1.5}
+                        strokeWidth={2}
                         strokeDasharray="6 4"
-                        opacity={0.5}
-                        label={{ value: '当前', position: 'topLeft', fill: '#22d3ee', fontSize: 10, fontWeight: 'bold' }}
+                        opacity={0.6}
+                        label={{ value: '当前', position: 'top', fill: '#22d3ee', fontSize: 11, fontWeight: 'bold' }}
                       />
 
-                      {/* 预测区域填充 - 青色，表示预测完成范围（先渲染） */}
+                      {/* 预测区域填充 - 青色底层（先渲染） */}
                       <Area
                         type="monotone"
                         dataKey="forecast"
@@ -903,60 +956,105 @@ export default function GMDashboard() {
                         name="预测区域"
                       />
 
-                      {/* 目标区域填充（顶层，显示缺口） */}
+                      {/* 缺口区域填充 - 红色顶层（后渲染，形成覆盖效果） */}
                       <Area
                         type="monotone"
                         dataKey="businessTarget"
                         stroke="#3b82f6"
                         strokeWidth={2.5}
                         fill="url(#colorGap)"
+                        name="业务目标"
                       />
 
-                      {/* 财务目标线 */}
+                      {/* 财务目标线 - 紫色 */}
                       <Line
                         type="monotone"
                         dataKey="financialTarget"
                         stroke="#8b5cf6"
-                        strokeWidth={2}
-                        dot={{ r: 2, fill: '#8b5cf6' }}
+                        strokeWidth={2.5}
+                        dot={{ r: 3, fill: '#8b5cf6', strokeWidth: 1.5, stroke: '#fff' }}
+                        name="财务目标"
                       />
 
-                      {/* 实绩线 */}
-                      <Area
+                      {/* 已达成线 - 绿色粗实线（仅过去月份） */}
+                      <Line
                         type="monotone"
                         dataKey="completed"
                         stroke="#22c55e"
-                        strokeWidth={3.5}
-                        fill="url(#colorCompleted)"
-                        name="已完成"
-                        activeDot={{ r: 6, fill: '#22c55e', strokeWidth: 2, stroke: '#fff' }}
+                        strokeWidth={4}
+                        fill="none"
+                        name="已达成"
+                        activeDot={{ r: 7, fill: '#22c55e', strokeWidth: 2.5, stroke: '#fff' }}
                         dot={(props: any) => {
                           const monthIndex = props.payload?.monthIndex;
                           if (isCompleted(monthIndex) && props.payload.completed > 0) {
-                            return <circle r={5} fill="#22c55e" strokeWidth={2.5} stroke="#fff" />;
+                            return <circle r={5.5} fill="#22c55e" strokeWidth={2.5} stroke="#fff" />;
                           }
                           return <circle r={0} />;
                         }}
                       />
 
-                      {/* 预测线 */}
+                      {/* 未来可达成线 - 青色虚线（所有月份） */}
                       <Line
                         type="monotone"
                         dataKey="forecast"
                         stroke="#22d3ee"
-                        strokeWidth={3}
-                        strokeDasharray="8 5"
+                        strokeWidth={3.5}
+                        strokeDasharray="8 6"
+                        name="未来可达成"
+                        activeDot={{ r: 6, fill: '#22d3ee', strokeWidth: 2, stroke: '#0ea5e9' }}
                         dot={(props: any) => {
                           const monthIndex = props.payload?.monthIndex;
                           const isPast = isCompleted(monthIndex);
+                          const gap = props.payload?.businessTarget - props.payload?.forecast;
+                          const riskLevel = props.payload?.riskLevel;
+
+                          // 过去月份不显示点
                           if (isPast) {
                             return <circle r={0} />;
                           }
-                          return <circle r={5} fill="#22d3ee" strokeWidth={2} stroke="#0ea5e9" />;
+
+                          // 未来月份根据风险等级显示不同颜色的点
+                          const dotColor = getRiskColor(riskLevel);
+                          return (
+                            <circle
+                              r={5.5}
+                              fill={dotColor}
+                              strokeWidth={2}
+                              stroke="#0ea5e9"
+                              style={{
+                                filter: riskLevel === 'high' ? 'drop-shadow(0 0 6px rgba(239, 68, 68, 0.8))' :
+                                       riskLevel === 'medium' ? 'drop-shadow(0 0 6px rgba(245, 158, 11, 0.8))' :
+                                       'drop-shadow(0 0 6px rgba(34, 197, 94, 0.8))'
+                              }}
+                            />
+                          );
                         }}
                       />
                     </AreaChart>
                   </ResponsiveContainer>
+                </div>
+
+                {/* 风险统计面板 */}
+                <div className="mt-3 grid grid-cols-3 gap-2">
+                  <div className="px-3 py-2 rounded-lg bg-red-500/10 border border-red-500/30">
+                    <div className="text-xs text-red-400/70 mb-0.5">高风险月份</div>
+                    <div className="text-sm font-bold text-red-400">
+                      {forecastTrendData.filter(d => d.riskLevel === 'high').length} <span className="text-xs font-normal">个月</span>
+                    </div>
+                  </div>
+                  <div className="px-3 py-2 rounded-lg bg-amber-500/10 border border-amber-500/30">
+                    <div className="text-xs text-amber-400/70 mb-0.5">中风险月份</div>
+                    <div className="text-sm font-bold text-amber-400">
+                      {forecastTrendData.filter(d => d.riskLevel === 'medium').length} <span className="text-xs font-normal">个月</span>
+                    </div>
+                  </div>
+                  <div className="px-3 py-2 rounded-lg bg-green-500/10 border border-green-500/30">
+                    <div className="text-xs text-green-400/70 mb-0.5">低风险月份</div>
+                    <div className="text-sm font-bold text-green-400">
+                      {forecastTrendData.filter(d => d.riskLevel === 'low').length} <span className="text-xs font-normal">个月</span>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
