@@ -1,10 +1,10 @@
 'use client';
 
 import { useState } from 'react';
-import { ArrowUp, ArrowDown, ArrowRight, AlertTriangle, CheckCircle2, XCircle, TrendingUp, Activity, Clock, Target, DollarSign, Zap, Flame, Lightbulb, Compass, BarChart3, ChevronDown, MapPin } from 'lucide-react';
+import { ArrowUp, ArrowDown, ArrowRight, AlertTriangle, CheckCircle2, XCircle, TrendingUp, Activity, Clock, Target, DollarSign, Zap, Flame, Lightbulb, Compass, BarChart3, ChevronDown, MapPin, ChevronRight, X } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, ResponsiveContainer, Tooltip as RechartsTooltip } from 'recharts';
-import ProjectExclusionList from '@/components/ProjectExclusionList';
+import DrillDownModal from '@/components/DrillDownModal';
 
 // 主题类型
 type Theme = 'dark' | 'dashboard';
@@ -116,6 +116,13 @@ const regionConfig: Record<Region, { label: string; color: string }> = {
   south: { label: '华南区', color: '#ef4444' },
   southwest: { label: '西南区', color: '#8b5cf6' },
   northwest: { label: '西北区', color: '#06b6d4' }
+};
+
+// 时间段配置
+const periodConfig: Record<string, { label: string; color: string }> = {
+  '0-30天': { label: '核心支撑期', color: '#ef4444' },
+  '1-3月': { label: '中期支撑期', color: '#f59e0b' },
+  '3-6月': { label: '储备支撑期', color: '#22c55e' }
 };
 
 // 区域默认数据
@@ -1235,6 +1242,54 @@ interface FutureSupportAdequacyPanelProps {
   defaultRegion?: Region;
 }
 
+// 辅助函数：获取状态颜色
+const getStatusColor = (status: 'green' | 'yellow' | 'red', theme: Theme) => {
+  switch (status) {
+    case 'green':
+      return {
+        bg: theme === 'dashboard' ? 'bg-cyan-500' : 'bg-green-500',
+        text: theme === 'dashboard' ? 'text-cyan-400' : 'text-green-600',
+        border: theme === 'dashboard' ? 'border-cyan-500' : 'border-green-500'
+      };
+    case 'yellow':
+      return {
+        bg: 'bg-yellow-500',
+        text: 'text-yellow-600',
+        border: 'border-yellow-500'
+      };
+    case 'red':
+      return {
+        bg: 'bg-red-500',
+        text: 'text-red-600',
+        border: 'border-red-500'
+      };
+  }
+};
+
+// 辅助函数：获取概率颜色
+const getProbabilityColor = (probability: 'high' | 'medium' | 'low', theme: Theme) => {
+  switch (probability) {
+    case 'high':
+      return theme === 'dashboard' ? 'bg-cyan-500' : 'bg-green-500';
+    case 'medium':
+      return 'bg-yellow-500';
+    case 'low':
+      return theme === 'dashboard' ? 'bg-slate-500' : 'bg-gray-500';
+  }
+};
+
+// 辅助函数：获取健康度颜色
+const getHealthColor = (health: 'high' | 'medium' | 'low', theme: Theme) => {
+  switch (health) {
+    case 'high':
+      return theme === 'dashboard' ? 'text-cyan-400' : theme === 'dark' ? 'text-green-500' : 'text-green-600';
+    case 'medium':
+      return theme === 'dark' ? 'text-yellow-500' : 'text-yellow-600';
+    case 'low':
+      return theme === 'dark' ? 'text-red-500' : 'text-red-600';
+  }
+};
+
 export default function FutureSupportAdequacyPanel({
   data: customData,
   theme = 'dark',
@@ -1242,35 +1297,12 @@ export default function FutureSupportAdequacyPanel({
 }: FutureSupportAdequacyPanelProps) {
   // 区域选择状态
   const [selectedRegion, setSelectedRegion] = useState<Region>(defaultRegion);
-  const [collapsedPeriods, setCollapsedPeriods] = useState<Set<string>>(new Set());
+  const [selectedPeriod, setSelectedPeriod] = useState<string | null>(null);
+  const [isDrillDownOpen, setIsDrillDownOpen] = useState(false);
 
   // 合并默认数据和自定义数据
   const allRegionData = { ...regionData, ...customData };
   const data = allRegionData[selectedRegion] || regionData.national; // 默认回退到全国数据
-
-  // 获取状态颜色
-  const getStatusColor = (status: 'green' | 'yellow' | 'red') => {
-    switch (status) {
-      case 'green':
-        return {
-          bg: theme === 'dashboard' ? 'bg-cyan-500' : 'bg-green-500',
-          text: theme === 'dashboard' ? 'text-cyan-400' : 'text-green-600',
-          border: theme === 'dashboard' ? 'border-cyan-500' : 'border-green-500'
-        };
-      case 'yellow':
-        return {
-          bg: 'bg-yellow-500',
-          text: 'text-yellow-600',
-          border: 'border-yellow-500'
-        };
-      case 'red':
-        return {
-          bg: 'bg-red-500',
-          text: 'text-red-600',
-          border: 'border-red-500'
-        };
-    }
-  };
 
   // 获取风险等级颜色
   const getRiskLevelColor = (level: 'red' | 'orange' | 'yellow') => {
@@ -1281,30 +1313,6 @@ export default function FutureSupportAdequacyPanel({
         return 'bg-orange-500';
       case 'yellow':
         return 'bg-yellow-500';
-    }
-  };
-
-  // 获取概率颜色
-  const getProbabilityColor = (probability: 'high' | 'medium' | 'low') => {
-    switch (probability) {
-      case 'high':
-        return theme === 'dashboard' ? 'bg-cyan-500' : 'bg-green-500';
-      case 'medium':
-        return 'bg-yellow-500';
-      case 'low':
-        return theme === 'dashboard' ? 'bg-slate-500' : 'bg-gray-500';
-    }
-  };
-
-  // 获取健康度颜色
-  const getHealthColor = (health: 'high' | 'medium' | 'low') => {
-    switch (health) {
-      case 'high':
-        return theme === 'dashboard' ? 'text-cyan-400' : theme === 'dark' ? 'text-green-500' : 'text-green-600';
-      case 'medium':
-        return theme === 'dark' ? 'text-yellow-500' : 'text-yellow-600';
-      case 'low':
-        return theme === 'dark' ? 'text-red-500' : 'text-red-600';
     }
   };
 
@@ -1440,219 +1448,465 @@ export default function FutureSupportAdequacyPanel({
         </div>
       </div>
 
-      {/* 主内容区 - 时间段支撑结构 */}
+      {/* 主内容区 - 时间段矩阵卡片布局 */}
       <div className="p-4">
         <div className="grid grid-cols-3 gap-3">
           {(['0-30天', '1-3月', '3-6月'] as const).map((period, index) => {
-              const level = data.supportStructure[period];
-              const statusColor = getStatusColor(level.status);
-              return (
-                <div
-                  key={period}
-                  className={cn(
-                    'p-4 rounded-lg relative border transition-all duration-300',
-                    theme === 'dashboard'
-                      ? cn(
-                          'bg-slate-800/40 backdrop-blur-sm',
-                          index === 0
-                            ? 'border-red-500/30 shadow-[0_0_15px_rgba(239,68,68,0.2)]'
-                            : index === 1
-                            ? 'border-yellow-500/30 shadow-[0_0_15px_rgba(234,179,8,0.2)]'
-                            : 'border-cyan-500/30 shadow-[0_0_15px_rgba(6,182,212,0.2)]'
-                        )
-                      : theme === 'dark'
-                      ? 'bg-slate-800/50 border-slate-700/50'
-                      : `bg-gradient-to-b ${index === 0 ? 'from-red-50/50 to-slate-50/30' : index === 1 ? 'from-yellow-50/50 to-slate-50/30' : 'from-green-50/50 to-slate-50/30'}`
-                  )}
-                >
-                  {/* 时间段标签 */}
-                  <div className="flex items-center justify-between mb-3">
-                    <span className={cn(
-                      'text-sm font-semibold',
+            const level = data.supportStructure[period];
+            const statusColor = getStatusColor(level.status, theme);
+            const periodConfigInfo = periodConfig[period];
+
+            return (
+              <div
+                key={period}
+                className={cn(
+                  'p-4 rounded-xl relative border transition-all duration-300 cursor-pointer hover:scale-105',
+                  theme === 'dashboard'
+                    ? cn(
+                        'bg-slate-900/60 backdrop-blur-sm',
+                        index === 0
+                          ? 'border-red-500/30 hover:shadow-[0_0_20px_rgba(239,68,68,0.4)]'
+                          : index === 1
+                          ? 'border-yellow-500/30 hover:shadow-[0_0_20px_rgba(234,179,8,0.4)]'
+                          : 'border-green-500/30 hover:shadow-[0_0_20px_rgba(34,197,94,0.4)]',
+                        'shadow-[0_0_15px_rgba(6,182,212,0.2)]'
+                      )
+                    : theme === 'dark'
+                    ? 'bg-slate-800/50 border-slate-700/50'
+                    : `bg-gradient-to-b ${index === 0 ? 'from-red-50/50 to-slate-50/30' : index === 1 ? 'from-yellow-50/50 to-slate-50/30' : 'from-green-50/50 to-slate-50/30'}`
+                )}
+                onClick={() => {
+                  setSelectedPeriod(period);
+                  setIsDrillDownOpen(true);
+                }}
+              >
+                {/* 时间段标签 */}
+                <div className="flex items-center justify-between mb-3">
+                  <div className="flex items-center gap-2">
+                    <h4 className={cn(
+                      'text-sm font-bold',
                       theme === 'dashboard'
                         ? 'text-cyan-200 drop-shadow-[0_0_6px_rgba(6,182,212,0.5)]'
                         : 'text-slate-900'
-                    )}>{period}</span>
-                    <div className={cn(
-                      'w-2 h-2 rounded-full',
-                      statusColor.bg,
-                      theme === 'dashboard' && 'shadow-[0_0_8px_currentColor]'
+                    )}>{period}</h4>
+                    <ChevronRight className={cn(
+                      'w-4 h-4',
+                      theme === 'dashboard' ? 'text-cyan-400/50' : 'text-slate-400'
                     )} />
                   </div>
+                  <div className={cn(
+                    'w-2 h-2 rounded-full',
+                    statusColor.bg,
+                    theme === 'dashboard' && 'shadow-[0_0_8px_currentColor]'
+                  )} />
+                </div>
 
-                  {/* 支撑进度条 */}
-                  <div className="mb-3">
-                    <div className={cn('h-3 rounded-full overflow-hidden mb-2', theme === 'dashboard' ? 'bg-slate-700/50' : 'bg-slate-200')}>
+                {/* 核心指标 */}
+                <div className="space-y-2">
+                  {/* 目标 + 支撑 */}
+                  <div className="flex justify-between text-xs">
+                    <span className={cn(theme === 'dashboard' ? 'text-cyan-400/60' : 'text-slate-500')}>目标</span>
+                    <span className={cn(
+                      'font-semibold',
+                      theme === 'dashboard' ? 'text-cyan-300' : 'text-slate-900'
+                    )}>{level.target.toLocaleString()}万</span>
+                  </div>
+                  <div className="flex justify-between text-xs">
+                    <span className={cn(theme === 'dashboard' ? 'text-cyan-400/60' : 'text-slate-500')}>支撑</span>
+                    <span className={cn(
+                      'font-semibold',
+                      theme === 'dashboard' ? 'text-cyan-300' : 'text-slate-900'
+                    )}>{level.amount.toLocaleString()}万</span>
+                  </div>
+
+                  {/* 缺口 - 大字号高亮 */}
+                  <div className="pt-1 border-t border-slate-500/20">
+                    <div className="flex items-center justify-between">
+                      <span className={cn('text-xs', theme === 'dashboard' ? 'text-cyan-400/60' : 'text-slate-500')}>缺口</span>
+                      <span className={`text-base font-bold ${level.gap > 0 ? 'text-red-400' : 'text-green-400'}`}>
+                        {level.gap > 0 ? `${level.gap}` : `+${Math.abs(level.gap)}`}
+                      </span>
+                    </div>
+                  </div>
+
+                  {/* 覆盖度进度条 */}
+                  <div className="pt-1">
+                    <div className="flex justify-between text-xs mb-1">
+                      <span className={cn(theme === 'dashboard' ? 'text-cyan-400/60' : 'text-slate-500')}>覆盖度</span>
+                      <span className={level.coverage >= 80 ? 'text-green-400' : level.coverage >= 50 ? 'text-yellow-400' : 'text-red-400'}>
+                        {level.coverage}%
+                      </span>
+                    </div>
+                    <div className={cn('w-full h-1.5 rounded-full overflow-hidden', theme === 'dashboard' ? 'bg-slate-700/50' : 'bg-slate-200')}>
                       <div
-                        className={cn(
-                          'h-full transition-all duration-500',
-                          statusColor.bg,
-                          theme === 'dashboard' && 'shadow-[0_0_10px_currentColor]'
-                        )}
+                        className={`h-full transition-all duration-500 ${
+                          level.coverage >= 80 ? 'bg-green-500' : level.coverage >= 50 ? 'bg-yellow-500' : 'bg-red-500'
+                        }`}
                         style={{ width: `${Math.min(level.coverage, 100)}%` }}
                       />
                     </div>
-                    <div className={cn('flex items-center justify-between text-xs', theme === 'dashboard' ? 'text-cyan-400/70' : 'text-slate-600')}>
-                      <span className={theme === 'dashboard' ? 'text-cyan-400/70' : 'text-slate-600'}>
-                        支撑 <span className={cn('font-semibold', theme === 'dashboard' ? 'text-cyan-200' : 'text-slate-900')}>{level.amount.toLocaleString()}</span>万
-                      </span>
-                      <span className={theme === 'dashboard' ? 'text-cyan-400/70' : 'text-slate-600'}>
-                        目标 <span className={cn('font-semibold', theme === 'dashboard' ? 'text-cyan-200' : 'text-slate-900')}>{level.target.toLocaleString()}</span>万
-                      </span>
-                    </div>
                   </div>
 
-                  {/* 覆盖度 */}
-                  <div className="flex items-center justify-center mb-2">
-                    <span className={cn('text-xs', theme === 'dashboard' ? 'text-cyan-400/70' : 'text-slate-600')}>覆盖度</span>
+                  {/* 项目数量 */}
+                  <div className="flex justify-between text-xs pt-1">
+                    <span className={cn(theme === 'dashboard' ? 'text-cyan-400/60' : 'text-slate-500')}>项目数</span>
                     <span className={cn(
-                      'text-lg font-bold ml-2',
-                      statusColor.text,
-                      theme === 'dashboard' && 'drop-shadow-[0_0_8px_currentColor]'
-                    )}>{level.coverage}%</span>
+                      'font-semibold',
+                      theme === 'dashboard' ? 'text-cyan-300' : 'text-slate-900'
+                    )}>{level.projects.length}个</span>
                   </div>
 
-                  {/* 针对性建议 */}
-                  {level.coverage < 70 && (
-                    <div className={cn(
-                      'p-2 rounded text-[10px] mb-2 border',
-                      theme === 'dashboard'
-                        ? 'bg-red-500/10 border-red-500/40 shadow-[0_0_10px_rgba(239,68,68,0.3)]'
-                        : theme === 'dark'
-                        ? 'bg-red-500/20 border border-red-500/30'
-                        : 'bg-red-50 border border-red-200'
-                    )}>
-                      <div className="flex items-center gap-1 mb-1">
-                        <AlertTriangle className={cn(
-                          'w-3 h-3',
-                          theme === 'dashboard'
-                            ? 'text-red-400 drop-shadow-[0_0_6px_rgba(239,68,68,0.8)]'
-                            : 'text-red-600'
-                        )} />
-                        <span className={cn(
-                          'font-bold',
-                          theme === 'dashboard'
-                            ? 'text-red-300'
-                            : 'text-red-700'
-                        )}>支撑不足</span>
-                      </div>
-                      <div className={cn(
-                        theme === 'dashboard' ? 'text-red-200/80' : 'text-slate-700'
-                      )}>
-                        {level.coverage < 50 && '紧急：需新增' + (level.target - level.amount) + '万（开发新项目）'}
-                        {level.coverage >= 50 && level.coverage < 70 && '建议：推进' + level.projects.filter(p => !p.isOnTrack).length + '个延迟项目'}
-                      </div>
+                  {/* 未统计项目数 */}
+                  {level.excludedProjects && level.excludedProjects.length > 0 && (
+                    <div className="flex justify-between text-xs">
+                      <span className={cn(theme === 'dashboard' ? 'text-cyan-400/60' : 'text-slate-500')}>未统计</span>
+                      <span className={cn(
+                        'font-semibold text-orange-400',
+                        theme === 'dashboard' ? 'text-orange-300' : 'text-orange-600'
+                      )}>{level.excludedProjects.length}个</span>
                     </div>
-                  )}
-
-                  {/* Top项目列表 */}
-                  <div className="space-y-2">
-                    {level.projects.slice(0, 3).map((project, pIndex) => (
-                      <div
-                        key={project.id}
-                        className={cn(
-                          'p-1.5 rounded text-xs relative border transition-all duration-200',
-                          theme === 'dashboard'
-                            ? 'bg-slate-800/30 border-cyan-500/20 hover:border-cyan-500/40'
-                            : theme === 'dark'
-                            ? 'bg-slate-700/50'
-                            : 'bg-white/60'
-                        )}
-                      >
-                        <div className="flex items-center justify-between mb-1">
-                          <span className={cn(
-                            'font-medium truncate flex-1 mr-2',
-                            theme === 'dashboard'
-                              ? 'text-cyan-100'
-                              : 'text-slate-900'
-                          )}>{project.name}</span>
-                          <div className="flex items-center gap-1 flex-shrink-0">
-                            {project.isNew && <span className={cn(
-                              'px-1 rounded text-[10px]',
-                              theme === 'dashboard'
-                                ? 'bg-blue-500/40 text-blue-300 border border-blue-500/40'
-                                : 'bg-blue-500 text-white'
-                            )}>新</span>}
-                            {project.isDelayed && <span className={cn(
-                              'px-1 rounded text-[10px]',
-                              theme === 'dashboard'
-                                ? 'bg-red-500/40 text-red-300 border border-red-500/40'
-                                : 'bg-red-500 text-white'
-                            )}>延</span>}
-                            {project.isRisk && <span className={cn(
-                              'px-1 rounded text-[10px]',
-                              theme === 'dashboard'
-                                ? 'bg-orange-500/40 text-orange-300 border border-orange-500/40'
-                                : 'bg-orange-500 text-white'
-                            )}>险</span>}
-                            <span className={cn(
-                              'font-bold',
-                              theme === 'dashboard'
-                                ? 'text-cyan-200'
-                                : 'text-slate-900'
-                            )}>{project.amount}万</span>
-                          </div>
-                        </div>
-                        <div className="flex items-center justify-between">
-                          <div className="flex items-center gap-1">
-                            <div className={cn(
-                              'w-1.5 h-1.5 rounded-full',
-                              getProbabilityColor(project.probability),
-                              theme === 'dashboard' && 'shadow-[0_0_6px_currentColor]'
-                            )} />
-                            <span className={cn(
-                              'text-[10px]',
-                              theme === 'dashboard'
-                                ? 'text-cyan-400/70'
-                                : 'text-slate-600'
-                            )}>{project.probability === 'high' ? '高' : project.probability === 'medium' ? '中' : '低'}概率</span>
-                          </div>
-                          <div className="flex items-center gap-1">
-                            <span className={cn(
-                              'text-[10px]',
-                              getHealthColor(project.health),
-                              theme === 'dashboard' && 'drop-shadow-[0_0_6px_currentColor]'
-                            )}>
-                              {project.health === 'high' ? '健康' : project.health === 'medium' ? '一般' : '风险'}
-                            </span>
-                            {!project.isOnTrack && project.delayDays && (
-                              <span className={cn(
-                                'text-[10px]',
-                                theme === 'dashboard'
-                                  ? 'text-red-400'
-                                  : 'text-red-600'
-                              )}>延迟{project.delayDays}天</span>
-                            )}
-                          </div>
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-
-                  {/* 未统计项目列表 */}
-                  {(level.excludedProjects && level.excludedProjects.length > 0) && (
-                    <ProjectExclusionList
-                      excludedProjects={level.excludedProjects}
-                      theme={theme}
-                      collapsed={collapsedPeriods.has(period)}
-                      onToggle={() => {
-                        setCollapsedPeriods(prev => {
-                          const newSet = new Set(prev);
-                          if (newSet.has(period)) {
-                            newSet.delete(period);
-                          } else {
-                            newSet.add(period);
-                          }
-                          return newSet;
-                        });
-                      }}
-                    />
                   )}
                 </div>
-              );
-            })}
+              </div>
+            );
+          })}
+        </div>
+      </div>
+
+      {/* 钻取弹窗 */}
+      {selectedPeriod && isDrillDownOpen && (
+        <ProjectDrillDownModal
+          isOpen={isDrillDownOpen}
+          onClose={() => {
+            setIsDrillDownOpen(false);
+            setSelectedPeriod(null);
+          }}
+          period={selectedPeriod}
+          data={data.supportStructure[selectedPeriod as keyof typeof data.supportStructure]}
+          theme={theme}
+        />
+      )}
+    </div>
+  );
+}
+
+// 项目钻取弹窗组件
+function ProjectDrillDownModal({
+  isOpen,
+  onClose,
+  period,
+  data,
+  theme
+}: {
+  isOpen: boolean;
+  onClose: () => void;
+  period: string;
+  data: SupportLevel;
+  theme: Theme;
+}) {
+  if (!isOpen) return null;
+
+  const periodInfo = periodConfig[period];
+
+  // 计算合计
+  const totals = {
+    target: data.target,
+    amount: data.amount,
+    gap: data.gap,
+    coverage: data.coverage
+  };
+
+  return (
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
+      {/* 背景遮罩 */}
+      <div
+        className="absolute inset-0 bg-black/80 backdrop-blur-sm"
+        onClick={onClose}
+      />
+
+      {/* 弹窗内容 */}
+      <div className={cn(
+        'relative w-full max-w-5xl max-h-[90vh] border-2 rounded-2xl overflow-hidden transition-all',
+        theme === 'dashboard'
+          ? 'bg-slate-900/80 border-cyan-500/30 shadow-[0_0_30px_rgba(6,182,212,0.3)]'
+          : theme === 'dark'
+          ? 'bg-slate-900 border-slate-700'
+          : 'bg-white border-slate-200'
+      )}>
+        {/* 标题栏 */}
+        <div className={cn(
+          'flex items-center justify-between px-6 py-4 border-b',
+          theme === 'dashboard'
+            ? 'border-cyan-500/30 bg-slate-900/80'
+            : theme === 'dark'
+            ? 'border-slate-700 bg-slate-800'
+            : 'border-slate-200 bg-slate-50'
+        )}>
+          <div className="flex items-center gap-4">
+            <Activity className={cn(
+              'w-5 h-5',
+              theme === 'dashboard'
+                ? 'text-cyan-400 drop-shadow-[0_0_8px_rgba(6,182,212,0.8)]'
+                : 'text-green-600'
+            )} />
+            <div>
+              <h2 className={cn(
+                'text-xl font-bold flex items-center gap-2',
+                theme === 'dashboard'
+                  ? 'text-cyan-300 drop-shadow-[0_0_10px_rgba(6,182,212,0.6)]'
+                  : 'text-slate-900'
+              )}>
+                {period} - {periodInfo?.label || '支撑详情'}
+              </h2>
+              <p className={cn(
+                'text-sm mt-1',
+                theme === 'dashboard' ? 'text-cyan-400/70' : 'text-slate-600'
+              )}>
+                项目明细与进度跟踪
+              </p>
+            </div>
+          </div>
+          <button
+            onClick={onClose}
+            className={cn(
+              'p-2 rounded-lg transition-colors',
+              theme === 'dashboard'
+                ? 'bg-red-500/20 border border-red-500/30 text-red-300 hover:bg-red-500/30'
+                : theme === 'dark'
+                ? 'bg-slate-700 text-slate-300 hover:bg-slate-600'
+                : 'bg-slate-200 text-slate-700 hover:bg-slate-300'
+            )}
+          >
+            <X className="w-5 h-5" />
+          </button>
+        </div>
+
+        {/* 合计数据栏 */}
+        <div className={cn(
+          'px-6 py-4 border-b',
+          theme === 'dashboard'
+            ? 'border-cyan-500/20 bg-cyan-500/10'
+            : theme === 'dark'
+            ? 'border-slate-700 bg-slate-800/50'
+            : 'border-slate-200 bg-slate-50'
+        )}>
+          <div className="grid grid-cols-4 gap-4">
+            <div className={cn(
+              'text-center p-3 rounded-lg',
+              theme === 'dashboard'
+                ? 'bg-slate-900/50 border border-cyan-500/20'
+                : theme === 'dark'
+                ? 'bg-slate-800'
+                : 'bg-white border border-slate-200'
+            )}>
+              <div className={cn('text-xs mb-1', theme === 'dashboard' ? 'text-cyan-400/70' : 'text-slate-600')}>目标</div>
+              <div className={cn('text-2xl font-bold', theme === 'dashboard' ? 'text-cyan-300' : 'text-slate-900')}>
+                {totals.target.toLocaleString()}
+              </div>
+              <div className={cn('text-xs mt-1', theme === 'dashboard' ? 'text-cyan-400/60' : 'text-slate-500')}>万元</div>
+            </div>
+            <div className={cn(
+              'text-center p-3 rounded-lg',
+              theme === 'dashboard'
+                ? 'bg-slate-900/50 border border-cyan-500/20'
+                : theme === 'dark'
+                ? 'bg-slate-800'
+                : 'bg-white border border-slate-200'
+            )}>
+              <div className={cn('text-xs mb-1', theme === 'dashboard' ? 'text-cyan-400/70' : 'text-slate-600')}>支撑</div>
+              <div className={cn('text-2xl font-bold', theme === 'dashboard' ? 'text-cyan-300' : 'text-slate-900')}>
+                {totals.amount.toLocaleString()}
+              </div>
+              <div className={cn('text-xs mt-1', theme === 'dashboard' ? 'text-cyan-400/60' : 'text-slate-500')}>万元</div>
+            </div>
+            <div className={cn(
+              'text-center p-3 rounded-lg',
+              theme === 'dashboard'
+                ? 'bg-slate-900/50 border border-cyan-500/20'
+                : theme === 'dark'
+                ? 'bg-slate-800'
+                : 'bg-white border border-slate-200'
+            )}>
+              <div className={cn('text-xs mb-1', theme === 'dashboard' ? 'text-cyan-400/70' : 'text-slate-600')}>缺口</div>
+              <div className={cn('text-2xl font-bold', totals.gap > 0 ? 'text-red-400' : 'text-green-400')}>
+                {totals.gap > 0 ? `${totals.gap}` : `+${Math.abs(totals.gap)}`}
+              </div>
+              <div className={cn('text-xs mt-1', theme === 'dashboard' ? 'text-cyan-400/60' : 'text-slate-500')}>万元</div>
+            </div>
+            <div className={cn(
+              'text-center p-3 rounded-lg',
+              theme === 'dashboard'
+                ? 'bg-slate-900/50 border border-cyan-500/20'
+                : theme === 'dark'
+                ? 'bg-slate-800'
+                : 'bg-white border border-slate-200'
+            )}>
+              <div className={cn('text-xs mb-1', theme === 'dashboard' ? 'text-cyan-400/70' : 'text-slate-600')}>覆盖度</div>
+              <div className={cn('text-2xl font-bold', totals.coverage >= 80 ? 'text-green-400' : totals.coverage >= 50 ? 'text-yellow-400' : 'text-red-400')}>
+                {totals.coverage}%
+              </div>
+              <div className={cn('text-xs mt-1', theme === 'dashboard' ? 'text-cyan-400/60' : 'text-slate-500')}>支撑达成</div>
+            </div>
+          </div>
+        </div>
+
+        {/* 项目列表 */}
+        <div className={cn('p-6 overflow-y-auto', theme === 'dashboard' ? 'max-h-[calc(90vh-250px)]' : 'max-h-[calc(90vh-280px)]')}>
+          {/* 统计项目 */}
+          <div className="mb-6">
+            <h3 className={cn('text-lg font-bold mb-3 flex items-center gap-2', theme === 'dashboard' ? 'text-cyan-200' : 'text-slate-900')}>
+              <CheckCircle2 className="w-5 h-5 text-green-500" />
+              统计项目 ({data.projects.length})
+            </h3>
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-3">
+              {data.projects.map((project) => (
+                <div
+                  key={project.id}
+                  className={cn(
+                    'p-4 rounded-xl border transition-all duration-200',
+                    theme === 'dashboard'
+                      ? 'bg-slate-800/40 border-cyan-500/20 hover:border-cyan-500/40'
+                      : theme === 'dark'
+                      ? 'bg-slate-800 border-slate-700'
+                      : 'bg-white border-slate-200'
+                  )}
+                >
+                  <div className="flex items-center justify-between mb-2">
+                    <h4 className={cn(
+                      'font-semibold truncate flex-1 mr-2',
+                      theme === 'dashboard' ? 'text-cyan-100' : 'text-slate-900'
+                    )}>{project.name}</h4>
+                    <div className="flex items-center gap-1 flex-shrink-0">
+                      {project.isNew && <span className={cn(
+                        'px-2 py-0.5 rounded text-xs',
+                        theme === 'dashboard'
+                          ? 'bg-blue-500/40 text-blue-300 border border-blue-500/40'
+                          : 'bg-blue-500 text-white'
+                      )}>新</span>}
+                      {project.isDelayed && <span className={cn(
+                        'px-2 py-0.5 rounded text-xs',
+                        theme === 'dashboard'
+                          ? 'bg-red-500/40 text-red-300 border border-red-500/40'
+                          : 'bg-red-500 text-white'
+                      )}>延</span>}
+                      {project.isRisk && <span className={cn(
+                        'px-2 py-0.5 rounded text-xs',
+                        theme === 'dashboard'
+                          ? 'bg-orange-500/40 text-orange-300 border border-orange-500/40'
+                          : 'bg-orange-500 text-white'
+                      )}>险</span>}
+                    </div>
+                  </div>
+                  <div className="flex items-center justify-between">
+                    <span className={cn('text-lg font-bold', theme === 'dashboard' ? 'text-cyan-300' : 'text-slate-900')}>
+                      {project.amount.toLocaleString()}万
+                    </span>
+                    <div className="flex items-center gap-3">
+                      <div className="flex items-center gap-1">
+                        <div className={cn(
+                          'w-2 h-2 rounded-full',
+                          theme === 'dashboard'
+                            ? project.probability === 'high' ? 'bg-cyan-500' : project.probability === 'medium' ? 'bg-yellow-500' : 'bg-slate-500'
+                            : project.probability === 'high' ? 'bg-green-500' : project.probability === 'medium' ? 'bg-yellow-500' : 'bg-gray-500'
+                        )} />
+                        <span className={cn('text-xs', theme === 'dashboard' ? 'text-cyan-400/70' : 'text-slate-600')}>
+                          {project.probability === 'high' ? '高概率' : project.probability === 'medium' ? '中概率' : '低概率'}
+                        </span>
+                      </div>
+                      <span className={cn(
+                        'text-xs',
+                        getHealthColor(project.health, theme)
+                      )}>
+                        {project.health === 'high' ? '健康' : project.health === 'medium' ? '一般' : '风险'}
+                      </span>
+                      {!project.isOnTrack && project.delayDays && (
+                        <span className={cn('text-xs text-red-500', theme === 'dashboard' ? 'text-red-400' : '')}>
+                          延迟{project.delayDays}天
+                        </span>
+                      )}
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* 未统计项目 */}
+          {data.excludedProjects && data.excludedProjects.length > 0 && (
+            <div>
+              <h3 className={cn('text-lg font-bold mb-3 flex items-center gap-2', theme === 'dashboard' ? 'text-cyan-200' : 'text-slate-900')}>
+                <XCircle className="w-5 h-5 text-orange-500" />
+                未统计项目 ({data.excludedProjects.length})
+              </h3>
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-3">
+                {data.excludedProjects.map((project) => (
+                  <div
+                    key={project.id}
+                    className={cn(
+                      'p-4 rounded-xl border transition-all duration-200',
+                      theme === 'dashboard'
+                        ? 'bg-slate-800/40 border-orange-500/30 hover:border-orange-500/50'
+                        : theme === 'dark'
+                        ? 'bg-slate-800 border-orange-500/30'
+                        : 'bg-orange-50 border-orange-200'
+                    )}
+                  >
+                    <div className="flex items-center justify-between mb-2">
+                      <h4 className={cn(
+                        'font-semibold truncate flex-1 mr-2',
+                        theme === 'dashboard' ? 'text-cyan-100' : 'text-slate-900'
+                      )}>{project.name}</h4>
+                      <span className={cn(
+                        'text-lg font-bold',
+                        theme === 'dashboard' ? 'text-cyan-300' : 'text-slate-900'
+                      )}>
+                        {project.amount.toLocaleString()}万
+                      </span>
+                    </div>
+                    <div className={cn(
+                      'text-xs mb-2 p-2 rounded',
+                      theme === 'dashboard'
+                        ? 'bg-orange-500/10 text-orange-300'
+                        : theme === 'dark'
+                        ? 'bg-orange-500/20 text-orange-300'
+                        : 'bg-orange-100 text-orange-800'
+                    )}>
+                      <div className="font-semibold mb-1">排除原因：</div>
+                      {project.excludeReasonText}
+                    </div>
+                    <div className="flex items-center justify-between text-xs">
+                      <div className="flex items-center gap-2">
+                        <span className={cn(theme === 'dashboard' ? 'text-cyan-400/70' : 'text-slate-600')}>当前进度：</span>
+                        <span className={cn(
+                          'font-semibold',
+                          project.currentProgress < project.expectedProgress ? 'text-red-400' : 'text-green-400'
+                        )}>
+                          {project.currentProgress}%
+                        </span>
+                      </div>
+                      <div className="flex items-center gap-2">
+                        <span className={cn(theme === 'dashboard' ? 'text-cyan-400/70' : 'text-slate-600')}>预期进度：</span>
+                        <span className="font-semibold">{project.expectedProgress}%</span>
+                      </div>
+                      <div className="flex items-center gap-1">
+                        <div className={cn(
+                          'w-2 h-2 rounded-full',
+                          theme === 'dashboard'
+                            ? project.probability === 'high' ? 'bg-cyan-500' : project.probability === 'medium' ? 'bg-yellow-500' : 'bg-slate-500'
+                            : project.probability === 'high' ? 'bg-green-500' : project.probability === 'medium' ? 'bg-yellow-500' : 'bg-gray-500'
+                        )} />
+                        <span className={cn(theme === 'dashboard' ? 'text-cyan-400/70' : 'text-slate-600')}>
+                          {project.probability === 'high' ? '高' : project.probability === 'medium' ? '中' : '低'}概率
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
         </div>
       </div>
     </div>
-    );
+  );
 }
