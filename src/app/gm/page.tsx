@@ -151,6 +151,112 @@ const regionData = {
   ],
 };
 
+// 城市维度数据（按区域分组）
+const cityData: Record<string, any[]> = {
+  '一区': [
+    { name: '北京市', owner: '李强', target: 180, completed: 40, predicted: 60, gap: 120, rate: 33.3, trend: 'down', orderCount: 25, projectCount: 15, pendingAmount: 70 },
+    { name: '天津市', owner: '王芳', target: 80, completed: 25, predicted: 50, gap: 30, rate: 62.5, trend: 'up', orderCount: 12, projectCount: 8, pendingAmount: 35 },
+    { name: '河北省', owner: '张伟', target: 60, completed: 0, predicted: 0, gap: 60, rate: 0.0, trend: 'down', orderCount: 8, projectCount: 5, pendingAmount: 15 },
+  ],
+  '二区': [
+    { name: '上海市', owner: '刘洋', target: 120, completed: 50, predicted: 55, gap: 65, rate: 45.8, trend: 'down', orderCount: 35, projectCount: 20, pendingAmount: 45 },
+    { name: '江苏省', owner: '陈静', target: 70, completed: 30, predicted: 35, gap: 35, rate: 50.0, trend: 'down', orderCount: 28, projectCount: 14, pendingAmount: 30 },
+    { name: '浙江省', owner: '杨帆', target: 42, completed: 20, predicted: 10, gap: 32, rate: 23.8, trend: 'down', orderCount: 22, projectCount: 8, pendingAmount: 10 },
+  ],
+  '五区': [
+    { name: '广东省', owner: '黄磊', target: 150, completed: 70, predicted: 60, gap: 90, rate: 40.0, trend: 'down', orderCount: 38, projectCount: 18, pendingAmount: 55 },
+    { name: '福建省', owner: '赵雪', target: 60, completed: 30, predicted: 28, gap: 32, rate: 46.7, trend: 'down', orderCount: 20, projectCount: 12, pendingAmount: 25 },
+    { name: '江西省', owner: '周杰', target: 50, completed: 20, predicted: 12.4, gap: 37.6, rate: 24.8, trend: 'down', orderCount: 14, projectCount: 5, pendingAmount: 15 },
+  ],
+  '华中': [
+    { name: '湖北省', owner: '吴敏', target: 80, completed: 80, predicted: 78, gap: 2, rate: 97.5, trend: 'up', orderCount: 56, projectCount: 32, pendingAmount: 80 },
+    { name: '湖南省', owner: '郑浩', target: 45, completed: 45, predicted: 44, gap: 1, rate: 97.8, trend: 'up', orderCount: 32, projectCount: 18, pendingAmount: 45 },
+    { name: '河南省', owner: '孙丽', target: 27, completed: 27, predicted: 28, gap: -1, rate: 103.7, trend: 'up', orderCount: 24, projectCount: 8, pendingAmount: 25 },
+  ],
+  '华北': [
+    { name: '山西省', owner: '马龙', target: 85, completed: 65, predicted: 37, gap: 48, rate: 43.5, trend: 'down', orderCount: 32, projectCount: 16, pendingAmount: 40 },
+    { name: '内蒙古', owner: '林婷', target: 45, completed: 30, predicted: 20, gap: 25, rate: 44.4, trend: 'down', orderCount: 18, projectCount: 10, pendingAmount: 25 },
+    { name: '河北省北部', owner: '韩冰', target: 30, completed: 25, predicted: 12.1, gap: 17.9, rate: 40.3, trend: 'down', orderCount: 12, projectCount: 5, pendingAmount: 10 },
+  ],
+  '西南': [
+    { name: '四川省', owner: '胡燕', target: 80, completed: 12, predicted: 7, gap: 73, rate: 8.8, trend: 'down', orderCount: 18, projectCount: 10, pendingAmount: 25 },
+    { name: '云南省', owner: '杨洋', target: 30, completed: 6, predicted: 3, gap: 27, rate: 10.0, trend: 'down', orderCount: 6, projectCount: 3, pendingAmount: 8 },
+    { name: '贵州省', owner: '赵峰', target: 18, completed: 2, predicted: 0.8, gap: 17.2, rate: 4.4, trend: 'down', orderCount: 4, projectCount: 2, pendingAmount: 2 },
+  ],
+  '华南': [
+    { name: '广东省南部', owner: '徐婷婷', target: 100, completed: 60, predicted: 65, gap: 35, rate: 65.0, trend: 'down', orderCount: 40, projectCount: 22, pendingAmount: 52 },
+    { name: '广西省', owner: '梁伟', target: 50, completed: 30, predicted: 32, gap: 18, rate: 64.0, trend: 'down', orderCount: 18, projectCount: 10, pendingAmount: 28 },
+    { name: '海南省', owner: '黄静', target: 26, completed: 10, predicted: 13, gap: 13, rate: 50.0, trend: 'down', orderCount: 10, projectCount: 4, pendingAmount: 10 },
+  ],
+};
+
+// 业务员维度数据（按城市分组）
+const salespersonData: Record<string, any[]> = {
+  '北京市': [
+    { name: '李强', target: 180, completed: 40, predicted: 60, gap: 120, rate: 33.3, orderCount: 25, projectCount: 15, pendingAmount: 70 },
+  ],
+  '天津市': [
+    { name: '王芳', target: 80, completed: 25, predicted: 50, gap: 30, rate: 62.5, orderCount: 12, projectCount: 8, pendingAmount: 35 },
+  ],
+  '河北省': [
+    { name: '张伟', target: 60, completed: 0, predicted: 0, gap: 60, rate: 0.0, orderCount: 8, projectCount: 5, pendingAmount: 15 },
+  ],
+  '上海市': [
+    { name: '刘洋', target: 120, completed: 50, predicted: 55, gap: 65, rate: 45.8, orderCount: 35, projectCount: 20, pendingAmount: 45 },
+  ],
+  '江苏省': [
+    { name: '陈静', target: 70, completed: 30, predicted: 35, gap: 35, rate: 50.0, orderCount: 28, projectCount: 14, pendingAmount: 30 },
+  ],
+  '浙江省': [
+    { name: '杨帆', target: 42, completed: 20, predicted: 10, gap: 32, rate: 23.8, orderCount: 22, projectCount: 8, pendingAmount: 10 },
+  ],
+  '广东省': [
+    { name: '黄磊', target: 150, completed: 70, predicted: 60, gap: 90, rate: 40.0, orderCount: 38, projectCount: 18, pendingAmount: 55 },
+  ],
+  '福建省': [
+    { name: '赵雪', target: 60, completed: 30, predicted: 28, gap: 32, rate: 46.7, orderCount: 20, projectCount: 12, pendingAmount: 25 },
+  ],
+  '江西省': [
+    { name: '周杰', target: 50, completed: 20, predicted: 12.4, gap: 37.6, rate: 24.8, orderCount: 14, projectCount: 5, pendingAmount: 15 },
+  ],
+  '湖北省': [
+    { name: '吴敏', target: 80, completed: 80, predicted: 78, gap: 2, rate: 97.5, orderCount: 56, projectCount: 32, pendingAmount: 80 },
+  ],
+  '湖南省': [
+    { name: '郑浩', target: 45, completed: 45, predicted: 44, gap: 1, rate: 97.8, orderCount: 32, projectCount: 18, pendingAmount: 45 },
+  ],
+  '河南省': [
+    { name: '孙丽', target: 27, completed: 27, predicted: 28, gap: -1, rate: 103.7, orderCount: 24, projectCount: 8, pendingAmount: 25 },
+  ],
+  '山西省': [
+    { name: '马龙', target: 85, completed: 65, predicted: 37, gap: 48, rate: 43.5, orderCount: 32, projectCount: 16, pendingAmount: 40 },
+  ],
+  '内蒙古': [
+    { name: '林婷', target: 45, completed: 30, predicted: 20, gap: 25, rate: 44.4, orderCount: 18, projectCount: 10, pendingAmount: 25 },
+  ],
+  '河北省北部': [
+    { name: '韩冰', target: 30, completed: 25, predicted: 12.1, gap: 17.9, rate: 40.3, orderCount: 12, projectCount: 5, pendingAmount: 10 },
+  ],
+  '四川省': [
+    { name: '胡燕', target: 80, completed: 12, predicted: 7, gap: 73, rate: 8.8, orderCount: 18, projectCount: 10, pendingAmount: 25 },
+  ],
+  '云南省': [
+    { name: '杨洋', target: 30, completed: 6, predicted: 3, gap: 27, rate: 10.0, orderCount: 6, projectCount: 3, pendingAmount: 8 },
+  ],
+  '贵州省': [
+    { name: '赵峰', target: 18, completed: 2, predicted: 0.8, gap: 17.2, rate: 4.4, orderCount: 4, projectCount: 2, pendingAmount: 2 },
+  ],
+  '广东省南部': [
+    { name: '徐婷婷', target: 100, completed: 60, predicted: 65, gap: 35, rate: 65.0, orderCount: 40, projectCount: 22, pendingAmount: 52 },
+  ],
+  '广西省': [
+    { name: '梁伟', target: 50, completed: 30, predicted: 32, gap: 18, rate: 64.0, orderCount: 18, projectCount: 10, pendingAmount: 28 },
+  ],
+  '海南省': [
+    { name: '黄静', target: 26, completed: 10, predicted: 13, gap: 13, rate: 50.0, orderCount: 10, projectCount: 4, pendingAmount: 10 },
+  ],
+};
+
 // 月度趋势数据
 const monthlyTrendData = {
   all: [
@@ -274,6 +380,11 @@ export default function GMDashboard() {
   const [selectedQuarter, setSelectedQuarter] = useState('Q1');
   const [trendRegion, setTrendRegion] = useState('all');
 
+  // 钻取状态
+  const [drillDownView, setDrillDownView] = useState<'region' | 'city' | 'salesperson'>('region');
+  const [selectedRegion, setSelectedRegion] = useState<string>('');
+  const [selectedCity, setSelectedCity] = useState<string>('');
+
   // 获取当前时间范围的数据
   const getTimeRangeData = () => {
     if (selectedTimeRange === 'current') return forecastOverviewData.currentMonth;
@@ -294,7 +405,16 @@ export default function GMDashboard() {
   };
 
   // 获取当前时间范围的数据
-  const currentData = regionData[timeRange as keyof typeof regionData] || [];
+  const currentData = useMemo(() => {
+    if (drillDownView === 'region') {
+      return regionData[timeRange as keyof typeof regionData] || [];
+    } else if (drillDownView === 'city' && selectedRegion) {
+      return cityData[selectedRegion] || [];
+    } else if (drillDownView === 'salesperson' && selectedCity) {
+      return salespersonData[selectedCity] || [];
+    }
+    return [];
+  }, [drillDownView, timeRange, selectedRegion, selectedCity]);
 
   // 计算合计数据
   const totals = currentData.reduce((acc, item) => ({
@@ -1021,17 +1141,57 @@ export default function GMDashboard() {
           <div className="col-span-3 space-y-4">
             {/* 区域达成情况 */}
             <div className={`${DASHBOARD_STYLES.cardBg} ${DASHBOARD_STYLES.cardBorder} rounded-xl p-4 ${DASHBOARD_STYLES.glow}`}>
-              <h3 className={`text-sm font-semibold mb-3 ${DASHBOARD_STYLES.neon} flex items-center gap-2`}>
-                <Activity className="w-4 h-4" />
-                区域达成
-                <span className="text-xs font-normal text-cyan-400/70">
-                  ({timeRange === 'month' ? `${selectedMonth}月` : timeRange === 'quarter' ? selectedQuarter : '2026年'})
-                </span>
-              </h3>
+              {/* 标题与面包屑 */}
+              <div className="flex items-center justify-between mb-3">
+                <h3 className={`text-sm font-semibold ${DASHBOARD_STYLES.neon} flex items-center gap-2`}>
+                  <Activity className="w-4 h-4" />
+                  {drillDownView === 'region' ? '区域达成' : drillDownView === 'city' ? '城市达成' : '业务员达成'}
+                </h3>
+                <div className="flex items-center gap-2">
+                  <span className="text-xs font-normal text-cyan-400/70">
+                    ({timeRange === 'month' ? `${selectedMonth}月` : timeRange === 'quarter' ? selectedQuarter : '2026年'})
+                  </span>
+                  {/* 返回按钮 */}
+                  {(drillDownView === 'city' || drillDownView === 'salesperson') && (
+                    <button
+                      onClick={() => {
+                        if (drillDownView === 'salesperson') {
+                          setDrillDownView('city');
+                        } else {
+                          setDrillDownView('region');
+                          setSelectedRegion('');
+                        }
+                      }}
+                      className="px-2 py-1 text-xs rounded bg-cyan-500/20 border border-cyan-500/30 text-cyan-300 hover:bg-cyan-500/30 transition-colors"
+                    >
+                      返回
+                    </button>
+                  )}
+                </div>
+              </div>
+
+              {/* 面包屑导航 */}
+              {drillDownView !== 'region' && (
+                <div className="mb-3 text-xs text-cyan-400/70 flex items-center gap-1">
+                  <span className="cursor-pointer hover:text-cyan-300" onClick={() => setDrillDownView('region')}>
+                    区域
+                  </span>
+                  {drillDownView !== 'region' && <span>/</span>}
+                  {drillDownView !== 'region' && selectedRegion && (
+                    <span className="cursor-pointer hover:text-cyan-300" onClick={() => setDrillDownView('city')}>
+                      {selectedRegion}
+                    </span>
+                  )}
+                  {drillDownView === 'salesperson' && selectedCity && <span>/</span>}
+                  {drillDownView === 'salesperson' && selectedCity && (
+                    <span className="text-cyan-300">{selectedCity}</span>
+                  )}
+                </div>
+              )}
 
               {/* 合计 */}
               <div className="mb-3 p-2 rounded-lg bg-cyan-500/10 border border-cyan-500/20">
-                <div className="grid grid-cols-2 gap-2 text-xs">
+                <div className="grid grid-cols-3 gap-2 text-xs">
                   <div>
                     <span className="text-cyan-400/70">目标：</span>
                     <span className="text-cyan-300 font-semibold ml-1">{totalTarget.toLocaleString()}万</span>
@@ -1040,24 +1200,44 @@ export default function GMDashboard() {
                     <span className="text-cyan-400/70">预测：</span>
                     <span className="text-cyan-300 font-semibold ml-1">{totalPredicted.toLocaleString()}万</span>
                   </div>
+                  <div>
+                    <span className="text-cyan-400/70">在手项目：</span>
+                    <span className="text-cyan-300 font-semibold ml-1">{totalPendingAmount.toLocaleString()}万</span>
+                  </div>
                 </div>
               </div>
 
-              {/* 区域列表 */}
+              {/* 数据列表 */}
               <div className="space-y-2 max-h-80 overflow-y-auto pr-2">
                 {currentData.map((item: any, index: number) => (
                   <div
                     key={index}
-                    className="p-2 rounded-lg bg-slate-800/30 border border-slate-700/30 hover:border-cyan-500/50 transition-all cursor-pointer"
+                    className={`p-2 rounded-lg bg-slate-800/30 border border-slate-700/30 hover:border-cyan-500/50 transition-all ${
+                      drillDownView === 'salesperson' ? '' : 'cursor-pointer'
+                    }`}
+                    onClick={() => {
+                      if (drillDownView === 'region') {
+                        setSelectedRegion(item.name);
+                        setDrillDownView('city');
+                      } else if (drillDownView === 'city') {
+                        setSelectedCity(item.name);
+                        setDrillDownView('salesperson');
+                      }
+                    }}
                   >
                     <div className="flex items-center justify-between mb-1">
                       <span className="text-sm font-medium text-cyan-200">{item.name}</span>
-                      <span className={`text-xs font-semibold ${item.gap > 0 ? 'text-red-400' : 'text-green-400'}`}>
-                        {item.gap > 0 ? `${item.gap}` : `+${Math.abs(item.gap)}`}
-                      </span>
+                      <div className="flex items-center gap-2">
+                        <span className={`text-xs font-semibold ${item.gap > 0 ? 'text-red-400' : 'text-green-400'}`}>
+                          {item.gap > 0 ? `${item.gap}` : `+${Math.abs(item.gap)}`}
+                        </span>
+                        {(drillDownView === 'region' || drillDownView === 'city') && (
+                          <ChevronRight className="w-3 h-3 text-cyan-400/50" />
+                        )}
+                      </div>
                     </div>
-                    <div className="flex items-center justify-between text-xs">
-                      <span className="text-cyan-400/50">{item.owner}</span>
+                    <div className="flex items-center justify-between text-xs mb-1">
+                      <span className="text-cyan-400/50">{drillDownView === 'salesperson' ? item.name : item.owner}</span>
                       <div className="flex items-center gap-2">
                         <span className="text-cyan-400/70">{item.rate.toFixed(1)}%</span>
                         <div className="w-12 h-1.5 rounded-full bg-slate-700 overflow-hidden">
@@ -1069,6 +1249,11 @@ export default function GMDashboard() {
                           />
                         </div>
                       </div>
+                    </div>
+                    {/* 在手项目金额 */}
+                    <div className="flex items-center justify-between text-xs">
+                      <span className="text-cyan-400/50">在手项目金额</span>
+                      <span className="text-cyan-300 font-semibold">{(item.pendingAmount || 0).toLocaleString()}万</span>
                     </div>
                   </div>
                 ))}
