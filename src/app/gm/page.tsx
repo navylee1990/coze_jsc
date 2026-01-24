@@ -797,7 +797,7 @@ export default function GMDashboard() {
               {/* 趋势图表 */}
               <div className="bg-slate-800/30 rounded-xl p-4 border border-cyan-400/10">
                 {/* 缺口统计 */}
-                {/* 图例说明 - 更明显、更详细 */}
+                {/* 图例说明 */}
                 <div className="mb-3 px-2 py-2 rounded-lg bg-slate-800/40 border border-cyan-500/10">
                   <div className="flex items-center justify-between mb-2">
                     <span className="text-xs font-semibold text-cyan-400">趋势图例</span>
@@ -823,34 +823,34 @@ export default function GMDashboard() {
                     {/* 缺口区域图例 */}
                     <div className="flex items-center gap-2">
                       <div className="flex items-center gap-0.5">
-                        <div className="w-6 h-3 bg-red-500/60 rounded-sm"></div>
+                        <div className="w-6 h-3 bg-red-500/50 rounded-sm"></div>
                       </div>
-                      <span className="text-xs text-cyan-300/80">缺口区域</span>
+                      <span className="text-xs text-cyan-300/80">缺口区域（红&gt;青）</span>
                     </div>
                   </div>
                   <div className="mt-2 pt-2 border-t border-cyan-500/10 text-xs text-cyan-300/50">
-                    💡 红色区域 = 目标与预测的差距，红色越高表示缺口越大
+                    💡 红色填充区域高于青色填充区域的部分 = 缺口（目标与预测的差距）
                   </div>
                 </div>
 
-                <div style={{ height: '200px' }}>
+                <div style={{ height: '220px' }}>
                   <ResponsiveContainer width="100%" height="100%">
-                    <LineChart data={forecastTrendData}>
+                    <AreaChart data={forecastTrendData}>
                       <defs>
-                        {/* 缺口区域填充 - 红色渐变，增强可见性 */}
+                        {/* 缺口区域 - 红色 */}
                         <linearGradient id="colorGap" x1="0" y1="0" x2="0" y2="1">
-                          <stop offset="0%" stopColor="#ef4444" stopOpacity={0.6}/>
-                          <stop offset="100%" stopColor="#ef4444" stopOpacity={0.3}/>
+                          <stop offset="0%" stopColor="#ef4444" stopOpacity={0.5}/>
+                          <stop offset="100%" stopColor="#ef4444" stopOpacity={0.2}/>
                         </linearGradient>
-                        {/* 预测区域填充 - 青色渐变 */}
+                        {/* 预测区域 - 青色 */}
                         <linearGradient id="colorForecast" x1="0" y1="0" x2="0" y2="1">
                           <stop offset="0%" stopColor="#22d3ee" stopOpacity={0.4}/>
                           <stop offset="100%" stopColor="#22d3ee" stopOpacity={0.1}/>
                         </linearGradient>
-                        {/* 已完成区域填充 */}
+                        {/* 已完成区域 - 绿色 */}
                         <linearGradient id="colorCompleted" x1="0" y1="0" x2="0" y2="1">
-                          <stop offset="5%" stopColor="#22c55e" stopOpacity={0.25}/>
-                          <stop offset="95%" stopColor="#22c55e" stopOpacity={0.05}/>
+                          <stop offset="0%" stopColor="#22c55e" stopOpacity={0.4}/>
+                          <stop offset="100%" stopColor="#22c55e" stopOpacity={0.05}/>
                         </linearGradient>
                       </defs>
 
@@ -883,12 +883,8 @@ export default function GMDashboard() {
                         }}
                         labelStyle={{ color: '#22d3ee', fontWeight: 'bold' }}
                       />
-                      <Legend
-                        wrapperStyle={{ paddingTop: '8px' }}
-                        iconType="line"
-                      />
 
-                      {/* 分界线 - 实绩和预测的分界 */}
+                      {/* 分界线 */}
                       <ReferenceLine
                         x={`${currentMonth}.5`}
                         stroke="#22d3ee"
@@ -907,37 +903,25 @@ export default function GMDashboard() {
                         name="预测区域"
                       />
 
-                      {/* 目标区域填充 - 红色，表示业务目标范围（后渲染，覆盖在预测之上） */}
+                      {/* 目标区域填充（顶层，显示缺口） */}
                       <Area
-                        type="monotone"
-                        dataKey="businessTarget"
-                        stroke="none"
-                        fill="url(#colorGap)"
-                        name="目标区域"
-                      />
-
-                      {/* 业务目标线 - 蓝色 */}
-                      <Line
                         type="monotone"
                         dataKey="businessTarget"
                         stroke="#3b82f6"
                         strokeWidth={2.5}
-                        dot={{ r: 3, fill: '#3b82f6' }}
-                        name="业务目标"
+                        fill="url(#colorGap)"
                       />
 
-                      {/* 财务目标线 - 紫色 */}
+                      {/* 财务目标线 */}
                       <Line
                         type="monotone"
                         dataKey="financialTarget"
                         stroke="#8b5cf6"
                         strokeWidth={2}
                         dot={{ r: 2, fill: '#8b5cf6' }}
-                        name="财务目标"
-                        opacity={0.7}
                       />
 
-                      {/* 实绩线 - 绿色，粗线，只在当前及之前月份显示 */}
+                      {/* 实绩线 */}
                       <Area
                         type="monotone"
                         dataKey="completed"
@@ -955,7 +939,7 @@ export default function GMDashboard() {
                         }}
                       />
 
-                      {/* 预测线 - 青色虚线，只在之后月份显示 */}
+                      {/* 预测线 */}
                       <Line
                         type="monotone"
                         dataKey="forecast"
@@ -965,15 +949,13 @@ export default function GMDashboard() {
                         dot={(props: any) => {
                           const monthIndex = props.payload?.monthIndex;
                           const isPast = isCompleted(monthIndex);
-                          // 过去月份不显示点，未来月份显示
                           if (isPast) {
                             return <circle r={0} />;
                           }
                           return <circle r={5} fill="#22d3ee" strokeWidth={2} stroke="#0ea5e9" />;
                         }}
-                        name="预计完成"
                       />
-                    </LineChart>
+                    </AreaChart>
                   </ResponsiveContainer>
                 </div>
               </div>
