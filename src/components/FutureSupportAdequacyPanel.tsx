@@ -1707,6 +1707,17 @@ function ProjectDrillDownModal({
   const [excludedProjectsCurrentPage, setExcludedProjectsCurrentPage] = useState(1);
   const projectsPerPage = 4; // 每页显示4个项目
 
+  // 催单提示状态
+  const [urgeMessage, setUrgeMessage] = useState<{ show: boolean; projectName: string }>({ show: false, projectName: '' });
+
+  // 处理催单
+  const handleUrgeProject = (project: { name: string }) => {
+    setUrgeMessage({ show: true, projectName: project.name });
+    setTimeout(() => {
+      setUrgeMessage({ show: false, projectName: '' });
+    }, 2000);
+  };
+
   if (!isOpen) return null;
 
   const periodInfo = periodConfig[period];
@@ -1805,6 +1816,21 @@ function ProjectDrillDownModal({
             <X className="w-5 h-5" />
           </button>
         </div>
+
+        {/* 催单提示消息 */}
+        {urgeMessage.show && (
+          <div className={cn(
+            'mx-6 mt-4 p-3 rounded-lg border flex items-center gap-3 animate-pulse',
+            theme === 'dashboard'
+              ? 'bg-orange-500/20 border-orange-500/40 text-orange-300'
+              : 'bg-orange-100 border-orange-300 text-orange-800'
+          )}>
+            <Zap className={cn('w-5 h-5 flex-shrink-0', theme === 'dashboard' ? 'text-orange-300' : 'text-orange-600')} />
+            <span className="text-sm font-medium">
+              已向【{urgeMessage.projectName}】发送催单提醒
+            </span>
+          </div>
+        )}
 
         {/* 合计数据栏 */}
         <div className={cn(
@@ -2032,29 +2058,37 @@ function ProjectDrillDownModal({
                       <div className="font-semibold mb-1">排除原因：</div>
                       {project.excludeReasonText}
                     </div>
-                    <div className="flex items-center justify-between text-xs">
-                      <div className="flex items-center gap-2">
-                        <span className={cn(theme === 'dashboard' ? 'text-cyan-400/70' : 'text-slate-600')}>当前进度：</span>
-                        <span className={cn(
-                          'font-semibold',
-                          project.currentProgress < project.expectedProgress ? 'text-red-400' : 'text-green-400'
-                        )}>
+                    <div className="flex items-center justify-between text-xs mt-2">
+                      <div className="flex items-center gap-1.5">
+                        <div className={cn(
+                          'w-1.5 h-1.5 rounded-full',
+                          project.currentProgress < project.expectedProgress ? 'bg-red-400' : 'bg-green-400'
+                        )} />
+                        <span className={cn(theme === 'dashboard' ? 'text-cyan-400/70' : 'text-slate-600')}>
                           {project.currentProgress}%
                         </span>
                       </div>
-                      <div className="flex items-center gap-2">
-                        <span className={cn(theme === 'dashboard' ? 'text-cyan-400/70' : 'text-slate-600')}>预期进度：</span>
-                        <span className="font-semibold">{project.expectedProgress}%</span>
-                      </div>
-                      <div className="flex items-center gap-1">
+                      <button
+                        onClick={() => handleUrgeProject(project)}
+                        className={cn(
+                          'flex items-center gap-1 px-2 py-1 rounded-lg text-xs font-medium transition-all',
+                          theme === 'dashboard'
+                            ? 'bg-orange-500/20 border border-orange-500/30 text-orange-300 hover:bg-orange-500/30'
+                            : 'bg-orange-100 text-orange-700 hover:bg-orange-200'
+                        )}
+                      >
+                        <Zap className="w-3 h-3" />
+                        催单
+                      </button>
+                      <div className="flex items-center gap-1.5">
                         <div className={cn(
-                          'w-2 h-2 rounded-full',
+                          'w-1.5 h-1.5 rounded-full',
                           theme === 'dashboard'
                             ? project.probability === 'high' ? 'bg-cyan-500' : project.probability === 'medium' ? 'bg-yellow-500' : 'bg-slate-500'
                             : project.probability === 'high' ? 'bg-green-500' : project.probability === 'medium' ? 'bg-yellow-500' : 'bg-gray-500'
                         )} />
                         <span className={cn(theme === 'dashboard' ? 'text-cyan-400/70' : 'text-slate-600')}>
-                          {project.probability === 'high' ? '高' : project.probability === 'medium' ? '中' : '低'}概率
+                          {project.probability === 'high' ? '高' : project.probability === 'medium' ? '中' : '低'}
                         </span>
                       </div>
                     </div>
