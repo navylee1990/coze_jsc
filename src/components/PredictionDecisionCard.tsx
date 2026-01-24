@@ -238,6 +238,48 @@ export default function PredictionDecisionCard({
 
   const trendDirection = getTrendDirection();
 
+  // 计算预测完成警告
+  const getForecastWarning = () => {
+    if (data.achievementRate >= 80) {
+      return { 
+        show: true, 
+        color: theme === 'dashboard' ? 'text-yellow-400' : 'text-yellow-600', 
+        bgColor: theme === 'dashboard' ? 'bg-yellow-500/20' : 'bg-yellow-500/20' 
+      };
+    } else {
+      return { 
+        show: true, 
+        color: theme === 'dashboard' ? 'text-red-400' : 'text-red-600', 
+        bgColor: theme === 'dashboard' ? 'bg-red-500/20' : 'bg-red-500/20' 
+      };
+    }
+  };
+
+  // 计算缺口警告
+  const getGapWarning = () => {
+    if (data.gap > 0) {
+      const gapRatio = (data.gap / data.target) * 100;
+      if (gapRatio <= 20) {
+        return { 
+          show: true, 
+          color: theme === 'dashboard' ? 'text-yellow-400' : 'text-yellow-600', 
+          bgColor: theme === 'dashboard' ? 'bg-yellow-500/20' : 'bg-yellow-500/20' 
+        };
+      } else {
+        return { 
+          show: true, 
+          color: theme === 'dashboard' ? 'text-red-400' : 'text-red-600', 
+          bgColor: theme === 'dashboard' ? 'bg-red-500/20' : 'bg-red-500/20' 
+        };
+      }
+    } else {
+      return { show: false, color: '', bgColor: '' };
+    }
+  };
+
+  const forecastWarning = getForecastWarning();
+  const gapWarning = getGapWarning();
+
   // 计算支撑和风险总额
   const totalSupport = data.supportFactors.reduce((sum, f) => sum + f.amount, 0);
   const totalRisk = Math.abs(data.riskFactors.reduce((sum, f) => sum + f.amount, 0));
@@ -466,6 +508,12 @@ export default function PredictionDecisionCard({
 
               {/* 仪表盘2 - 预测完成 */}
               <div className="relative">
+                {/* 警告角标 */}
+                {forecastWarning.show && (
+                  <div className={`absolute -top-2 -right-2 z-10 ${forecastWarning.bgColor} rounded-full p-1 animate-pulse`}>
+                    <AlertTriangle className={`w-5 h-5 ${forecastWarning.color}`} />
+                  </div>
+                )}
                 <div
                   className={cn(
                     'rounded-xl border-2 p-3 transition-all duration-300',
@@ -574,6 +622,12 @@ export default function PredictionDecisionCard({
 
               {/* 仪表盘3 - 缺口 */}
               <div className="relative">
+                {/* 警告角标 */}
+                {gapWarning.show && (
+                  <div className={`absolute -top-2 -right-2 z-10 ${gapWarning.bgColor} rounded-full p-1 animate-pulse`}>
+                    <AlertTriangle className={`w-5 h-5 ${gapWarning.color}`} />
+                  </div>
+                )}
                 <div
                   className={cn(
                     'rounded-xl border-2 p-3 transition-all duration-300',
