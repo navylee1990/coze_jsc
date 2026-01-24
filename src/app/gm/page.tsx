@@ -9,7 +9,7 @@ import PredictionDecisionCard from '@/components/PredictionDecisionCard';
 import FutureSupportAdequacyPanel from '@/components/FutureSupportAdequacyPanel';
 import { Separator } from '@/components/ui/separator';
 import Link from 'next/link';
-import { AreaChart, Area, LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
+import { AreaChart, Area, LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, ReferenceLine } from 'recharts';
 import { cn } from '@/lib/utils';
 
 // 页面标题
