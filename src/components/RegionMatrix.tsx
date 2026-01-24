@@ -67,14 +67,18 @@ export default function RegionMatrix({
 
   // 获取当前层级的数据
   const currentData = useMemo(() => {
+    let result: any[] = [];
+
     if (drillDownLevel === 'region') {
-      return data;
+      result = data;
     } else if (drillDownLevel === 'city' && selectedRegion) {
-      return cityData[selectedRegion] || [];
+      result = cityData[selectedRegion] || [];
     } else if (drillDownLevel === 'salesperson' && selectedCity) {
-      return salespersonData[selectedCity] || [];
+      result = salespersonData[selectedCity] || [];
     }
-    return [];
+
+    // 按达成率降序排序
+    return result.sort((a, b) => b.rate - a.rate);
   }, [drillDownLevel, selectedRegion, selectedCity, data, cityData, salespersonData]);
 
   // 获取面包屑
