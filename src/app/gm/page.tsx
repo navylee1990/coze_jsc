@@ -788,15 +788,43 @@ export default function GMDashboard() {
 
               {/* 趋势图表 */}
               <div className="bg-slate-800/30 rounded-xl p-4 border border-cyan-400/10">
+                {/* 缺口统计 */}
+                <div className="flex items-center justify-between mb-3 px-1">
+                  <div className="flex items-center gap-4">
+                    <div className="flex items-center gap-1.5">
+                      <div className="w-3 h-3 rounded-full bg-green-500"></div>
+                      <span className="text-xs text-cyan-300/70">实绩</span>
+                    </div>
+                    <div className="flex items-center gap-1.5">
+                      <div className="w-3 h-3 rounded-full bg-cyan-400"></div>
+                      <span className="text-xs text-cyan-300/70">预测</span>
+                    </div>
+                    <div className="flex items-center gap-1.5">
+                      <div className="w-3 h-3 rounded bg-red-500/30"></div>
+                      <span className="text-xs text-cyan-300/70">缺口区域</span>
+                    </div>
+                  </div>
+                  <div className="text-xs text-cyan-400/80">
+                    1月实绩 <span className="font-bold text-green-400">800万</span>
+                  </div>
+                </div>
+
                 <div style={{ height: '200px' }}>
                   <ResponsiveContainer width="100%" height="100%">
                     <LineChart data={forecastTrendData}>
                       <defs>
+                        {/* 缺口区域填充 */}
+                        <linearGradient id="colorGap" x1="0" y1="0" x2="0" y2="1">
+                          <stop offset="0%" stopColor="#ef4444" stopOpacity={0.2}/>
+                          <stop offset="100%" stopColor="#ef4444" stopOpacity={0.05}/>
+                        </linearGradient>
+                        {/* 已完成区域填充 */}
                         <linearGradient id="colorCompleted" x1="0" y1="0" x2="0" y2="1">
                           <stop offset="5%" stopColor="#22c55e" stopOpacity={0.3}/>
                           <stop offset="95%" stopColor="#22c55e" stopOpacity={0}/>
                         </linearGradient>
                       </defs>
+
                       <CartesianGrid strokeDasharray="3 3" stroke="rgba(6,182,212,0.1)" vertical={false} />
                       <XAxis
                         dataKey="month"
@@ -812,18 +840,43 @@ export default function GMDashboard() {
                       />
                       <Tooltip
                         contentStyle={{
-                          backgroundColor: 'rgba(15,23,42,0.9)',
+                          backgroundColor: 'rgba(15,23,42,0.95)',
                           border: '1px solid rgba(6,182,212,0.3)',
                           borderRadius: '8px',
-                          boxShadow: '0 0 20px rgba(6,182,212,0.2)',
+                          boxShadow: '0 0 20px rgba(6,182,212,0.3)',
                         }}
-                        formatter={(value: number, name: string) => [`${value}万`, name]}
+                        formatter={(value: number, name: string, props: any) => {
+                          const month = props.payload?.month;
+                          const gap = props.payload?.businessTarget - props.payload?.forecast;
+                          return [`${value}万`, name, month !== '1月' && name === '预计完成' ? `(缺口: ${gap.toFixed(0)}万)` : ''];
+                        }}
                         labelStyle={{ color: '#22d3ee', fontWeight: 'bold' }}
                       />
                       <Legend
-                        wrapperStyle={{ paddingTop: '10px' }}
+                        wrapperStyle={{ paddingTop: '8px' }}
                         iconType="line"
                       />
+
+                      {/* 1月分界线 - 实绩和预测的分界 */}
+                      <ReferenceLine
+                        x="1.5"
+                        stroke="#22d3ee"
+                        strokeWidth={1}
+                        strokeDasharray="4 4"
+                        opacity={0.4}
+                      />
+
+                      {/* 缺口区域 - 业务目标与预计完成之间的区域 */}
+                      <Area
+                        type="monotone"
+                        dataKey="forecast"
+                        stroke="none"
+                        fill="url(#colorGap)"
+                        name="缺口区域"
+                        opacity={0.8}
+                      />
+
+                      {/* 业务目标线 */}
                       <Line
                         type="monotone"
                         dataKey="businessTarget"
@@ -832,6 +885,8 @@ export default function GMDashboard() {
                         dot={{ r: 3, fill: '#3b82f6' }}
                         name="业务目标"
                       />
+
+                      {/* 财务目标线 */}
                       <Line
                         type="monotone"
                         dataKey="financialTarget"
@@ -840,21 +895,32 @@ export default function GMDashboard() {
                         dot={{ r: 3, fill: '#8b5cf6' }}
                         name="财务目标"
                       />
+
+                      {/* 已完成 - 只在1月有值，用实心大点 */}
                       <Area
                         type="monotone"
                         dataKey="completed"
                         stroke="#22c55e"
-                        strokeWidth={2}
+                        strokeWidth={3}
                         fill="url(#colorCompleted)"
-                        dot={{ r: 3, fill: '#22c55e' }}
                         name="已完成"
+                        activeDot={{ r: 6, fill: '#22c55e', strokeWidth: 2, stroke: '#fff' }}
+                        dot={(props: any) => {
+                          if (props.payload.completed > 0) {
+                            return <circle r={5} fill="#22c55e" strokeWidth={2} stroke="#fff" />;
+                          }
+                          return <circle r={0} />;
+                        }}
                       />
+
+                      {/* 预计完成 - 虚线，表示不确定性 */}
                       <Line
                         type="monotone"
                         dataKey="forecast"
                         stroke="#22d3ee"
                         strokeWidth={2.5}
-                        dot={{ r: 3, fill: '#22d3ee' }}
+                        strokeDasharray="5 3"
+                        dot={{ r: 4, fill: '#22d3ee', strokeWidth: 2, stroke: '#0ea5e9' }}
                         name="预计完成"
                       />
                     </LineChart>
