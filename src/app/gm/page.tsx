@@ -808,7 +808,7 @@ export default function GMDashboard() {
                       <span className="text-xs text-cyan-300/70">预测</span>
                     </div>
                     <div className="flex items-center gap-1.5">
-                      <div className="w-3 h-3 rounded bg-red-500/30"></div>
+                      <div className="w-3 h-3 rounded bg-red-500/40"></div>
                       <span className="text-xs text-cyan-300/70">缺口区域</span>
                     </div>
                   </div>
@@ -821,15 +821,15 @@ export default function GMDashboard() {
                   <ResponsiveContainer width="100%" height="100%">
                     <LineChart data={forecastTrendData}>
                       <defs>
-                        {/* 缺口区域填充 */}
+                        {/* 缺口区域填充 - 更明显的红色 */}
                         <linearGradient id="colorGap" x1="0" y1="0" x2="0" y2="1">
-                          <stop offset="0%" stopColor="#ef4444" stopOpacity={0.2}/>
-                          <stop offset="100%" stopColor="#ef4444" stopOpacity={0.05}/>
+                          <stop offset="0%" stopColor="#ef4444" stopOpacity={0.25}/>
+                          <stop offset="100%" stopColor="#ef4444" stopOpacity={0.1}/>
                         </linearGradient>
                         {/* 已完成区域填充 */}
                         <linearGradient id="colorCompleted" x1="0" y1="0" x2="0" y2="1">
-                          <stop offset="5%" stopColor="#22c55e" stopOpacity={0.3}/>
-                          <stop offset="95%" stopColor="#22c55e" stopOpacity={0}/>
+                          <stop offset="5%" stopColor="#22c55e" stopOpacity={0.25}/>
+                          <stop offset="95%" stopColor="#22c55e" stopOpacity={0.05}/>
                         </linearGradient>
                       </defs>
 
@@ -867,82 +867,79 @@ export default function GMDashboard() {
                         iconType="line"
                       />
 
-                      {/* 分界线 - 实绩和预测的分界，基于当前月份动态计算 */}
+                      {/* 分界线 - 实绩和预测的分界 */}
                       <ReferenceLine
                         x={`${currentMonth}.5`}
                         stroke="#22d3ee"
-                        strokeWidth={1}
-                        strokeDasharray="4 4"
-                        opacity={0.4}
-                        label={{ value: '当前', position: 'topLeft', fill: '#22d3ee', fontSize: 10 }}
+                        strokeWidth={1.5}
+                        strokeDasharray="6 4"
+                        opacity={0.5}
+                        label={{ value: '当前', position: 'topLeft', fill: '#22d3ee', fontSize: 10, fontWeight: 'bold' }}
                       />
 
-                      {/* 缺口区域 - 业务目标与预计完成之间的区域 */}
+                      {/* 缺口区域 - 在业务目标和预测之间填充 */}
                       <Area
                         type="monotone"
                         dataKey="forecast"
                         stroke="none"
                         fill="url(#colorGap)"
                         name="缺口区域"
-                        opacity={0.8}
+                        opacity={1}
                       />
 
-                      {/* 业务目标线 */}
+                      {/* 业务目标线 - 蓝色 */}
                       <Line
                         type="monotone"
                         dataKey="businessTarget"
                         stroke="#3b82f6"
                         strokeWidth={2}
-                        dot={{ r: 3, fill: '#3b82f6' }}
+                        dot={{ r: 2, fill: '#3b82f6' }}
                         name="业务目标"
+                        opacity={0.7}
                       />
 
-                      {/* 财务目标线 */}
+                      {/* 财务目标线 - 紫色 */}
                       <Line
                         type="monotone"
                         dataKey="financialTarget"
                         stroke="#8b5cf6"
                         strokeWidth={2}
-                        dot={{ r: 3, fill: '#8b5cf6' }}
+                        dot={{ r: 2, fill: '#8b5cf6' }}
                         name="财务目标"
+                        opacity={0.7}
                       />
 
-                      {/* 已完成 - 根据当前月份判断显示 */}
+                      {/* 实绩线 - 绿色，粗线，只在当前及之前月份显示 */}
                       <Area
                         type="monotone"
                         dataKey="completed"
                         stroke="#22c55e"
-                        strokeWidth={3}
+                        strokeWidth={3.5}
                         fill="url(#colorCompleted)"
                         name="已完成"
                         activeDot={{ r: 6, fill: '#22c55e', strokeWidth: 2, stroke: '#fff' }}
                         dot={(props: any) => {
                           const monthIndex = props.payload?.monthIndex;
-                          // 只在当前及之前的月份显示实绩点
                           if (isCompleted(monthIndex) && props.payload.completed > 0) {
-                            return <circle r={5} fill="#22c55e" strokeWidth={2} stroke="#fff" />;
+                            return <circle r={5} fill="#22c55e" strokeWidth={2.5} stroke="#fff" />;
                           }
                           return <circle r={0} />;
                         }}
                       />
 
-                      {/* 预计完成 - 根据当前月份判断实线/虚线 */}
+                      {/* 预测线 - 青色虚线，只在之后月份显示 */}
                       <Line
                         type="monotone"
                         dataKey="forecast"
                         stroke="#22d3ee"
                         strokeWidth={2.5}
-                        strokeDasharray={(props: any) => {
-                          const monthIndex = props.payload?.monthIndex;
-                          // 未来月份显示虚线
-                          return !isCompleted(monthIndex) ? '5 3' : '0';
-                        }}
+                        strokeDasharray="8 5"
                         dot={(props: any) => {
                           const monthIndex = props.payload?.monthIndex;
                           const isPast = isCompleted(monthIndex);
-                          // 过去月份显示空心点，未来月份显示实心点
+                          // 过去月份不显示点，未来月份显示
                           if (isPast) {
-                            return <circle r={4} fill="#22d3ee" strokeWidth={2} stroke="#0ea5e9" fillOpacity={0.3} />;
+                            return <circle r={0} />;
                           }
                           return <circle r={4} fill="#22d3ee" strokeWidth={2} stroke="#0ea5e9" />;
                         }}
