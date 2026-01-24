@@ -1500,18 +1500,6 @@ export default function FutureSupportAdequacyPanel({
   // 催单状态
   const [urgeMessage, setUrgeMessage] = useState<{ show: boolean; message: string }>({ show: false, message: '' });
 
-  // 处理批量催单
-  const handleBatchUrge = (period: string, excludedAmount: number, e: React.MouseEvent) => {
-    e.stopPropagation(); // 阻止事件冒泡，不打开弹窗
-    setUrgeMessage({
-      show: true,
-      message: `已向【${period}】的未统计项目发送催单提醒，金额 ${excludedAmount} 万`
-    });
-    setTimeout(() => {
-      setUrgeMessage({ show: false, message: '' });
-    }, 3000);
-  };
-
   // 合并默认数据和自定义数据
   const allRegionData = { ...regionData, ...customData };
   const data = allRegionData[selectedRegion] || regionData.national; // 默认回退到全国数据
@@ -1870,19 +1858,6 @@ export default function FutureSupportAdequacyPanel({
                           </span>
                         </div>
                       )}
-                      {/* 批量催单按钮 */}
-                      <button
-                        onClick={(e) => handleBatchUrge(period, excludedProjectsTotalAmount, e)}
-                        className={cn(
-                          'w-full flex items-center justify-center gap-1.5 py-1.5 rounded-lg text-xs font-medium transition-all mt-1',
-                          theme === 'dashboard'
-                            ? 'bg-orange-500/20 border border-orange-500/30 text-orange-300 hover:bg-orange-500/30'
-                            : 'bg-orange-100 text-orange-700 hover:bg-orange-200'
-                        )}
-                      >
-                        <Zap className="w-3 h-3" />
-                        催单提醒
-                      </button>
                     </>
                   )}
                 </div>
@@ -2271,10 +2246,35 @@ function ProjectDrillDownModal({
           {/* 未统计项目 */}
           {data.excludedProjects && data.excludedProjects.length > 0 && (
             <div>
-              <h3 className={cn('text-lg font-bold mb-3 flex items-center gap-2', theme === 'dashboard' ? 'text-cyan-200' : 'text-slate-900')}>
-                <XCircle className="w-5 h-5 text-orange-500" />
-                未统计项目 ({data.excludedProjects.length})
-              </h3>
+              <div className="flex items-center justify-between mb-3">
+                <h3 className={cn('text-lg font-bold flex items-center gap-2', theme === 'dashboard' ? 'text-cyan-200' : 'text-slate-900')}>
+                  <XCircle className="w-5 h-5 text-orange-500" />
+                  未统计项目 ({data.excludedProjects.length})
+                </h3>
+                <button
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    const totalAmount = data.excludedProjects?.reduce((sum, p) => sum + p.amount, 0) || 0;
+                    setUrgeMessage({
+                      show: true,
+                      projectName: `全部未统计项目 (${data.excludedProjects?.length || 0}个)`
+                    });
+                    setTimeout(() => {
+                      setUrgeMessage({ show: false, projectName: '' });
+                    }, 2000);
+                  }}
+                  className={cn(
+                    'flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium transition-all',
+                    theme === 'dashboard'
+                      ? 'bg-orange-500/20 border border-orange-500/30 text-orange-300 hover:bg-orange-500/30'
+                      : 'bg-orange-100 text-orange-700 hover:bg-orange-200'
+                  )}
+                  title="批量催单提醒"
+                >
+                  <Zap className="w-3 h-3" />
+                  全部催单
+                </button>
+              </div>
               <div className="grid grid-cols-1 lg:grid-cols-2 gap-3">
                 {displayedExcludedProjects.map((project) => (
                   <div
