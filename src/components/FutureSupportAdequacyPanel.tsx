@@ -32,16 +32,30 @@ interface SupportLevel {
     isNew?: boolean;
     isDelayed?: boolean;
     isRisk?: boolean;
+    detail?: string; // 明细
+    region?: string; // 区域
+    owner?: string; // 责任人
+    salesperson?: string; // 业务员
+    riskDetail?: string; // 项目风险详情
+    completionTime?: string; // 完成时间
+    projectStatus?: string; // 项目状态
   }[];
   excludedProjects?: {
     id: number;
     name: string;
     amount: number;
     excludeReason: 'progress_low' | 'delayed' | 'pending_approval' | 'risk_high' | 'not_confirmed';
-    excludeReasonText: string;
+    excludeReasonText: string; // 未统计原因
     currentProgress: number;
     expectedProgress: number;
     probability: 'high' | 'medium' | 'low';
+    detail?: string; // 明细
+    region?: string; // 区域
+    owner?: string; // 责任人
+    salesperson?: string; // 业务员
+    riskDetail?: string; // 项目风险详情
+    completionTime?: string; // 完成时间
+    projectStatus?: string; // 项目状态
   }[];
 }
 
@@ -153,7 +167,14 @@ const regionData: RegionData = {
           amount: 150,
           probability: 'high',
           health: 'high',
-          isOnTrack: true
+          isOnTrack: true,
+          detail: '净化系统设备采购与安装',
+          region: '华北区',
+          owner: '张伟',
+          salesperson: '李明',
+          riskDetail: '无风险',
+          completionTime: '2025-02-15',
+          projectStatus: '推进中'
         },
         {
           id: 2,
@@ -162,7 +183,14 @@ const regionData: RegionData = {
           probability: 'medium',
           health: 'medium',
           isOnTrack: false,
-          delayDays: 12
+          delayDays: 12,
+          detail: '校园净水设备采购',
+          region: '华东区',
+          owner: '王强',
+          salesperson: '刘芳',
+          riskDetail: '资金审批延迟',
+          completionTime: '2025-02-28',
+          projectStatus: '推进中'
         },
         {
           id: 3,
@@ -171,7 +199,14 @@ const regionData: RegionData = {
           probability: 'high',
           health: 'high',
           isOnTrack: true,
-          isNew: true
+          isNew: true,
+          detail: '商业综合体净水系统',
+          region: '华南区',
+          owner: '陈明',
+          salesperson: '赵敏',
+          riskDetail: '无风险',
+          completionTime: '2025-03-01',
+          projectStatus: '推进中'
         },
         {
           id: 4,
@@ -180,7 +215,14 @@ const regionData: RegionData = {
           probability: 'medium',
           health: 'medium',
           isOnTrack: false,
-          delayDays: 5
+          delayDays: 5,
+          detail: '企业园区净水设备',
+          region: '华南区',
+          owner: '孙丽',
+          salesperson: '周杰',
+          riskDetail: '技术方案待确认',
+          completionTime: '2025-03-05',
+          projectStatus: '推进中'
         },
         {
           id: 5,
@@ -188,7 +230,14 @@ const regionData: RegionData = {
           amount: 60,
           probability: 'high',
           health: 'high',
-          isOnTrack: true
+          isOnTrack: true,
+          detail: '机场航站楼净化系统',
+          region: '西南区',
+          owner: '吴刚',
+          salesperson: '郑华',
+          riskDetail: '无风险',
+          completionTime: '2025-02-20',
+          projectStatus: '推进中'
         },
         {
           id: 6,
@@ -196,7 +245,14 @@ const regionData: RegionData = {
           amount: 50,
           probability: 'medium',
           health: 'medium',
-          isOnTrack: true
+          isOnTrack: true,
+          detail: '商业广场净水设备',
+          region: '华东区',
+          owner: '王强',
+          salesperson: '刘芳',
+          riskDetail: '施工进度略慢',
+          completionTime: '2025-03-10',
+          projectStatus: '推进中'
         }
       ],
       excludedProjects: [
@@ -208,7 +264,14 @@ const regionData: RegionData = {
           excludeReasonText: '项目进度滞后，仅完成35%进度',
           currentProgress: 35,
           expectedProgress: 80,
-          probability: 'high'
+          probability: 'high',
+          detail: '商业综合体净水系统',
+          region: '华北区',
+          owner: '张伟',
+          salesperson: '李明',
+          riskDetail: '进度严重滞后',
+          completionTime: '2025-04-01',
+          projectStatus: '推进中'
         },
         {
           id: 102,
@@ -218,7 +281,14 @@ const regionData: RegionData = {
           excludeReasonText: '商务合同待审批，预计下周完成',
           currentProgress: 60,
           expectedProgress: 70,
-          probability: 'high'
+          probability: 'high',
+          detail: '机场航站楼净化系统',
+          region: '华南区',
+          owner: '陈明',
+          salesperson: '赵敏',
+          riskDetail: '审批流程较长',
+          completionTime: '2025-04-15',
+          projectStatus: '待审批'
         },
         {
           id: 103,
@@ -228,7 +298,14 @@ const regionData: RegionData = {
           excludeReasonText: '客户决策延迟，商务谈判暂停',
           currentProgress: 40,
           expectedProgress: 60,
-          probability: 'medium'
+          probability: 'medium',
+          detail: '机场配套设施净化系统',
+          region: '华北区',
+          owner: '张伟',
+          salesperson: '李明',
+          riskDetail: '客户决策延迟',
+          completionTime: '2025-04-20',
+          projectStatus: '暂停'
         },
         {
           id: 104,
@@ -238,7 +315,14 @@ const regionData: RegionData = {
           excludeReasonText: '项目风险较高，客户资金链紧张',
           currentProgress: 25,
           expectedProgress: 45,
-          probability: 'low'
+          probability: 'low',
+          detail: '展览中心净水设备',
+          region: '华东区',
+          owner: '王强',
+          salesperson: '刘芳',
+          riskDetail: '客户资金链紧张',
+          completionTime: '2025-05-01',
+          projectStatus: '风险'
         },
         {
           id: 105,
@@ -248,7 +332,14 @@ const regionData: RegionData = {
           excludeReasonText: '项目未最终确认，处于意向阶段',
           currentProgress: 15,
           expectedProgress: 30,
-          probability: 'medium'
+          probability: 'medium',
+          detail: '自贸区综合项目净水系统',
+          region: '华南区',
+          owner: '孙丽',
+          salesperson: '周杰',
+          riskDetail: '项目未确认',
+          completionTime: '2025-05-15',
+          projectStatus: '意向'
         }
       ]
     },
@@ -267,7 +358,14 @@ const regionData: RegionData = {
           amount: 180,
           probability: 'medium',
           health: 'high',
-          isOnTrack: true
+          isOnTrack: true,
+          detail: '医院净化系统采购',
+          region: '华东区',
+          owner: '王强',
+          salesperson: '刘芳',
+          riskDetail: '无风险',
+          completionTime: '2025-04-10',
+          projectStatus: '推进中'
         },
         {
           id: 4,
@@ -275,7 +373,14 @@ const regionData: RegionData = {
           amount: 140,
           probability: 'medium',
           health: 'medium',
-          isOnTrack: true
+          isOnTrack: true,
+          detail: '酒店净化系统安装',
+          region: '华南区',
+          owner: '陈明',
+          salesperson: '赵敏',
+          riskDetail: '施工进度略慢',
+          completionTime: '2025-04-25',
+          projectStatus: '推进中'
         },
         {
           id: 5,
@@ -284,7 +389,14 @@ const regionData: RegionData = {
           probability: 'low',
           health: 'low',
           isOnTrack: false,
-          delayDays: 8
+          delayDays: 8,
+          detail: '企业园区净水设备',
+          region: '华东区',
+          owner: '王强',
+          salesperson: '刘芳',
+          riskDetail: '需求变更延迟',
+          completionTime: '2025-05-01',
+          projectStatus: '推进中'
         }
       ],
       excludedProjects: [
@@ -296,7 +408,14 @@ const regionData: RegionData = {
           excludeReasonText: '客户决策延迟，商务谈判暂停',
           currentProgress: 40,
           expectedProgress: 60,
-          probability: 'medium'
+          probability: 'medium',
+          detail: '商业中心净化系统',
+          region: '西南区',
+          owner: '孙丽',
+          salesperson: '周杰',
+          riskDetail: '客户决策延迟',
+          completionTime: '2025-05-20',
+          projectStatus: '暂停'
         }
       ]
     },
@@ -316,7 +435,14 @@ const regionData: RegionData = {
           probability: 'low',
           health: 'low',
           isOnTrack: true,
-          isNew: true
+          isNew: true,
+          detail: '超高层建筑净化系统',
+          region: '华南区',
+          owner: '陈明',
+          salesperson: '赵敏',
+          riskDetail: '项目处于早期阶段',
+          completionTime: '2025-07-01',
+          projectStatus: '意向'
         },
         {
           id: 7,
@@ -325,7 +451,14 @@ const regionData: RegionData = {
           probability: 'low',
           health: 'low',
           isOnTrack: false,
-          isRisk: true
+          isRisk: true,
+          detail: '校园净水系统',
+          region: '西北区',
+          owner: '吴刚',
+          salesperson: '郑华',
+          riskDetail: '预算审批流程较长',
+          completionTime: '2025-08-15',
+          projectStatus: '意向'
         }
       ],
       excludedProjects: []
@@ -1993,7 +2126,7 @@ function ProjectDrillDownModal({
                 <div
                   key={project.id}
                   className={cn(
-                    'p-4 rounded-xl border transition-all duration-200 h-36 flex flex-col justify-between',
+                    'p-4 rounded-xl border transition-all duration-200 h-36 flex flex-col',
                     theme === 'dashboard'
                       ? 'bg-slate-800/40 border-cyan-500/20 hover:border-cyan-500/40'
                       : theme === 'dark'
@@ -2001,60 +2134,92 @@ function ProjectDrillDownModal({
                       : 'bg-white border-slate-200'
                   )}
                 >
-                  <div className="flex items-center justify-between mb-2">
-                    <h4 className={cn(
-                      'font-semibold text-sm leading-tight flex-1 mr-2',
-                      theme === 'dashboard' ? 'text-cyan-100' : 'text-slate-900'
-                    )}>{project.name}</h4>
-                    <div className="flex items-center gap-1 flex-shrink-0">
-                      {project.isNew && <span className={cn(
-                        'px-2 py-0.5 rounded text-xs',
-                        theme === 'dashboard'
-                          ? 'bg-blue-500/40 text-blue-300 border border-blue-500/40'
-                          : 'bg-blue-500 text-white'
-                      )}>新</span>}
-                      {project.isDelayed && <span className={cn(
-                        'px-2 py-0.5 rounded text-xs',
-                        theme === 'dashboard'
-                          ? 'bg-red-500/40 text-red-300 border border-red-500/40'
-                          : 'bg-red-500 text-white'
-                      )}>延</span>}
-                      {project.isRisk && <span className={cn(
-                        'px-2 py-0.5 rounded text-xs',
-                        theme === 'dashboard'
-                          ? 'bg-orange-500/40 text-orange-300 border border-orange-500/40'
-                          : 'bg-orange-500 text-white'
-                      )}>险</span>}
-                    </div>
-                  </div>
-                  <div className="flex items-center justify-between mt-2">
-                    <span className={cn('text-lg font-bold', theme === 'dashboard' ? 'text-cyan-300' : 'text-slate-900')}>
-                      {project.amount.toLocaleString()}万
-                    </span>
-                    <div className="flex items-center gap-3">
-                      <div className="flex items-center gap-1">
-                        <div className={cn(
-                          'w-2 h-2 rounded-full',
-                          theme === 'dashboard'
-                            ? project.probability === 'high' ? 'bg-cyan-500' : project.probability === 'medium' ? 'bg-yellow-500' : 'bg-slate-500'
-                            : project.probability === 'high' ? 'bg-green-500' : project.probability === 'medium' ? 'bg-yellow-500' : 'bg-gray-500'
-                        )} />
-                        <span className={cn('text-xs', theme === 'dashboard' ? 'text-cyan-400/70' : 'text-slate-600')}>
-                          {project.probability === 'high' ? '高概率' : project.probability === 'medium' ? '中概率' : '低概率'}
-                        </span>
-                      </div>
-                      <span className={cn(
-                        'text-xs',
-                        getHealthColor(project.health, theme)
-                      )}>
-                        {project.health === 'high' ? '健康' : project.health === 'medium' ? '一般' : '风险'}
-                      </span>
-                      {!project.isOnTrack && project.delayDays && (
-                        <span className={cn('text-xs text-red-500', theme === 'dashboard' ? 'text-red-400' : '')}>
-                          延迟{project.delayDays}天
-                        </span>
+                  {/* 第一行：项目名称和标签 */}
+                  <div className="flex items-start justify-between mb-2">
+                    <div className="flex-1 mr-2">
+                      <h4 className={cn(
+                        'font-semibold text-sm leading-tight',
+                        theme === 'dashboard' ? 'text-cyan-100' : 'text-slate-900'
+                      )}>{project.name}</h4>
+                      {project.detail && (
+                        <p className={cn('text-xs mt-1 line-clamp-1', theme === 'dashboard' ? 'text-cyan-400/60' : 'text-slate-500')}>
+                          {project.detail}
+                        </p>
                       )}
                     </div>
+                    <div className="flex flex-col items-end gap-1 flex-shrink-0">
+                      <span className={cn('text-lg font-bold', theme === 'dashboard' ? 'text-cyan-300' : 'text-slate-900')}>
+                        {project.amount.toLocaleString()}万
+                      </span>
+                      <div className="flex items-center gap-1">
+                        {project.isNew && <span className={cn(
+                          'px-1.5 py-0.5 rounded text-xs',
+                          theme === 'dashboard'
+                            ? 'bg-blue-500/40 text-blue-300 border border-blue-500/40'
+                            : 'bg-blue-500 text-white'
+                        )}>新</span>}
+                        {project.isDelayed && <span className={cn(
+                          'px-1.5 py-0.5 rounded text-xs',
+                          theme === 'dashboard'
+                            ? 'bg-red-500/40 text-red-300 border border-red-500/40'
+                            : 'bg-red-500 text-white'
+                        )}>延</span>}
+                        {project.isRisk && <span className={cn(
+                          'px-1.5 py-0.5 rounded text-xs',
+                          theme === 'dashboard'
+                            ? 'bg-orange-500/40 text-orange-300 border border-orange-500/40'
+                            : 'bg-orange-500 text-white'
+                        )}>险</span>}
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* 第二行：状态信息 */}
+                  <div className="flex items-center justify-between text-xs mb-1">
+                    <div className="flex items-center gap-1.5">
+                      <div className={cn(
+                        'w-2 h-2 rounded-full',
+                        theme === 'dashboard'
+                          ? project.probability === 'high' ? 'bg-cyan-500' : project.probability === 'medium' ? 'bg-yellow-500' : 'bg-slate-500'
+                          : project.probability === 'high' ? 'bg-green-500' : project.probability === 'medium' ? 'bg-yellow-500' : 'bg-gray-500'
+                      )} />
+                      <span className={cn(theme === 'dashboard' ? 'text-cyan-400/70' : 'text-slate-600')}>
+                        {project.probability === 'high' ? '高' : project.probability === 'medium' ? '中' : '低'}
+                      </span>
+                    </div>
+                    <span className={cn(
+                      'text-xs',
+                      getHealthColor(project.health, theme)
+                    )}>
+                      {project.health === 'high' ? '健康' : project.health === 'medium' ? '一般' : '风险'}
+                    </span>
+                    {!project.isOnTrack && project.delayDays && (
+                      <span className={cn('text-xs text-red-500', theme === 'dashboard' ? 'text-red-400' : '')}>
+                        延迟{project.delayDays}天
+                      </span>
+                    )}
+                  </div>
+
+                  {/* 第三行：责任人和区域 */}
+                  <div className="flex items-center justify-between text-xs mt-auto">
+                    <div className="flex items-center gap-3">
+                      {project.region && (
+                        <div className="flex items-center gap-1">
+                          <MapPin className={cn('w-3 h-3', theme === 'dashboard' ? 'text-cyan-400/60' : 'text-slate-400')} />
+                          <span className={cn(theme === 'dashboard' ? 'text-cyan-400/70' : 'text-slate-600')}>{project.region}</span>
+                        </div>
+                      )}
+                      {project.owner && (
+                        <div className="flex items-center gap-1">
+                          <span className={cn(theme === 'dashboard' ? 'text-cyan-400/70' : 'text-slate-600')}>{project.owner}</span>
+                        </div>
+                      )}
+                    </div>
+                    {project.completionTime && (
+                      <div className={cn(theme === 'dashboard' ? 'text-cyan-400/60' : 'text-slate-500')}>
+                        {project.completionTime}
+                      </div>
+                    )}
                   </div>
                 </div>
               ))}
@@ -2106,7 +2271,7 @@ function ProjectDrillDownModal({
                   <div
                     key={project.id}
                     className={cn(
-                      'p-4 rounded-xl border transition-all duration-200 h-36 flex flex-col justify-between',
+                      'p-4 rounded-xl border transition-all duration-200 h-36 flex flex-col',
                       theme === 'dashboard'
                         ? 'bg-slate-800/40 border-orange-500/30 hover:border-orange-500/50'
                         : theme === 'dark'
@@ -2114,38 +2279,82 @@ function ProjectDrillDownModal({
                         : 'bg-orange-50 border-orange-200'
                     )}
                   >
-                    <div className="flex items-center justify-between mb-2">
-                      <h4 className={cn(
-                        'font-semibold text-sm leading-tight flex-1 mr-2',
-                        theme === 'dashboard' ? 'text-cyan-100' : 'text-slate-900'
-                      )}>{project.name}</h4>
+                    {/* 第一行：项目名称和金额 */}
+                    <div className="flex items-start justify-between mb-2">
+                      <div className="flex-1 mr-2">
+                        <h4 className={cn(
+                          'font-semibold text-sm leading-tight',
+                          theme === 'dashboard' ? 'text-cyan-100' : 'text-slate-900'
+                        )}>{project.name}</h4>
+                        {project.detail && (
+                          <p className={cn('text-xs mt-1 line-clamp-1', theme === 'dashboard' ? 'text-orange-400/60' : 'text-slate-500')}>
+                            {project.detail}
+                          </p>
+                        )}
+                      </div>
                       <span className={cn(
-                        'text-lg font-bold',
+                        'text-lg font-bold flex-shrink-0',
                         theme === 'dashboard' ? 'text-cyan-300' : 'text-slate-900'
                       )}>
                         {project.amount.toLocaleString()}万
                       </span>
                     </div>
+
+                    {/* 第二行：排除原因 */}
                     <div className={cn(
-                      'text-xs mb-2 p-2 rounded overflow-hidden line-clamp-2',
+                      'text-xs mb-2 p-1.5 rounded overflow-hidden line-clamp-1',
                       theme === 'dashboard'
                         ? 'bg-orange-500/10 text-orange-300'
                         : theme === 'dark'
                         ? 'bg-orange-500/20 text-orange-300'
                         : 'bg-orange-100 text-orange-800'
                     )}>
-                      <div className="font-semibold mb-1">排除原因：</div>
-                      {project.excludeReasonText}
+                      <span className="font-semibold">{project.excludeReasonText}</span>
                     </div>
-                    <div className="flex items-center justify-between text-xs mt-2">
+
+                    {/* 第三行：进度和风险 */}
+                    <div className="flex items-center justify-between text-xs mb-1">
                       <div className="flex items-center gap-1.5">
                         <div className={cn(
                           'w-1.5 h-1.5 rounded-full',
                           project.currentProgress < project.expectedProgress ? 'bg-red-400' : 'bg-green-400'
                         )} />
                         <span className={cn(theme === 'dashboard' ? 'text-cyan-400/70' : 'text-slate-600')}>
-                          {project.currentProgress}%
+                          进度{project.currentProgress}%/{project.expectedProgress}%
                         </span>
+                      </div>
+                      <div className="flex items-center gap-1.5">
+                        <div className={cn(
+                          'w-1.5 h-1.5 rounded-full',
+                          theme === 'dashboard'
+                            ? project.probability === 'high' ? 'bg-cyan-500' : project.probability === 'medium' ? 'bg-yellow-500' : 'bg-slate-500'
+                            : project.probability === 'high' ? 'bg-green-500' : project.probability === 'medium' ? 'bg-yellow-500' : 'bg-gray-500'
+                        )} />
+                        <span className={cn(theme === 'dashboard' ? 'text-cyan-400/70' : 'text-slate-600')}>
+                          {project.probability === 'high' ? '高' : project.probability === 'medium' ? '中' : '低'}
+                        </span>
+                      </div>
+                      {project.riskDetail && (
+                        <span className={cn('text-xs text-orange-400', theme === 'dashboard' ? 'text-orange-300' : '')}>
+                          {project.riskDetail.length > 8 ? project.riskDetail.slice(0, 8) + '...' : project.riskDetail}
+                        </span>
+                      )}
+                    </div>
+
+                    {/* 第四行：责任人和催单 */}
+                    <div className="flex items-center justify-between text-xs mt-auto">
+                      <div className="flex items-center gap-3">
+                        {project.region && (
+                          <div className="flex items-center gap-1">
+                            <MapPin className={cn('w-3 h-3', theme === 'dashboard' ? 'text-orange-400/60' : 'text-slate-400')} />
+                            <span className={cn(theme === 'dashboard' ? 'text-orange-400/70' : 'text-slate-600')}>{project.region}</span>
+                          </div>
+                        )}
+                        {project.owner && (
+                          <div className="flex items-center gap-1">
+                            <span className={cn(theme === 'dashboard' ? 'text-orange-400/70' : 'text-slate-600')}>{project.owner}</span>
+                          </div>
+                        )}
                       </div>
                       <button
                         onClick={() => handleUrgeProject(project)}
@@ -2159,17 +2368,6 @@ function ProjectDrillDownModal({
                         <Zap className="w-3 h-3" />
                         催单
                       </button>
-                      <div className="flex items-center gap-1.5">
-                        <div className={cn(
-                          'w-1.5 h-1.5 rounded-full',
-                          theme === 'dashboard'
-                            ? project.probability === 'high' ? 'bg-cyan-500' : project.probability === 'medium' ? 'bg-yellow-500' : 'bg-slate-500'
-                            : project.probability === 'high' ? 'bg-green-500' : project.probability === 'medium' ? 'bg-yellow-500' : 'bg-gray-500'
-                        )} />
-                        <span className={cn(theme === 'dashboard' ? 'text-cyan-400/70' : 'text-slate-600')}>
-                          {project.probability === 'high' ? '高' : project.probability === 'medium' ? '中' : '低'}
-                        </span>
-                      </div>
                     </div>
                   </div>
                 ))}
