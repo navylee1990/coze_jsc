@@ -1705,7 +1705,7 @@ function ProjectDrillDownModal({
   // 翻页状态
   const [projectsCurrentPage, setProjectsCurrentPage] = useState(1);
   const [excludedProjectsCurrentPage, setExcludedProjectsCurrentPage] = useState(1);
-  const projectsPerPage = 6; // 每页显示6个项目
+  const projectsPerPage = 4; // 每页显示4个项目
 
   if (!isOpen) return null;
 
@@ -1888,7 +1888,7 @@ function ProjectDrillDownModal({
                 <div
                   key={project.id}
                   className={cn(
-                    'p-4 rounded-xl border transition-all duration-200',
+                    'p-4 rounded-xl border transition-all duration-200 h-36 flex flex-col justify-between',
                     theme === 'dashboard'
                       ? 'bg-slate-800/40 border-cyan-500/20 hover:border-cyan-500/40'
                       : theme === 'dark'
@@ -1898,7 +1898,7 @@ function ProjectDrillDownModal({
                 >
                   <div className="flex items-center justify-between mb-2">
                     <h4 className={cn(
-                      'font-semibold truncate flex-1 mr-2',
+                      'font-semibold text-sm leading-tight flex-1 mr-2',
                       theme === 'dashboard' ? 'text-cyan-100' : 'text-slate-900'
                     )}>{project.name}</h4>
                     <div className="flex items-center gap-1 flex-shrink-0">
@@ -1922,7 +1922,7 @@ function ProjectDrillDownModal({
                       )}>险</span>}
                     </div>
                   </div>
-                  <div className="flex items-center justify-between">
+                  <div className="flex items-center justify-between mt-2">
                     <span className={cn('text-lg font-bold', theme === 'dashboard' ? 'text-cyan-300' : 'text-slate-900')}>
                       {project.amount.toLocaleString()}万
                     </span>
@@ -2001,7 +2001,7 @@ function ProjectDrillDownModal({
                   <div
                     key={project.id}
                     className={cn(
-                      'p-4 rounded-xl border transition-all duration-200',
+                      'p-4 rounded-xl border transition-all duration-200 h-36 flex flex-col justify-between',
                       theme === 'dashboard'
                         ? 'bg-slate-800/40 border-orange-500/30 hover:border-orange-500/50'
                         : theme === 'dark'
@@ -2011,7 +2011,7 @@ function ProjectDrillDownModal({
                   >
                     <div className="flex items-center justify-between mb-2">
                       <h4 className={cn(
-                        'font-semibold truncate flex-1 mr-2',
+                        'font-semibold text-sm leading-tight flex-1 mr-2',
                         theme === 'dashboard' ? 'text-cyan-100' : 'text-slate-900'
                       )}>{project.name}</h4>
                       <span className={cn(
@@ -2022,7 +2022,7 @@ function ProjectDrillDownModal({
                       </span>
                     </div>
                     <div className={cn(
-                      'text-xs mb-2 p-2 rounded',
+                      'text-xs mb-2 p-2 rounded overflow-hidden line-clamp-2',
                       theme === 'dashboard'
                         ? 'bg-orange-500/10 text-orange-300'
                         : theme === 'dark'
