@@ -1588,6 +1588,14 @@ export default function FutureSupportAdequacyPanel({
                 {/* 时间段标签 */}
                 <div className="flex items-center justify-between mb-3">
                   <div className="flex items-center gap-2">
+                    <span className={cn(
+                      'px-1.5 py-0.5 rounded text-xs font-medium',
+                      theme === 'dashboard'
+                        ? 'bg-cyan-500/40 text-cyan-300 border border-cyan-500/40'
+                        : 'bg-cyan-500 text-white'
+                    )}>
+                      {regionConfig[selectedRegion].label}
+                    </span>
                     <h4 className={cn(
                       'text-sm font-bold',
                       theme === 'dashboard'
@@ -1596,13 +1604,12 @@ export default function FutureSupportAdequacyPanel({
                     )}>{period}</h4>
                     {newDevNeeded > 0 && (
                       <span className={cn(
-                        'px-2 py-0.5 rounded text-xs font-medium flex items-center gap-1',
+                        'px-2 py-0.5 rounded text-xs font-medium',
                         theme === 'dashboard'
                           ? 'bg-purple-500/40 text-purple-300 border border-purple-500/40'
                           : 'bg-purple-500 text-white'
                       )}>
-                        <MapPin className="w-2.5 h-2.5" />
-                        {regionConfig[selectedRegion].label} 需开发{newDevNeeded}万
+                        需开发{newDevNeeded}万
                       </span>
                     )}
                     <ChevronRight className={cn(
