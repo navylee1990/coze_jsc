@@ -369,7 +369,7 @@ const monthlyTrendData = {
 };
 
 export default function GMDashboard() {
-  const [selectedTimeRange, setSelectedTimeRange] = useState<'current' | 'threeMonth' | 'sixMonth'>('current');
+  const [selectedTimeRange, setSelectedTimeRange] = useState<'current' | 'quarter' | 'year'>('current');
   const [timeRange, setTimeRange] = useState('month');
   const [selectedMonth, setSelectedMonth] = useState('1');
   const [selectedQuarter, setSelectedQuarter] = useState('Q1');
@@ -383,7 +383,7 @@ export default function GMDashboard() {
   // 获取当前时间范围的数据
   const getTimeRangeData = () => {
     if (selectedTimeRange === 'current') return forecastOverviewData.currentMonth;
-    if (selectedTimeRange === 'threeMonth') return forecastOverviewData.threeMonth;
+    if (selectedTimeRange === 'quarter') return forecastOverviewData.threeMonth;
     return forecastOverviewData.sixMonth;
   };
 
@@ -474,24 +474,24 @@ export default function GMDashboard() {
                     本月
                   </button>
                   <button
-                    onClick={() => setSelectedTimeRange('threeMonth')}
+                    onClick={() => setSelectedTimeRange('quarter')}
                     className={`px-3 py-1.5 rounded-lg text-xs font-medium transition-all ${
-                      selectedTimeRange === 'threeMonth'
+                      selectedTimeRange === 'quarter'
                         ? 'bg-cyan-500/30 border-cyan-500/50 text-cyan-300'
                         : 'bg-slate-800/50 border-cyan-400/20 text-cyan-400/70'
                     } border`}
                   >
-                    3个月
+                    本季度
                   </button>
                   <button
-                    onClick={() => setSelectedTimeRange('sixMonth')}
+                    onClick={() => setSelectedTimeRange('year')}
                     className={`px-3 py-1.5 rounded-lg text-xs font-medium transition-all ${
-                      selectedTimeRange === 'sixMonth'
+                      selectedTimeRange === 'year'
                         ? 'bg-cyan-500/30 border-cyan-500/50 text-cyan-300'
                         : 'bg-slate-800/50 border-cyan-400/20 text-cyan-400/70'
                     } border`}
                   >
-                    6个月
+                    本年度
                   </button>
                 </div>
               </div>
