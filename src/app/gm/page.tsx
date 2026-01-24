@@ -898,22 +898,22 @@ export default function GMDashboard() {
                         label={{ value: '当前', position: 'topLeft', fill: '#22d3ee', fontSize: 10, fontWeight: 'bold' }}
                       />
 
-                      {/* 预测区域填充 - 青色，表示预测完成范围（先渲染） */}
-                      <Area
-                        type="monotone"
-                        dataKey="forecast"
-                        stroke="none"
-                        fill="url(#colorForecast)"
-                        name="预测区域"
-                      />
-
-                      {/* 目标区域填充 - 红色，表示业务目标范围（后渲染，覆盖在预测之上） */}
+                      {/* 目标区域填充 - 红色，表示业务目标范围 */}
                       <Area
                         type="monotone"
                         dataKey="businessTarget"
                         stroke="none"
                         fill="url(#colorGap)"
                         name="目标区域"
+                      />
+
+                      {/* 预测区域填充 - 青色，表示预测完成范围 */}
+                      <Area
+                        type="monotone"
+                        dataKey="forecast"
+                        stroke="none"
+                        fill="url(#colorForecast)"
+                        name="预测区域"
                       />
 
                       {/* 业务目标线 - 蓝色 */}
