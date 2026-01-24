@@ -486,6 +486,28 @@ const regionData: RegionData = {
             health: 'medium',
             isOnTrack: true
           }
+        ],
+        excludedProjects: [
+          {
+            id: 101,
+            name: '石家庄国际机场项目',
+            amount: 50,
+            excludeReason: 'progress_low',
+            excludeReasonText: '项目进度滞后，仅完成30%进度',
+            currentProgress: 30,
+            expectedProgress: 70,
+            probability: 'high'
+          },
+          {
+            id: 102,
+            name: '保定市第一医院项目',
+            amount: 30,
+            excludeReason: 'pending_approval',
+            excludeReasonText: '商务合同待审批',
+            currentProgress: 50,
+            expectedProgress: 60,
+            probability: 'medium'
+          }
         ]
       },
       '1-3月': {
@@ -820,6 +842,38 @@ const regionData: RegionData = {
             isOnTrack: false,
             delayDays: 15
           }
+        ],
+        excludedProjects: [
+          {
+            id: 201,
+            name: '广州白云会议中心项目',
+            amount: 80,
+            excludeReason: 'delayed',
+            excludeReasonText: '客户决策延迟，商务谈判暂停',
+            currentProgress: 35,
+            expectedProgress: 60,
+            probability: 'high'
+          },
+          {
+            id: 202,
+            name: '佛山新城综合体项目',
+            amount: 40,
+            excludeReason: 'not_confirmed',
+            excludeReasonText: '项目未最终确认，处于意向阶段',
+            currentProgress: 20,
+            expectedProgress: 40,
+            probability: 'medium'
+          },
+          {
+            id: 203,
+            name: '深圳湾科技园项目',
+            amount: 30,
+            excludeReason: 'risk_high',
+            excludeReasonText: '项目风险较高，客户资金链紧张',
+            currentProgress: 15,
+            expectedProgress: 35,
+            probability: 'low'
+          }
         ]
       },
       '1-3月': {
@@ -1030,6 +1084,28 @@ const regionData: RegionData = {
             health: 'medium',
             isOnTrack: false,
             delayDays: 8
+          }
+        ],
+        excludedProjects: [
+          {
+            id: 301,
+            name: '成都天府软件园项目',
+            amount: 30,
+            excludeReason: 'pending_approval',
+            excludeReasonText: '商务合同待审批',
+            currentProgress: 55,
+            expectedProgress: 65,
+            probability: 'medium'
+          },
+          {
+            id: 302,
+            name: '重庆江北国际机场项目',
+            amount: 20,
+            excludeReason: 'progress_low',
+            excludeReasonText: '项目进度滞后，仅完成25%进度',
+            currentProgress: 25,
+            expectedProgress: 55,
+            probability: 'high'
           }
         ]
       },
@@ -1357,9 +1433,9 @@ const getHealthColor = (health: 'high' | 'medium' | 'low', theme: Theme) => {
 export default function FutureSupportAdequacyPanel({
   data: customData,
   theme = 'dark',
-  defaultRegion = 'national'
+  defaultRegion = 'north'
 }: FutureSupportAdequacyPanelProps) {
-  // 区域选择状态
+  // 区域选择状态 - 默认显示华北区，不显示全国总览
   const [selectedRegion, setSelectedRegion] = useState<Region>(defaultRegion);
   const [selectedPeriod, setSelectedPeriod] = useState<string | null>(null);
   const [isDrillDownOpen, setIsDrillDownOpen] = useState(false);
@@ -1488,7 +1564,7 @@ export default function FutureSupportAdequacyPanel({
           )}>未来90天</span>
         </div>
         <div className="flex items-center gap-4">
-          {/* 区域选择器 */}
+          {/* 区域选择器 - 移除全国总览 */}
           <div className="flex items-center gap-2">
             <MapPin className={cn('w-4 h-4', theme === 'dashboard' ? 'text-cyan-400' : 'text-slate-600')} />
             <div className="relative">
@@ -1505,7 +1581,10 @@ export default function FutureSupportAdequacyPanel({
                     : 'bg-white border-slate-200 text-slate-900 hover:bg-slate-50 focus:ring-blue-500'
                 )}
               >
-                {Object.entries(regionConfig).map(([key, config]) => (
+                {/* 过滤掉 national 选项 */}
+                {Object.entries(regionConfig)
+                  .filter(([key]) => key !== 'national')
+                  .map(([key, config]) => (
                   <option key={key} value={key}>
                     {config.label}
                   </option>
