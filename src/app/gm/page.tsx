@@ -644,6 +644,18 @@ export default function GMDashboard() {
 
                 {/* 仪表盘3 - 缺口 */}
                 <div className="relative">
+                  {/* 黄色感叹号角标 - 只在缺口时显示 */}
+                  {getGap() > 0 && (
+                    <div className="absolute -top-2 -right-2 z-10">
+                      <div className="relative">
+                        <div className="absolute inset-0 bg-yellow-500 rounded-full blur-sm animate-pulse"></div>
+                        <div className="relative bg-yellow-500 rounded-full p-1 shadow-lg">
+                          <AlertTriangle className="w-4 h-4 text-yellow-900" />
+                        </div>
+                      </div>
+                    </div>
+                  )}
+                  
                   <div
                     className={cn(
                       'rounded-xl border-2 p-3 transition-all duration-300',
@@ -678,8 +690,8 @@ export default function GMDashboard() {
                             const x1 = 50 + innerR * Math.cos(angle)
                             const y1 = 50 + innerR * Math.sin(angle)
                             const x2 = 50 + outerR * Math.cos(angle)
-                            const y2 = 50 + outerR * Math.sin(angle)
-                            return (
+                          const y2 = 50 + outerR * Math.sin(angle)
+                          return (
                               <line
                                 key={i}
                                 x1={x1}
