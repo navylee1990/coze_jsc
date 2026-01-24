@@ -1603,7 +1603,7 @@ function ProjectDrillDownModal({
   // 翻页状态
   const [projectsCurrentPage, setProjectsCurrentPage] = useState(1);
   const [excludedProjectsCurrentPage, setExcludedProjectsCurrentPage] = useState(1);
-  const projectsPerPage = 6; // 每页显示6个项目
+  const projectsPerPage = 9; // 每页显示9个项目
 
   if (!isOpen) return null;
 
