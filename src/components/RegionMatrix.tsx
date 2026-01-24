@@ -149,16 +149,17 @@ export default function RegionMatrix({
   // 渲染表头
   const renderTableHeader = () => (
     <div className={cn(
-      'grid grid-cols-7 gap-4 px-4 py-3 text-xs font-bold border-b',
+      'grid grid-cols-8 gap-3 px-4 py-2.5 text-xs font-bold border-b',
       theme === 'dashboard' ? 'bg-slate-800/60 border-cyan-500/30' : 'bg-slate-100 border-slate-200'
     )}>
-      <div className={cn('flex items-center gap-2', styles.textSecondary)}>排名</div>
+      <div className={cn('flex items-center justify-center gap-2', styles.textSecondary)}>排名</div>
       <div className={cn(styles.textSecondary)}>区域名称</div>
       <div className={cn('text-right', styles.textSecondary)}>目标(万)</div>
       <div className={cn('text-right', styles.textSecondary)}>预测(万)</div>
       <div className={cn('text-right', styles.textSecondary)}>缺口(万)</div>
       <div className={cn('text-center', styles.textSecondary)}>达成率</div>
       <div className={cn('text-right', styles.textSecondary)}>在手项目(万)</div>
+      <div className="w-4"></div>
     </div>
   );
 
@@ -174,7 +175,7 @@ export default function RegionMatrix({
       <div
         key={rank}
         className={cn(
-          'grid grid-cols-7 gap-4 px-4 py-3 items-center border-b transition-all duration-200 cursor-pointer',
+          'grid grid-cols-8 gap-3 px-4 py-2 items-center border-b transition-all duration-200 cursor-pointer',
           rowBgClass,
           theme === 'dashboard' ? 'border-cyan-500/20 hover:bg-slate-800/60 hover:shadow-[0_0_15px_rgba(6,182,212,0.2)]' : 'border-slate-200 hover:bg-slate-100'
         )}
@@ -187,8 +188,8 @@ export default function RegionMatrix({
 
         {/* 区域名称 */}
         <div className="flex items-center gap-2">
-          <Activity className="w-4 h-4 text-cyan-400/60" />
-          <span className={cn('font-semibold text-sm', styles.textSecondary)}>{item.name}</span>
+          <Activity className="w-3.5 h-3.5 text-cyan-400/60" />
+          <span className={cn('font-medium text-sm', styles.textSecondary)}>{item.name}</span>
           {item.trend && (
             <span className="flex items-center">
               {getTrendIcon(item.trend)}
@@ -197,26 +198,26 @@ export default function RegionMatrix({
         </div>
 
         {/* 目标 */}
-        <div className={cn('text-right font-semibold text-sm', styles.textSecondary)}>
+        <div className={cn('text-right font-medium text-sm', styles.textSecondary)}>
           {item.target.toLocaleString()}
         </div>
 
         {/* 预测 */}
-        <div className={cn('text-right font-semibold text-sm', styles.textSecondary)}>
+        <div className={cn('text-right font-medium text-sm', styles.textSecondary)}>
           {item.predicted.toLocaleString()}
         </div>
 
         {/* 缺口 */}
-        <div className={cn('text-right font-bold text-sm', gapClass)}>
+        <div className={cn('text-right font-medium text-sm', gapClass)}>
           {item.gap > 0 ? `${item.gap}` : `+${Math.abs(item.gap)}`}
         </div>
 
         {/* 达成率 */}
-        <div className="flex flex-col items-center">
-          <div className={cn('text-sm font-bold', item.rate >= 100 ? 'text-green-400' : item.rate >= 80 ? 'text-yellow-400' : 'text-red-400')}>
+        <div className="flex items-center justify-center gap-2">
+          <span className={cn('text-sm font-medium', item.rate >= 100 ? 'text-green-400' : item.rate >= 80 ? 'text-yellow-400' : 'text-red-400')}>
             {item.rate.toFixed(1)}%
-          </div>
-          <div className="w-16 h-1.5 rounded-full bg-slate-700/50 overflow-hidden mt-1">
+          </span>
+          <div className="w-12 h-1 rounded-full bg-slate-700/50 overflow-hidden">
             <div
               className={`h-full transition-all duration-500 ${
                 item.rate >= 100 ? 'bg-green-500' : item.rate >= 80 ? 'bg-yellow-500' : 'bg-red-500'
@@ -227,13 +228,13 @@ export default function RegionMatrix({
         </div>
 
         {/* 在手项目 */}
-        <div className={cn('text-right font-semibold text-sm', styles.textSecondary)}>
+        <div className={cn('text-right font-medium text-sm', styles.textSecondary)}>
           {(item.pendingAmount || 0).toLocaleString()}
         </div>
 
         {/* 钻取箭头 */}
-        <div className="col-span-7 flex justify-end">
-          <ChevronRight className="w-4 h-4 text-cyan-400/50" />
+        <div className="flex justify-center">
+          <ChevronRight className="w-4 h-4 text-cyan-400/60" />
         </div>
       </div>
     );
