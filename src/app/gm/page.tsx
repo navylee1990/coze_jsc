@@ -8,6 +8,7 @@ import { Badge } from '@/components/ui/badge';
 import PredictionDecisionCard from '@/components/PredictionDecisionCard';
 import FutureSupportAdequacyPanel from '@/components/FutureSupportAdequacyPanel';
 import RegionMatrix from '@/components/RegionMatrix';
+import RiskIdentificationPanel from '@/components/RiskIdentificationPanel';
 import { Separator } from '@/components/ui/separator';
 import Link from 'next/link';
 import { LineChart, Line, AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
@@ -915,6 +916,8 @@ export default function GMDashboard() {
               />
             </div>
 
+            {/* 风险识别模块 */}
+            <RiskIdentificationPanel theme="dashboard" />
 
           </div>
         </div>
