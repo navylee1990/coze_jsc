@@ -478,7 +478,7 @@ export default function GMDashboard() {
                   <Target className="w-5 h-5" />
                   核心预测决策
                 </h2>
-                <div className="flex gap-2">
+                <div className="flex gap-2 items-center">
                   <button
                     onClick={() => setSelectedTimeRange('current')}
                     className={`px-3 py-1.5 rounded-lg text-xs font-medium transition-all ${
@@ -509,6 +509,26 @@ export default function GMDashboard() {
                   >
                     6个月
                   </button>
+                  {/* 区域筛选器 - 更明显 */}
+                  <div className="w-px h-6 bg-cyan-500/30 mx-1"></div>
+                  <div className="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-cyan-950/50 border border-cyan-500/50 shadow-[0_0_15px_rgba(6,182,212,0.2)]">
+                    <Activity className="w-4 h-4 text-cyan-400" />
+                    <span className="text-xs font-bold text-cyan-200 whitespace-nowrap">区域：</span>
+                    <select
+                      value={trendRegion}
+                      onChange={(e) => setTrendRegion(e.target.value)}
+                      className="px-2 py-1 text-xs border-2 border-cyan-500/40 rounded-md bg-slate-900 text-cyan-100 font-bold focus:outline-none focus:ring-2 focus:ring-cyan-500/60 focus:border-cyan-400 min-w-[90px]"
+                    >
+                      <option value="all">全部地区</option>
+                      <option value="一区">一区</option>
+                      <option value="二区">二区</option>
+                      <option value="五区">五区</option>
+                      <option value="华中">华中</option>
+                      <option value="华北">华北</option>
+                      <option value="西南">西南</option>
+                      <option value="华南">华南</option>
+                    </select>
+                  </div>
                 </div>
               </div>
 
