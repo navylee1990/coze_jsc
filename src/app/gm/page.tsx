@@ -107,6 +107,12 @@ const forecastTrendData = [
   { month: '4月', businessTarget: 1500, financialTarget: 1200, completed: null, forecast: 920 },
   { month: '5月', businessTarget: 1500, financialTarget: 1200, completed: null, forecast: 960 },
   { month: '6月', businessTarget: 1500, financialTarget: 1200, completed: null, forecast: 910 },
+  { month: '7月', businessTarget: 1500, financialTarget: 1200, completed: null, forecast: 930 },
+  { month: '8月', businessTarget: 1500, financialTarget: 1200, completed: null, forecast: 890 },
+  { month: '9月', businessTarget: 1500, financialTarget: 1200, completed: null, forecast: 940 },
+  { month: '10月', businessTarget: 1500, financialTarget: 1200, completed: null, forecast: 970 },
+  { month: '11月', businessTarget: 1500, financialTarget: 1200, completed: null, forecast: 920 },
+  { month: '12月', businessTarget: 1500, financialTarget: 1200, completed: null, forecast: 880 },
 ];
 
 // 大区维度数据
@@ -1020,6 +1026,8 @@ export default function GMDashboard() {
                 data={currentData}
                 title="区域达成"
                 subtitle={`(${timeRange === 'month' ? `${selectedMonth}月` : timeRange === 'quarter' ? selectedQuarter : '2026年'})`}
+                cityData={cityData}
+                salespersonData={salespersonData}
                 theme="dashboard"
               />
             </div>
