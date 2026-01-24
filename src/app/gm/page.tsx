@@ -61,13 +61,14 @@ const riskData = {
 };
 
 // 预测趋势图数据
+// 当前时间：2026-1-24，所以只有1月有已完成数据
 const forecastTrendData = [
   { month: '1月', businessTarget: 1500, financialTarget: 1800, completed: 800, forecast: 1350 },
-  { month: '2月', businessTarget: 1500, financialTarget: 1800, completed: 850, forecast: 1480 },
-  { month: '3月', businessTarget: 1500, financialTarget: 1800, completed: 900, forecast: 1370 },
-  { month: '4月', businessTarget: 1500, financialTarget: 1800, completed: 0, forecast: 1420 },
-  { month: '5月', businessTarget: 1500, financialTarget: 1800, completed: 0, forecast: 1380 },
-  { month: '6月', businessTarget: 1500, financialTarget: 1800, completed: 0, forecast: 1450 },
+  { month: '2月', businessTarget: 1500, financialTarget: 1800, completed: null, forecast: 1480 },
+  { month: '3月', businessTarget: 1500, financialTarget: 1800, completed: null, forecast: 1370 },
+  { month: '4月', businessTarget: 1500, financialTarget: 1800, completed: null, forecast: 1420 },
+  { month: '5月', businessTarget: 1500, financialTarget: 1800, completed: null, forecast: 1380 },
+  { month: '6月', businessTarget: 1500, financialTarget: 1800, completed: null, forecast: 1450 },
 ];
 
 // 大区维度数据
@@ -792,7 +793,7 @@ export default function GMDashboard() {
                 </div>
                 <div style={{ height: '220px' }}>
                   <ResponsiveContainer width="100%" height="100%">
-                    <LineChart data={forecastTrendData}>
+                    <AreaChart data={forecastTrendData}>
                       <CartesianGrid strokeDasharray="3 3" stroke="rgba(6,182,212,0.1)" vertical={false} />
                       <XAxis
                         dataKey="month"
@@ -823,6 +824,30 @@ export default function GMDashboard() {
                           fontSize: '11px'
                         }}
                       />
+                      {/* 已完成 - 面积填充 */}
+                      <Area
+                        type="monotone"
+                        dataKey="completed"
+                        stroke="#22c55e"
+                        strokeWidth={2.5}
+                        fill="rgba(34, 197, 94, 0.15)"
+                        name="已完成"
+                        dot={{ fill: '#22c55e', r: 4 }}
+                        activeDot={{ r: 6 }}
+                        connectNulls={false}
+                      />
+                      {/* 未来预测完成 - 面积填充（虚线边框） */}
+                      <Area
+                        type="monotone"
+                        dataKey="forecast"
+                        stroke="#22d3ee"
+                        strokeWidth={2.5}
+                        strokeDasharray="8 4"
+                        fill="rgba(34, 211, 238, 0.15)"
+                        name="未来预测完成"
+                        dot={{ fill: '#22d3ee', r: 4 }}
+                        activeDot={{ r: 6 }}
+                      />
                       {/* 业务目标 - 实线 */}
                       <Line
                         type="monotone"
@@ -843,28 +868,7 @@ export default function GMDashboard() {
                         dot={{ fill: '#8b5cf6', r: 4 }}
                         activeDot={{ r: 6 }}
                       />
-                      {/* 已完成 - 实线 */}
-                      <Line
-                        type="monotone"
-                        dataKey="completed"
-                        stroke="#22c55e"
-                        strokeWidth={2.5}
-                        name="已完成"
-                        dot={{ fill: '#22c55e', r: 4 }}
-                        activeDot={{ r: 6 }}
-                      />
-                      {/* 未来预测完成 - 虚线 */}
-                      <Line
-                        type="monotone"
-                        dataKey="forecast"
-                        stroke="#22d3ee"
-                        strokeWidth={2.5}
-                        name="未来预测完成"
-                        strokeDasharray="8 4"
-                        dot={{ fill: '#22d3ee', r: 4 }}
-                        activeDot={{ r: 6 }}
-                      />
-                    </LineChart>
+                    </AreaChart>
                   </ResponsiveContainer>
                 </div>
               </div>
