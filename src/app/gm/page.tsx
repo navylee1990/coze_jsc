@@ -60,76 +60,18 @@ const riskData = {
   ]
 };
 
-// 核心预测趋势图数据 - 支持区域筛选
+// 预测趋势图数据
 // 业务目标通常略高于财务目标（约高5-8%），用于内部激励
 // completed: 实际完成值（过去月份有值，未来月份为0）
 // forecast: 预测完成值（所有月份都有值）
-const forecastTrendData = {
-  all: [
-    { month: '1月', monthIndex: 1, businessTarget: 1580, financialTarget: 1500, completed: 800, forecast: 1140 },
-    { month: '2月', monthIndex: 2, businessTarget: 1580, financialTarget: 1500, completed: 850, forecast: 1180 },
-    { month: '3月', monthIndex: 3, businessTarget: 1580, financialTarget: 1500, completed: 900, forecast: 1120 },
-    { month: '4月', monthIndex: 4, businessTarget: 1580, financialTarget: 1500, completed: 0, forecast: 1160 },
-    { month: '5月', monthIndex: 5, businessTarget: 1580, financialTarget: 1500, completed: 0, forecast: 1140 },
-    { month: '6月', monthIndex: 6, businessTarget: 1580, financialTarget: 1500, completed: 0, forecast: 1200 },
-  ],
-  '一区': [
-    { month: '1月', monthIndex: 1, businessTarget: 330, financialTarget: 320, completed: 180, forecast: 220 },
-    { month: '2月', monthIndex: 2, businessTarget: 330, financialTarget: 320, completed: 190, forecast: 235 },
-    { month: '3月', monthIndex: 3, businessTarget: 330, financialTarget: 320, completed: 200, forecast: 245 },
-    { month: '4月', monthIndex: 4, businessTarget: 330, financialTarget: 320, completed: 0, forecast: 210 },
-    { month: '5月', monthIndex: 5, businessTarget: 330, financialTarget: 320, completed: 0, forecast: 225 },
-    { month: '6月', monthIndex: 6, businessTarget: 330, financialTarget: 320, completed: 0, forecast: 240 },
-  ],
-  '二区': [
-    { month: '1月', monthIndex: 1, businessTarget: 240, financialTarget: 232, completed: 150, forecast: 180 },
-    { month: '2月', monthIndex: 2, businessTarget: 240, financialTarget: 232, completed: 160, forecast: 190 },
-    { month: '3月', monthIndex: 3, businessTarget: 240, financialTarget: 232, completed: 170, forecast: 200 },
-    { month: '4月', monthIndex: 4, businessTarget: 240, financialTarget: 232, completed: 0, forecast: 175 },
-    { month: '5月', monthIndex: 5, businessTarget: 240, financialTarget: 232, completed: 0, forecast: 185 },
-    { month: '6月', monthIndex: 6, businessTarget: 240, financialTarget: 232, completed: 0, forecast: 195 },
-  ],
-  '五区': [
-    { month: '1月', monthIndex: 1, businessTarget: 270, financialTarget: 260, completed: 160, forecast: 195 },
-    { month: '2月', monthIndex: 2, businessTarget: 270, financialTarget: 260, completed: 170, forecast: 205 },
-    { month: '3月', monthIndex: 3, businessTarget: 270, financialTarget: 260, completed: 180, forecast: 215 },
-    { month: '4月', monthIndex: 4, businessTarget: 270, financialTarget: 260, completed: 0, forecast: 190 },
-    { month: '5月', monthIndex: 5, businessTarget: 270, financialTarget: 260, completed: 0, forecast: 200 },
-    { month: '6月', monthIndex: 6, businessTarget: 270, financialTarget: 260, completed: 0, forecast: 210 },
-  ],
-  '华中': [
-    { month: '1月', monthIndex: 1, businessTarget: 160, financialTarget: 152, completed: 160, forecast: 160 },
-    { month: '2月', monthIndex: 2, businessTarget: 160, financialTarget: 152, completed: 155, forecast: 158 },
-    { month: '3月', monthIndex: 3, businessTarget: 160, financialTarget: 152, completed: 150, forecast: 157 },
-    { month: '4月', monthIndex: 4, businessTarget: 160, financialTarget: 152, completed: 0, forecast: 155 },
-    { month: '5月', monthIndex: 5, businessTarget: 160, financialTarget: 152, completed: 0, forecast: 153 },
-    { month: '6月', monthIndex: 6, businessTarget: 160, financialTarget: 152, completed: 0, forecast: 158 },
-  ],
-  '华北': [
-    { month: '1月', monthIndex: 1, businessTarget: 165, financialTarget: 160, completed: 130, forecast: 145 },
-    { month: '2月', monthIndex: 2, businessTarget: 165, financialTarget: 160, completed: 135, forecast: 150 },
-    { month: '3月', monthIndex: 3, businessTarget: 165, financialTarget: 160, completed: 140, forecast: 155 },
-    { month: '4月', monthIndex: 4, businessTarget: 165, financialTarget: 160, completed: 0, forecast: 130 },
-    { month: '5月', monthIndex: 5, businessTarget: 165, financialTarget: 160, completed: 0, forecast: 135 },
-    { month: '6月', monthIndex: 6, businessTarget: 165, financialTarget: 160, completed: 0, forecast: 140 },
-  ],
-  '西南': [
-    { month: '1月', monthIndex: 1, businessTarget: 135, financialTarget: 128, completed: 20, forecast: 30 },
-    { month: '2月', monthIndex: 2, businessTarget: 135, financialTarget: 128, completed: 25, forecast: 35 },
-    { month: '3月', monthIndex: 3, businessTarget: 135, financialTarget: 128, completed: 30, forecast: 40 },
-    { month: '4月', monthIndex: 4, businessTarget: 135, financialTarget: 128, completed: 0, forecast: 25 },
-    { month: '5月', monthIndex: 5, businessTarget: 135, financialTarget: 128, completed: 0, forecast: 28 },
-    { month: '6月', monthIndex: 6, businessTarget: 135, financialTarget: 128, completed: 0, forecast: 32 },
-  ],
-  '华南': [
-    { month: '1月', monthIndex: 1, businessTarget: 180, financialTarget: 176, completed: 110, forecast: 145 },
-    { month: '2月', monthIndex: 2, businessTarget: 180, financialTarget: 176, completed: 115, forecast: 150 },
-    { month: '3月', monthIndex: 3, businessTarget: 180, financialTarget: 176, completed: 120, forecast: 155 },
-    { month: '4月', monthIndex: 4, businessTarget: 180, financialTarget: 176, completed: 0, forecast: 140 },
-    { month: '5月', monthIndex: 5, businessTarget: 180, financialTarget: 176, completed: 0, forecast: 148 },
-    { month: '6月', monthIndex: 6, businessTarget: 180, financialTarget: 176, completed: 0, forecast: 152 },
-  ],
-};
+const forecastTrendData = [
+  { month: '1月', monthIndex: 1, businessTarget: 1580, financialTarget: 1500, completed: 800, forecast: 1140 },
+  { month: '2月', monthIndex: 2, businessTarget: 1580, financialTarget: 1500, completed: 850, forecast: 1180 },
+  { month: '3月', monthIndex: 3, businessTarget: 1580, financialTarget: 1500, completed: 900, forecast: 1120 },
+  { month: '4月', monthIndex: 4, businessTarget: 1580, financialTarget: 1500, completed: 0, forecast: 1160 },
+  { month: '5月', monthIndex: 5, businessTarget: 1580, financialTarget: 1500, completed: 0, forecast: 1140 },
+  { month: '6月', monthIndex: 6, businessTarget: 1580, financialTarget: 1500, completed: 0, forecast: 1200 },
+];
 
 // 大区维度数据
 const regionData = {
@@ -859,27 +801,7 @@ export default function GMDashboard() {
                 <div className="mb-3 px-2 py-2 rounded-lg bg-slate-800/40 border border-cyan-500/10">
                   <div className="flex items-center justify-between mb-2">
                     <span className="text-xs font-semibold text-cyan-400">趋势图例</span>
-                    <div className="flex items-center gap-3">
-                      {/* 区域筛选 */}
-                      <div className="flex items-center gap-2">
-                        <span className="text-xs text-cyan-300/70 whitespace-nowrap">区域：</span>
-                        <select
-                          value={trendRegion}
-                          onChange={(e) => setTrendRegion(e.target.value)}
-                          className="px-2 py-0.5 text-xs border border-cyan-500/30 rounded-md bg-slate-800/50 text-cyan-300 focus:outline-none focus:ring-1 focus:ring-cyan-500/50"
-                        >
-                          <option value="all">全部地区</option>
-                          <option value="一区">一区</option>
-                          <option value="二区">二区</option>
-                          <option value="五区">五区</option>
-                          <option value="华中">华中</option>
-                          <option value="华北">华北</option>
-                          <option value="西南">西南</option>
-                          <option value="华南">华南</option>
-                        </select>
-                      </div>
-                      <span className="text-xs text-cyan-300/60">1-{currentMonth}月实绩 · {currentMonth + 1}-6月预测</span>
-                    </div>
+                    <span className="text-xs text-cyan-300/60">1-{currentMonth}月实绩 · {currentMonth + 1}-6月预测</span>
                   </div>
                   <div className="flex items-center gap-5 flex-wrap">
                     {/* 实绩图例 */}
@@ -910,7 +832,7 @@ export default function GMDashboard() {
 
                 <div style={{ height: '200px' }}>
                   <ResponsiveContainer width="100%" height="100%">
-                    <LineChart data={forecastTrendData[trendRegion as keyof typeof forecastTrendData] || forecastTrendData.all}>
+                    <LineChart data={forecastTrendData}>
                       <defs>
                         {/* 缺口区域填充 - 红色渐变，从预测线到目标线 */}
                         <linearGradient id="colorGap" x1="0" y1="0" x2="0" y2="1">
