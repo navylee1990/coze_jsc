@@ -8,7 +8,6 @@ import { Badge } from '@/components/ui/badge';
 import PredictionDecisionCard from '@/components/PredictionDecisionCard';
 import FutureSupportAdequacyPanel from '@/components/FutureSupportAdequacyPanel';
 import RegionMatrix from '@/components/RegionMatrix';
-import DrillDownModal from '@/components/DrillDownModal';
 import { Separator } from '@/components/ui/separator';
 import Link from 'next/link';
 import { LineChart, Line, AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
@@ -375,18 +374,6 @@ export default function GMDashboard() {
     setTimeRange('month');
   }, []);
 
-  // 钻取状态
-  const [drillDownView, setDrillDownView] = useState<'region' | 'city' | 'salesperson'>('region');
-  const [selectedRegion, setSelectedRegion] = useState<string>('');
-  const [selectedCity, setSelectedCity] = useState<string>('');
-
-  // 弹窗状态
-  const [isDrillDownModalOpen, setIsDrillDownModalOpen] = useState(false);
-  const [modalData, setModalData] = useState<any[]>([]);
-  const [modalTitle, setModalTitle] = useState('');
-  const [modalSubtitle, setModalSubtitle] = useState('');
-  const [modalLevel, setModalLevel] = useState<'city' | 'salesperson'>('city');
-
   // 获取当前时间范围的数据
   const getTimeRangeData = () => {
     if (selectedTimeRange === 'current') return forecastOverviewData.currentMonth;
@@ -408,60 +395,8 @@ export default function GMDashboard() {
 
   // 获取当前时间范围的数据
   const currentData = useMemo(() => {
-    if (drillDownView === 'region') {
-      return regionData[timeRange as keyof typeof regionData] || [];
-    } else if (drillDownView === 'city' && selectedRegion) {
-      return cityData[selectedRegion] || [];
-    } else if (drillDownView === 'salesperson' && selectedCity) {
-      return salespersonData[selectedCity] || [];
-    }
-    return [];
-  }, [drillDownView, timeRange, selectedRegion, selectedCity]);
-
-  // 计算合计数据
-  const totals = currentData.reduce((acc, item) => ({
-    target: acc.target + item.target,
-    completed: acc.completed + item.completed,
-    predicted: acc.predicted + item.predicted,
-    pendingAmount: acc.pendingAmount + (item.pendingAmount || 0),
-  }), { target: 0, completed: 0, predicted: 0, pendingAmount: 0 });
-
-  const totalTarget = totals.target;
-  const totalCompleted = totals.completed;
-  const totalPredicted = totals.predicted;
-  const totalGap = totalTarget - totalPredicted;
-  const totalPendingAmount = totals.pendingAmount;
-
-  // 处理区域点击 - 打开城市弹窗
-  const handleRegionClick = (regionName: string) => {
-    setSelectedRegion(regionName);
-    const cities = cityData[regionName] || [];
-    setModalTitle(`${regionName} - 城市达成情况`);
-    setModalSubtitle(`(${timeRange === 'month' ? `${selectedMonth}月` : timeRange === 'quarter' ? selectedQuarter : '2026年'})`);
-    setModalData(cities);
-    setModalLevel('city');
-    setIsDrillDownModalOpen(true);
-  };
-
-  // 处理城市点击 - 打开业务员弹窗
-  const handleCityClick = (cityName: string) => {
-    setSelectedCity(cityName);
-    const salespersons = salespersonData[cityName] || [];
-    setModalTitle(`${cityName} - 业务员达成情况`);
-    setModalSubtitle(`${selectedRegion}区域 · (${timeRange === 'month' ? `${selectedMonth}月` : timeRange === 'quarter' ? selectedQuarter : '2026年'})`);
-    setModalData(salespersons);
-    setModalLevel('salesperson');
-  };
-
-  // 返回城市层级
-  const handleBackToCity = () => {
-    const cities = cityData[selectedRegion] || [];
-    setModalTitle(`${selectedRegion} - 城市达成情况`);
-    setModalSubtitle(`(${timeRange === 'month' ? `${selectedMonth}月` : timeRange === 'quarter' ? selectedQuarter : '2026年'})`);
-    setModalData(cities);
-    setModalLevel('city');
-    setSelectedCity('');
-  };
+    return regionData[timeRange as keyof typeof regionData] || [];
+  }, [timeRange]);
 
   return (
     <div className={`${DASHBOARD_STYLES.bg} ${DASHBOARD_STYLES.text} min-h-screen`}>
@@ -1085,26 +1020,9 @@ export default function GMDashboard() {
                 data={currentData}
                 title="区域达成"
                 subtitle={`(${timeRange === 'month' ? `${selectedMonth}月` : timeRange === 'quarter' ? selectedQuarter : '2026年'})`}
-                onRegionClick={handleRegionClick}
                 theme="dashboard"
               />
             </div>
-
-            {/* 钻取弹窗 */}
-            <DrillDownModal
-              isOpen={isDrillDownModalOpen}
-              onClose={() => {
-                setIsDrillDownModalOpen(false);
-                setSelectedRegion('');
-                setSelectedCity('');
-              }}
-              title={modalTitle}
-              subtitle={modalSubtitle}
-              data={modalData}
-              level={modalLevel}
-              onBack={modalLevel === 'salesperson' ? handleBackToCity : undefined}
-              onItemClick={modalLevel === 'city' ? handleCityClick : undefined}
-            />
 
             {/* 月度趋势 */}
             <div className={`${DASHBOARD_STYLES.cardBg} ${DASHBOARD_STYLES.cardBorder} rounded-xl p-4 ${DASHBOARD_STYLES.glow}`}>

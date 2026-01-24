@@ -1,15 +1,12 @@
 'use client';
 
-import { useState, useMemo } from 'react';
-import { ChevronRight, Activity, ArrowUp, ArrowDown, ArrowRight, TrendingUp, TrendingDown, Minus, Crown, Medal, Award } from 'lucide-react';
-import DrillDownModal from '@/components/DrillDownModal';
+import { Activity, TrendingUp, TrendingDown, Minus, Crown, Medal, Award } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
 interface RegionMatrixProps {
   data: any[];
   title?: string;
   subtitle?: string;
-  onRegionClick?: (region: string) => void;
   theme?: 'dashboard' | 'dark' | 'light';
 }
 
@@ -23,7 +20,6 @@ const DASHBOARD_STYLES = {
   cardBorder: 'border-cyan-500/30',
   glow: 'shadow-[0_0_30px_rgba(6,182,212,0.3)]',
   neon: 'text-cyan-400 drop-shadow-[0_0_8px_rgba(6,182,212,0.8)]',
-  hoverBg: 'hover:bg-slate-800/60',
 };
 
 // 获取排名图标
@@ -58,13 +54,8 @@ export default function RegionMatrix({
   data,
   title = '区域达成',
   subtitle = '',
-  onRegionClick,
   theme = 'dashboard'
 }: RegionMatrixProps) {
-  const [selectedRegion, setSelectedRegion] = useState<any | null>(null);
-  const [isDrillDownOpen, setIsDrillDownOpen] = useState(false);
-  const [drillDownLevel, setDrillDownLevel] = useState<'city' | 'salesperson'>('city');
-
   // 根据主题获取样式
   const getStyles = () => {
     if (theme === 'dashboard') {
@@ -75,81 +66,10 @@ export default function RegionMatrix({
 
   const styles = getStyles();
 
-  // 模拟下级数据
-  const getCityData = (regionName: string) => {
-    const cityCount = Math.floor(Math.random() * 3) + 2;
-    return Array.from({ length: cityCount }, (_, i) => ({
-      name: `${regionName}-城市${i + 1}`,
-      target: Math.floor(Math.random() * 500) + 100,
-      completed: Math.floor(Math.random() * 400) + 50,
-      predicted: Math.floor(Math.random() * 450) + 80,
-      gap: Math.floor(Math.random() * 200) - 50,
-      rate: Math.random() * 100,
-      owner: `负责人${i + 1}`,
-      pendingAmount: Math.floor(Math.random() * 100) + 20,
-      trend: ['up', 'down', 'stable'][Math.floor(Math.random() * 3)] as 'up' | 'down' | 'stable',
-    }));
-  };
-
-  // 模拟业务员数据
-  const getSalespersonData = (cityName: string) => {
-    const salespersonCount = Math.floor(Math.random() * 4) + 2;
-    return Array.from({ length: salespersonCount }, (_, i) => ({
-      name: `业务员${i + 1}`,
-      target: Math.floor(Math.random() * 200) + 50,
-      completed: Math.floor(Math.random() * 150) + 30,
-      predicted: Math.floor(Math.random() * 180) + 40,
-      gap: Math.floor(Math.random() * 80) - 20,
-      rate: Math.random() * 100,
-      pendingAmount: Math.floor(Math.random() * 50) + 10,
-      trend: ['up', 'down', 'stable'][Math.floor(Math.random() * 3)] as 'up' | 'down' | 'stable',
-    }));
-  };
-
-  // 处理行点击 - 区域→城市→业务员三级钻取
-  const handleRowClick = (item: any) => {
-    setSelectedRegion(item);
-    setDrillDownLevel('city');
-    setIsDrillDownOpen(true);
-    onRegionClick?.(item.name);
-  };
-
-  // 处理钻取项点击
-  const handleDrillDownItemClick = (item: any) => {
-    if (drillDownLevel === 'city') {
-      // 从城市钻取到业务员
-      setDrillDownLevel('salesperson');
-      setSelectedRegion(item);
-    }
-  };
-
-  // 获取钻取数据
-  const getDrillDownData = () => {
-    if (!selectedRegion) return [];
-
-    if (drillDownLevel === 'city') {
-      return getCityData(selectedRegion.name);
-    } else if (drillDownLevel === 'salesperson') {
-      return getSalespersonData(selectedRegion.name);
-    }
-    return [];
-  };
-
-  // 获取钻取标题
-  const getDrillDownTitle = () => {
-    if (!selectedRegion) return '';
-    if (drillDownLevel === 'city') {
-      return `${selectedRegion.name} - 城市达成`;
-    } else if (drillDownLevel === 'salesperson') {
-      return `${selectedRegion.name} - 业务员达成`;
-    }
-    return '';
-  };
-
   // 渲染表头
   const renderTableHeader = () => (
     <div className={cn(
-      'grid grid-cols-8 gap-3 px-4 py-2.5 text-xs font-bold border-b',
+      'grid grid-cols-7 gap-3 px-4 py-2.5 text-xs font-bold border-b',
       theme === 'dashboard' ? 'bg-slate-800/60 border-cyan-500/30' : 'bg-slate-100 border-slate-200'
     )}>
       <div className={cn('flex items-center justify-center gap-2', styles.textSecondary)}>排名</div>
@@ -159,13 +79,11 @@ export default function RegionMatrix({
       <div className={cn('text-right', styles.textSecondary)}>缺口(万)</div>
       <div className={cn('text-center', styles.textSecondary)}>达成率</div>
       <div className={cn('text-right', styles.textSecondary)}>在手项目(万)</div>
-      <div className="w-4"></div>
     </div>
   );
 
   // 渲染行数据
   const renderTableRow = (item: any, rank: number) => {
-    const isHovered = false;
     const gapClass = item.gap > 0 ? 'text-red-400' : 'text-green-400';
     const rowBgClass = rank % 2 === 0
       ? (theme === 'dashboard' ? 'bg-slate-900/40' : 'bg-slate-50')
@@ -175,11 +93,10 @@ export default function RegionMatrix({
       <div
         key={rank}
         className={cn(
-          'grid grid-cols-8 gap-3 px-4 py-2 items-center border-b transition-all duration-200 cursor-pointer',
+          'grid grid-cols-7 gap-3 px-4 py-2 items-center border-b transition-all duration-200',
           rowBgClass,
-          theme === 'dashboard' ? 'border-cyan-500/20 hover:bg-slate-800/60 hover:shadow-[0_0_15px_rgba(6,182,212,0.2)]' : 'border-slate-200 hover:bg-slate-100'
+          theme === 'dashboard' ? 'border-cyan-500/20 hover:bg-slate-800/60' : 'border-slate-200 hover:bg-slate-100'
         )}
-        onClick={() => handleRowClick(item)}
       >
         {/* 排名 */}
         <div className="flex items-center justify-center">
@@ -231,11 +148,6 @@ export default function RegionMatrix({
         <div className={cn('text-right font-medium text-sm', styles.textSecondary)}>
           {(item.pendingAmount || 0).toLocaleString()}
         </div>
-
-        {/* 钻取箭头 */}
-        <div className="flex justify-center">
-          <ChevronRight className="w-4 h-4 text-cyan-400/60" />
-        </div>
       </div>
     );
   };
@@ -261,28 +173,6 @@ export default function RegionMatrix({
         {renderTableHeader()}
         {data.map((item, index) => renderTableRow(item, index + 1))}
       </div>
-
-      {/* 钻取弹窗 */}
-      <DrillDownModal
-        isOpen={isDrillDownOpen}
-        onClose={() => {
-          setIsDrillDownOpen(false);
-          setSelectedRegion(null);
-        }}
-        title={getDrillDownTitle()}
-        subtitle={drillDownLevel === 'city' ? '点击查看业务员详情' : '业务员达成情况'}
-        data={getDrillDownData()}
-        level={drillDownLevel}
-        onBack={() => {
-          if (drillDownLevel === 'salesperson') {
-            setDrillDownLevel('city');
-          } else {
-            setIsDrillDownOpen(false);
-            setSelectedRegion(null);
-          }
-        }}
-        onItemClick={handleDrillDownItemClick}
-      />
     </div>
   );
 }
