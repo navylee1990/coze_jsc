@@ -1501,59 +1501,55 @@ export default function FutureSupportAdequacyPanel({
                   )} />
                 </div>
 
-                {/* 核心指标 */}
+                {/* 核心指标 - 紧凑布局 */}
                 <div className="space-y-2">
-                  {/* 目标 + 支撑 */}
-                  <div className="flex justify-between text-xs">
-                    <span className={cn(theme === 'dashboard' ? 'text-cyan-400/60' : 'text-slate-500')}>目标</span>
-                    <span className={cn(
-                      'font-semibold',
-                      theme === 'dashboard' ? 'text-cyan-300' : 'text-slate-900'
-                    )}>{level.target.toLocaleString()}万</span>
-                  </div>
-                  <div className="flex justify-between text-xs">
-                    <span className={cn(theme === 'dashboard' ? 'text-cyan-400/60' : 'text-slate-500')}>支撑</span>
-                    <span className={cn(
-                      'font-semibold',
-                      theme === 'dashboard' ? 'text-cyan-300' : 'text-slate-900'
-                    )}>{level.amount.toLocaleString()}万</span>
-                  </div>
-
-                  {/* 缺口 - 大字号高亮 */}
-                  <div className="pt-1 border-t border-slate-500/20">
-                    <div className="flex items-center justify-between">
-                      <span className={cn('text-xs', theme === 'dashboard' ? 'text-cyan-400/60' : 'text-slate-500')}>缺口</span>
-                      <span className={`text-base font-bold ${level.gap > 0 ? 'text-red-400' : 'text-green-400'}`}>
-                        {level.gap > 0 ? `${level.gap}` : `+${Math.abs(level.gap)}`}
+                  {/* 目标/支撑/覆盖率 - 单行显示 */}
+                  <div className="flex items-center justify-between text-xs gap-2">
+                    <div className="flex items-center gap-1">
+                      <span className={cn(theme === 'dashboard' ? 'text-cyan-400/60' : 'text-slate-500')}>目标</span>
+                      <span className={cn('font-semibold', theme === 'dashboard' ? 'text-cyan-300' : 'text-slate-900')}>
+                        {level.target.toLocaleString()}万
+                      </span>
+                    </div>
+                    <div className="flex items-center gap-1">
+                      <span className={cn(theme === 'dashboard' ? 'text-cyan-400/60' : 'text-slate-500')}>支撑</span>
+                      <span className={cn('font-semibold', theme === 'dashboard' ? 'text-cyan-300' : 'text-slate-900')}>
+                        {level.amount.toLocaleString()}万
+                      </span>
+                    </div>
+                    <div className="flex items-center gap-1">
+                      <span className={cn(theme === 'dashboard' ? 'text-cyan-400/60' : 'text-slate-500')}>覆盖率</span>
+                      <span className={cn('font-semibold', level.coverage >= 80 ? 'text-green-400' : level.coverage >= 50 ? 'text-yellow-400' : 'text-red-400')}>
+                        {level.coverage}%
                       </span>
                     </div>
                   </div>
 
                   {/* 覆盖度进度条 */}
-                  <div className="pt-1">
-                    <div className="flex justify-between text-xs mb-1">
-                      <span className={cn(theme === 'dashboard' ? 'text-cyan-400/60' : 'text-slate-500')}>覆盖度</span>
-                      <span className={level.coverage >= 80 ? 'text-green-400' : level.coverage >= 50 ? 'text-yellow-400' : 'text-red-400'}>
-                        {level.coverage}%
-                      </span>
-                    </div>
-                    <div className={cn('w-full h-1.5 rounded-full overflow-hidden', theme === 'dashboard' ? 'bg-slate-700/50' : 'bg-slate-200')}>
-                      <div
-                        className={`h-full transition-all duration-500 ${
-                          level.coverage >= 80 ? 'bg-green-500' : level.coverage >= 50 ? 'bg-yellow-500' : 'bg-red-500'
-                        }`}
-                        style={{ width: `${Math.min(level.coverage, 100)}%` }}
-                      />
-                    </div>
+                  <div className={cn('w-full h-1.5 rounded-full overflow-hidden', theme === 'dashboard' ? 'bg-slate-700/50' : 'bg-slate-200')}>
+                    <div
+                      className={`h-full transition-all duration-500 ${
+                        level.coverage >= 80 ? 'bg-green-500' : level.coverage >= 50 ? 'bg-yellow-500' : 'bg-red-500'
+                      }`}
+                      style={{ width: `${Math.min(level.coverage, 100)}%` }}
+                    />
                   </div>
 
-                  {/* 项目数量 */}
-                  <div className="flex justify-between text-xs pt-1">
-                    <span className={cn(theme === 'dashboard' ? 'text-cyan-400/60' : 'text-slate-500')}>项目数</span>
-                    <span className={cn(
-                      'font-semibold',
-                      theme === 'dashboard' ? 'text-cyan-300' : 'text-slate-900'
-                    )}>{level.projects.length}个</span>
+                  {/* 缺口 + 项目数 - 单行显示 */}
+                  <div className="flex items-center justify-between text-xs pt-1">
+                    <div className="flex items-center gap-1">
+                      <span className={cn(theme === 'dashboard' ? 'text-cyan-400/60' : 'text-slate-500')}>缺口</span>
+                      <span className={`text-sm font-bold ${level.gap > 0 ? 'text-red-400' : 'text-green-400'}`}>
+                        {level.gap > 0 ? `${level.gap}` : `+${Math.abs(level.gap)}`}
+                      </span>
+                      <span className={cn(theme === 'dashboard' ? 'text-cyan-400/60' : 'text-slate-500')}>万</span>
+                    </div>
+                    <div className="flex items-center gap-1">
+                      <span className={cn(theme === 'dashboard' ? 'text-cyan-400/60' : 'text-slate-500')}>项目</span>
+                      <span className={cn('font-semibold', theme === 'dashboard' ? 'text-cyan-300' : 'text-slate-900')}>
+                        {level.projects.length}个
+                      </span>
+                    </div>
                   </div>
 
                   {/* 未统计项目数 */}
