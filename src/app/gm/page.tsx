@@ -9,7 +9,7 @@ import PredictionDecisionCard from '@/components/PredictionDecisionCard';
 import FutureSupportAdequacyPanel from '@/components/FutureSupportAdequacyPanel';
 import { Separator } from '@/components/ui/separator';
 import Link from 'next/link';
-import { AreaChart, Area, LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, ReferenceLine } from 'recharts';
+import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 import { cn } from '@/lib/utils';
 
 // 页面标题
@@ -61,16 +61,13 @@ const riskData = {
 };
 
 // 预测趋势图数据
-// 业务目标通常略高于财务目标（约高5-8%），用于内部激励
-// completed: 实际完成值（过去月份有值，未来月份为0）
-// forecast: 预测完成值（所有月份都有值）
 const forecastTrendData = [
-  { month: '1月', monthIndex: 1, businessTarget: 1580, financialTarget: 1500, completed: 800, forecast: 1140 },
-  { month: '2月', monthIndex: 2, businessTarget: 1580, financialTarget: 1500, completed: 850, forecast: 1180 },
-  { month: '3月', monthIndex: 3, businessTarget: 1580, financialTarget: 1500, completed: 900, forecast: 1120 },
-  { month: '4月', monthIndex: 4, businessTarget: 1580, financialTarget: 1500, completed: 0, forecast: 1160 },
-  { month: '5月', monthIndex: 5, businessTarget: 1580, financialTarget: 1500, completed: 0, forecast: 1140 },
-  { month: '6月', monthIndex: 6, businessTarget: 1580, financialTarget: 1500, completed: 0, forecast: 1200 },
+  { month: '1月', target: 1500, forecast: 1350, completed: 800 },
+  { month: '2月', target: 1500, forecast: 1480, completed: 0 },
+  { month: '3月', target: 1500, forecast: 1370, completed: 0 },
+  { month: '4月', target: 1500, forecast: 1420, completed: 0 },
+  { month: '5月', target: 1500, forecast: 1380, completed: 0 },
+  { month: '6月', target: 1500, forecast: 1450, completed: 0 },
 ];
 
 // 大区维度数据
@@ -226,12 +223,6 @@ export default function GMDashboard() {
   const [selectedMonth, setSelectedMonth] = useState('1');
   const [selectedQuarter, setSelectedQuarter] = useState('Q1');
   const [trendRegion, setTrendRegion] = useState('all');
-
-  // 当前月份（实际应用中应从数据库或系统时间获取）
-  const currentMonth = 3; // 假设当前是3月，1-3月为实绩，4-6月为预测
-
-  // 判断某个月是否为已完成（实绩）
-  const isCompleted = (monthIndex: number) => monthIndex <= currentMonth;
 
   // 获取当前时间范围的数据
   const getTimeRangeData = () => {
@@ -796,56 +787,19 @@ export default function GMDashboard() {
 
               {/* 趋势图表 */}
               <div className="bg-slate-800/30 rounded-xl p-4 border border-cyan-400/10">
-                {/* 缺口统计 */}
-                {/* 图例说明 - 更明显、更详细 */}
-                <div className="mb-3 px-2 py-2 rounded-lg bg-slate-800/40 border border-cyan-500/10">
-                  <div className="flex items-center justify-between mb-2">
-                    <span className="text-xs font-semibold text-cyan-400">趋势图例</span>
-                    <span className="text-xs text-cyan-300/60">1-{currentMonth}月实绩 · {currentMonth + 1}-6月预测</span>
-                  </div>
-                  <div className="flex items-center gap-5 flex-wrap">
-                    {/* 实绩图例 */}
-                    <div className="flex items-center gap-2">
-                      <div className="flex items-center gap-0.5">
-                        <div className="w-6 h-0.5 bg-green-500 rounded-full"></div>
-                        <div className="w-3 h-3 rounded-full bg-green-500 border-2 border-white"></div>
-                      </div>
-                      <span className="text-xs text-cyan-300/80">实绩（已完成）</span>
-                    </div>
-                    {/* 预测图例 */}
-                    <div className="flex items-center gap-2">
-                      <div className="flex items-center gap-0.5">
-                        <div className="w-6 h-0.5 bg-cyan-400 rounded-full" style={{ background: 'repeating-linear-gradient(90deg, #22d3ee 0, #22d3ee 8px, transparent 8px, transparent 13px)' }}></div>
-                        <div className="w-3 h-3 rounded-full bg-cyan-400 border-2 border-sky-500"></div>
-                      </div>
-                      <span className="text-xs text-cyan-300/80">预测（预计）</span>
-                    </div>
-                    {/* 缺口区域图例 */}
-                    <div className="flex items-center gap-2">
-                      <div className="flex items-center gap-0.5">
-                        <div className="w-6 h-3 bg-red-500/25 rounded-sm"></div>
-                      </div>
-                      <span className="text-xs text-cyan-300/80">缺口区域</span>
-                    </div>
-                  </div>
-                </div>
-
                 <div style={{ height: '200px' }}>
                   <ResponsiveContainer width="100%" height="100%">
-                    <LineChart data={forecastTrendData}>
+                    <AreaChart data={forecastTrendData}>
                       <defs>
-                        {/* 缺口区域填充 - 更明显的红色 */}
-                        <linearGradient id="colorGap" x1="0" y1="0" x2="0" y2="1">
-                          <stop offset="0%" stopColor="#ef4444" stopOpacity={0.4}/>
-                          <stop offset="100%" stopColor="#ef4444" stopOpacity={0.2}/>
+                        <linearGradient id="colorForecast" x1="0" y1="0" x2="0" y2="1">
+                          <stop offset="5%" stopColor="#22d3ee" stopOpacity={0.3}/>
+                          <stop offset="95%" stopColor="#22d3ee" stopOpacity={0}/>
                         </linearGradient>
-                        {/* 已完成区域填充 */}
-                        <linearGradient id="colorCompleted" x1="0" y1="0" x2="0" y2="1">
-                          <stop offset="5%" stopColor="#22c55e" stopOpacity={0.25}/>
-                          <stop offset="95%" stopColor="#22c55e" stopOpacity={0.05}/>
+                        <linearGradient id="colorTarget" x1="0" y1="0" x2="0" y2="1">
+                          <stop offset="5%" stopColor="#3b82f6" stopOpacity={0.3}/>
+                          <stop offset="95%" stopColor="#3b82f6" stopOpacity={0}/>
                         </linearGradient>
                       </defs>
-
                       <CartesianGrid strokeDasharray="3 3" stroke="rgba(6,182,212,0.1)" vertical={false} />
                       <XAxis
                         dataKey="month"
@@ -861,114 +815,31 @@ export default function GMDashboard() {
                       />
                       <Tooltip
                         contentStyle={{
-                          backgroundColor: 'rgba(15,23,42,0.95)',
+                          backgroundColor: 'rgba(15,23,42,0.9)',
                           border: '1px solid rgba(6,182,212,0.3)',
                           borderRadius: '8px',
-                          boxShadow: '0 0 20px rgba(6,182,212,0.3)',
+                          boxShadow: '0 0 20px rgba(6,182,212,0.2)',
                         }}
-                        formatter={(value: number, name: string, props: any) => {
-                          const monthIndex = props.payload?.monthIndex;
-                          const isPast = isCompleted(monthIndex);
-                          const gap = props.payload?.businessTarget - props.payload?.forecast;
-                          const suffix = name === '预计完成' && !isPast ? `(缺口: ${gap.toFixed(0)}万)` : '';
-                          return [`${value}万`, name, suffix];
-                        }}
+                        formatter={(value: number, name: string) => [`${value}万`, name]}
                         labelStyle={{ color: '#22d3ee', fontWeight: 'bold' }}
                       />
-                      <Legend
-                        wrapperStyle={{ paddingTop: '8px' }}
-                        iconType="line"
-                      />
-
-                      {/* 分界线 - 实绩和预测的分界 */}
-                      <ReferenceLine
-                        x={`${currentMonth}.5`}
-                        stroke="#22d3ee"
-                        strokeWidth={1.5}
-                        strokeDasharray="6 4"
-                        opacity={0.5}
-                        label={{ value: '当前', position: 'topLeft', fill: '#22d3ee', fontSize: 10, fontWeight: 'bold' }}
-                      />
-
-                      {/* 缺口区域 - 从X轴到业务目标线（红色半透明） */}
                       <Area
                         type="monotone"
-                        dataKey="businessTarget"
-                        stroke="none"
-                        fill="url(#colorGap)"
-                        name="缺口区域"
-                        opacity={0.95}
-                      />
-
-                      {/* 业务目标线 - 蓝色 */}
-                      <Line
-                        type="monotone"
-                        dataKey="businessTarget"
+                        dataKey="target"
                         stroke="#3b82f6"
                         strokeWidth={2}
-                        dot={{ r: 2, fill: '#3b82f6' }}
-                        name="业务目标"
-                        opacity={0.7}
+                        fill="url(#colorTarget)"
+                        name="目标"
                       />
-
-                      {/* 财务目标线 - 紫色 */}
-                      <Line
-                        type="monotone"
-                        dataKey="financialTarget"
-                        stroke="#8b5cf6"
-                        strokeWidth={2}
-                        dot={{ r: 2, fill: '#8b5cf6' }}
-                        name="财务目标"
-                        opacity={0.7}
-                      />
-
-                      {/* 实绩线 - 绿色，粗线，只在当前及之前月份显示 */}
                       <Area
-                        type="monotone"
-                        dataKey="completed"
-                        stroke="#22c55e"
-                        strokeWidth={3.5}
-                        fill="url(#colorCompleted)"
-                        name="已完成"
-                        activeDot={{ r: 6, fill: '#22c55e', strokeWidth: 2, stroke: '#fff' }}
-                        dot={(props: any) => {
-                          const monthIndex = props.payload?.monthIndex;
-                          if (isCompleted(monthIndex) && props.payload.completed > 0) {
-                            return <circle r={5} fill="#22c55e" strokeWidth={2.5} stroke="#fff" />;
-                          }
-                          return <circle r={0} />;
-                        }}
-                      />
-
-                      {/* 预测线下方填充 - 青色半透明，用于遮挡红色区域，形成缺口视觉 */}
-                      <Area
-                        type="monotone"
-                        dataKey="forecast"
-                        stroke="none"
-                        fill="#22d3ee"
-                        name="预测填充"
-                        opacity={0.15}
-                      />
-
-                      {/* 预测线 - 青色虚线，只在之后月份显示 */}
-                      <Line
                         type="monotone"
                         dataKey="forecast"
                         stroke="#22d3ee"
                         strokeWidth={2.5}
-                        strokeDasharray="8 5"
-                        dot={(props: any) => {
-                          const monthIndex = props.payload?.monthIndex;
-                          const isPast = isCompleted(monthIndex);
-                          // 过去月份不显示点，未来月份显示
-                          if (isPast) {
-                            return <circle r={0} />;
-                          }
-                          return <circle r={4} fill="#22d3ee" strokeWidth={2} stroke="#0ea5e9" />;
-                        }}
-                        name="预计完成"
+                        fill="url(#colorForecast)"
+                        name="预测"
                       />
-                    </LineChart>
+                    </AreaChart>
                   </ResponsiveContainer>
                 </div>
               </div>
