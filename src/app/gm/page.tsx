@@ -10,6 +10,7 @@ import FutureSupportAdequacyPanel from '@/components/FutureSupportAdequacyPanel'
 import { Separator } from '@/components/ui/separator';
 import Link from 'next/link';
 import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
+import { cn } from '@/lib/utils';
 
 // 页面标题
 const PAGE_TITLE = '商用总经理驾驶舱';
@@ -444,28 +445,320 @@ export default function GMDashboard() {
                 </div>
               </div>
 
-              {/* 核心数据展示 */}
+              {/* 核心数据展示 - 汽车仪表盘样式 */}
               <div className="grid grid-cols-3 gap-4 mb-6">
-                <div className="text-center p-4 rounded-xl bg-gradient-to-br from-cyan-500/10 to-blue-500/10 border border-cyan-500/30">
-                  <div className="text-xs text-cyan-400/70 mb-1">目标</div>
-                  <div className="text-2xl font-bold text-cyan-300 drop-shadow-[0_0_10px_rgba(6,182,212,0.8)]">
-                    {getTimeRangeData().target.toLocaleString()}
+                {/* 仪表盘1 - 目标 */}
+                <div className="relative">
+                  <div
+                    className="rounded-xl border-2 p-3 transition-all duration-300 bg-gradient-to-br from-slate-900/90 to-slate-800/90 border-cyan-500/40"
+                    style={{
+                      boxShadow: '0 0 25px rgba(34, 211, 238, 0.3), inset 0 0 20px rgba(34, 211, 238, 0.08)'
+                    }}
+                  >
+                    <div className="flex items-center gap-3">
+                      {/* 仪表盘圆形 */}
+                      <div className="relative flex-shrink-0" style={{ width: '80px', height: '80px' }}>
+                        <svg viewBox="0 0 100 100" className="w-full h-full">
+                          {/* 背景圆 */}
+                          <circle
+                            cx="50"
+                            cy="50"
+                            r="35"
+                            fill="none"
+                            stroke="#1e293b"
+                            strokeWidth="6"
+                          />
+                          {/* 刻度线 */}
+                          {[...Array(12)].map((_, i) => {
+                            const angle = (i * 30 - 90) * (Math.PI / 180)
+                            const innerR = 28
+                            const outerR = 35
+                            const x1 = 50 + innerR * Math.cos(angle)
+                            const y1 = 50 + innerR * Math.sin(angle)
+                            const x2 = 50 + outerR * Math.cos(angle)
+                            const y2 = 50 + outerR * Math.sin(angle)
+                            return (
+                              <line
+                                key={i}
+                                x1={x1}
+                                y1={y1}
+                                x2={x2}
+                                y2={y2}
+                                stroke="#334155"
+                                strokeWidth="1"
+                              />
+                            )
+                          })}
+                          {/* 进度弧线 - 目标始终100% */}
+                          <circle
+                            cx="50"
+                            cy="50"
+                            r="35"
+                            fill="none"
+                            stroke="#22d3ee"
+                            strokeWidth="5"
+                            strokeLinecap="round"
+                            strokeDasharray="220"
+                            strokeDashoffset="0"
+                            style={{
+                              filter: 'drop-shadow(0 0 6px rgba(34, 211, 238, 0.8))'
+                            }}
+                          />
+                          {/* 指针 */}
+                          <g transform={`translate(50, 50)`}>
+                            <line
+                              x1="0"
+                              y1="0"
+                              x2="0"
+                              y2="-28"
+                              stroke="#f97316"
+                              strokeWidth="2"
+                              style={{
+                                transform: `rotate(135deg)`,
+                                transformOrigin: '0 0',
+                                filter: 'drop-shadow(0 0 4px rgba(249, 115, 22, 0.8))'
+                              }}
+                            />
+                            <circle cx="0" cy="0" r="3" fill="#22d3ee" />
+                          </g>
+                        </svg>
+                        {/* 中心数值 */}
+                        <div className="absolute inset-0 flex flex-col items-center justify-center">
+                          <span className="text-lg font-bold text-cyan-400" style={{ textShadow: '0 0 8px rgba(34, 211, 238, 0.8)' }}>
+                            100%
+                          </span>
+                        </div>
+                      </div>
+                      {/* 右侧数值 */}
+                      <div className="flex-1">
+                        <div className="text-xs text-cyan-400/70 mb-1">目标</div>
+                        <div className="text-xl font-bold text-orange-400" style={{ textShadow: '0 0 6px rgba(251, 146, 60, 0.6)' }}>
+                          {getTimeRangeData().target.toLocaleString()}
+                          <span className="text-xs text-cyan-400/50 ml-1">万</span>
+                        </div>
+                      </div>
+                    </div>
                   </div>
-                  <div className="text-xs text-cyan-400/50 mt-1">万元</div>
                 </div>
-                <div className="text-center p-4 rounded-xl bg-gradient-to-br from-green-500/10 to-emerald-500/10 border border-green-500/30">
-                  <div className="text-xs text-green-400/70 mb-1">预测完成</div>
-                  <div className="text-2xl font-bold text-green-300 drop-shadow-[0_0_10px_rgba(34,197,94,0.8)]">
-                    {getTimeRangeData().forecast.toLocaleString()}
+
+                {/* 仪表盘2 - 预测完成 */}
+                <div className="relative">
+                  <div
+                    className="rounded-xl border-2 p-3 transition-all duration-300 bg-gradient-to-br from-slate-900/90 to-slate-800/90 border-cyan-500/40"
+                    style={{
+                      boxShadow: '0 0 25px rgba(34, 211, 238, 0.3), inset 0 0 20px rgba(34, 211, 238, 0.08)'
+                    }}
+                  >
+                    <div className="flex items-center gap-3">
+                      {/* 仪表盘圆形 */}
+                      <div className="relative flex-shrink-0" style={{ width: '80px', height: '80px' }}>
+                        <svg viewBox="0 0 100 100" className="w-full h-full">
+                          {/* 背景圆 */}
+                          <circle
+                            cx="50"
+                            cy="50"
+                            r="35"
+                            fill="none"
+                            stroke="#1e293b"
+                            strokeWidth="6"
+                          />
+                          {/* 刻度线 */}
+                          {[...Array(12)].map((_, i) => {
+                            const angle = (i * 30 - 90) * (Math.PI / 180)
+                            const innerR = 28
+                            const outerR = 35
+                            const x1 = 50 + innerR * Math.cos(angle)
+                            const y1 = 50 + innerR * Math.sin(angle)
+                            const x2 = 50 + outerR * Math.cos(angle)
+                            const y2 = 50 + outerR * Math.sin(angle)
+                            return (
+                              <line
+                                key={i}
+                                x1={x1}
+                                y1={y1}
+                                x2={x2}
+                                y2={y2}
+                                stroke="#334155"
+                                strokeWidth="1"
+                              />
+                            )
+                          })}
+                          {/* 进度弧线 */}
+                          <circle
+                            cx="50"
+                            cy="50"
+                            r="35"
+                            fill="none"
+                            stroke="#22d3ee"
+                            strokeWidth="5"
+                            strokeLinecap="round"
+                            strokeDasharray="220"
+                            strokeDashoffset={220 - (220 * Math.min(parseFloat(getAchievementRate()), 100) / 100)}
+                            style={{
+                              filter: 'drop-shadow(0 0 8px rgba(34, 211, 238, 0.8))',
+                              transition: 'stroke-dashoffset 0.5s ease-out'
+                            }}
+                          />
+                          {/* 指针 */}
+                          <g transform={`translate(50, 50)`}>
+                            <line
+                              x1="0"
+                              y1="0"
+                              x2="0"
+                              y2="-28"
+                              stroke="#22d3ee"
+                              strokeWidth="2.5"
+                              style={{
+                                transform: `rotate(${(Math.min(parseFloat(getAchievementRate()), 100) / 100) * 180 - 90}deg)`,
+                                transformOrigin: '0 0',
+                                filter: 'drop-shadow(0 0 6px rgba(34, 211, 238, 1))'
+                              }}
+                            />
+                            <circle cx="0" cy="0" r="4" fill="#22d3ee" style={{ filter: 'drop-shadow(0 0 4px rgba(34, 211, 238, 0.8))' }} />
+                          </g>
+                        </svg>
+                        {/* 中心数值 */}
+                        <div className="absolute inset-0 flex flex-col items-center justify-center">
+                          <span className={cn(
+                            'text-lg font-bold',
+                            parseFloat(getAchievementRate()) >= 90 ? 'text-green-400' : parseFloat(getAchievementRate()) >= 70 ? 'text-yellow-400' : 'text-red-400'
+                          )} style={{ textShadow: `0 0 8px ${parseFloat(getAchievementRate()) >= 90 ? 'rgba(74, 222, 128, 0.8)' : parseFloat(getAchievementRate()) >= 70 ? 'rgba(250, 204, 21, 0.8)' : 'rgba(248, 113, 113, 0.8)'}` }}>
+                            {getAchievementRate()}%
+                          </span>
+                        </div>
+                      </div>
+                      {/* 右侧数值 */}
+                      <div className="flex-1">
+                        <div className="text-xs text-cyan-400/70 mb-1">预测完成</div>
+                        <div className={cn(
+                          'text-xl font-bold',
+                          getTimeRangeData().forecast >= getTimeRangeData().target ? 'text-green-400' : 'text-yellow-400'
+                        )} style={{ textShadow: getTimeRangeData().forecast >= getTimeRangeData().target ? '0 0 6px rgba(74, 222, 128, 0.6)' : '0 0 6px rgba(250, 204, 21, 0.6)' }}>
+                          {getTimeRangeData().forecast.toLocaleString()}
+                          <span className="text-xs text-cyan-400/50 ml-1">万</span>
+                        </div>
+                      </div>
+                    </div>
                   </div>
-                  <div className="text-xs text-green-400/50 mt-1">万元</div>
                 </div>
-                <div className={`text-center p-4 rounded-xl bg-gradient-to-br ${getGap() >= 0 ? 'from-red-500/10 to-orange-500/10 border-red-500/30' : 'from-green-500/10 to-emerald-500/10 border-green-500/30'} border`}>
-                  <div className={`text-xs ${getGap() >= 0 ? 'text-red-400/70' : 'text-green-400/70'} mb-1`}>缺口</div>
-                  <div className={`text-2xl font-bold ${getGap() >= 0 ? 'text-red-300 drop-shadow-[0_0_10px_rgba(248,113,113,0.8)]' : 'text-green-300 drop-shadow-[0_0_10px_rgba(34,197,94,0.8)]'}`}>
-                    {getGap() >= 0 ? getGap().toFixed(0) : `+${Math.abs(getGap()).toFixed(0)}`}
+
+                {/* 仪表盘3 - 缺口 */}
+                <div className="relative">
+                  <div
+                    className={cn(
+                      'rounded-xl border-2 p-3 transition-all duration-300',
+                      getGap() <= 0
+                        ? 'bg-gradient-to-br from-green-900/20 to-slate-900/90 border-green-500/40'
+                        : 'bg-gradient-to-br from-red-900/20 to-slate-900/90 border-red-500/40'
+                    )}
+                    style={{
+                      boxShadow: getGap() <= 0
+                        ? '0 0 25px rgba(74, 222, 128, 0.3), inset 0 0 20px rgba(74, 222, 128, 0.08)'
+                        : '0 0 25px rgba(248, 113, 113, 0.3), inset 0 0 20px rgba(248, 113, 113, 0.08)'
+                    }}
+                  >
+                    <div className="flex items-center gap-3">
+                      {/* 仪表盘圆形 */}
+                      <div className="relative flex-shrink-0" style={{ width: '80px', height: '80px' }}>
+                        <svg viewBox="0 0 100 100" className="w-full h-full">
+                          {/* 背景圆 */}
+                          <circle
+                            cx="50"
+                            cy="50"
+                            r="35"
+                            fill="none"
+                            stroke="#1e293b"
+                            strokeWidth="6"
+                          />
+                          {/* 刻度线 */}
+                          {[...Array(12)].map((_, i) => {
+                            const angle = (i * 30 - 90) * (Math.PI / 180)
+                            const innerR = 28
+                            const outerR = 35
+                            const x1 = 50 + innerR * Math.cos(angle)
+                            const y1 = 50 + innerR * Math.sin(angle)
+                            const x2 = 50 + outerR * Math.cos(angle)
+                            const y2 = 50 + outerR * Math.sin(angle)
+                            return (
+                              <line
+                                key={i}
+                                x1={x1}
+                                y1={y1}
+                                x2={x2}
+                                y2={y2}
+                                stroke="#334155"
+                                strokeWidth="1"
+                              />
+                            )
+                          })}
+                          {/* 进度弧线 */}
+                          <circle
+                            cx="50"
+                            cy="50"
+                            r="35"
+                            fill="none"
+                            stroke={getGap() <= 0 ? '#4ade80' : '#f87171'}
+                            strokeWidth="5"
+                            strokeLinecap="round"
+                            strokeDasharray="220"
+                            strokeDashoffset={getGap() <= 0 ? '0' : '220'}
+                            style={{
+                              filter: getGap() <= 0 ? 'drop-shadow(0 0 8px rgba(74, 222, 128, 0.8))' : 'drop-shadow(0 0 8px rgba(248, 113, 113, 0.8))',
+                              transition: 'stroke-dashoffset 0.5s ease-out'
+                            }}
+                          />
+                          {/* 指针 */}
+                          <g transform={`translate(50, 50)`}>
+                            <line
+                              x1="0"
+                              y1="0"
+                              x2="0"
+                              y2="-28"
+                              stroke={getGap() <= 0 ? '#4ade80' : '#f87171'}
+                              strokeWidth="2.5"
+                              style={{
+                                transform: getGap() <= 0 ? `rotate(135deg)` : `rotate(-135deg)`,
+                                transformOrigin: '0 0',
+                                filter: getGap() <= 0 ? 'drop-shadow(0 0 6px rgba(74, 222, 128, 1))' : 'drop-shadow(0 0 6px rgba(248, 113, 113, 1))'
+                              }}
+                            />
+                            <circle
+                              cx="0"
+                              cy="0"
+                              r="4"
+                              fill={getGap() <= 0 ? '#4ade80' : '#f87171'}
+                              style={{ filter: getGap() <= 0 ? 'drop-shadow(0 0 4px rgba(74, 222, 128, 0.8))' : 'drop-shadow(0 0 4px rgba(248, 113, 113, 0.8))' }}
+                            />
+                          </g>
+                        </svg>
+                        {/* 中心数值 */}
+                        <div className="absolute inset-0 flex flex-col items-center justify-center">
+                          {getGap() <= 0 ? (
+                            <span className="text-sm font-bold text-green-400 flex items-center gap-1" style={{ textShadow: '0 0 8px rgba(74, 222, 128, 0.8)' }}>
+                              <ArrowUp className="w-3 h-3" />
+                              超额
+                            </span>
+                          ) : (
+                            <span className="text-sm font-bold text-red-400 flex items-center gap-1" style={{ textShadow: '0 0 8px rgba(248, 113, 113, 0.8)' }}>
+                              <ArrowDown className="w-3 h-3" />
+                              缺口
+                            </span>
+                          )}
+                        </div>
+                      </div>
+                      {/* 右侧数值 */}
+                      <div className="flex-1">
+                        <div className="text-xs text-cyan-400/70 mb-1">{getGap() <= 0 ? '超额' : '缺口'}</div>
+                        <div className={cn(
+                          'text-xl font-bold',
+                          getGap() <= 0 ? 'text-green-400' : 'text-red-400'
+                        )} style={{ textShadow: getGap() <= 0 ? '0 0 6px rgba(74, 222, 128, 0.6)' : '0 0 6px rgba(248, 113, 113, 0.6)' }}>
+                          {getGap() <= 0 ? '+' : ''}{getGap().toFixed(0)}
+                          <span className="text-xs text-cyan-400/50 ml-1">万</span>
+                        </div>
+                      </div>
+                    </div>
                   </div>
-                  <div className={`text-xs ${getGap() >= 0 ? 'text-red-400/50' : 'text-green-400/50'} mt-1`}>万元</div>
                 </div>
               </div>
 

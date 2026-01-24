@@ -360,91 +360,344 @@ export default function PredictionDecisionCard({
 
         {/* 主内容区：四区布局 */}
         <div className="p-5 grid grid-cols-12 gap-4">
-          {/* 左侧（20%）：未来预测趋势 */}
+          {/* 左侧（20%）：汽车仪表盘展示 */}
           <div className="col-span-3">
-            <div className={cn('rounded-lg p-4', statusColor.bg, statusColor.border, 'border-2')}>
-              {/* 状态图标 */}
-              <div className={cn('flex items-center justify-center mb-3', statusColor.text)}>
-                {statusColor.icon}
-              </div>
-
-              {/* 预测金额 - 超大数字 */}
-              <div className="text-center mb-3">
-                <div className={cn('text-5xl font-bold mb-1', data.forecast >= data.target ? 'text-green-600' : 'text-red-600')}>
-                  {data.forecast.toLocaleString()}
-                  <span className="text-base text-slate-600 ml-1">万</span>
-                </div>
-
-                {/* 目标完成度 */}
-                <div className="flex items-center justify-center gap-2 mb-2">
-                  <span className="text-sm text-slate-600">完成度</span>
-                  <Badge className={cn('text-sm px-2 py-0.5', statusColor.text, statusColor.bg, statusColor.border)}>
-                    {data.achievementRate}%
-                  </Badge>
-                </div>
-
-                {/* 缺口或超额 */}
-                <div className="text-xs text-slate-600">
-                  {data.gap < 0 ? (
-                    <span className="text-green-600 font-semibold">
-                      <ArrowUp className="w-3 h-3 inline mr-0.5" />
-                      超额 {Math.abs(data.gap).toLocaleString()}万
-                    </span>
-                  ) : (
-                    <span className="text-red-600 font-semibold">
-                      <ArrowDown className="w-3 h-3 inline mr-0.5" />
-                      缺口 {data.gap.toLocaleString()}万
-                    </span>
+            <div className="space-y-3">
+              {/* 仪表盘1 - 目标 */}
+              <div className="relative">
+                <div
+                  className={cn(
+                    'rounded-xl border-2 p-3 transition-all duration-300',
+                    theme === 'dark'
+                      ? 'bg-gradient-to-br from-slate-900/90 to-slate-800/90 border-slate-600/50'
+                      : 'bg-white border-slate-200'
                   )}
+                  style={{
+                    boxShadow: theme === 'dark'
+                      ? '0 0 20px rgba(34, 211, 238, 0.2), inset 0 0 20px rgba(34, 211, 238, 0.05)'
+                      : '0 4px 6px -1px rgba(0, 0, 0, 0.1)'
+                  }}
+                >
+                  <div className="flex items-center gap-3">
+                    {/* 仪表盘圆形 */}
+                    <div className="relative flex-shrink-0" style={{ width: '100px', height: '100px' }}>
+                      <svg viewBox="0 0 100 100" className="w-full h-full">
+                        {/* 背景圆 */}
+                        <circle
+                          cx="50"
+                          cy="50"
+                          r="42"
+                          fill="none"
+                          stroke={theme === 'dark' ? '#1e293b' : '#f1f5f9'}
+                          strokeWidth="8"
+                        />
+                        {/* 刻度线 */}
+                        {[...Array(12)].map((_, i) => {
+                          const angle = (i * 30 - 90) * (Math.PI / 180)
+                          const innerR = 35
+                          const outerR = 42
+                          const x1 = 50 + innerR * Math.cos(angle)
+                          const y1 = 50 + innerR * Math.sin(angle)
+                          const x2 = 50 + outerR * Math.cos(angle)
+                          const y2 = 50 + outerR * Math.sin(angle)
+                          return (
+                            <line
+                              key={i}
+                              x1={x1}
+                              y1={y1}
+                              x2={x2}
+                              y2={y2}
+                              stroke={theme === 'dark' ? '#334155' : '#cbd5e1'}
+                              strokeWidth="1"
+                            />
+                          )
+                        })}
+                        {/* 进度弧线 - 目标始终100% */}
+                        <circle
+                          cx="50"
+                          cy="50"
+                          r="42"
+                          fill="none"
+                          stroke="#22d3ee"
+                          strokeWidth="6"
+                          strokeLinecap="round"
+                          strokeDasharray="264"
+                          strokeDashoffset="0"
+                          style={{
+                            filter: 'drop-shadow(0 0 6px rgba(34, 211, 238, 0.6))'
+                          }}
+                        />
+                        {/* 指针 */}
+                        <g transform={`translate(50, 50)`}>
+                          <line
+                            x1="0"
+                            y1="0"
+                            x2="0"
+                            y2="-35"
+                            stroke="#f97316"
+                            strokeWidth="2"
+                            style={{
+                              transform: `rotate(135deg)`,
+                              transformOrigin: '0 0',
+                              filter: 'drop-shadow(0 0 4px rgba(249, 115, 22, 0.8))'
+                            }}
+                          />
+                          <circle cx="0" cy="0" r="4" fill="#22d3ee" />
+                        </g>
+                      </svg>
+                      {/* 中心数值 */}
+                      <div className="absolute inset-0 flex flex-col items-center justify-center">
+                        <span className="text-2xl font-bold text-cyan-400" style={{ textShadow: '0 0 10px rgba(34, 211, 238, 0.8)' }}>
+                          100%
+                        </span>
+                      </div>
+                    </div>
+                    {/* 右侧数值 */}
+                    <div className="flex-1">
+                      <div className="text-xs text-slate-500 mb-1">目标</div>
+                      <div className="text-2xl font-bold text-orange-400" style={{ textShadow: '0 0 8px rgba(251, 146, 60, 0.6)' }}>
+                        {data.target.toLocaleString()}
+                        <span className="text-sm text-slate-500 ml-1">万</span>
+                      </div>
+                    </div>
+                  </div>
                 </div>
               </div>
 
-              {/* 迷你趋势图 */}
-              <div className="h-24 mt-3">
-                <ResponsiveContainer width="100%" height="100%">
-                  <LineChart data={data.trendData.slice(0, 2)}>
-                    <CartesianGrid strokeDasharray="2 2" stroke={theme === 'dark' ? '#334155' : '#e2e8f0'} />
-                    <XAxis
-                      dataKey="month"
-                      stroke={theme === 'dark' ? '#94a3b8' : '#64748b'}
-                      tick={{ fontSize: 10 }}
-                      axisLine={false}
-                      tickLine={false}
-                    />
-                    <YAxis
-                      stroke={theme === 'dark' ? '#94a3b8' : '#64748b'}
-                      tick={{ fontSize: 10 }}
-                      axisLine={false}
-                      tickLine={false}
-                    />
-                    <RechartsTooltip content={<MiniChartTooltip />} />
-                    {/* 目标线 - 虚线 */}
-                    <Line
-                      dataKey="target"
-                      stroke="#94a3b8"
-                      strokeWidth={1.5}
-                      strokeDasharray="4 4"
-                      name="目标"
-                      dot={false}
-                    />
-                    {/* 预测线 - 实线 */}
-                    <Line
-                      dataKey="forecast"
-                      stroke="#3b82f6"
-                      strokeWidth={2}
-                      name="预测"
-                      dot={{ fill: '#3b82f6', r: 3 }}
-                    />
-                  </LineChart>
-                </ResponsiveContainer>
+              {/* 仪表盘2 - 预测完成 */}
+              <div className="relative">
+                <div
+                  className={cn(
+                    'rounded-xl border-2 p-3 transition-all duration-300',
+                    theme === 'dark'
+                      ? 'bg-gradient-to-br from-slate-900/90 to-slate-800/90 border-cyan-500/40'
+                      : 'bg-white border-cyan-200'
+                  )}
+                  style={{
+                    boxShadow: theme === 'dark'
+                      ? '0 0 25px rgba(34, 211, 238, 0.3), inset 0 0 20px rgba(34, 211, 238, 0.08)'
+                      : '0 4px 6px -1px rgba(0, 0, 0, 0.1)'
+                  }}
+                >
+                  <div className="flex items-center gap-3">
+                    {/* 仪表盘圆形 */}
+                    <div className="relative flex-shrink-0" style={{ width: '100px', height: '100px' }}>
+                      <svg viewBox="0 0 100 100" className="w-full h-full">
+                        {/* 背景圆 */}
+                        <circle
+                          cx="50"
+                          cy="50"
+                          r="42"
+                          fill="none"
+                          stroke={theme === 'dark' ? '#1e293b' : '#f1f5f9'}
+                          strokeWidth="8"
+                        />
+                        {/* 刻度线 */}
+                        {[...Array(12)].map((_, i) => {
+                          const angle = (i * 30 - 90) * (Math.PI / 180)
+                          const innerR = 35
+                          const outerR = 42
+                          const x1 = 50 + innerR * Math.cos(angle)
+                          const y1 = 50 + innerR * Math.sin(angle)
+                          const x2 = 50 + outerR * Math.cos(angle)
+                          const y2 = 50 + outerR * Math.sin(angle)
+                          return (
+                            <line
+                              key={i}
+                              x1={x1}
+                              y1={y1}
+                              x2={x2}
+                              y2={y2}
+                              stroke={theme === 'dark' ? '#334155' : '#cbd5e1'}
+                              strokeWidth="1"
+                            />
+                          )
+                        })}
+                        {/* 进度弧线 */}
+                        <circle
+                          cx="50"
+                          cy="50"
+                          r="42"
+                          fill="none"
+                          stroke="#22d3ee"
+                          strokeWidth="6"
+                          strokeLinecap="round"
+                          strokeDasharray="264"
+                          strokeDashoffset={264 - (264 * Math.min(data.achievementRate, 100) / 100)}
+                          style={{
+                            filter: 'drop-shadow(0 0 8px rgba(34, 211, 238, 0.8))',
+                            transition: 'stroke-dashoffset 0.5s ease-out'
+                          }}
+                        />
+                        {/* 指针 */}
+                        <g transform={`translate(50, 50)`}>
+                          <line
+                            x1="0"
+                            y1="0"
+                            x2="0"
+                            y2="-35"
+                            stroke="#22d3ee"
+                            strokeWidth="3"
+                            style={{
+                              transform: `rotate(${(Math.min(data.achievementRate, 100) / 100) * 180 - 90}deg)`,
+                              transformOrigin: '0 0',
+                              filter: 'drop-shadow(0 0 6px rgba(34, 211, 238, 1))'
+                            }}
+                          />
+                          <circle cx="0" cy="0" r="5" fill="#22d3ee" style={{ filter: 'drop-shadow(0 0 4px rgba(34, 211, 238, 0.8))' }} />
+                        </g>
+                      </svg>
+                      {/* 中心数值 */}
+                      <div className="absolute inset-0 flex flex-col items-center justify-center">
+                        <span className={cn(
+                          'text-2xl font-bold',
+                          data.achievementRate >= 90 ? 'text-green-400' : data.achievementRate >= 70 ? 'text-yellow-400' : 'text-red-400'
+                        )} style={{ textShadow: `0 0 10px ${data.achievementRate >= 90 ? 'rgba(74, 222, 128, 0.8)' : data.achievementRate >= 70 ? 'rgba(250, 204, 21, 0.8)' : 'rgba(248, 113, 113, 0.8)'}` }}>
+                          {data.achievementRate}%
+                        </span>
+                      </div>
+                    </div>
+                    {/* 右侧数值 */}
+                    <div className="flex-1">
+                      <div className="text-xs text-slate-500 mb-1">预测完成</div>
+                      <div className={cn(
+                        'text-2xl font-bold',
+                        data.forecast >= data.target ? 'text-green-400' : 'text-yellow-400'
+                      )} style={{ textShadow: data.forecast >= data.target ? '0 0 8px rgba(74, 222, 128, 0.6)' : '0 0 8px rgba(250, 204, 21, 0.6)' }}>
+                        {data.forecast.toLocaleString()}
+                        <span className="text-sm text-slate-500 ml-1">万</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
               </div>
-            </div>
 
-            {/* 小提示 */}
-            <div className="mt-2 text-center">
-              <p className={cn('text-xs', theme === 'dark' ? 'text-slate-500' : 'text-slate-500')}>
-                目标 {data.target.toLocaleString()}万
-              </p>
+              {/* 仪表盘3 - 缺口 */}
+              <div className="relative">
+                <div
+                  className={cn(
+                    'rounded-xl border-2 p-3 transition-all duration-300',
+                    data.gap <= 0
+                      ? theme === 'dark'
+                        ? 'bg-gradient-to-br from-green-900/20 to-slate-900/90 border-green-500/40'
+                        : 'bg-white border-green-200'
+                      : theme === 'dark'
+                        ? 'bg-gradient-to-br from-red-900/20 to-slate-900/90 border-red-500/40'
+                        : 'bg-white border-red-200'
+                  )}
+                  style={{
+                    boxShadow: data.gap <= 0
+                      ? theme === 'dark'
+                        ? '0 0 25px rgba(74, 222, 128, 0.3), inset 0 0 20px rgba(74, 222, 128, 0.08)'
+                        : '0 4px 6px -1px rgba(0, 0, 0, 0.1)'
+                      : theme === 'dark'
+                        ? '0 0 25px rgba(248, 113, 113, 0.3), inset 0 0 20px rgba(248, 113, 113, 0.08)'
+                        : '0 4px 6px -1px rgba(0, 0, 0, 0.1)'
+                  }}
+                >
+                  <div className="flex items-center gap-3">
+                    {/* 仪表盘圆形 */}
+                    <div className="relative flex-shrink-0" style={{ width: '100px', height: '100px' }}>
+                      <svg viewBox="0 0 100 100" className="w-full h-full">
+                        {/* 背景圆 */}
+                        <circle
+                          cx="50"
+                          cy="50"
+                          r="42"
+                          fill="none"
+                          stroke={theme === 'dark' ? '#1e293b' : '#f1f5f9'}
+                          strokeWidth="8"
+                        />
+                        {/* 刻度线 */}
+                        {[...Array(12)].map((_, i) => {
+                          const angle = (i * 30 - 90) * (Math.PI / 180)
+                          const innerR = 35
+                          const outerR = 42
+                          const x1 = 50 + innerR * Math.cos(angle)
+                          const y1 = 50 + innerR * Math.sin(angle)
+                          const x2 = 50 + outerR * Math.cos(angle)
+                          const y2 = 50 + outerR * Math.sin(angle)
+                          return (
+                            <line
+                              key={i}
+                              x1={x1}
+                              y1={y1}
+                              x2={x2}
+                              y2={y2}
+                              stroke={theme === 'dark' ? '#334155' : '#cbd5e1'}
+                              strokeWidth="1"
+                            />
+                          )
+                        })}
+                        {/* 进度弧线 */}
+                        <circle
+                          cx="50"
+                          cy="50"
+                          r="42"
+                          fill="none"
+                          stroke={data.gap <= 0 ? '#4ade80' : '#f87171'}
+                          strokeWidth="6"
+                          strokeLinecap="round"
+                          strokeDasharray="264"
+                          strokeDashoffset={data.gap <= 0 ? '0' : '264'}
+                          style={{
+                            filter: data.gap <= 0 ? 'drop-shadow(0 0 8px rgba(74, 222, 128, 0.8))' : 'drop-shadow(0 0 8px rgba(248, 113, 113, 0.8))',
+                            transition: 'stroke-dashoffset 0.5s ease-out'
+                          }}
+                        />
+                        {/* 指针 */}
+                        <g transform={`translate(50, 50)`}>
+                          <line
+                            x1="0"
+                            y1="0"
+                            x2="0"
+                            y2="-35"
+                            stroke={data.gap <= 0 ? '#4ade80' : '#f87171'}
+                            strokeWidth="3"
+                            style={{
+                              transform: data.gap <= 0 ? `rotate(135deg)` : `rotate(-135deg)`,
+                              transformOrigin: '0 0',
+                              filter: data.gap <= 0 ? 'drop-shadow(0 0 6px rgba(74, 222, 128, 1))' : 'drop-shadow(0 0 6px rgba(248, 113, 113, 1))'
+                            }}
+                          />
+                          <circle
+                            cx="0"
+                            cy="0"
+                            r="5"
+                            fill={data.gap <= 0 ? '#4ade80' : '#f87171'}
+                            style={{ filter: data.gap <= 0 ? 'drop-shadow(0 0 4px rgba(74, 222, 128, 0.8))' : 'drop-shadow(0 0 4px rgba(248, 113, 113, 0.8))' }}
+                          />
+                        </g>
+                      </svg>
+                      {/* 中心数值 */}
+                      <div className="absolute inset-0 flex flex-col items-center justify-center">
+                        {data.gap <= 0 ? (
+                          <span className="text-lg font-bold text-green-400 flex items-center gap-1" style={{ textShadow: '0 0 10px rgba(74, 222, 128, 0.8)' }}>
+                            <ArrowUp className="w-4 h-4" />
+                            超额
+                          </span>
+                        ) : (
+                          <span className="text-lg font-bold text-red-400 flex items-center gap-1" style={{ textShadow: '0 0 10px rgba(248, 113, 113, 0.8)' }}>
+                            <ArrowDown className="w-4 h-4" />
+                            缺口
+                          </span>
+                        )}
+                      </div>
+                    </div>
+                    {/* 右侧数值 */}
+                    <div className="flex-1">
+                      <div className="text-xs text-slate-500 mb-1">{data.gap <= 0 ? '超额' : '缺口'}</div>
+                      <div className={cn(
+                        'text-2xl font-bold',
+                        data.gap <= 0 ? 'text-green-400' : 'text-red-400'
+                      )} style={{ textShadow: data.gap <= 0 ? '0 0 8px rgba(74, 222, 128, 0.6)' : '0 0 8px rgba(248, 113, 113, 0.6)' }}>
+                        {data.gap <= 0 ? '+' : ''}{data.gap.toLocaleString()}
+                        <span className="text-sm text-slate-500 ml-1">万</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
 
