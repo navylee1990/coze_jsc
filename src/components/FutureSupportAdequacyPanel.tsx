@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { ArrowUp, ArrowDown, ArrowRight, AlertTriangle, CheckCircle2, XCircle, TrendingUp, Activity, Clock, Target, DollarSign, Zap, Flame, Lightbulb, Compass, BarChart3, ChevronDown, MapPin } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, ResponsiveContainer, Tooltip as RechartsTooltip } from 'recharts';
+import ProjectExclusionList from '@/components/ProjectExclusionList';
 
 // 主题类型
 type Theme = 'dark' | 'dashboard';
@@ -31,6 +32,16 @@ interface SupportLevel {
     isNew?: boolean;
     isDelayed?: boolean;
     isRisk?: boolean;
+  }[];
+  excludedProjects?: {
+    id: number;
+    name: string;
+    amount: number;
+    excludeReason: 'progress_low' | 'delayed' | 'pending_approval' | 'risk_high' | 'not_confirmed';
+    excludeReasonText: string;
+    currentProgress: number;
+    expectedProgress: number;
+    probability: 'high' | 'medium' | 'low';
   }[];
 }
 
@@ -146,6 +157,28 @@ const regionData: RegionData = {
           isOnTrack: false,
           delayDays: 12
         }
+      ],
+      excludedProjects: [
+        {
+          id: 101,
+          name: '天津天河城净水项目',
+          amount: 280,
+          excludeReason: 'progress_low',
+          excludeReasonText: '项目进度滞后，仅完成35%进度',
+          currentProgress: 35,
+          expectedProgress: 80,
+          probability: 'high'
+        },
+        {
+          id: 102,
+          name: '广州白云机场航站楼项目',
+          amount: 200,
+          excludeReason: 'pending_approval',
+          excludeReasonText: '商务合同待审批，预计下周完成',
+          currentProgress: 60,
+          expectedProgress: 70,
+          probability: 'high'
+        }
       ]
     },
     '1-3月': {
@@ -182,6 +215,18 @@ const regionData: RegionData = {
           isOnTrack: false,
           delayDays: 8
         }
+      ],
+      excludedProjects: [
+        {
+          id: 103,
+          name: '重庆环球金融中心项目',
+          amount: 150,
+          excludeReason: 'delayed',
+          excludeReasonText: '客户决策延迟，商务谈判暂停',
+          currentProgress: 40,
+          expectedProgress: 60,
+          probability: 'medium'
+        }
       ]
     },
     '3-6月': {
@@ -211,7 +256,8 @@ const regionData: RegionData = {
           isOnTrack: false,
           isRisk: true
         }
-      ]
+      ],
+      excludedProjects: []
     }
   },
   diagnosticIssues: [
@@ -1196,6 +1242,7 @@ export default function FutureSupportAdequacyPanel({
 }: FutureSupportAdequacyPanelProps) {
   // 区域选择状态
   const [selectedRegion, setSelectedRegion] = useState<Region>(defaultRegion);
+  const [collapsedPeriods, setCollapsedPeriods] = useState<Set<string>>(new Set());
 
   // 合并默认数据和自定义数据
   const allRegionData = { ...regionData, ...customData };
@@ -1581,6 +1628,26 @@ export default function FutureSupportAdequacyPanel({
                       </div>
                     ))}
                   </div>
+
+                  {/* 未统计项目列表 */}
+                  {(level.excludedProjects && level.excludedProjects.length > 0) && (
+                    <ProjectExclusionList
+                      excludedProjects={level.excludedProjects}
+                      theme={theme}
+                      collapsed={collapsedPeriods.has(period)}
+                      onToggle={() => {
+                        setCollapsedPeriods(prev => {
+                          const newSet = new Set(prev);
+                          if (newSet.has(period)) {
+                            newSet.delete(period);
+                          } else {
+                            newSet.add(period);
+                          }
+                          return newSet;
+                        });
+                      }}
+                    />
+                  )}
                 </div>
               );
             })}
