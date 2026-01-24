@@ -61,13 +61,14 @@ const riskData = {
 };
 
 // 预测趋势图数据
+// 业务目标通常略高于财务目标（约高5-8%），用于内部激励
 const forecastTrendData = [
-  { month: '1月', businessTarget: 1500, financialTarget: 1500, completed: 800, forecast: 1140 },
-  { month: '2月', businessTarget: 1500, financialTarget: 1500, completed: 0, forecast: 1180 },
-  { month: '3月', businessTarget: 1500, financialTarget: 1500, completed: 0, forecast: 1120 },
-  { month: '4月', businessTarget: 1500, financialTarget: 1500, completed: 0, forecast: 1160 },
-  { month: '5月', businessTarget: 1500, financialTarget: 1500, completed: 0, forecast: 1140 },
-  { month: '6月', businessTarget: 1500, financialTarget: 1500, completed: 0, forecast: 1200 },
+  { month: '1月', businessTarget: 1580, financialTarget: 1500, completed: 800, forecast: 1140 },
+  { month: '2月', businessTarget: 1580, financialTarget: 1500, completed: 0, forecast: 1180 },
+  { month: '3月', businessTarget: 1580, financialTarget: 1500, completed: 0, forecast: 1120 },
+  { month: '4月', businessTarget: 1580, financialTarget: 1500, completed: 0, forecast: 1160 },
+  { month: '5月', businessTarget: 1580, financialTarget: 1500, completed: 0, forecast: 1140 },
+  { month: '6月', businessTarget: 1580, financialTarget: 1500, completed: 0, forecast: 1200 },
 ];
 
 // 大区维度数据
