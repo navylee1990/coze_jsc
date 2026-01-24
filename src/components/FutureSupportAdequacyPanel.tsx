@@ -1749,8 +1749,8 @@ export default function FutureSupportAdequacyPanel({
                       <span className={cn(
                         'text-xs font-medium px-2 py-0.5 rounded-full',
                         theme === 'dashboard'
-                          ? 'bg-orange-500/30 text-orange-300 border border-orange-500/30'
-                          : 'bg-orange-100 text-orange-700'
+                          ? 'bg-yellow-500/30 text-yellow-300 border border-yellow-500/30'
+                          : 'bg-yellow-100 text-yellow-700'
                       )}>
                         需新开发{newDevNeeded.toFixed(0)}万
                       </span>
@@ -1869,18 +1869,6 @@ export default function FutureSupportAdequacyPanel({
                           {totalCoverage}%
                         </span>
                       </div>
-                      {/* 需要新开发项目 */}
-                      {newDevNeeded > 0 && (
-                        <div className="flex justify-between text-xs">
-                          <span className={cn(theme === 'dashboard' ? 'text-cyan-400/60' : 'text-slate-500')}>需新开发</span>
-                          <span className={cn(
-                            'font-semibold text-purple-400',
-                            theme === 'dashboard' ? 'text-purple-300' : 'text-purple-600'
-                          )}>
-                            {newDevNeeded}万
-                          </span>
-                        </div>
-                      )}
                       {/* 不达标大区 */}
                       {underachievingRegions.length > 0 && (
                         <div className="flex justify-between text-xs">
