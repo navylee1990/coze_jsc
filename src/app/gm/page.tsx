@@ -33,17 +33,17 @@ const DASHBOARD_STYLES = {
 const forecastOverviewData = {
   currentMonth: {
     target: 1500,
-    forecast: 1350,
+    forecast: 1140, // 76%达成率: 1500 * 0.76 = 1140
     completed: 800
   },
   threeMonth: {
     target: 4500,
-    forecast: 4200,
+    forecast: 3420, // 76%达成率: 4500 * 0.76 = 3420
     completed: 2400
   },
   sixMonth: {
     target: 9000,
-    forecast: 8500,
+    forecast: 6840, // 76%达成率: 9000 * 0.76 = 6840
     completed: 4800
   }
 };
@@ -543,6 +543,17 @@ export default function GMDashboard() {
 
                 {/* 仪表盘2 - 预测完成 */}
                 <div className="relative">
+                  {/* 警告角标 - 根据达成率显示颜色 */}
+                  {parseFloat(getAchievementRate()) < 100 && (
+                    <div className="absolute -top-2 -right-2 z-10">
+                      <div className="relative">
+                        <div className={`absolute inset-0 ${parseFloat(getAchievementRate()) >= 80 ? 'bg-yellow-500' : 'bg-red-500'} rounded-full blur-sm animate-pulse`}></div>
+                        <div className={`relative ${parseFloat(getAchievementRate()) >= 80 ? 'bg-yellow-500' : 'bg-red-500'} rounded-full p-1 shadow-lg`}>
+                          <AlertTriangle className={`w-4 h-4 ${parseFloat(getAchievementRate()) >= 80 ? 'text-yellow-900' : 'text-red-900'}`} />
+                        </div>
+                      </div>
+                    </div>
+                  )}
                   <div
                     className="rounded-xl border-2 p-3 transition-all duration-300 bg-gradient-to-br from-slate-900/90 to-slate-800/90 border-cyan-500/40"
                     style={{
@@ -644,13 +655,13 @@ export default function GMDashboard() {
 
                 {/* 仪表盘3 - 缺口 */}
                 <div className="relative">
-                  {/* 黄色感叹号角标 - 只在缺口时显示 */}
+                  {/* 警告角标 - 根据缺口比例显示颜色 */}
                   {getGap() > 0 && (
                     <div className="absolute -top-2 -right-2 z-10">
                       <div className="relative">
-                        <div className="absolute inset-0 bg-yellow-500 rounded-full blur-sm animate-pulse"></div>
-                        <div className="relative bg-yellow-500 rounded-full p-1 shadow-lg">
-                          <AlertTriangle className="w-4 h-4 text-yellow-900" />
+                        <div className={`absolute inset-0 ${(getGap() / getTimeRangeData().target) * 100 <= 20 ? 'bg-yellow-500' : 'bg-red-500'} rounded-full blur-sm animate-pulse`}></div>
+                        <div className={`relative ${(getGap() / getTimeRangeData().target) * 100 <= 20 ? 'bg-yellow-500' : 'bg-red-500'} rounded-full p-1 shadow-lg`}>
+                          <AlertTriangle className={`w-4 h-4 ${(getGap() / getTimeRangeData().target) * 100 <= 20 ? 'text-yellow-900' : 'text-red-900'}`} />
                         </div>
                       </div>
                     </div>
