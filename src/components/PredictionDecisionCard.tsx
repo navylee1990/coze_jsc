@@ -755,8 +755,8 @@ export default function PredictionDecisionCard({
             </div>
           </div>
 
-          {/* 中间（35%）：支撑性驱动因子 */}
-          <div className="col-span-4">
+          {/* 中间（42%）：支撑性驱动因子 */}
+          <div className="col-span-5">
             <div className={cn('h-full rounded-lg p-3', theme === 'dark' ? 'bg-slate-800/50' : 'bg-slate-50')}>
               <div className="flex items-center justify-between mb-3">
                 <h4 className="font-semibold text-sm text-slate-900 flex items-center gap-1.5">
@@ -864,8 +864,8 @@ export default function PredictionDecisionCard({
             </div>
           </div>
 
-          {/* 中右（30%）：风险因子 */}
-          <div className="col-span-3">
+          {/* 中右（33%）：风险因子 */}
+          <div className="col-span-4">
             <div className={cn('h-full rounded-lg p-3', theme === 'dark' ? 'bg-slate-800/50' : 'bg-slate-50')}>
               <div className="flex items-center justify-between mb-3">
                 <h4 className="font-semibold text-sm text-slate-900 flex items-center gap-1.5">
@@ -924,63 +924,6 @@ export default function PredictionDecisionCard({
                       </TooltipContent>
                     )}
                   </Tooltip>
-                ))}
-              </div>
-            </div>
-          </div>
-
-          {/* 右侧（15%）：管理动作建议 */}
-          <div className="col-span-2">
-            <div
-              className={cn(
-                'h-full rounded-lg p-3 border-2',
-                theme === 'dark' ? 'bg-gradient-to-br from-orange-600/10 to-red-600/10 border-orange-500/30' : 'bg-gradient-to-br from-orange-50 to-red-50 border-orange-300'
-              )}
-            >
-              <div className="flex items-center justify-between mb-3">
-                <h4 className="font-bold text-sm text-orange-600 flex items-center gap-1.5">
-                  <Zap className="w-4 h-4" />
-                  ⚡ 行动建议
-                </h4>
-              </div>
-
-              <div className="space-y-2">
-                {data.actionItems.map((action, index) => (
-                  <div
-                    key={index}
-                    className={cn(
-                      'cursor-pointer rounded p-2 transition-all hover:shadow-md',
-                      getActionBorderColor(action.priority),
-                      theme === 'dark' ? 'bg-slate-800/50 hover:bg-slate-700/50' : 'bg-white hover:bg-orange-50',
-                      action.link && 'hover:translate-x-0.5'
-                    )}
-                    onClick={() => {
-                      if (action.link && onActionClick) {
-                        onActionClick(action);
-                      }
-                    }}
-                  >
-                    <div className="flex items-start gap-1.5">
-                      <div className="flex-shrink-0 mt-0.5">
-                        {getActionIcon(action.icon)}
-                      </div>
-                      <div className="flex-1 min-w-0">
-                        <p className="text-xs text-slate-700 leading-relaxed mb-1">
-                          {action.text}
-                        </p>
-                        {action.impact && (
-                          <div className="text-[10px] text-slate-500">
-                            预计影响：{action.impact}
-                          </div>
-                        )}
-                      </div>
-                    </div>
-                    {action.link && (
-                      <div className="flex items-center justify-end mt-1">
-                        <ChevronRight className="w-3 h-3 text-slate-400" />
-                      </div>
-                    )}
-                  </div>
                 ))}
               </div>
             </div>
