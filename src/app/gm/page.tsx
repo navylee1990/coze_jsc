@@ -803,14 +803,14 @@ export default function GMDashboard() {
                     <span className="text-xs font-semibold text-cyan-400">趋势图例</span>
                     <span className="text-xs text-cyan-300/60">1-{currentMonth}月实绩 · {currentMonth + 1}-6月预测</span>
                   </div>
-                  <div className="flex items-center gap-5 flex-wrap">
+                  <div className="flex items-center gap-4 flex-wrap">
                     {/* 实绩图例 */}
                     <div className="flex items-center gap-2">
                       <div className="flex items-center gap-0.5">
                         <div className="w-6 h-0.5 bg-green-500 rounded-full"></div>
                         <div className="w-3 h-3 rounded-full bg-green-500 border-2 border-white"></div>
                       </div>
-                      <span className="text-xs text-cyan-300/80">实绩（已完成）</span>
+                      <span className="text-xs text-cyan-300/80">实绩</span>
                     </div>
                     {/* 预测图例 */}
                     <div className="flex items-center gap-2">
@@ -818,15 +818,18 @@ export default function GMDashboard() {
                         <div className="w-6 h-0.5 bg-cyan-400 rounded-full" style={{ background: 'repeating-linear-gradient(90deg, #22d3ee 0, #22d3ee 8px, transparent 8px, transparent 13px)' }}></div>
                         <div className="w-3 h-3 rounded-full bg-cyan-400 border-2 border-sky-500"></div>
                       </div>
-                      <span className="text-xs text-cyan-300/80">预测（预计）</span>
+                      <span className="text-xs text-cyan-300/80">预测</span>
                     </div>
                     {/* 缺口区域图例 */}
                     <div className="flex items-center gap-2">
                       <div className="flex items-center gap-0.5">
-                        <div className="w-6 h-3 bg-red-500/25 rounded-sm"></div>
+                        <div className="w-6 h-3 bg-red-500/60 rounded-sm"></div>
                       </div>
                       <span className="text-xs text-cyan-300/80">缺口区域</span>
                     </div>
+                  </div>
+                  <div className="mt-2 pt-2 border-t border-cyan-500/10 text-xs text-cyan-300/50">
+                    💡 红色区域 = 目标与预测的差距，红色越高表示缺口越大
                   </div>
                 </div>
 
@@ -834,10 +837,15 @@ export default function GMDashboard() {
                   <ResponsiveContainer width="100%" height="100%">
                     <LineChart data={forecastTrendData}>
                       <defs>
-                        {/* 缺口区域填充 - 红色渐变，从预测线到目标线 */}
+                        {/* 缺口区域填充 - 红色渐变，增强可见性 */}
                         <linearGradient id="colorGap" x1="0" y1="0" x2="0" y2="1">
-                          <stop offset="0%" stopColor="#ef4444" stopOpacity={0.5}/>
-                          <stop offset="100%" stopColor="#ef4444" stopOpacity={0.2}/>
+                          <stop offset="0%" stopColor="#ef4444" stopOpacity={0.6}/>
+                          <stop offset="100%" stopColor="#ef4444" stopOpacity={0.3}/>
+                        </linearGradient>
+                        {/* 预测区域填充 - 青色渐变 */}
+                        <linearGradient id="colorForecast" x1="0" y1="0" x2="0" y2="1">
+                          <stop offset="0%" stopColor="#22d3ee" stopOpacity={0.4}/>
+                          <stop offset="100%" stopColor="#22d3ee" stopOpacity={0.1}/>
                         </linearGradient>
                         {/* 已完成区域填充 */}
                         <linearGradient id="colorCompleted" x1="0" y1="0" x2="0" y2="1">
@@ -890,14 +898,22 @@ export default function GMDashboard() {
                         label={{ value: '当前', position: 'topLeft', fill: '#22d3ee', fontSize: 10, fontWeight: 'bold' }}
                       />
 
-                      {/* 缺口区域 - 使用businessTarget填充，表示目标线 */}
+                      {/* 目标区域填充 - 红色，表示业务目标范围 */}
                       <Area
                         type="monotone"
                         dataKey="businessTarget"
                         stroke="none"
                         fill="url(#colorGap)"
-                        name="缺口区域"
-                        opacity={0.6}
+                        name="目标区域"
+                      />
+
+                      {/* 预测区域填充 - 青色，表示预测完成范围 */}
+                      <Area
+                        type="monotone"
+                        dataKey="forecast"
+                        stroke="none"
+                        fill="url(#colorForecast)"
+                        name="预测区域"
                       />
 
                       {/* 业务目标线 - 蓝色 */}
@@ -905,10 +921,9 @@ export default function GMDashboard() {
                         type="monotone"
                         dataKey="businessTarget"
                         stroke="#3b82f6"
-                        strokeWidth={2}
-                        dot={{ r: 2, fill: '#3b82f6' }}
+                        strokeWidth={2.5}
+                        dot={{ r: 3, fill: '#3b82f6' }}
                         name="业务目标"
-                        opacity={0.7}
                       />
 
                       {/* 财务目标线 - 紫色 */}
@@ -945,7 +960,7 @@ export default function GMDashboard() {
                         type="monotone"
                         dataKey="forecast"
                         stroke="#22d3ee"
-                        strokeWidth={2.5}
+                        strokeWidth={3}
                         strokeDasharray="8 5"
                         dot={(props: any) => {
                           const monthIndex = props.payload?.monthIndex;
@@ -954,7 +969,7 @@ export default function GMDashboard() {
                           if (isPast) {
                             return <circle r={0} />;
                           }
-                          return <circle r={4} fill="#22d3ee" strokeWidth={2} stroke="#0ea5e9" />;
+                          return <circle r={5} fill="#22d3ee" strokeWidth={2} stroke="#0ea5e9" />;
                         }}
                         name="预计完成"
                       />
