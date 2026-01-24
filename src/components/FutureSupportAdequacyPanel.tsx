@@ -1651,7 +1651,6 @@ export default function FutureSupportAdequacyPanel({
             )}
           />
           <div className="flex items-center gap-2">
-            <span className={cn('text-xs', theme === 'dashboard' ? 'text-cyan-400/70' : 'text-slate-600')}>驾驶舱模式</span>
             <BarChart3 className={cn('w-4 h-4', theme === 'dashboard' ? 'text-cyan-400' : 'text-slate-600')} />
           </div>
         </div>
