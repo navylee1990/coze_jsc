@@ -797,23 +797,36 @@ export default function GMDashboard() {
               {/* 趋势图表 */}
               <div className="bg-slate-800/30 rounded-xl p-4 border border-cyan-400/10">
                 {/* 缺口统计 */}
-                <div className="flex items-center justify-between mb-3 px-1">
-                  <div className="flex items-center gap-4">
-                    <div className="flex items-center gap-1.5">
-                      <div className="w-3 h-3 rounded-full bg-green-500"></div>
-                      <span className="text-xs text-cyan-300/70">实绩</span>
-                    </div>
-                    <div className="flex items-center gap-1.5">
-                      <div className="w-3 h-3 rounded-full bg-cyan-400"></div>
-                      <span className="text-xs text-cyan-300/70">预测</span>
-                    </div>
-                    <div className="flex items-center gap-1.5">
-                      <div className="w-3 h-3 rounded bg-red-500/40"></div>
-                      <span className="text-xs text-cyan-300/70">缺口区域</span>
-                    </div>
+                {/* 图例说明 - 更明显、更详细 */}
+                <div className="mb-3 px-2 py-2 rounded-lg bg-slate-800/40 border border-cyan-500/10">
+                  <div className="flex items-center justify-between mb-2">
+                    <span className="text-xs font-semibold text-cyan-400">趋势图例</span>
+                    <span className="text-xs text-cyan-300/60">1-{currentMonth}月实绩 · {currentMonth + 1}-6月预测</span>
                   </div>
-                  <div className="text-xs text-cyan-400/80">
-                    1-{currentMonth}月实绩
+                  <div className="flex items-center gap-5 flex-wrap">
+                    {/* 实绩图例 */}
+                    <div className="flex items-center gap-2">
+                      <div className="flex items-center gap-0.5">
+                        <div className="w-6 h-0.5 bg-green-500 rounded-full"></div>
+                        <div className="w-3 h-3 rounded-full bg-green-500 border-2 border-white"></div>
+                      </div>
+                      <span className="text-xs text-cyan-300/80">实绩（已完成）</span>
+                    </div>
+                    {/* 预测图例 */}
+                    <div className="flex items-center gap-2">
+                      <div className="flex items-center gap-0.5">
+                        <div className="w-6 h-0.5 bg-cyan-400 rounded-full" style={{ background: 'repeating-linear-gradient(90deg, #22d3ee 0, #22d3ee 8px, transparent 8px, transparent 13px)' }}></div>
+                        <div className="w-3 h-3 rounded-full bg-cyan-400 border-2 border-sky-500"></div>
+                      </div>
+                      <span className="text-xs text-cyan-300/80">预测（预计）</span>
+                    </div>
+                    {/* 缺口区域图例 */}
+                    <div className="flex items-center gap-2">
+                      <div className="flex items-center gap-0.5">
+                        <div className="w-6 h-3 bg-red-500/25 rounded-sm"></div>
+                      </div>
+                      <span className="text-xs text-cyan-300/80">缺口区域</span>
+                    </div>
                   </div>
                 </div>
 
