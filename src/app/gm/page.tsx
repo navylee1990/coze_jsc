@@ -63,14 +63,14 @@ const riskData = {
 // 预测趋势图数据
 // 当前时间：2026-1-24，所以只有1月有已完成数据
 // 财务目标比业务目标小20%: 1500 * 0.8 = 1200
-// 预测完成一般达不到财务目标（1200万以下）
+// 预测完成比财务目标低15%~30%: 1200 * (0.7~0.85) = 840~1020万
 const forecastTrendData = [
-  { month: '1月', businessTarget: 1500, financialTarget: 1200, completed: 800, forecast: 1140 },
-  { month: '2月', businessTarget: 1500, financialTarget: 1200, completed: null, forecast: 1180 },
-  { month: '3月', businessTarget: 1500, financialTarget: 1200, completed: null, forecast: 1150 },
-  { month: '4月', businessTarget: 1500, financialTarget: 1200, completed: null, forecast: 1170 },
-  { month: '5月', businessTarget: 1500, financialTarget: 1200, completed: null, forecast: 1160 },
-  { month: '6月', businessTarget: 1500, financialTarget: 1200, completed: null, forecast: 1190 },
+  { month: '1月', businessTarget: 1500, financialTarget: 1200, completed: 800, forecast: 900 },
+  { month: '2月', businessTarget: 1500, financialTarget: 1200, completed: null, forecast: 950 },
+  { month: '3月', businessTarget: 1500, financialTarget: 1200, completed: null, forecast: 880 },
+  { month: '4月', businessTarget: 1500, financialTarget: 1200, completed: null, forecast: 920 },
+  { month: '5月', businessTarget: 1500, financialTarget: 1200, completed: null, forecast: 960 },
+  { month: '6月', businessTarget: 1500, financialTarget: 1200, completed: null, forecast: 910 },
 ];
 
 // 大区维度数据
