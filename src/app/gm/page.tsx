@@ -9,7 +9,7 @@ import PredictionDecisionCard from '@/components/PredictionDecisionCard';
 import FutureSupportAdequacyPanel from '@/components/FutureSupportAdequacyPanel';
 import { Separator } from '@/components/ui/separator';
 import Link from 'next/link';
-import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
+import { LineChart, Line, AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 import { cn } from '@/lib/utils';
 
 // 页面标题
@@ -62,12 +62,12 @@ const riskData = {
 
 // 预测趋势图数据
 const forecastTrendData = [
-  { month: '1月', target: 1500, forecast: 1350, completed: 800 },
-  { month: '2月', target: 1500, forecast: 1480, completed: 0 },
-  { month: '3月', target: 1500, forecast: 1370, completed: 0 },
-  { month: '4月', target: 1500, forecast: 1420, completed: 0 },
-  { month: '5月', target: 1500, forecast: 1380, completed: 0 },
-  { month: '6月', target: 1500, forecast: 1450, completed: 0 },
+  { month: '1月', businessTarget: 1500, financialTarget: 1800, completed: 800, forecast: 1350 },
+  { month: '2月', businessTarget: 1500, financialTarget: 1800, completed: 850, forecast: 1480 },
+  { month: '3月', businessTarget: 1500, financialTarget: 1800, completed: 900, forecast: 1370 },
+  { month: '4月', businessTarget: 1500, financialTarget: 1800, completed: 0, forecast: 1420 },
+  { month: '5月', businessTarget: 1500, financialTarget: 1800, completed: 0, forecast: 1380 },
+  { month: '6月', businessTarget: 1500, financialTarget: 1800, completed: 0, forecast: 1450 },
 ];
 
 // 大区维度数据
@@ -787,19 +787,12 @@ export default function GMDashboard() {
 
               {/* 趋势图表 */}
               <div className="bg-slate-800/30 rounded-xl p-4 border border-cyan-400/10">
-                <div style={{ height: '200px' }}>
+                <div className="mb-3">
+                  <h4 className={`text-sm font-semibold ${DASHBOARD_STYLES.neon}`}>趋势分析</h4>
+                </div>
+                <div style={{ height: '220px' }}>
                   <ResponsiveContainer width="100%" height="100%">
-                    <AreaChart data={forecastTrendData}>
-                      <defs>
-                        <linearGradient id="colorForecast" x1="0" y1="0" x2="0" y2="1">
-                          <stop offset="5%" stopColor="#22d3ee" stopOpacity={0.3}/>
-                          <stop offset="95%" stopColor="#22d3ee" stopOpacity={0}/>
-                        </linearGradient>
-                        <linearGradient id="colorTarget" x1="0" y1="0" x2="0" y2="1">
-                          <stop offset="5%" stopColor="#3b82f6" stopOpacity={0.3}/>
-                          <stop offset="95%" stopColor="#3b82f6" stopOpacity={0}/>
-                        </linearGradient>
-                      </defs>
+                    <LineChart data={forecastTrendData}>
                       <CartesianGrid strokeDasharray="3 3" stroke="rgba(6,182,212,0.1)" vertical={false} />
                       <XAxis
                         dataKey="month"
@@ -811,7 +804,7 @@ export default function GMDashboard() {
                         axisLine={false}
                         tickLine={false}
                         tick={{ fill: 'rgba(6,182,212,0.7)', fontSize: 11 }}
-                        tickFormatter={(value) => `${value}万`}
+                        tickFormatter={(value) => `${value}`}
                       />
                       <Tooltip
                         contentStyle={{
@@ -823,23 +816,55 @@ export default function GMDashboard() {
                         formatter={(value: number, name: string) => [`${value}万`, name]}
                         labelStyle={{ color: '#22d3ee', fontWeight: 'bold' }}
                       />
-                      <Area
+                      <Legend
+                        wrapperStyle={{
+                          paddingTop: '10px',
+                          color: 'rgba(6,182,212,0.7)',
+                          fontSize: '11px'
+                        }}
+                      />
+                      {/* 业务目标 - 实线 */}
+                      <Line
                         type="monotone"
-                        dataKey="target"
+                        dataKey="businessTarget"
                         stroke="#3b82f6"
                         strokeWidth={2}
-                        fill="url(#colorTarget)"
-                        name="目标"
+                        name="业务目标"
+                        dot={{ fill: '#3b82f6', r: 4 }}
+                        activeDot={{ r: 6 }}
                       />
-                      <Area
+                      {/* 财务目标 - 实线 */}
+                      <Line
+                        type="monotone"
+                        dataKey="financialTarget"
+                        stroke="#8b5cf6"
+                        strokeWidth={2}
+                        name="财务目标"
+                        dot={{ fill: '#8b5cf6', r: 4 }}
+                        activeDot={{ r: 6 }}
+                      />
+                      {/* 已完成 - 实线 */}
+                      <Line
+                        type="monotone"
+                        dataKey="completed"
+                        stroke="#22c55e"
+                        strokeWidth={2.5}
+                        name="已完成"
+                        dot={{ fill: '#22c55e', r: 4 }}
+                        activeDot={{ r: 6 }}
+                      />
+                      {/* 未来预测完成 - 虚线 */}
+                      <Line
                         type="monotone"
                         dataKey="forecast"
                         stroke="#22d3ee"
                         strokeWidth={2.5}
-                        fill="url(#colorForecast)"
-                        name="预测"
+                        name="未来预测完成"
+                        strokeDasharray="8 4"
+                        dot={{ fill: '#22d3ee', r: 4 }}
+                        activeDot={{ r: 6 }}
                       />
-                    </AreaChart>
+                    </LineChart>
                   </ResponsiveContainer>
                 </div>
               </div>
