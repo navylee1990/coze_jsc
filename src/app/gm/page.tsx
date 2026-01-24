@@ -856,54 +856,59 @@ export default function GMDashboard() {
               <div className="bg-slate-800/30 rounded-xl p-4 border border-cyan-400/10">
                 {/* 缺口统计 */}
                 {/* 图例说明 - 更明显、更详细 */}
-                <div className="mb-3 px-2 py-2 rounded-lg bg-slate-800/40 border border-cyan-500/10">
-                  <div className="flex items-center justify-between mb-2">
-                    <span className="text-xs font-semibold text-cyan-400">趋势图例</span>
-                    <div className="flex items-center gap-3">
-                      {/* 区域筛选 */}
-                      <div className="flex items-center gap-2">
-                        <span className="text-xs text-cyan-300/70 whitespace-nowrap">区域：</span>
-                        <select
-                          value={trendRegion}
-                          onChange={(e) => setTrendRegion(e.target.value)}
-                          className="px-2 py-0.5 text-xs border border-cyan-500/30 rounded-md bg-slate-800/50 text-cyan-300 focus:outline-none focus:ring-1 focus:ring-cyan-500/50"
-                        >
-                          <option value="all">全部地区</option>
-                          <option value="一区">一区</option>
-                          <option value="二区">二区</option>
-                          <option value="五区">五区</option>
-                          <option value="华中">华中</option>
-                          <option value="华北">华北</option>
-                          <option value="西南">西南</option>
-                          <option value="华南">华南</option>
-                        </select>
-                      </div>
+                <div className="mb-3 px-3 py-3 rounded-lg bg-slate-800/60 border border-cyan-500/20 shadow-[0_0_15px_rgba(6,182,212,0.1)]">
+                  <div className="flex flex-col gap-3">
+                    {/* 标题行 */}
+                    <div className="flex items-center justify-between">
+                      <span className="text-sm font-bold text-cyan-400 drop-shadow-[0_0_6px_rgba(6,182,212,0.6)]">趋势图例</span>
                       <span className="text-xs text-cyan-300/60">1-{currentMonth}月实绩 · {currentMonth + 1}-6月预测</span>
                     </div>
-                  </div>
-                  <div className="flex items-center gap-5 flex-wrap">
-                    {/* 实绩图例 */}
-                    <div className="flex items-center gap-2">
-                      <div className="flex items-center gap-0.5">
-                        <div className="w-6 h-0.5 bg-green-500 rounded-full"></div>
-                        <div className="w-3 h-3 rounded-full bg-green-500 border-2 border-white"></div>
-                      </div>
-                      <span className="text-xs text-cyan-300/80">实绩（已完成）</span>
+                    
+                    {/* 区域筛选 - 独立一行，更突出 */}
+                    <div className="flex items-center gap-2 py-1.5 px-3 rounded-md bg-cyan-950/40 border border-cyan-500/40">
+                      <Activity className="w-4 h-4 text-cyan-400 drop-shadow-[0_0_4px_rgba(6,182,212,0.8)]" />
+                      <span className="text-sm font-semibold text-cyan-300 whitespace-nowrap">当前区域：</span>
+                      <select
+                        value={trendRegion}
+                        onChange={(e) => setTrendRegion(e.target.value)}
+                        className="flex-1 max-w-[120px] px-3 py-1.5 text-sm border-2 border-cyan-500/50 rounded-lg bg-slate-900/80 text-cyan-300 font-medium focus:outline-none focus:ring-2 focus:ring-cyan-500/60 focus:border-cyan-400 transition-all shadow-[0_0_8px_rgba(6,182,212,0.2)]"
+                      >
+                        <option value="all">全部地区</option>
+                        <option value="一区">一区</option>
+                        <option value="二区">二区</option>
+                        <option value="五区">五区</option>
+                        <option value="华中">华中</option>
+                        <option value="华北">华北</option>
+                        <option value="西南">西南</option>
+                        <option value="华南">华南</option>
+                      </select>
                     </div>
-                    {/* 预测图例 */}
-                    <div className="flex items-center gap-2">
-                      <div className="flex items-center gap-0.5">
-                        <div className="w-6 h-0.5 bg-cyan-400 rounded-full" style={{ background: 'repeating-linear-gradient(90deg, #22d3ee 0, #22d3ee 8px, transparent 8px, transparent 13px)' }}></div>
-                        <div className="w-3 h-3 rounded-full bg-cyan-400 border-2 border-sky-500"></div>
+
+                    {/* 图例元素 */}
+                    <div className="flex items-center gap-6 flex-wrap pt-1">
+                      {/* 实绩图例 */}
+                      <div className="flex items-center gap-2">
+                        <div className="flex items-center gap-0.5">
+                          <div className="w-6 h-0.5 bg-green-500 rounded-full"></div>
+                          <div className="w-3 h-3 rounded-full bg-green-500 border-2 border-white"></div>
+                        </div>
+                        <span className="text-sm text-cyan-300/90 font-medium">实绩（已完成）</span>
                       </div>
-                      <span className="text-xs text-cyan-300/80">预测（预计）</span>
-                    </div>
-                    {/* 缺口区域图例 */}
-                    <div className="flex items-center gap-2">
-                      <div className="flex items-center gap-0.5">
-                        <div className="w-6 h-3 bg-red-500/25 rounded-sm"></div>
+                      {/* 预测图例 */}
+                      <div className="flex items-center gap-2">
+                        <div className="flex items-center gap-0.5">
+                          <div className="w-6 h-0.5 bg-cyan-400 rounded-full" style={{ background: 'repeating-linear-gradient(90deg, #22d3ee 0, #22d3ee 8px, transparent 8px, transparent 13px)' }}></div>
+                          <div className="w-3 h-3 rounded-full bg-cyan-400 border-2 border-sky-500"></div>
+                        </div>
+                        <span className="text-sm text-cyan-300/90 font-medium">预测（预计）</span>
                       </div>
-                      <span className="text-xs text-cyan-300/80">缺口区域</span>
+                      {/* 缺口区域图例 */}
+                      <div className="flex items-center gap-2">
+                        <div className="flex items-center gap-0.5">
+                          <div className="w-6 h-3 bg-red-500/25 rounded-sm"></div>
+                        </div>
+                        <span className="text-sm text-cyan-300/90 font-medium">缺口区域</span>
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -965,7 +970,7 @@ export default function GMDashboard() {
                         strokeWidth={1.5}
                         strokeDasharray="6 4"
                         opacity={0.5}
-                        label={{ value: '当前', position: 'topLeft', fill: '#22d3ee', fontSize: 10, fontWeight: 'bold' }}
+                        label={{ value: '当前', position: 'top', fill: '#22d3ee', fontSize: 10, fontWeight: 'bold' }}
                       />
 
                       {/* 缺口区域 - 使用businessTarget填充，表示目标线 */}
