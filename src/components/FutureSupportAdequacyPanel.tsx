@@ -1807,7 +1807,7 @@ export default function FutureSupportAdequacyPanel({
                     </div>
                     <div className="flex items-center gap-1">
                       <span className={cn(theme === 'dashboard' ? 'text-cyan-400/60' : 'text-slate-500')}>覆盖率</span>
-                      <span className={cn('font-semibold', level.coverage >= 80 ? 'text-green-400' : level.coverage >= 50 ? 'text-yellow-400' : 'text-red-400')}>
+                      <span className={cn('font-semibold', level.coverage >= 80 ? 'text-green-400' : level.coverage > 50 ? 'text-yellow-400' : 'text-red-400')}>
                         {level.coverage}%
                       </span>
                     </div>
@@ -1817,7 +1817,7 @@ export default function FutureSupportAdequacyPanel({
                   <div className={cn('w-full h-1.5 rounded-full overflow-hidden', theme === 'dashboard' ? 'bg-slate-700/50' : 'bg-slate-200')}>
                     <div
                       className={`h-full transition-all duration-500 ${
-                        level.coverage >= 80 ? 'bg-green-500' : level.coverage >= 50 ? 'bg-yellow-500' : 'bg-red-500'
+                        level.coverage >= 80 ? 'bg-green-500' : level.coverage > 50 ? 'bg-yellow-500' : 'bg-red-500'
                       }`}
                       style={{ width: `${Math.min(level.coverage, 100)}%` }}
                     />
@@ -1864,7 +1864,7 @@ export default function FutureSupportAdequacyPanel({
                         <span className={cn(theme === 'dashboard' ? 'text-cyan-400/60' : 'text-slate-500')}>加上未统计</span>
                         <span className={cn(
                           'font-semibold',
-                          totalCoverage >= 80 ? 'text-green-400' : totalCoverage >= 50 ? 'text-yellow-400' : 'text-red-400'
+                          totalCoverage >= 80 ? 'text-green-400' : totalCoverage > 50 ? 'text-yellow-400' : 'text-red-400'
                         )}>
                           {totalCoverage}%
                         </span>
