@@ -1402,6 +1402,21 @@ export default function FutureSupportAdequacyPanel({
   const [selectedPeriod, setSelectedPeriod] = useState<string | null>(null);
   const [isDrillDownOpen, setIsDrillDownOpen] = useState(false);
 
+  // 催单状态
+  const [urgeMessage, setUrgeMessage] = useState<{ show: boolean; message: string }>({ show: false, message: '' });
+
+  // 处理批量催单
+  const handleBatchUrge = (period: string, projectCount: number, e: React.MouseEvent) => {
+    e.stopPropagation(); // 阻止事件冒泡，不打开弹窗
+    setUrgeMessage({
+      show: true,
+      message: `已向【${period}】的 ${projectCount} 个未统计项目发送催单提醒`
+    });
+    setTimeout(() => {
+      setUrgeMessage({ show: false, message: '' });
+    }, 3000);
+  };
+
   // 合并默认数据和自定义数据
   const allRegionData = { ...regionData, ...customData };
   const data = allRegionData[selectedRegion] || regionData.national; // 默认回退到全国数据
@@ -1550,6 +1565,19 @@ export default function FutureSupportAdequacyPanel({
         </div>
       </div>
 
+      {/* 催单提示消息 */}
+      {urgeMessage.show && (
+        <div className={cn(
+          'mx-4 my-2 p-3 rounded-lg border flex items-center gap-3 animate-pulse',
+          theme === 'dashboard'
+            ? 'bg-orange-500/20 border-orange-500/40 text-orange-300'
+            : 'bg-orange-100 border-orange-300 text-orange-800'
+        )}>
+          <Zap className={cn('w-5 h-5 flex-shrink-0', theme === 'dashboard' ? 'text-orange-300' : 'text-orange-600')} />
+          <span className="text-sm font-medium">{urgeMessage.message}</span>
+        </div>
+      )}
+
       {/* 主内容区 - 时间段矩阵卡片布局 */}
       <div className="p-4">
         <div className="grid grid-cols-3 gap-3">
@@ -1656,13 +1684,28 @@ export default function FutureSupportAdequacyPanel({
 
                   {/* 未统计项目数 */}
                   {level.excludedProjects && level.excludedProjects.length > 0 && (
-                    <div className="flex justify-between text-xs">
-                      <span className={cn(theme === 'dashboard' ? 'text-cyan-400/60' : 'text-slate-500')}>未统计</span>
-                      <span className={cn(
-                        'font-semibold text-orange-400',
-                        theme === 'dashboard' ? 'text-orange-300' : 'text-orange-600'
-                      )}>{level.excludedProjects.length}个</span>
-                    </div>
+                    <>
+                      <div className="flex justify-between text-xs">
+                        <span className={cn(theme === 'dashboard' ? 'text-cyan-400/60' : 'text-slate-500')}>未统计</span>
+                        <span className={cn(
+                          'font-semibold text-orange-400',
+                          theme === 'dashboard' ? 'text-orange-300' : 'text-orange-600'
+                        )}>{level.excludedProjects.length}个</span>
+                      </div>
+                      {/* 批量催单按钮 */}
+                      <button
+                        onClick={(e) => handleBatchUrge(period, level.excludedProjects!.length, e)}
+                        className={cn(
+                          'w-full flex items-center justify-center gap-1.5 py-1.5 rounded-lg text-xs font-medium transition-all mt-1',
+                          theme === 'dashboard'
+                            ? 'bg-orange-500/20 border border-orange-500/30 text-orange-300 hover:bg-orange-500/30'
+                            : 'bg-orange-100 text-orange-700 hover:bg-orange-200'
+                        )}
+                      >
+                        <Zap className="w-3 h-3" />
+                        催单提醒
+                      </button>
+                    </>
                   )}
                 </div>
               </div>
