@@ -1862,7 +1862,19 @@ export default function FutureSupportAdequacyPanel({
                       </div>
                       {/* 需要新开发项目 */}
                       {newDevNeeded > 0 && (
-                        <div className="flex justify-between text-xs">
+                        <div className="relative flex justify-between text-xs">
+                          {/* 右上角标识 */}
+                          <div className={cn(
+                            'absolute -top-1 -right-1 z-10 rounded-full p-0.5 animate-pulse',
+                            theme === 'dashboard'
+                              ? 'bg-purple-500/30'
+                              : 'bg-purple-500/20'
+                          )}>
+                            <Target className={cn(
+                              'w-3.5 h-3.5',
+                              theme === 'dashboard' ? 'text-purple-300' : 'text-purple-600'
+                            )} />
+                          </div>
                           <span className={cn(theme === 'dashboard' ? 'text-cyan-400/60' : 'text-slate-500')}>需新开发</span>
                           <span className={cn(
                             'font-semibold text-purple-400',
