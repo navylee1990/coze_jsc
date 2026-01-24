@@ -854,6 +854,7 @@ export default function GMDashboard() {
                         dataKey="businessTarget"
                         stroke="#3b82f6"
                         strokeWidth={2}
+                        fill="none"
                         name="业务目标"
                         dot={{ fill: '#3b82f6', r: 4 }}
                         activeDot={{ r: 6 }}
@@ -864,6 +865,7 @@ export default function GMDashboard() {
                         dataKey="financialTarget"
                         stroke="#8b5cf6"
                         strokeWidth={2}
+                        fill="none"
                         name="财务目标"
                         dot={{ fill: '#8b5cf6', r: 4 }}
                         activeDot={{ r: 6 }}
