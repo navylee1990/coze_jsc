@@ -393,6 +393,8 @@ export default function GMDashboard() {
   const [modalTitle, setModalTitle] = useState('');
   const [modalSubtitle, setModalSubtitle] = useState('');
   const [modalLevel, setModalLevel] = useState<'city' | 'salesperson'>('city');
+  const [modalSortBy, setModalSortBy] = useState<'rate' | 'gap' | 'target' | 'predicted'>('rate');
+  const [modalSortOrder, setModalSortOrder] = useState<'asc' | 'desc'>('desc');
 
   // 获取当前时间范围的数据
   const getTimeRangeData = () => {
@@ -447,6 +449,8 @@ export default function GMDashboard() {
     setModalSubtitle(`(${timeRange === 'month' ? `${selectedMonth}月` : timeRange === 'quarter' ? selectedQuarter : '2026年'})`);
     setModalData(cities);
     setModalLevel('city');
+    setModalSortBy('rate');
+    setModalSortOrder('desc');
     setIsDrillDownModalOpen(true);
   };
 
@@ -468,6 +472,16 @@ export default function GMDashboard() {
     setModalData(cities);
     setModalLevel('city');
     setSelectedCity('');
+  };
+
+  // 处理排序变化
+  const handleSortChange = (sortBy: 'rate' | 'gap' | 'target' | 'predicted') => {
+    if (modalSortBy === sortBy) {
+      setModalSortOrder(modalSortOrder === 'asc' ? 'desc' : 'asc');
+    } else {
+      setModalSortBy(sortBy);
+      setModalSortOrder('desc');
+    }
   };
 
   return (
@@ -1204,6 +1218,9 @@ export default function GMDashboard() {
               level={modalLevel}
               onBack={modalLevel === 'salesperson' ? handleBackToCity : undefined}
               onItemClick={modalLevel === 'city' ? handleCityClick : undefined}
+              sortBy={modalSortBy}
+              sortOrder={modalSortOrder}
+              onSortChange={handleSortChange}
             />
 
             {/* 月度趋势 */}
