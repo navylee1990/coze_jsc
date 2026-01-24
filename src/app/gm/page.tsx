@@ -875,10 +875,14 @@ export default function GMDashboard() {
               {/* 趋势图表 */}
               <div className="bg-slate-800/30 rounded-xl p-4 border border-cyan-400/10">
                 {/* 标题和筛选器 - 参考sales页面月度趋势分析 */}
-                <div className="flex items-center justify-between mb-3">
-                  <div className="flex items-center gap-2">
+                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-3">
+                  <div className="flex items-center gap-2 flex-wrap">
                     <BarChart3 className="w-4 h-4 text-cyan-400" />
                     <span className="text-sm font-bold text-cyan-300">趋势分析</span>
+                    {/* 当前区域显示 */}
+                    <span className="text-xs font-semibold text-cyan-400 bg-cyan-500/20 border border-cyan-500/40 px-2 py-0.5 rounded">
+                      {trendRegion === 'all' ? '全部地区' : trendRegion}
+                    </span>
                     <span className="text-xs text-cyan-300/60">1-{currentMonth}月实绩 · {currentMonth + 1}-6月预测</span>
                   </div>
                   {/* 区域筛选器 */}
