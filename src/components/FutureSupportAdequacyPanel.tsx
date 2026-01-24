@@ -1901,7 +1901,7 @@ function ProjectDrillDownModal({
   // 翻页状态
   const [projectsCurrentPage, setProjectsCurrentPage] = useState(1);
   const [excludedProjectsCurrentPage, setExcludedProjectsCurrentPage] = useState(1);
-  const projectsPerPage = 4; // 每页显示4个项目
+  const projectsPerPage = 2; // 每页显示2个项目
 
   // 催单提示状态
   const [urgeMessage, setUrgeMessage] = useState<{ show: boolean; projectName: string }>({ show: false, projectName: '' });
@@ -2110,7 +2110,7 @@ function ProjectDrillDownModal({
                 <div
                   key={project.id}
                   className={cn(
-                    'p-4 rounded-xl border transition-all duration-200 h-36 flex flex-col',
+                    'p-4 rounded-xl border transition-all duration-200 h-48 flex flex-col',
                     theme === 'dashboard'
                       ? 'bg-slate-800/40 border-cyan-500/20 hover:border-cyan-500/40'
                       : theme === 'dark'
@@ -2280,7 +2280,7 @@ function ProjectDrillDownModal({
                   <div
                     key={project.id}
                     className={cn(
-                      'p-4 rounded-xl border transition-all duration-200 h-36 flex flex-col',
+                      'p-4 rounded-xl border transition-all duration-200 h-48 flex flex-col',
                       theme === 'dashboard'
                         ? 'bg-slate-800/40 border-orange-500/30 hover:border-orange-500/50'
                         : theme === 'dark'
