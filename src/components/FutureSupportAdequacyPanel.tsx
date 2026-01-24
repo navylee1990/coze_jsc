@@ -163,6 +163,58 @@ const regionData: RegionData = {
           health: 'medium',
           isOnTrack: false,
           delayDays: 12
+        },
+        {
+          id: 3,
+          name: '广州天河城购物中心净水项目',
+          amount: 150,
+          probability: 'high',
+          health: 'high',
+          isOnTrack: true,
+          isNew: true
+        },
+        {
+          id: 4,
+          name: '深圳华为总部园区项目',
+          amount: 120,
+          probability: 'medium',
+          health: 'medium',
+          isOnTrack: false,
+          delayDays: 5
+        },
+        {
+          id: 5,
+          name: '成都天府国际机场航站楼项目',
+          amount: 100,
+          probability: 'high',
+          health: 'high',
+          isOnTrack: true
+        },
+        {
+          id: 6,
+          name: '南京河西万达广场项目',
+          amount: 90,
+          probability: 'medium',
+          health: 'medium',
+          isOnTrack: true
+        },
+        {
+          id: 7,
+          name: '武汉光谷生物城净化项目',
+          amount: 80,
+          probability: 'low',
+          health: 'low',
+          isOnTrack: false,
+          delayDays: 8
+        },
+        {
+          id: 8,
+          name: '杭州奥体中心体育场项目',
+          amount: 70,
+          probability: 'medium',
+          health: 'medium',
+          isOnTrack: true,
+          isNew: true
         }
       ],
       excludedProjects: [
@@ -184,6 +236,56 @@ const regionData: RegionData = {
           excludeReasonText: '商务合同待审批，预计下周完成',
           currentProgress: 60,
           expectedProgress: 70,
+          probability: 'high'
+        },
+        {
+          id: 103,
+          name: '北京大兴国际机场配套项目',
+          amount: 180,
+          excludeReason: 'delayed',
+          excludeReasonText: '客户决策延迟，商务谈判暂停',
+          currentProgress: 40,
+          expectedProgress: 60,
+          probability: 'medium'
+        },
+        {
+          id: 104,
+          name: '上海浦东国际博览中心项目',
+          amount: 150,
+          excludeReason: 'risk_high',
+          excludeReasonText: '项目风险较高，客户资金链紧张',
+          currentProgress: 25,
+          expectedProgress: 45,
+          probability: 'low'
+        },
+        {
+          id: 105,
+          name: '深圳前海自贸区综合项目',
+          amount: 130,
+          excludeReason: 'not_confirmed',
+          excludeReasonText: '项目未最终确认，处于意向阶段',
+          currentProgress: 15,
+          expectedProgress: 30,
+          probability: 'medium'
+        },
+        {
+          id: 106,
+          name: '成都环球中心酒店净化项目',
+          amount: 110,
+          excludeReason: 'progress_low',
+          excludeReasonText: '施工进度严重滞后，仅完成20%',
+          currentProgress: 20,
+          expectedProgress: 50,
+          probability: 'high'
+        },
+        {
+          id: 107,
+          name: '武汉天河机场T3航站楼项目',
+          amount: 95,
+          excludeReason: 'pending_approval',
+          excludeReasonText: '合同条款待法务审核',
+          currentProgress: 55,
+          expectedProgress: 65,
           probability: 'high'
         }
       ]
@@ -1603,7 +1705,7 @@ function ProjectDrillDownModal({
   // 翻页状态
   const [projectsCurrentPage, setProjectsCurrentPage] = useState(1);
   const [excludedProjectsCurrentPage, setExcludedProjectsCurrentPage] = useState(1);
-  const projectsPerPage = 9; // 每页显示9个项目
+  const projectsPerPage = 6; // 每页显示6个项目
 
   if (!isOpen) return null;
 
