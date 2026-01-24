@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useMemo } from 'react';
-import { ArrowUp, ArrowDown, TrendingUp, AlertTriangle, Activity, Target, Clock, ChevronRight, BarChart3, Play, ChevronLeft, X, TrendingDown, DollarSign, CheckCircle2, XCircle } from 'lucide-react';
+import { ArrowUp, ArrowDown, TrendingUp, AlertTriangle, Activity, Target, Clock, ChevronRight, BarChart3, Play, ChevronLeft, X, TrendingDown, DollarSign, CheckCircle2, XCircle, Zap } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
@@ -59,6 +59,53 @@ const riskData = {
     { personId: 6, name: '赵敏', riskType: 'SOP不达标', sopRate: 72, impact: -68, projectCount: 3 },
   ]
 };
+
+// 行动建议数据
+interface ActionItem {
+  icon: 'fire' | 'warning' | 'lightbulb';
+  text: string;
+  link?: string;
+  priority: 'high' | 'medium' | 'low';
+  impact?: string;
+}
+
+const actionRecommendationsData: ActionItem[] = [
+  {
+    icon: 'fire',
+    text: '优先推进北京协和医院项目（预计影响 +280万）',
+    link: '/gm/projects',
+    priority: 'high',
+    impact: '+280万'
+  },
+  {
+    icon: 'warning',
+    text: '跟进广州某企业办公楼项目已停滞32天（风险-405万）',
+    link: '/gm/projects',
+    priority: 'high',
+    impact: '-405万'
+  },
+  {
+    icon: 'warning',
+    text: '跟进西安某学校项目已停滞45天（风险-84万）',
+    link: '/gm/projects',
+    priority: 'high',
+    impact: '-84万'
+  },
+  {
+    icon: 'lightbulb',
+    text: '推进上海阿里巴巴园区项目进入商务阶段（潜在+350万）',
+    link: '/gm/projects',
+    priority: 'medium',
+    impact: '+350万'
+  },
+  {
+    icon: 'lightbulb',
+    text: '加强陈明负责项目的SOP合规培训，提升预测（潜在+95万）',
+    link: '/gm/projects',
+    priority: 'medium',
+    impact: '+95万'
+  },
+];
 
 // 预测趋势图数据
 // 当前时间：2026-1-24，所以只有1月有已完成数据
@@ -875,6 +922,94 @@ export default function GMDashboard() {
                     </AreaChart>
                   </ResponsiveContainer>
                 </div>
+              </div>
+            </div>
+
+            {/* 行动建议模块 */}
+            <div className={`${DASHBOARD_STYLES.cardBg} ${DASHBOARD_STYLES.cardBorder} rounded-xl p-6 ${DASHBOARD_STYLES.glow}`}>
+              <div className="flex items-center justify-between mb-6">
+                <h2 className={`text-lg font-bold ${DASHBOARD_STYLES.neon} flex items-center gap-2`}>
+                  <Zap className="w-5 h-5" />
+                  行动建议
+                </h2>
+                <Badge className="bg-orange-500/20 border-orange-500/50 text-orange-300 text-xs">
+                  {actionRecommendationsData.length} 项待处理
+                </Badge>
+              </div>
+
+              <div className="space-y-3">
+                {actionRecommendationsData.map((action, index) => (
+                  <div
+                    key={index}
+                    className={`relative p-4 rounded-lg border-2 transition-all hover:shadow-lg ${
+                      action.priority === 'high'
+                        ? 'bg-red-500/10 border-red-500/30 hover:border-red-500/50'
+                        : action.priority === 'medium'
+                        ? 'bg-yellow-500/10 border-yellow-500/30 hover:border-yellow-500/50'
+                        : 'bg-cyan-500/10 border-cyan-500/30 hover:border-cyan-500/50'
+                    }`}
+                  >
+                    <div className="flex items-start gap-3">
+                      {/* 优先级图标 */}
+                      <div className="flex-shrink-0 mt-0.5">
+                        {action.icon === 'fire' && (
+                          <div className="w-8 h-8 rounded-full bg-orange-500/20 flex items-center justify-center">
+                            <Zap className="w-5 h-5 text-orange-400" />
+                          </div>
+                        )}
+                        {action.icon === 'warning' && (
+                          <div className="w-8 h-8 rounded-full bg-red-500/20 flex items-center justify-center">
+                            <AlertTriangle className="w-5 h-5 text-red-400" />
+                          </div>
+                        )}
+                        {action.icon === 'lightbulb' && (
+                          <div className="w-8 h-8 rounded-full bg-yellow-500/20 flex items-center justify-center">
+                            <TrendingUp className="w-5 h-5 text-yellow-400" />
+                          </div>
+                        )}
+                      </div>
+
+                      {/* 内容 */}
+                      <div className="flex-1 min-w-0">
+                        <div className="flex items-center gap-2 mb-2">
+                          <Badge
+                            variant="outline"
+                            className={`text-xs ${
+                              action.priority === 'high'
+                                ? 'bg-red-500/20 border-red-500/50 text-red-300'
+                                : action.priority === 'medium'
+                                ? 'bg-yellow-500/20 border-yellow-500/50 text-yellow-300'
+                                : 'bg-cyan-500/20 border-cyan-500/50 text-cyan-300'
+                            }`}
+                          >
+                            {action.priority === 'high' ? '紧急' : action.priority === 'medium' ? '重要' : '建议'}
+                          </Badge>
+                          {action.impact && (
+                            <Badge className="text-xs bg-green-500/20 border-green-500/50 text-green-300">
+                              预计影响 {action.impact}
+                            </Badge>
+                          )}
+                        </div>
+                        <p className={`text-sm ${DASHBOARD_STYLES.text} leading-relaxed`}>
+                          {action.text}
+                        </p>
+                      </div>
+
+                      {/* 操作按钮 */}
+                      {action.link && (
+                        <Link href={action.link}>
+                          <Button
+                            size="sm"
+                            variant="outline"
+                            className={`${DASHBOARD_STYLES.cardBorder} ${DASHBOARD_STYLES.textSecondary} hover:bg-cyan-500/20`}
+                          >
+                            <ChevronRight className="w-4 h-4" />
+                          </Button>
+                        </Link>
+                      )}
+                    </div>
+                  </div>
+                ))}
               </div>
             </div>
 
