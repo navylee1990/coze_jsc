@@ -785,11 +785,11 @@ export default function GMDashboard() {
                         type="monotone"
                         dataKey="completed"
                         stroke="#22c55e"
-                        strokeWidth={2.5}
-                        fill="rgba(34, 197, 94, 0.15)"
+                        strokeWidth={3}
+                        fill="rgba(34, 197, 94, 0.25)"
                         name="已完成"
-                        dot={{ fill: '#22c55e', r: 4 }}
-                        activeDot={{ r: 6 }}
+                        dot={{ fill: '#22c55e', r: 5 }}
+                        activeDot={{ r: 7, stroke: '#22c55e', strokeWidth: 2 }}
                         connectNulls={false}
                       />
                       {/* 未来预测完成 - 面积填充（虚线边框） */}
@@ -797,12 +797,12 @@ export default function GMDashboard() {
                         type="monotone"
                         dataKey="forecast"
                         stroke="#22d3ee"
-                        strokeWidth={2.5}
+                        strokeWidth={2}
                         strokeDasharray="8 4"
-                        fill="rgba(34, 211, 238, 0.15)"
+                        fill="rgba(34, 211, 238, 0.12)"
                         name="未来预测完成"
-                        dot={{ fill: '#22d3ee', r: 4 }}
-                        activeDot={{ r: 6 }}
+                        dot={{ fill: '#22d3ee', r: 3 }}
+                        activeDot={{ r: 5 }}
                       />
                     </AreaChart>
                   </ResponsiveContainer>
