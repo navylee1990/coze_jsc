@@ -1594,6 +1594,17 @@ export default function FutureSupportAdequacyPanel({
                         ? 'text-cyan-200 drop-shadow-[0_0_6px_rgba(6,182,212,0.5)]'
                         : 'text-slate-900'
                     )}>{period}</h4>
+                    {newDevNeeded > 0 && (
+                      <span className={cn(
+                        'px-2 py-0.5 rounded text-xs font-medium flex items-center gap-1',
+                        theme === 'dashboard'
+                          ? 'bg-purple-500/40 text-purple-300 border border-purple-500/40'
+                          : 'bg-purple-500 text-white'
+                      )}>
+                        <MapPin className="w-2.5 h-2.5" />
+                        {regionConfig[selectedRegion].label} 需开发{newDevNeeded}万
+                      </span>
+                    )}
                     <ChevronRight className={cn(
                       'w-4 h-4',
                       theme === 'dashboard' ? 'text-cyan-400/50' : 'text-slate-400'
@@ -1686,18 +1697,6 @@ export default function FutureSupportAdequacyPanel({
                           {totalCoverage}%
                         </span>
                       </div>
-                      {/* 需要新开发项目 */}
-                      {newDevNeeded > 0 && (
-                        <div className="flex justify-between text-xs">
-                          <span className={cn(theme === 'dashboard' ? 'text-cyan-400/60' : 'text-slate-500')}>需新开发</span>
-                          <span className={cn(
-                            'font-semibold text-purple-400',
-                            theme === 'dashboard' ? 'text-purple-300' : 'text-purple-600'
-                          )}>
-                            {newDevNeeded}万
-                          </span>
-                        </div>
-                      )}
                       {/* 批量催单按钮 */}
                       <button
                         onClick={(e) => handleBatchUrge(period, excludedProjectsTotalAmount, e)}
