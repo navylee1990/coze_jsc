@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useEffect } from 'react';
 import { ArrowUp, ArrowDown, TrendingUp, AlertTriangle, Activity, Target, Clock, ChevronRight, BarChart3, Play, ChevronLeft, X, TrendingDown, DollarSign, CheckCircle2, XCircle, Zap } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -48,18 +48,6 @@ const forecastOverviewData = {
     forecast: 6840, // 76%达成率: 9000 * 0.76 = 6840
     completed: 4800
   }
-};
-
-// 风险面板数据
-const riskData = {
-  projectRisks: [
-    { projectId: 3, projectName: '广州某企业办公楼项目', riskType: '30天无动作', impact: 405, owner: '王强', days: 32 },
-    { projectId: 9, projectName: '西安某学校项目', riskType: '30天无动作', impact: 84, owner: '赵敏', days: 45 },
-  ],
-  personnelRisks: [
-    { personId: 5, name: '陈明', riskType: 'SOP不达标', sopRate: 78, impact: -55, projectCount: 4 },
-    { personId: 6, name: '赵敏', riskType: 'SOP不达标', sopRate: 72, impact: -68, projectCount: 3 },
-  ]
 };
 
 // 行动建议数据
@@ -382,6 +370,11 @@ export default function GMDashboard() {
   const [selectedQuarter, setSelectedQuarter] = useState('Q1');
   const [trendRegion, setTrendRegion] = useState('all');
 
+  // 默认时间范围为月度
+  useEffect(() => {
+    setTimeRange('month');
+  }, []);
+
   // 钻取状态
   const [drillDownView, setDrillDownView] = useState<'region' | 'city' | 'salesperson'>('region');
   const [selectedRegion, setSelectedRegion] = useState<string>('');
@@ -519,101 +512,8 @@ export default function GMDashboard() {
       <main className="max-w-[1920px] mx-auto p-6">
         {/* 驾驶舱风格布局 */}
         <div className="grid grid-cols-12 gap-4">
-          {/* 左侧仪表区 */}
-          <div className="col-span-3 space-y-4">
-            {/* 时间范围选择器 - 仪表盘风格 */}
-            <div className={`${DASHBOARD_STYLES.cardBg} ${DASHBOARD_STYLES.cardBorder} rounded-xl p-4 ${DASHBOARD_STYLES.glow}`}>
-              <h3 className={`text-sm font-semibold mb-3 ${DASHBOARD_STYLES.neon}`}>时间范围</h3>
-              <div className="flex flex-col gap-2">
-                <button
-                  onClick={() => setTimeRange('month')}
-                  className={`px-4 py-2 rounded-lg text-sm font-medium transition-all ${
-                    timeRange === 'month'
-                      ? 'bg-cyan-500/30 border-cyan-500/50 text-cyan-300 shadow-[0_0_15px_rgba(6,182,212,0.4)]'
-                      : 'bg-slate-800/50 border-cyan-400/20 text-cyan-400/70 hover:bg-cyan-500/20'
-                  } border`}
-                >
-                  月度
-                </button>
-                <button
-                  onClick={() => setTimeRange('quarter')}
-                  className={`px-4 py-2 rounded-lg text-sm font-medium transition-all ${
-                    timeRange === 'quarter'
-                      ? 'bg-cyan-500/30 border-cyan-500/50 text-cyan-300 shadow-[0_0_15px_rgba(6,182,212,0.4)]'
-                      : 'bg-slate-800/50 border-cyan-400/20 text-cyan-400/70 hover:bg-cyan-500/20'
-                  } border`}
-                >
-                  季度
-                </button>
-                <button
-                  onClick={() => setTimeRange('year')}
-                  className={`px-4 py-2 rounded-lg text-sm font-medium transition-all ${
-                    timeRange === 'year'
-                      ? 'bg-cyan-500/30 border-cyan-500/50 text-cyan-300 shadow-[0_0_15px_rgba(6,182,212,0.4)]'
-                      : 'bg-slate-800/50 border-cyan-400/20 text-cyan-400/70 hover:bg-cyan-500/20'
-                  } border`}
-                >
-                  年度
-                </button>
-              </div>
-            </div>
-
-            {/* 风险预警 - 警告灯风格 */}
-            <div className={`${DASHBOARD_STYLES.cardBg} ${DASHBOARD_STYLES.cardBorder} rounded-xl p-4 ${DASHBOARD_STYLES.glow}`}>
-              <h3 className={`text-sm font-semibold mb-3 flex items-center gap-2 ${DASHBOARD_STYLES.neon}`}>
-                <AlertTriangle className="w-4 h-4 text-red-400" />
-                风险预警
-              </h3>
-              <div className="space-y-3">
-                <div className="flex items-center justify-between p-2 rounded-lg bg-red-500/10 border border-red-500/30">
-                  <span className="text-xs text-red-300">高风险项目</span>
-                  <span className="text-lg font-bold text-red-400 drop-shadow-[0_0_8px_rgba(248,113,113,0.8)]">
-                    2
-                  </span>
-                </div>
-                <div className="flex items-center justify-between p-2 rounded-lg bg-orange-500/10 border border-orange-500/30">
-                  <span className="text-xs text-orange-300">风险人员</span>
-                  <span className="text-lg font-bold text-orange-400 drop-shadow-[0_0_8px_rgba(251,146,60,0.8)]">
-                    2
-                  </span>
-                </div>
-                <div className="flex items-center justify-between p-2 rounded-lg bg-yellow-500/10 border border-yellow-500/30">
-                  <span className="text-xs text-yellow-300">关注事项</span>
-                  <span className="text-lg font-bold text-yellow-400 drop-shadow-[0_0_8px_rgba(250,204,21,0.8)]">
-                    5
-                  </span>
-                </div>
-              </div>
-            </div>
-
-            {/* 核心指标速览 */}
-            <div className={`${DASHBOARD_STYLES.cardBg} ${DASHBOARD_STYLES.cardBorder} rounded-xl p-4 ${DASHBOARD_STYLES.glow}`}>
-              <h3 className={`text-sm font-semibold mb-3 ${DASHBOARD_STYLES.neon}`}>核心指标</h3>
-              <div className="space-y-3">
-                <div className="flex items-center justify-between">
-                  <span className="text-xs text-cyan-400/70">目标</span>
-                  <span className="text-lg font-bold text-cyan-300">{getTimeRangeData().target.toLocaleString()}万</span>
-                </div>
-                <div className="flex items-center justify-between">
-                  <span className="text-xs text-cyan-400/70">预测</span>
-                  <span className="text-lg font-bold text-cyan-300">{getTimeRangeData().forecast.toLocaleString()}万</span>
-                </div>
-                <div className="flex items-center justify-between">
-                  <span className="text-xs text-cyan-400/70">已完成</span>
-                  <span className="text-lg font-bold text-cyan-300">{getTimeRangeData().completed.toLocaleString()}万</span>
-                </div>
-                <div className="flex items-center justify-between">
-                  <span className="text-xs text-cyan-400/70">达成率</span>
-                  <span className={`text-lg font-bold ${parseFloat(getAchievementRate()) >= 100 ? 'text-green-400' : 'text-red-400'}`}>
-                    {getAchievementRate()}%
-                  </span>
-                </div>
-              </div>
-            </div>
-          </div>
-
           {/* 中央仪表区 */}
-          <div className="col-span-6 space-y-4">
+          <div className="col-span-8 space-y-4">
             {/* 核心预测决策卡片 - 占据大部分空间 */}
             <div className={`${DASHBOARD_STYLES.cardBg} ${DASHBOARD_STYLES.cardBorder} rounded-xl p-6 ${DASHBOARD_STYLES.glow}`}>
               <div className="flex items-center justify-between mb-6">
@@ -1178,7 +1078,7 @@ export default function GMDashboard() {
           </div>
 
           {/* 右侧仪表区 */}
-          <div className="col-span-3 space-y-4">
+          <div className="col-span-4 space-y-4">
             {/* 区域达成情况 - 矩阵卡片展示 */}
             <div className={`${DASHBOARD_STYLES.cardBg} ${DASHBOARD_STYLES.cardBorder} rounded-xl p-4 ${DASHBOARD_STYLES.glow}`}>
               <RegionMatrix
