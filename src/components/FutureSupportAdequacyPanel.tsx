@@ -141,11 +141,11 @@ const regionData: RegionData = {
     '0-30天': {
       period: '0-30天',
       label: '核心支撑期',
-      amount: 520,
-      coverage: 52,
-      status: 'red',
+      amount: 1130, // 自动计算：projects总和
+      coverage: 113, // 自动计算：1130/1000*100
+      status: 'green',
       target: 1000,
-      gap: 480,
+      gap: -130, // 自动计算：1000 - 1130
       projects: [
         {
           id: 1,
