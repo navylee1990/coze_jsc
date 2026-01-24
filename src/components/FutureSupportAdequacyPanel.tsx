@@ -1558,6 +1558,8 @@ export default function FutureSupportAdequacyPanel({
             const totalCoverage = level.target > 0
               ? Math.round(((level.amount + excludedProjectsTotalAmount) / level.target) * 100)
               : 0;
+            // 计算还需要新开发的金额
+            const newDevNeeded = Math.max(0, level.target - (level.amount + excludedProjectsTotalAmount));
 
             return (
               <div
@@ -1684,6 +1686,18 @@ export default function FutureSupportAdequacyPanel({
                           {totalCoverage}%
                         </span>
                       </div>
+                      {/* 需要新开发项目 */}
+                      {newDevNeeded > 0 && (
+                        <div className="flex justify-between text-xs">
+                          <span className={cn(theme === 'dashboard' ? 'text-cyan-400/60' : 'text-slate-500')}>需新开发</span>
+                          <span className={cn(
+                            'font-semibold text-purple-400',
+                            theme === 'dashboard' ? 'text-purple-300' : 'text-purple-600'
+                          )}>
+                            {newDevNeeded}万
+                          </span>
+                        </div>
+                      )}
                       {/* 批量催单按钮 */}
                       <button
                         onClick={(e) => handleBatchUrge(period, excludedProjectsTotalAmount, e)}
