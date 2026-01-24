@@ -486,28 +486,6 @@ const regionData: RegionData = {
             health: 'medium',
             isOnTrack: true
           }
-        ],
-        excludedProjects: [
-          {
-            id: 101,
-            name: '石家庄国际机场项目',
-            amount: 50,
-            excludeReason: 'progress_low',
-            excludeReasonText: '项目进度滞后，仅完成30%进度',
-            currentProgress: 30,
-            expectedProgress: 70,
-            probability: 'high'
-          },
-          {
-            id: 102,
-            name: '保定市第一医院项目',
-            amount: 30,
-            excludeReason: 'pending_approval',
-            excludeReasonText: '商务合同待审批',
-            currentProgress: 50,
-            expectedProgress: 60,
-            probability: 'medium'
-          }
         ]
       },
       '1-3月': {
@@ -842,38 +820,6 @@ const regionData: RegionData = {
             isOnTrack: false,
             delayDays: 15
           }
-        ],
-        excludedProjects: [
-          {
-            id: 201,
-            name: '广州白云会议中心项目',
-            amount: 80,
-            excludeReason: 'delayed',
-            excludeReasonText: '客户决策延迟，商务谈判暂停',
-            currentProgress: 35,
-            expectedProgress: 60,
-            probability: 'high'
-          },
-          {
-            id: 202,
-            name: '佛山新城综合体项目',
-            amount: 40,
-            excludeReason: 'not_confirmed',
-            excludeReasonText: '项目未最终确认，处于意向阶段',
-            currentProgress: 20,
-            expectedProgress: 40,
-            probability: 'medium'
-          },
-          {
-            id: 203,
-            name: '深圳湾科技园项目',
-            amount: 30,
-            excludeReason: 'risk_high',
-            excludeReasonText: '项目风险较高，客户资金链紧张',
-            currentProgress: 15,
-            expectedProgress: 35,
-            probability: 'low'
-          }
         ]
       },
       '1-3月': {
@@ -1084,28 +1030,6 @@ const regionData: RegionData = {
             health: 'medium',
             isOnTrack: false,
             delayDays: 8
-          }
-        ],
-        excludedProjects: [
-          {
-            id: 301,
-            name: '成都天府软件园项目',
-            amount: 30,
-            excludeReason: 'pending_approval',
-            excludeReasonText: '商务合同待审批',
-            currentProgress: 55,
-            expectedProgress: 65,
-            probability: 'medium'
-          },
-          {
-            id: 302,
-            name: '重庆江北国际机场项目',
-            amount: 20,
-            excludeReason: 'progress_low',
-            excludeReasonText: '项目进度滞后，仅完成25%进度',
-            currentProgress: 25,
-            expectedProgress: 55,
-            probability: 'high'
           }
         ]
       },
@@ -1433,9 +1357,9 @@ const getHealthColor = (health: 'high' | 'medium' | 'low', theme: Theme) => {
 export default function FutureSupportAdequacyPanel({
   data: customData,
   theme = 'dark',
-  defaultRegion = 'north'
+  defaultRegion = 'national'
 }: FutureSupportAdequacyPanelProps) {
-  // 区域选择状态 - 默认显示华北区，不显示全国总览
+  // 区域选择状态
   const [selectedRegion, setSelectedRegion] = useState<Region>(defaultRegion);
   const [selectedPeriod, setSelectedPeriod] = useState<string | null>(null);
   const [isDrillDownOpen, setIsDrillDownOpen] = useState(false);
@@ -1564,7 +1488,7 @@ export default function FutureSupportAdequacyPanel({
           )}>未来90天</span>
         </div>
         <div className="flex items-center gap-4">
-          {/* 区域选择器 - 移除全国总览 */}
+          {/* 区域选择器 */}
           <div className="flex items-center gap-2">
             <MapPin className={cn('w-4 h-4', theme === 'dashboard' ? 'text-cyan-400' : 'text-slate-600')} />
             <div className="relative">
@@ -1581,10 +1505,7 @@ export default function FutureSupportAdequacyPanel({
                     : 'bg-white border-slate-200 text-slate-900 hover:bg-slate-50 focus:ring-blue-500'
                 )}
               >
-                {/* 过滤掉 national 选项 */}
-                {Object.entries(regionConfig)
-                  .filter(([key]) => key !== 'national')
-                  .map(([key, config]) => (
+                {Object.entries(regionConfig).map(([key, config]) => (
                   <option key={key} value={key}>
                     {config.label}
                   </option>
@@ -1667,30 +1588,12 @@ export default function FutureSupportAdequacyPanel({
                 {/* 时间段标签 */}
                 <div className="flex items-center justify-between mb-3">
                   <div className="flex items-center gap-2">
-                    <span className={cn(
-                      'px-1.5 py-0.5 rounded text-xs font-medium',
-                      theme === 'dashboard'
-                        ? 'bg-cyan-500/40 text-cyan-300 border border-cyan-500/40'
-                        : 'bg-cyan-500 text-white'
-                    )}>
-                      {regionConfig[selectedRegion].label}
-                    </span>
                     <h4 className={cn(
                       'text-sm font-bold',
                       theme === 'dashboard'
                         ? 'text-cyan-200 drop-shadow-[0_0_6px_rgba(6,182,212,0.5)]'
                         : 'text-slate-900'
                     )}>{period}</h4>
-                    {newDevNeeded > 0 && (
-                      <span className={cn(
-                        'px-2 py-0.5 rounded text-xs font-medium',
-                        theme === 'dashboard'
-                          ? 'bg-purple-500/40 text-purple-300 border border-purple-500/40'
-                          : 'bg-purple-500 text-white'
-                      )}>
-                        需开发{newDevNeeded}万
-                      </span>
-                    )}
                     <ChevronRight className={cn(
                       'w-4 h-4',
                       theme === 'dashboard' ? 'text-cyan-400/50' : 'text-slate-400'
@@ -1783,6 +1686,18 @@ export default function FutureSupportAdequacyPanel({
                           {totalCoverage}%
                         </span>
                       </div>
+                      {/* 需要新开发项目 */}
+                      {newDevNeeded > 0 && (
+                        <div className="flex justify-between text-xs">
+                          <span className={cn(theme === 'dashboard' ? 'text-cyan-400/60' : 'text-slate-500')}>需新开发</span>
+                          <span className={cn(
+                            'font-semibold text-purple-400',
+                            theme === 'dashboard' ? 'text-purple-300' : 'text-purple-600'
+                          )}>
+                            {newDevNeeded}万
+                          </span>
+                        </div>
+                      )}
                       {/* 批量催单按钮 */}
                       <button
                         onClick={(e) => handleBatchUrge(period, excludedProjectsTotalAmount, e)}
