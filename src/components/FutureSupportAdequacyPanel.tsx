@@ -1393,21 +1393,10 @@ export default function FutureSupportAdequacyPanel({
         </div>
       </div>
 
-      {/* 主内容区 - 时间段 + 行动建议 */}
-      <div className="grid grid-cols-12 gap-0">
-        {/* 左侧7列 - 未来支撑结构区 */}
-        <div
-          className={cn(
-            'col-span-7 p-4 border-r',
-            theme === 'dashboard'
-              ? 'border-cyan-500/20'
-              : theme === 'dark'
-              ? 'border-slate-700'
-              : 'border-slate-200'
-          )}
-        >
-          <div className="grid grid-cols-3 gap-3">
-            {(['0-30天', '1-3月', '3-6月'] as const).map((period, index) => {
+      {/* 主内容区 - 时间段支撑结构 */}
+      <div className="p-4">
+        <div className="grid grid-cols-3 gap-3">
+          {(['0-30天', '1-3月', '3-6月'] as const).map((period, index) => {
               const level = data.supportStructure[period];
               const statusColor = getStatusColor(level.status);
               return (
@@ -1595,147 +1584,8 @@ export default function FutureSupportAdequacyPanel({
                 </div>
               );
             })}
-          </div>
-        </div>
-
-        {/* 右侧5列 - 行动建议区 */}
-        <div
-          className={cn(
-            'col-span-5 p-4 border-l',
-            theme === 'dashboard'
-              ? 'bg-slate-900/30 border-cyan-500/20'
-              : theme === 'dark'
-              ? 'bg-slate-900/20'
-              : 'bg-slate-50/50'
-          )}
-        >
-          <div className="flex items-center gap-2 mb-3">
-            <Zap className={cn(
-              'w-4 h-4',
-              theme === 'dashboard'
-                ? 'text-orange-400 drop-shadow-[0_0_8px_rgba(251,146,60,0.8)]'
-                : 'text-orange-600'
-            )} />
-            <span className={cn(
-              'text-sm font-semibold',
-              theme === 'dashboard'
-                ? 'text-cyan-200 drop-shadow-[0_0_6px_rgba(6,182,212,0.5)]'
-                : 'text-slate-900'
-            )}>行动建议</span>
-            <span className={cn(
-              'text-xs px-2 py-0.5 rounded-full',
-              theme === 'dashboard'
-                ? 'bg-orange-500/20 text-orange-300 border border-orange-500/40'
-                : 'bg-orange-500/20 text-orange-700'
-            )}>
-              {data.actions.length}项关键行动
-            </span>
-          </div>
-          <div className="space-y-2">
-            {data.actions.map((action) => (
-              <div
-                key={action.id}
-                className={cn(
-                  'p-3 rounded-lg flex items-start gap-3 border transition-all duration-200',
-                  theme === 'dashboard'
-                    ? cn(
-                        'bg-slate-800/40 backdrop-blur-sm',
-                        action.type === 'urgent'
-                          ? 'border-red-500/30 shadow-[0_0_15px_rgba(239,68,68,0.2)]'
-                          : action.type === 'supplement'
-                          ? 'border-yellow-500/30 shadow-[0_0_15px_rgba(234,179,8,0.2)]'
-                          : action.type === 'channel'
-                          ? 'border-blue-500/30 shadow-[0_0_15px_rgba(59,130,246,0.2)]'
-                          : 'border-purple-500/30 shadow-[0_0_15px_rgba(168,85,247,0.2)]'
-                      )
-                    : theme === 'dark'
-                    ? getActionTypeBg(action.type, theme)
-                    : getActionTypeBg(action.type, theme),
-                  action.type === 'urgent' && theme !== 'dashboard' && (theme === 'dark' ? 'border border-red-500/30' : 'border border-red-200')
-                )}
-              >
-                {/* 优先级标记 */}
-                <div className="flex-shrink-0">
-                  <div
-                    className={cn(
-                      'w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold',
-                      theme === 'dashboard'
-                        ? action.priority === 1
-                          ? 'bg-red-500/40 text-red-300 border border-red-500/50 shadow-[0_0_10px_rgba(239,68,68,0.6)]'
-                          : action.priority === 2
-                          ? 'bg-yellow-500/40 text-yellow-300 border border-yellow-500/50 shadow-[0_0_10px_rgba(234,179,8,0.6)]'
-                          : action.priority === 3
-                          ? 'bg-blue-500/40 text-blue-300 border border-blue-500/50 shadow-[0_0_10px_rgba(59,130,246,0.6)]'
-                          : 'bg-slate-500/40 text-slate-300 border border-slate-500/50'
-                        : action.priority === 1
-                        ? 'bg-red-500 text-white'
-                        : action.priority === 2
-                        ? 'bg-yellow-500 text-white'
-                        : action.priority === 3
-                        ? 'bg-blue-500 text-white'
-                        : 'bg-slate-500 text-white'
-                    )}
-                  >
-                    {action.priority}
-                  </div>
-                </div>
-                {/* 图标 */}
-                <div className="flex-shrink-0 mt-0.5">
-                  <div className={cn(theme === 'dashboard' && 'drop-shadow-[0_0_6px_rgba(251,146,60,0.6)]')}>
-                    {getActionIcon(action.type)}
-                  </div>
-                </div>
-                {/* 内容 */}
-                <div className="flex-1 min-w-0">
-                  <div className="flex items-center gap-2 mb-1">
-                    <span className={cn(
-                      'text-xs font-bold',
-                      theme === 'dashboard'
-                        ? 'text-cyan-100'
-                        : 'text-slate-900'
-                    )}>{action.title}</span>
-                    <span className={cn(
-                      'text-xs font-bold',
-                      theme === 'dashboard'
-                        ? action.type === 'urgent'
-                          ? 'text-red-300 drop-shadow-[0_0_6px_rgba(239,68,68,0.6)]'
-                          : action.type === 'supplement'
-                          ? 'text-yellow-300 drop-shadow-[0_0_6px_rgba(234,179,8,0.6)]'
-                          : action.type === 'channel'
-                          ? 'text-blue-300 drop-shadow-[0_0_6px_rgba(59,130,246,0.6)]'
-                          : 'text-purple-300 drop-shadow-[0_0_6px_rgba(168,85,247,0.6)]'
-                        : action.type === 'urgent'
-                        ? 'text-red-600'
-                        : action.type === 'supplement'
-                        ? 'text-yellow-600'
-                        : action.type === 'channel'
-                        ? 'text-blue-600'
-                        : 'text-purple-600'
-                    )}>
-                      {action.impact}
-                    </span>
-                  </div>
-                  <div className={cn(
-                    'text-[10px] line-clamp-2 mb-1',
-                    theme === 'dashboard'
-                      ? 'text-cyan-400/70'
-                      : 'text-slate-600'
-                  )}>{action.description}</div>
-                  <div className={cn(
-                    'flex items-center gap-2 text-[10px]',
-                    theme === 'dashboard'
-                      ? 'text-cyan-400/50'
-                      : 'text-slate-500'
-                  )}>
-                    {action.owner && <span>负责人：{action.owner}</span>}
-                    {action.deadline && <span>· 截止：{action.deadline}</span>}
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
         </div>
       </div>
     </div>
-  );
+    );
 }
