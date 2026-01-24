@@ -1406,11 +1406,11 @@ export default function FutureSupportAdequacyPanel({
   const [urgeMessage, setUrgeMessage] = useState<{ show: boolean; message: string }>({ show: false, message: '' });
 
   // 处理批量催单
-  const handleBatchUrge = (period: string, projectCount: number, e: React.MouseEvent) => {
+  const handleBatchUrge = (period: string, excludedAmount: number, e: React.MouseEvent) => {
     e.stopPropagation(); // 阻止事件冒泡，不打开弹窗
     setUrgeMessage({
       show: true,
-      message: `已向【${period}】的 ${projectCount} 个未统计项目发送催单提醒`
+      message: `已向【${period}】的未统计项目发送催单提醒，金额 ${excludedAmount} 万`
     });
     setTimeout(() => {
       setUrgeMessage({ show: false, message: '' });
@@ -1586,6 +1586,17 @@ export default function FutureSupportAdequacyPanel({
             const statusColor = getStatusColor(level.status, theme);
             const periodConfigInfo = periodConfig[period];
 
+            // 计算统计项目总金额
+            const projectsTotalAmount = level.projects.reduce((sum, p) => sum + p.amount, 0);
+            // 计算未统计项目总金额
+            const excludedProjectsTotalAmount = level.excludedProjects
+              ? level.excludedProjects.reduce((sum, p) => sum + p.amount, 0)
+              : 0;
+            // 加上未统计后的覆盖率
+            const totalCoverage = level.target > 0
+              ? Math.round(((level.amount + excludedProjectsTotalAmount) / level.target) * 100)
+              : 0;
+
             return (
               <div
                 key={period}
@@ -1674,27 +1685,46 @@ export default function FutureSupportAdequacyPanel({
                       </span>
                       <span className={cn(theme === 'dashboard' ? 'text-cyan-400/60' : 'text-slate-500')}>万</span>
                     </div>
-                    <div className="flex items-center gap-1">
+                    <div className="flex items-center gap-2">
                       <span className={cn(theme === 'dashboard' ? 'text-cyan-400/60' : 'text-slate-500')}>项目</span>
                       <span className={cn('font-semibold', theme === 'dashboard' ? 'text-cyan-300' : 'text-slate-900')}>
                         {level.projects.length}个
                       </span>
+                      <span className={cn('font-semibold text-green-400', theme === 'dashboard' ? 'text-green-300' : 'text-green-600')}>
+                        {projectsTotalAmount}万
+                      </span>
                     </div>
                   </div>
 
-                  {/* 未统计项目数 */}
+                  {/* 未统计项目数 + 金额 */}
                   {level.excludedProjects && level.excludedProjects.length > 0 && (
                     <>
                       <div className="flex justify-between text-xs">
                         <span className={cn(theme === 'dashboard' ? 'text-cyan-400/60' : 'text-slate-500')}>未统计</span>
+                        <div className="flex items-center gap-2">
+                          <span className={cn(
+                            'font-semibold text-orange-400',
+                            theme === 'dashboard' ? 'text-orange-300' : 'text-orange-600'
+                          )}>{level.excludedProjects.length}个</span>
+                          <span className={cn(
+                            'font-semibold text-orange-400',
+                            theme === 'dashboard' ? 'text-orange-300' : 'text-orange-600'
+                          )}>{excludedProjectsTotalAmount}万</span>
+                        </div>
+                      </div>
+                      {/* 加上未统计后的覆盖率 */}
+                      <div className="flex justify-between text-xs">
+                        <span className={cn(theme === 'dashboard' ? 'text-cyan-400/60' : 'text-slate-500')}>加上未统计</span>
                         <span className={cn(
-                          'font-semibold text-orange-400',
-                          theme === 'dashboard' ? 'text-orange-300' : 'text-orange-600'
-                        )}>{level.excludedProjects.length}个</span>
+                          'font-semibold',
+                          totalCoverage >= 80 ? 'text-green-400' : totalCoverage >= 50 ? 'text-yellow-400' : 'text-red-400'
+                        )}>
+                          {totalCoverage}%
+                        </span>
                       </div>
                       {/* 批量催单按钮 */}
                       <button
-                        onClick={(e) => handleBatchUrge(period, level.excludedProjects!.length, e)}
+                        onClick={(e) => handleBatchUrge(period, excludedProjectsTotalAmount, e)}
                         className={cn(
                           'w-full flex items-center justify-center gap-1.5 py-1.5 rounded-lg text-xs font-medium transition-all mt-1',
                           theme === 'dashboard'
