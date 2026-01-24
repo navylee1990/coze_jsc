@@ -1,11 +1,10 @@
 'use client';
 
-import { Target, TrendingUp, TrendingDown, AlertTriangle, Zap, ChevronRight, ArrowUp, ArrowDown, CheckCircle, XCircle, AlertCircle, TrendingDown as TrendDown, ArrowUpRight, ArrowDownRight, Minus, Gauge } from 'lucide-react';
+import { Target, TrendingUp, TrendingDown, AlertTriangle, Zap, ChevronRight, ArrowUp, ArrowDown, CheckCircle, XCircle, AlertCircle, TrendingDown as TrendDown, ArrowUpRight, ArrowDownRight, Minus } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
 import { cn } from '@/lib/utils';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip as RechartsTooltip, ResponsiveContainer, PieChart, Pie, Cell } from 'recharts';
-import GaugeDashboard from '@/components/GaugeDashboard';
 
 // 主题类型
 type Theme = 'dark' | 'dashboard';
@@ -167,7 +166,7 @@ interface PredictionDecisionCardProps {
 
 export default function PredictionDecisionCard({
   data: customData,
-  theme = 'dashboard',
+  theme = 'dark',
   onActionClick,
   onSupportFactorHover,
   onRiskFactorHover
@@ -315,94 +314,32 @@ export default function PredictionDecisionCard({
     return null;
   };
 
-  // 仪表盘数据
-  const gaugeData = [
-    {
-      value: data.target,
-      max: data.target * 1.2, // 最大值为目标的1.2倍
-      label: '目标',
-      unit: '万',
-      color: theme === 'dashboard' ? '#00e5ff' : '#3b82f6', // 驾驶舱主题用青色，否则用蓝色
-      showPointer: false // 目标不需要指针，作为基准
-    },
-    {
-      value: data.forecast,
-      max: data.target * 1.2,
-      label: '预测完成',
-      unit: '万',
-      color: theme === 'dashboard' ? '#00e5ff' : '#3b82f6',
-      warningThreshold: data.target // 警告阈值为目标值
-    },
-    {
-      value: Math.abs(data.gap),
-      max: data.target * 0.3, // 缺口最大值为目标的30%
-      label: data.gap < 0 ? '超额' : '缺口',
-      unit: '万',
-      color: data.gap < 0 ? (theme === 'dashboard' ? '#00ff9d' : '#22c55e') : (theme === 'dashboard' ? '#ff4d4d' : '#ef4444')
-    }
-  ];
-
-  // 驾驶舱主题的容器样式
-  const containerStyles = theme === 'dashboard'
-    ? {
-        bg: 'bg-gradient-to-br from-slate-900/90 via-slate-800/80 to-slate-900/90',
-        border: 'border-2 border-cyan-500/40',
-        glow: 'shadow-[0_0_30px_rgba(0,229,255,0.15)]',
-        titleText: 'text-cyan-400',
-        titleGlow: 'drop-shadow-[0_0_8px_rgba(0,229,255,0.6)]'
-      }
-    : {
-        bg: 'bg-slate-900/80',
-        border: 'border-slate-700',
-        glow: '',
-        titleText: 'text-slate-100',
-        titleGlow: ''
-      };
-
   return (
     <TooltipProvider>
       <div
         className={cn(
           'w-full rounded-xl border-2 transition-all duration-300',
-          containerStyles.bg,
-          containerStyles.border,
-          containerStyles.glow
+          theme === 'dark'
+            ? 'bg-slate-900/80 border-slate-700 hover:border-blue-500/50'
+            : 'bg-white border-slate-200 hover:border-blue-300 hover:shadow-2xl'
         )}
       >
         {/* 顶部标题栏 */}
         <div
           className={cn(
-            'px-6 py-4 border-b flex items-center justify-between',
-            theme === 'dashboard' ? 'border-cyan-500/30' : 'border-slate-700'
+            'px-5 py-3 border-b flex items-center justify-between',
+            theme === 'dark' ? 'border-slate-700' : 'border-slate-200'
           )}
         >
-          <div className="flex items-center gap-3">
-            <Gauge className={cn('w-6 h-6', theme === 'dashboard' ? 'text-cyan-400' : 'text-blue-600')} />
-            <h3
-              className={cn(
-                'font-bold text-xl',
-                containerStyles.titleText
-              )}
-              style={{
-                textShadow: containerStyles.titleGlow
-              }}
-            >
-              核心预测决策
-            </h3>
+          <div className="flex items-center gap-2">
+            <Target className="w-5 h-5 text-blue-600" />
+            <h3 className="font-bold text-lg text-slate-900">核心预测决策卡片</h3>
           </div>
           <div className="flex items-center gap-3">
             {/* 趋势方向标签 */}
             <Badge
               variant="outline"
-              className={cn(
-                'text-xs px-3 py-1.5',
-                theme === 'dashboard'
-                  ? 'border-cyan-500/50 text-cyan-400 bg-cyan-500/10'
-                  : trendDirection.color
-              )}
-              style={{
-                boxShadow: theme === 'dashboard' ? '0 0 10px rgba(0,229,255,0.2)' : undefined
-              }}
+              className={cn('text-xs px-3 py-1', trendDirection.color)}
             >
               {trendDirection.icon}
               趋势：{trendDirection.text}
@@ -410,11 +347,10 @@ export default function PredictionDecisionCard({
             <Badge
               variant="outline"
               className={cn(
-                'text-xs px-3 py-1.5 font-semibold',
-                status === 'success' && 'bg-green-500/10 text-green-400 border-green-500/30',
-                status === 'warning' && 'bg-yellow-500/10 text-yellow-400 border-yellow-500/30',
-                status === 'danger' && 'bg-red-500/10 text-red-400 border-red-500/30',
-                theme === 'dashboard' && 'shadow-[0_0_10px_rgba(0,0,0,0.3)]'
+                'text-xs px-3 py-1',
+                status === 'success' && 'bg-green-500/10 text-green-600 border-green-500/30',
+                status === 'warning' && 'bg-yellow-500/10 text-yellow-600 border-yellow-500/30',
+                status === 'danger' && 'bg-red-500/10 text-red-600 border-red-500/30'
               )}
             >
               {status === 'success' ? '预计超额' : status === 'warning' ? '接近目标' : '存在风险'}
@@ -422,77 +358,61 @@ export default function PredictionDecisionCard({
           </div>
         </div>
 
-        {/* 仪表盘区域 */}
-        <div
-          className={cn(
-            'p-6 border-b',
-            theme === 'dashboard' ? 'border-cyan-500/20' : 'border-slate-700'
-          )}
-        >
-          <GaugeDashboard
-            gauges={gaugeData}
-            className="max-w-4xl mx-auto"
-          />
-
-          {/* 完成度提示 */}
-          <div className="mt-4 text-center">
-            <div className="inline-flex items-center gap-3 px-6 py-2 rounded-full bg-slate-800/50 border border-slate-700">
-              <span className={cn('text-sm', theme === 'dashboard' ? 'text-slate-300' : 'text-slate-600')}>
-                目标完成度
-              </span>
-              <span
-                className={cn(
-                  'text-2xl font-bold',
-                  data.achievementRate >= 100 ? 'text-green-400' : data.achievementRate >= 90 ? 'text-yellow-400' : 'text-red-400'
-                )}
-              >
-                {data.achievementRate}%
-              </span>
-              <Badge
-                variant="outline"
-                className={cn(
-                  'text-xs',
-                  status === 'success' ? 'text-green-400 border-green-500/30' : status === 'warning' ? 'text-yellow-400 border-yellow-500/30' : 'text-red-400 border-red-500/30'
-                )}
-              >
-                {data.gap < 0
-                  ? `超额 ${Math.abs(data.gap)}万`
-                  : `缺口 ${data.gap}万`
-                }
-              </Badge>
-            </div>
-          </div>
-        </div>
-
         {/* 主内容区：四区布局 */}
         <div className="p-5 grid grid-cols-12 gap-4">
           {/* 左侧（20%）：未来预测趋势 */}
           <div className="col-span-3">
-            <div
-              className={cn(
-                'rounded-lg p-4 border-2',
-                theme === 'dashboard'
-                  ? 'bg-slate-900/50 border-cyan-500/20'
-                  : `${statusColor.bg} ${statusColor.border}`
-              )}
-            >
+            <div className={cn('rounded-lg p-4', statusColor.bg, statusColor.border, 'border-2')}>
+              {/* 状态图标 */}
+              <div className={cn('flex items-center justify-center mb-3', statusColor.text)}>
+                {statusColor.icon}
+              </div>
+
+              {/* 预测金额 - 超大数字 */}
+              <div className="text-center mb-3">
+                <div className={cn('text-5xl font-bold mb-1', data.forecast >= data.target ? 'text-green-600' : 'text-red-600')}>
+                  {data.forecast.toLocaleString()}
+                  <span className="text-base text-slate-600 ml-1">万</span>
+                </div>
+
+                {/* 目标完成度 */}
+                <div className="flex items-center justify-center gap-2 mb-2">
+                  <span className="text-sm text-slate-600">完成度</span>
+                  <Badge className={cn('text-sm px-2 py-0.5', statusColor.text, statusColor.bg, statusColor.border)}>
+                    {data.achievementRate}%
+                  </Badge>
+                </div>
+
+                {/* 缺口或超额 */}
+                <div className="text-xs text-slate-600">
+                  {data.gap < 0 ? (
+                    <span className="text-green-600 font-semibold">
+                      <ArrowUp className="w-3 h-3 inline mr-0.5" />
+                      超额 {Math.abs(data.gap).toLocaleString()}万
+                    </span>
+                  ) : (
+                    <span className="text-red-600 font-semibold">
+                      <ArrowDown className="w-3 h-3 inline mr-0.5" />
+                      缺口 {data.gap.toLocaleString()}万
+                    </span>
+                  )}
+                </div>
+              </div>
+
               {/* 迷你趋势图 */}
-              <div className="h-28">
+              <div className="h-24 mt-3">
                 <ResponsiveContainer width="100%" height="100%">
                   <LineChart data={data.trendData.slice(0, 2)}>
-                    <CartesianGrid
-                      strokeDasharray="2 2"
-                      stroke={theme === 'dashboard' ? '#1e293b' : '#e2e8f0'}
-                    />
+                    <CartesianGrid strokeDasharray="2 2" stroke={theme === 'dark' ? '#334155' : '#e2e8f0'} />
                     <XAxis
                       dataKey="month"
-                      stroke={theme === 'dashboard' ? '#94a3b8' : '#64748b'}
+                      stroke={theme === 'dark' ? '#94a3b8' : '#64748b'}
                       tick={{ fontSize: 10 }}
                       axisLine={false}
                       tickLine={false}
                     />
                     <YAxis
-                      stroke={theme === 'dashboard' ? '#94a3b8' : '#64748b'}
+                      stroke={theme === 'dark' ? '#94a3b8' : '#64748b'}
                       tick={{ fontSize: 10 }}
                       axisLine={false}
                       tickLine={false}
@@ -501,7 +421,7 @@ export default function PredictionDecisionCard({
                     {/* 目标线 - 虚线 */}
                     <Line
                       dataKey="target"
-                      stroke={theme === 'dashboard' ? '#475569' : '#94a3b8'}
+                      stroke="#94a3b8"
                       strokeWidth={1.5}
                       strokeDasharray="4 4"
                       name="目标"
@@ -510,47 +430,33 @@ export default function PredictionDecisionCard({
                     {/* 预测线 - 实线 */}
                     <Line
                       dataKey="forecast"
-                      stroke={theme === 'dashboard' ? '#00e5ff' : '#3b82f6'}
+                      stroke="#3b82f6"
                       strokeWidth={2}
                       name="预测"
-                      dot={{
-                        fill: theme === 'dashboard' ? '#00e5ff' : '#3b82f6',
-                        r: 3,
-                        style: { filter: theme === 'dashboard' ? 'drop-shadow(0 0 4px #00e5ff)' : undefined }
-                      }}
+                      dot={{ fill: '#3b82f6', r: 3 }}
                     />
                   </LineChart>
                 </ResponsiveContainer>
               </div>
+            </div>
 
-              {/* 小提示 */}
-              <div className="mt-3 text-center">
-                <p className={cn('text-xs', theme === 'dashboard' ? 'text-slate-400' : 'text-slate-500')}>
-                  未来趋势：下月预测 {data.trendData[1]?.forecast?.toLocaleString() || '-'}万
-                </p>
-              </div>
+            {/* 小提示 */}
+            <div className="mt-2 text-center">
+              <p className={cn('text-xs', theme === 'dark' ? 'text-slate-500' : 'text-slate-500')}>
+                目标 {data.target.toLocaleString()}万
+              </p>
             </div>
           </div>
 
           {/* 中间（35%）：支撑性驱动因子 */}
           <div className="col-span-4">
-            <div
-              className={cn(
-                'h-full rounded-lg p-3',
-                theme === 'dashboard' ? 'bg-slate-900/50 border border-cyan-500/20' : 'bg-slate-50'
-              )}
-            >
+            <div className={cn('h-full rounded-lg p-3', theme === 'dark' ? 'bg-slate-800/50' : 'bg-slate-50')}>
               <div className="flex items-center justify-between mb-3">
-                <h4
-                  className={cn(
-                    'font-semibold text-sm flex items-center gap-1.5',
-                    theme === 'dashboard' ? 'text-cyan-300' : 'text-slate-900'
-                  )}
-                >
-                  <TrendingUp className={cn('w-4 h-4', theme === 'dashboard' ? 'text-green-400' : 'text-green-600')} />
+                <h4 className="font-semibold text-sm text-slate-900 flex items-center gap-1.5">
+                  <TrendingUp className="w-4 h-4 text-green-600" />
                   支撑因子
                 </h4>
-                <Badge variant="outline" className={cn('text-xs', theme === 'dashboard' ? 'text-slate-400 border-slate-600' : 'text-slate-600')}>
+                <Badge variant="outline" className="text-xs text-slate-600">
                   Top 3
                 </Badge>
               </div>
@@ -560,12 +466,7 @@ export default function PredictionDecisionCard({
                   <Tooltip key={index}>
                     <TooltipTrigger asChild>
                       <div
-                        className={cn(
-                          'cursor-pointer hover:bg-white/10 rounded transition-colors p-2 border',
-                          theme === 'dashboard'
-                            ? 'border-cyan-500/20 bg-slate-800/30'
-                            : 'border-slate-200/50'
-                        )}
+                        className="cursor-pointer hover:bg-white/50 rounded transition-colors p-2 border border-slate-200/50"
                         onMouseEnter={() => onSupportFactorHover?.(factor)}
                       >
                         <div className="flex items-center justify-between mb-1">
@@ -575,35 +476,26 @@ export default function PredictionDecisionCard({
                                 新增
                               </Badge>
                             )}
-                            <span className={cn('text-xs font-medium truncate', theme === 'dashboard' ? 'text-slate-200' : 'text-slate-900')}>
-                              {factor.name}
-                            </span>
+                            <span className="text-xs font-medium text-slate-900 truncate">{factor.name}</span>
                           </div>
                           <div className="text-right flex-shrink-0 ml-2">
-                            <span className="text-xs font-bold text-green-400">
+                            <span className="text-xs font-bold text-green-600">
                               +{factor.amount.toLocaleString()}万
                             </span>
                           </div>
                         </div>
                         <div className="flex items-center justify-between">
-                          <span className={cn('text-[10px]', theme === 'dashboard' ? 'text-slate-400' : 'text-slate-500')}>
-                            {factor.timeLabel}
-                          </span>
-                          <span className={cn('text-[10px]', theme === 'dashboard' ? 'text-slate-300' : 'text-slate-600')}>
-                            占比 {factor.percentage}%
-                          </span>
+                          <span className="text-[10px] text-slate-500">{factor.timeLabel}</span>
+                          <span className="text-[10px] text-slate-600">占比 {factor.percentage}%</span>
                         </div>
                         {/* 进度条 */}
-                        <div className="relative h-1.5 bg-slate-700/50 rounded-full overflow-hidden mt-1.5">
+                        <div className="relative h-1.5 bg-slate-200 rounded-full overflow-hidden mt-1.5">
                           <div
                             className={cn(
                               'h-full transition-all',
-                              factor.isNew ? 'bg-green-500' : (theme === 'dashboard' ? 'bg-cyan-500' : 'bg-blue-500')
+                              factor.isNew ? 'bg-green-500' : 'bg-blue-500'
                             )}
-                            style={{
-                              width: `${factor.percentage}%`,
-                              boxShadow: theme === 'dashboard' && !factor.isNew ? '0 0 8px rgba(0,229,255,0.5)' : undefined
-                            }}
+                            style={{ width: `${factor.percentage}%` }}
                           />
                         </div>
                       </div>
@@ -613,7 +505,7 @@ export default function PredictionDecisionCard({
                         side="right"
                         className={cn(
                           'max-w-xs',
-                          theme === 'dashboard' ? 'bg-slate-900 border-cyan-500/30' : 'bg-white border-slate-200'
+                          theme === 'dark' ? 'bg-slate-900 border-slate-700' : 'bg-white border-slate-200'
                         )}
                       >
                         <div className="space-y-1">
@@ -629,12 +521,7 @@ export default function PredictionDecisionCard({
               </div>
 
               {/* 迷你对冲图 - 支撑vs风险 */}
-              <div
-                className={cn(
-                  'mt-3 pt-3 border-t',
-                  theme === 'dashboard' ? 'border-cyan-500/20' : 'border-slate-200/50'
-                )}
-              >
+              <div className="mt-3 pt-3 border-t border-slate-200/50">
                 <div className="flex items-center justify-between">
                   <div className="w-20 h-20">
                     <ResponsiveContainer width="100%" height="100%">
@@ -657,12 +544,12 @@ export default function PredictionDecisionCard({
                   </div>
                   <div className="flex-1 space-y-1">
                     <div className="flex items-center justify-between text-xs">
-                      <span className={cn(theme === 'dashboard' ? 'text-slate-400' : 'text-slate-600')}>支撑总额</span>
-                      <span className="font-bold text-green-400">{totalSupport.toLocaleString()}万</span>
+                      <span className="text-slate-600">支撑总额</span>
+                      <span className="font-bold text-green-600">{totalSupport.toLocaleString()}万</span>
                     </div>
                     <div className="flex items-center justify-between text-xs">
-                      <span className={cn(theme === 'dashboard' ? 'text-slate-400' : 'text-slate-600')}>风险总额</span>
-                      <span className="font-bold text-red-400">-{totalRisk.toLocaleString()}万</span>
+                      <span className="text-slate-600">风险总额</span>
+                      <span className="font-bold text-red-600">-{totalRisk.toLocaleString()}万</span>
                     </div>
                   </div>
                 </div>
@@ -672,23 +559,13 @@ export default function PredictionDecisionCard({
 
           {/* 中右（30%）：风险因子 */}
           <div className="col-span-3">
-            <div
-              className={cn(
-                'h-full rounded-lg p-3',
-                theme === 'dashboard' ? 'bg-slate-900/50 border border-cyan-500/20' : 'bg-slate-50'
-              )}
-            >
+            <div className={cn('h-full rounded-lg p-3', theme === 'dark' ? 'bg-slate-800/50' : 'bg-slate-50')}>
               <div className="flex items-center justify-between mb-3">
-                <h4
-                  className={cn(
-                    'font-semibold text-sm flex items-center gap-1.5',
-                    theme === 'dashboard' ? 'text-cyan-300' : 'text-slate-900'
-                  )}
-                >
-                  <TrendDown className={cn('w-4 h-4', theme === 'dashboard' ? 'text-red-400' : 'text-red-600')} />
+                <h4 className="font-semibold text-sm text-slate-900 flex items-center gap-1.5">
+                  <TrendDown className="w-4 h-4 text-red-600" />
                   风险因子
                 </h4>
-                <Badge variant="outline" className={cn('text-xs', theme === 'dashboard' ? 'text-slate-400 border-slate-600' : 'text-slate-600')}>
+                <Badge variant="outline" className="text-xs text-slate-600">
                   Top 3
                 </Badge>
               </div>
@@ -698,20 +575,15 @@ export default function PredictionDecisionCard({
                   <Tooltip key={index}>
                     <TooltipTrigger asChild>
                       <div
-                        className={cn(
-                          'cursor-pointer hover:bg-white/10 rounded transition-colors p-2 border',
-                          theme === 'dashboard'
-                            ? 'border-cyan-500/20 bg-slate-800/30'
-                            : 'border-slate-200/50'
-                        )}
+                        className="cursor-pointer hover:bg-white/50 rounded transition-colors p-2 border border-slate-200/50"
                         onMouseEnter={() => onRiskFactorHover?.(risk)}
                       >
                         <div className="flex items-center justify-between mb-1">
-                          <span className={cn('text-xs font-medium flex-1 min-w-0 pr-2 truncate', theme === 'dashboard' ? 'text-slate-200' : 'text-slate-900')}>
+                          <span className="text-xs font-medium text-slate-900 flex-1 min-w-0 pr-2 truncate">
                             {risk.source}
                           </span>
                           <div className="text-right flex-shrink-0">
-                            <span className="text-xs font-bold text-red-400">
+                            <span className="text-xs font-bold text-red-600">
                               {risk.amount.toLocaleString()}万
                             </span>
                           </div>
@@ -723,9 +595,7 @@ export default function PredictionDecisionCard({
                           >
                             {risk.level === 'high' ? '高风险' : risk.level === 'medium' ? '中风险' : '低风险'}
                           </Badge>
-                          <span className={cn('text-[10px] truncate ml-1', theme === 'dashboard' ? 'text-slate-400' : 'text-slate-500')}>
-                            {risk.timeLabel}
-                          </span>
+                          <span className="text-[10px] text-slate-500 truncate ml-1">{risk.timeLabel}</span>
                         </div>
                       </div>
                     </TooltipTrigger>
@@ -734,7 +604,7 @@ export default function PredictionDecisionCard({
                         side="left"
                         className={cn(
                           'max-w-xs',
-                          theme === 'dashboard' ? 'bg-slate-900 border-cyan-500/30' : 'bg-white border-slate-200'
+                          theme === 'dark' ? 'bg-slate-900 border-slate-700' : 'bg-white border-slate-200'
                         )}
                       >
                         <div className="space-y-1">
@@ -757,18 +627,11 @@ export default function PredictionDecisionCard({
             <div
               className={cn(
                 'h-full rounded-lg p-3 border-2',
-                theme === 'dashboard'
-                  ? 'bg-gradient-to-br from-orange-600/5 to-red-600/5 border-orange-500/30'
-                  : 'bg-gradient-to-br from-orange-50 to-red-50 border-orange-300'
+                theme === 'dark' ? 'bg-gradient-to-br from-orange-600/10 to-red-600/10 border-orange-500/30' : 'bg-gradient-to-br from-orange-50 to-red-50 border-orange-300'
               )}
             >
               <div className="flex items-center justify-between mb-3">
-                <h4
-                  className={cn(
-                    'font-bold text-sm flex items-center gap-1.5',
-                    theme === 'dashboard' ? 'text-orange-400' : 'text-orange-600'
-                  )}
-                >
+                <h4 className="font-bold text-sm text-orange-600 flex items-center gap-1.5">
                   <Zap className="w-4 h-4" />
                   ⚡ 行动建议
                 </h4>
@@ -781,9 +644,7 @@ export default function PredictionDecisionCard({
                     className={cn(
                       'cursor-pointer rounded p-2 transition-all hover:shadow-md',
                       getActionBorderColor(action.priority),
-                      theme === 'dashboard'
-                        ? 'bg-slate-800/50 hover:bg-slate-700/50'
-                        : 'bg-white hover:bg-orange-50',
+                      theme === 'dark' ? 'bg-slate-800/50 hover:bg-slate-700/50' : 'bg-white hover:bg-orange-50',
                       action.link && 'hover:translate-x-0.5'
                     )}
                     onClick={() => {
@@ -797,11 +658,11 @@ export default function PredictionDecisionCard({
                         {getActionIcon(action.icon)}
                       </div>
                       <div className="flex-1 min-w-0">
-                        <p className={cn('text-xs leading-relaxed mb-1', theme === 'dashboard' ? 'text-slate-300' : 'text-slate-700')}>
+                        <p className="text-xs text-slate-700 leading-relaxed mb-1">
                           {action.text}
                         </p>
                         {action.impact && (
-                          <div className={cn('text-[10px]', theme === 'dashboard' ? 'text-slate-400' : 'text-slate-500')}>
+                          <div className="text-[10px] text-slate-500">
                             预计影响：{action.impact}
                           </div>
                         )}
@@ -809,7 +670,7 @@ export default function PredictionDecisionCard({
                     </div>
                     {action.link && (
                       <div className="flex items-center justify-end mt-1">
-                        <ChevronRight className={cn('w-3 h-3', theme === 'dashboard' ? 'text-slate-500' : 'text-slate-400')} />
+                        <ChevronRight className="w-3 h-3 text-slate-400" />
                       </div>
                     )}
                   </div>
