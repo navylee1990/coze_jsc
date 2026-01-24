@@ -824,6 +824,28 @@ export default function GMDashboard() {
                           fontSize: '11px'
                         }}
                       />
+                      {/* 业务目标 - 实线（无填充） */}
+                      <Area
+                        type="monotone"
+                        dataKey="businessTarget"
+                        stroke="#3b82f6"
+                        strokeWidth={2}
+                        fill="none"
+                        name="业务目标"
+                        dot={{ fill: '#3b82f6', r: 4 }}
+                        activeDot={{ r: 6 }}
+                      />
+                      {/* 财务目标 - 实线（无填充） */}
+                      <Area
+                        type="monotone"
+                        dataKey="financialTarget"
+                        stroke="#8b5cf6"
+                        strokeWidth={2}
+                        fill="none"
+                        name="财务目标"
+                        dot={{ fill: '#8b5cf6', r: 4 }}
+                        activeDot={{ r: 6 }}
+                      />
                       {/* 已完成 - 面积填充 */}
                       <Area
                         type="monotone"
@@ -846,28 +868,6 @@ export default function GMDashboard() {
                         fill="rgba(34, 211, 238, 0.15)"
                         name="未来预测完成"
                         dot={{ fill: '#22d3ee', r: 4 }}
-                        activeDot={{ r: 6 }}
-                      />
-                      {/* 业务目标 - 实线 */}
-                      <Line
-                        type="monotone"
-                        dataKey="businessTarget"
-                        stroke="#3b82f6"
-                        strokeWidth={2}
-                        fill="none"
-                        name="业务目标"
-                        dot={{ fill: '#3b82f6', r: 4 }}
-                        activeDot={{ r: 6 }}
-                      />
-                      {/* 财务目标 - 实线 */}
-                      <Line
-                        type="monotone"
-                        dataKey="financialTarget"
-                        stroke="#8b5cf6"
-                        strokeWidth={2}
-                        fill="none"
-                        name="财务目标"
-                        dot={{ fill: '#8b5cf6', r: 4 }}
                         activeDot={{ r: 6 }}
                       />
                     </AreaChart>
