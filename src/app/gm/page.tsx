@@ -62,13 +62,15 @@ const riskData = {
 
 // 预测趋势图数据
 // 业务目标通常略高于财务目标（约高5-8%），用于内部激励
+// completed: 实际完成值（过去月份有值，未来月份为0）
+// forecast: 预测完成值（所有月份都有值）
 const forecastTrendData = [
-  { month: '1月', businessTarget: 1580, financialTarget: 1500, completed: 800, forecast: 1140 },
-  { month: '2月', businessTarget: 1580, financialTarget: 1500, completed: 0, forecast: 1180 },
-  { month: '3月', businessTarget: 1580, financialTarget: 1500, completed: 0, forecast: 1120 },
-  { month: '4月', businessTarget: 1580, financialTarget: 1500, completed: 0, forecast: 1160 },
-  { month: '5月', businessTarget: 1580, financialTarget: 1500, completed: 0, forecast: 1140 },
-  { month: '6月', businessTarget: 1580, financialTarget: 1500, completed: 0, forecast: 1200 },
+  { month: '1月', monthIndex: 1, businessTarget: 1580, financialTarget: 1500, completed: 800, forecast: 1140 },
+  { month: '2月', monthIndex: 2, businessTarget: 1580, financialTarget: 1500, completed: 850, forecast: 1180 },
+  { month: '3月', monthIndex: 3, businessTarget: 1580, financialTarget: 1500, completed: 900, forecast: 1120 },
+  { month: '4月', monthIndex: 4, businessTarget: 1580, financialTarget: 1500, completed: 0, forecast: 1160 },
+  { month: '5月', monthIndex: 5, businessTarget: 1580, financialTarget: 1500, completed: 0, forecast: 1140 },
+  { month: '6月', monthIndex: 6, businessTarget: 1580, financialTarget: 1500, completed: 0, forecast: 1200 },
 ];
 
 // 大区维度数据
@@ -224,6 +226,12 @@ export default function GMDashboard() {
   const [selectedMonth, setSelectedMonth] = useState('1');
   const [selectedQuarter, setSelectedQuarter] = useState('Q1');
   const [trendRegion, setTrendRegion] = useState('all');
+
+  // 当前月份（实际应用中应从数据库或系统时间获取）
+  const currentMonth = 3; // 假设当前是3月，1-3月为实绩，4-6月为预测
+
+  // 判断某个月是否为已完成（实绩）
+  const isCompleted = (monthIndex: number) => monthIndex <= currentMonth;
 
   // 获取当前时间范围的数据
   const getTimeRangeData = () => {
@@ -805,7 +813,7 @@ export default function GMDashboard() {
                     </div>
                   </div>
                   <div className="text-xs text-cyan-400/80">
-                    1月实绩 <span className="font-bold text-green-400">800万</span>
+                    1-{currentMonth}月实绩
                   </div>
                 </div>
 
@@ -846,9 +854,11 @@ export default function GMDashboard() {
                           boxShadow: '0 0 20px rgba(6,182,212,0.3)',
                         }}
                         formatter={(value: number, name: string, props: any) => {
-                          const month = props.payload?.month;
+                          const monthIndex = props.payload?.monthIndex;
+                          const isPast = isCompleted(monthIndex);
                           const gap = props.payload?.businessTarget - props.payload?.forecast;
-                          return [`${value}万`, name, month !== '1月' && name === '预计完成' ? `(缺口: ${gap.toFixed(0)}万)` : ''];
+                          const suffix = name === '预计完成' && !isPast ? `(缺口: ${gap.toFixed(0)}万)` : '';
+                          return [`${value}万`, name, suffix];
                         }}
                         labelStyle={{ color: '#22d3ee', fontWeight: 'bold' }}
                       />
@@ -857,13 +867,14 @@ export default function GMDashboard() {
                         iconType="line"
                       />
 
-                      {/* 1月分界线 - 实绩和预测的分界 */}
+                      {/* 分界线 - 实绩和预测的分界，基于当前月份动态计算 */}
                       <ReferenceLine
-                        x="1.5"
+                        x={`${currentMonth}.5`}
                         stroke="#22d3ee"
                         strokeWidth={1}
                         strokeDasharray="4 4"
                         opacity={0.4}
+                        label={{ value: '当前', position: 'topLeft', fill: '#22d3ee', fontSize: 10 }}
                       />
 
                       {/* 缺口区域 - 业务目标与预计完成之间的区域 */}
@@ -896,7 +907,7 @@ export default function GMDashboard() {
                         name="财务目标"
                       />
 
-                      {/* 已完成 - 只在1月有值，用实心大点 */}
+                      {/* 已完成 - 根据当前月份判断显示 */}
                       <Area
                         type="monotone"
                         dataKey="completed"
@@ -906,21 +917,35 @@ export default function GMDashboard() {
                         name="已完成"
                         activeDot={{ r: 6, fill: '#22c55e', strokeWidth: 2, stroke: '#fff' }}
                         dot={(props: any) => {
-                          if (props.payload.completed > 0) {
+                          const monthIndex = props.payload?.monthIndex;
+                          // 只在当前及之前的月份显示实绩点
+                          if (isCompleted(monthIndex) && props.payload.completed > 0) {
                             return <circle r={5} fill="#22c55e" strokeWidth={2} stroke="#fff" />;
                           }
                           return <circle r={0} />;
                         }}
                       />
 
-                      {/* 预计完成 - 虚线，表示不确定性 */}
+                      {/* 预计完成 - 根据当前月份判断实线/虚线 */}
                       <Line
                         type="monotone"
                         dataKey="forecast"
                         stroke="#22d3ee"
                         strokeWidth={2.5}
-                        strokeDasharray="5 3"
-                        dot={{ r: 4, fill: '#22d3ee', strokeWidth: 2, stroke: '#0ea5e9' }}
+                        strokeDasharray={(props: any) => {
+                          const monthIndex = props.payload?.monthIndex;
+                          // 未来月份显示虚线
+                          return !isCompleted(monthIndex) ? '5 3' : '0';
+                        }}
+                        dot={(props: any) => {
+                          const monthIndex = props.payload?.monthIndex;
+                          const isPast = isCompleted(monthIndex);
+                          // 过去月份显示空心点，未来月份显示实心点
+                          if (isPast) {
+                            return <circle r={4} fill="#22d3ee" strokeWidth={2} stroke="#0ea5e9" fillOpacity={0.3} />;
+                          }
+                          return <circle r={4} fill="#22d3ee" strokeWidth={2} stroke="#0ea5e9" />;
+                        }}
                         name="预计完成"
                       />
                     </LineChart>
