@@ -1561,6 +1561,24 @@ export default function FutureSupportAdequacyPanel({
             // 计算还需要新开发的金额
             const newDevNeeded = Math.max(0, level.target - (level.amount + excludedProjectsTotalAmount));
 
+            // 计算各区域在该时间段的达标情况
+            const underachievingRegions: string[] = [];
+            const regions = ['north', 'east', 'south', 'southwest', 'northwest'] as Region[];
+            regions.forEach(regionKey => {
+              const regionLevel = allRegionData[regionKey]?.supportStructure[period];
+              if (regionLevel) {
+                const regionExcludedAmount = regionLevel.excludedProjects
+                  ? regionLevel.excludedProjects.reduce((sum, p) => sum + p.amount, 0)
+                  : 0;
+                const regionTotalCoverage = regionLevel.target > 0
+                  ? ((regionLevel.amount + regionExcludedAmount) / regionLevel.target) * 100
+                  : 100;
+                if (regionTotalCoverage < 100) {
+                  underachievingRegions.push(regionConfig[regionKey].label);
+                }
+              }
+            });
+
             return (
               <div
                 key={period}
@@ -1695,6 +1713,18 @@ export default function FutureSupportAdequacyPanel({
                             theme === 'dashboard' ? 'text-purple-300' : 'text-purple-600'
                           )}>
                             {newDevNeeded}万
+                          </span>
+                        </div>
+                      )}
+                      {/* 不达标大区 */}
+                      {underachievingRegions.length > 0 && (
+                        <div className="flex justify-between text-xs">
+                          <span className={cn(theme === 'dashboard' ? 'text-cyan-400/60' : 'text-slate-500')}>不达标</span>
+                          <span className={cn(
+                            'font-semibold text-red-400',
+                            theme === 'dashboard' ? 'text-red-300' : 'text-red-600'
+                          )}>
+                            {underachievingRegions.join(', ')}
                           </span>
                         </div>
                       )}
