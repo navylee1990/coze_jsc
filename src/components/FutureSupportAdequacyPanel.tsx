@@ -1632,14 +1632,23 @@ export default function FutureSupportAdequacyPanel({
                   'appearance-none pl-3 pr-8 py-1.5 text-sm rounded-lg border cursor-pointer',
                   'transition-colors focus:outline-none focus:ring-2',
                   theme === 'dashboard'
-                    ? 'bg-slate-800/60 border-cyan-500/30 text-cyan-100 hover:bg-cyan-500/20 focus:ring-cyan-500'
+                    ? 'bg-slate-900/80 border-cyan-500/40 text-white hover:bg-cyan-500/20 focus:ring-cyan-500 focus:text-cyan-100'
                     : theme === 'dark'
                     ? 'bg-slate-800 border-slate-700 text-white hover:bg-slate-700 focus:ring-blue-500'
                     : 'bg-white border-slate-200 text-slate-900 hover:bg-slate-50 focus:ring-blue-500'
                 )}
+                style={{
+                  backgroundImage: 'none',
+                  WebkitAppearance: 'none',
+                  MozAppearance: 'none'
+                }}
               >
                 {Object.entries(regionConfig).map(([key, config]) => (
-                  <option key={key} value={key}>
+                  <option
+                    key={key}
+                    value={key}
+                    className={theme === 'dashboard' ? 'bg-slate-900 text-cyan-100' : ''}
+                  >
                     {config.label}
                   </option>
                 ))}
