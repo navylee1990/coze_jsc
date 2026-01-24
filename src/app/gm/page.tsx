@@ -1190,29 +1190,31 @@ export default function GMDashboard() {
               )}
 
               {/* 合计 */}
-              <div className="mb-3 p-2 rounded-lg bg-cyan-500/10 border border-cyan-500/20">
-                <div className="grid grid-cols-3 gap-2 text-xs">
-                  <div>
-                    <span className="text-cyan-400/70">目标：</span>
-                    <span className="text-cyan-300 font-semibold ml-1">{totalTarget.toLocaleString()}万</span>
+              <div className="mb-2 p-1.5 rounded-lg bg-cyan-500/10 border border-cyan-500/20">
+                <div className="grid grid-cols-3 gap-1 text-xs">
+                  <div className="text-center">
+                    <div className="text-cyan-400/60 mb-0.5">目标</div>
+                    <div className="text-cyan-300 font-semibold">{totalTarget.toLocaleString()}万</div>
                   </div>
-                  <div>
-                    <span className="text-cyan-400/70">预测：</span>
-                    <span className="text-cyan-300 font-semibold ml-1">{totalPredicted.toLocaleString()}万</span>
+                  <div className="text-center">
+                    <div className="text-cyan-400/60 mb-0.5">预测</div>
+                    <div className="text-cyan-300 font-semibold">{totalPredicted.toLocaleString()}万</div>
                   </div>
-                  <div>
-                    <span className="text-cyan-400/70">在手项目：</span>
-                    <span className="text-cyan-300 font-semibold ml-1">{totalPendingAmount.toLocaleString()}万</span>
+                  <div className="text-center">
+                    <div className="text-cyan-400/60 mb-0.5">在手项目</div>
+                    <div className="text-cyan-300 font-semibold">{totalPendingAmount.toLocaleString()}万</div>
                   </div>
                 </div>
               </div>
 
               {/* 数据列表 */}
-              <div className="space-y-2 max-h-80 overflow-y-auto pr-2">
+              <div className={`space-y-1.5 overflow-y-auto pr-2 ${
+                drillDownView === 'region' ? 'max-h-96' : 'max-h-72'
+              }`}>
                 {currentData.map((item: any, index: number) => (
                   <div
                     key={index}
-                    className={`p-2 rounded-lg bg-slate-800/30 border border-slate-700/30 hover:border-cyan-500/50 transition-all ${
+                    className={`p-1.5 rounded-lg bg-slate-800/30 border border-slate-700/30 hover:border-cyan-500/50 transition-all ${
                       drillDownView === 'salesperson' ? '' : 'cursor-pointer'
                     }`}
                     onClick={() => {
@@ -1225,6 +1227,7 @@ export default function GMDashboard() {
                       }
                     }}
                   >
+                    {/* 第一行：名称 + 缺口 */}
                     <div className="flex items-center justify-between mb-1">
                       <span className="text-sm font-medium text-cyan-200">{item.name}</span>
                       <div className="flex items-center gap-2">
@@ -1236,8 +1239,11 @@ export default function GMDashboard() {
                         )}
                       </div>
                     </div>
-                    <div className="flex items-center justify-between text-xs mb-1">
-                      <span className="text-cyan-400/50">{drillDownView === 'salesperson' ? item.name : item.owner}</span>
+                    {/* 第二行：负责人/业务员 + 达成率 + 在手项目 */}
+                    <div className="flex items-center justify-between text-xs">
+                      <div className="flex items-center gap-2">
+                        <span className="text-cyan-400/50">{drillDownView === 'salesperson' ? item.name : item.owner}</span>
+                      </div>
                       <div className="flex items-center gap-2">
                         <span className="text-cyan-400/70">{item.rate.toFixed(1)}%</span>
                         <div className="w-12 h-1.5 rounded-full bg-slate-700 overflow-hidden">
@@ -1248,12 +1254,8 @@ export default function GMDashboard() {
                             style={{ width: `${Math.min(item.rate, 100)}%` }}
                           />
                         </div>
+                        <span className="text-cyan-300 font-semibold ml-2">{(item.pendingAmount || 0).toLocaleString()}万</span>
                       </div>
-                    </div>
-                    {/* 在手项目金额 */}
-                    <div className="flex items-center justify-between text-xs">
-                      <span className="text-cyan-400/50">在手项目金额</span>
-                      <span className="text-cyan-300 font-semibold">{(item.pendingAmount || 0).toLocaleString()}万</span>
                     </div>
                   </div>
                 ))}
