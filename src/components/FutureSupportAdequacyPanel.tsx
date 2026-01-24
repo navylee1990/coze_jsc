@@ -1865,13 +1865,13 @@ export default function FutureSupportAdequacyPanel({
                         <div className="relative flex justify-between text-xs">
                           {/* 右上角标识 */}
                           <div className={cn(
-                            'absolute -top-1 -right-1 z-10 rounded-full p-0.5 animate-pulse',
+                            'absolute -top-1.5 -right-1 z-20 rounded-full p-1 animate-pulse',
                             theme === 'dashboard'
-                              ? 'bg-purple-500/30'
-                              : 'bg-purple-500/20'
+                              ? 'bg-purple-500/40 shadow-[0_0_8px_rgba(168,85,247,0.6)]'
+                              : 'bg-purple-500/30 shadow-md'
                           )}>
                             <Target className={cn(
-                              'w-3.5 h-3.5',
+                              'w-4 h-4',
                               theme === 'dashboard' ? 'text-purple-300' : 'text-purple-600'
                             )} />
                           </div>
