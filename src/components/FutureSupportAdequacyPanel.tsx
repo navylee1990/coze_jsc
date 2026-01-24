@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { ArrowUp, ArrowDown, ArrowRight, AlertTriangle, CheckCircle2, XCircle, TrendingUp, Activity, Clock, Target, DollarSign, Zap, Flame, Lightbulb, Compass, BarChart3, ChevronDown, MapPin, ChevronRight, X } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, ResponsiveContainer, Tooltip as RechartsTooltip } from 'recharts';
@@ -1600,9 +1600,36 @@ function ProjectDrillDownModal({
   data: SupportLevel;
   theme: Theme;
 }) {
+  // 翻页状态
+  const [projectsCurrentPage, setProjectsCurrentPage] = useState(1);
+  const [excludedProjectsCurrentPage, setExcludedProjectsCurrentPage] = useState(1);
+  const projectsPerPage = 6; // 每页显示6个项目
+
   if (!isOpen) return null;
 
   const periodInfo = periodConfig[period];
+
+  // 计算统计项目的分页数据
+  const projectsTotalPages = Math.ceil(data.projects.length / projectsPerPage);
+  const projectsStartIndex = (projectsCurrentPage - 1) * projectsPerPage;
+  const projectsEndIndex = projectsStartIndex + projectsPerPage;
+  const displayedProjects = data.projects.slice(projectsStartIndex, projectsEndIndex);
+
+  // 计算未统计项目的分页数据
+  const excludedProjectsTotalPages = data.excludedProjects
+    ? Math.ceil(data.excludedProjects.length / projectsPerPage)
+    : 0;
+  const excludedProjectsStartIndex = (excludedProjectsCurrentPage - 1) * projectsPerPage;
+  const excludedProjectsEndIndex = excludedProjectsStartIndex + projectsPerPage;
+  const displayedExcludedProjects = data.excludedProjects
+    ? data.excludedProjects.slice(excludedProjectsStartIndex, excludedProjectsEndIndex)
+    : [];
+
+  // 重置页码（当弹窗打开或数据变化时）
+  useEffect(() => {
+    setProjectsCurrentPage(1);
+    setExcludedProjectsCurrentPage(1);
+  }, [isOpen, period]);
 
   // 计算合计
   const totals = {
@@ -1755,7 +1782,7 @@ function ProjectDrillDownModal({
               统计项目 ({data.projects.length})
             </h3>
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-3">
-              {data.projects.map((project) => (
+              {displayedProjects.map((project) => (
                 <div
                   key={project.id}
                   className={cn(
@@ -1825,6 +1852,39 @@ function ProjectDrillDownModal({
                 </div>
               ))}
             </div>
+
+            {/* 统计项目翻页控件 */}
+            {data.projects.length > projectsPerPage && (
+              <div className="flex items-center justify-center gap-4 mt-4 pt-4 border-t border-cyan-500/20">
+                <button
+                  onClick={() => setProjectsCurrentPage((prev) => Math.max(1, prev - 1))}
+                  disabled={projectsCurrentPage === 1}
+                  className={cn(
+                    'px-3 py-1.5 rounded-lg text-sm font-medium transition-all disabled:opacity-50 disabled:cursor-not-allowed',
+                    theme === 'dashboard'
+                      ? 'bg-cyan-500/20 border border-cyan-500/30 text-cyan-300 hover:bg-cyan-500/30'
+                      : 'bg-slate-200 text-slate-700 hover:bg-slate-300'
+                  )}
+                >
+                  上一页
+                </button>
+                <span className={cn('text-sm', theme === 'dashboard' ? 'text-cyan-300' : 'text-slate-700')}>
+                  第 {projectsCurrentPage} / {projectsTotalPages} 页
+                </span>
+                <button
+                  onClick={() => setProjectsCurrentPage((prev) => Math.min(projectsTotalPages, prev + 1))}
+                  disabled={projectsCurrentPage === projectsTotalPages}
+                  className={cn(
+                    'px-3 py-1.5 rounded-lg text-sm font-medium transition-all disabled:opacity-50 disabled:cursor-not-allowed',
+                    theme === 'dashboard'
+                      ? 'bg-cyan-500/20 border border-cyan-500/30 text-cyan-300 hover:bg-cyan-500/30'
+                      : 'bg-slate-200 text-slate-700 hover:bg-slate-300'
+                  )}
+                >
+                  下一页
+                </button>
+              </div>
+            )}
           </div>
 
           {/* 未统计项目 */}
@@ -1835,7 +1895,7 @@ function ProjectDrillDownModal({
                 未统计项目 ({data.excludedProjects.length})
               </h3>
               <div className="grid grid-cols-1 lg:grid-cols-2 gap-3">
-                {data.excludedProjects.map((project) => (
+                {displayedExcludedProjects.map((project) => (
                   <div
                     key={project.id}
                     className={cn(
@@ -1899,6 +1959,39 @@ function ProjectDrillDownModal({
                   </div>
                 ))}
               </div>
+
+              {/* 未统计项目翻页控件 */}
+              {data.excludedProjects.length > projectsPerPage && (
+                <div className="flex items-center justify-center gap-4 mt-4 pt-4 border-t border-orange-500/20">
+                  <button
+                    onClick={() => setExcludedProjectsCurrentPage((prev) => Math.max(1, prev - 1))}
+                    disabled={excludedProjectsCurrentPage === 1}
+                    className={cn(
+                      'px-3 py-1.5 rounded-lg text-sm font-medium transition-all disabled:opacity-50 disabled:cursor-not-allowed',
+                      theme === 'dashboard'
+                        ? 'bg-orange-500/20 border border-orange-500/30 text-orange-300 hover:bg-orange-500/30'
+                        : 'bg-orange-100 text-orange-700 hover:bg-orange-200'
+                    )}
+                  >
+                    上一页
+                  </button>
+                  <span className={cn('text-sm', theme === 'dashboard' ? 'text-orange-300' : 'text-orange-700')}>
+                    第 {excludedProjectsCurrentPage} / {excludedProjectsTotalPages} 页
+                  </span>
+                  <button
+                    onClick={() => setExcludedProjectsCurrentPage((prev) => Math.min(excludedProjectsTotalPages, prev + 1))}
+                    disabled={excludedProjectsCurrentPage === excludedProjectsTotalPages}
+                    className={cn(
+                      'px-3 py-1.5 rounded-lg text-sm font-medium transition-all disabled:opacity-50 disabled:cursor-not-allowed',
+                      theme === 'dashboard'
+                        ? 'bg-orange-500/20 border border-orange-500/30 text-orange-300 hover:bg-orange-500/30'
+                        : 'bg-orange-100 text-orange-700 hover:bg-orange-200'
+                    )}
+                  >
+                    下一页
+                  </button>
+                </div>
+              )}
             </div>
           )}
         </div>
