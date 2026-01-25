@@ -21,10 +21,10 @@ interface DelayedProjectCategory {
   period: string;
   periodKey: 'current' | 'future1Month' | 'future3Months' | 'future6Months';
   count: number;
-  amount: number;
-  gapFill: number;
+  amount: number; // 延期金额
+  gapFill: number; // 可填补缺口
+  targetGap: number; // 目标缺口（100%）
   severity: 'high' | 'medium' | 'low';
-  percent?: number; // 仪表盘进度百分比
 }
 
 // 人效数据
@@ -76,7 +76,7 @@ interface RiskIdentificationPanelProps {
   theme?: 'dashboard' | 'light' | 'dark';
 }
 
-// 默认延迟项目数据（添加仪表盘进度百分比）
+// 默认延迟项目数据
 const defaultDelayedProjects: DelayedProjectCategory[] = [
   {
     period: '本月',
@@ -84,8 +84,8 @@ const defaultDelayedProjects: DelayedProjectCategory[] = [
     count: 3,
     amount: 200,
     gapFill: 200,
-    severity: 'high',
-    percent: 85
+    targetGap: 240,
+    severity: 'high'
   },
   {
     period: '未来1月',
@@ -93,8 +93,8 @@ const defaultDelayedProjects: DelayedProjectCategory[] = [
     count: 5,
     amount: 280,
     gapFill: 280,
-    severity: 'high',
-    percent: 75
+    targetGap: 350,
+    severity: 'high'
   },
   {
     period: '未来3月',
@@ -102,8 +102,8 @@ const defaultDelayedProjects: DelayedProjectCategory[] = [
     count: 8,
     amount: 450,
     gapFill: 450,
-    severity: 'medium',
-    percent: 55
+    targetGap: 500,
+    severity: 'medium'
   },
   {
     period: '未来半年',
@@ -111,8 +111,8 @@ const defaultDelayedProjects: DelayedProjectCategory[] = [
     count: 12,
     amount: 680,
     gapFill: 680,
-    severity: 'medium',
-    percent: 40
+    targetGap: 800,
+    severity: 'medium'
   }
 ];
 
@@ -217,30 +217,24 @@ const defaultProjectReserve: ProjectReserveItem[] = [
   }
 ];
 
-// 仪表盘组件
-function DashboardGauge({ percent, severity, amount, label }: { percent: number; severity: 'high' | 'medium' | 'low'; amount: number; label: string }) {
+// 环形进度组件
+function DashboardGauge({ gapFill, targetGap, severity, amount, label }: { gapFill: number; targetGap: number; severity: 'high' | 'medium' | 'low'; amount: number; label: string }) {
   const getColorClass = () => {
-    if (percent >= 70) return 'stroke-red-500 drop-shadow-[0_0_8px_rgba(239,68,68,0.8)]';
+    const percent = Math.min((gapFill / targetGap) * 100, 100);
+    if (percent >= 80) return 'stroke-green-500 drop-shadow-[0_0_8px_rgba(34,197,94,0.8)]';
     if (percent >= 50) return 'stroke-yellow-500 drop-shadow-[0_0_8px_rgba(234,179,8,0.8)]';
-    return 'stroke-green-500 drop-shadow-[0_0_8px_rgba(34,197,94,0.8)]';
+    return 'stroke-red-500 drop-shadow-[0_0_8px_rgba(239,68,68,0.8)]';
   };
 
+  const percent = Math.min((gapFill / targetGap) * 100, 100);
   const strokeDasharray = `${percent * 2.5} 250`; // 半圆周长约250
-  const rotation = 90; // 从右侧开始
 
-  // 指针角度计算：从左侧(-90deg)到右侧(90deg)，总共180度
-  // percent 0 -> -90deg, percent 100 -> 90deg
-  const [needleAngle, setNeedleAngle] = useState(-90);
-  const [animatedAmount, setAnimatedAmount] = useState(0);
+  // 数字滚动动画
+  const [animatedPercent, setAnimatedPercent] = useState(0);
 
-  // 动画效果
   useEffect(() => {
-    // 重置
-    setNeedleAngle(-90);
-    setAnimatedAmount(0);
-
+    setAnimatedPercent(0);
     const startDelay = setTimeout(() => {
-      const targetAngle = -90 + (percent / 100) * 180;
       const duration = 1500;
       const startTime = Date.now();
 
@@ -248,9 +242,7 @@ function DashboardGauge({ percent, severity, amount, label }: { percent: number;
         const elapsed = Date.now() - startTime;
         const progress = Math.min(elapsed / duration, 1);
         const easeOut = 1 - Math.pow(1 - progress, 3);
-
-        setNeedleAngle(-90 + (targetAngle + 90) * easeOut);
-        setAnimatedAmount(Math.floor(amount * easeOut));
+        setAnimatedPercent(Math.floor(percent * easeOut));
 
         if (progress < 1) {
           requestAnimationFrame(animate);
@@ -261,11 +253,11 @@ function DashboardGauge({ percent, severity, amount, label }: { percent: number;
     }, 100);
 
     return () => clearTimeout(startDelay);
-  }, [percent, amount]);
+  }, [percent]);
 
   return (
     <div className="relative flex flex-col items-center">
-      {/* 半圆仪表盘 */}
+      {/* 半圆环形进度 */}
       <div className="relative w-28 h-16 mb-2">
         <svg viewBox="0 0 100 50" className="w-full h-full overflow-visible">
           {/* 背景弧线 */}
@@ -284,32 +276,13 @@ function DashboardGauge({ percent, severity, amount, label }: { percent: number;
             strokeWidth="8"
             strokeLinecap="round"
             strokeDasharray={strokeDasharray}
-            transform={`rotate(${rotation} 50 50)`}
             style={{ transition: 'stroke-dasharray 0.5s ease-out' }}
           />
-          {/* 指针 */}
-          <g transform="translate(50, 50)">
-            <line
-              x1="0"
-              y1="0"
-              x2="0"
-              y2="-35"
-              stroke="#22d3ee"
-              strokeWidth="2.5"
-              style={{
-                transform: `rotate(${needleAngle}deg)`,
-                transformOrigin: '0 0',
-                filter: 'drop-shadow(0 0 6px rgba(34, 211, 238, 0.8))',
-                transition: 'transform 1.5s cubic-bezier(0.34, 1.56, 0.64, 1)'
-              }}
-            />
-            <circle cx="0" cy="0" r="3" fill="#22d3ee" style={{ filter: 'drop-shadow(0 0 4px rgba(34, 211, 238, 0.8))' }} />
-          </g>
         </svg>
         {/* 仪表盘中心显示 */}
         <div className="absolute bottom-0 left-1/2 -translate-x-1/2 text-center">
-          <div className={cn('text-lg font-bold', DASHBOARD_STYLES.textSecondary)}>{animatedAmount}</div>
-          <div className={cn('text-xs', DASHBOARD_STYLES.textMuted)}>万</div>
+          <div className={cn('text-lg font-bold', DASHBOARD_STYLES.textSecondary)}>{animatedPercent}%</div>
+          <div className={cn('text-xs', DASHBOARD_STYLES.textMuted)}>填补率</div>
         </div>
       </div>
       <div className={cn('text-sm font-medium', DASHBOARD_STYLES.textSecondary)}>{label}</div>
@@ -481,7 +454,8 @@ export default function RiskIdentificationPanel({
                   )}
                 >
                   <DashboardGauge
-                    percent={item.percent || 50}
+                    gapFill={item.gapFill}
+                    targetGap={item.targetGap}
                     severity={item.severity}
                     amount={item.amount}
                     label={item.period}
@@ -490,12 +464,16 @@ export default function RiskIdentificationPanel({
                   {/* 底部信息 */}
                   <div className="mt-3 pt-2 border-t border-cyan-500/20">
                     <div className="flex items-center justify-between text-sm mb-1">
-                      <span className={cn(DASHBOARD_STYLES.textMuted)}>项目数</span>
-                      <span className={cn('font-bold', DASHBOARD_STYLES.textSecondary)}>{item.count}</span>
+                      <span className={cn(DASHBOARD_STYLES.textMuted)}>可填补缺口</span>
+                      <span className={cn('font-bold text-green-400')}>{item.gapFill}万</span>
+                    </div>
+                    <div className="flex items-center justify-between text-sm mb-1">
+                      <span className={cn(DASHBOARD_STYLES.textMuted)}>目标缺口</span>
+                      <span className={cn('font-bold', DASHBOARD_STYLES.textSecondary)}>{item.targetGap}万</span>
                     </div>
                     <div className="flex items-center justify-between text-sm">
-                      <span className={cn(DASHBOARD_STYLES.textMuted)}>可填补缺口</span>
-                      <span className={cn('font-bold text-green-400')}>+{item.gapFill}万</span>
+                      <span className={cn(DASHBOARD_STYLES.textMuted)}>延期项目数</span>
+                      <span className={cn('font-bold text-orange-400')}>{item.count}个</span>
                     </div>
                   </div>
                 </div>
