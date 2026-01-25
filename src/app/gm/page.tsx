@@ -428,13 +428,13 @@ export default function GMDashboard() {
 
       {/* 主要内容区 - 仪表盘布局 */}
       <main className="max-w-[1920px] mx-auto p-6">
-        {/* 驾驶舱风格布局 */}
-        <div className="grid grid-cols-12 gap-4">
+        {/* 驾驶舱风格布局 - 紧凑对齐 */}
+        <div className="grid grid-cols-12 gap-2">
           {/* 中央仪表区 */}
-          <div className="col-span-8 space-y-4">
-            {/* 核心预测决策卡片 - 占据大部分空间 */}
-            <div className={`${DASHBOARD_STYLES.cardBg} ${DASHBOARD_STYLES.cardBorder} rounded-xl p-6 ${DASHBOARD_STYLES.glow}`}>
-              <div className="flex items-center justify-between mb-6">
+          <div className="col-span-8 space-y-2">
+            {/* 核心预测决策卡片 - 固定高度 */}
+            <div className={`${DASHBOARD_STYLES.cardBg} ${DASHBOARD_STYLES.cardBorder} rounded-xl p-5 ${DASHBOARD_STYLES.glow}`} style={{ height: '520px' }}>
+              <div className="flex items-center justify-between mb-4">
                 <h2 className={`text-lg font-bold ${DASHBOARD_STYLES.neon} flex items-center gap-2`}>
                   <Target className="w-5 h-5" />
                   核心预测决策
@@ -474,7 +474,7 @@ export default function GMDashboard() {
               </div>
 
               {/* 核心数据展示 - 汽车仪表盘样式 */}
-              <div className="grid grid-cols-3 gap-4 mb-6">
+              <div className="grid grid-cols-3 gap-3 mb-4">
                 {/* 仪表盘1 - 目标 */}
                 <div className="relative">
                   <div
@@ -839,11 +839,11 @@ export default function GMDashboard() {
               </div>
 
               {/* 趋势图表 */}
-              <div className="bg-slate-800/30 rounded-xl p-4 border border-cyan-400/10">
-                <div className="mb-3">
+              <div className="bg-slate-800/30 rounded-xl p-3 border border-cyan-400/10">
+                <div className="mb-2">
                   <h4 className={`text-sm font-semibold ${DASHBOARD_STYLES.neon}`}>趋势分析</h4>
                 </div>
-                <div style={{ height: '220px' }}>
+                <div style={{ height: '200px' }}>
                   <ResponsiveContainer width="100%" height="100%">
                     <AreaChart data={forecastTrendData}>
                       <CartesianGrid strokeDasharray="3 3" stroke="rgba(6,182,212,0.1)" vertical={false} />
@@ -932,9 +932,9 @@ export default function GMDashboard() {
           </div>
 
           {/* 右侧仪表区 */}
-          <div className="col-span-4 space-y-4">
-            {/* 区域达成情况 - 矩阵卡片展示 */}
-            <div className={`${DASHBOARD_STYLES.cardBg} ${DASHBOARD_STYLES.cardBorder} rounded-xl p-4 ${DASHBOARD_STYLES.glow}`}>
+          <div className="col-span-4 space-y-2">
+            {/* 区域达成情况 - 固定高度 */}
+            <div className={`${DASHBOARD_STYLES.cardBg} ${DASHBOARD_STYLES.cardBorder} rounded-xl p-4 ${DASHBOARD_STYLES.glow}`} style={{ height: '520px' }}>
               <RegionMatrix
                 data={currentData}
                 title="区域达成"
@@ -944,8 +944,10 @@ export default function GMDashboard() {
               />
             </div>
 
-            {/* 风险识别模块 */}
-            <RiskIdentificationPanel theme="dashboard" />
+            {/* 风险识别模块 - 固定高度 */}
+            <div className={`${DASHBOARD_STYLES.cardBg} ${DASHBOARD_STYLES.cardBorder} rounded-xl p-4 ${DASHBOARD_STYLES.glow}`} style={{ height: '520px' }}>
+              <RiskIdentificationPanel theme="dashboard" />
+            </div>
 
           </div>
         </div>
