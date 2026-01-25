@@ -352,9 +352,30 @@ export default function GMDashboard() {
   const [selectedMonth, setSelectedMonth] = useState('1');
   const [selectedQuarter, setSelectedQuarter] = useState('Q1');
 
-  // 默认时间范围为月度
+  // 页面初始化动画 state
+  const [isMounted, setIsMounted] = useState(false);
+  const [animationPhase, setAnimationPhase] = useState(0);
+
+  // 数字滚动动画 state
+  const [animatedTarget, setAnimatedTarget] = useState(0);
+  const [animatedForecast, setAnimatedForecast] = useState(0);
+  const [animatedGap, setAnimatedGap] = useState(0);
+  const [animatedRate, setAnimatedRate] = useState(0);
+
+  // 页面初始化动画
   useEffect(() => {
-    setTimeRange('month');
+    setIsMounted(true);
+
+    // 分阶段显示动画
+    const phase1 = setTimeout(() => setAnimationPhase(1), 200); // 显示头部
+    const phase2 = setTimeout(() => setAnimationPhase(2), 400); // 显示仪表盘
+    const phase3 = setTimeout(() => setAnimationPhase(3), 600); // 显示右侧模块
+
+    return () => {
+      clearTimeout(phase1);
+      clearTimeout(phase2);
+      clearTimeout(phase3);
+    };
   }, []);
 
   // 获取当前时间范围的数据
@@ -376,6 +397,92 @@ export default function GMDashboard() {
     return data.target - data.forecast;
   };
 
+  // 数字滚动动画效果
+  useEffect(() => {
+    const data = getTimeRangeData();
+    const targetRate = parseFloat(getAchievementRate());
+    const gapValue = getGap();
+
+    // 目标值滚动
+    const targetDuration = 1500;
+    const targetStart = 0;
+    const targetEnd = data.target;
+    const targetStartTime = Date.now();
+
+    const animateTarget = () => {
+      const elapsed = Date.now() - targetStartTime;
+      const progress = Math.min(elapsed / targetDuration, 1);
+      // 缓动函数
+      const easeOut = 1 - Math.pow(1 - progress, 3);
+      setAnimatedTarget(Math.floor(targetStart + (targetEnd - targetStart) * easeOut));
+
+      if (progress < 1) {
+        requestAnimationFrame(animateTarget);
+      }
+    };
+
+    // 预测值滚动
+    const forecastDuration = 1500;
+    const forecastStart = 0;
+    const forecastEnd = data.forecast;
+    const forecastStartTime = Date.now();
+
+    const animateForecast = () => {
+      const elapsed = Date.now() - forecastStartTime;
+      const progress = Math.min(elapsed / forecastDuration, 1);
+      const easeOut = 1 - Math.pow(1 - progress, 3);
+      setAnimatedForecast(Math.floor(forecastStart + (forecastEnd - forecastStart) * easeOut));
+
+      if (progress < 1) {
+        requestAnimationFrame(animateForecast);
+      }
+    };
+
+    // 缺口值滚动
+    const gapDuration = 1500;
+    const gapStart = 0;
+    const gapEnd = gapValue;
+    const gapStartTime = Date.now();
+
+    const animateGap = () => {
+      const elapsed = Date.now() - gapStartTime;
+      const progress = Math.min(elapsed / gapDuration, 1);
+      const easeOut = 1 - Math.pow(1 - progress, 3);
+      setAnimatedGap(Math.floor(gapStart + (gapEnd - gapStart) * easeOut));
+
+      if (progress < 1) {
+        requestAnimationFrame(animateGap);
+      }
+    };
+
+    // 达成率滚动
+    const rateDuration = 1500;
+    const rateStart = 0;
+    const rateEnd = targetRate;
+    const rateStartTime = Date.now();
+
+    const animateRate = () => {
+      const elapsed = Date.now() - rateStartTime;
+      const progress = Math.min(elapsed / rateDuration, 1);
+      const easeOut = 1 - Math.pow(1 - progress, 3);
+      setAnimatedRate(parseFloat((rateStart + (rateEnd - rateStart) * easeOut).toFixed(1)));
+
+      if (progress < 1) {
+        requestAnimationFrame(animateRate);
+      }
+    };
+
+    animateTarget();
+    animateForecast();
+    animateGap();
+    animateRate();
+  }, [selectedTimeRange]);
+
+  // 默认时间范围为月度
+  useEffect(() => {
+    setTimeRange('month');
+  }, []);
+
   // 获取当前时间范围的数据
   const currentData = useMemo(() => {
     return regionData[timeRange as keyof typeof regionData] || [];
@@ -384,7 +491,13 @@ export default function GMDashboard() {
   return (
     <div className={`${DASHBOARD_STYLES.bg} ${DASHBOARD_STYLES.text} min-h-screen`}>
       {/* 顶部导航栏 */}
-      <header className={`${DASHBOARD_STYLES.cardBg} ${DASHBOARD_STYLES.cardBorder} border-b backdrop-blur-sm sticky top-0 z-50 ${DASHBOARD_STYLES.glow}`}>
+      <header
+        className={cn(
+          `${DASHBOARD_STYLES.cardBg} ${DASHBOARD_STYLES.cardBorder} border-b backdrop-blur-sm sticky top-0 z-50 ${DASHBOARD_STYLES.glow}`,
+          'transition-all duration-500',
+          isMounted && animationPhase >= 1 ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-y-4'
+        )}
+      >
         <div className="max-w-[1920px] mx-auto px-6 py-4">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-4">
@@ -431,7 +544,11 @@ export default function GMDashboard() {
         {/* 驾驶舱风格布局 - 紧凑对齐 */}
         <div className="grid grid-cols-12 gap-2">
           {/* 中央仪表区 */}
-          <div className="col-span-7 space-y-2">
+          <div className={cn(
+            'col-span-7 space-y-2',
+            'transition-all duration-500',
+            isMounted && animationPhase >= 2 ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
+          )}>
             {/* 核心预测决策卡片 - 固定高度 */}
             <div className={`${DASHBOARD_STYLES.cardBg} ${DASHBOARD_STYLES.cardBorder} rounded-xl p-5 ${DASHBOARD_STYLES.glow}`} style={{ height: '520px' }}>
               <div className="flex items-center justify-between mb-4">
@@ -544,7 +661,8 @@ export default function GMDashboard() {
                               style={{
                                 transform: `rotate(135deg)`,
                                 transformOrigin: '0 0',
-                                filter: 'drop-shadow(0 0 4px rgba(249, 115, 22, 0.8))'
+                                filter: 'drop-shadow(0 0 4px rgba(249, 115, 22, 0.8))',
+                                transition: 'transform 1.2s cubic-bezier(0.34, 1.56, 0.64, 1)'
                               }}
                             />
                             <circle cx="0" cy="0" r="3" fill="#22d3ee" />
@@ -561,7 +679,7 @@ export default function GMDashboard() {
                       <div className="flex-1">
                         <div className="text-xs text-cyan-400/70 mb-1">目标</div>
                         <div className="text-xl font-bold text-orange-400" style={{ textShadow: '0 0 6px rgba(251, 146, 60, 0.6)' }}>
-                          {getTimeRangeData().target.toLocaleString()}
+                          {animatedTarget.toLocaleString()}
                           <span className="text-xs text-cyan-400/50 ml-1">万</span>
                         </div>
                       </div>
@@ -572,12 +690,12 @@ export default function GMDashboard() {
                 {/* 仪表盘2 - 预测完成 */}
                 <div className="relative">
                   {/* 警告角标 - 根据达成率显示颜色 */}
-                  {parseFloat(getAchievementRate()) < 100 && (
+                  {animatedRate < 100 && (
                     <div className="absolute -top-2 -right-2 z-10">
                       <div className="relative">
-                        <div className={`absolute inset-0 ${parseFloat(getAchievementRate()) >= 80 ? 'bg-yellow-500' : 'bg-red-500'} rounded-full blur-sm animate-pulse`}></div>
-                        <div className={`relative ${parseFloat(getAchievementRate()) >= 80 ? 'bg-yellow-500' : 'bg-red-500'} rounded-full p-1 shadow-lg`}>
-                          <AlertTriangle className={`w-4 h-4 ${parseFloat(getAchievementRate()) >= 80 ? 'text-yellow-900' : 'text-red-900'}`} />
+                        <div className={`absolute inset-0 ${animatedRate >= 80 ? 'bg-yellow-500' : 'bg-red-500'} rounded-full blur-sm animate-pulse`}></div>
+                        <div className={`relative ${animatedRate >= 80 ? 'bg-yellow-500' : 'bg-red-500'} rounded-full p-1 shadow-lg`}>
+                          <AlertTriangle className={`w-4 h-4 ${animatedRate >= 80 ? 'text-yellow-900' : 'text-red-900'}`} />
                         </div>
                       </div>
                     </div>
@@ -648,9 +766,10 @@ export default function GMDashboard() {
                               stroke="#22d3ee"
                               strokeWidth="2.5"
                               style={{
-                                transform: `rotate(${(Math.min(parseFloat(getAchievementRate()), 100) / 100) * 180 - 90}deg)`,
+                                transform: `rotate(${(Math.min(animatedRate, 100) / 100) * 180 - 90}deg)`,
                                 transformOrigin: '0 0',
-                                filter: 'drop-shadow(0 0 6px rgba(34, 211, 238, 1))'
+                                filter: 'drop-shadow(0 0 6px rgba(34, 211, 238, 1))',
+                                transition: 'transform 1.2s cubic-bezier(0.34, 1.56, 0.64, 1)'
                               }}
                             />
                             <circle cx="0" cy="0" r="4" fill="#22d3ee" style={{ filter: 'drop-shadow(0 0 4px rgba(34, 211, 238, 0.8))' }} />
@@ -660,9 +779,9 @@ export default function GMDashboard() {
                         <div className="absolute inset-0 flex flex-col items-center justify-center">
                           <span className={cn(
                             'text-lg font-bold',
-                            parseFloat(getAchievementRate()) >= 90 ? 'text-green-400' : parseFloat(getAchievementRate()) >= 70 ? 'text-yellow-400' : 'text-red-400'
-                          )} style={{ textShadow: `0 0 8px ${parseFloat(getAchievementRate()) >= 90 ? 'rgba(74, 222, 128, 0.8)' : parseFloat(getAchievementRate()) >= 70 ? 'rgba(250, 204, 21, 0.8)' : 'rgba(248, 113, 113, 0.8)'}` }}>
-                            {getAchievementRate()}%
+                            animatedRate >= 90 ? 'text-green-400' : animatedRate >= 70 ? 'text-yellow-400' : 'text-red-400'
+                          )} style={{ textShadow: `0 0 8px ${animatedRate >= 90 ? 'rgba(74, 222, 128, 0.8)' : animatedRate >= 70 ? 'rgba(250, 204, 21, 0.8)' : 'rgba(248, 113, 113, 0.8)'}` }}>
+                            {animatedRate.toFixed(1)}%
                           </span>
                         </div>
                       </div>
@@ -671,9 +790,9 @@ export default function GMDashboard() {
                         <div className="text-xs text-cyan-400/70 mb-1">预测完成</div>
                         <div className={cn(
                           'text-xl font-bold',
-                          getTimeRangeData().forecast >= getTimeRangeData().target ? 'text-green-400' : 'text-yellow-400'
-                        )} style={{ textShadow: getTimeRangeData().forecast >= getTimeRangeData().target ? '0 0 6px rgba(74, 222, 128, 0.6)' : '0 0 6px rgba(250, 204, 21, 0.6)' }}>
-                          {getTimeRangeData().forecast.toLocaleString()}
+                          animatedForecast >= getTimeRangeData().target ? 'text-green-400' : 'text-yellow-400'
+                        )} style={{ textShadow: animatedForecast >= getTimeRangeData().target ? '0 0 6px rgba(74, 222, 128, 0.6)' : '0 0 6px rgba(250, 204, 21, 0.6)' }}>
+                          {animatedForecast.toLocaleString()}
                           <span className="text-xs text-cyan-400/50 ml-1">万</span>
                         </div>
                       </div>
@@ -684,12 +803,12 @@ export default function GMDashboard() {
                 {/* 仪表盘3 - 缺口 */}
                 <div className="relative">
                   {/* 警告角标 - 根据缺口比例显示颜色 */}
-                  {getGap() > 0 && (
+                  {animatedGap > 0 && (
                     <div className="absolute -top-2 -right-2 z-10">
                       <div className="relative">
-                        <div className={`absolute inset-0 ${(getGap() / getTimeRangeData().target) * 100 <= 20 ? 'bg-yellow-500' : 'bg-red-500'} rounded-full blur-sm animate-pulse`}></div>
-                        <div className={`relative ${(getGap() / getTimeRangeData().target) * 100 <= 20 ? 'bg-yellow-500' : 'bg-red-500'} rounded-full p-1 shadow-lg`}>
-                          <AlertTriangle className={`w-4 h-4 ${(getGap() / getTimeRangeData().target) * 100 <= 20 ? 'text-yellow-900' : 'text-red-900'}`} />
+                        <div className={`absolute inset-0 ${(Math.abs(animatedGap) / getTimeRangeData().target) * 100 <= 20 ? 'bg-yellow-500' : 'bg-red-500'} rounded-full blur-sm animate-pulse`}></div>
+                        <div className={`relative ${(Math.abs(animatedGap) / getTimeRangeData().target) * 100 <= 20 ? 'bg-yellow-500' : 'bg-red-500'} rounded-full p-1 shadow-lg`}>
+                          <AlertTriangle className={`w-4 h-4 ${(Math.abs(animatedGap) / getTimeRangeData().target) * 100 <= 20 ? 'text-yellow-900' : 'text-red-900'}`} />
                         </div>
                       </div>
                     </div>
@@ -698,12 +817,12 @@ export default function GMDashboard() {
                   <div
                     className={cn(
                       'rounded-xl border-2 p-3 transition-all duration-300',
-                      getGap() <= 0
+                      animatedGap <= 0
                         ? 'bg-gradient-to-br from-green-900/20 to-slate-900/90 border-green-500/40'
                         : 'bg-gradient-to-br from-red-900/20 to-slate-900/90 border-red-500/40'
                     )}
                     style={{
-                      boxShadow: getGap() <= 0
+                      boxShadow: animatedGap <= 0
                         ? '0 0 25px rgba(74, 222, 128, 0.3), inset 0 0 20px rgba(74, 222, 128, 0.08)'
                         : '0 0 25px rgba(248, 113, 113, 0.3), inset 0 0 20px rgba(248, 113, 113, 0.08)'
                     }}
@@ -765,26 +884,27 @@ export default function GMDashboard() {
                               y1="0"
                               x2="0"
                               y2="-28"
-                              stroke={getGap() <= 0 ? '#4ade80' : '#f87171'}
+                              stroke={animatedGap <= 0 ? '#4ade80' : '#f87171'}
                               strokeWidth="2.5"
                               style={{
-                                transform: getGap() <= 0 ? `rotate(135deg)` : `rotate(-135deg)`,
+                                transform: animatedGap <= 0 ? `rotate(135deg)` : `rotate(-135deg)`,
                                 transformOrigin: '0 0',
-                                filter: getGap() <= 0 ? 'drop-shadow(0 0 6px rgba(74, 222, 128, 1))' : 'drop-shadow(0 0 6px rgba(248, 113, 113, 1))'
+                                filter: animatedGap <= 0 ? 'drop-shadow(0 0 6px rgba(74, 222, 128, 1))' : 'drop-shadow(0 0 6px rgba(248, 113, 113, 1))',
+                                transition: 'transform 1.2s cubic-bezier(0.34, 1.56, 0.64, 1)'
                               }}
                             />
                             <circle
                               cx="0"
                               cy="0"
                               r="4"
-                              fill={getGap() <= 0 ? '#4ade80' : '#f87171'}
-                              style={{ filter: getGap() <= 0 ? 'drop-shadow(0 0 4px rgba(74, 222, 128, 0.8))' : 'drop-shadow(0 0 4px rgba(248, 113, 113, 0.8))' }}
+                              fill={animatedGap <= 0 ? '#4ade80' : '#f87171'}
+                              style={{ filter: animatedGap <= 0 ? 'drop-shadow(0 0 4px rgba(74, 222, 128, 0.8))' : 'drop-shadow(0 0 4px rgba(248, 113, 113, 0.8))' }}
                             />
                           </g>
                         </svg>
                         {/* 中心数值 */}
                         <div className="absolute inset-0 flex flex-col items-center justify-center">
-                          {getGap() <= 0 ? (
+                          {animatedGap <= 0 ? (
                             <span className="text-sm font-bold text-green-400 flex items-center gap-1" style={{ textShadow: '0 0 8px rgba(74, 222, 128, 0.8)' }}>
                               <ArrowUp className="w-3 h-3" />
                               超额
@@ -799,16 +919,16 @@ export default function GMDashboard() {
                       </div>
                       {/* 右侧数值 */}
                       <div className="flex-1">
-                        <div className="text-xs text-cyan-400/70 mb-1">{getGap() <= 0 ? '超额' : '缺口'}</div>
+                        <div className="text-xs text-cyan-400/70 mb-1">{animatedGap <= 0 ? '超额' : '缺口'}</div>
                         <div className={cn(
                           'text-xl font-bold',
-                          getGap() <= 0 ? 'text-green-400' : 'text-red-400'
-                        )} style={{ textShadow: getGap() <= 0 ? '0 0 6px rgba(74, 222, 128, 0.6)' : '0 0 6px rgba(248, 113, 113, 0.6)' }}>
-                          {getGap() <= 0 ? '+' : ''}{getGap().toFixed(0)}
+                          animatedGap <= 0 ? 'text-green-400' : 'text-red-400'
+                        )} style={{ textShadow: animatedGap <= 0 ? '0 0 6px rgba(74, 222, 128, 0.6)' : '0 0 6px rgba(248, 113, 113, 0.6)' }}>
+                          {animatedGap <= 0 ? '+' : ''}{Math.abs(animatedGap).toFixed(0)}
                           <span className="text-xs text-cyan-400/50 ml-1">万</span>
                         </div>
                         {/* 如何补缺口 */}
-                        {getGap() > 0 && (
+                        {animatedGap > 0 && (
                           <div className="mt-2 space-y-1">
                             <div className="flex items-center gap-1 text-xs">
                               <div className="w-1.5 h-1.5 rounded-full bg-orange-400"></div>
@@ -932,7 +1052,11 @@ export default function GMDashboard() {
           </div>
 
           {/* 右侧仪表区 */}
-          <div className="col-span-5 space-y-2">
+          <div className={cn(
+            'col-span-5 space-y-2',
+            'transition-all duration-500 delay-100',
+            isMounted && animationPhase >= 3 ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
+          )}>
             {/* 区域达成情况 - 固定高度 */}
             <div className={`${DASHBOARD_STYLES.cardBg} ${DASHBOARD_STYLES.cardBorder} rounded-xl p-4 ${DASHBOARD_STYLES.glow}`} style={{ height: '520px' }}>
               <RegionMatrix
