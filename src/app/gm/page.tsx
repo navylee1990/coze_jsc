@@ -431,7 +431,7 @@ export default function GMDashboard() {
         {/* 驾驶舱风格布局 - 紧凑对齐 */}
         <div className="grid grid-cols-12 gap-2">
           {/* 中央仪表区 */}
-          <div className="col-span-8 space-y-2">
+          <div className="col-span-7 space-y-2">
             {/* 核心预测决策卡片 - 固定高度 */}
             <div className={`${DASHBOARD_STYLES.cardBg} ${DASHBOARD_STYLES.cardBorder} rounded-xl p-5 ${DASHBOARD_STYLES.glow}`} style={{ height: '520px' }}>
               <div className="flex items-center justify-between mb-4">
@@ -932,7 +932,7 @@ export default function GMDashboard() {
           </div>
 
           {/* 右侧仪表区 */}
-          <div className="col-span-4 space-y-2">
+          <div className="col-span-5 space-y-2">
             {/* 区域达成情况 - 固定高度 */}
             <div className={`${DASHBOARD_STYLES.cardBg} ${DASHBOARD_STYLES.cardBorder} rounded-xl p-4 ${DASHBOARD_STYLES.glow}`} style={{ height: '520px' }}>
               <RegionMatrix
