@@ -93,18 +93,6 @@ export default function RegionMatrix({
     return crumbs;
   };
 
-  // 获取完整的标题路径
-  const getFullPathTitle = () => {
-    const pathParts = ['区域'];
-    if (drillDownLevel === 'city' || drillDownLevel === 'salesperson') {
-      pathParts.push(selectedRegion);
-    }
-    if (drillDownLevel === 'salesperson') {
-      pathParts.push(selectedCity);
-    }
-    return pathParts.join('/');
-  };
-
   // 处理行点击
   const handleRowClick = (item: any) => {
     if (drillDownLevel === 'region') {
@@ -245,12 +233,32 @@ export default function RegionMatrix({
             )}
             <h3 className={cn('text-sm font-bold flex items-center gap-2 whitespace-nowrap', DASHBOARD_STYLES.neon)}>
               <Activity className="w-4 h-4 flex-shrink-0" />
-              {drillDownLevel === 'region' ? title : getFullPathTitle()}
+              {title}
             </h3>
             {subtitle && drillDownLevel === 'region' && (
               <span className={cn('text-xs whitespace-nowrap', DASHBOARD_STYLES.textMuted)}>({subtitle})</span>
             )}
           </div>
+          {/* 面包屑导航 */}
+          {breadcrumbs.length > 1 && (
+            <div className="flex items-center gap-2 text-xs">
+              {breadcrumbs.map((crumb, index) => (
+                <div key={crumb.level} className="flex items-center gap-2">
+                  {index > 0 && <span className="text-cyan-500/50 flex-shrink-0">/</span>}
+                  {index === breadcrumbs.length - 1 ? (
+                    <span className={cn('font-semibold', DASHBOARD_STYLES.textSecondary)}>{crumb.label}</span>
+                  ) : (
+                    <button
+                      onClick={() => handleBreadcrumbClick(crumb.level as 'region' | 'city' | 'salesperson')}
+                      className={cn('hover:text-cyan-300 transition-colors', DASHBOARD_STYLES.textMuted)}
+                    >
+                      {crumb.label}
+                    </button>
+                  )}
+                </div>
+              ))}
+            </div>
+          )}
         </div>
       </div>
 
