@@ -343,11 +343,6 @@ export default function RiskIdentificationPanel({
         {/* Tab 0: 延迟项目 */}
         {currentTab === 0 && (
           <div className="space-y-3 animate-in fade-in duration-300">
-            <div className="flex items-center gap-2 mb-3">
-              <Gauge className={cn('w-5 h-5 text-cyan-400')} />
-              <h4 className={cn('text-base font-semibold', DASHBOARD_STYLES.textSecondary)}>延迟项目仪表盘</h4>
-            </div>
-
             {/* 仪表盘卡片网格 */}
             <div className="grid grid-cols-4 gap-3 mb-3">
               {delayedProjects.map((item, index) => (
@@ -419,10 +414,6 @@ export default function RiskIdentificationPanel({
         {/* Tab 1: 人效分析 */}
         {currentTab === 1 && (
           <div className="space-y-3 animate-in fade-in duration-300">
-            <div className="flex items-center gap-2 mb-3">
-              <Users className={cn('w-5 h-5 text-cyan-400')} />
-              <h4 className={cn('text-base font-semibold', DASHBOARD_STYLES.textSecondary)}>人效分析</h4>
-            </div>
             <div className="grid grid-cols-2 gap-4">
               <div
                 className={cn(
@@ -459,10 +450,6 @@ export default function RiskIdentificationPanel({
         {/* Tab 2: 其他风险 */}
         {currentTab === 2 && (
           <div className="space-y-3 animate-in fade-in duration-300">
-            <div className="flex items-center gap-2 mb-3">
-              <AlertTriangle className={cn('w-5 h-5 text-cyan-400')} />
-              <h4 className={cn('text-base font-semibold', DASHBOARD_STYLES.textSecondary)}>其他风险</h4>
-            </div>
             {otherRisks.map((risk, index) => (
               <div
                 key={index}
