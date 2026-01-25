@@ -970,7 +970,7 @@ export default function GMDashboard() {
                           <div className="mt-2 space-y-1">
                             <div className="flex items-center gap-1 text-xs">
                               <div className="w-1.5 h-1.5 rounded-full bg-orange-400"></div>
-                              <span className="text-cyan-400/60">需跟进延迟项目：</span>
+                              <span className="text-cyan-400/60">延期项目：</span>
                               <span className="text-orange-300 font-medium">
                                 {getTimeRangeData().gapSolution?.delayedProjects.count || 0}个
                               </span>
@@ -980,7 +980,7 @@ export default function GMDashboard() {
                             </div>
                             <div className="flex items-center gap-1 text-xs">
                               <div className="w-1.5 h-1.5 rounded-full bg-cyan-400"></div>
-                              <span className="text-cyan-400/60">还需新开发项目：</span>
+                              <span className="text-cyan-400/60">新开发项目：</span>
                               <span className="text-cyan-300 font-medium">
                                 {getTimeRangeData().gapSolution?.newProjectsNeeded.count || 0}个
                               </span>
