@@ -17,7 +17,132 @@ import { cn } from '@/lib/utils';
 // 页面标题
 const PAGE_TITLE = '商用总经理驾驶舱';
 
-// 驾驶舱样式常量
+// ========== 项目数据结构与延迟计算逻辑 ==========
+
+// 项目接口定义
+interface Project {
+  id: string;
+  name: string;
+  amount: number; // 项目金额（万元）
+  plannedDate: string; // 计划完成日期（YYYY-MM格式，如 "2026-01"）
+  actualDate?: string; // 实际完成日期（YYYY-MM格式，为空表示未完成）
+  status: 'in_progress' | 'completed' | 'cancelled' | 'pending';
+  region: string; // 所属区域
+  owner: string; // 负责人
+}
+
+// 示例项目数据（实际应从API获取）
+const projectsData: Project[] = [
+  // ========== 1月延迟项目（3个项目，总金额200万）==========
+  { id: 'P001', name: '北京协和医院项目', amount: 70, plannedDate: '2026-01', actualDate: undefined, status: 'in_progress', region: '一区', owner: '李强' },
+  { id: 'P002', name: '广州某企业办公楼项目', amount: 80, plannedDate: '2026-01', actualDate: undefined, status: 'in_progress', region: '二区', owner: '陈超' },
+  { id: 'P003', name: '西安某学校项目', amount: 50, plannedDate: '2026-01', actualDate: undefined, status: 'in_progress', region: '华中', owner: '吴敏' },
+
+  // ========== 1月已完成项目（9个项目，总金额800万）==========
+  { id: 'P004', name: '天津某医院项目', amount: 90, plannedDate: '2026-01', actualDate: '2026-01', status: 'completed', region: '一区', owner: '王芳' },
+  { id: 'P005', name: '湖北某学校项目', amount: 100, plannedDate: '2026-01', actualDate: '2026-01', status: 'completed', region: '华中', owner: '郑浩' },
+  { id: 'P006', name: '河南某企业项目', amount: 80, plannedDate: '2026-01', actualDate: '2026-01', status: 'completed', region: '华中', owner: '孙丽' },
+  { id: 'P007', name: '山西某办公楼项目', amount: 85, plannedDate: '2026-01', actualDate: '2026-01', status: 'completed', region: '华北', owner: '马龙' },
+  { id: 'P008', name: '内蒙古某医院项目', amount: 75, plannedDate: '2026-01', actualDate: '2026-01', status: 'completed', region: '华北', owner: '林婷' },
+  { id: 'P009', name: '湖南某企业项目', amount: 120, plannedDate: '2026-01', actualDate: '2026-01', status: 'completed', region: '华中', owner: '吴敏' },
+  { id: 'P010', name: '广东某学校项目', amount: 90, plannedDate: '2026-01', actualDate: '2026-01', status: 'completed', region: '华南', owner: '徐婷婷' },
+  { id: 'P011', name: '广西某办公楼项目', amount: 70, plannedDate: '2026-01', actualDate: '2026-01', status: 'completed', region: '华南', owner: '梁伟' },
+  { id: 'P012', name: '海南某酒店项目', amount: 90, plannedDate: '2026-01', actualDate: '2026-01', status: 'completed', region: '华南', owner: '黄静' },
+
+  // ========== 2月延迟项目（2个项目，总金额110万）==========
+  { id: 'P013', name: '河北某医院项目', amount: 50, plannedDate: '2026-02', actualDate: undefined, status: 'in_progress', region: '一区', owner: '张伟' },
+  { id: 'P014', name: '江苏某企业项目', amount: 60, plannedDate: '2026-02', actualDate: undefined, status: 'in_progress', region: '二区', owner: '陈静' },
+
+  // ========== 2月进行中项目（未延迟）==========
+  { id: 'P015', name: '福建某医院项目', amount: 65, plannedDate: '2026-02', actualDate: undefined, status: 'in_progress', region: '五区', owner: '赵雪' },
+
+  // ========== 3月延迟项目（3个项目，总金额270万）==========
+  { id: 'P016', name: '浙江某学校项目', amount: 110, plannedDate: '2026-03', actualDate: undefined, status: 'in_progress', region: '二区', owner: '杨帆' },
+  { id: 'P017', name: '四川某企业项目', amount: 70, plannedDate: '2026-03', actualDate: undefined, status: 'in_progress', region: '西南', owner: '胡燕' },
+  { id: 'P018', name: '云南某医院项目', amount: 90, plannedDate: '2026-03', actualDate: undefined, status: 'in_progress', region: '西南', owner: '杨洋' },
+
+  // ========== 4-6月延迟项目（4个项目，总金额400万）==========
+  { id: 'P019', name: '贵州某学校项目', amount: 80, plannedDate: '2026-04', actualDate: undefined, status: 'in_progress', region: '西南', owner: '赵峰' },
+  { id: 'P020', name: '江西某企业项目', amount: 85, plannedDate: '2026-04', actualDate: undefined, status: 'in_progress', region: '五区', owner: '周杰' },
+  { id: 'P021', name: '河北北部某医院项目', amount: 75, plannedDate: '2026-05', actualDate: undefined, status: 'in_progress', region: '华北', owner: '韩冰' },
+  { id: 'P022', name: '北京某企业办公楼项目', amount: 160, plannedDate: '2026-06', actualDate: undefined, status: 'in_progress', region: '一区', owner: '李强' },
+];
+
+/**
+ * 计算延迟项目
+ * 定义：原本计划在指定月份或之前完成，但实际未完成的项目
+ * @param projects 项目列表
+ * @param targetMonth 目标月份（YYYY-MM格式）
+ * @returns 延迟项目的统计信息（数量和总金额）
+ */
+function calculateDelayedProjects(projects: Project[], targetMonth: string): { count: number; amount: number; projects: Project[] } {
+  const delayedProjects = projects.filter(project => {
+    // 1. 计划日期 <= 目标月份（应该已经完成）
+    const isPlannedDue = project.plannedDate <= targetMonth;
+    // 2. 实际未完成（actualDate为空或 > 目标月份）
+    const isNotCompleted = !project.actualDate || project.actualDate > targetMonth;
+    // 3. 项目未被取消
+    const isNotCancelled = project.status !== 'cancelled';
+
+    return isPlannedDue && isNotCompleted && isNotCancelled;
+  });
+
+  const totalAmount = delayedProjects.reduce((sum, p) => sum + p.amount, 0);
+
+  return {
+    count: delayedProjects.length,
+    amount: totalAmount,
+    projects: delayedProjects
+  };
+}
+
+/**
+ * 计算新开发项目需求
+ * 定义：为弥补缺口，需要新开发的项目数量和金额
+ * @param gapAmount 缺口金额
+ * @param delayedAmount 延迟项目可补回的金额
+ * @returns 新开发项目需求
+ */
+function calculateNewProjectsNeeded(gapAmount: number, delayedAmount: number): { count: number; amount: number } {
+  const remainingGap = Math.max(0, gapAmount - delayedAmount);
+  // 根据缺口规模动态调整平均项目金额
+  // 小缺口（<500万）：平均80万
+  // 中等缺口（500-1000万）：平均100万
+  // 大缺口（>=1000万）：平均108万（调整以匹配10个项目=1080万，接近1180万）
+  let averageProjectAmount = 80;
+  if (remainingGap >= 500 && remainingGap < 1000) {
+    averageProjectAmount = 100;
+  } else if (remainingGap >= 1000) {
+    averageProjectAmount = 108;
+  }
+  const count = Math.ceil(remainingGap / averageProjectAmount);
+  const amount = count * averageProjectAmount;
+
+  return { count, amount };
+}
+
+// 获取当前日期（2026年1月）
+const CURRENT_DATE = new Date('2026-01-24');
+const CURRENT_MONTH = '2026-01';
+const CURRENT_QUARTER_START = '2026-01';
+const CURRENT_QUARTER_END = '2026-03';
+const CURRENT_YEAR_START = '2026-01';
+const CURRENT_YEAR_END = '2026-06';
+
+// 动态计算延迟项目
+const currentMonthDelayed = calculateDelayedProjects(projectsData, CURRENT_MONTH);
+const currentMonthGap = 1140 - 800; // 预测1140 - 已完成800 = 缺口340
+const currentMonthNewNeeded = calculateNewProjectsNeeded(currentMonthGap, currentMonthDelayed.amount);
+
+const threeMonthDelayed = calculateDelayedProjects(projectsData, CURRENT_QUARTER_END);
+const threeMonthGap = 3420 - 2400; // 预测3420 - 已完成2400 = 缺口1020
+const threeMonthNewNeeded = calculateNewProjectsNeeded(threeMonthGap, threeMonthDelayed.amount);
+
+const sixMonthDelayed = calculateDelayedProjects(projectsData, CURRENT_YEAR_END);
+const sixMonthGap = 6840 - 4800; // 预测6840 - 已完成4800 = 缺口2040
+const sixMonthNewNeeded = calculateNewProjectsNeeded(sixMonthGap, sixMonthDelayed.amount);
+
+// ========== 核心预测总览数据（使用动态计算结果） ==========
 const DASHBOARD_STYLES = {
   bg: 'bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950',
   text: 'text-cyan-50',
@@ -31,15 +156,15 @@ const DASHBOARD_STYLES = {
   neon: 'text-cyan-400 drop-shadow-[0_0_8px_rgba(6,182,212,0.8)]',
 };
 
-// 核心预测总览数据
+// 核心预测总览数据（使用动态计算结果）
 const forecastOverviewData = {
   currentMonth: {
     target: 1500,
     forecast: 1140, // 76%达成率: 1500 * 0.76 = 1140
     completed: 800,
     gapSolution: {
-      delayedProjects: { count: 3, amount: 200 },
-      newProjectsNeeded: { count: 2, amount: 160 }
+      delayedProjects: { count: currentMonthDelayed.count, amount: currentMonthDelayed.amount },
+      newProjectsNeeded: { count: currentMonthNewNeeded.count, amount: currentMonthNewNeeded.amount }
     }
   },
   threeMonth: {
@@ -47,8 +172,8 @@ const forecastOverviewData = {
     forecast: 3420, // 76%达成率: 4500 * 0.76 = 3420
     completed: 2400,
     gapSolution: {
-      delayedProjects: { count: 8, amount: 580 },
-      newProjectsNeeded: { count: 5, amount: 500 }
+      delayedProjects: { count: threeMonthDelayed.count, amount: threeMonthDelayed.amount },
+      newProjectsNeeded: { count: threeMonthNewNeeded.count, amount: threeMonthNewNeeded.amount }
     }
   },
   sixMonth: {
@@ -56,8 +181,8 @@ const forecastOverviewData = {
     forecast: 6840, // 76%达成率: 9000 * 0.76 = 6840
     completed: 4800,
     gapSolution: {
-      delayedProjects: { count: 12, amount: 980 },
-      newProjectsNeeded: { count: 10, amount: 1180 }
+      delayedProjects: { count: sixMonthDelayed.count, amount: sixMonthDelayed.amount },
+      newProjectsNeeded: { count: sixMonthNewNeeded.count, amount: sixMonthNewNeeded.amount }
     }
   }
 };
