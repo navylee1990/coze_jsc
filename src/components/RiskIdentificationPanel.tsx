@@ -171,41 +171,49 @@ const defaultOtherRisks: OtherRiskItem[] = [
 const defaultProjectReserve: ProjectReserveItem[] = [
   // 行业维度
   {
-    category: '酒店行业',
+    category: '教育',
     type: 'industry',
-    currentReserve: 800,
+    currentReserve: 850,
     targetReserve: 1200,
-    gap: 400,
-    severity: 'high',
-    description: '重点区域储备不足'
+    gap: 350,
+    severity: 'medium',
+    description: '学校项目储备需加强'
   },
   {
-    category: '教育行业',
+    category: '政企办公',
     type: 'industry',
     currentReserve: 600,
+    targetReserve: 1000,
+    gap: 400,
+    severity: 'high',
+    description: '政府及企业项目储备不足'
+  },
+  {
+    category: '公共交通',
+    type: 'industry',
+    currentReserve: 450,
     targetReserve: 800,
+    gap: 350,
+    severity: 'medium',
+    description: '交通枢纽项目推进缓慢'
+  },
+  {
+    category: '医疗饮水',
+    type: 'industry',
+    currentReserve: 700,
+    targetReserve: 900,
     gap: 200,
     severity: 'medium',
-    description: '部分学校项目推进缓慢'
-  },
-  // 细分市场维度
-  {
-    category: '高端酒店',
-    type: 'market',
-    currentReserve: 350,
-    targetReserve: 500,
-    gap: 150,
-    severity: 'medium',
-    description: '五星级酒店储备缺口'
+    description: '医疗机构项目储备尚可'
   },
   {
-    category: '连锁酒店',
-    type: 'market',
-    currentReserve: 450,
+    category: '水处理',
+    type: 'industry',
+    currentReserve: 380,
     targetReserve: 700,
-    gap: 250,
+    gap: 320,
     severity: 'high',
-    description: '连锁品牌扩张储备不足'
+    description: '水处理项目储备缺口较大'
   }
 ];
 
@@ -692,7 +700,7 @@ export default function RiskIdentificationPanel({
                   </div>
                 </div>
                 <div>
-                  <div className={cn('text-xs mb-1', DASHBOARD_STYLES.textMuted)}>高风险行业/市场</div>
+                  <div className={cn('text-xs mb-1', DASHBOARD_STYLES.textMuted)}>高风险行业</div>
                   <div className={cn('text-2xl font-bold text-red-400')}>
                     {projectReserve.filter(r => r.severity === 'high').length}
                     <span className="text-sm">个</span>
@@ -701,7 +709,7 @@ export default function RiskIdentificationPanel({
                 <div>
                   <div className={cn('text-xs mb-1', DASHBOARD_STYLES.textMuted)}>说明</div>
                   <div className={cn('text-xs text-left', DASHBOARD_STYLES.textSecondary)}>
-                    各行业/细分市场项目储备缺口分析
+                    各行业项目储备缺口分析
                   </div>
                 </div>
               </div>
