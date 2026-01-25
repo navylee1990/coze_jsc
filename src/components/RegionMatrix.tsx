@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useMemo } from 'react';
-import { Activity, ArrowLeft, TrendingUp, TrendingDown, Minus, Crown, Medal, Award, User } from 'lucide-react';
+import { Activity, ArrowLeft, TrendingUp, TrendingDown, Minus, Crown, Medal, Award, User, ChevronLeft, ChevronRight } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
 interface RegionMatrixProps {
@@ -64,6 +64,10 @@ export default function RegionMatrix({
   const [drillDownLevel, setDrillDownLevel] = useState<'region' | 'city' | 'salesperson'>('region');
   const [selectedRegion, setSelectedRegion] = useState<string>('');
   const [selectedCity, setSelectedCity] = useState<string>('');
+  const [currentPage, setCurrentPage] = useState(1);
+
+  // 每页显示的行数
+  const itemsPerPage = 6;
 
   // 获取当前层级的数据
   const currentData = useMemo(() => {
@@ -81,6 +85,45 @@ export default function RegionMatrix({
     return result.sort((a, b) => b.rate - a.rate);
   }, [drillDownLevel, selectedRegion, selectedCity, data, cityData, salespersonData]);
 
+  // 计算总页数
+  const totalPages = Math.ceil(currentData.length / itemsPerPage);
+
+  // 重置页码（当切换层级时）
+  const resetPage = () => {
+    setCurrentPage(1);
+  };
+
+  // 处理层级切换，重置页码
+  const handleDrillDownChange = (item: any) => {
+    resetPage();
+    if (drillDownLevel === 'region') {
+      setSelectedRegion(item.name);
+      setDrillDownLevel('city');
+    } else if (drillDownLevel === 'city') {
+      setSelectedCity(item.name);
+      setDrillDownLevel('salesperson');
+    }
+  };
+
+  const handleBreadcrumbClick = (level: 'region' | 'city' | 'salesperson') => {
+    resetPage();
+    if (level === 'region') {
+      setSelectedRegion('');
+      setSelectedCity('');
+      setDrillDownLevel('region');
+    } else if (level === 'city') {
+      setSelectedCity('');
+      setDrillDownLevel('city');
+    }
+  };
+
+  // 获取当前页的数据
+  const paginatedData = useMemo(() => {
+    const startIndex = (currentPage - 1) * itemsPerPage;
+    const endIndex = startIndex + itemsPerPage;
+    return currentData.slice(startIndex, endIndex);
+  }, [currentData, currentPage, itemsPerPage]);
+
   // 获取面包屑
   const getBreadcrumbs = () => {
     const crumbs = [{ level: 'region', label: '区域' }];
@@ -93,31 +136,6 @@ export default function RegionMatrix({
     }
 
     return crumbs;
-  };
-
-  // 处理行点击
-  const handleRowClick = (item: any) => {
-    if (drillDownLevel === 'region') {
-      // 区域 → 城市
-      setSelectedRegion(item.name);
-      setDrillDownLevel('city');
-    } else if (drillDownLevel === 'city') {
-      // 城市 → 业务员
-      setSelectedCity(item.name);
-      setDrillDownLevel('salesperson');
-    }
-  };
-
-  // 处理面包屑点击
-  const handleBreadcrumbClick = (level: 'region' | 'city' | 'salesperson') => {
-    if (level === 'region') {
-      setSelectedRegion('');
-      setSelectedCity('');
-      setDrillDownLevel('region');
-    } else if (level === 'city') {
-      setSelectedCity('');
-      setDrillDownLevel('city');
-    }
   };
 
   // 渲染表头
@@ -141,23 +159,23 @@ export default function RegionMatrix({
   };
 
   // 渲染行数据
-  const renderTableRow = (item: any, rank: number) => {
+  const renderTableRow = (item: any, rank: number, onDrillDown?: (item: any) => void) => {
     const gapClass = item.gap > 0 ? 'text-red-400' : 'text-green-400';
     const rowBgClass = rank % 2 === 0
       ? (theme === 'dashboard' ? 'bg-slate-900/40' : 'bg-slate-50')
       : (theme === 'dashboard' ? 'bg-slate-900/20' : 'bg-white');
-    const canDrillDown = drillDownLevel !== 'salesperson';
+    const canDrillDown = drillDownLevel !== 'salesperson' && onDrillDown;
 
     return (
       <div
-        key={rank}
+        key={`${item.name}-${rank}`}
         className={cn(
           'grid grid-cols-7 gap-3 px-4 py-2 items-center border-b transition-all duration-200',
           rowBgClass,
           canDrillDown && theme === 'dashboard' ? 'border-cyan-500/20 hover:bg-slate-800/60 hover:shadow-[0_0_15px_rgba(6,182,212,0.2)] cursor-pointer' : 'border-cyan-500/20',
           canDrillDown && theme !== 'dashboard' ? 'border-slate-200 hover:bg-slate-100 cursor-pointer' : ''
         )}
-        onClick={() => canDrillDown && handleRowClick(item)}
+        onClick={() => canDrillDown && onDrillDown!(item)}
       >
         {/* 排名 */}
         <div className="flex items-center justify-center">
@@ -268,8 +286,58 @@ export default function RegionMatrix({
         theme === 'dashboard' ? DASHBOARD_STYLES.cardBorder : 'border-slate-200'
       )}>
         {renderTableHeader()}
-        <div className="overflow-y-auto" style={{ maxHeight: '360px' }}>
-          {currentData.map((item, index) => renderTableRow(item, index + 1))}
+        <div className="flex flex-col">
+          {paginatedData.map((item, index) => renderTableRow(item, (currentPage - 1) * itemsPerPage + index + 1, handleDrillDownChange))}
+          {/* 分页控件 */}
+          {totalPages > 1 && (
+            <div className="flex items-center justify-between px-4 py-3 border-t border-cyan-500/20 bg-slate-900/30">
+              <div className={cn('text-xs', DASHBOARD_STYLES.textMuted)}>
+                共 {currentData.length} 条记录
+              </div>
+              <div className="flex items-center gap-2">
+                <button
+                  onClick={() => setCurrentPage(p => Math.max(1, p - 1))}
+                  disabled={currentPage === 1}
+                  className={cn(
+                    'p-1.5 rounded-lg border transition-colors',
+                    currentPage === 1
+                      ? 'border-slate-700/30 text-slate-600 cursor-not-allowed'
+                      : 'border-cyan-500/30 text-cyan-400 hover:bg-cyan-500/20 hover:border-cyan-500/50'
+                  )}
+                >
+                  <ChevronLeft className="w-4 h-4" />
+                </button>
+                <div className="flex items-center gap-1">
+                  {Array.from({ length: totalPages }, (_, i) => i + 1).map(page => (
+                    <button
+                      key={page}
+                      onClick={() => setCurrentPage(page)}
+                      className={cn(
+                        'w-8 h-8 rounded-lg text-xs font-medium transition-all',
+                        currentPage === page
+                          ? 'bg-cyan-500 text-white shadow-[0_0_8px_rgba(6,182,212,0.6)]'
+                          : 'text-cyan-400/70 hover:bg-cyan-500/20'
+                      )}
+                    >
+                      {page}
+                    </button>
+                  ))}
+                </div>
+                <button
+                  onClick={() => setCurrentPage(p => Math.min(totalPages, p + 1))}
+                  disabled={currentPage === totalPages}
+                  className={cn(
+                    'p-1.5 rounded-lg border transition-colors',
+                    currentPage === totalPages
+                      ? 'border-slate-700/30 text-slate-600 cursor-not-allowed'
+                      : 'border-cyan-500/30 text-cyan-400 hover:bg-cyan-500/20 hover:border-cyan-500/50'
+                  )}
+                >
+                  <ChevronRight className="w-4 h-4" />
+                </button>
+              </div>
+            </div>
+          )}
         </div>
       </div>
     </div>
