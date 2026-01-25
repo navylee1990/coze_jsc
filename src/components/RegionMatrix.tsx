@@ -28,13 +28,13 @@ const DASHBOARD_STYLES = {
 const getRankIcon = (rank: number) => {
   switch (rank) {
     case 1:
-      return <Crown className="w-5 h-5 text-yellow-400 drop-shadow-[0_0_8px_rgba(250,204,21,0.8)]" />;
+      return <Crown className="w-6 h-6 text-yellow-400 drop-shadow-[0_0_8px_rgba(250,204,21,0.8)]" />;
     case 2:
-      return <Medal className="w-5 h-5 text-slate-300 drop-shadow-[0_0_8px_rgba(203,213,225,0.8)]" />;
+      return <Medal className="w-6 h-6 text-slate-300 drop-shadow-[0_0_8px_rgba(203,213,225,0.8)]" />;
     case 3:
-      return <Award className="w-5 h-5 text-amber-600 drop-shadow-[0_0_8px_rgba(217,119,6,0.8)]" />;
+      return <Award className="w-6 h-6 text-amber-600 drop-shadow-[0_0_8px_rgba(217,119,6,0.8)]" />;
     default:
-      return <span className="w-5 h-5 flex items-center justify-center text-sm font-bold text-cyan-400/70">{rank}</span>;
+      return <span className="w-6 h-6 flex items-center justify-center text-base font-bold text-cyan-400/70">{rank}</span>;
   }
 };
 
@@ -42,11 +42,11 @@ const getRankIcon = (rank: number) => {
 const getTrendIcon = (trend?: 'up' | 'down' | 'stable') => {
   switch (trend) {
     case 'up':
-      return <TrendingUp className="w-4 h-4 text-green-400 drop-shadow-[0_0_6px_rgba(74,222,128,0.8)]" />;
+      return <TrendingUp className="w-5 h-5 text-green-400 drop-shadow-[0_0_6px_rgba(74,222,128,0.8)]" />;
     case 'down':
-      return <TrendingDown className="w-4 h-4 text-red-400 drop-shadow-[0_0_6px_rgba(248,113,113,0.8)]" />;
+      return <TrendingDown className="w-5 h-5 text-red-400 drop-shadow-[0_0_6px_rgba(248,113,113,0.8)]" />;
     case 'stable':
-      return <Minus className="w-4 h-4 text-cyan-400/70" />;
+      return <Minus className="w-5 h-5 text-cyan-400/70" />;
     default:
       return null;
   }
@@ -65,7 +65,7 @@ export default function RegionMatrix({
   const [currentPage, setCurrentPage] = useState(1);
 
   // 每页显示的行数
-  const itemsPerPage = 6;
+  const itemsPerPage = 8;
 
   // 获取当前层级的数据
   const currentData = useMemo(() => {
@@ -148,7 +148,7 @@ export default function RegionMatrix({
 
     return (
       <div className={cn(
-        'grid grid-cols-7 gap-3 px-4 py-2.5 text-xs font-bold border-b',
+        'grid grid-cols-7 gap-3 px-4 py-3.5 text-sm font-bold border-b',
         theme === 'dashboard' ? 'bg-slate-800/60 border-cyan-500/30' : 'bg-slate-100 border-slate-200'
       )}>
         <div className={cn('flex items-center justify-center gap-2', DASHBOARD_STYLES.textSecondary)}>排名</div>
@@ -174,7 +174,7 @@ export default function RegionMatrix({
       <div
         key={`${item.name}-${rank}`}
         className={cn(
-          'grid grid-cols-7 gap-3 px-4 py-2 items-center border-b transition-all duration-200',
+          'grid grid-cols-7 gap-3 px-4 py-3 items-center border-b transition-all duration-200',
           rowBgClass,
           canDrillDown && theme === 'dashboard' ? 'border-cyan-500/20 hover:bg-slate-800/60 hover:shadow-[0_0_15px_rgba(6,182,212,0.2)] cursor-pointer' : 'border-cyan-500/20',
           canDrillDown && theme !== 'dashboard' ? 'border-slate-200 hover:bg-slate-100 cursor-pointer' : ''
@@ -189,11 +189,11 @@ export default function RegionMatrix({
         {/* 名称 */}
         <div className="flex items-center gap-2">
           {drillDownLevel === 'salesperson' ? (
-            <User className="w-3.5 h-3.5 text-cyan-400/60" />
+            <User className="w-4 h-4 text-cyan-400/60" />
           ) : (
-            <Activity className="w-3.5 h-3.5 text-cyan-400/60" />
+            <Activity className="w-4 h-4 text-cyan-400/60" />
           )}
-          <span className={cn('font-medium text-sm', DASHBOARD_STYLES.textSecondary)}>{item.name}</span>
+          <span className={cn('font-medium', DASHBOARD_STYLES.textSecondary)}>{item.name}</span>
           {item.trend && (
             <span className="flex items-center">
               {getTrendIcon(item.trend)}
@@ -202,26 +202,26 @@ export default function RegionMatrix({
         </div>
 
         {/* 目标 */}
-        <div className={cn('text-right font-medium text-sm', DASHBOARD_STYLES.textSecondary)}>
+        <div className={cn('text-right font-medium', DASHBOARD_STYLES.textSecondary)}>
           {item.target.toLocaleString()}
         </div>
 
         {/* 预测 */}
-        <div className={cn('text-right font-medium text-sm', DASHBOARD_STYLES.textSecondary)}>
+        <div className={cn('text-right font-medium', DASHBOARD_STYLES.textSecondary)}>
           {item.predicted.toLocaleString()}
         </div>
 
         {/* 缺口 */}
-        <div className={cn('text-right font-medium text-sm', gapClass)}>
+        <div className={cn('text-right font-medium', gapClass)}>
           {item.gap > 0 ? `${item.gap}` : `+${Math.abs(item.gap)}`}
         </div>
 
         {/* 达成率 */}
         <div className="flex items-center justify-center gap-2">
-          <span className={cn('text-sm font-medium', item.rate >= 100 ? 'text-green-400' : item.rate >= 80 ? 'text-yellow-400' : 'text-red-400')}>
+          <span className={cn('font-medium', item.rate >= 100 ? 'text-green-400' : item.rate >= 80 ? 'text-yellow-400' : 'text-red-400')}>
             {item.rate.toFixed(1)}%
           </span>
-          <div className="w-12 h-1 rounded-full bg-slate-700/50 overflow-hidden">
+          <div className="w-14 h-1.5 rounded-full bg-slate-700/50 overflow-hidden">
             <div
               className={`h-full transition-all duration-500 ${
                 item.rate >= 100 ? 'bg-green-500' : item.rate >= 80 ? 'bg-yellow-500' : 'text-red-500'
@@ -232,7 +232,7 @@ export default function RegionMatrix({
         </div>
 
         {/* 在手项目 */}
-        <div className={cn('text-right font-medium text-sm', DASHBOARD_STYLES.textSecondary)}>
+        <div className={cn('text-right font-medium', DASHBOARD_STYLES.textSecondary)}>
           {(item.pendingAmount || 0).toLocaleString()}
         </div>
       </div>
@@ -246,7 +246,7 @@ export default function RegionMatrix({
       {/* 标题栏 - 独立框样式 */}
       <div
         className={cn(
-          'px-4 py-3 border-b flex items-center justify-between',
+          'px-4 py-4 border-b flex items-center justify-between',
           theme === 'dashboard' ? `${DASHBOARD_STYLES.cardBorder} bg-slate-900/50` : 'border-slate-200 bg-white'
         )}
       >
@@ -301,8 +301,8 @@ export default function RegionMatrix({
           })}
           {/* 分页控件 - 只在第二层和第三层显示 */}
           {shouldPaginate && totalPages > 1 && (
-            <div className="flex items-center justify-between px-4 py-3 border-t border-cyan-500/20 bg-slate-900/30">
-              <div className={cn('text-xs', DASHBOARD_STYLES.textMuted)}>
+            <div className="flex items-center justify-between px-4 py-4 border-t border-cyan-500/20 bg-slate-900/30">
+              <div className={cn('text-sm', DASHBOARD_STYLES.textMuted)}>
                 共 {currentData.length} 条记录
               </div>
               <div className="flex items-center gap-2">
@@ -310,13 +310,13 @@ export default function RegionMatrix({
                   onClick={() => setCurrentPage(p => Math.max(1, p - 1))}
                   disabled={currentPage === 1}
                   className={cn(
-                    'p-1.5 rounded-lg border transition-colors',
+                    'p-2 rounded-lg border transition-colors',
                     currentPage === 1
                       ? 'border-slate-700/30 text-slate-600 cursor-not-allowed'
                       : 'border-cyan-500/30 text-cyan-400 hover:bg-cyan-500/20 hover:border-cyan-500/50'
                   )}
                 >
-                  <ChevronLeft className="w-4 h-4" />
+                  <ChevronLeft className="w-5 h-5" />
                 </button>
                 <div className="flex items-center gap-1">
                   {Array.from({ length: totalPages }, (_, i) => i + 1).map(page => (
@@ -324,7 +324,7 @@ export default function RegionMatrix({
                       key={page}
                       onClick={() => setCurrentPage(page)}
                       className={cn(
-                        'w-8 h-8 rounded-lg text-xs font-medium transition-all',
+                        'w-9 h-9 rounded-lg text-sm font-medium transition-all',
                         currentPage === page
                           ? 'bg-cyan-500 text-white shadow-[0_0_8px_rgba(6,182,212,0.6)]'
                           : 'text-cyan-400/70 hover:bg-cyan-500/20'
@@ -338,13 +338,13 @@ export default function RegionMatrix({
                   onClick={() => setCurrentPage(p => Math.min(totalPages, p + 1))}
                   disabled={currentPage === totalPages}
                   className={cn(
-                    'p-1.5 rounded-lg border transition-colors',
+                    'p-2 rounded-lg border transition-colors',
                     currentPage === totalPages
                       ? 'border-slate-700/30 text-slate-600 cursor-not-allowed'
-                      : 'border-cyan-500/30 text-cyan-400 hover:bg-cyan-500/20 hover:border-cyan-500/50'
+                      : 'border-cyan-500/30 text-cyan-400 hover:bg-cyan-520/20 hover:border-cyan-500/50'
                   )}
                 >
-                  <ChevronRight className="w-4 h-4" />
+                  <ChevronRight className="w-5 h-5" />
                 </button>
               </div>
             </div>
