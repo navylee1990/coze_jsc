@@ -244,7 +244,7 @@ export default function RegionMatrix({
   return (
     <div className={cn('w-full min-h-[480px]', DASHBOARD_STYLES.bg, DASHBOARD_STYLES.text)}>
       {/* 标题和面包屑 */}
-      <div className="flex items-center justify-between mb-3 px-4 min-h-[72px]">
+      <div className="flex items-center justify-between mb-2 px-4 min-h-[72px]">
         <div className="flex-1 min-w-0">
           <div className="flex items-center gap-2">
             {drillDownLevel !== 'region' && (
