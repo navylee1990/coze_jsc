@@ -224,7 +224,7 @@ export default function RegionMatrix({
           <div className="w-14 h-1.5 rounded-full bg-slate-700/50 overflow-hidden">
             <div
               className={`h-full transition-all duration-500 ${
-                item.rate >= 100 ? 'bg-green-500' : item.rate >= 80 ? 'bg-yellow-500' : 'text-red-500'
+                item.rate >= 100 ? 'bg-green-500' : item.rate >= 80 ? 'bg-yellow-500' : 'bg-red-500'
               }`}
               style={{ width: `${Math.min(item.rate, 100)}%` }}
             />
