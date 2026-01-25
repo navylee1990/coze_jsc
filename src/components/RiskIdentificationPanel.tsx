@@ -661,7 +661,6 @@ export default function RiskIdentificationPanel({
             {/* 仪表盘卡片网格 */}
             <div className="grid grid-cols-5 gap-3">
               {projectReserve.map((item, index) => {
-                const percent = Math.round((item.currentReserve / item.targetReserve) * 100);
                 return (
                   <div
                     key={index}
@@ -687,27 +686,26 @@ export default function RiskIdentificationPanel({
                     </div>
 
                     <DashboardGauge
-                      percent={percent}
+                      gapFill={item.currentReserve}
+                      targetGap={item.targetReserve}
                       severity={item.severity}
-                      amount={item.gap}
+                      amount={item.currentReserve}
                       label={item.category}
                     />
 
                     {/* 底部信息 */}
                     <div className="mt-3 pt-2 border-t border-cyan-500/20">
                       <div className="flex items-center justify-between text-sm mb-1">
-                        <span className={cn(DASHBOARD_STYLES.textMuted)}>储备缺口</span>
-                        <span className={cn('font-bold text-orange-400')}>-{item.gap}万</span>
+                        <span className={cn(DASHBOARD_STYLES.textMuted)}>当前储备</span>
+                        <span className={cn('font-bold text-cyan-400')}>{item.currentReserve}万</span>
                       </div>
                       <div className="flex items-center justify-between text-sm mb-1">
-                        <span className={cn(DASHBOARD_STYLES.textMuted)}>达成率</span>
-                        <span className={cn('font-bold', DASHBOARD_STYLES.textSecondary)}>{percent}%</span>
+                        <span className={cn(DASHBOARD_STYLES.textMuted)}>目标储备</span>
+                        <span className={cn('font-bold', DASHBOARD_STYLES.textSecondary)}>{item.targetReserve}万</span>
                       </div>
                       <div className="flex items-center justify-between text-sm">
-                        <span className={cn(DASHBOARD_STYLES.textMuted)}>风险等级</span>
-                        <span className={cn('px-1.5 py-0.5 rounded text-sm font-medium', getSeverityStyles(item.severity))}>
-                          {item.severity === 'high' ? '高' : item.severity === 'medium' ? '中' : '低'}
-                        </span>
+                        <span className={cn(DASHBOARD_STYLES.textMuted)}>储备缺口</span>
+                        <span className={cn('font-bold text-orange-400')}>-{item.gap}万</span>
                       </div>
                     </div>
                   </div>
@@ -767,7 +765,8 @@ export default function RiskIdentificationPanel({
                   )}
                 >
                   <DashboardGauge
-                    percent={risk.severity === 'high' ? 90 : risk.severity === 'medium' ? 60 : 30}
+                    gapFill={risk.severity === 'high' ? 90 : risk.severity === 'medium' ? 60 : 30}
+                    targetGap={100}
                     severity={risk.severity}
                     amount={risk.count}
                     label={risk.title}
@@ -776,10 +775,8 @@ export default function RiskIdentificationPanel({
                   {/* 底部信息 */}
                   <div className="mt-3 pt-2 border-t border-cyan-500/20">
                     <div className="flex items-center justify-between text-sm mb-1">
-                      <span className={cn(DASHBOARD_STYLES.textMuted)}>风险等级</span>
-                      <span className={cn('px-1.5 py-0.5 rounded text-sm font-medium', getSeverityStyles(risk.severity))}>
-                        {risk.severity === 'high' ? '高' : risk.severity === 'medium' ? '中' : '低'}
-                      </span>
+                      <span className={cn(DASHBOARD_STYLES.textMuted)">涉及项目</span>
+                      <span className={cn('font-bold text-orange-400')}>{risk.count}个</span>
                     </div>
                     <div className="text-sm text-left mt-2">
                       <span className={cn(DASHBOARD_STYLES.textMuted)}>{risk.description}</span>
