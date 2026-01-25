@@ -851,12 +851,12 @@ export default function GMDashboard() {
                         dataKey="month"
                         axisLine={false}
                         tickLine={false}
-                        tick={{ fill: 'rgba(6,182,212,0.7)', fontSize: 11 }}
+                        tick={{ fill: 'rgba(6,182,212,0.7)', fontSize: 12 }}
                       />
                       <YAxis
                         axisLine={false}
                         tickLine={false}
-                        tick={{ fill: 'rgba(6,182,212,0.7)', fontSize: 11 }}
+                        tick={{ fill: 'rgba(6,182,212,0.7)', fontSize: 12 }}
                         tickFormatter={(value) => `${value}`}
                       />
                       <Tooltip
@@ -873,7 +873,7 @@ export default function GMDashboard() {
                         wrapperStyle={{
                           paddingTop: '10px',
                           color: 'rgba(6,182,212,0.7)',
-                          fontSize: '11px'
+                          fontSize: '12px'
                         }}
                       />
                       {/* 业务目标 - 实线（无填充） */}
