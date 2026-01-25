@@ -1766,9 +1766,10 @@ export default function FutureSupportAdequacyPanel({
                       <button
                         onClick={(e) => {
                           e.stopPropagation();
+                          const excludedCount = level.excludedProjects?.length || 0;
                           setUrgeMessage({
                             show: true,
-                            message: `已向【${period}】的 ${level.excludedProjects.length} 个未统计项目发送催单提醒`
+                            message: `已向【${period}】的 ${excludedCount} 个未统计项目发送催单提醒`
                           });
                           setTimeout(() => {
                             setUrgeMessage({ show: false, message: '' });
@@ -1783,7 +1784,7 @@ export default function FutureSupportAdequacyPanel({
                         title="批量催单"
                       >
                         <Zap className="w-3 h-3" />
-                        <span>{level.excludedProjects.length}</span>
+                        <span>{level.excludedProjects?.length || 0}</span>
                       </button>
                     )}
                   </div>
