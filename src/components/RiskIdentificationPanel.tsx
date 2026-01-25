@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { AlertTriangle, Clock, TrendingDown, FileWarning, Target, Users, Zap, ChevronRight, Gauge, ArrowUp, ChevronLeft, Circle } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
@@ -193,14 +193,6 @@ export default function RiskIdentificationPanel({
     { id: 2, label: '其他风险', icon: AlertTriangle }
   ];
 
-  // 自动轮播
-  useEffect(() => {
-    const timer = setInterval(() => {
-      setCurrentTab(prev => (prev + 1) % tabs.length);
-    }, 5000);
-    return () => clearInterval(timer);
-  }, []);
-
   // 手动切换Tab
   const goToTab = (index: number) => {
     setCurrentTab(index);
@@ -245,16 +237,7 @@ export default function RiskIdentificationPanel({
   ].length;
 
   return (
-    <div
-      className={cn(
-        'w-full rounded-lg overflow-hidden transition-all duration-300',
-        theme === 'dashboard'
-          ? `${DASHBOARD_STYLES.bg} ${DASHBOARD_STYLES.cardBorder} shadow-[0_0_25px_rgba(6,182,212,0.3)]`
-          : theme === 'dark'
-          ? 'bg-slate-800 border border-slate-700'
-          : 'bg-white border border-slate-200'
-      )}
-    >
+    <div className={cn('w-full h-full flex flex-col')}>
       {/* 标题栏 */}
       <div
         className={cn(
@@ -339,10 +322,10 @@ export default function RiskIdentificationPanel({
       </div>
 
       {/* 风险列表 - 轮播内容 */}
-      <div className="p-6">
+      <div className="flex-1 overflow-hidden">
         {/* Tab 0: 延迟项目 */}
         {currentTab === 0 && (
-          <div className="space-y-4 animate-in fade-in duration-300">
+          <div className="h-full p-6 space-y-4 animate-in fade-in duration-300 overflow-y-auto">
             {/* 仪表盘卡片网格 */}
             <div className="grid grid-cols-4 gap-3">
               {delayedProjects.map((item, index) => (
@@ -413,7 +396,7 @@ export default function RiskIdentificationPanel({
 
         {/* Tab 1: 人效分析 */}
         {currentTab === 1 && (
-          <div className="space-y-4 animate-in fade-in duration-300">
+          <div className="h-full p-6 space-y-4 animate-in fade-in duration-300 overflow-y-auto">
             <div className="grid grid-cols-2 gap-4">
               <div
                 className={cn(
@@ -449,7 +432,7 @@ export default function RiskIdentificationPanel({
 
         {/* Tab 2: 其他风险 */}
         {currentTab === 2 && (
-          <div className="space-y-4 animate-in fade-in duration-300">
+          <div className="h-full p-6 space-y-4 animate-in fade-in duration-300 overflow-y-auto">
             {otherRisks.map((risk, index) => (
               <div
                 key={index}
