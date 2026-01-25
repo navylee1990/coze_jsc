@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { AlertTriangle, Clock, TrendingDown, FileWarning, Target, Users, Zap, ChevronRight, Gauge, ArrowUp, ChevronLeft, Circle } from 'lucide-react';
+import { AlertTriangle, Clock, TrendingDown, FileWarning, Target, Users, Zap, ChevronRight, Gauge, ArrowUp, ChevronLeft, Circle, Database, Building2 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
 // 驾驶舱样式
@@ -48,11 +48,23 @@ interface OtherRiskItem {
   description: string;
 }
 
+// 项目储备分析数据
+interface ProjectReserveItem {
+  category: string; // 行业或细分市场名称
+  type: 'industry' | 'market';
+  currentReserve: number; // 当前储备金额（万）
+  targetReserve: number; // 目标储备金额（万）
+  gap: number; // 储备缺口（万）
+  severity: 'high' | 'medium' | 'low';
+  description?: string; // 描述信息
+}
+
 // 组件属性
 interface RiskIdentificationPanelProps {
   delayedProjects?: DelayedProjectCategory[];
   efficiencyData?: EfficiencyData;
   otherRisks?: OtherRiskItem[];
+  projectReserve?: ProjectReserveItem[];
   theme?: 'dashboard' | 'light' | 'dark';
 }
 
@@ -133,6 +145,48 @@ const defaultOtherRisks: OtherRiskItem[] = [
   }
 ];
 
+// 默认项目储备分析数据
+const defaultProjectReserve: ProjectReserveItem[] = [
+  // 行业维度
+  {
+    category: '酒店行业',
+    type: 'industry',
+    currentReserve: 800,
+    targetReserve: 1200,
+    gap: 400,
+    severity: 'high',
+    description: '重点区域储备不足'
+  },
+  {
+    category: '教育行业',
+    type: 'industry',
+    currentReserve: 600,
+    targetReserve: 800,
+    gap: 200,
+    severity: 'medium',
+    description: '部分学校项目推进缓慢'
+  },
+  // 细分市场维度
+  {
+    category: '高端酒店',
+    type: 'market',
+    currentReserve: 350,
+    targetReserve: 500,
+    gap: 150,
+    severity: 'medium',
+    description: '五星级酒店储备缺口'
+  },
+  {
+    category: '连锁酒店',
+    type: 'market',
+    currentReserve: 450,
+    targetReserve: 700,
+    gap: 250,
+    severity: 'high',
+    description: '连锁品牌扩张储备不足'
+  }
+];
+
 // 仪表盘组件
 function DashboardGauge({ percent, severity, amount, label }: { percent: number; severity: 'high' | 'medium' | 'low'; amount: number; label: string }) {
   const getColorClass = () => {
@@ -183,6 +237,7 @@ export default function RiskIdentificationPanel({
   delayedProjects = defaultDelayedProjects,
   efficiencyData = defaultEfficiencyData,
   otherRisks = defaultOtherRisks,
+  projectReserve = defaultProjectReserve,
   theme = 'dashboard'
 }: RiskIdentificationPanelProps) {
   // 轮播状态
@@ -190,7 +245,8 @@ export default function RiskIdentificationPanel({
   const tabs = [
     { id: 0, label: '延迟项目', icon: Gauge },
     { id: 1, label: '人效分析', icon: Users },
-    { id: 2, label: '其他风险', icon: AlertTriangle }
+    { id: 2, label: '项目储备', icon: Database },
+    { id: 3, label: '其他风险', icon: AlertTriangle }
   ];
 
   // 手动切换Tab
@@ -233,7 +289,8 @@ export default function RiskIdentificationPanel({
   // 计算高风险数量
   const highRiskCount = [
     ...delayedProjects.filter(p => p.severity === 'high'),
-    ...otherRisks.filter(r => r.severity === 'high')
+    ...otherRisks.filter(r => r.severity === 'high'),
+    ...projectReserve.filter(r => r.severity === 'high')
   ].length;
 
   return (
@@ -478,8 +535,102 @@ export default function RiskIdentificationPanel({
           </div>
         )}
 
-        {/* Tab 2: 其他风险 */}
+        {/* Tab 2: 项目储备分析 */}
         {currentTab === 2 && (
+          <div className="h-full p-6 space-y-4 animate-in fade-in duration-300 overflow-y-auto">
+            {/* 仪表盘卡片网格 */}
+            <div className="grid grid-cols-4 gap-3">
+              {projectReserve.map((item, index) => {
+                const percent = Math.round((item.currentReserve / item.targetReserve) * 100);
+                return (
+                  <div
+                    key={index}
+                    className={cn(
+                      'rounded-lg p-3 border-2 transition-all duration-200',
+                      item.severity === 'high'
+                        ? 'bg-slate-900/60 border-red-500/40 hover:bg-red-500/10 hover:border-red-500/60 hover:shadow-[0_0_20px_rgba(239,68,68,0.4)]'
+                        : item.severity === 'medium'
+                        ? 'bg-slate-900/60 border-yellow-500/40 hover:bg-yellow-500/10 hover:border-yellow-500/60'
+                        : 'bg-slate-900/60 border-green-500/40 hover:bg-green-500/10 hover:border-green-500/60'
+                    )}
+                  >
+                    {/* 类型标签 */}
+                    <div className="flex items-center gap-1.5 mb-2">
+                      {item.type === 'industry' ? (
+                        <Building2 className="w-3 h-3" style={{ color: 'rgba(6,182,212,0.7)' }} />
+                      ) : (
+                        <Target className="w-3 h-3" style={{ color: 'rgba(6,182,212,0.7)' }} />
+                      )}
+                      <span className="text-xs" style={{ color: 'rgba(6,182,212,0.7)' }}>
+                        {item.type === 'industry' ? '行业' : '细分市场'}
+                      </span>
+                    </div>
+
+                    <DashboardGauge
+                      percent={percent}
+                      severity={item.severity}
+                      amount={item.gap}
+                      label={item.category}
+                    />
+
+                    {/* 底部信息 */}
+                    <div className="mt-3 pt-2 border-t border-cyan-500/20">
+                      <div className="flex items-center justify-between text-xs mb-1">
+                        <span className={cn(DASHBOARD_STYLES.textMuted)}>储备缺口</span>
+                        <span className={cn('font-bold text-orange-400')}>-{item.gap}万</span>
+                      </div>
+                      <div className="flex items-center justify-between text-xs mb-1">
+                        <span className={cn(DASHBOARD_STYLES.textMuted)}>达成率</span>
+                        <span className={cn('font-bold', DASHBOARD_STYLES.textSecondary)}>{percent}%</span>
+                      </div>
+                      <div className="flex items-center justify-between text-xs">
+                        <span className={cn(DASHBOARD_STYLES.textMuted)}>风险等级</span>
+                        <span className={cn('px-1.5 py-0.5 rounded text-xs font-medium', getSeverityStyles(item.severity))}>
+                          {item.severity === 'high' ? '高' : item.severity === 'medium' ? '中' : '低'}
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+
+            {/* 统计总览 */}
+            <div className={cn('p-4 rounded-lg border', DASHBOARD_STYLES.cardBorder)}>
+              <div className="grid grid-cols-4 gap-4 text-center">
+                <div>
+                  <div className={cn('text-xs mb-1', DASHBOARD_STYLES.textMuted)}>储备缺口总计</div>
+                  <div className={cn('text-2xl font-bold text-orange-400')}>
+                    -{projectReserve.reduce((sum, r) => sum + r.gap, 0)}
+                    <span className="text-sm">万</span>
+                  </div>
+                </div>
+                <div>
+                  <div className={cn('text-xs mb-1', DASHBOARD_STYLES.textMuted)}>平均达成率</div>
+                  <div className={cn('text-2xl font-bold', DASHBOARD_STYLES.textSecondary)}>
+                    {Math.round(projectReserve.reduce((sum, r) => sum + (r.currentReserve / r.targetReserve) * 100, 0) / projectReserve.length)}%
+                  </div>
+                </div>
+                <div>
+                  <div className={cn('text-xs mb-1', DASHBOARD_STYLES.textMuted)}>高风险行业/市场</div>
+                  <div className={cn('text-2xl font-bold text-red-400')}>
+                    {projectReserve.filter(r => r.severity === 'high').length}
+                    <span className="text-sm">个</span>
+                  </div>
+                </div>
+                <div>
+                  <div className={cn('text-xs mb-1', DASHBOARD_STYLES.textMuted)}>说明</div>
+                  <div className={cn('text-xs text-left', DASHBOARD_STYLES.textSecondary)}>
+                    各行业/细分市场项目储备缺口分析
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* Tab 3: 其他风险 */}
+        {currentTab === 3 && (
           <div className="h-full p-6 space-y-4 animate-in fade-in duration-300 overflow-y-auto">
             {/* 仪表盘卡片网格 */}
             <div className="grid grid-cols-4 gap-3">
