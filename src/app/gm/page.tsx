@@ -933,8 +933,8 @@ export default function GMDashboard() {
 
           {/* 右侧仪表区 */}
           <div className="col-span-4 space-y-4">
-            {/* 区域达成情况 - 矩阵卡片展示 */}
-            <div className={`${DASHBOARD_STYLES.cardBg} ${DASHBOARD_STYLES.cardBorder} rounded-xl p-4 ${DASHBOARD_STYLES.glow}`}>
+            {/* 区域达成情况 - 矩阵卡片展示 - padding与核心预测决策模块保持一致 */}
+            <div className={`${DASHBOARD_STYLES.cardBg} ${DASHBOARD_STYLES.cardBorder} rounded-xl p-6 ${DASHBOARD_STYLES.glow}`}>
               <RegionMatrix
                 data={currentData}
                 title="区域达成"
