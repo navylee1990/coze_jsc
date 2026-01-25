@@ -198,6 +198,7 @@ const forecastTrendData = [
   { month: '1月', businessTarget: 1500, financialTarget: 1200, completed: 800, forecast: 900 },
   { month: '2月', businessTarget: 1500, financialTarget: 1200, completed: 0, forecast: 950 },
   { month: '3月', businessTarget: 1500, financialTarget: 1200, completed: 0, forecast: 880 },
+  { month: '3月', businessTarget: 1500, financialTarget: 1200, completed: 0, forecast: 880 },
   { month: '4月', businessTarget: 1500, financialTarget: 1200, completed: 0, forecast: 920 },
   { month: '5月', businessTarget: 1500, financialTarget: 1200, completed: 0, forecast: 960 },
   { month: '6月', businessTarget: 1500, financialTarget: 1200, completed: 0, forecast: 910 },
