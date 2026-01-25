@@ -291,7 +291,7 @@ export default function RegionMatrix({
         theme === 'dashboard' ? DASHBOARD_STYLES.cardBorder : 'border-slate-200'
       )}>
         {renderTableHeader()}
-        <div className="flex flex-col">
+        <div className={cn('flex flex-col', shouldPaginate ? '' : 'min-h-[270px]')}>
           {displayData.map((item, index) => {
             // 计算排名：第一层从1开始，分页层根据页码计算
             const rank = shouldPaginate
@@ -299,8 +299,8 @@ export default function RegionMatrix({
               : index + 1;
             return renderTableRow(item, rank, handleDrillDownChange);
           })}
-          {/* 分页控件 - 只在第二层和第三层显示 */}
-          {shouldPaginate && totalPages > 1 && (
+          {/* 分页控件或信息栏 - 确保所有层级高度一致 */}
+          {shouldPaginate && totalPages > 1 ? (
             <div className="flex items-center justify-between px-4 py-3 border-t border-cyan-500/20 bg-slate-900/30">
               <div className={cn('text-xs', DASHBOARD_STYLES.textMuted)}>
                 共 {currentData.length} 条记录
@@ -346,6 +346,12 @@ export default function RegionMatrix({
                 >
                   <ChevronRight className="w-4 h-4" />
                 </button>
+              </div>
+            </div>
+          ) : (
+            <div className="flex items-center justify-between px-4 py-3 border-t border-cyan-500/20 bg-slate-900/30">
+              <div className={cn('text-xs', DASHBOARD_STYLES.textMuted)}>
+                共 {currentData.length} 条记录
               </div>
             </div>
           )}
