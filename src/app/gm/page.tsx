@@ -1071,7 +1071,6 @@ export default function GMDashboard() {
               <RegionMatrix
                 data={currentData}
                 title="区域达成"
-                subtitle={`(${timeRange === 'month' ? `${selectedMonth}月` : timeRange === 'quarter' ? selectedQuarter : '2026年'})`}
                 cityData={cityData}
                 salespersonData={salespersonData}
                 theme="dashboard"
