@@ -260,10 +260,10 @@ export default function RegionMatrix({
             <h3 className={cn('text-sm font-bold flex items-center gap-2 whitespace-nowrap', DASHBOARD_STYLES.neon)}>
               <Activity className="w-4 h-4 flex-shrink-0" />
               {title}
+              <span className={cn('text-xs font-normal', DASHBOARD_STYLES.textSecondary)}>
+                {drillDownLevel === 'region' ? ' 区域' : drillDownLevel === 'city' ? ` ${selectedRegion}` : ` ${selectedCity}`}
+              </span>
             </h3>
-            {subtitle && drillDownLevel === 'region' && (
-              <span className={cn('text-xs whitespace-nowrap', DASHBOARD_STYLES.textMuted)}>({subtitle})</span>
-            )}
           </div>
           {/* 面包屑导航 - 始终显示完整路径 */}
           <div className="flex items-center gap-1 text-xs">
