@@ -944,10 +944,8 @@ export default function GMDashboard() {
               />
             </div>
 
-            {/* 风险识别模块 - 固定高度 */}
-            <div className={`${DASHBOARD_STYLES.cardBg} ${DASHBOARD_STYLES.cardBorder} rounded-xl p-4 ${DASHBOARD_STYLES.glow}`} style={{ height: '520px' }}>
-              <RiskIdentificationPanel theme="dashboard" />
-            </div>
+            {/* 风险识别模块 */}
+            <RiskIdentificationPanel theme="dashboard" />
 
           </div>
         </div>

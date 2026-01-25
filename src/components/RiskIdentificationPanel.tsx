@@ -258,31 +258,31 @@ export default function RiskIdentificationPanel({
       {/* 标题栏 */}
       <div
         className={cn(
-          'px-4 py-3 border-b',
-          theme === 'dashboard' ? `${DASHBOARD_STYLES.cardBorder} bg-slate-900/50` : 'border-slate-200 bg-white'
+          'px-6 py-3 border-b flex items-center justify-between',
+          theme === 'dashboard' ? `${DASHBOARD_STYLES.cardBorder} bg-slate-900/60` : 'border-slate-200 bg-white'
         )}
       >
-        <div className="flex items-center justify-between mb-2">
-          <div className="flex items-center gap-2">
-            <AlertTriangle className={cn('w-5 h-5', theme === 'dashboard' ? 'text-cyan-400' : 'text-slate-700')} />
-            <h3 className={cn('font-bold text-lg', theme === 'dashboard' ? DASHBOARD_STYLES.textSecondary : 'text-slate-900')}>
-              风险识别
-            </h3>
-          </div>
-          {highRiskCount > 0 && (
-            <div
-              className={cn(
-                'flex items-center gap-1 px-2 py-1 rounded-full text-xs font-medium animate-pulse',
-                theme === 'dashboard' ? 'bg-red-500/30 text-red-300 border border-red-500/40' : 'bg-red-100 text-red-700'
-              )}
-            >
-              <AlertTriangle className="w-3 h-3" />
-              {highRiskCount} 项高风险
-            </div>
-          )}
+        <div className="flex items-center gap-2">
+          <AlertTriangle className={cn('w-5 h-5', theme === 'dashboard' ? 'text-cyan-400' : 'text-slate-700')} />
+          <h3 className={cn('font-bold text-lg', theme === 'dashboard' ? DASHBOARD_STYLES.textSecondary : 'text-slate-900')}>
+            风险识别
+          </h3>
         </div>
+        {highRiskCount > 0 && (
+          <div
+            className={cn(
+              'flex items-center gap-1 px-2 py-1 rounded-full text-xs font-medium animate-pulse',
+              theme === 'dashboard' ? 'bg-red-500/30 text-red-300 border border-red-500/40' : 'bg-red-100 text-red-700'
+            )}
+          >
+            <AlertTriangle className="w-3 h-3" />
+            {highRiskCount} 项高风险
+          </div>
+        )}
+      </div>
 
-        {/* 轮播控制栏 */}
+      {/* 轮播控制栏 */}
+      <div className="px-6 py-2 border-b border-cyan-500/20">
         <div className="flex items-center justify-between">
           {/* 左箭头 */}
           <button
@@ -339,12 +339,12 @@ export default function RiskIdentificationPanel({
       </div>
 
       {/* 风险列表 - 轮播内容 */}
-      <div className="p-4">
+      <div className="p-6">
         {/* Tab 0: 延迟项目 */}
         {currentTab === 0 && (
-          <div className="space-y-3 animate-in fade-in duration-300">
+          <div className="space-y-4 animate-in fade-in duration-300">
             {/* 仪表盘卡片网格 */}
-            <div className="grid grid-cols-4 gap-3 mb-3">
+            <div className="grid grid-cols-4 gap-3">
               {delayedProjects.map((item, index) => (
                 <div
                   key={index}
@@ -378,31 +378,31 @@ export default function RiskIdentificationPanel({
             </div>
 
             {/* 统计总览 */}
-            <div className={cn('p-3 rounded-lg border', DASHBOARD_STYLES.cardBorder)}>
-              <div className="grid grid-cols-4 gap-3 text-center">
+            <div className={cn('p-4 rounded-lg border', DASHBOARD_STYLES.cardBorder)}>
+              <div className="grid grid-cols-4 gap-4 text-center">
                 <div>
                   <div className={cn('text-xs mb-1', DASHBOARD_STYLES.textMuted)}>延迟项目总数</div>
-                  <div className={cn('text-xl font-bold', DASHBOARD_STYLES.textSecondary)}>
+                  <div className={cn('text-2xl font-bold', DASHBOARD_STYLES.textSecondary)}>
                     {delayedProjects.reduce((sum, p) => sum + p.count, 0)}
                   </div>
                 </div>
                 <div>
                   <div className={cn('text-xs mb-1', DASHBOARD_STYLES.textMuted)}>延迟总金额</div>
-                  <div className={cn('text-xl font-bold', DASHBOARD_STYLES.textSecondary)}>
+                  <div className={cn('text-2xl font-bold', DASHBOARD_STYLES.textSecondary)}>
                     {delayedProjects.reduce((sum, p) => sum + p.amount, 0)}
                     <span className="text-sm">万</span>
                   </div>
                 </div>
                 <div>
                   <div className={cn('text-xs mb-1', DASHBOARD_STYLES.textMuted)}>可填补总缺口</div>
-                  <div className={cn('text-xl font-bold text-green-400')}>
+                  <div className={cn('text-2xl font-bold text-green-400')}>
                     +{delayedProjects.reduce((sum, p) => sum + p.gapFill, 0)}
                     <span className="text-sm">万</span>
                   </div>
                 </div>
                 <div>
                   <div className={cn('text-xs mb-1', DASHBOARD_STYLES.textMuted)}>高风险占比</div>
-                  <div className={cn('text-xl font-bold text-red-400')}>
+                  <div className={cn('text-2xl font-bold text-red-400')}>
                     {Math.round((delayedProjects.filter(p => p.severity === 'high').length / delayedProjects.length) * 100)}%
                   </div>
                 </div>
@@ -413,32 +413,32 @@ export default function RiskIdentificationPanel({
 
         {/* Tab 1: 人效分析 */}
         {currentTab === 1 && (
-          <div className="space-y-3 animate-in fade-in duration-300">
+          <div className="space-y-4 animate-in fade-in duration-300">
             <div className="grid grid-cols-2 gap-4">
               <div
                 className={cn(
-                  'rounded-lg p-4 border',
+                  'rounded-lg p-5 border',
                   efficiencyData.zeroProjectCurrentMonth.severity === 'high'
                     ? 'bg-red-500/10 border-red-500/30'
                     : 'bg-yellow-500/10 border-yellow-500/30'
                 )}
               >
-                <div className={cn('text-sm mb-2', DASHBOARD_STYLES.textMuted)}>本月0项目人员</div>
-                <div className={cn('text-4xl font-bold', DASHBOARD_STYLES.textSecondary)}>
+                <div className={cn('text-sm mb-3', DASHBOARD_STYLES.textMuted)}>本月0项目人员</div>
+                <div className={cn('text-5xl font-bold', DASHBOARD_STYLES.textSecondary)}>
                   {efficiencyData.zeroProjectCurrentMonth.count}
                   <span className="text-lg font-normal ml-2">人</span>
                 </div>
               </div>
               <div
                 className={cn(
-                  'rounded-lg p-4 border',
+                  'rounded-lg p-5 border',
                   efficiencyData.zeroProject3Months.severity === 'high'
                     ? 'bg-red-500/10 border-red-500/30'
                     : 'bg-yellow-500/10 border-yellow-500/30'
                 )}
               >
-                <div className={cn('text-sm mb-2', DASHBOARD_STYLES.textMuted)}>近3月0项目人员</div>
-                <div className={cn('text-4xl font-bold', DASHBOARD_STYLES.textSecondary)}>
+                <div className={cn('text-sm mb-3', DASHBOARD_STYLES.textMuted)}>近3月0项目人员</div>
+                <div className={cn('text-5xl font-bold', DASHBOARD_STYLES.textSecondary)}>
                   {efficiencyData.zeroProject3Months.count}
                   <span className="text-lg font-normal ml-2">人</span>
                 </div>
@@ -449,12 +449,12 @@ export default function RiskIdentificationPanel({
 
         {/* Tab 2: 其他风险 */}
         {currentTab === 2 && (
-          <div className="space-y-3 animate-in fade-in duration-300">
+          <div className="space-y-4 animate-in fade-in duration-300">
             {otherRisks.map((risk, index) => (
               <div
                 key={index}
                 className={cn(
-                  'rounded-lg p-4 border transition-all duration-200 flex items-center gap-4',
+                  'rounded-lg p-5 border transition-all duration-200 flex items-center gap-4',
                   risk.severity === 'high'
                     ? 'bg-red-500/10 border-red-500/30 hover:bg-red-500/20 hover:shadow-[0_0_15px_rgba(239,68,68,0.3)]'
                     : risk.severity === 'medium'
@@ -477,7 +477,7 @@ export default function RiskIdentificationPanel({
                   </div>
                   <div className={cn('text-sm', DASHBOARD_STYLES.textMuted)}>{risk.description}</div>
                 </div>
-                <div className={cn('text-3xl font-bold', DASHBOARD_STYLES.textSecondary)}>
+                <div className={cn('text-4xl font-bold', DASHBOARD_STYLES.textSecondary)}>
                   {risk.count}
                 </div>
               </div>
