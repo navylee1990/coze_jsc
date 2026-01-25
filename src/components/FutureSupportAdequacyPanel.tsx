@@ -1569,7 +1569,7 @@ export default function FutureSupportAdequacyPanel({
   return (
     <div
       className={cn(
-        'w-full rounded-lg overflow-hidden transition-all duration-300',
+        'w-full h-full rounded-lg overflow-hidden transition-all duration-300 flex flex-col',
         theme === 'dashboard'
           ? 'bg-slate-900/80 border border-cyan-500/30 shadow-[0_0_30px_rgba(6,182,212,0.3)]'
           : theme === 'dark'
@@ -1670,7 +1670,7 @@ export default function FutureSupportAdequacyPanel({
       )}
 
       {/* 主内容区 - 时间段矩阵卡片布局 */}
-      <div className="p-4">
+      <div className="p-4 flex-1 overflow-auto">
         <div className="grid grid-cols-3 gap-3">
           {(['0-30天', '1-3月', '3-6月'] as const).map((period, index) => {
             const level = data.supportStructure[period];
