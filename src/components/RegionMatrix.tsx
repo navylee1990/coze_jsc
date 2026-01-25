@@ -246,7 +246,7 @@ export default function RegionMatrix({
       {/* 标题和面包屑 */}
       <div className="flex items-center justify-between mb-3 px-4 min-h-[72px]">
         <div className="flex-1 min-w-0">
-          <div className="flex items-center gap-2 mb-1.5">
+          <div className="flex items-center gap-2">
             {drillDownLevel !== 'region' && (
               <button
                 onClick={() => handleBreadcrumbClick('region')}
@@ -258,28 +258,24 @@ export default function RegionMatrix({
             <h3 className={cn('text-sm font-bold flex items-center gap-2 whitespace-nowrap', DASHBOARD_STYLES.neon)}>
               <Activity className="w-4 h-4 flex-shrink-0" />
               {title}
-              <span className={cn('text-xs font-normal', DASHBOARD_STYLES.textSecondary)}>
-                {drillDownLevel === 'region' ? ' 区域' : drillDownLevel === 'city' ? ` ${selectedRegion}` : ` ${selectedCity}`}
+              <span className="flex items-center gap-1 text-xs">
+                {breadcrumbs.map((crumb, index) => (
+                  <div key={crumb.level} className="flex items-center gap-1">
+                    {index > 0 && <span className="text-cyan-500/50 flex-shrink-0">/</span>}
+                    {index === breadcrumbs.length - 1 ? (
+                      <span className={cn('font-semibold', DASHBOARD_STYLES.textSecondary)}>{crumb.label}</span>
+                    ) : (
+                      <button
+                        onClick={() => handleBreadcrumbClick(crumb.level as 'region' | 'city' | 'salesperson')}
+                        className={cn('hover:text-cyan-300 transition-colors', DASHBOARD_STYLES.textMuted)}
+                      >
+                        {crumb.label}
+                      </button>
+                    )}
+                  </div>
+                ))}
               </span>
             </h3>
-          </div>
-          {/* 面包屑导航 - 始终显示完整路径 */}
-          <div className="flex items-center gap-1 text-xs">
-            {breadcrumbs.map((crumb, index) => (
-              <div key={crumb.level} className="flex items-center gap-1">
-                {index > 0 && <span className="text-cyan-500/50 flex-shrink-0">/</span>}
-                {index === breadcrumbs.length - 1 ? (
-                  <span className={cn('font-semibold', DASHBOARD_STYLES.textSecondary)}>{crumb.label}</span>
-                ) : (
-                  <button
-                    onClick={() => handleBreadcrumbClick(crumb.level as 'region' | 'city' | 'salesperson')}
-                    className={cn('hover:text-cyan-300 transition-colors', DASHBOARD_STYLES.textMuted)}
-                  >
-                    {crumb.label}
-                  </button>
-                )}
-              </div>
-            ))}
           </div>
         </div>
       </div>
