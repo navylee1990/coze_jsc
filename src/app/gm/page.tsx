@@ -843,7 +843,7 @@ export default function GMDashboard() {
                 <div className="mb-2">
                   <h4 className={`text-sm font-semibold ${DASHBOARD_STYLES.neon}`}>趋势分析</h4>
                 </div>
-                <div style={{ height: '280px' }}>
+                <div style={{ height: '230px' }}>
                   <ResponsiveContainer width="100%" height="100%">
                     <AreaChart data={forecastTrendData}>
                       <CartesianGrid strokeDasharray="3 3" stroke="rgba(6,182,212,0.1)" vertical={false} />
