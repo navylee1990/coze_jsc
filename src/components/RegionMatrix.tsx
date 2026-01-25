@@ -242,7 +242,7 @@ export default function RegionMatrix({
   const breadcrumbs = getBreadcrumbs();
 
   return (
-    <div className={cn('w-full', DASHBOARD_STYLES.bg, DASHBOARD_STYLES.text)}>
+    <div className={cn('w-full min-h-[480px]', DASHBOARD_STYLES.bg, DASHBOARD_STYLES.text)}>
       {/* 标题和面包屑 */}
       <div className="flex items-center justify-between mb-2 px-4 min-h-[72px]">
         <div className="flex-1 min-w-0">
