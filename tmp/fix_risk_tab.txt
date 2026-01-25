@@ -1,0 +1,70 @@
+        {/* Tab 3: 其他风险 */}
+        {currentTab === 3 && (
+          <div className="h-full p-6 space-y-4 animate-in fade-in duration-300 overflow-y-auto">
+            {/* 仪表盘卡片网格 */}
+            <div className="grid grid-cols-4 gap-3">
+              {otherRisks.map((risk, index) => (
+                <div
+                  key={index}
+                  className={cn(
+                    'rounded-lg p-3 border-2 transition-all duration-200',
+                    risk.severity === 'high'
+                      ? 'bg-slate-900/60 border-red-500/40 hover:bg-red-500/10 hover:border-red-500/60 hover:shadow-[0_0_20px_rgba(239,68,68,0.4)]'
+                      : risk.severity === 'medium'
+                      ? 'bg-slate-900/60 border-yellow-500/40 hover:bg-yellow-500/10 hover:border-yellow-500/60'
+                      : 'bg-slate-900/60 border-green-500/40 hover:bg-green-500/10 hover:border-green-500/60'
+                  )}
+                >
+                  <DashboardGauge
+                    gapFill={risk.severity === 'high' ? 90 : risk.severity === 'medium' ? 60 : 30}
+                    targetGap={100}
+                    severity={risk.severity}
+                    amount={risk.count}
+                    label={risk.title}
+                  />
+
+                  {/* 底部信息 */}
+                  <div className="mt-3 pt-2 border-t border-cyan-500/20">
+                    <div className="flex items-center justify-between text-sm mb-1">
+                      <span className={cn(DASHBOARD_STYLES.textMuted)}>涉及项目</span>
+                      <span className={cn('font-bold text-orange-400')}>{risk.count}个</span>
+                    </div>
+                    <div className="text-sm text-left mt-2">
+                      <span className={cn(DASHBOARD_STYLES.textMuted)}>{risk.description}</span>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            {/* 统计总览 */}
+            <div className={cn('p-4 rounded-lg border', DASHBOARD_STYLES.cardBorder)}>
+              <div className="grid grid-cols-4 gap-4 text-center">
+                <div>
+                  <div className={cn('text-sm mb-1', DASHBOARD_STYLES.textMuted)}>风险总数</div>
+                  <div className={cn('text-2xl font-bold', DASHBOARD_STYLES.textSecondary)}>
+                    {otherRisks.reduce((sum, r) => sum + r.count, 0)}
+                  </div>
+                </div>
+                <div>
+                  <div className={cn('text-sm mb-1', DASHBOARD_STYLES.textMuted)}>高风险项</div>
+                  <div className={cn('text-2xl font-bold text-red-400')}>
+                    {otherRisks.filter(r => r.severity === 'high').length}
+                  </div>
+                </div>
+                <div>
+                  <div className={cn('text-sm mb-1', DASHBOARD_STYLES.textMuted)}>中风险项</div>
+                  <div className={cn('text-2xl font-bold text-yellow-400')}>
+                    {otherRisks.filter(r => r.severity === 'medium').length}
+                  </div>
+                </div>
+                <div>
+                  <div className={cn('text-sm mb-1', DASHBOARD_STYLES.textMuted)}>低风险项</div>
+                  <div className={cn('text-2xl font-bold text-green-400')}>
+                    {otherRisks.filter(r => r.severity === 'low').length}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
