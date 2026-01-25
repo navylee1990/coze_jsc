@@ -362,6 +362,11 @@ export default function GMDashboard() {
   const [animatedGap, setAnimatedGap] = useState(0);
   const [animatedRate, setAnimatedRate] = useState(0);
 
+  // 指针动画 state
+  const [needleAngle1, setNeedleAngle1] = useState(-90); // 目标仪表盘指针
+  const [needleAngle2, setNeedleAngle2] = useState(-90); // 预测完成仪表盘指针
+  const [needleAngle3, setNeedleAngle3] = useState(-90); // 缺口仪表盘指针
+
   // 页面初始化动画
   useEffect(() => {
     setIsMounted(true);
@@ -377,6 +382,133 @@ export default function GMDashboard() {
       clearTimeout(phase3);
     };
   }, []);
+
+  // 数字滚动动画效果 - 在页面初始化或时间范围变化时触发
+  useEffect(() => {
+    // 只在页面已经挂载后才触发动画
+    if (!isMounted) return;
+
+    const data = getTimeRangeData();
+    const targetRate = parseFloat(getAchievementRate());
+    const gapValue = getGap();
+
+    // 重置为 0，确保从 0 开始滚动
+    setAnimatedTarget(0);
+    setAnimatedForecast(0);
+    setAnimatedGap(0);
+    setAnimatedRate(0);
+
+    // 重置指针角度
+    setNeedleAngle1(-90);
+    setNeedleAngle2(-90);
+    setNeedleAngle3(-90);
+
+    // 等待一小段时间后开始动画，确保 state 重置生效
+    const startDelay = setTimeout(() => {
+      // 目标值滚动
+      const targetDuration = 2000;
+      const targetStart = 0;
+      const targetEnd = data.target;
+      const targetStartTime = Date.now();
+
+      const animateTarget = () => {
+        const elapsed = Date.now() - targetStartTime;
+        const progress = Math.min(elapsed / targetDuration, 1);
+        // 缓动函数
+        const easeOut = 1 - Math.pow(1 - progress, 3);
+        setAnimatedTarget(Math.floor(targetStart + (targetEnd - targetStart) * easeOut));
+
+        if (progress < 1) {
+          requestAnimationFrame(animateTarget);
+        }
+      };
+
+      // 预测值滚动
+      const forecastDuration = 2000;
+      const forecastStart = 0;
+      const forecastEnd = data.forecast;
+      const forecastStartTime = Date.now();
+
+      const animateForecast = () => {
+        const elapsed = Date.now() - forecastStartTime;
+        const progress = Math.min(elapsed / forecastDuration, 1);
+        const easeOut = 1 - Math.pow(1 - progress, 3);
+        setAnimatedForecast(Math.floor(forecastStart + (forecastEnd - forecastStart) * easeOut));
+
+        if (progress < 1) {
+          requestAnimationFrame(animateForecast);
+        }
+      };
+
+      // 缺口值滚动
+      const gapDuration = 2000;
+      const gapStart = 0;
+      const gapEnd = gapValue;
+      const gapStartTime = Date.now();
+
+      const animateGap = () => {
+        const elapsed = Date.now() - gapStartTime;
+        const progress = Math.min(elapsed / gapDuration, 1);
+        const easeOut = 1 - Math.pow(1 - progress, 3);
+        setAnimatedGap(Math.floor(gapStart + (gapEnd - gapStart) * easeOut));
+
+        if (progress < 1) {
+          requestAnimationFrame(animateGap);
+        }
+      };
+
+      // 达成率滚动
+      const rateDuration = 2000;
+      const rateStart = 0;
+      const rateEnd = targetRate;
+      const rateStartTime = Date.now();
+
+      const animateRate = () => {
+        const elapsed = Date.now() - rateStartTime;
+        const progress = Math.min(elapsed / rateDuration, 1);
+        const easeOut = 1 - Math.pow(1 - progress, 3);
+        setAnimatedRate(parseFloat((rateStart + (rateEnd - rateStart) * easeOut).toFixed(1)));
+
+        if (progress < 1) {
+          requestAnimationFrame(animateRate);
+        }
+      };
+
+      // 指针动画
+      const needleDuration = 1500;
+      const needle1Start = -90;
+      const needle1End = 135; // 目标仪表盘指针
+      const needle2Start = -90;
+      const needle2End = (Math.min(targetRate, 100) / 100) * 180 - 90; // 预测完成仪表盘指针
+      const needle3Start = -90;
+      const needle3End = gapValue <= 0 ? 135 : -135; // 缺口仪表盘指针
+      const needleStartTime = Date.now();
+
+      const animateNeedles = () => {
+        const elapsed = Date.now() - needleStartTime;
+        const progress = Math.min(elapsed / needleDuration, 1);
+        const easeOut = 1 - Math.pow(1 - progress, 3);
+
+        setNeedleAngle1(needle1Start + (needle1End - needle1Start) * easeOut);
+        setNeedleAngle2(needle2Start + (needle2End - needle2Start) * easeOut);
+        setNeedleAngle3(needle3Start + (needle3End - needle3Start) * easeOut);
+
+        if (progress < 1) {
+          requestAnimationFrame(animateNeedles);
+        }
+      };
+
+      animateTarget();
+      animateForecast();
+      animateGap();
+      animateRate();
+      animateNeedles();
+    }, 100);
+
+    return () => {
+      clearTimeout(startDelay);
+    };
+  }, [selectedTimeRange, isMounted]);
 
   // 获取当前时间范围的数据
   const getTimeRangeData = () => {
@@ -396,87 +528,6 @@ export default function GMDashboard() {
     const data = getTimeRangeData();
     return data.target - data.forecast;
   };
-
-  // 数字滚动动画效果
-  useEffect(() => {
-    const data = getTimeRangeData();
-    const targetRate = parseFloat(getAchievementRate());
-    const gapValue = getGap();
-
-    // 目标值滚动
-    const targetDuration = 1500;
-    const targetStart = 0;
-    const targetEnd = data.target;
-    const targetStartTime = Date.now();
-
-    const animateTarget = () => {
-      const elapsed = Date.now() - targetStartTime;
-      const progress = Math.min(elapsed / targetDuration, 1);
-      // 缓动函数
-      const easeOut = 1 - Math.pow(1 - progress, 3);
-      setAnimatedTarget(Math.floor(targetStart + (targetEnd - targetStart) * easeOut));
-
-      if (progress < 1) {
-        requestAnimationFrame(animateTarget);
-      }
-    };
-
-    // 预测值滚动
-    const forecastDuration = 1500;
-    const forecastStart = 0;
-    const forecastEnd = data.forecast;
-    const forecastStartTime = Date.now();
-
-    const animateForecast = () => {
-      const elapsed = Date.now() - forecastStartTime;
-      const progress = Math.min(elapsed / forecastDuration, 1);
-      const easeOut = 1 - Math.pow(1 - progress, 3);
-      setAnimatedForecast(Math.floor(forecastStart + (forecastEnd - forecastStart) * easeOut));
-
-      if (progress < 1) {
-        requestAnimationFrame(animateForecast);
-      }
-    };
-
-    // 缺口值滚动
-    const gapDuration = 1500;
-    const gapStart = 0;
-    const gapEnd = gapValue;
-    const gapStartTime = Date.now();
-
-    const animateGap = () => {
-      const elapsed = Date.now() - gapStartTime;
-      const progress = Math.min(elapsed / gapDuration, 1);
-      const easeOut = 1 - Math.pow(1 - progress, 3);
-      setAnimatedGap(Math.floor(gapStart + (gapEnd - gapStart) * easeOut));
-
-      if (progress < 1) {
-        requestAnimationFrame(animateGap);
-      }
-    };
-
-    // 达成率滚动
-    const rateDuration = 1500;
-    const rateStart = 0;
-    const rateEnd = targetRate;
-    const rateStartTime = Date.now();
-
-    const animateRate = () => {
-      const elapsed = Date.now() - rateStartTime;
-      const progress = Math.min(elapsed / rateDuration, 1);
-      const easeOut = 1 - Math.pow(1 - progress, 3);
-      setAnimatedRate(parseFloat((rateStart + (rateEnd - rateStart) * easeOut).toFixed(1)));
-
-      if (progress < 1) {
-        requestAnimationFrame(animateRate);
-      }
-    };
-
-    animateTarget();
-    animateForecast();
-    animateGap();
-    animateRate();
-  }, [selectedTimeRange]);
 
   // 默认时间范围为月度
   useEffect(() => {
@@ -659,10 +710,10 @@ export default function GMDashboard() {
                               stroke="#f97316"
                               strokeWidth="2"
                               style={{
-                                transform: `rotate(135deg)`,
+                                transform: `rotate(${needleAngle1}deg)`,
                                 transformOrigin: '0 0',
                                 filter: 'drop-shadow(0 0 4px rgba(249, 115, 22, 0.8))',
-                                transition: 'transform 1.2s cubic-bezier(0.34, 1.56, 0.64, 1)'
+                                transition: 'transform 1.5s cubic-bezier(0.34, 1.56, 0.64, 1)'
                               }}
                             />
                             <circle cx="0" cy="0" r="3" fill="#22d3ee" />
@@ -766,10 +817,10 @@ export default function GMDashboard() {
                               stroke="#22d3ee"
                               strokeWidth="2.5"
                               style={{
-                                transform: `rotate(${(Math.min(animatedRate, 100) / 100) * 180 - 90}deg)`,
+                                transform: `rotate(${needleAngle2}deg)`,
                                 transformOrigin: '0 0',
                                 filter: 'drop-shadow(0 0 6px rgba(34, 211, 238, 1))',
-                                transition: 'transform 1.2s cubic-bezier(0.34, 1.56, 0.64, 1)'
+                                transition: 'transform 1.5s cubic-bezier(0.34, 1.56, 0.64, 1)'
                               }}
                             />
                             <circle cx="0" cy="0" r="4" fill="#22d3ee" style={{ filter: 'drop-shadow(0 0 4px rgba(34, 211, 238, 0.8))' }} />
@@ -887,10 +938,10 @@ export default function GMDashboard() {
                               stroke={animatedGap <= 0 ? '#4ade80' : '#f87171'}
                               strokeWidth="2.5"
                               style={{
-                                transform: animatedGap <= 0 ? `rotate(135deg)` : `rotate(-135deg)`,
+                                transform: `rotate(${needleAngle3}deg)`,
                                 transformOrigin: '0 0',
                                 filter: animatedGap <= 0 ? 'drop-shadow(0 0 6px rgba(74, 222, 128, 1))' : 'drop-shadow(0 0 6px rgba(248, 113, 113, 1))',
-                                transition: 'transform 1.2s cubic-bezier(0.34, 1.56, 0.64, 1)'
+                                transition: 'transform 1.5s cubic-bezier(0.34, 1.56, 0.64, 1)'
                               }}
                             />
                             <circle
