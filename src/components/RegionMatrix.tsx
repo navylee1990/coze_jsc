@@ -151,8 +151,8 @@ export default function RegionMatrix({
         'grid grid-cols-7 gap-3 px-4 py-3.5 text-sm font-bold border-b',
         theme === 'dashboard' ? 'bg-slate-800/60 border-cyan-500/30' : 'bg-slate-100 border-slate-200'
       )}>
-        <div className={cn('flex items-center justify-center gap-2', DASHBOARD_STYLES.textSecondary)}>排名</div>
         <div className={cn(DASHBOARD_STYLES.textSecondary)}>{nameLabel}</div>
+        <div className={cn(DASHBOARD_STYLES.textSecondary)}>责任人</div>
         <div className={cn('text-right', DASHBOARD_STYLES.textSecondary)}>目标(万)</div>
         <div className={cn('text-right', DASHBOARD_STYLES.textSecondary)}>预测(万)</div>
         <div className={cn('text-right', DASHBOARD_STYLES.textSecondary)}>缺口(万)</div>
@@ -181,11 +181,6 @@ export default function RegionMatrix({
         )}
         onClick={() => canDrillDown && onDrillDown!(item)}
       >
-        {/* 排名 */}
-        <div className="flex items-center justify-center">
-          {getRankIcon(rank)}
-        </div>
-
         {/* 名称 */}
         <div className="flex items-center gap-2">
           {drillDownLevel === 'salesperson' ? (
@@ -199,6 +194,11 @@ export default function RegionMatrix({
               {getTrendIcon(item.trend)}
             </span>
           )}
+        </div>
+
+        {/* 责任人 */}
+        <div className={cn('font-medium', DASHBOARD_STYLES.textSecondary)}>
+          {item.owner || '-'}
         </div>
 
         {/* 目标 */}
