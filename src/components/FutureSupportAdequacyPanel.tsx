@@ -1768,7 +1768,7 @@ export default function FutureSupportAdequacyPanel({
                           e.stopPropagation();
                           setUrgeMessage({
                             show: true,
-                            message: `已向【${period}】的 ${level.excludedProjects.length} 个未统计项目发送催单提醒`
+                            message: `已向【${period}】的 ${level.excludedProjects?.length || 0} 个未统计项目发送催单提醒`
                           });
                           setTimeout(() => {
                             setUrgeMessage({ show: false, message: '' });
