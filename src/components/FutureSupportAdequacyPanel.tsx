@@ -1602,7 +1602,7 @@ export default function FutureSupportAdequacyPanel({
               : 'text-slate-900'
           )}>关键支撑</h3>
           <span className={cn(
-            'text-xs px-2 py-0.5 rounded-full',
+            'text-sm px-2 py-0.5 rounded-full',
             theme === 'dashboard'
               ? 'bg-cyan-500/20 text-cyan-300 border border-cyan-500/30'
               : 'bg-green-500/20 text-green-700'
@@ -1792,7 +1792,7 @@ export default function FutureSupportAdequacyPanel({
                 {/* 核心指标 - 紧凑布局 */}
                 <div className="space-y-2">
                   {/* 目标/支撑/覆盖率 - 单行显示 */}
-                  <div className="flex items-center justify-between text-xs gap-2">
+                  <div className="flex items-center justify-between text-sm gap-2">
                     <div className="flex items-center gap-1">
                       <span className={cn(theme === 'dashboard' ? 'text-cyan-400/60' : 'text-slate-500')}>目标</span>
                       <span className={cn('font-semibold', theme === 'dashboard' ? 'text-cyan-300' : 'text-slate-900')}>
@@ -1824,7 +1824,7 @@ export default function FutureSupportAdequacyPanel({
                   </div>
 
                   {/* 缺口 + 项目数 - 单行显示 */}
-                  <div className="flex items-center justify-between text-xs pt-1">
+                  <div className="flex items-center justify-between text-sm pt-1">
                     <div className="flex items-center gap-1">
                       <span className={cn(theme === 'dashboard' ? 'text-cyan-400/60' : 'text-slate-500')}>缺口</span>
                       <span className={`text-sm font-bold ${level.gap > 0 ? 'text-red-400' : 'text-green-400'}`}>

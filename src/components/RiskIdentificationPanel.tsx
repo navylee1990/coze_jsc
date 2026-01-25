@@ -435,11 +435,11 @@ export default function RiskIdentificationPanel({
 
                   {/* 底部信息 */}
                   <div className="mt-3 pt-2 border-t border-cyan-500/20">
-                    <div className="flex items-center justify-between text-xs mb-1">
+                    <div className="flex items-center justify-between text-sm mb-1">
                       <span className={cn(DASHBOARD_STYLES.textMuted)}>项目数</span>
                       <span className={cn('font-bold', DASHBOARD_STYLES.textSecondary)}>{item.count}</span>
                     </div>
-                    <div className="flex items-center justify-between text-xs">
+                    <div className="flex items-center justify-between text-sm">
                       <span className={cn(DASHBOARD_STYLES.textMuted)}>可填补缺口</span>
                       <span className={cn('font-bold text-green-400')}>+{item.gapFill}万</span>
                     </div>
@@ -452,20 +452,20 @@ export default function RiskIdentificationPanel({
             <div className={cn('p-4 rounded-lg border', DASHBOARD_STYLES.cardBorder)}>
               <div className="grid grid-cols-4 gap-4 text-center">
                 <div>
-                  <div className={cn('text-xs mb-1', DASHBOARD_STYLES.textMuted)}>延期项目总数</div>
+                  <div className={cn('text-sm mb-1', DASHBOARD_STYLES.textMuted)}>延期项目总数</div>
                   <div className={cn('text-2xl font-bold', DASHBOARD_STYLES.textSecondary)}>
                     {delayedProjects.reduce((sum, p) => sum + p.count, 0)}
                   </div>
                 </div>
                 <div>
-                  <div className={cn('text-xs mb-1', DASHBOARD_STYLES.textMuted)}>延期总金额</div>
+                  <div className={cn('text-sm mb-1', DASHBOARD_STYLES.textMuted)}>延期总金额</div>
                   <div className={cn('text-2xl font-bold', DASHBOARD_STYLES.textSecondary)}>
                     {delayedProjects.reduce((sum, p) => sum + p.amount, 0)}
                     <span className="text-sm">万</span>
                   </div>
                 </div>
                 <div>
-                  <div className={cn('text-xs mb-1', DASHBOARD_STYLES.textMuted)}>可填补总缺口</div>
+                  <div className={cn('text-sm mb-1', DASHBOARD_STYLES.textMuted)}>可填补总缺口</div>
                   <div className={cn('text-2xl font-bold text-green-400')}>
                     +{delayedProjects.reduce((sum, p) => sum + p.gapFill, 0)}
                     <span className="text-sm">万</span>
@@ -645,11 +645,11 @@ export default function RiskIdentificationPanel({
                     {/* 类型标签 */}
                     <div className="flex items-center gap-1.5 mb-2">
                       {item.type === 'industry' ? (
-                        <Building2 className="w-3 h-3" style={{ color: 'rgba(6,182,212,0.7)' }} />
+                        <Building2 className="w-4 h-4" style={{ color: 'rgba(6,182,212,0.7)' }} />
                       ) : (
-                        <Target className="w-3 h-3" style={{ color: 'rgba(6,182,212,0.7)' }} />
+                        <Target className="w-4 h-4" style={{ color: 'rgba(6,182,212,0.7)' }} />
                       )}
-                      <span className="text-xs" style={{ color: 'rgba(6,182,212,0.7)' }}>
+                      <span className="text-sm" style={{ color: 'rgba(6,182,212,0.7)' }}>
                         {item.type === 'industry' ? '行业' : '细分市场'}
                       </span>
                     </div>
@@ -663,17 +663,17 @@ export default function RiskIdentificationPanel({
 
                     {/* 底部信息 */}
                     <div className="mt-3 pt-2 border-t border-cyan-500/20">
-                      <div className="flex items-center justify-between text-xs mb-1">
+                      <div className="flex items-center justify-between text-sm mb-1">
                         <span className={cn(DASHBOARD_STYLES.textMuted)}>储备缺口</span>
                         <span className={cn('font-bold text-orange-400')}>-{item.gap}万</span>
                       </div>
-                      <div className="flex items-center justify-between text-xs mb-1">
+                      <div className="flex items-center justify-between text-sm mb-1">
                         <span className={cn(DASHBOARD_STYLES.textMuted)}>达成率</span>
                         <span className={cn('font-bold', DASHBOARD_STYLES.textSecondary)}>{percent}%</span>
                       </div>
-                      <div className="flex items-center justify-between text-xs">
+                      <div className="flex items-center justify-between text-sm">
                         <span className={cn(DASHBOARD_STYLES.textMuted)}>风险等级</span>
-                        <span className={cn('px-1.5 py-0.5 rounded text-xs font-medium', getSeverityStyles(item.severity))}>
+                        <span className={cn('px-1.5 py-0.5 rounded text-sm font-medium', getSeverityStyles(item.severity))}>
                           {item.severity === 'high' ? '高' : item.severity === 'medium' ? '中' : '低'}
                         </span>
                       </div>
@@ -700,15 +700,15 @@ export default function RiskIdentificationPanel({
                   </div>
                 </div>
                 <div>
-                  <div className={cn('text-xs mb-1', DASHBOARD_STYLES.textMuted)}>高风险行业</div>
+                  <div className={cn('text-sm mb-1', DASHBOARD_STYLES.textMuted)}>高风险行业</div>
                   <div className={cn('text-2xl font-bold text-red-400')}>
                     {projectReserve.filter(r => r.severity === 'high').length}
                     <span className="text-sm">个</span>
                   </div>
                 </div>
                 <div>
-                  <div className={cn('text-xs mb-1', DASHBOARD_STYLES.textMuted)}>说明</div>
-                  <div className={cn('text-xs text-left', DASHBOARD_STYLES.textSecondary)}>
+                  <div className={cn('text-sm mb-1', DASHBOARD_STYLES.textMuted)}>说明</div>
+                  <div className={cn('text-sm text-left', DASHBOARD_STYLES.textSecondary)}>
                     各行业项目储备缺口分析
                   </div>
                 </div>
@@ -743,13 +743,13 @@ export default function RiskIdentificationPanel({
 
                   {/* 底部信息 */}
                   <div className="mt-3 pt-2 border-t border-cyan-500/20">
-                    <div className="flex items-center justify-between text-xs mb-1">
+                    <div className="flex items-center justify-between text-sm mb-1">
                       <span className={cn(DASHBOARD_STYLES.textMuted)}>风险等级</span>
-                      <span className={cn('px-1.5 py-0.5 rounded text-xs font-medium', getSeverityStyles(risk.severity))}>
+                      <span className={cn('px-1.5 py-0.5 rounded text-sm font-medium', getSeverityStyles(risk.severity))}>
                         {risk.severity === 'high' ? '高' : risk.severity === 'medium' ? '中' : '低'}
                       </span>
                     </div>
-                    <div className="text-xs text-left mt-2">
+                    <div className="text-sm text-left mt-2">
                       <span className={cn(DASHBOARD_STYLES.textMuted)}>{risk.description}</span>
                     </div>
                   </div>
@@ -761,25 +761,25 @@ export default function RiskIdentificationPanel({
             <div className={cn('p-4 rounded-lg border', DASHBOARD_STYLES.cardBorder)}>
               <div className="grid grid-cols-4 gap-4 text-center">
                 <div>
-                  <div className={cn('text-xs mb-1', DASHBOARD_STYLES.textMuted)}>风险总数</div>
+                  <div className={cn('text-sm mb-1', DASHBOARD_STYLES.textMuted)}>风险总数</div>
                   <div className={cn('text-2xl font-bold', DASHBOARD_STYLES.textSecondary)}>
                     {otherRisks.reduce((sum, r) => sum + r.count, 0)}
                   </div>
                 </div>
                 <div>
-                  <div className={cn('text-xs mb-1', DASHBOARD_STYLES.textMuted)}>高风险项</div>
+                  <div className={cn('text-sm mb-1', DASHBOARD_STYLES.textMuted)}>高风险项</div>
                   <div className={cn('text-2xl font-bold text-red-400')}>
                     {otherRisks.filter(r => r.severity === 'high').length}
                   </div>
                 </div>
                 <div>
-                  <div className={cn('text-xs mb-1', DASHBOARD_STYLES.textMuted)}>中风险项</div>
+                  <div className={cn('text-sm mb-1', DASHBOARD_STYLES.textMuted)}>中风险项</div>
                   <div className={cn('text-2xl font-bold text-yellow-400')}>
                     {otherRisks.filter(r => r.severity === 'medium').length}
                   </div>
                 </div>
                 <div>
-                  <div className={cn('text-xs mb-1', DASHBOARD_STYLES.textMuted)}>低风险项</div>
+                  <div className={cn('text-sm mb-1', DASHBOARD_STYLES.textMuted)}>低风险项</div>
                   <div className={cn('text-2xl font-bold text-green-400')}>
                     {otherRisks.filter(r => r.severity === 'low').length}
                   </div>

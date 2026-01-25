@@ -409,7 +409,7 @@ export default function PredictionDecisionCard({
               <div className="relative">
                 <div
                   className={cn(
-                    'rounded-xl border-2 p-3 transition-all duration-300',
+                    'rounded-xl border-2 p-2 transition-all duration-300',
                     theme === 'dark'
                       ? 'bg-gradient-to-br from-slate-900/90 to-slate-800/90 border-slate-600/50'
                       : 'bg-white border-slate-200'
@@ -496,10 +496,10 @@ export default function PredictionDecisionCard({
                     </div>
                     {/* 右侧数值 */}
                     <div className="flex-1">
-                      <div className="text-xs text-slate-500 mb-1">目标</div>
-                      <div className="text-2xl font-bold text-orange-400" style={{ textShadow: '0 0 8px rgba(251, 146, 60, 0.6)' }}>
+                      <div className="text-sm text-slate-500 mb-1">目标</div>
+                      <div className="text-3xl font-bold text-orange-400" style={{ textShadow: '0 0 8px rgba(251, 146, 60, 0.6)' }}>
                         {data.target.toLocaleString()}
-                        <span className="text-sm text-slate-500 ml-1">万</span>
+                        <span className="text-base text-slate-500 ml-1">万</span>
                       </div>
                     </div>
                   </div>
@@ -516,7 +516,7 @@ export default function PredictionDecisionCard({
                 )}
                 <div
                   className={cn(
-                    'rounded-xl border-2 p-3 transition-all duration-300',
+                    'rounded-xl border-2 p-2 transition-all duration-300',
                     theme === 'dark'
                       ? 'bg-gradient-to-br from-slate-900/90 to-slate-800/90 border-cyan-500/40'
                       : 'bg-white border-cyan-200'
@@ -598,7 +598,7 @@ export default function PredictionDecisionCard({
                       {/* 中心数值 */}
                       <div className="absolute inset-0 flex flex-col items-center justify-center">
                         <span className={cn(
-                          'text-2xl font-bold',
+                          'text-3xl font-bold',
                           data.achievementRate >= 90 ? 'text-green-400' : data.achievementRate >= 70 ? 'text-yellow-400' : 'text-red-400'
                         )} style={{ textShadow: `0 0 10px ${data.achievementRate >= 90 ? 'rgba(74, 222, 128, 0.8)' : data.achievementRate >= 70 ? 'rgba(250, 204, 21, 0.8)' : 'rgba(248, 113, 113, 0.8)'}` }}>
                           {data.achievementRate}%
@@ -607,13 +607,13 @@ export default function PredictionDecisionCard({
                     </div>
                     {/* 右侧数值 */}
                     <div className="flex-1">
-                      <div className="text-xs text-slate-500 mb-1">预测完成</div>
+                      <div className="text-sm text-slate-500 mb-1">预测完成</div>
                       <div className={cn(
-                        'text-2xl font-bold',
+                        'text-3xl font-bold',
                         data.forecast >= data.target ? 'text-green-400' : 'text-yellow-400'
                       )} style={{ textShadow: data.forecast >= data.target ? '0 0 8px rgba(74, 222, 128, 0.6)' : '0 0 8px rgba(250, 204, 21, 0.6)' }}>
                         {data.forecast.toLocaleString()}
-                        <span className="text-sm text-slate-500 ml-1">万</span>
+                        <span className="text-base text-slate-500 ml-1">万</span>
                       </div>
                     </div>
                   </div>
@@ -630,7 +630,7 @@ export default function PredictionDecisionCard({
                 )}
                 <div
                   className={cn(
-                    'rounded-xl border-2 p-3 transition-all duration-300',
+                    'rounded-xl border-2 p-2 transition-all duration-300',
                     data.gap <= 0
                       ? theme === 'dark'
                         ? 'bg-gradient-to-br from-green-900/20 to-slate-900/90 border-green-500/40'
@@ -726,13 +726,13 @@ export default function PredictionDecisionCard({
                       {/* 中心数值 */}
                       <div className="absolute inset-0 flex flex-col items-center justify-center">
                         {data.gap <= 0 ? (
-                          <span className="text-lg font-bold text-green-400 flex items-center gap-1" style={{ textShadow: '0 0 10px rgba(74, 222, 128, 0.8)' }}>
-                            <ArrowUp className="w-4 h-4" />
+                          <span className="text-xl font-bold text-green-400 flex items-center gap-1" style={{ textShadow: '0 0 10px rgba(74, 222, 128, 0.8)' }}>
+                            <ArrowUp className="w-5 h-5" />
                             超额
                           </span>
                         ) : (
-                          <span className="text-lg font-bold text-red-400 flex items-center gap-1" style={{ textShadow: '0 0 10px rgba(248, 113, 113, 0.8)' }}>
-                            <ArrowDown className="w-4 h-4" />
+                          <span className="text-xl font-bold text-red-400 flex items-center gap-1" style={{ textShadow: '0 0 10px rgba(248, 113, 113, 0.8)' }}>
+                            <ArrowDown className="w-5 h-5" />
                             缺口
                           </span>
                         )}
@@ -740,13 +740,13 @@ export default function PredictionDecisionCard({
                     </div>
                     {/* 右侧数值 */}
                     <div className="flex-1">
-                      <div className="text-xs text-slate-500 mb-1">{data.gap <= 0 ? '超额' : '缺口'}</div>
+                      <div className="text-sm text-slate-500 mb-1">{data.gap <= 0 ? '超额' : '缺口'}</div>
                       <div className={cn(
-                        'text-2xl font-bold',
+                        'text-3xl font-bold',
                         data.gap <= 0 ? 'text-green-400' : 'text-red-400'
                       )} style={{ textShadow: data.gap <= 0 ? '0 0 8px rgba(74, 222, 128, 0.6)' : '0 0 8px rgba(248, 113, 113, 0.6)' }}>
                         {data.gap <= 0 ? '+' : ''}{data.gap.toLocaleString()}
-                        <span className="text-sm text-slate-500 ml-1">万</span>
+                        <span className="text-base text-slate-500 ml-1">万</span>
                       </div>
                     </div>
                   </div>
@@ -757,10 +757,10 @@ export default function PredictionDecisionCard({
 
           {/* 中间（42%）：支撑性驱动因子 */}
           <div className="col-span-5">
-            <div className={cn('h-full rounded-lg p-3', theme === 'dark' ? 'bg-slate-800/50' : 'bg-slate-50')}>
-              <div className="flex items-center justify-between mb-3">
-                <h4 className="font-semibold text-sm text-slate-900 flex items-center gap-1.5">
-                  <TrendingUp className="w-4 h-4 text-green-600" />
+            <div className={cn('h-full rounded-lg p-2', theme === 'dark' ? 'bg-slate-800/50' : 'bg-slate-50')}>
+              <div className="flex items-center justify-between mb-2">
+                <h4 className="font-semibold text-base text-slate-900 flex items-center gap-1.5">
+                  <TrendingUp className="w-5 h-5 text-green-600" />
                   支撑因子
                 </h4>
                 <Badge variant="outline" className="text-xs text-slate-600">
@@ -779,21 +779,21 @@ export default function PredictionDecisionCard({
                         <div className="flex items-center justify-between mb-1">
                           <div className="flex items-center gap-1.5 flex-1 min-w-0">
                             {factor.isNew && (
-                              <Badge className="h-4 px-1.5 text-[10px] bg-green-500 text-white flex-shrink-0">
+                              <Badge className="h-5 px-2 text-xs bg-green-500 text-white flex-shrink-0">
                                 新增
                               </Badge>
                             )}
-                            <span className="text-xs font-medium text-slate-900 truncate">{factor.name}</span>
+                            <span className="text-sm font-medium text-slate-900 truncate">{factor.name}</span>
                           </div>
                           <div className="text-right flex-shrink-0 ml-2">
-                            <span className="text-xs font-bold text-green-600">
+                            <span className="text-sm font-bold text-green-600">
                               +{factor.amount.toLocaleString()}万
                             </span>
                           </div>
                         </div>
                         <div className="flex items-center justify-between">
-                          <span className="text-[10px] text-slate-500">{factor.timeLabel}</span>
-                          <span className="text-[10px] text-slate-600">占比 {factor.percentage}%</span>
+                          <span className="text-xs text-slate-500">{factor.timeLabel}</span>
+                          <span className="text-xs text-slate-600">占比 {factor.percentage}%</span>
                         </div>
                         {/* 进度条 */}
                         <div className="relative h-1.5 bg-slate-200 rounded-full overflow-hidden mt-1.5">
@@ -828,7 +828,7 @@ export default function PredictionDecisionCard({
               </div>
 
               {/* 迷你对冲图 - 支撑vs风险 */}
-              <div className="mt-3 pt-3 border-t border-slate-200/50">
+              <div className="mt-2 pt-2 border-t border-slate-200/50">
                 <div className="flex items-center justify-between">
                   <div className="w-20 h-20">
                     <ResponsiveContainer width="100%" height="100%">
@@ -850,11 +850,11 @@ export default function PredictionDecisionCard({
                     </ResponsiveContainer>
                   </div>
                   <div className="flex-1 space-y-1">
-                    <div className="flex items-center justify-between text-xs">
+                    <div className="flex items-center justify-between text-sm">
                       <span className="text-slate-600">支撑总额</span>
                       <span className="font-bold text-green-600">{totalSupport.toLocaleString()}万</span>
                     </div>
-                    <div className="flex items-center justify-between text-xs">
+                    <div className="flex items-center justify-between text-sm">
                       <span className="text-slate-600">风险总额</span>
                       <span className="font-bold text-red-600">-{totalRisk.toLocaleString()}万</span>
                     </div>
@@ -866,10 +866,10 @@ export default function PredictionDecisionCard({
 
           {/* 中右（33%）：风险因子 */}
           <div className="col-span-4">
-            <div className={cn('h-full rounded-lg p-3', theme === 'dark' ? 'bg-slate-800/50' : 'bg-slate-50')}>
-              <div className="flex items-center justify-between mb-3">
-                <h4 className="font-semibold text-sm text-slate-900 flex items-center gap-1.5">
-                  <TrendDown className="w-4 h-4 text-red-600" />
+            <div className={cn('h-full rounded-lg p-2', theme === 'dark' ? 'bg-slate-800/50' : 'bg-slate-50')}>
+              <div className="flex items-center justify-between mb-2">
+                <h4 className="font-semibold text-base text-slate-900 flex items-center gap-1.5">
+                  <TrendDown className="w-5 h-5 text-red-600" />
                   风险因子
                 </h4>
                 <Badge variant="outline" className="text-xs text-slate-600">
@@ -886,11 +886,11 @@ export default function PredictionDecisionCard({
                         onMouseEnter={() => onRiskFactorHover?.(risk)}
                       >
                         <div className="flex items-center justify-between mb-1">
-                          <span className="text-xs font-medium text-slate-900 flex-1 min-w-0 pr-2 truncate">
+                          <span className="text-sm font-medium text-slate-900 flex-1 min-w-0 pr-2 truncate">
                             {risk.source}
                           </span>
                           <div className="text-right flex-shrink-0">
-                            <span className="text-xs font-bold text-red-600">
+                            <span className="text-sm font-bold text-red-600">
                               {risk.amount.toLocaleString()}万
                             </span>
                           </div>
@@ -898,11 +898,11 @@ export default function PredictionDecisionCard({
                         <div className="flex items-center justify-between">
                           <Badge
                             variant="outline"
-                            className={cn('text-[10px] px-1.5 py-0.5', getRiskLevelColor(risk.level))}
+                            className={cn('text-xs px-1.5 py-0.5', getRiskLevelColor(risk.level))}
                           >
                             {risk.level === 'high' ? '高风险' : risk.level === 'medium' ? '中风险' : '低风险'}
                           </Badge>
-                          <span className="text-[10px] text-slate-500 truncate ml-1">{risk.timeLabel}</span>
+                          <span className="text-xs text-slate-500 truncate ml-1">{risk.timeLabel}</span>
                         </div>
                       </div>
                     </TooltipTrigger>
