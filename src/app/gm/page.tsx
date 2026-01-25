@@ -740,12 +740,6 @@ export default function GMDashboard() {
 
                 {/* 仪表盘2 - 预测完成 */}
                 <div className="relative">
-                  {/* 警告角标 - 根据达成率显示颜色 */}
-                  {animatedRate < 100 && (
-                    <div className="absolute -top-2 -right-2 z-10">
-                      <AlertTriangle className={`w-5 h-5 animate-pulse ${animatedRate >= 80 ? 'text-yellow-400 drop-shadow-[0_0_8px_rgba(250,204,21,0.8)]' : 'text-red-400 drop-shadow-[0_0_8px_rgba(248,113,113,0.8)]'}`} />
-                    </div>
-                  )}
                   <div
                     className="rounded-xl border-2 p-3 transition-all duration-300 bg-gradient-to-br from-slate-900/90 to-slate-800/90 border-cyan-500/40"
                     style={{
@@ -833,7 +827,12 @@ export default function GMDashboard() {
                       </div>
                       {/* 右侧数值 */}
                       <div className="flex-1">
-                        <div className="text-xs text-cyan-400/70 mb-1">预测完成</div>
+                        <div className="text-xs text-cyan-400/70 mb-1 flex items-center gap-1">
+                          预测完成
+                          {animatedRate < 100 && (
+                            <AlertTriangle className={`w-4 h-4 animate-pulse ${animatedRate >= 80 ? 'text-yellow-400 drop-shadow-[0_0_6px_rgba(250,204,21,0.6)]' : 'text-red-400 drop-shadow-[0_0_6px_rgba(248,113,113,0.6)]'}`} />
+                          )}
+                        </div>
                         <div className={cn(
                           'text-xl font-bold',
                           animatedForecast >= getTimeRangeData().target ? 'text-green-400' : 'text-yellow-400'
@@ -848,13 +847,6 @@ export default function GMDashboard() {
 
                 {/* 仪表盘3 - 缺口 */}
                 <div className="relative">
-                  {/* 警告角标 - 根据缺口比例显示颜色 */}
-                  {animatedGap > 0 && (
-                    <div className="absolute -top-2 -right-2 z-10">
-                      <AlertTriangle className={`w-5 h-5 animate-pulse ${(Math.abs(animatedGap) / getTimeRangeData().target) * 100 <= 20 ? 'text-yellow-400 drop-shadow-[0_0_8px_rgba(250,204,21,0.8)]' : 'text-red-400 drop-shadow-[0_0_8px_rgba(248,113,113,0.8)]'}`} />
-                    </div>
-                  )}
-                  
                   <div
                     className={cn(
                       'rounded-xl border-2 p-3 transition-all duration-300',
@@ -960,7 +952,12 @@ export default function GMDashboard() {
                       </div>
                       {/* 右侧数值 */}
                       <div className="flex-1">
-                        <div className="text-xs text-cyan-400/70 mb-1">{animatedGap <= 0 ? '超额' : '缺口'}</div>
+                        <div className="text-xs text-cyan-400/70 mb-1 flex items-center gap-1">
+                          {animatedGap <= 0 ? '超额' : '缺口'}
+                          {animatedGap > 0 && (
+                            <AlertTriangle className={`w-4 h-4 animate-pulse ${(Math.abs(animatedGap) / getTimeRangeData().target) * 100 <= 20 ? 'text-yellow-400 drop-shadow-[0_0_6px_rgba(250,204,21,0.6)]' : 'text-red-400 drop-shadow-[0_0_6px_rgba(248,113,113,0.6)]'}`} />
+                          )}
+                        </div>
                         <div className={cn(
                           'text-xl font-bold',
                           animatedGap <= 0 ? 'text-green-400' : 'text-red-400'
