@@ -255,8 +255,8 @@ export default function RegionMatrix({
                 <ArrowLeft className="w-4 h-4" />
               </button>
             )}
-            <h3 className={cn('text-sm font-bold flex items-center gap-2 whitespace-nowrap', DASHBOARD_STYLES.neon)}>
-              <Activity className="w-4 h-4 flex-shrink-0" />
+            <h3 className={cn('font-bold text-lg flex items-center gap-2 whitespace-nowrap', theme === 'dashboard' ? 'text-cyan-300 drop-shadow-[0_0_10px_rgba(6,182,212,0.6)]' : 'text-slate-900')}>
+              <Activity className={cn('w-5 h-5 flex-shrink-0', theme === 'dashboard' ? 'text-cyan-400 drop-shadow-[0_0_8px_rgba(6,182,212,0.8)]' : 'text-green-600')} />
               {title}
               <span className="flex items-center gap-1 text-xs">
                 {breadcrumbs.map((crumb, index) => (
