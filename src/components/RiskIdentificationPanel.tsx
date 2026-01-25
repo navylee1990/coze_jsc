@@ -217,7 +217,7 @@ export default function RiskIdentificationPanel({
   return (
     <div
       className={cn(
-        'w-full h-full rounded-lg overflow-hidden transition-all duration-300 flex flex-col',
+        'w-full rounded-lg overflow-hidden transition-all duration-300',
         theme === 'dashboard'
           ? `${DASHBOARD_STYLES.bg} ${DASHBOARD_STYLES.cardBorder} shadow-[0_0_25px_rgba(6,182,212,0.3)]`
           : theme === 'dark'
@@ -252,7 +252,7 @@ export default function RiskIdentificationPanel({
       </div>
 
       {/* 风险列表 */}
-      <div className="p-3 space-y-3 flex-1 overflow-auto">
+      <div className="p-3 space-y-3">
         {/* 延迟项目 - 仪表盘风格 */}
         <div className="space-y-2">
           <div className="flex items-center gap-2 mb-3">

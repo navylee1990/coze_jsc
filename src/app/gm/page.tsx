@@ -426,12 +426,14 @@ export default function GMDashboard() {
         </div>
       </header>
 
-      {/* 主要内容区 - 2x2 仪表盘布局 */}
+      {/* 主要内容区 - 仪表盘布局 */}
       <main className="max-w-[1920px] mx-auto p-6">
-        {/* 2x2 驾驶舱风格布局 */}
-        <div className="grid grid-cols-2 gap-6 h-[calc(100vh-140px)]" style={{ gridTemplateRows: '1fr 1fr' }}>
-          {/* 左上角：核心预测决策 */}
-          <div className={`${DASHBOARD_STYLES.cardBg} ${DASHBOARD_STYLES.cardBorder} rounded-xl p-6 ${DASHBOARD_STYLES.glow} flex flex-col h-full overflow-hidden`}>
+        {/* 驾驶舱风格布局 */}
+        <div className="grid grid-cols-12 gap-4">
+          {/* 中央仪表区 */}
+          <div className="col-span-8 space-y-4">
+            {/* 核心预测决策卡片 - 占据大部分空间 */}
+            <div className={`${DASHBOARD_STYLES.cardBg} ${DASHBOARD_STYLES.cardBorder} rounded-xl p-6 ${DASHBOARD_STYLES.glow}`}>
               <div className="flex items-center justify-between mb-6">
                 <h2 className={`text-lg font-bold ${DASHBOARD_STYLES.neon} flex items-center gap-2`}>
                   <Target className="w-5 h-5" />
@@ -471,10 +473,8 @@ export default function GMDashboard() {
                 </div>
               </div>
 
-              {/* 主内容区 - 支持滚动 */}
-              <div className="flex-1 overflow-auto">
-                {/* 核心数据展示 - 汽车仪表盘样式 */}
-                <div className="grid grid-cols-3 gap-4 mb-6">
+              {/* 核心数据展示 - 汽车仪表盘样式 */}
+              <div className="grid grid-cols-3 gap-4 mb-6">
                 {/* 仪表盘1 - 目标 */}
                 <div className="relative">
                   <div
@@ -926,29 +926,29 @@ export default function GMDashboard() {
                 </div>
               </div>
             </div>
-            </div>
-          </div>
 
-          {/* 右上角：区域达成 */}
-          <div className={`${DASHBOARD_STYLES.cardBg} ${DASHBOARD_STYLES.cardBorder} rounded-xl p-6 ${DASHBOARD_STYLES.glow} flex flex-col h-full overflow-hidden`}>
-            <RegionMatrix
-              data={currentData}
-              title="区域达成"
-              cityData={cityData}
-              salespersonData={salespersonData}
-              theme="dashboard"
-            />
-          </div>
-
-          {/* 左下角：关键支撑 */}
-          <div className={`${DASHBOARD_STYLES.cardBg} ${DASHBOARD_STYLES.cardBorder} rounded-xl p-6 ${DASHBOARD_STYLES.glow} flex-1 h-full overflow-hidden`}>
+            {/* 未来支撑充分性面板 */}
             <FutureSupportAdequacyPanel theme="dashboard" />
           </div>
 
-          {/* 右下角：风险识别 */}
-          <div className={`${DASHBOARD_STYLES.cardBg} ${DASHBOARD_STYLES.cardBorder} rounded-xl p-6 ${DASHBOARD_STYLES.glow} flex-1 h-full overflow-hidden`}>
+          {/* 右侧仪表区 */}
+          <div className="col-span-4 space-y-4">
+            {/* 区域达成情况 - 矩阵卡片展示 */}
+            <div className={`${DASHBOARD_STYLES.cardBg} ${DASHBOARD_STYLES.cardBorder} rounded-xl p-4 ${DASHBOARD_STYLES.glow}`}>
+              <RegionMatrix
+                data={currentData}
+                title="区域达成"
+                cityData={cityData}
+                salespersonData={salespersonData}
+                theme="dashboard"
+              />
+            </div>
+
+            {/* 风险识别模块 */}
             <RiskIdentificationPanel theme="dashboard" />
+
           </div>
+        </div>
       </main>
     </div>
   );

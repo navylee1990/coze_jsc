@@ -242,7 +242,7 @@ export default function RegionMatrix({
   const breadcrumbs = getBreadcrumbs();
 
   return (
-    <div className={cn('w-full h-full flex flex-col', DASHBOARD_STYLES.bg, DASHBOARD_STYLES.text)}>
+    <div className={cn('w-full h-[440px]', DASHBOARD_STYLES.bg, DASHBOARD_STYLES.text)}>
       {/* 标题栏 - 固定高度 */}
       <div
         className={cn(
@@ -291,69 +291,68 @@ export default function RegionMatrix({
 
       {/* 排名列表 */}
       <div className={cn(
-        'flex-1 border-2 rounded-xl overflow-hidden flex flex-col',
+        'border-2 rounded-xl overflow-hidden',
         theme === 'dashboard' ? DASHBOARD_STYLES.cardBorder : 'border-slate-200'
       )}>
         {renderTableHeader()}
-        <div className="flex-1 overflow-y-auto">
-          <div className="flex flex-col">
-            {displayData.map((item, index) => {
-              const rank = shouldPaginate
-                ? (currentPage - 1) * itemsPerPage + index + 1
-                : index + 1;
-              return renderTableRow(item, rank, handleDrillDownChange);
-            })}
-          </div>
-        </div>
-        {/* 分页控件或信息栏 - 固定高度 */}
-        <div className="h-12 flex items-center justify-between px-4 border-t border-cyan-500/20 bg-slate-900/30 flex-shrink-0">
-          <div className={cn('text-xs', DASHBOARD_STYLES.textMuted)}>
-            共 {currentData.length} 条记录
-          </div>
-          {shouldPaginate && totalPages > 1 && (
-            <div className="flex items-center gap-2">
-              <button
-                onClick={() => setCurrentPage(p => Math.max(1, p - 1))}
-                disabled={currentPage === 1}
-                className={cn(
-                  'p-1 rounded-lg border transition-colors',
-                  currentPage === 1
-                    ? 'border-slate-700/30 text-slate-600 cursor-not-allowed'
-                    : 'border-cyan-500/30 text-cyan-400 hover:bg-cyan-500/20 hover:border-cyan-500/50'
-                )}
-              >
-                <ChevronLeft className="w-3.5 h-3.5" />
-              </button>
-              <div className="flex items-center gap-1">
-                {Array.from({ length: totalPages }, (_, i) => i + 1).map(page => (
-                  <button
-                    key={page}
-                    onClick={() => setCurrentPage(page)}
-                    className={cn(
-                      'w-7 h-7 rounded-lg text-xs font-medium transition-all',
-                      currentPage === page
-                        ? 'bg-cyan-500 text-white shadow-[0_0_8px_rgba(6,182,212,0.6)]'
-                        : 'text-cyan-400/70 hover:bg-cyan-500/20'
-                    )}
-                  >
-                    {page}
-                  </button>
-                ))}
-              </div>
-              <button
-                onClick={() => setCurrentPage(p => Math.min(totalPages, p + 1))}
-                disabled={currentPage === totalPages}
-                className={cn(
-                  'p-1 rounded-lg border transition-colors',
-                  currentPage === totalPages
-                    ? 'border-slate-700/30 text-slate-600 cursor-not-allowed'
-                    : 'border-cyan-500/30 text-cyan-400 hover:bg-cyan-500/20 hover:border-cyan-500/50'
-                )}
-              >
-                <ChevronRight className="w-3.5 h-3.5" />
-              </button>
+        <div className="flex flex-col">
+          {displayData.map((item, index) => {
+            // 计算排名：第一层从1开始，分页层根据页码计算
+            const rank = shouldPaginate
+              ? (currentPage - 1) * itemsPerPage + index + 1
+              : index + 1;
+            return renderTableRow(item, rank, handleDrillDownChange);
+          })}
+          {/* 分页控件或信息栏 - 固定高度 */}
+          <div className="h-12 flex items-center justify-between px-4 border-t border-cyan-500/20 bg-slate-900/30">
+            <div className={cn('text-xs', DASHBOARD_STYLES.textMuted)}>
+              共 {currentData.length} 条记录
             </div>
-          )}
+            {shouldPaginate && totalPages > 1 && (
+              <div className="flex items-center gap-2">
+                <button
+                  onClick={() => setCurrentPage(p => Math.max(1, p - 1))}
+                  disabled={currentPage === 1}
+                  className={cn(
+                    'p-1 rounded-lg border transition-colors',
+                    currentPage === 1
+                      ? 'border-slate-700/30 text-slate-600 cursor-not-allowed'
+                      : 'border-cyan-500/30 text-cyan-400 hover:bg-cyan-500/20 hover:border-cyan-500/50'
+                  )}
+                >
+                  <ChevronLeft className="w-3.5 h-3.5" />
+                </button>
+                <div className="flex items-center gap-1">
+                  {Array.from({ length: totalPages }, (_, i) => i + 1).map(page => (
+                    <button
+                      key={page}
+                      onClick={() => setCurrentPage(page)}
+                      className={cn(
+                        'w-7 h-7 rounded-lg text-xs font-medium transition-all',
+                        currentPage === page
+                          ? 'bg-cyan-500 text-white shadow-[0_0_8px_rgba(6,182,212,0.6)]'
+                          : 'text-cyan-400/70 hover:bg-cyan-500/20'
+                      )}
+                    >
+                      {page}
+                    </button>
+                  ))}
+                </div>
+                <button
+                  onClick={() => setCurrentPage(p => Math.min(totalPages, p + 1))}
+                  disabled={currentPage === totalPages}
+                  className={cn(
+                    'p-1 rounded-lg border transition-colors',
+                    currentPage === totalPages
+                      ? 'border-slate-700/30 text-slate-600 cursor-not-allowed'
+                      : 'border-cyan-500/30 text-cyan-400 hover:bg-cyan-500/20 hover:border-cyan-500/50'
+                  )}
+                >
+                  <ChevronRight className="w-3.5 h-3.5" />
+                </button>
+              </div>
+            )}
+          </div>
         </div>
       </div>
     </div>
