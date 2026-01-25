@@ -7,7 +7,6 @@ import { cn } from '@/lib/utils';
 interface RegionMatrixProps {
   data: any[];
   title?: string;
-  subtitle?: string;
   cityData?: Record<string, any[]>;
   salespersonData?: Record<string, any[]>;
   theme?: 'dashboard' | 'dark' | 'light';
@@ -56,7 +55,6 @@ const getTrendIcon = (trend?: 'up' | 'down' | 'stable') => {
 export default function RegionMatrix({
   data,
   title = '区域达成',
-  subtitle = '',
   cityData = {},
   salespersonData = {},
   theme = 'dashboard'
