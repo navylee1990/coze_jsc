@@ -243,8 +243,13 @@ export default function RegionMatrix({
 
   return (
     <div className={cn('w-full min-h-[480px]', DASHBOARD_STYLES.bg, DASHBOARD_STYLES.text)}>
-      {/* 标题和面包屑 */}
-      <div className="flex items-center justify-between mb-2 px-4 min-h-[72px]">
+      {/* 标题栏 - 独立框样式 */}
+      <div
+        className={cn(
+          'px-4 py-3 border-b flex items-center justify-between',
+          theme === 'dashboard' ? `${DASHBOARD_STYLES.cardBorder} bg-slate-900/50` : 'border-slate-200 bg-white'
+        )}
+      >
         <div className="flex-1 min-w-0">
           <div className="flex items-center gap-2">
             {drillDownLevel !== 'region' && (
