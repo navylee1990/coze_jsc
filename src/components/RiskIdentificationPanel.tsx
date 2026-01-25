@@ -83,8 +83,8 @@ const defaultDelayedProjects: DelayedProjectCategory[] = [
     periodKey: 'current',
     count: 3,
     amount: 200,
-    gapFill: 200,
-    targetGap: 240,
+    gapFill: 150,
+    targetGap: 400,
     severity: 'high'
   },
   {
@@ -92,8 +92,8 @@ const defaultDelayedProjects: DelayedProjectCategory[] = [
     periodKey: 'future1Month',
     count: 5,
     amount: 280,
-    gapFill: 280,
-    targetGap: 350,
+    gapFill: 200,
+    targetGap: 400,
     severity: 'high'
   },
   {
@@ -101,7 +101,7 @@ const defaultDelayedProjects: DelayedProjectCategory[] = [
     periodKey: 'future3Months',
     count: 8,
     amount: 450,
-    gapFill: 450,
+    gapFill: 350,
     targetGap: 500,
     severity: 'medium'
   },
@@ -110,7 +110,7 @@ const defaultDelayedProjects: DelayedProjectCategory[] = [
     periodKey: 'future6Months',
     count: 12,
     amount: 680,
-    gapFill: 680,
+    gapFill: 720,
     targetGap: 800,
     severity: 'medium'
   }
