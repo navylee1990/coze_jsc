@@ -612,43 +612,6 @@ export default function RiskIdentificationPanel({
                 </div>
               )}
             </div>
-
-            {/* 区域人效对比 */}
-            <div className={cn('rounded-lg border p-3', DASHBOARD_STYLES.cardBorder)}>
-              <h4 className={cn('text-sm font-medium mb-2', DASHBOARD_STYLES.textSecondary)}>区域人效对比</h4>
-              <div className="space-y-2">
-                {efficiencyData.regionEfficiency
-                  .sort((a, b) => b.avgRevenuePerStaff - a.avgRevenuePerStaff)
-                  .map((region, index) => {
-                    const maxRevenue = Math.max(...efficiencyData.regionEfficiency.map(r => r.avgRevenuePerStaff));
-                    const barWidth = (region.avgRevenuePerStaff / maxRevenue) * 100;
-                    return (
-                      <div key={index} className="flex items-center gap-2">
-                        <div className={cn('text-xs w-10', DASHBOARD_STYLES.textMuted)}>{region.region}</div>
-                        <div className="flex-1">
-                          <div className="relative h-5 bg-slate-800/50 rounded overflow-hidden">
-                            <div
-                              className={cn(
-                                'h-full transition-all duration-300',
-                                index === 0 ? 'bg-cyan-500' :
-                                index <= 2 ? 'bg-green-500/80' : 'bg-yellow-500/80'
-                              )}
-                              style={{ width: `${barWidth}%` }}
-                            />
-                            <div className={cn(
-                              'absolute inset-0 flex items-center px-2 text-xs',
-                              DASHBOARD_STYLES.textSecondary
-                            )}>
-                              <span className="font-medium">{region.avgRevenuePerStaff}万</span>
-                              <span className="ml-auto text-[10px]">{region.activeRate}%</span>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    );
-                  })}
-              </div>
-            </div>
           </div>
         )}
 
