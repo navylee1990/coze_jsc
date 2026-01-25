@@ -958,38 +958,38 @@ export default function GMDashboard() {
                             <AlertTriangle className={`w-4 h-4 animate-pulse ${(Math.abs(animatedGap) / getTimeRangeData().target) * 100 <= 20 ? 'text-yellow-400 drop-shadow-[0_0_6px_rgba(250,204,21,0.6)]' : 'text-red-400 drop-shadow-[0_0_6px_rgba(248,113,113,0.6)]'}`} />
                           )}
                         </div>
-                        <div className={cn(
-                          'text-xl font-bold',
-                          animatedGap <= 0 ? 'text-green-400' : 'text-red-400'
-                        )} style={{ textShadow: animatedGap <= 0 ? '0 0 6px rgba(74, 222, 128, 0.6)' : '0 0 6px rgba(248, 113, 113, 0.6)' }}>
-                          {animatedGap <= 0 ? '+' : ''}{Math.abs(animatedGap).toFixed(0)}
-                          <span className="text-xs text-cyan-400/50 ml-1">万</span>
-                        </div>
-                        {/* 如何补缺口 */}
-                        {animatedGap > 0 && (
-                          <div className="mt-2 space-y-1">
-                            <div className="flex items-center gap-1 text-xs">
-                              <div className="w-1.5 h-1.5 rounded-full bg-orange-400"></div>
-                              <span className="text-cyan-400/60">延期项目：</span>
-                              <span className="text-orange-300 font-medium">
-                                {getTimeRangeData().gapSolution?.delayedProjects.count || 0}个
-                              </span>
-                              <span className="text-orange-300">
-                                {getTimeRangeData().gapSolution?.delayedProjects.amount || 0}万
-                              </span>
-                            </div>
-                            <div className="flex items-center gap-1 text-xs">
-                              <div className="w-1.5 h-1.5 rounded-full bg-cyan-400"></div>
-                              <span className="text-cyan-400/60">新开发项目：</span>
-                              <span className="text-cyan-300 font-medium">
-                                {getTimeRangeData().gapSolution?.newProjectsNeeded.count || 0}个
-                              </span>
-                              <span className="text-cyan-300">
-                                {getTimeRangeData().gapSolution?.newProjectsNeeded.amount || 0}万
-                              </span>
-                            </div>
+                        <div className="flex items-start gap-3">
+                          <div className={cn(
+                            'text-xl font-bold',
+                            animatedGap <= 0 ? 'text-green-400' : 'text-red-400'
+                          )} style={{ textShadow: animatedGap <= 0 ? '0 0 6px rgba(74, 222, 128, 0.6)' : '0 0 6px rgba(248, 113, 113, 0.6)' }}>
+                            {animatedGap <= 0 ? '+' : ''}{Math.abs(animatedGap).toFixed(0)}
+                            <span className="text-xs text-cyan-400/50 ml-1">万</span>
                           </div>
-                        )}
+                          {/* 延期和新开发项目信息 */}
+                          {animatedGap > 0 && (
+                            <div className="space-y-0.5">
+                              <div className="flex items-center gap-1 text-xs">
+                                <div className="w-1 h-1 rounded-full bg-orange-400"></div>
+                                <span className="text-orange-300 font-medium">
+                                  延期{getTimeRangeData().gapSolution?.delayedProjects.count || 0}个
+                                </span>
+                                <span className="text-orange-300/80">
+                                  {getTimeRangeData().gapSolution?.delayedProjects.amount || 0}万
+                                </span>
+                              </div>
+                              <div className="flex items-center gap-1 text-xs">
+                                <div className="w-1 h-1 rounded-full bg-cyan-400"></div>
+                                <span className="text-cyan-300 font-medium">
+                                  新开发{getTimeRangeData().gapSolution?.newProjectsNeeded.count || 0}个
+                                </span>
+                                <span className="text-cyan-300/80">
+                                  {getTimeRangeData().gapSolution?.newProjectsNeeded.amount || 0}万
+                                </span>
+                              </div>
+                            </div>
+                          )}
+                        </div>
                       </div>
                     </div>
                   </div>
