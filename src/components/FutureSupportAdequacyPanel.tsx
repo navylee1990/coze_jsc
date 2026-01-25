@@ -1580,7 +1580,7 @@ export default function FutureSupportAdequacyPanel({
       {/* 标题区 */}
       <div
         className={cn(
-          'px-4 py-2 border-b flex items-center justify-between',
+          'px-6 py-3 border-b flex items-center justify-between',
           theme === 'dashboard'
             ? 'border-cyan-500/30 bg-slate-900/60'
             : theme === 'dark'
@@ -1596,7 +1596,7 @@ export default function FutureSupportAdequacyPanel({
               : 'text-green-600'
           )} />
           <h3 className={cn(
-            'font-bold text-base',
+            'font-bold text-lg',
             theme === 'dashboard'
               ? 'text-cyan-300 drop-shadow-[0_0_10px_rgba(6,182,212,0.6)]'
               : 'text-slate-900'
@@ -1670,8 +1670,8 @@ export default function FutureSupportAdequacyPanel({
       )}
 
       {/* 主内容区 - 时间段矩阵卡片布局 */}
-      <div className="p-3">
-        <div className="grid grid-cols-3 gap-2">
+      <div className="p-4">
+        <div className="grid grid-cols-3 gap-3">
           {(['0-30天', '1-3月', '3-6月'] as const).map((period, index) => {
             const level = data.supportStructure[period];
             const statusColor = getStatusColor(level.status, theme);
@@ -1712,7 +1712,7 @@ export default function FutureSupportAdequacyPanel({
               <div
                 key={period}
                 className={cn(
-                  'p-3 rounded-xl relative border transition-all duration-300 cursor-pointer hover:scale-105',
+                  'p-4 rounded-xl relative border transition-all duration-300 cursor-pointer hover:scale-105',
                   theme === 'dashboard'
                     ? cn(
                         'bg-slate-900/60 backdrop-blur-sm',
@@ -1733,7 +1733,7 @@ export default function FutureSupportAdequacyPanel({
                 }}
               >
                 {/* 时间段标签 */}
-                <div className="flex items-center justify-between mb-2">
+                <div className="flex items-center justify-between mb-3">
                   <div className="flex items-center gap-2">
                     <h4 className={cn(
                       'text-sm font-bold',

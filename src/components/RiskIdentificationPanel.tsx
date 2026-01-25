@@ -356,13 +356,13 @@ export default function RiskIdentificationPanel({
       {/* 标题栏 */}
       <div
         className={cn(
-          'px-4 py-2 border-b flex items-center justify-between',
+          'px-6 py-3 border-b flex items-center justify-between',
           theme === 'dashboard' ? `${DASHBOARD_STYLES.cardBorder} bg-slate-900/60` : 'border-slate-200 bg-white'
         )}
       >
         <div className="flex items-center gap-2">
           <AlertTriangle className={cn('w-5 h-5', theme === 'dashboard' ? 'text-cyan-400' : 'text-slate-700')} />
-          <h3 className={cn('font-bold text-base', theme === 'dashboard' ? DASHBOARD_STYLES.textSecondary : 'text-slate-900')}>
+          <h3 className={cn('font-bold text-lg', theme === 'dashboard' ? DASHBOARD_STYLES.textSecondary : 'text-slate-900')}>
             风险识别
           </h3>
         </div>
@@ -380,7 +380,7 @@ export default function RiskIdentificationPanel({
       </div>
 
       {/* 轮播控制栏 */}
-      <div className="px-4 py-1.5 border-b border-cyan-500/20">
+      <div className="px-6 py-2 border-b border-cyan-500/20">
         <div className="flex items-center justify-between">
           {/* 左箭头 */}
           <button
@@ -440,7 +440,7 @@ export default function RiskIdentificationPanel({
       <div className="flex-1 overflow-hidden">
         {/* Tab 0: 延期项目 */}
         {currentTab === 0 && (
-          <div className="h-full p-4 space-y-3 animate-in fade-in duration-300 overflow-y-auto">
+          <div className="h-full p-6 space-y-4 animate-in fade-in duration-300 overflow-y-auto">
             {/* 仪表盘卡片网格 */}
             <div className="grid grid-cols-4 gap-3">
               {delayedProjects.map((item, index) => (
@@ -516,7 +516,7 @@ export default function RiskIdentificationPanel({
 
         {/* Tab 1: 人效分析 */}
         {currentTab === 1 && (
-          <div className="h-full p-4 space-y-3 animate-in fade-in duration-300 overflow-y-auto">
+          <div className="h-full p-6 space-y-4 animate-in fade-in duration-300 overflow-y-auto">
             {/* 关键指标卡片 */}
             <div className="grid grid-cols-4 gap-3">
               <div className={cn('rounded-lg p-4 border', DASHBOARD_STYLES.cardBorder)}>
@@ -657,7 +657,7 @@ export default function RiskIdentificationPanel({
 
         {/* Tab 2: 项目储备分析 */}
         {currentTab === 2 && (
-          <div className="h-full p-4 space-y-3 animate-in fade-in duration-300 overflow-y-auto">
+          <div className="h-full p-6 space-y-4 animate-in fade-in duration-300 overflow-y-auto">
             {/* 仪表盘卡片网格 */}
             <div className="grid grid-cols-5 gap-3">
               {projectReserve.map((item, index) => {
@@ -749,7 +749,7 @@ export default function RiskIdentificationPanel({
 
         {/* Tab 3: 其他风险 */}
         {currentTab === 3 && (
-          <div className="h-full p-4 space-y-3 animate-in fade-in duration-300 overflow-y-auto">
+          <div className="h-full p-6 space-y-4 animate-in fade-in duration-300 overflow-y-auto">
             {/* 仪表盘卡片网格 */}
             <div className="grid grid-cols-4 gap-3">
               {otherRisks.map((risk, index) => (

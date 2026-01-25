@@ -549,7 +549,7 @@ export default function GMDashboard() {
           isMounted && animationPhase >= 1 ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-y-4'
         )}
       >
-        <div className="max-w-[1920px] w-full mx-auto px-4 py-2">
+        <div className="max-w-[1920px] w-full mx-auto px-4 py-3">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-3">
               <Link href="/" className={`${DASHBOARD_STYLES.textMuted} hover:text-white transition-colors`}>
@@ -591,7 +591,7 @@ export default function GMDashboard() {
       </header>
 
       {/* 主要内容区 - 仪表盘布局 */}
-      <main className="flex-1 overflow-hidden max-w-[1920px] w-full mx-auto p-3">
+      <main className="flex-1 overflow-hidden max-w-[1920px] w-full mx-auto p-4">
         {/* 驾驶舱风格布局 - 紧凑对齐 */}
         <div className="grid grid-cols-12 gap-2 h-full">
           {/* 中央仪表区 */}
@@ -601,8 +601,8 @@ export default function GMDashboard() {
             isMounted && animationPhase >= 2 ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
           )}>
             {/* 核心预测决策卡片 - 自适应高度 */}
-            <div className={`${DASHBOARD_STYLES.cardBg} ${DASHBOARD_STYLES.cardBorder} rounded-xl p-3 ${DASHBOARD_STYLES.glow} flex-1 min-h-0 flex flex-col`}>
-              <div className="flex items-center justify-between mb-2 flex-shrink-0">
+            <div className={`${DASHBOARD_STYLES.cardBg} ${DASHBOARD_STYLES.cardBorder} rounded-xl p-4 ${DASHBOARD_STYLES.glow} flex-1 min-h-0 flex flex-col`}>
+              <div className="flex items-center justify-between mb-3 flex-shrink-0">
                 <h2 className={`text-base font-bold ${DASHBOARD_STYLES.neon} flex items-center gap-2`}>
                   <Target className="w-4 h-4" />
                   核心预测决策
@@ -642,18 +642,18 @@ export default function GMDashboard() {
               </div>
 
               {/* 核心数据展示 - 汽车仪表盘样式 */}
-              <div className="grid grid-cols-3 gap-1.5 mb-2 flex-shrink-0">
+              <div className="grid grid-cols-3 gap-2 mb-3 flex-shrink-0">
                 {/* 仪表盘1 - 目标 */}
                 <div className="relative">
                   <div
-                    className="rounded-xl border-2 p-2 transition-all duration-300 bg-gradient-to-br from-slate-900/90 to-slate-800/90 border-cyan-500/40"
+                    className="rounded-xl border-2 p-2.5 transition-all duration-300 bg-gradient-to-br from-slate-900/90 to-slate-800/90 border-cyan-500/40"
                     style={{
                       boxShadow: '0 0 20px rgba(34, 211, 238, 0.25), inset 0 0 15px rgba(34, 211, 238, 0.06)'
                     }}
                   >
                     <div className="flex items-center gap-2">
                       {/* 仪表盘圆形 */}
-                      <div className="relative flex-shrink-0" style={{ width: '50px', height: '50px' }}>
+                      <div className="relative flex-shrink-0" style={{ width: '60px', height: '60px' }}>
                         <svg viewBox="0 0 100 100" className="w-full h-full">
                           {/* 背景圆 */}
                           <circle
@@ -721,7 +721,7 @@ export default function GMDashboard() {
                         </svg>
                         {/* 中心数值 */}
                         <div className="absolute inset-0 flex flex-col items-center justify-center">
-                          <span className="text-xs font-bold text-cyan-400" style={{ textShadow: '0 0 6px rgba(34, 211, 238, 0.7)' }}>
+                          <span className="text-sm font-bold text-cyan-400" style={{ textShadow: '0 0 6px rgba(34, 211, 238, 0.7)' }}>
                             100%
                           </span>
                         </div>
@@ -741,14 +741,14 @@ export default function GMDashboard() {
                 {/* 仪表盘2 - 预测完成 */}
                 <div className="relative">
                   <div
-                    className="rounded-xl border-2 p-2 transition-all duration-300 bg-gradient-to-br from-slate-900/90 to-slate-800/90 border-cyan-500/40"
+                    className="rounded-xl border-2 p-2.5 transition-all duration-300 bg-gradient-to-br from-slate-900/90 to-slate-800/90 border-cyan-500/40"
                     style={{
                       boxShadow: '0 0 20px rgba(34, 211, 238, 0.25), inset 0 0 15px rgba(34, 211, 238, 0.06)'
                     }}
                   >
                     <div className="flex items-center gap-2">
                       {/* 仪表盘圆形 */}
-                      <div className="relative flex-shrink-0" style={{ width: '50px', height: '50px' }}>
+                      <div className="relative flex-shrink-0" style={{ width: '60px', height: '60px' }}>
                         <svg viewBox="0 0 100 100" className="w-full h-full">
                           {/* 背景圆 */}
                           <circle
@@ -849,7 +849,7 @@ export default function GMDashboard() {
                 <div className="relative">
                   <div
                     className={cn(
-                      'rounded-xl border-2 p-2 transition-all duration-300',
+                      'rounded-xl border-2 p-2.5 transition-all duration-300',
                       animatedGap <= 0
                         ? 'bg-gradient-to-br from-green-900/20 to-slate-900/90 border-green-500/40'
                         : 'bg-gradient-to-br from-red-900/20 to-slate-900/90 border-red-500/40'
@@ -862,7 +862,7 @@ export default function GMDashboard() {
                   >
                     <div className="flex items-center gap-2">
                       {/* 仪表盘圆形 */}
-                      <div className="relative flex-shrink-0" style={{ width: '50px', height: '50px' }}>
+                      <div className="relative flex-shrink-0" style={{ width: '60px', height: '60px' }}>
                         <svg viewBox="0 0 100 100" className="w-full h-full">
                           {/* 背景圆 */}
                           <circle
@@ -997,11 +997,11 @@ export default function GMDashboard() {
               </div>
 
               {/* 趋势图表 */}
-              <div className="bg-slate-800/30 rounded-xl p-2 border border-cyan-400/10 flex-1 min-h-0">
-                <div className="mb-1">
-                  <h4 className={`text-[11px] font-semibold ${DASHBOARD_STYLES.neon}`}>趋势分析</h4>
+              <div className="bg-slate-800/30 rounded-xl p-2.5 border border-cyan-400/10 flex-1 min-h-0">
+                <div className="mb-1.5">
+                  <h4 className={`text-xs font-semibold ${DASHBOARD_STYLES.neon}`}>趋势分析</h4>
                 </div>
-                <div style={{ height: 'calc(100% - 20px)' }}>
+                <div style={{ height: 'calc(100% - 24px)' }}>
                   <ResponsiveContainer width="100%" height="100%">
                     <AreaChart data={forecastTrendData}>
                       <CartesianGrid strokeDasharray="3 3" stroke="rgba(6,182,212,0.1)" vertical={false} />
@@ -1087,7 +1087,7 @@ export default function GMDashboard() {
             </div>
 
             {/* 未来支撑充分性面板 - 固定高度比例 */}
-            <div className={`${DASHBOARD_STYLES.cardBg} ${DASHBOARD_STYLES.cardBorder} rounded-xl p-0 ${DASHBOARD_STYLES.glow} flex-shrink-0`} style={{ height: 'calc(40% - 4px)' }}>
+            <div className={`${DASHBOARD_STYLES.cardBg} ${DASHBOARD_STYLES.cardBorder} rounded-xl p-0 ${DASHBOARD_STYLES.glow} flex-shrink-0`} style={{ height: 'calc(45% - 4px)' }}>
               <FutureSupportAdequacyPanel theme="dashboard" />
             </div>
           </div>
@@ -1099,7 +1099,7 @@ export default function GMDashboard() {
             isMounted && animationPhase >= 3 ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
           )}>
             {/* 区域达成情况 - 自适应高度 */}
-            <div className={`${DASHBOARD_STYLES.cardBg} ${DASHBOARD_STYLES.cardBorder} rounded-xl p-2.5 ${DASHBOARD_STYLES.glow} flex-1 min-h-0 overflow-hidden`}>
+            <div className={`${DASHBOARD_STYLES.cardBg} ${DASHBOARD_STYLES.cardBorder} rounded-xl p-3 ${DASHBOARD_STYLES.glow} flex-1 min-h-0 overflow-hidden`}>
               <RegionMatrix
                 data={currentData}
                 title="区域达成"
@@ -1110,7 +1110,7 @@ export default function GMDashboard() {
             </div>
 
             {/* 风险识别模块 - 固定高度比例 */}
-            <div className={`${DASHBOARD_STYLES.cardBg} ${DASHBOARD_STYLES.cardBorder} rounded-xl p-0 ${DASHBOARD_STYLES.glow} flex-shrink-0`} style={{ height: 'calc(50% - 4px)' }}>
+            <div className={`${DASHBOARD_STYLES.cardBg} ${DASHBOARD_STYLES.cardBorder} rounded-xl p-0 ${DASHBOARD_STYLES.glow} flex-shrink-0`} style={{ height: 'calc(55% - 4px)' }}>
               <RiskIdentificationPanel theme="dashboard" />
             </div>
           </div>
