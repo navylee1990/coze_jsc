@@ -29,14 +29,22 @@ interface DelayedProjectCategory {
 
 // 人效数据
 interface EfficiencyData {
-  zeroProjectCurrentMonth: {
-    count: number;
+  totalStaff: number; // 总人员数
+  activeStaff: number; // 有项目人员数
+  avgProjectsPerStaff: number; // 人均项目数
+  avgRevenuePerStaff: number; // 人均产值（万）
+  zeroProjectStaff: {
+    name: string; // 姓名
+    region: string; // 区域
+    zeroProjectDuration: string; // 0项目时长
     severity: 'high' | 'medium' | 'low';
-  };
-  zeroProject3Months: {
-    count: number;
-    severity: 'high' | 'medium' | 'low';
-  };
+  }[];
+  regionEfficiency: {
+    region: string;
+    staffCount: number;
+    avgRevenuePerStaff: number; // 人均产值
+    activeRate: number; // 活跃率
+  }[];
 }
 
 // 其他风险类型
@@ -110,14 +118,28 @@ const defaultDelayedProjects: DelayedProjectCategory[] = [
 
 // 默认人效数据
 const defaultEfficiencyData: EfficiencyData = {
-  zeroProjectCurrentMonth: {
-    count: 15,
-    severity: 'high'
-  },
-  zeroProject3Months: {
-    count: 8,
-    severity: 'medium'
-  }
+  totalStaff: 120,
+  activeStaff: 97,
+  avgProjectsPerStaff: 2.3,
+  avgRevenuePerStaff: 85,
+  zeroProjectStaff: [
+    { name: '张明', region: '一区', zeroProjectDuration: '1个月', severity: 'high' },
+    { name: '李娜', region: '二区', zeroProjectDuration: '1个月', severity: 'high' },
+    { name: '王强', region: '华中', zeroProjectDuration: '1个月', severity: 'medium' },
+    { name: '赵芳', region: '华南', zeroProjectDuration: '1个月', severity: 'medium' },
+    { name: '刘洋', region: '西南', zeroProjectDuration: '3个月', severity: 'high' },
+    { name: '陈静', region: '华北', zeroProjectDuration: '3个月', severity: 'high' },
+    { name: '孙伟', region: '一区', zeroProjectDuration: '3个月', severity: 'medium' },
+    { name: '吴敏', region: '二区', zeroProjectDuration: '3个月', severity: 'medium' }
+  ],
+  regionEfficiency: [
+    { region: '一区', staffCount: 25, avgRevenuePerStaff: 95, activeRate: 88 },
+    { region: '二区', staffCount: 22, avgRevenuePerStaff: 88, activeRate: 82 },
+    { region: '华中', staffCount: 18, avgRevenuePerStaff: 92, activeRate: 85 },
+    { region: '华南', staffCount: 20, avgRevenuePerStaff: 78, activeRate: 75 },
+    { region: '西南', staffCount: 15, avgRevenuePerStaff: 85, activeRate: 80 },
+    { region: '华北', staffCount: 20, avgRevenuePerStaff: 82, activeRate: 78 }
+  ]
 };
 
 // 默认其他风险数据
@@ -454,82 +476,145 @@ export default function RiskIdentificationPanel({
         {/* Tab 1: 人效分析 */}
         {currentTab === 1 && (
           <div className="h-full p-6 space-y-4 animate-in fade-in duration-300 overflow-y-auto">
-            {/* 仪表盘卡片网格 */}
+            {/* 关键指标卡片 */}
             <div className="grid grid-cols-4 gap-3">
-              <div
-                className={cn(
-                  'rounded-lg p-3 border-2 transition-all duration-200',
-                  efficiencyData.zeroProjectCurrentMonth.severity === 'high'
-                    ? 'bg-slate-900/60 border-red-500/40 hover:bg-red-500/10 hover:border-red-500/60 hover:shadow-[0_0_20px_rgba(239,68,68,0.4)]'
-                    : 'bg-slate-900/60 border-yellow-500/40 hover:bg-yellow-500/10 hover:border-yellow-500/60'
-                )}
-              >
-                <DashboardGauge
-                  percent={efficiencyData.zeroProjectCurrentMonth.severity === 'high' ? 85 : 60}
-                  severity={efficiencyData.zeroProjectCurrentMonth.severity}
-                  amount={efficiencyData.zeroProjectCurrentMonth.count}
-                  label="本月"
-                />
-
-                {/* 底部信息 */}
-                <div className="mt-3 pt-2 border-t border-cyan-500/20">
-                  <div className="flex items-center justify-between text-xs">
-                    <span className={cn(DASHBOARD_STYLES.textMuted)}>风险等级</span>
-                    <span className={cn('px-1.5 py-0.5 rounded text-xs font-medium', getSeverityStyles(efficiencyData.zeroProjectCurrentMonth.severity))}>
-                      {efficiencyData.zeroProjectCurrentMonth.severity === 'high' ? '高' : efficiencyData.zeroProjectCurrentMonth.severity === 'medium' ? '中' : '低'}
-                    </span>
-                  </div>
+              <div className={cn('rounded-lg p-4 border', DASHBOARD_STYLES.cardBorder)}>
+                <div className={cn('text-xs mb-2', DASHBOARD_STYLES.textMuted)}>总人员数</div>
+                <div className={cn('text-3xl font-bold', DASHBOARD_STYLES.textSecondary)}>
+                  {efficiencyData.totalStaff}
+                  <span className="text-sm ml-1">人</span>
+                </div>
+                <div className={cn('text-xs mt-2', DASHBOARD_STYLES.textMuted)}>
+                  活跃率 {Math.round((efficiencyData.activeStaff / efficiencyData.totalStaff) * 100)}%
                 </div>
               </div>
-              <div
-                className={cn(
-                  'rounded-lg p-3 border-2 transition-all duration-200',
-                  efficiencyData.zeroProject3Months.severity === 'high'
-                    ? 'bg-slate-900/60 border-red-500/40 hover:bg-red-500/10 hover:border-red-500/60 hover:shadow-[0_0_20px_rgba(239,68,68,0.4)]'
-                    : 'bg-slate-900/60 border-yellow-500/40 hover:bg-yellow-500/10 hover:border-yellow-500/60'
-                )}
-              >
-                <DashboardGauge
-                  percent={efficiencyData.zeroProject3Months.severity === 'high' ? 70 : 50}
-                  severity={efficiencyData.zeroProject3Months.severity}
-                  amount={efficiencyData.zeroProject3Months.count}
-                  label="近3月"
-                />
-
-                {/* 底部信息 */}
-                <div className="mt-3 pt-2 border-t border-cyan-500/20">
-                  <div className="flex items-center justify-between text-xs">
-                    <span className={cn(DASHBOARD_STYLES.textMuted)}>风险等级</span>
-                    <span className={cn('px-1.5 py-0.5 rounded text-xs font-medium', getSeverityStyles(efficiencyData.zeroProject3Months.severity))}>
-                      {efficiencyData.zeroProject3Months.severity === 'high' ? '高' : efficiencyData.zeroProject3Months.severity === 'medium' ? '中' : '低'}
-                    </span>
-                  </div>
+              <div className={cn('rounded-lg p-4 border', DASHBOARD_STYLES.cardBorder)}>
+                <div className={cn('text-xs mb-2', DASHBOARD_STYLES.textMuted)}>活跃人员</div>
+                <div className={cn('text-3xl font-bold text-green-400')}>
+                  {efficiencyData.activeStaff}
+                  <span className="text-sm ml-1">人</span>
+                </div>
+                <div className={cn('text-xs mt-2', DASHBOARD_STYLES.textMuted)}>
+                  有项目正在推进
+                </div>
+              </div>
+              <div className={cn('rounded-lg p-4 border', DASHBOARD_STYLES.cardBorder)}>
+                <div className={cn('text-xs mb-2', DASHBOARD_STYLES.textMuted)}>人均项目数</div>
+                <div className={cn('text-3xl font-bold', DASHBOARD_STYLES.textSecondary)}>
+                  {efficiencyData.avgProjectsPerStaff}
+                  <span className="text-sm ml-1">个</span>
+                </div>
+                <div className={cn('text-xs mt-2', DASHBOARD_STYLES.textMuted)}>
+                  平均每人推进项目
+                </div>
+              </div>
+              <div className={cn('rounded-lg p-4 border', DASHBOARD_STYLES.cardBorder)}>
+                <div className={cn('text-xs mb-2', DASHBOARD_STYLES.textMuted)}>人均产值</div>
+                <div className={cn('text-3xl font-bold text-cyan-400')}>
+                  {efficiencyData.avgRevenuePerStaff}
+                  <span className="text-sm ml-1">万</span>
+                </div>
+                <div className={cn('text-xs mt-2', DASHBOARD_STYLES.textMuted)}>
+                  人均创造营收
                 </div>
               </div>
             </div>
 
-            {/* 统计总览 */}
-            <div className={cn('p-4 rounded-lg border', DASHBOARD_STYLES.cardBorder)}>
-              <div className="grid grid-cols-4 gap-4 text-center">
-                <div>
-                  <div className={cn('text-xs mb-1', DASHBOARD_STYLES.textMuted)}>总0项目人员</div>
-                  <div className={cn('text-2xl font-bold', DASHBOARD_STYLES.textSecondary)}>
-                    {efficiencyData.zeroProjectCurrentMonth.count + efficiencyData.zeroProject3Months.count}
-                    <span className="text-sm">人</span>
-                  </div>
+            {/* 0项目人员列表 */}
+            <div className={cn('rounded-lg border p-4', DASHBOARD_STYLES.cardBorder)}>
+              <div className="flex items-center justify-between mb-3">
+                <h4 className={cn('text-sm font-medium', DASHBOARD_STYLES.textSecondary)}>
+                  无项目人员列表（{efficiencyData.zeroProjectStaff.length}人）
+                </h4>
+                <div className="flex items-center gap-4 text-xs">
+                  <span className="flex items-center gap-1">
+                    <span className="w-2 h-2 rounded-full bg-red-500"></span>
+                    高风险
+                  </span>
+                  <span className="flex items-center gap-1">
+                    <span className="w-2 h-2 rounded-full bg-yellow-500"></span>
+                    中风险
+                  </span>
+                  <span className="flex items-center gap-1">
+                    <span className="w-2 h-2 rounded-full bg-green-500"></span>
+                    低风险
+                  </span>
                 </div>
-                <div>
-                  <div className={cn('text-xs mb-1', DASHBOARD_STYLES.textMuted)}>高风险项</div>
-                  <div className={cn('text-2xl font-bold text-red-400')}>
-                    {[efficiencyData.zeroProjectCurrentMonth, efficiencyData.zeroProject3Months].filter(e => e.severity === 'high').length}
+              </div>
+              <div className="space-y-2">
+                {efficiencyData.zeroProjectStaff.map((staff, index) => (
+                  <div
+                    key={index}
+                    className={cn(
+                      'flex items-center justify-between p-3 rounded-lg border transition-all',
+                      staff.severity === 'high'
+                        ? 'bg-red-500/10 border-red-500/30'
+                        : staff.severity === 'medium'
+                        ? 'bg-yellow-500/10 border-yellow-500/30'
+                        : 'bg-green-500/10 border-green-500/30'
+                    )}
+                  >
+                    <div className="flex items-center gap-3">
+                      <div className={cn(
+                        'w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold',
+                        staff.severity === 'high' ? 'bg-red-500/30 text-red-300' :
+                        staff.severity === 'medium' ? 'bg-yellow-500/30 text-yellow-300' : 'bg-green-500/30 text-green-300'
+                      )}>
+                        {staff.name[0]}
+                      </div>
+                      <div>
+                        <div className={cn('text-sm font-medium', DASHBOARD_STYLES.textSecondary)}>{staff.name}</div>
+                        <div className={cn('text-xs', DASHBOARD_STYLES.textMuted)}>{staff.region}</div>
+                      </div>
+                    </div>
+                    <div className="flex items-center gap-4">
+                      <div className="text-right">
+                        <div className={cn('text-xs', DASHBOARD_STYLES.textMuted)}>无项目时长</div>
+                        <div className={cn('text-sm font-medium', DASHBOARD_STYLES.textSecondary)}>{staff.zeroProjectDuration}</div>
+                      </div>
+                      <span className={cn('px-2 py-1 rounded text-xs font-medium', getSeverityStyles(staff.severity))}>
+                        {staff.severity === 'high' ? '高风险' : staff.severity === 'medium' ? '中风险' : '低风险'}
+                      </span>
+                    </div>
                   </div>
-                </div>
-                <div className="col-span-2">
-                  <div className={cn('text-xs mb-1', DASHBOARD_STYLES.textMuted)}>说明</div>
-                  <div className={cn('text-sm text-left', DASHBOARD_STYLES.textSecondary)}>
-                    本月和近3月无项目人员数量，评估人员效率风险
-                  </div>
-                </div>
+                ))}
+              </div>
+            </div>
+
+            {/* 区域人效对比 */}
+            <div className={cn('rounded-lg border p-4', DASHBOARD_STYLES.cardBorder)}>
+              <h4 className={cn('text-sm font-medium mb-3', DASHBOARD_STYLES.textSecondary)}>区域人效对比</h4>
+              <div className="space-y-3">
+                {efficiencyData.regionEfficiency
+                  .sort((a, b) => b.avgRevenuePerStaff - a.avgRevenuePerStaff)
+                  .map((region, index) => {
+                    const maxRevenue = Math.max(...efficiencyData.regionEfficiency.map(r => r.avgRevenuePerStaff));
+                    const barWidth = (region.avgRevenuePerStaff / maxRevenue) * 100;
+                    return (
+                      <div key={index} className="flex items-center gap-3">
+                        <div className={cn('text-xs w-12', DASHBOARD_STYLES.textMuted)}>{region.region}</div>
+                        <div className="flex-1">
+                          <div className="relative h-6 bg-slate-800/50 rounded overflow-hidden">
+                            <div
+                              className={cn(
+                                'h-full transition-all duration-300',
+                                index === 0 ? 'bg-cyan-500' :
+                                index <= 2 ? 'bg-green-500/80' : 'bg-yellow-500/80'
+                              )}
+                              style={{ width: `${barWidth}%` }}
+                            />
+                            <div className={cn(
+                              'absolute inset-0 flex items-center px-2 text-xs',
+                              DASHBOARD_STYLES.textSecondary
+                            )}>
+                              <span className="font-medium">{region.avgRevenuePerStaff}万</span>
+                              <span className="ml-auto">{region.activeRate}% 活跃</span>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    );
+                  })}
               </div>
             </div>
           </div>
