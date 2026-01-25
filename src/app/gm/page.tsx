@@ -36,17 +36,29 @@ const forecastOverviewData = {
   currentMonth: {
     target: 1500,
     forecast: 1140, // 76%达成率: 1500 * 0.76 = 1140
-    completed: 800
+    completed: 800,
+    gapSolution: {
+      delayedProjects: { count: 3, amount: 200 },
+      newProjectsNeeded: { count: 2, amount: 160 }
+    }
   },
   threeMonth: {
     target: 4500,
     forecast: 3420, // 76%达成率: 4500 * 0.76 = 3420
-    completed: 2400
+    completed: 2400,
+    gapSolution: {
+      delayedProjects: { count: 8, amount: 580 },
+      newProjectsNeeded: { count: 5, amount: 500 }
+    }
   },
   sixMonth: {
     target: 9000,
     forecast: 6840, // 76%达成率: 9000 * 0.76 = 6840
-    completed: 4800
+    completed: 4800,
+    gapSolution: {
+      delayedProjects: { count: 12, amount: 980 },
+      newProjectsNeeded: { count: 10, amount: 1180 }
+    }
   }
 };
 
@@ -715,6 +727,31 @@ export default function GMDashboard() {
                           {getGap() <= 0 ? '+' : ''}{getGap().toFixed(0)}
                           <span className="text-xs text-cyan-400/50 ml-1">万</span>
                         </div>
+                        {/* 如何补缺口 */}
+                        {getGap() > 0 && (
+                          <div className="mt-2 space-y-1">
+                            <div className="flex items-center gap-1 text-xs">
+                              <div className="w-1.5 h-1.5 rounded-full bg-orange-400"></div>
+                              <span className="text-cyan-400/60">需跟进延迟项目：</span>
+                              <span className="text-orange-300 font-medium">
+                                {getTimeRangeData().gapSolution?.delayedProjects.count || 0}个
+                              </span>
+                              <span className="text-orange-300">
+                                {getTimeRangeData().gapSolution?.delayedProjects.amount || 0}万
+                              </span>
+                            </div>
+                            <div className="flex items-center gap-1 text-xs">
+                              <div className="w-1.5 h-1.5 rounded-full bg-cyan-400"></div>
+                              <span className="text-cyan-400/60">还需新开发项目：</span>
+                              <span className="text-cyan-300 font-medium">
+                                {getTimeRangeData().gapSolution?.newProjectsNeeded.count || 0}个
+                              </span>
+                              <span className="text-cyan-300">
+                                {getTimeRangeData().gapSolution?.newProjectsNeeded.amount || 0}万
+                              </span>
+                            </div>
+                          </div>
+                        )}
                       </div>
                     </div>
                   </div>
