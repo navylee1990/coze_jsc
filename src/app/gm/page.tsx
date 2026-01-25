@@ -559,32 +559,15 @@ export default function GMDashboard() {
                 <h1 className={`text-2xl font-bold ${DASHBOARD_STYLES.neon}`}>{PAGE_TITLE}</h1>
                 <p className={`text-sm ${DASHBOARD_STYLES.textSecondary}`}>预测驱动 · 数据赋能 · 精准决策</p>
               </div>
-            </div>
-
-            <div className="flex items-center gap-4">
-              <Badge
-                variant={getGap() < 0 ? 'default' : 'destructive'}
-                className="text-sm px-4 py-1.5 bg-cyan-500/20 border-cyan-500/50 text-cyan-300"
-              >
-                {getGap() < 0 ? (
-                  <>
-                    <TrendingUp className="w-4 h-4 mr-1" />
-                    预计超额完成 {Math.abs(getGap()).toFixed(0)}万
-                  </>
-                ) : (
-                  <>
-                    <TrendingDown className="w-4 h-4 mr-1" />
-                    目标缺口 {getGap().toFixed(0)}万
-                  </>
-                )}
-              </Badge>
-
               <Badge
                 variant="outline"
                 className="text-sm bg-cyan-500/20 border-cyan-500/50 text-cyan-300"
               >
                 张晖
               </Badge>
+            </div>
+
+            <div className="flex items-center gap-4">
             </div>
           </div>
         </div>
