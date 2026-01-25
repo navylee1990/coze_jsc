@@ -743,12 +743,7 @@ export default function GMDashboard() {
                   {/* 警告角标 - 根据达成率显示颜色 */}
                   {animatedRate < 100 && (
                     <div className="absolute -top-2 -right-2 z-10">
-                      <div className="relative">
-                        <div className={`absolute inset-0 ${animatedRate >= 80 ? 'bg-yellow-500' : 'bg-red-500'} rounded-full blur-sm animate-pulse`}></div>
-                        <div className={`relative ${animatedRate >= 80 ? 'bg-yellow-500' : 'bg-red-500'} rounded-full p-1 shadow-lg`}>
-                          <AlertTriangle className={`w-4 h-4 ${animatedRate >= 80 ? 'text-yellow-900' : 'text-red-900'}`} />
-                        </div>
-                      </div>
+                      <AlertTriangle className={`w-5 h-5 animate-pulse ${animatedRate >= 80 ? 'text-yellow-400 drop-shadow-[0_0_8px_rgba(250,204,21,0.8)]' : 'text-red-400 drop-shadow-[0_0_8px_rgba(248,113,113,0.8)]'}`} />
                     </div>
                   )}
                   <div
@@ -856,12 +851,7 @@ export default function GMDashboard() {
                   {/* 警告角标 - 根据缺口比例显示颜色 */}
                   {animatedGap > 0 && (
                     <div className="absolute -top-2 -right-2 z-10">
-                      <div className="relative">
-                        <div className={`absolute inset-0 ${(Math.abs(animatedGap) / getTimeRangeData().target) * 100 <= 20 ? 'bg-yellow-500' : 'bg-red-500'} rounded-full blur-sm animate-pulse`}></div>
-                        <div className={`relative ${(Math.abs(animatedGap) / getTimeRangeData().target) * 100 <= 20 ? 'bg-yellow-500' : 'bg-red-500'} rounded-full p-1 shadow-lg`}>
-                          <AlertTriangle className={`w-4 h-4 ${(Math.abs(animatedGap) / getTimeRangeData().target) * 100 <= 20 ? 'text-yellow-900' : 'text-red-900'}`} />
-                        </div>
-                      </div>
+                      <AlertTriangle className={`w-5 h-5 animate-pulse ${(Math.abs(animatedGap) / getTimeRangeData().target) * 100 <= 20 ? 'text-yellow-400 drop-shadow-[0_0_8px_rgba(250,204,21,0.8)]' : 'text-red-400 drop-shadow-[0_0_8px_rgba(248,113,113,0.8)]'}`} />
                     </div>
                   )}
                   
