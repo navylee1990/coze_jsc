@@ -433,7 +433,7 @@ export default function GMDashboard() {
           {/* 中央仪表区 */}
           <div className="col-span-7 space-y-2">
             {/* 核心预测决策卡片 - 固定高度 */}
-            <div className={`${DASHBOARD_STYLES.cardBg} ${DASHBOARD_STYLES.cardBorder} rounded-xl p-5 ${DASHBOARD_STYLES.glow}`} style={{ height: '620px' }}>
+            <div className={`${DASHBOARD_STYLES.cardBg} ${DASHBOARD_STYLES.cardBorder} rounded-xl p-5 ${DASHBOARD_STYLES.glow}`} style={{ height: '520px' }}>
               <div className="flex items-center justify-between mb-4">
                 <h2 className={`text-lg font-bold ${DASHBOARD_STYLES.neon} flex items-center gap-2`}>
                   <Target className="w-5 h-5" />
@@ -934,7 +934,7 @@ export default function GMDashboard() {
           {/* 右侧仪表区 */}
           <div className="col-span-5 space-y-2">
             {/* 区域达成情况 - 固定高度 */}
-            <div className={`${DASHBOARD_STYLES.cardBg} ${DASHBOARD_STYLES.cardBorder} rounded-xl p-4 ${DASHBOARD_STYLES.glow}`} style={{ height: '620px' }}>
+            <div className={`${DASHBOARD_STYLES.cardBg} ${DASHBOARD_STYLES.cardBorder} rounded-xl p-4 ${DASHBOARD_STYLES.glow}`} style={{ height: '520px' }}>
               <RegionMatrix
                 data={currentData}
                 title="区域达成"
