@@ -268,7 +268,7 @@ export default function RegionMatrix({
         theme === 'dashboard' ? DASHBOARD_STYLES.cardBorder : 'border-slate-200'
       )}>
         {renderTableHeader()}
-        <div className="overflow-y-auto" style={{ maxHeight: '400px' }}>
+        <div className="overflow-y-auto" style={{ minHeight: '400px', maxHeight: '400px' }}>
           {currentData.map((item, index) => renderTableRow(item, index + 1))}
         </div>
       </div>
