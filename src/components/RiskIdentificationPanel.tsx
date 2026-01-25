@@ -266,7 +266,7 @@ export default function RiskIdentificationPanel({
   const [currentTab, setCurrentTab] = useState(0);
   const [showZeroProjectDetails, setShowZeroProjectDetails] = useState(false);
   const tabs = [
-    { id: 0, label: '延迟项目', icon: Gauge },
+    { id: 0, label: '延期项目', icon: Gauge },
     { id: 1, label: '人效分析', icon: Users },
     { id: 2, label: '项目储备', icon: Database },
     { id: 3, label: '其他风险', icon: AlertTriangle }
@@ -403,7 +403,7 @@ export default function RiskIdentificationPanel({
 
       {/* 风险列表 - 轮播内容 */}
       <div className="flex-1 overflow-hidden">
-        {/* Tab 0: 延迟项目 */}
+        {/* Tab 0: 延期项目 */}
         {currentTab === 0 && (
           <div className="h-full p-6 space-y-4 animate-in fade-in duration-300 overflow-y-auto">
             {/* 仪表盘卡片网格 */}
@@ -444,13 +444,13 @@ export default function RiskIdentificationPanel({
             <div className={cn('p-4 rounded-lg border', DASHBOARD_STYLES.cardBorder)}>
               <div className="grid grid-cols-4 gap-4 text-center">
                 <div>
-                  <div className={cn('text-xs mb-1', DASHBOARD_STYLES.textMuted)}>延迟项目总数</div>
+                  <div className={cn('text-xs mb-1', DASHBOARD_STYLES.textMuted)}>延期项目总数</div>
                   <div className={cn('text-2xl font-bold', DASHBOARD_STYLES.textSecondary)}>
                     {delayedProjects.reduce((sum, p) => sum + p.count, 0)}
                   </div>
                 </div>
                 <div>
-                  <div className={cn('text-xs mb-1', DASHBOARD_STYLES.textMuted)}>延迟总金额</div>
+                  <div className={cn('text-xs mb-1', DASHBOARD_STYLES.textMuted)}>延期总金额</div>
                   <div className={cn('text-2xl font-bold', DASHBOARD_STYLES.textSecondary)}>
                     {delayedProjects.reduce((sum, p) => sum + p.amount, 0)}
                     <span className="text-sm">万</span>
