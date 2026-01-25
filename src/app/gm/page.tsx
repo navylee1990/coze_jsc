@@ -398,22 +398,20 @@ export default function GMDashboard() {
       const windowWidth = window.innerWidth;
 
       // 计算高度方向的缩放比例
-      // 预留空间：header约80px + 上下padding约80px = 160px
-      const availableHeight = windowHeight - 160;
-      const heightScale = availableHeight / BASE_HEIGHT;
+      // 可用高度 = 窗口高度
+      const heightScale = windowHeight / BASE_HEIGHT;
 
       // 计算宽度方向的缩放比例
-      // 预留左右padding约96px（p-6 * 2）
-      const availableWidth = windowWidth - 96;
-      const widthScale = availableWidth / BASE_WIDTH;
+      // 可用宽度 = 窗口宽度
+      const widthScale = windowWidth / BASE_WIDTH;
 
       // 取较小的缩放比例，确保内容完全显示
       let scale = Math.min(heightScale, widthScale);
 
       // 限制缩放范围：
       // - 最大不超过 1（不放大，保持设计稿尺寸）
-      // - 最小不低于 0.6（防止过小导致无法阅读）
-      scale = Math.min(Math.max(scale, 0.6), 1);
+      // - 最小不低于 0.5（防止过小导致无法阅读）
+      scale = Math.min(Math.max(scale, 0.5), 1);
 
       setScaleRatio(scale);
     };
@@ -595,11 +593,11 @@ export default function GMDashboard() {
   }, [timeRange]);
 
   return (
-    <div className={`${DASHBOARD_STYLES.bg} ${DASHBOARD_STYLES.text} min-h-screen`}>
+    <div className={`${DASHBOARD_STYLES.bg} ${DASHBOARD_STYLES.text} h-screen flex flex-col overflow-hidden`}>
       {/* 顶部导航栏 */}
       <header
         className={cn(
-          `${DASHBOARD_STYLES.cardBg} ${DASHBOARD_STYLES.cardBorder} border-b backdrop-blur-sm sticky top-0 z-50 ${DASHBOARD_STYLES.glow}`,
+          `${DASHBOARD_STYLES.cardBg} ${DASHBOARD_STYLES.cardBorder} border-b backdrop-blur-sm flex-shrink-0 ${DASHBOARD_STYLES.glow}`,
           'transition-all duration-500',
           isMounted && animationPhase >= 1 ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-y-4'
         )}
@@ -629,20 +627,20 @@ export default function GMDashboard() {
       </header>
 
       {/* 主要内容区 - 仪表盘布局 */}
-      <main className="max-w-[1920px] mx-auto p-6 min-h-screen flex flex-col">
+      <main className="flex-1 flex flex-col overflow-hidden relative">
         {/* 响应式缩放容器 - 根据窗口高度自动缩放，实现一屏展示 */}
         <div
           ref={dashboardRef}
-          className="flex-1"
+          className="absolute inset-0 flex items-center justify-center"
           style={{
             transform: `scale(${scaleRatio})`,
-            transformOrigin: 'top center',
-            transition: 'transform 0.3s ease-out',
-            minHeight: `${1080 / scaleRatio}px`
+            transformOrigin: 'center center',
+            transition: 'transform 0.3s ease-out'
           }}
         >
-          {/* 驾驶舱风格布局 - 紧凑对齐 */}
-          <div className="grid grid-cols-12 gap-2">
+          <div className="max-w-[1920px] w-full p-6" style={{ height: '1080px' }}>
+            {/* 驾驶舱风格布局 - 紧凑对齐 */}
+            <div className="grid grid-cols-12 gap-2 h-full">
           {/* 中央仪表区 */}
           <div className={cn(
             'col-span-7 space-y-2',
@@ -1161,6 +1159,7 @@ export default function GMDashboard() {
             </div>
 
           </div>
+        </div>
         </div>
         </div>
       </main>
