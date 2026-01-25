@@ -84,12 +84,14 @@ export default function RegionMatrix({
   // 获取面包屑
   const getBreadcrumbs = () => {
     const crumbs = [{ level: 'region', label: '区域' }];
-    if (drillDownLevel === 'city' || drillDownLevel === 'salesperson') {
+
+    if (drillDownLevel === 'city') {
       crumbs.push({ level: 'city', label: selectedRegion });
-    }
-    if (drillDownLevel === 'salesperson') {
+    } else if (drillDownLevel === 'salesperson') {
+      crumbs.push({ level: 'city', label: selectedRegion });
       crumbs.push({ level: 'salesperson', label: selectedCity });
     }
+
     return crumbs;
   };
 
@@ -218,9 +220,9 @@ export default function RegionMatrix({
   const breadcrumbs = getBreadcrumbs();
 
   return (
-    <div className={cn('w-full', DASHBOARD_STYLES.bg, DASHBOARD_STYLES.text)}>
+    <div className={cn('w-full min-h-[480px]', DASHBOARD_STYLES.bg, DASHBOARD_STYLES.text)}>
       {/* 标题和面包屑 */}
-      <div className="flex items-center justify-between mb-3 px-4">
+      <div className="flex items-center justify-between mb-3 px-4 min-h-[72px]">
         <div className="flex-1 min-w-0">
           <div className="flex items-center gap-2 mb-1.5">
             {drillDownLevel !== 'region' && (
@@ -239,26 +241,24 @@ export default function RegionMatrix({
               <span className={cn('text-xs whitespace-nowrap', DASHBOARD_STYLES.textMuted)}>({subtitle})</span>
             )}
           </div>
-          {/* 面包屑导航 */}
-          {breadcrumbs.length > 1 && (
-            <div className="flex items-center gap-2 text-xs">
-              {breadcrumbs.map((crumb, index) => (
-                <div key={crumb.level} className="flex items-center gap-2">
-                  {index > 0 && <span className="text-cyan-500/50 flex-shrink-0">/</span>}
-                  {index === breadcrumbs.length - 1 ? (
-                    <span className={cn('font-semibold', DASHBOARD_STYLES.textSecondary)}>{crumb.label}</span>
-                  ) : (
-                    <button
-                      onClick={() => handleBreadcrumbClick(crumb.level as 'region' | 'city' | 'salesperson')}
-                      className={cn('hover:text-cyan-300 transition-colors', DASHBOARD_STYLES.textMuted)}
-                    >
-                      {crumb.label}
-                    </button>
-                  )}
-                </div>
-              ))}
-            </div>
-          )}
+          {/* 面包屑导航 - 始终显示完整路径 */}
+          <div className="flex items-center gap-1 text-xs">
+            {breadcrumbs.map((crumb, index) => (
+              <div key={crumb.level} className="flex items-center gap-1">
+                {index > 0 && <span className="text-cyan-500/50 flex-shrink-0">/</span>}
+                {index === breadcrumbs.length - 1 ? (
+                  <span className={cn('font-semibold', DASHBOARD_STYLES.textSecondary)}>{crumb.label}</span>
+                ) : (
+                  <button
+                    onClick={() => handleBreadcrumbClick(crumb.level as 'region' | 'city' | 'salesperson')}
+                    className={cn('hover:text-cyan-300 transition-colors', DASHBOARD_STYLES.textMuted)}
+                  >
+                    {crumb.label}
+                  </button>
+                )}
+              </div>
+            ))}
+          </div>
         </div>
       </div>
 
@@ -268,7 +268,7 @@ export default function RegionMatrix({
         theme === 'dashboard' ? DASHBOARD_STYLES.cardBorder : 'border-slate-200'
       )}>
         {renderTableHeader()}
-        <div className="overflow-y-auto" style={{ maxHeight: '400px' }}>
+        <div className="overflow-y-auto" style={{ maxHeight: '360px' }}>
           {currentData.map((item, index) => renderTableRow(item, index + 1))}
         </div>
       </div>
