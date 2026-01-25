@@ -1,6 +1,6 @@
 'use client';
 
-import { AlertTriangle, Clock, TrendingDown, FileWarning, Target, Users, Zap, ChevronRight } from 'lucide-react';
+import { AlertTriangle, Clock, TrendingDown, FileWarning, Target, Users, Zap, ChevronRight, Gauge, ArrowUp } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
 // 驾驶舱样式
@@ -11,16 +11,19 @@ const DASHBOARD_STYLES = {
   textSecondary: 'text-cyan-200',
   cardBorder: 'border-cyan-500/30',
   neon: 'text-cyan-400 drop-shadow-[0_0_8px_rgba(6,182,212,0.8)]',
+  neonGlow: 'shadow-[0_0_15px_rgba(6,182,212,0.6)]',
+  warningGlow: 'shadow-[0_0_15px_rgba(239,68,68,0.6)]',
 };
 
 // 延迟项目时间分类
 interface DelayedProjectCategory {
-  period: string; // '本月', '未来1个月', '未来3个月', '未来半年'
+  period: string;
   periodKey: 'current' | 'future1Month' | 'future3Months' | 'future6Months';
   count: number;
-  amount: number; // 总金额
-  gapFill: number; // 可填补缺口
+  amount: number;
+  gapFill: number;
   severity: 'high' | 'medium' | 'low';
+  percent?: number; // 仪表盘进度百分比
 }
 
 // 人效数据
@@ -52,7 +55,7 @@ interface RiskIdentificationPanelProps {
   theme?: 'dashboard' | 'light' | 'dark';
 }
 
-// 默认延迟项目数据
+// 默认延迟项目数据（添加仪表盘进度百分比）
 const defaultDelayedProjects: DelayedProjectCategory[] = [
   {
     period: '本月',
@@ -60,23 +63,26 @@ const defaultDelayedProjects: DelayedProjectCategory[] = [
     count: 3,
     amount: 200,
     gapFill: 200,
-    severity: 'high'
+    severity: 'high',
+    percent: 85
   },
   {
-    period: '未来1个月',
+    period: '未来1月',
     periodKey: 'future1Month',
     count: 5,
     amount: 280,
     gapFill: 280,
-    severity: 'high'
+    severity: 'high',
+    percent: 75
   },
   {
-    period: '未来3个月',
+    period: '未来3月',
     periodKey: 'future3Months',
     count: 8,
     amount: 450,
     gapFill: 450,
-    severity: 'medium'
+    severity: 'medium',
+    percent: 55
   },
   {
     period: '未来半年',
@@ -84,7 +90,8 @@ const defaultDelayedProjects: DelayedProjectCategory[] = [
     count: 12,
     amount: 680,
     gapFill: 680,
-    severity: 'medium'
+    severity: 'medium',
+    percent: 40
   }
 ];
 
@@ -124,6 +131,52 @@ const defaultOtherRisks: OtherRiskItem[] = [
     description: '区域签约规模不足以支撑年度目标'
   }
 ];
+
+// 仪表盘组件
+function DashboardGauge({ percent, severity, amount, label }: { percent: number; severity: 'high' | 'medium' | 'low'; amount: number; label: string }) {
+  const getColorClass = () => {
+    if (percent >= 70) return 'stroke-red-500 drop-shadow-[0_0_8px_rgba(239,68,68,0.8)]';
+    if (percent >= 50) return 'stroke-yellow-500 drop-shadow-[0_0_8px_rgba(234,179,8,0.8)]';
+    return 'stroke-green-500 drop-shadow-[0_0_8px_rgba(34,197,94,0.8)]';
+  };
+
+  const strokeDasharray = `${percent * 2.5} 250`; // 半圆周长约250
+  const rotation = 90; // 从右侧开始
+
+  return (
+    <div className="relative flex flex-col items-center">
+      {/* 半圆仪表盘 */}
+      <div className="relative w-28 h-16 mb-2">
+        <svg viewBox="0 0 100 50" className="w-full h-full overflow-visible">
+          {/* 背景弧线 */}
+          <path
+            d="M 10 50 A 40 40 0 0 1 90 50"
+            fill="none"
+            stroke="rgba(6,182,212,0.2)"
+            strokeWidth="8"
+            strokeLinecap="round"
+          />
+          {/* 进度弧线 */}
+          <path
+            d="M 10 50 A 40 40 0 0 1 90 50"
+            fill="none"
+            className={getColorClass()}
+            strokeWidth="8"
+            strokeLinecap="round"
+            strokeDasharray={strokeDasharray}
+            transform={`rotate(${rotation} 50 50)`}
+          />
+        </svg>
+        {/* 仪表盘中心显示 */}
+        <div className="absolute bottom-0 left-1/2 -translate-x-1/2 text-center">
+          <div className={cn('text-lg font-bold', DASHBOARD_STYLES.textSecondary)}>{amount}</div>
+          <div className={cn('text-xs', DASHBOARD_STYLES.textMuted)}>万</div>
+        </div>
+      </div>
+      <div className={cn('text-sm font-medium', DASHBOARD_STYLES.textSecondary)}>{label}</div>
+    </div>
+  );
+}
 
 export default function RiskIdentificationPanel({
   delayedProjects = defaultDelayedProjects,
@@ -200,57 +253,78 @@ export default function RiskIdentificationPanel({
 
       {/* 风险列表 */}
       <div className="p-3 space-y-3">
-        {/* 延迟项目 */}
+        {/* 延迟项目 - 仪表盘风格 */}
         <div className="space-y-2">
-          <div className="flex items-center gap-2 mb-2">
-            <Clock className={cn('w-4 h-4 text-cyan-400')} />
-            <h4 className={cn('text-sm font-semibold', DASHBOARD_STYLES.textSecondary)}>延迟项目</h4>
+          <div className="flex items-center gap-2 mb-3">
+            <Gauge className={cn('w-5 h-5 text-cyan-400')} />
+            <h4 className={cn('text-base font-semibold', DASHBOARD_STYLES.textSecondary)}>延迟项目仪表盘</h4>
           </div>
-          {delayedProjects.map((item, index) => (
-            <div
-              key={index}
-              className={cn(
-                'rounded-lg p-3 border transition-all duration-200',
-                item.severity === 'high'
-                  ? 'bg-red-500/10 border-red-500/30 hover:bg-red-500/20 hover:shadow-[0_0_15px_rgba(239,68,68,0.3)]'
-                  : 'bg-yellow-500/10 border-yellow-500/30 hover:bg-yellow-500/20'
-              )}
-            >
-              <div className="flex items-start justify-between mb-2">
-                <div className="flex-1">
-                  <div className="flex items-center gap-2 mb-1">
-                    <span className={cn('font-medium text-sm', DASHBOARD_STYLES.textSecondary)}>{item.period}</span>
-                    <span className={cn('px-2 py-0.5 rounded text-xs font-medium', getSeverityStyles(item.severity))}>
-                      {item.severity === 'high' ? '高风险' : '中风险'}
-                    </span>
+
+          {/* 仪表盘卡片网格 */}
+          <div className="grid grid-cols-4 gap-3 mb-3">
+            {delayedProjects.map((item, index) => (
+              <div
+                key={index}
+                className={cn(
+                  'rounded-lg p-3 border-2 transition-all duration-200',
+                  item.severity === 'high'
+                    ? 'bg-slate-900/60 border-red-500/40 hover:bg-red-500/10 hover:border-red-500/60 hover:shadow-[0_0_20px_rgba(239,68,68,0.4)]'
+                    : 'bg-slate-900/60 border-yellow-500/40 hover:bg-yellow-500/10 hover:border-yellow-500/60'
+                )}
+              >
+                <DashboardGauge
+                  percent={item.percent || 50}
+                  severity={item.severity}
+                  amount={item.amount}
+                  label={item.period}
+                />
+
+                {/* 底部信息 */}
+                <div className="mt-3 pt-2 border-t border-cyan-500/20">
+                  <div className="flex items-center justify-between text-xs mb-1">
+                    <span className={cn(DASHBOARD_STYLES.textMuted)}>项目数</span>
+                    <span className={cn('font-bold', DASHBOARD_STYLES.textSecondary)}>{item.count}</span>
                   </div>
-                  <div className="grid grid-cols-3 gap-3 mt-2">
-                    <div>
-                      <div className={cn('text-xs mb-1', DASHBOARD_STYLES.textMuted)}>项目数量</div>
-                      <div className={cn('text-lg font-bold', DASHBOARD_STYLES.textSecondary)}>{item.count}</div>
-                    </div>
-                    <div>
-                      <div className={cn('text-xs mb-1', DASHBOARD_STYLES.textMuted)}>总金额(万)</div>
-                      <div className={cn('text-lg font-bold', DASHBOARD_STYLES.textSecondary)}>{item.amount}</div>
-                    </div>
-                    <div>
-                      <div className={cn('text-xs mb-1', DASHBOARD_STYLES.textMuted)}>可填补缺口(万)</div>
-                      <div className={cn('text-lg font-bold text-green-400')}>+{item.gapFill}</div>
-                    </div>
+                  <div className="flex items-center justify-between text-xs">
+                    <span className={cn(DASHBOARD_STYLES.textMuted)}>可填补缺口</span>
+                    <span className={cn('font-bold text-green-400')}>+{item.gapFill}万</span>
                   </div>
                 </div>
               </div>
-              <button className={cn(
-                'w-full mt-2 flex items-center justify-center gap-2 px-3 py-2 rounded-lg text-sm font-medium transition-all',
-                'bg-cyan-500/20 border border-cyan-500/30 text-cyan-300',
-                'hover:bg-cyan-500/30 hover:shadow-[0_0_15px_rgba(6,182,212,0.4)]'
-              )}>
-                <Zap className="w-4 h-4" />
-                一键处理
-                <ChevronRight className="w-4 h-4" />
-              </button>
+            ))}
+          </div>
+
+          {/* 统计总览 */}
+          <div className={cn('p-3 rounded-lg border', DASHBOARD_STYLES.cardBorder)}>
+            <div className="grid grid-cols-4 gap-3 text-center">
+              <div>
+                <div className={cn('text-xs mb-1', DASHBOARD_STYLES.textMuted)}>延迟项目总数</div>
+                <div className={cn('text-xl font-bold', DASHBOARD_STYLES.textSecondary)}>
+                  {delayedProjects.reduce((sum, p) => sum + p.count, 0)}
+                </div>
+              </div>
+              <div>
+                <div className={cn('text-xs mb-1', DASHBOARD_STYLES.textMuted)}>延迟总金额</div>
+                <div className={cn('text-xl font-bold', DASHBOARD_STYLES.textSecondary)}>
+                  {delayedProjects.reduce((sum, p) => sum + p.amount, 0)}
+                  <span className="text-sm">万</span>
+                </div>
+              </div>
+              <div>
+                <div className={cn('text-xs mb-1', DASHBOARD_STYLES.textMuted)}>可填补总缺口</div>
+                <div className={cn('text-xl font-bold text-green-400')}>
+                  +{delayedProjects.reduce((sum, p) => sum + p.gapFill, 0)}
+                  <span className="text-sm">万</span>
+                </div>
+              </div>
+              <div>
+                <div className={cn('text-xs mb-1', DASHBOARD_STYLES.textMuted)}>高风险占比</div>
+                <div className={cn('text-xl font-bold text-red-400')}>
+                  {Math.round((delayedProjects.filter(p => p.severity === 'high').length / delayedProjects.length) * 100)}%
+                </div>
+              </div>
             </div>
-          ))}
+          </div>
         </div>
 
         <div className={cn('border-t', DASHBOARD_STYLES.cardBorder)}></div>
