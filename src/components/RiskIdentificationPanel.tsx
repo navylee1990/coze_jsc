@@ -1,6 +1,7 @@
 'use client';
 
-import { AlertTriangle, Clock, TrendingDown, FileWarning, Target, Users, Zap, ChevronRight } from 'lucide-react';
+import { AlertTriangle, Clock, TrendingDown, FileWarning, Target, Users, ChevronRight } from 'lucide-react';
+import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 
 // 驾驶舱样式
@@ -216,7 +217,7 @@ export default function RiskIdentificationPanel({
                   : 'bg-yellow-500/10 border-yellow-500/30 hover:bg-yellow-500/20'
               )}
             >
-              <div className="flex items-start justify-between mb-2">
+              <div className="flex items-start justify-between">
                 <div className="flex-1">
                   <div className="flex items-center gap-2 mb-1">
                     <span className={cn('font-medium text-sm', DASHBOARD_STYLES.textSecondary)}>{item.period}</span>
@@ -239,16 +240,14 @@ export default function RiskIdentificationPanel({
                     </div>
                   </div>
                 </div>
+                <Button
+                  size="sm"
+                  variant="outline"
+                  className={`${DASHBOARD_STYLES.cardBorder} ${DASHBOARD_STYLES.textSecondary} hover:bg-cyan-500/20 flex-shrink-0 ml-3`}
+                >
+                  <ChevronRight className="w-4 h-4" />
+                </Button>
               </div>
-              <button className={cn(
-                'w-full mt-2 flex items-center justify-center gap-2 px-3 py-2 rounded-lg text-sm font-medium transition-all',
-                'bg-cyan-500/20 border border-cyan-500/30 text-cyan-300',
-                'hover:bg-cyan-500/30 hover:shadow-[0_0_15px_rgba(6,182,212,0.4)]'
-              )}>
-                <Zap className="w-4 h-4" />
-                一键处理
-                <ChevronRight className="w-4 h-4" />
-              </button>
             </div>
           ))}
         </div>
