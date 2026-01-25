@@ -965,36 +965,45 @@ export default function GMDashboard() {
                           {animatedGap <= 0 ? '+' : ''}{Math.abs(animatedGap).toFixed(0)}
                           <span className="text-xs text-cyan-400/50 ml-1">万</span>
                         </div>
-                        {/* 如何补缺口 */}
-                        {animatedGap > 0 && (
-                          <div className="mt-2 space-y-1">
-                            <div className="flex items-center gap-1 text-xs">
-                              <div className="w-1.5 h-1.5 rounded-full bg-orange-400"></div>
-                              <span className="text-cyan-400/60">延期项目：</span>
-                              <span className="text-orange-300 font-medium">
-                                {getTimeRangeData().gapSolution?.delayedProjects.count || 0}个
-                              </span>
-                              <span className="text-orange-300">
-                                {getTimeRangeData().gapSolution?.delayedProjects.amount || 0}万
-                              </span>
-                            </div>
-                            <div className="flex items-center gap-1 text-xs">
-                              <div className="w-1.5 h-1.5 rounded-full bg-cyan-400"></div>
-                              <span className="text-cyan-400/60">新开发项目：</span>
-                              <span className="text-cyan-300 font-medium">
-                                {getTimeRangeData().gapSolution?.newProjectsNeeded.count || 0}个
-                              </span>
-                              <span className="text-cyan-300">
-                                {getTimeRangeData().gapSolution?.newProjectsNeeded.amount || 0}万
-                              </span>
-                            </div>
-                          </div>
-                        )}
                       </div>
                     </div>
                   </div>
                 </div>
               </div>
+
+              {/* 如何补缺口 - 只在存在缺口时显示 */}
+              {animatedGap > 0 && (
+                <div className="bg-slate-800/30 rounded-xl p-3 border border-orange-400/20 mb-4">
+                  <div className="flex items-center gap-2 mb-2">
+                    <AlertTriangle className="w-4 h-4 text-orange-400" />
+                    <h4 className="text-sm font-semibold text-orange-400" style={{ textShadow: '0 0 8px rgba(251, 146, 60, 0.6)' }}>
+                      如何补缺口
+                    </h4>
+                  </div>
+                  <div className="space-y-1.5">
+                    <div className="flex items-center gap-2 text-xs bg-slate-900/50 rounded-lg p-2">
+                      <div className="w-2 h-2 rounded-full bg-orange-400 flex-shrink-0"></div>
+                      <span className="text-cyan-400/60">延期项目：</span>
+                      <span className="text-orange-300 font-medium flex-1">
+                        {getTimeRangeData().gapSolution?.delayedProjects.count || 0}个
+                      </span>
+                      <span className="text-orange-300 font-medium">
+                        {getTimeRangeData().gapSolution?.delayedProjects.amount || 0}万
+                      </span>
+                    </div>
+                    <div className="flex items-center gap-2 text-xs bg-slate-900/50 rounded-lg p-2">
+                      <div className="w-2 h-2 rounded-full bg-cyan-400 flex-shrink-0"></div>
+                      <span className="text-cyan-400/60">新开发项目：</span>
+                      <span className="text-cyan-300 font-medium flex-1">
+                        {getTimeRangeData().gapSolution?.newProjectsNeeded.count || 0}个
+                      </span>
+                      <span className="text-cyan-300 font-medium">
+                        {getTimeRangeData().gapSolution?.newProjectsNeeded.amount || 0}万
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              )}
 
               {/* 趋势图表 */}
               <div className="bg-slate-800/30 rounded-xl p-3 border border-cyan-400/10">
