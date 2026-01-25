@@ -220,28 +220,31 @@ export default function RegionMatrix({
   return (
     <div className={cn('w-full', DASHBOARD_STYLES.bg, DASHBOARD_STYLES.text)}>
       {/* 标题和面包屑 */}
-      <div className="flex items-center justify-between mb-4 px-4">
-        <div className="flex-1">
-          <div className="flex items-center gap-2 mb-1">
+      <div className="flex items-center justify-between mb-3 px-4">
+        <div className="flex-1 min-w-0">
+          <div className="flex items-center gap-2 mb-1.5">
             {drillDownLevel !== 'region' && (
               <button
                 onClick={() => handleBreadcrumbClick('region')}
-                className="p-1 rounded-lg bg-cyan-500/20 border border-cyan-500/30 text-cyan-300 hover:bg-cyan-500/30 transition-colors"
+                className="p-1 rounded-lg bg-cyan-500/20 border border-cyan-500/30 text-cyan-300 hover:bg-cyan-500/30 transition-colors flex-shrink-0"
               >
                 <ArrowLeft className="w-4 h-4" />
               </button>
             )}
-            <h3 className={cn('text-sm font-bold flex items-center gap-2', DASHBOARD_STYLES.neon)}>
-              <Activity className="w-4 h-4" />
+            <h3 className={cn('text-sm font-bold flex items-center gap-2 whitespace-nowrap', DASHBOARD_STYLES.neon)}>
+              <Activity className="w-4 h-4 flex-shrink-0" />
               {title}
             </h3>
+            {subtitle && drillDownLevel === 'region' && (
+              <span className={cn('text-xs whitespace-nowrap', DASHBOARD_STYLES.textMuted)}>({subtitle})</span>
+            )}
           </div>
           {/* 面包屑导航 */}
           {breadcrumbs.length > 1 && (
             <div className="flex items-center gap-2 text-xs">
               {breadcrumbs.map((crumb, index) => (
                 <div key={crumb.level} className="flex items-center gap-2">
-                  {index > 0 && <span className="text-cyan-500/50">/</span>}
+                  {index > 0 && <span className="text-cyan-500/50 flex-shrink-0">/</span>}
                   {index === breadcrumbs.length - 1 ? (
                     <span className={cn('font-semibold', DASHBOARD_STYLES.textSecondary)}>{crumb.label}</span>
                   ) : (
@@ -256,9 +259,6 @@ export default function RegionMatrix({
               ))}
             </div>
           )}
-          {subtitle && drillDownLevel === 'region' && (
-            <p className={cn('text-xs mt-1', DASHBOARD_STYLES.textMuted)}>{subtitle}</p>
-          )}
         </div>
       </div>
 
@@ -268,7 +268,9 @@ export default function RegionMatrix({
         theme === 'dashboard' ? DASHBOARD_STYLES.cardBorder : 'border-slate-200'
       )}>
         {renderTableHeader()}
-        {currentData.map((item, index) => renderTableRow(item, index + 1))}
+        <div className="overflow-y-auto" style={{ maxHeight: '400px' }}>
+          {currentData.map((item, index) => renderTableRow(item, index + 1))}
+        </div>
       </div>
     </div>
   );
