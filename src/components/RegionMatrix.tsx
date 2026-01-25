@@ -142,13 +142,13 @@ export default function RegionMatrix({
     return crumbs;
   };
 
-  // 渲染表头
+  // 渲染表头 - 固定高度
   const renderTableHeader = () => {
     const nameLabel = drillDownLevel === 'salesperson' ? '业务员' : drillDownLevel === 'city' ? '城市名称' : '区域名称';
 
     return (
       <div className={cn(
-        'grid grid-cols-7 gap-3 px-4 py-2.5 text-xs font-bold border-b',
+        'h-10 grid grid-cols-7 gap-3 px-4 text-xs font-bold border-b flex items-center',
         theme === 'dashboard' ? 'bg-slate-800/60 border-cyan-500/30' : 'bg-slate-100 border-slate-200'
       )}>
         <div className={cn('flex items-center justify-center gap-2', DASHBOARD_STYLES.textSecondary)}>排名</div>
@@ -162,7 +162,7 @@ export default function RegionMatrix({
     );
   };
 
-  // 渲染行数据
+  // 渲染行数据 - 固定高度
   const renderTableRow = (item: any, rank: number, onDrillDown?: (item: any) => void) => {
     const gapClass = item.gap > 0 ? 'text-red-400' : 'text-green-400';
     const rowBgClass = rank % 2 === 0
@@ -174,7 +174,7 @@ export default function RegionMatrix({
       <div
         key={`${item.name}-${rank}`}
         className={cn(
-          'grid grid-cols-7 gap-3 px-4 py-2 items-center border-b transition-all duration-200',
+          'h-10 grid grid-cols-7 gap-3 px-4 items-center border-b transition-all duration-200',
           rowBgClass,
           canDrillDown && theme === 'dashboard' ? 'border-cyan-500/20 hover:bg-slate-800/60 hover:shadow-[0_0_15px_rgba(6,182,212,0.2)] cursor-pointer' : 'border-cyan-500/20',
           canDrillDown && theme !== 'dashboard' ? 'border-slate-200 hover:bg-slate-100 cursor-pointer' : ''
@@ -242,28 +242,32 @@ export default function RegionMatrix({
   const breadcrumbs = getBreadcrumbs();
 
   return (
-    <div className={cn('w-full min-h-[480px]', DASHBOARD_STYLES.bg, DASHBOARD_STYLES.text)}>
-      {/* 标题栏 - 独立框样式 */}
+    <div className={cn('w-full h-[440px]', DASHBOARD_STYLES.bg, DASHBOARD_STYLES.text)}>
+      {/* 标题栏 - 固定高度 */}
       <div
         className={cn(
-          'px-4 py-3 border-b flex items-center justify-between',
+          'h-14 px-4 border-b flex items-center',
           theme === 'dashboard' ? `${DASHBOARD_STYLES.cardBorder} bg-slate-900/50` : 'border-slate-200 bg-white'
         )}
       >
         <div className="flex-1 min-w-0">
-          <div className="flex items-center gap-2">
-            {drillDownLevel !== 'region' && (
-              <button
-                onClick={() => handleBreadcrumbClick('region')}
-                className="p-1 rounded-lg bg-cyan-500/20 border border-cyan-500/30 text-cyan-300 hover:bg-cyan-500/30 transition-colors flex-shrink-0"
-              >
-                <ArrowLeft className="w-4 h-4" />
-              </button>
-            )}
-            <h3 className={cn('font-bold text-lg flex items-center gap-2 whitespace-nowrap', theme === 'dashboard' ? 'text-cyan-300 drop-shadow-[0_0_10px_rgba(6,182,212,0.6)]' : 'text-slate-900')}>
+          <div className="flex items-center gap-2 h-full">
+            {/* 返回按钮 - 占位确保高度一致 */}
+            <div className="w-8 h-full flex items-center justify-center flex-shrink-0">
+              {drillDownLevel !== 'region' && (
+                <button
+                  onClick={() => handleBreadcrumbClick('region')}
+                  className="p-1 rounded-lg bg-cyan-500/20 border border-cyan-500/30 text-cyan-300 hover:bg-cyan-500/30 transition-colors"
+                >
+                  <ArrowLeft className="w-4 h-4" />
+                </button>
+              )}
+            </div>
+            {/* 标题和面包屑 */}
+            <h3 className={cn('font-bold text-lg flex items-center gap-2 whitespace-nowrap overflow-hidden', theme === 'dashboard' ? 'text-cyan-300 drop-shadow-[0_0_10px_rgba(6,182,212,0.6)]' : 'text-slate-900')}>
               <Activity className={cn('w-5 h-5 flex-shrink-0', theme === 'dashboard' ? 'text-cyan-400 drop-shadow-[0_0_8px_rgba(6,182,212,0.8)]' : 'text-green-600')} />
-              {title}
-              <span className="flex items-center gap-1 text-xs">
+              <span className="truncate">{title}</span>
+              <span className="flex items-center gap-1 text-xs truncate">
                 {breadcrumbs.map((crumb, index) => (
                   <div key={crumb.level} className="flex items-center gap-1">
                     {index > 0 && <span className="text-cyan-500/50 flex-shrink-0">/</span>}
@@ -291,7 +295,7 @@ export default function RegionMatrix({
         theme === 'dashboard' ? DASHBOARD_STYLES.cardBorder : 'border-slate-200'
       )}>
         {renderTableHeader()}
-        <div className={cn('flex flex-col', shouldPaginate ? '' : 'min-h-[270px]')}>
+        <div className="flex flex-col">
           {displayData.map((item, index) => {
             // 计算排名：第一层从1开始，分页层根据页码计算
             const rank = shouldPaginate
@@ -299,24 +303,24 @@ export default function RegionMatrix({
               : index + 1;
             return renderTableRow(item, rank, handleDrillDownChange);
           })}
-          {/* 分页控件或信息栏 - 确保所有层级高度一致 */}
-          {shouldPaginate && totalPages > 1 ? (
-            <div className="flex items-center justify-between px-4 py-3 border-t border-cyan-500/20 bg-slate-900/30">
-              <div className={cn('text-xs', DASHBOARD_STYLES.textMuted)}>
-                共 {currentData.length} 条记录
-              </div>
+          {/* 分页控件或信息栏 - 固定高度 */}
+          <div className="h-12 flex items-center justify-between px-4 border-t border-cyan-500/20 bg-slate-900/30">
+            <div className={cn('text-xs', DASHBOARD_STYLES.textMuted)}>
+              共 {currentData.length} 条记录
+            </div>
+            {shouldPaginate && totalPages > 1 && (
               <div className="flex items-center gap-2">
                 <button
                   onClick={() => setCurrentPage(p => Math.max(1, p - 1))}
                   disabled={currentPage === 1}
                   className={cn(
-                    'p-1.5 rounded-lg border transition-colors',
+                    'p-1 rounded-lg border transition-colors',
                     currentPage === 1
                       ? 'border-slate-700/30 text-slate-600 cursor-not-allowed'
                       : 'border-cyan-500/30 text-cyan-400 hover:bg-cyan-500/20 hover:border-cyan-500/50'
                   )}
                 >
-                  <ChevronLeft className="w-4 h-4" />
+                  <ChevronLeft className="w-3.5 h-3.5" />
                 </button>
                 <div className="flex items-center gap-1">
                   {Array.from({ length: totalPages }, (_, i) => i + 1).map(page => (
@@ -324,7 +328,7 @@ export default function RegionMatrix({
                       key={page}
                       onClick={() => setCurrentPage(page)}
                       className={cn(
-                        'w-8 h-8 rounded-lg text-xs font-medium transition-all',
+                        'w-7 h-7 rounded-lg text-xs font-medium transition-all',
                         currentPage === page
                           ? 'bg-cyan-500 text-white shadow-[0_0_8px_rgba(6,182,212,0.6)]'
                           : 'text-cyan-400/70 hover:bg-cyan-500/20'
@@ -338,23 +342,17 @@ export default function RegionMatrix({
                   onClick={() => setCurrentPage(p => Math.min(totalPages, p + 1))}
                   disabled={currentPage === totalPages}
                   className={cn(
-                    'p-1.5 rounded-lg border transition-colors',
+                    'p-1 rounded-lg border transition-colors',
                     currentPage === totalPages
                       ? 'border-slate-700/30 text-slate-600 cursor-not-allowed'
                       : 'border-cyan-500/30 text-cyan-400 hover:bg-cyan-500/20 hover:border-cyan-500/50'
                   )}
                 >
-                  <ChevronRight className="w-4 h-4" />
+                  <ChevronRight className="w-3.5 h-3.5" />
                 </button>
               </div>
-            </div>
-          ) : (
-            <div className="flex items-center justify-between px-4 py-3 border-t border-cyan-500/20 bg-slate-900/30">
-              <div className={cn('text-xs', DASHBOARD_STYLES.textMuted)}>
-                共 {currentData.length} 条记录
-              </div>
-            </div>
-          )}
+            )}
+          </div>
         </div>
       </div>
     </div>
