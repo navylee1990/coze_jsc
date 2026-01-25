@@ -85,8 +85,11 @@ export default function RegionMatrix({
     return result.sort((a, b) => b.rate - a.rate);
   }, [drillDownLevel, selectedRegion, selectedCity, data, cityData, salespersonData]);
 
-  // 计算总页数
-  const totalPages = Math.ceil(currentData.length / itemsPerPage);
+  // 判断是否需要分页（第一层不分页）
+  const shouldPaginate = drillDownLevel !== 'region';
+
+  // 计算总页数（只在需要分页时计算）
+  const totalPages = shouldPaginate ? Math.ceil(currentData.length / itemsPerPage) : 1;
 
   // 重置页码（当切换层级时）
   const resetPage = () => {
@@ -117,12 +120,15 @@ export default function RegionMatrix({
     }
   };
 
-  // 获取当前页的数据
-  const paginatedData = useMemo(() => {
+  // 获取要显示的数据（第一层显示全部，其他层显示当前页）
+  const displayData = useMemo(() => {
+    if (!shouldPaginate) {
+      return currentData;
+    }
     const startIndex = (currentPage - 1) * itemsPerPage;
     const endIndex = startIndex + itemsPerPage;
     return currentData.slice(startIndex, endIndex);
-  }, [currentData, currentPage, itemsPerPage]);
+  }, [currentData, currentPage, itemsPerPage, shouldPaginate]);
 
   // 获取面包屑
   const getBreadcrumbs = () => {
@@ -287,9 +293,15 @@ export default function RegionMatrix({
       )}>
         {renderTableHeader()}
         <div className="flex flex-col">
-          {paginatedData.map((item, index) => renderTableRow(item, (currentPage - 1) * itemsPerPage + index + 1, handleDrillDownChange))}
-          {/* 分页控件 */}
-          {totalPages > 1 && (
+          {displayData.map((item, index) => {
+            // 计算排名：第一层从1开始，分页层根据页码计算
+            const rank = shouldPaginate
+              ? (currentPage - 1) * itemsPerPage + index + 1
+              : index + 1;
+            return renderTableRow(item, rank, handleDrillDownChange);
+          })}
+          {/* 分页控件 - 只在第二层和第三层显示 */}
+          {shouldPaginate && totalPages > 1 && (
             <div className="flex items-center justify-between px-4 py-3 border-t border-cyan-500/20 bg-slate-900/30">
               <div className={cn('text-xs', DASHBOARD_STYLES.textMuted)}>
                 共 {currentData.length} 条记录
