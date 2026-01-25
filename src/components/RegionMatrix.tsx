@@ -239,26 +239,24 @@ export default function RegionMatrix({
               <span className={cn('text-xs whitespace-nowrap', DASHBOARD_STYLES.textMuted)}>({subtitle})</span>
             )}
           </div>
-          {/* 面包屑导航 */}
-          {breadcrumbs.length > 1 && (
-            <div className="flex items-center gap-2 text-xs">
-              {breadcrumbs.map((crumb, index) => (
-                <div key={crumb.level} className="flex items-center gap-2">
-                  {index > 0 && <span className="text-cyan-500/50 flex-shrink-0">/</span>}
-                  {index === breadcrumbs.length - 1 ? (
-                    <span className={cn('font-semibold', DASHBOARD_STYLES.textSecondary)}>{crumb.label}</span>
-                  ) : (
-                    <button
-                      onClick={() => handleBreadcrumbClick(crumb.level as 'region' | 'city' | 'salesperson')}
-                      className={cn('hover:text-cyan-300 transition-colors', DASHBOARD_STYLES.textMuted)}
-                    >
-                      {crumb.label}
-                    </button>
-                  )}
-                </div>
-              ))}
-            </div>
-          )}
+          {/* 面包屑导航 - 固定高度保持一致 */}
+          <div className="flex items-center gap-2 text-xs" style={{ minHeight: '20px' }}>
+            {breadcrumbs.length > 1 && breadcrumbs.map((crumb, index) => (
+              <div key={crumb.level} className="flex items-center gap-2">
+                {index > 0 && <span className="text-cyan-500/50 flex-shrink-0">/</span>}
+                {index === breadcrumbs.length - 1 ? (
+                  <span className={cn('font-semibold', DASHBOARD_STYLES.textSecondary)}>{crumb.label}</span>
+                ) : (
+                  <button
+                    onClick={() => handleBreadcrumbClick(crumb.level as 'region' | 'city' | 'salesperson')}
+                    className={cn('hover:text-cyan-300 transition-colors', DASHBOARD_STYLES.textMuted)}
+                  >
+                    {crumb.label}
+                  </button>
+                )}
+              </div>
+            ))}
+          </div>
         </div>
       </div>
 
