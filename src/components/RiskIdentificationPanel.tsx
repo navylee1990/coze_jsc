@@ -264,6 +264,7 @@ export default function RiskIdentificationPanel({
 }: RiskIdentificationPanelProps) {
   // 轮播状态
   const [currentTab, setCurrentTab] = useState(0);
+  const [showZeroProjectDetails, setShowZeroProjectDetails] = useState(false);
   const tabs = [
     { id: 0, label: '延迟项目', icon: Gauge },
     { id: 1, label: '人效分析', icon: Users },
@@ -522,63 +523,94 @@ export default function RiskIdentificationPanel({
 
             {/* 0项目人员列表 */}
             <div className={cn('rounded-lg border p-4', DASHBOARD_STYLES.cardBorder)}>
-              <div className="flex items-center justify-between mb-3">
-                <h4 className={cn('text-sm font-medium', DASHBOARD_STYLES.textSecondary)}>
-                  无项目人员列表（{efficiencyData.zeroProjectStaff.length}人）
-                </h4>
-                <div className="flex items-center gap-4 text-xs">
-                  <span className="flex items-center gap-1">
-                    <span className="w-2 h-2 rounded-full bg-red-500"></span>
-                    高风险
-                  </span>
-                  <span className="flex items-center gap-1">
-                    <span className="w-2 h-2 rounded-full bg-yellow-500"></span>
-                    中风险
-                  </span>
-                  <span className="flex items-center gap-1">
-                    <span className="w-2 h-2 rounded-full bg-green-500"></span>
-                    低风险
-                  </span>
-                </div>
-              </div>
-              <div className="space-y-2">
-                {efficiencyData.zeroProjectStaff.map((staff, index) => (
-                  <div
-                    key={index}
-                    className={cn(
-                      'flex items-center justify-between p-3 rounded-lg border transition-all',
-                      staff.severity === 'high'
-                        ? 'bg-red-500/10 border-red-500/30'
-                        : staff.severity === 'medium'
-                        ? 'bg-yellow-500/10 border-yellow-500/30'
-                        : 'bg-green-500/10 border-green-500/30'
-                    )}
-                  >
-                    <div className="flex items-center gap-3">
-                      <div className={cn(
-                        'w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold',
-                        staff.severity === 'high' ? 'bg-red-500/30 text-red-300' :
-                        staff.severity === 'medium' ? 'bg-yellow-500/30 text-yellow-300' : 'bg-green-500/30 text-green-300'
-                      )}>
-                        {staff.name[0]}
-                      </div>
-                      <div>
-                        <div className={cn('text-sm font-medium', DASHBOARD_STYLES.textSecondary)}>{staff.name}</div>
-                        <div className={cn('text-xs', DASHBOARD_STYLES.textMuted)}>{staff.region}</div>
-                      </div>
-                    </div>
-                    <div className="flex items-center gap-4">
-                      <div className="text-right">
-                        <div className={cn('text-xs', DASHBOARD_STYLES.textMuted)}>无项目时长</div>
-                        <div className={cn('text-sm font-medium', DASHBOARD_STYLES.textSecondary)}>{staff.zeroProjectDuration}</div>
-                      </div>
-                      <span className={cn('px-2 py-1 rounded text-xs font-medium', getSeverityStyles(staff.severity))}>
-                        {staff.severity === 'high' ? '高风险' : staff.severity === 'medium' ? '中风险' : '低风险'}
-                      </span>
+              {/* 汇总信息 - 默认显示 */}
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-4">
+                  <div>
+                    <h4 className={cn('text-sm font-medium', DASHBOARD_STYLES.textSecondary)}>
+                      无项目人员
+                    </h4>
+                    <div className={cn('text-2xl font-bold mt-1', DASHBOARD_STYLES.textSecondary)}>
+                      {efficiencyData.zeroProjectStaff.length}
+                      <span className="text-sm ml-1">人</span>
                     </div>
                   </div>
-                ))}
+                  <div className="flex items-center gap-3">
+                    <div className={cn('px-3 py-2 rounded-lg bg-red-500/10 border border-red-500/30')}>
+                      <div className={cn('text-xs', DASHBOARD_STYLES.textMuted)}>高风险</div>
+                      <div className={cn('text-lg font-bold text-red-400')}>
+                        {efficiencyData.zeroProjectStaff.filter(s => s.severity === 'high').length}
+                      </div>
+                    </div>
+                    <div className={cn('px-3 py-2 rounded-lg bg-yellow-500/10 border border-yellow-500/30')}>
+                      <div className={cn('text-xs', DASHBOARD_STYLES.textMuted)}>中风险</div>
+                      <div className={cn('text-lg font-bold text-yellow-400')}>
+                        {efficiencyData.zeroProjectStaff.filter(s => s.severity === 'medium').length}
+                      </div>
+                    </div>
+                    <div className={cn('px-3 py-2 rounded-lg bg-green-500/10 border border-green-500/30')}>
+                      <div className={cn('text-xs', DASHBOARD_STYLES.textMuted)}>低风险</div>
+                      <div className={cn('text-lg font-bold text-green-400')}>
+                        {efficiencyData.zeroProjectStaff.filter(s => s.severity === 'low').length}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <button
+                  onClick={() => setShowZeroProjectDetails(!showZeroProjectDetails)}
+                  className={cn(
+                    'flex items-center gap-1.5 px-3 py-2 rounded-lg text-xs font-medium transition-all',
+                    theme === 'dashboard'
+                      ? 'bg-slate-800/50 text-cyan-400 hover:bg-cyan-500/20 hover:text-cyan-300'
+                      : 'bg-slate-100 text-slate-700 hover:bg-slate-200'
+                  )}
+                >
+                  {showZeroProjectDetails ? '收起明细' : '查看明细'}
+                  <ChevronRight className={cn('w-4 h-4 transition-transform', showZeroProjectDetails ? 'rotate-90' : '')} />
+                </button>
               </div>
+
+              {/* 明细列表 - 点击后显示 */}
+              {showZeroProjectDetails && (
+                <div className="mt-4 pt-4 border-t border-cyan-500/20 space-y-2 animate-in fade-in slide-in-from-top-2 duration-300">
+                  {efficiencyData.zeroProjectStaff.map((staff, index) => (
+                    <div
+                      key={index}
+                      className={cn(
+                        'flex items-center justify-between p-3 rounded-lg border transition-all',
+                        staff.severity === 'high'
+                          ? 'bg-red-500/10 border-red-500/30'
+                          : staff.severity === 'medium'
+                          ? 'bg-yellow-500/10 border-yellow-500/30'
+                          : 'bg-green-500/10 border-green-500/30'
+                      )}
+                    >
+                      <div className="flex items-center gap-3">
+                        <div className={cn(
+                          'w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold',
+                          staff.severity === 'high' ? 'bg-red-500/30 text-red-300' :
+                          staff.severity === 'medium' ? 'bg-yellow-500/30 text-yellow-300' : 'bg-green-500/30 text-green-300'
+                        )}>
+                          {staff.name[0]}
+                        </div>
+                        <div>
+                          <div className={cn('text-sm font-medium', DASHBOARD_STYLES.textSecondary)}>{staff.name}</div>
+                          <div className={cn('text-xs', DASHBOARD_STYLES.textMuted)}>{staff.region}</div>
+                        </div>
+                      </div>
+                      <div className="flex items-center gap-4">
+                        <div className="text-right">
+                          <div className={cn('text-xs', DASHBOARD_STYLES.textMuted)}>无项目时长</div>
+                          <div className={cn('text-sm font-medium', DASHBOARD_STYLES.textSecondary)}>{staff.zeroProjectDuration}</div>
+                        </div>
+                        <span className={cn('px-2 py-1 rounded text-xs font-medium', getSeverityStyles(staff.severity))}>
+                          {staff.severity === 'high' ? '高风险' : staff.severity === 'medium' ? '中风险' : '低风险'}
+                        </span>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              )}
             </div>
 
             {/* 区域人效对比 */}
