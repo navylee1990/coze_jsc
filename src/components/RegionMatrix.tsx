@@ -242,7 +242,7 @@ export default function RegionMatrix({
   const breadcrumbs = getBreadcrumbs();
 
   return (
-    <div className={cn('w-full h-[418px]', DASHBOARD_STYLES.bg, DASHBOARD_STYLES.text)}>
+    <div className={cn('w-full h-[438px]', DASHBOARD_STYLES.bg, DASHBOARD_STYLES.text)}>
       {/* 标题栏 - 固定高度 */}
       <div
         className={cn(
