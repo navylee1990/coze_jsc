@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { AlertTriangle, Clock, TrendingDown, FileWarning, Target, Users, Zap, ChevronRight, Gauge, ArrowUp, ChevronLeft, Circle, Database, Building2 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
@@ -228,6 +228,41 @@ function DashboardGauge({ percent, severity, amount, label }: { percent: number;
   const strokeDasharray = `${percent * 2.5} 250`; // 半圆周长约250
   const rotation = 90; // 从右侧开始
 
+  // 指针角度计算：从左侧(-90deg)到右侧(90deg)，总共180度
+  // percent 0 -> -90deg, percent 100 -> 90deg
+  const [needleAngle, setNeedleAngle] = useState(-90);
+  const [animatedAmount, setAnimatedAmount] = useState(0);
+
+  // 动画效果
+  useEffect(() => {
+    // 重置
+    setNeedleAngle(-90);
+    setAnimatedAmount(0);
+
+    const startDelay = setTimeout(() => {
+      const targetAngle = -90 + (percent / 100) * 180;
+      const duration = 1500;
+      const startTime = Date.now();
+
+      const animate = () => {
+        const elapsed = Date.now() - startTime;
+        const progress = Math.min(elapsed / duration, 1);
+        const easeOut = 1 - Math.pow(1 - progress, 3);
+
+        setNeedleAngle(-90 + (targetAngle + 90) * easeOut);
+        setAnimatedAmount(Math.floor(amount * easeOut));
+
+        if (progress < 1) {
+          requestAnimationFrame(animate);
+        }
+      };
+
+      animate();
+    }, 100);
+
+    return () => clearTimeout(startDelay);
+  }, [percent, amount]);
+
   return (
     <div className="relative flex flex-col items-center">
       {/* 半圆仪表盘 */}
@@ -250,11 +285,30 @@ function DashboardGauge({ percent, severity, amount, label }: { percent: number;
             strokeLinecap="round"
             strokeDasharray={strokeDasharray}
             transform={`rotate(${rotation} 50 50)`}
+            style={{ transition: 'stroke-dasharray 0.5s ease-out' }}
           />
+          {/* 指针 */}
+          <g transform="translate(50, 50)">
+            <line
+              x1="0"
+              y1="0"
+              x2="0"
+              y2="-35"
+              stroke="#22d3ee"
+              strokeWidth="2.5"
+              style={{
+                transform: `rotate(${needleAngle}deg)`,
+                transformOrigin: '0 0',
+                filter: 'drop-shadow(0 0 6px rgba(34, 211, 238, 0.8))',
+                transition: 'transform 1.5s cubic-bezier(0.34, 1.56, 0.64, 1)'
+              }}
+            />
+            <circle cx="0" cy="0" r="3" fill="#22d3ee" style={{ filter: 'drop-shadow(0 0 4px rgba(34, 211, 238, 0.8))' }} />
+          </g>
         </svg>
         {/* 仪表盘中心显示 */}
         <div className="absolute bottom-0 left-1/2 -translate-x-1/2 text-center">
-          <div className={cn('text-lg font-bold', DASHBOARD_STYLES.textSecondary)}>{amount}</div>
+          <div className={cn('text-lg font-bold', DASHBOARD_STYLES.textSecondary)}>{animatedAmount}</div>
           <div className={cn('text-xs', DASHBOARD_STYLES.textMuted)}>万</div>
         </div>
       </div>
