@@ -627,7 +627,7 @@ export default function RiskIdentificationPanel({
         {currentTab === 2 && (
           <div className="h-full p-6 space-y-4 animate-in fade-in duration-300 overflow-y-auto">
             {/* 仪表盘卡片网格 */}
-            <div className="grid grid-cols-4 gap-3">
+            <div className="grid grid-cols-5 gap-3">
               {projectReserve.map((item, index) => {
                 const percent = Math.round((item.currentReserve / item.targetReserve) * 100);
                 return (
