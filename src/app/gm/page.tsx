@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useMemo, useEffect } from 'react';
+import { useState, useMemo, useEffect, useRef } from 'react';
 import { ArrowUp, ArrowDown, TrendingUp, AlertTriangle, Activity, Target, Clock, ChevronRight, BarChart3, Play, ChevronLeft, X, TrendingDown, DollarSign, CheckCircle2, XCircle } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -356,6 +356,10 @@ export default function GMDashboard() {
   const [isMounted, setIsMounted] = useState(false);
   const [animationPhase, setAnimationPhase] = useState(0);
 
+  // 响应式缩放 state
+  const [scaleRatio, setScaleRatio] = useState(1);
+  const dashboardRef = useRef<HTMLDivElement>(null);
+
   // 数字滚动动画 state
   const [animatedTarget, setAnimatedTarget] = useState(0);
   const [animatedForecast, setAnimatedForecast] = useState(0);
@@ -380,6 +384,57 @@ export default function GMDashboard() {
       clearTimeout(phase1);
       clearTimeout(phase2);
       clearTimeout(phase3);
+    };
+  }, []);
+
+  // 响应式缩放 - 根据窗口高度动态调整缩放比例，实现一屏展示
+  useEffect(() => {
+    const calculateScale = () => {
+      // 基准尺寸：设计稿尺寸（像素）
+      const BASE_HEIGHT = 1080;
+      const BASE_WIDTH = 1920;
+
+      const windowHeight = window.innerHeight;
+      const windowWidth = window.innerWidth;
+
+      // 计算高度方向的缩放比例
+      // 预留空间：header约80px + 上下padding约80px = 160px
+      const availableHeight = windowHeight - 160;
+      const heightScale = availableHeight / BASE_HEIGHT;
+
+      // 计算宽度方向的缩放比例
+      // 预留左右padding约96px（p-6 * 2）
+      const availableWidth = windowWidth - 96;
+      const widthScale = availableWidth / BASE_WIDTH;
+
+      // 取较小的缩放比例，确保内容完全显示
+      let scale = Math.min(heightScale, widthScale);
+
+      // 限制缩放范围：
+      // - 最大不超过 1（不放大，保持设计稿尺寸）
+      // - 最小不低于 0.6（防止过小导致无法阅读）
+      scale = Math.min(Math.max(scale, 0.6), 1);
+
+      setScaleRatio(scale);
+    };
+
+    // 初始化计算
+    calculateScale();
+
+    // 监听窗口大小变化，使用防抖优化性能
+    let resizeTimer: NodeJS.Timeout;
+    const handleResize = () => {
+      clearTimeout(resizeTimer);
+      resizeTimer = setTimeout(() => {
+        calculateScale();
+      }, 100); // 100ms 防抖延迟
+    };
+
+    window.addEventListener('resize', handleResize);
+
+    return () => {
+      clearTimeout(resizeTimer);
+      window.removeEventListener('resize', handleResize);
     };
   }, []);
 
@@ -574,9 +629,20 @@ export default function GMDashboard() {
       </header>
 
       {/* 主要内容区 - 仪表盘布局 */}
-      <main className="max-w-[1920px] mx-auto p-6">
-        {/* 驾驶舱风格布局 - 紧凑对齐 */}
-        <div className="grid grid-cols-12 gap-2">
+      <main className="max-w-[1920px] mx-auto p-6 min-h-screen flex flex-col">
+        {/* 响应式缩放容器 - 根据窗口高度自动缩放，实现一屏展示 */}
+        <div
+          ref={dashboardRef}
+          className="flex-1"
+          style={{
+            transform: `scale(${scaleRatio})`,
+            transformOrigin: 'top center',
+            transition: 'transform 0.3s ease-out',
+            minHeight: `${1080 / scaleRatio}px`
+          }}
+        >
+          {/* 驾驶舱风格布局 - 紧凑对齐 */}
+          <div className="grid grid-cols-12 gap-2">
           {/* 中央仪表区 */}
           <div className={cn(
             'col-span-7 space-y-2',
@@ -1095,6 +1161,7 @@ export default function GMDashboard() {
             </div>
 
           </div>
+        </div>
         </div>
       </main>
     </div>
