@@ -716,11 +716,10 @@ export default function GMDashboard() {
                             const angle = (i * 30 - 90) * (Math.PI / 180)
                             const innerR = 28
                             const outerR = 35
-                            // 使用固定精度避免 hydration 错误
-                            const x1 = Number((50 + innerR * Math.cos(angle)).toFixed(3))
-                            const y1 = Number((50 + innerR * Math.sin(angle)).toFixed(3))
-                            const x2 = Number((50 + outerR * Math.cos(angle)).toFixed(3))
-                            const y2 = Number((50 + outerR * Math.sin(angle)).toFixed(3))
+                            const x1 = 50 + innerR * Math.cos(angle)
+                            const y1 = 50 + innerR * Math.sin(angle)
+                            const x2 = 50 + outerR * Math.cos(angle)
+                            const y2 = 50 + outerR * Math.sin(angle)
                             return (
                               <line
                                 key={i}
@@ -812,11 +811,10 @@ export default function GMDashboard() {
                             const angle = (i * 30 - 90) * (Math.PI / 180)
                             const innerR = 28
                             const outerR = 35
-                            // 使用固定精度避免 hydration 错误
-                            const x1 = Number((50 + innerR * Math.cos(angle)).toFixed(3))
-                            const y1 = Number((50 + innerR * Math.sin(angle)).toFixed(3))
-                            const x2 = Number((50 + outerR * Math.cos(angle)).toFixed(3))
-                            const y2 = Number((50 + outerR * Math.sin(angle)).toFixed(3))
+                            const x1 = 50 + innerR * Math.cos(angle)
+                            const y1 = 50 + innerR * Math.sin(angle)
+                            const x2 = 50 + outerR * Math.cos(angle)
+                            const y2 = 50 + outerR * Math.sin(angle)
                             return (
                               <line
                                 key={i}
@@ -927,11 +925,10 @@ export default function GMDashboard() {
                             const angle = (i * 30 - 90) * (Math.PI / 180)
                             const innerR = 28
                             const outerR = 35
-                            // 使用固定精度避免 hydration 错误
-                            const x1 = Number((50 + innerR * Math.cos(angle)).toFixed(3))
-                            const y1 = Number((50 + innerR * Math.sin(angle)).toFixed(3))
-                            const x2 = Number((50 + outerR * Math.cos(angle)).toFixed(3))
-                          const y2 = Number((50 + outerR * Math.sin(angle)).toFixed(3))
+                            const x1 = 50 + innerR * Math.cos(angle)
+                            const y1 = 50 + innerR * Math.sin(angle)
+                            const x2 = 50 + outerR * Math.cos(angle)
+                          const y2 = 50 + outerR * Math.sin(angle)
                           return (
                               <line
                                 key={i}
