@@ -110,7 +110,7 @@ interface FutureSupportAdequacyData {
   supportStructure: {
     '本月': SupportLevel;
     '本季度': SupportLevel;
-    '半年': SupportLevel;
+    '半年度': SupportLevel;
   };
   diagnosticIssues: DiagnosticIssue[];
   timeline: TimelineNode[];
@@ -136,7 +136,7 @@ const regionConfig: Record<Region, { label: string; color: string }> = {
 const periodConfig: Record<string, { label: string; color: string }> = {
   '本月': { label: '核心支撑期', color: '#ef4444' },
   '本季度': { label: '中期支撑期', color: '#f59e0b' },
-  '半年': { label: '储备支撑期', color: '#22c55e' }
+  '半年度': { label: '储备支撑期', color: '#22c55e' }
 };
 
 // 区域默认数据
@@ -419,8 +419,8 @@ const regionData: RegionData = {
         }
       ]
     },
-    '半年': {
-      period: '半年',
+    '半年度': {
+      period: '半年度',
       label: '储备支撑期',
       amount: 200,
       coverage: 100,
@@ -648,8 +648,8 @@ const regionData: RegionData = {
           }
         ]
       },
-      '半年': {
-        period: '半年',
+      '半年度': {
+        period: '半年度',
         label: '储备支撑期',
         amount: 82.5,
         coverage: 100,
@@ -833,8 +833,8 @@ const regionData: RegionData = {
           }
         ]
       },
-      '半年': {
-        period: '半年',
+      '半年度': {
+        period: '半年度',
         label: '储备支撑期',
         amount: 60,
         coverage: 100,
@@ -983,8 +983,8 @@ const regionData: RegionData = {
           }
         ]
       },
-      '半年': {
-        period: '半年',
+      '半年度': {
+        period: '半年度',
         label: '储备支撑期',
         amount: 57.5,
         coverage: 100,
@@ -1193,8 +1193,8 @@ const regionData: RegionData = {
           }
         ]
       },
-      '半年': {
-        period: '半年',
+      '半年度': {
+        period: '半年度',
         label: '储备支撑期',
         amount: 24,
         coverage: 100,
@@ -1351,8 +1351,8 @@ const regionData: RegionData = {
           }
         ]
       },
-      '半年': {
-        period: '半年',
+      '半年度': {
+        period: '半年度',
         label: '储备支撑期',
         amount: 22.5,
         coverage: 100,
@@ -1563,7 +1563,7 @@ export default function FutureSupportAdequacyPanel({
   const supportStructureData = [
     { name: '本月', amount: data.supportStructure['本月'].amount, coverage: data.supportStructure['本月'].coverage, status: data.supportStructure['本月'].status },
     { name: '本季度', amount: data.supportStructure['本季度'].amount, coverage: data.supportStructure['本季度'].coverage, status: data.supportStructure['本季度'].status },
-    { name: '半年', amount: data.supportStructure['半年'].amount, coverage: data.supportStructure['半年'].coverage, status: data.supportStructure['半年'].status }
+    { name: '半年度', amount: data.supportStructure['半年度'].amount, coverage: data.supportStructure['半年度'].coverage, status: data.supportStructure['半年度'].status }
   ];
 
   return (
@@ -1666,7 +1666,7 @@ export default function FutureSupportAdequacyPanel({
       {/* 主内容区 - 时间段矩阵卡片布局 */}
       <div className="p-4">
         <div className="grid grid-cols-3 gap-3">
-          {(['本月', '本季度', '半年'] as const).map((period, index) => {
+          {(['本月', '本季度', '半年度'] as const).map((period, index) => {
             const level = data.supportStructure[period];
             const statusColor = getStatusColor(level.status, theme);
             const periodConfigInfo = periodConfig[period];

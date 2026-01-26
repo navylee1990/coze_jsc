@@ -130,7 +130,7 @@ const defaultData: KeySupportPanelData = {
   reserveSupport: {
     level: 'reserve',
     label: '储备支撑',
-    timeLabel: '半年',
+    timeLabel: '半年度',
     totalAmount: 180,
     percentage: 13,
     color: '#8b5cf6',
