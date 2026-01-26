@@ -108,9 +108,9 @@ interface FutureSupportAdequacyData {
     trendValue: number; // 趋势百分比
   };
   supportStructure: {
-    '0-30天': SupportLevel;
-    '1-3月': SupportLevel;
-    '3-6月': SupportLevel;
+    '本月': SupportLevel;
+    '本季度': SupportLevel;
+    '半年': SupportLevel;
   };
   diagnosticIssues: DiagnosticIssue[];
   timeline: TimelineNode[];
@@ -134,9 +134,9 @@ const regionConfig: Record<Region, { label: string; color: string }> = {
 
 // 时间段配置
 const periodConfig: Record<string, { label: string; color: string }> = {
-  '0-30天': { label: '核心支撑期', color: '#ef4444' },
-  '1-3月': { label: '中期支撑期', color: '#f59e0b' },
-  '3-6月': { label: '储备支撑期', color: '#22c55e' }
+  '本月': { label: '核心支撑期', color: '#ef4444' },
+  '本季度': { label: '中期支撑期', color: '#f59e0b' },
+  '半年': { label: '储备支撑期', color: '#22c55e' }
 };
 
 // 区域默认数据
@@ -152,8 +152,8 @@ const regionData: RegionData = {
     trendValue: -5.2
   },
   supportStructure: {
-    '0-30天': {
-      period: '0-30天',
+    '本月': {
+      period: '本月',
       label: '核心支撑期',
       amount: 500, // 已统计项目总和
       coverage: 50, // 500/1000
@@ -343,8 +343,8 @@ const regionData: RegionData = {
         }
       ]
     },
-    '1-3月': {
-      period: '1-3月',
+    '本季度': {
+      period: '本季度',
       label: '中期支撑期',
       amount: 450,
       coverage: 75,
@@ -419,8 +419,8 @@ const regionData: RegionData = {
         }
       ]
     },
-    '3-6月': {
-      period: '3-6月',
+    '半年': {
+      period: '半年',
       label: '储备支撑期',
       amount: 200,
       coverage: 100,
@@ -544,7 +544,7 @@ const regionData: RegionData = {
       id: '1',
       type: 'urgent',
       priority: 1,
-      title: '0-30天：推进延迟项目',
+      title: '本月：推进延迟项目',
       description: '上海外国语学校、杭州阿里巴巴园区项目已延迟12天，优先推进可释放+310万支撑',
       impact: '+310 万',
       owner: '李娜、王强',
@@ -554,7 +554,7 @@ const regionData: RegionData = {
       id: '2',
       type: 'supplement',
       priority: 2,
-      title: '0-30天：开发新项目',
+      title: '本月：开发新项目',
       description: '短期缺口480万，建议优先开拓医院、学校类项目（转化周期短、概率高）',
       impact: '+480 万',
       owner: '张伟',
@@ -594,8 +594,8 @@ const regionData: RegionData = {
       trendValue: 0
     },
     supportStructure: {
-      '0-30天': {
-        period: '0-30天',
+      '本月': {
+        period: '本月',
         label: '核心支撑期',
         amount: 180,
         coverage: 60,
@@ -621,8 +621,8 @@ const regionData: RegionData = {
           }
         ]
       },
-      '1-3月': {
-        period: '1-3月',
+      '本季度': {
+        period: '本季度',
         label: '中期支撑期',
         amount: 120,
         coverage: 80,
@@ -648,8 +648,8 @@ const regionData: RegionData = {
           }
         ]
       },
-      '3-6月': {
-        period: '3-6月',
+      '半年': {
+        period: '半年',
         label: '储备支撑期',
         amount: 82.5,
         coverage: 100,
@@ -739,7 +739,7 @@ const regionData: RegionData = {
         id: '1',
         type: 'urgent',
         priority: 1,
-        title: '0-30天：开发新项目',
+        title: '本月：开发新项目',
         description: '短期缺口120万，建议开拓石家庄、保定地区医院项目（转化周期约20天）',
         impact: '+120 万',
         owner: '张伟',
@@ -779,8 +779,8 @@ const regionData: RegionData = {
       trendValue: 8.5
     },
     supportStructure: {
-      '0-30天': {
-        period: '0-30天',
+      '本月': {
+        period: '本月',
         label: '核心支撑期',
         amount: 250,
         coverage: 83,
@@ -806,8 +806,8 @@ const regionData: RegionData = {
           }
         ]
       },
-      '1-3月': {
-        period: '1-3月',
+      '本季度': {
+        period: '本季度',
         label: '中期支撑期',
         amount: 150,
         coverage: 100,
@@ -833,8 +833,8 @@ const regionData: RegionData = {
           }
         ]
       },
-      '3-6月': {
-        period: '3-6月',
+      '半年': {
+        period: '半年',
         label: '储备支撑期',
         amount: 60,
         coverage: 100,
@@ -935,8 +935,8 @@ const regionData: RegionData = {
       trendValue: -12.3
     },
     supportStructure: {
-      '0-30天': {
-        period: '0-30天',
+      '本月': {
+        period: '本月',
         label: '核心支撑期',
         amount: 80,
         coverage: 32,
@@ -955,8 +955,8 @@ const regionData: RegionData = {
           }
         ]
       },
-      '1-3月': {
-        period: '1-3月',
+      '本季度': {
+        period: '本季度',
         label: '中期支撑期',
         amount: 90,
         coverage: 60,
@@ -983,8 +983,8 @@ const regionData: RegionData = {
           }
         ]
       },
-      '3-6月': {
-        period: '3-6月',
+      '半年': {
+        period: '半年',
         label: '储备支撑期',
         amount: 57.5,
         coverage: 100,
@@ -1098,7 +1098,7 @@ const regionData: RegionData = {
         id: '2',
         type: 'supplement',
         priority: 2,
-        title: '0-30天：开发新项目',
+        title: '本月：开发新项目',
         description: '短期缺口170万，建议开拓广州、深圳地区酒店项目（成交周期15-20天）',
         impact: '+170 万',
         owner: '刘芳',
@@ -1138,8 +1138,8 @@ const regionData: RegionData = {
       trendValue: 3.5
     },
     supportStructure: {
-      '0-30天': {
-        period: '0-30天',
+      '本月': {
+        period: '本月',
         label: '核心支撑期',
         amount: 60,
         coverage: 50,
@@ -1166,8 +1166,8 @@ const regionData: RegionData = {
           }
         ]
       },
-      '1-3月': {
-        period: '1-3月',
+      '本季度': {
+        period: '本季度',
         label: '中期支撑期',
         amount: 60,
         coverage: 75,
@@ -1193,8 +1193,8 @@ const regionData: RegionData = {
           }
         ]
       },
-      '3-6月': {
-        period: '3-6月',
+      '半年': {
+        period: '半年',
         label: '储备支撑期',
         amount: 24,
         coverage: 100,
@@ -1283,7 +1283,7 @@ const regionData: RegionData = {
         id: '1',
         type: 'urgent',
         priority: 1,
-        title: '0-30天：推进延迟项目',
+        title: '本月：推进延迟项目',
         description: '成都IFS项目已延迟，优先推进可释放+20万',
         impact: '+20 万',
         owner: '孙丽',
@@ -1313,8 +1313,8 @@ const regionData: RegionData = {
       trendValue: 12.8
     },
     supportStructure: {
-      '0-30天': {
-        period: '0-30天',
+      '本月': {
+        period: '本月',
         label: '核心支撑期',
         amount: 80,
         coverage: 100,
@@ -1332,8 +1332,8 @@ const regionData: RegionData = {
           }
         ]
       },
-      '1-3月': {
-        period: '1-3月',
+      '本季度': {
+        period: '本季度',
         label: '中期支撑期',
         amount: 40,
         coverage: 100,
@@ -1351,8 +1351,8 @@ const regionData: RegionData = {
           }
         ]
       },
-      '3-6月': {
-        period: '3-6月',
+      '半年': {
+        period: '半年',
         label: '储备支撑期',
         amount: 22.5,
         coverage: 100,
@@ -1561,9 +1561,9 @@ export default function FutureSupportAdequacyPanel({
 
   // 支撑结构数据转换（用于图表）
   const supportStructureData = [
-    { name: '0-30天', amount: data.supportStructure['0-30天'].amount, coverage: data.supportStructure['0-30天'].coverage, status: data.supportStructure['0-30天'].status },
-    { name: '1-3月', amount: data.supportStructure['1-3月'].amount, coverage: data.supportStructure['1-3月'].coverage, status: data.supportStructure['1-3月'].status },
-    { name: '3-6月', amount: data.supportStructure['3-6月'].amount, coverage: data.supportStructure['3-6月'].coverage, status: data.supportStructure['3-6月'].status }
+    { name: '本月', amount: data.supportStructure['本月'].amount, coverage: data.supportStructure['本月'].coverage, status: data.supportStructure['本月'].status },
+    { name: '本季度', amount: data.supportStructure['本季度'].amount, coverage: data.supportStructure['本季度'].coverage, status: data.supportStructure['本季度'].status },
+    { name: '半年', amount: data.supportStructure['半年'].amount, coverage: data.supportStructure['半年'].coverage, status: data.supportStructure['半年'].status }
   ];
 
   return (
@@ -1666,7 +1666,7 @@ export default function FutureSupportAdequacyPanel({
       {/* 主内容区 - 时间段矩阵卡片布局 */}
       <div className="p-4">
         <div className="grid grid-cols-3 gap-3">
-          {(['0-30天', '1-3月', '3-6月'] as const).map((period, index) => {
+          {(['本月', '本季度', '半年'] as const).map((period, index) => {
             const level = data.supportStructure[period];
             const statusColor = getStatusColor(level.status, theme);
             const periodConfigInfo = periodConfig[period];
