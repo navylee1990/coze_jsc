@@ -1861,6 +1861,10 @@ function ProjectDrillDownModal({
   // 催单提示状态
   const [urgeMessage, setUrgeMessage] = useState<{ show: boolean; projectName: string }>({ show: false, projectName: '' });
 
+  // 未统计项目分页状态
+  const [excludedProjectsCurrentPage, setExcludedProjectsCurrentPage] = useState<number>(1);
+  const projectsPerPage = 6;
+
   // 处理催单
   const handleUrgeProject = (project: { projectName: string }) => {
     setUrgeMessage({ show: true, projectName: project.projectName });
@@ -1915,6 +1919,11 @@ function ProjectDrillDownModal({
     }
   ];
 
+  // 当搜索或筛选条件变化时重置页码
+  useEffect(() => {
+    setExcludedProjectsCurrentPage(1);
+  }, [searchKeyword, selectedPhase, selectedType]);
+
   // 筛选项目
   const getFilteredProjects = () => {
     return data.projects.filter(project => {
@@ -1965,7 +1974,7 @@ function ProjectDrillDownModal({
   const filteredProjects = getFilteredProjects();
 
   // 过滤未统计项目
-  const displayedExcludedProjects = (data.excludedProjects || []).filter(project => {
+  const filteredExcludedProjects = (data.excludedProjects || []).filter(project => {
     // 关键词搜索
     if (searchKeyword) {
       const keyword = searchKeyword.toLowerCase();
@@ -1990,6 +1999,15 @@ function ProjectDrillDownModal({
     }
     return true;
   });
+
+  // 计算总页数
+  const excludedProjectsTotalPages = Math.ceil(filteredExcludedProjects.length / projectsPerPage);
+
+  // 分页显示未统计项目
+  const displayedExcludedProjects = filteredExcludedProjects.slice(
+    (excludedProjectsCurrentPage - 1) * projectsPerPage,
+    excludedProjectsCurrentPage * projectsPerPage
+  );
 
   // 计算合计
   const totals = {
@@ -2602,7 +2620,7 @@ function ProjectDrillDownModal({
               </div>
 
               {/* 未统计项目翻页控件 */}
-              {data.excludedProjects.length > projectsPerPage && (
+              {filteredExcludedProjects.length > projectsPerPage && (
                 <div className="flex items-center justify-center gap-4 mt-4 pt-4 border-t border-orange-500/20">
                   <button
                     onClick={() => setExcludedProjectsCurrentPage((prev) => Math.max(1, prev - 1))}
