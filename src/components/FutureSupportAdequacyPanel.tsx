@@ -1645,16 +1645,6 @@ export default function FutureSupportAdequacyPanel({
                       'w-4 h-4',
                       theme === 'dashboard' ? 'text-cyan-400/50' : 'text-slate-400'
                     )} />
-                    {newDevNeeded > 0 && (
-                      <span className={cn(
-                        'text-xs font-medium px-2 py-0.5 rounded-full',
-                        theme === 'dashboard'
-                          ? 'bg-yellow-500/30 text-yellow-300 border border-yellow-500/30'
-                          : 'bg-yellow-100 text-yellow-700'
-                      )}>
-                        需新开发{newDevNeeded.toFixed(0)}万
-                      </span>
-                    )}
                   </div>
                   <div className="flex items-center gap-2">
                     <div className={cn(
@@ -1662,31 +1652,6 @@ export default function FutureSupportAdequacyPanel({
                       statusColor.bg,
                       theme === 'dashboard' && 'shadow-[0_0_8px_currentColor]'
                     )} />
-                    {level.excludedProjects && level.excludedProjects.length > 0 && (
-                      <button
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          const excludedCount = level.excludedProjects?.length || 0;
-                          setUrgeMessage({
-                            show: true,
-                            message: `已向【${period}】的 ${excludedCount} 个未统计项目发送催单提醒`
-                          });
-                          setTimeout(() => {
-                            setUrgeMessage({ show: false, message: '' });
-                          }, 2000);
-                        }}
-                        className={cn(
-                          'flex items-center gap-1 px-2 py-1 rounded-lg text-xs font-medium transition-all',
-                          theme === 'dashboard'
-                            ? 'bg-orange-500/20 border border-orange-500/30 text-orange-300 hover:bg-orange-500/30'
-                            : 'bg-orange-100 text-orange-700 hover:bg-orange-200'
-                        )}
-                        title="批量催单"
-                      >
-                        <Zap className="w-3 h-3" />
-                        <span>{level.excludedProjects?.length || 0}</span>
-                      </button>
-                    )}
                   </div>
                 </div>
 
