@@ -53,7 +53,7 @@ const defaultData: KeySupportPanelData = {
   coreSupport: {
     level: 'core',
     label: '核心支撑',
-    timeLabel: '0-30天',
+    timeLabel: '本月',
     totalAmount: 850,
     percentage: 63,
     color: '#22c55e',
@@ -97,7 +97,7 @@ const defaultData: KeySupportPanelData = {
   mediumSupport: {
     level: 'medium',
     label: '中期支撑',
-    timeLabel: '1-3月',
+    timeLabel: '本季度',
     totalAmount: 320,
     percentage: 24,
     color: '#3b82f6',
@@ -130,7 +130,7 @@ const defaultData: KeySupportPanelData = {
   reserveSupport: {
     level: 'reserve',
     label: '储备支撑',
-    timeLabel: '3-6月',
+    timeLabel: '半年',
     totalAmount: 180,
     percentage: 13,
     color: '#8b5cf6',

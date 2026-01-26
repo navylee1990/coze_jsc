@@ -1601,12 +1601,6 @@ export default function FutureSupportAdequacyPanel({
               ? 'text-cyan-300 drop-shadow-[0_0_10px_rgba(6,182,212,0.6)]'
               : 'text-slate-900'
           )}>关键支撑</h3>
-          <span className={cn(
-            'text-sm px-2 py-0.5 rounded-full',
-            theme === 'dashboard'
-              ? 'bg-cyan-500/20 text-cyan-300 border border-cyan-500/30'
-              : 'bg-green-500/20 text-green-700'
-          )}>未来90天</span>
         </div>
         <div className="flex items-center gap-4">
           {/* 区域选择器 */}
