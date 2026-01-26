@@ -460,7 +460,8 @@ const regionData: RegionData = {
       owner: '刘芳',
       deadline: '本周内'
     }
-  ],
+  ]
+},
   // 华北区
   north: {
     coreMetrics: {
