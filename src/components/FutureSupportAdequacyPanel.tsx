@@ -1606,10 +1606,10 @@ export default function FutureSupportAdequacyPanel({
             const periodConfigInfo = periodConfig[period];
 
             // 计算统计项目总金额
-            const projectsTotalAmount = level.projects.reduce((sum, p) => sum + p.amount, 0);
+            const projectsTotalAmount = level.projects.reduce((sum, p) => sum + p.orderAmount, 0);
             // 计算未统计项目总金额
             const excludedProjectsTotalAmount = level.excludedProjects
-              ? level.excludedProjects.reduce((sum, p) => sum + p.amount, 0)
+              ? level.excludedProjects.reduce((sum, p) => sum + p.orderAmount, 0)
               : 0;
             // 加上未统计后的覆盖率
             const totalCoverage = level.target > 0
@@ -1625,7 +1625,7 @@ export default function FutureSupportAdequacyPanel({
               const regionLevel = allRegionData[regionKey]?.supportStructure[period];
               if (regionLevel) {
                 const regionExcludedAmount = regionLevel.excludedProjects
-                  ? regionLevel.excludedProjects.reduce((sum, p) => sum + p.amount, 0)
+                  ? regionLevel.excludedProjects.reduce((sum, p) => sum + p.orderAmount, 0)
                   : 0;
                 const regionTotalCoverage = regionLevel.target > 0
                   ? ((regionLevel.amount + regionExcludedAmount) / regionLevel.target) * 100
@@ -1963,6 +1963,33 @@ function ProjectDrillDownModal({
   const periodInfo = periodConfig[period];
   const groupedProjects = getGroupedProjects();
   const filteredProjects = getFilteredProjects();
+
+  // 过滤未统计项目
+  const displayedExcludedProjects = (data.excludedProjects || []).filter(project => {
+    // 关键词搜索
+    if (searchKeyword) {
+      const keyword = searchKeyword.toLowerCase();
+      const fieldsToSearch = [
+        project.projectName,
+        project.region,
+        project.cityManager,
+        project.salesEngineer,
+        project.projectStatus
+      ];
+      if (!fieldsToSearch.some(field => field.toLowerCase().includes(keyword))) {
+        return false;
+      }
+    }
+    // 类型筛选
+    if (selectedType !== 'all' && project.projectType !== selectedType) {
+      return false;
+    }
+    // 阶段筛选
+    if (selectedPhase !== 'all' && !selectedPhase.includes(project.projectPhase)) {
+      return false;
+    }
+    return true;
+  });
 
   // 计算合计
   const totals = {
@@ -2425,7 +2452,7 @@ function ProjectDrillDownModal({
                 <button
                   onClick={(e) => {
                     e.stopPropagation();
-                    const totalAmount = data.excludedProjects?.reduce((sum, p) => sum + p.amount, 0) || 0;
+                    const totalAmount = data.excludedProjects?.reduce((sum, p) => sum + p.orderAmount, 0) || 0;
                     setUrgeMessage({
                       show: true,
                       projectName: `全部未统计项目 (${data.excludedProjects?.length || 0}个)`
