@@ -1851,8 +1851,7 @@ function ProjectDrillDownModal({
   theme: Theme;
 }) {
   // 筛选状态
-  const [selectedPhase, setSelectedPhase] = useState<string>('all');
-  const [selectedType, setSelectedType] = useState<string>('all');
+  const [selectedRegion, setSelectedRegion] = useState<string>('all');
   const [searchKeyword, setSearchKeyword] = useState<string>('');
 
   // 分组折叠状态
@@ -1893,46 +1892,41 @@ function ProjectDrillDownModal({
       label: '已完成（赢单）',
       icon: <CheckCircle2 className="w-4 h-4 text-green-500" />,
       phases: ['赢单'],
-      color: 'green'
+      color: 'green',
+      showDetails: false // 不显示明细
     },
     {
-      key: 'high-probability',
-      label: '预测完成（采购+合同）',
+      key: 'pending',
+      label: '待下订单（采购+合同）',
       icon: <Activity className="w-4 h-4 text-blue-500" />,
       phases: ['项目采购', '项目合同'],
       color: 'blue',
-      highlight: true
+      highlight: true,
+      showDetails: true
     },
     {
-      key: 'in-progress',
-      label: '跟进中（需求+方案）',
-      icon: <Clock className="w-4 h-4 text-yellow-500" />,
-      phases: ['需求意向', '方案设计'],
-      color: 'yellow'
-    },
-    {
-      key: 'early-stage',
-      label: '初步接洽',
-      icon: <Compass className="w-4 h-4 text-purple-500" />,
-      phases: ['初步接洽', '项目新建'],
-      color: 'purple'
+      key: 'opportunity',
+      label: '机会订单（接洽+需求+方案）',
+      icon: <Lightbulb className="w-4 h-4 text-yellow-500" />,
+      phases: ['初步接洽', '项目新建', '需求意向', '方案设计'],
+      color: 'yellow',
+      showDetails: true
     }
   ];
 
   // 当搜索或筛选条件变化时重置页码
   useEffect(() => {
     setExcludedProjectsCurrentPage(1);
-  }, [searchKeyword, selectedPhase, selectedType]);
+  }, [searchKeyword, selectedRegion]);
+
+  // 获取所有区域列表
+  const allRegions = Array.from(new Set(data.projects.map(p => p.region))).sort();
 
   // 筛选项目
   const getFilteredProjects = () => {
     return data.projects.filter(project => {
-      // 阶段筛选
-      if (selectedPhase !== 'all' && !selectedPhase.includes(project.projectPhase)) {
-        return false;
-      }
-      // 类型筛选
-      if (selectedType !== 'all' && project.projectType !== selectedType) {
+      // 区域筛选
+      if (selectedRegion !== 'all' && project.region !== selectedRegion) {
         return false;
       }
       // 关键词搜索
@@ -1940,7 +1934,6 @@ function ProjectDrillDownModal({
         const keyword = searchKeyword.toLowerCase();
         const fieldsToSearch = [
           project.projectName,
-          project.region,
           project.cityManager,
           project.salesEngineer,
           project.projectStatus
@@ -1975,12 +1968,15 @@ function ProjectDrillDownModal({
 
   // 过滤未统计项目
   const filteredExcludedProjects = (data.excludedProjects || []).filter(project => {
+    // 区域筛选
+    if (selectedRegion !== 'all' && project.region !== selectedRegion) {
+      return false;
+    }
     // 关键词搜索
     if (searchKeyword) {
       const keyword = searchKeyword.toLowerCase();
       const fieldsToSearch = [
         project.projectName,
-        project.region,
         project.cityManager,
         project.salesEngineer,
         project.projectStatus
@@ -1988,14 +1984,6 @@ function ProjectDrillDownModal({
       if (!fieldsToSearch.some(field => field.toLowerCase().includes(keyword))) {
         return false;
       }
-    }
-    // 类型筛选
-    if (selectedType !== 'all' && project.projectType !== selectedType) {
-      return false;
-    }
-    // 阶段筛选
-    if (selectedPhase !== 'all' && !selectedPhase.includes(project.projectPhase)) {
-      return false;
     }
     return true;
   });
@@ -2103,7 +2091,7 @@ function ProjectDrillDownModal({
             </div>
             <div className="flex items-center gap-2">
               <span className={cn(theme === 'dashboard' ? 'text-cyan-400/70' : 'text-slate-600')}>
-                预测完成（采购+合同）：
+                待下订单（采购+合同）：
               </span>
               <span className={cn('font-bold', theme === 'dashboard' ? 'text-blue-400' : 'text-blue-700')}>
                 {data.projects.filter(p => p.projectPhase === '项目采购' || p.projectPhase === '项目合同').reduce((sum, p) => sum + p.orderAmount, 0).toLocaleString()}万
@@ -2120,7 +2108,7 @@ function ProjectDrillDownModal({
             </div>
             <div className="flex items-center gap-2">
               <span className={cn(theme === 'dashboard' ? 'text-cyan-400/70' : 'text-slate-600')}>
-                储备（初步+需求+方案）：
+                机会订单（接洽+需求+方案）：
               </span>
               <span className={cn('font-bold', theme === 'dashboard' ? 'text-yellow-400' : 'text-yellow-700')}>
                 {data.projects.filter(p => ['初步接洽', '需求意向', '方案设计'].includes(p.projectPhase)).reduce((sum, p) => sum + p.orderAmount, 0).toLocaleString()}万
@@ -2228,7 +2216,7 @@ function ProjectDrillDownModal({
             <div className="flex-1 min-w-[200px]">
               <input
                 type="text"
-                placeholder="搜索项目名称、区域、人员..."
+                placeholder="搜索项目名称、人员..."
                 value={searchKeyword}
                 onChange={(e) => setSearchKeyword(e.target.value)}
                 className={cn(
@@ -2242,12 +2230,12 @@ function ProjectDrillDownModal({
               />
             </div>
 
-            {/* 阶段筛选 */}
+            {/* 区域筛选 */}
             <div className="flex items-center gap-2">
-              <span className={cn('text-xs', theme === 'dashboard' ? 'text-cyan-400/70' : 'text-slate-600')}>阶段:</span>
+              <span className={cn('text-xs', theme === 'dashboard' ? 'text-cyan-400/70' : 'text-slate-600')}>区域:</span>
               <select
-                value={selectedPhase}
-                onChange={(e) => setSelectedPhase(e.target.value)}
+                value={selectedRegion}
+                onChange={(e) => setSelectedRegion(e.target.value)}
                 className={cn(
                   'px-3 py-2 rounded-lg text-sm border cursor-pointer transition-all',
                   theme === 'dashboard'
@@ -2257,32 +2245,10 @@ function ProjectDrillDownModal({
                     : 'bg-white border-slate-300 text-slate-900 focus:border-blue-500'
                 )}
               >
-                <option value="all">全部</option>
-                <option value="赢单">已完成</option>
-                <option value="项目采购,项目合同">预测完成</option>
-                <option value="需求意向,方案设计">跟进中</option>
-                <option value="初步接洽,项目新建">初步接洽</option>
-              </select>
-            </div>
-
-            {/* 类型筛选 */}
-            <div className="flex items-center gap-2">
-              <span className={cn('text-xs', theme === 'dashboard' ? 'text-cyan-400/70' : 'text-slate-600')}>类型:</span>
-              <select
-                value={selectedType}
-                onChange={(e) => setSelectedType(e.target.value)}
-                className={cn(
-                  'px-3 py-2 rounded-lg text-sm border cursor-pointer transition-all',
-                  theme === 'dashboard'
-                    ? 'bg-slate-800/50 border-cyan-500/30 text-white focus:border-cyan-500'
-                    : theme === 'dark'
-                    ? 'bg-slate-700 border-slate-600 text-white focus:border-blue-500'
-                    : 'bg-white border-slate-300 text-slate-900 focus:border-blue-500'
-                )}
-              >
-                <option value="all">全部</option>
-                <option value="买断">买断</option>
-                <option value="租赁">租赁</option>
+                <option value="all">全部区域</option>
+                {allRegions.map(region => (
+                  <option key={region} value={region}>{region}</option>
+                ))}
               </select>
             </div>
 
@@ -2304,11 +2270,12 @@ function ProjectDrillDownModal({
 
             return (
               <div key={group.key} className="mb-4">
-                {/* 分组标题 - 可折叠 */}
+                {/* 分组标题 - 可折叠（赢单项目不可折叠） */}
                 <button
-                  onClick={() => toggleGroup(group.key)}
+                  onClick={() => group.showDetails && toggleGroup(group.key)}
                   className={cn(
                     'w-full flex items-center justify-between px-4 py-3 rounded-lg border transition-all duration-200',
+                    !group.showDetails && 'cursor-default',
                     theme === 'dashboard'
                       ? `bg-slate-800/50 border-${group.color}-500/30 hover:border-${group.color}-500/50`
                       : theme === 'dark'
@@ -2317,13 +2284,15 @@ function ProjectDrillDownModal({
                   )}
                 >
                   <div className="flex items-center gap-3">
-                    <ChevronRight
-                      className={cn(
-                        'w-4 h-4 transition-transform duration-200',
-                        isCollapsed ? '' : 'rotate-90',
-                        theme === 'dashboard' ? `text-${group.color}-400` : `text-${group.color}-600`
-                      )}
-                    />
+                    {group.showDetails && (
+                      <ChevronRight
+                        className={cn(
+                          'w-4 h-4 transition-transform duration-200',
+                          isCollapsed ? '' : 'rotate-90',
+                          theme === 'dashboard' ? `text-${group.color}-400` : `text-${group.color}-600`
+                        )}
+                      />
+                    )}
                     {group.icon}
                     <span className={cn(
                       'font-semibold text-sm',
@@ -2352,8 +2321,8 @@ function ProjectDrillDownModal({
                   </div>
                 </button>
 
-                {/* 分组内容 */}
-                {!isCollapsed && (
+                {/* 分组内容（赢单项目不显示明细） */}
+                {group.showDetails && !isCollapsed && (
                   <div className="grid grid-cols-1 lg:grid-cols-2 gap-3 mt-3">
                     {group.projects.map((project) => (
                       <div
