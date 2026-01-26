@@ -342,6 +342,170 @@ const regionData: RegionData = {
           excludeReason: '客户决策延迟'
         }
       ]
+    },
+    '本季度': {
+      period: '本季度',
+      label: '中期支撑期',
+      amount: 670,
+      coverage: 67,
+      status: 'yellow',
+      target: 1000,
+      gap: 330,
+      projects: [
+        {
+          id: 11,
+          region: '华北区',
+          cityManager: '张伟',
+          salesEngineer: '李明',
+          projectName: '北京朝阳医院净化项目',
+          projectType: '买断',
+          orderAmount: 120,
+          estimatedOrderTime: '2025-04-15',
+          remark: '未下单',
+          projectStatus: '跟进中',
+          projectPhase: '项目采购',
+          lastUpdated: '2025-01-24'
+        },
+        {
+          id: 12,
+          region: '华东区',
+          cityManager: '王强',
+          salesEngineer: '刘芳',
+          projectName: '上海浦东机场净水项目',
+          projectType: '租赁',
+          orderAmount: 90,
+          estimatedOrderTime: '2025-05-01',
+          remark: '未下单',
+          projectStatus: '初步接洽',
+          projectPhase: '需求意向',
+          lastUpdated: '2025-01-24'
+        },
+        {
+          id: 13,
+          region: '华南区',
+          cityManager: '陈明',
+          salesEngineer: '赵敏',
+          projectName: '深圳宝安国际机场项目',
+          projectType: '买断',
+          orderAmount: 85,
+          estimatedOrderTime: '2025-04-20',
+          remark: '未下单',
+          projectStatus: '方案设计中',
+          projectPhase: '方案设计',
+          lastUpdated: '2025-01-24'
+        },
+        {
+          id: 14,
+          region: '西南区',
+          cityManager: '吴刚',
+          salesEngineer: '郑华',
+          projectName: '重庆江北国际机场T3项目',
+          projectType: '买断',
+          orderAmount: 75,
+          estimatedOrderTime: '2025-05-10',
+          remark: '未下单',
+          projectStatus: '跟进中',
+          projectPhase: '项目采购',
+          lastUpdated: '2025-01-24'
+        },
+        {
+          id: 15,
+          region: '华东区',
+          cityManager: '王强',
+          salesEngineer: '刘芳',
+          projectName: '苏州工业园区综合体项目',
+          projectType: '租赁',
+          orderAmount: 60,
+          estimatedOrderTime: '2025-04-25',
+          remark: '未下单',
+          projectStatus: '需求确认中',
+          projectPhase: '需求意向',
+          lastUpdated: '2025-01-24'
+        }
+      ],
+      excludedProjects: []
+    },
+    '半年度': {
+      period: '半年度',
+      label: '储备支撑期',
+      amount: 1170,
+      coverage: 78,
+      status: 'red',
+      target: 1500,
+      gap: 330,
+      projects: [
+        {
+          id: 16,
+          region: '华北区',
+          cityManager: '张伟',
+          salesEngineer: '李明',
+          projectName: '北京丰台医院扩建项目',
+          projectType: '买断',
+          orderAmount: 100,
+          estimatedOrderTime: '2025-07-15',
+          remark: '未下单',
+          projectStatus: '初步接洽',
+          projectPhase: '项目新建',
+          lastUpdated: '2025-01-24'
+        },
+        {
+          id: 17,
+          region: '华东区',
+          cityManager: '王强',
+          salesEngineer: '刘芳',
+          projectName: '上海虹桥商务区综合体项目',
+          projectType: '买断',
+          orderAmount: 80,
+          estimatedOrderTime: '2025-08-01',
+          remark: '未下单',
+          projectStatus: '初步接洽',
+          projectPhase: '项目新建',
+          lastUpdated: '2025-01-24'
+        },
+        {
+          id: 18,
+          region: '华南区',
+          cityManager: '陈明',
+          salesEngineer: '赵敏',
+          projectName: '广州南沙新区医院项目',
+          projectType: '租赁',
+          orderAmount: 70,
+          estimatedOrderTime: '2025-07-20',
+          remark: '未下单',
+          projectStatus: '初步接洽',
+          projectPhase: '项目新建',
+          lastUpdated: '2025-01-24'
+        },
+        {
+          id: 19,
+          region: '西南区',
+          cityManager: '吴刚',
+          salesEngineer: '郑华',
+          projectName: '成都高新西区产业园项目',
+          projectType: '买断',
+          orderAmount: 60,
+          estimatedOrderTime: '2025-08-15',
+          remark: '未下单',
+          projectStatus: '初步接洽',
+          projectPhase: '项目新建',
+          lastUpdated: '2025-01-24'
+        },
+        {
+          id: 20,
+          region: '华东区',
+          cityManager: '王强',
+          salesEngineer: '刘芳',
+          projectName: '宁波东部新城综合体项目',
+          projectType: '租赁',
+          orderAmount: 50,
+          estimatedOrderTime: '2025-07-10',
+          remark: '未下单',
+          projectStatus: '初步接洽',
+          projectPhase: '项目新建',
+          lastUpdated: '2025-01-24'
+        }
+      ],
+      excludedProjects: []
     }
   },
   diagnosticIssues: [
