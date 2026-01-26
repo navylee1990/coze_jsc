@@ -342,8 +342,6 @@ const regionData: RegionData = {
           excludeReason: '客户决策延迟'
         }
       ]
-    },
-      excludedProjects: []
     }
   },
   diagnosticIssues: [
@@ -462,8 +460,7 @@ const regionData: RegionData = {
       owner: '刘芳',
       deadline: '本周内'
     }
-  ]
-  },
+  ],
   // 华北区
   north: {
     coreMetrics: {
@@ -1182,6 +1179,25 @@ const regionData: RegionData = {
         deadline: '15天内'
       }
     ]
+  },
+  northwest: {
+    coreMetrics: {
+      coverage: 60,
+      coverageStatus: 'red',
+      targetAmount: 100,
+      supportAmount: 60,
+      gap: 40,
+      trend: 'stable',
+      trendValue: 0
+    },
+    supportStructure: {
+      '本月': { period: '本月', label: '核心支撑期', amount: 30, coverage: 50, status: 'red', target: 60, gap: 30, projects: [], excludedProjects: [] },
+      '本季度': { period: '本季度', label: '中期支撑期', amount: 20, coverage: 67, status: 'yellow', target: 30, gap: 10, projects: [], excludedProjects: [] },
+      '半年度': { period: '半年度', label: '储备支撑期', amount: 10, coverage: 100, status: 'green', target: 10, gap: 0, projects: [], excludedProjects: [] }
+    },
+    diagnosticIssues: [],
+    timeline: [],
+    actions: []
   }
 };
 
