@@ -1607,34 +1607,6 @@ export default function FutureSupportAdequacyPanel({
 
             // 计算统计项目总金额
             const projectsTotalAmount = level.projects.reduce((sum, p) => sum + p.orderAmount, 0);
-            // 计算未统计项目总金额
-            const excludedProjectsTotalAmount = level.excludedProjects
-              ? level.excludedProjects.reduce((sum, p) => sum + p.orderAmount, 0)
-              : 0;
-            // 加上未统计后的覆盖率
-            const totalCoverage = level.target > 0
-              ? Math.round(((level.amount + excludedProjectsTotalAmount) / level.target) * 100)
-              : 0;
-            // 计算还需要新开发的金额
-            const newDevNeeded = Math.max(0, level.target - (level.amount + excludedProjectsTotalAmount));
-
-            // 计算各区域在该时间段的达标情况
-            const underachievingRegions: string[] = [];
-            const regions = ['north', 'east', 'south', 'southwest', 'northwest'] as Region[];
-            regions.forEach(regionKey => {
-              const regionLevel = allRegionData[regionKey]?.supportStructure[period];
-              if (regionLevel) {
-                const regionExcludedAmount = regionLevel.excludedProjects
-                  ? regionLevel.excludedProjects.reduce((sum, p) => sum + p.orderAmount, 0)
-                  : 0;
-                const regionTotalCoverage = regionLevel.target > 0
-                  ? ((regionLevel.amount + regionExcludedAmount) / regionLevel.target) * 100
-                  : 100;
-                if (regionTotalCoverage < 100) {
-                  underachievingRegions.push(regionConfig[regionKey].label);
-                }
-              }
-            });
 
             return (
               <div
@@ -1771,47 +1743,6 @@ export default function FutureSupportAdequacyPanel({
                       </span>
                     </div>
                   </div>
-
-                  {/* 未统计项目数 + 金额 */}
-                  {level.excludedProjects && level.excludedProjects.length > 0 && (
-                    <>
-                      <div className="flex justify-between text-xs">
-                        <span className={cn(theme === 'dashboard' ? 'text-cyan-400/60' : 'text-slate-500')}>未统计</span>
-                        <div className="flex items-center gap-2">
-                          <span className={cn(
-                            'font-semibold text-orange-400',
-                            theme === 'dashboard' ? 'text-orange-300' : 'text-orange-600'
-                          )}>{level.excludedProjects.length}个</span>
-                          <span className={cn(
-                            'font-semibold text-orange-400',
-                            theme === 'dashboard' ? 'text-orange-300' : 'text-orange-600'
-                          )}>{excludedProjectsTotalAmount}万</span>
-                        </div>
-                      </div>
-                      {/* 加上未统计后的覆盖率 */}
-                      <div className="flex justify-between text-xs">
-                        <span className={cn(theme === 'dashboard' ? 'text-cyan-400/60' : 'text-slate-500')}>加上未统计</span>
-                        <span className={cn(
-                          'font-semibold',
-                          totalCoverage >= 80 ? 'text-green-400' : totalCoverage > 50 ? 'text-yellow-400' : 'text-red-400'
-                        )}>
-                          {totalCoverage}%
-                        </span>
-                      </div>
-                      {/* 不达标大区 */}
-                      {underachievingRegions.length > 0 && (
-                        <div className="flex justify-between text-xs">
-                          <span className={cn(theme === 'dashboard' ? 'text-cyan-400/60' : 'text-slate-500')}>不达标</span>
-                          <span className={cn(
-                            'font-semibold text-red-400',
-                            theme === 'dashboard' ? 'text-red-300' : 'text-red-600'
-                          )}>
-                            {underachievingRegions.join(', ')}
-                          </span>
-                        </div>
-                      )}
-                    </>
-                  )}
                 </div>
               </div>
             );
@@ -1859,10 +1790,6 @@ function ProjectDrillDownModal({
 
   // 催单提示状态
   const [urgeMessage, setUrgeMessage] = useState<{ show: boolean; projectName: string }>({ show: false, projectName: '' });
-
-  // 未统计项目分页状态
-  const [excludedProjectsCurrentPage, setExcludedProjectsCurrentPage] = useState<number>(1);
-  const projectsPerPage = 6;
 
   // 处理催单
   const handleUrgeProject = (project: { projectName: string }) => {
@@ -1915,10 +1842,6 @@ function ProjectDrillDownModal({
   ];
 
   // 当搜索或筛选条件变化时重置页码
-  useEffect(() => {
-    setExcludedProjectsCurrentPage(1);
-  }, [searchKeyword, selectedRegion]);
-
   // 获取所有区域列表
   const allRegions = Array.from(new Set(data.projects.map(p => p.region))).sort();
 
@@ -1965,37 +1888,6 @@ function ProjectDrillDownModal({
   const periodInfo = periodConfig[period];
   const groupedProjects = getGroupedProjects();
   const filteredProjects = getFilteredProjects();
-
-  // 过滤未统计项目
-  const filteredExcludedProjects = (data.excludedProjects || []).filter(project => {
-    // 区域筛选
-    if (selectedRegion !== 'all' && project.region !== selectedRegion) {
-      return false;
-    }
-    // 关键词搜索
-    if (searchKeyword) {
-      const keyword = searchKeyword.toLowerCase();
-      const fieldsToSearch = [
-        project.projectName,
-        project.cityManager,
-        project.salesEngineer,
-        project.projectStatus
-      ];
-      if (!fieldsToSearch.some(field => field.toLowerCase().includes(keyword))) {
-        return false;
-      }
-    }
-    return true;
-  });
-
-  // 计算总页数
-  const excludedProjectsTotalPages = Math.ceil(filteredExcludedProjects.length / projectsPerPage);
-
-  // 分页显示未统计项目
-  const displayedExcludedProjects = filteredExcludedProjects.slice(
-    (excludedProjectsCurrentPage - 1) * projectsPerPage,
-    excludedProjectsCurrentPage * projectsPerPage
-  );
 
   // 计算合计
   const totals = {
@@ -2340,7 +2232,7 @@ function ProjectDrillDownModal({
                         <div className="flex items-start justify-between mb-2">
                           <div className="flex-1 mr-2 min-w-0">
                             <h4 className={cn(
-                              'font-semibold text-xs leading-tight truncate',
+                              'font-semibold text-sm leading-tight truncate',
                               theme === 'dashboard' ? 'text-cyan-100' : 'text-slate-900'
                             )}>{project.projectName}</h4>
                           </div>
@@ -2349,7 +2241,7 @@ function ProjectDrillDownModal({
                               {project.orderAmount.toLocaleString()}万
                             </span>
                             <span className={cn(
-                              'px-1.5 py-0.5 rounded text-[10px]',
+                              'px-1.5 py-0.5 rounded text-xs',
                               theme === 'dashboard'
                                 ? project.projectType === '买断'
                                   ? 'bg-blue-500/40 text-blue-300 border border-blue-500/40'
@@ -2364,7 +2256,7 @@ function ProjectDrillDownModal({
                         </div>
 
                         {/* 第二行：区域和人员 */}
-                        <div className="flex items-center gap-3 text-[10px] mb-1.5">
+                        <div className="flex items-center gap-3 text-xs mb-1.5">
                           <div className="flex items-center gap-1 min-w-0">
                             <MapPin className={cn('w-3 h-3 flex-shrink-0', theme === 'dashboard' ? 'text-cyan-400/60' : 'text-slate-400')} />
                             <span className={cn('truncate', theme === 'dashboard' ? 'text-cyan-400/70' : 'text-slate-600')}>
@@ -2380,10 +2272,10 @@ function ProjectDrillDownModal({
                         </div>
 
                         {/* 第三行：阶段和状态 */}
-                        <div className="flex items-center justify-between text-[10px] mb-1.5">
+                        <div className="flex items-center justify-between text-xs mb-1.5">
                           <div className="flex items-center gap-1.5">
                             <span className={cn(
-                              'px-1.5 py-0.5 rounded text-[10px] font-medium',
+                              'px-1.5 py-0.5 rounded text-xs font-medium',
                               theme === 'dashboard'
                                 ? `bg-${group.color}-500/30 text-${group.color}-300 border border-${group.color}-500/30`
                                 : `bg-${group.color}-100 text-${group.color}-700`
@@ -2395,7 +2287,7 @@ function ProjectDrillDownModal({
                             </span>
                           </div>
                           <span className={cn(
-                            'px-1.5 py-0.5 rounded text-[10px]',
+                            'px-1.5 py-0.5 rounded text-xs',
                             theme === 'dashboard'
                               ? project.remark === '已下单'
                                 ? 'bg-green-500/30 text-green-300 border border-green-500/30'
@@ -2409,7 +2301,7 @@ function ProjectDrillDownModal({
                         </div>
 
                         {/* 第四行：时间和更新 */}
-                        <div className="flex items-center justify-between text-[10px] pt-1.5 border-t border-cyan-500/10">
+                        <div className="flex items-center justify-between text-xs pt-1.5 border-t border-cyan-500/10">
                           <div className="flex items-center gap-1">
                             <Clock className={cn('w-3 h-3 flex-shrink-0', theme === 'dashboard' ? 'text-cyan-400/60' : 'text-slate-400')} />
                             <span className={cn(theme === 'dashboard' ? 'text-cyan-400/70' : 'text-slate-600')}>
@@ -2427,201 +2319,6 @@ function ProjectDrillDownModal({
               </div>
             );
           })}
-
-          {/* 未统计项目 */}
-          {data.excludedProjects && data.excludedProjects.length > 0 && (
-            <div>
-              <div className="flex items-center justify-between mb-3">
-                <h3 className={cn('text-lg font-bold flex items-center gap-2', theme === 'dashboard' ? 'text-cyan-200' : 'text-slate-900')}>
-                  <XCircle className="w-5 h-5 text-orange-500" />
-                  未统计项目 ({data.excludedProjects.length})
-                </h3>
-                <button
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    const totalAmount = data.excludedProjects?.reduce((sum, p) => sum + p.orderAmount, 0) || 0;
-                    setUrgeMessage({
-                      show: true,
-                      projectName: `全部未统计项目 (${data.excludedProjects?.length || 0}个)`
-                    });
-                    setTimeout(() => {
-                      setUrgeMessage({ show: false, projectName: '' });
-                    }, 2000);
-                  }}
-                  className={cn(
-                    'flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium transition-all',
-                    theme === 'dashboard'
-                      ? 'bg-orange-500/20 border border-orange-500/30 text-orange-300 hover:bg-orange-500/30'
-                      : 'bg-orange-100 text-orange-700 hover:bg-orange-200'
-                  )}
-                  title="批量催单提醒"
-                >
-                  <Zap className="w-3 h-3" />
-                  全部催单
-                </button>
-              </div>
-              <div className="grid grid-cols-1 lg:grid-cols-2 gap-3">
-                {displayedExcludedProjects.map((project) => (
-                  <div
-                    key={project.id}
-                    className={cn(
-                      'p-4 rounded-xl border transition-all duration-200 h-48 flex flex-col',
-                      theme === 'dashboard'
-                        ? 'bg-slate-800/40 border-orange-500/30 hover:border-orange-500/50'
-                        : theme === 'dark'
-                        ? 'bg-slate-800 border-orange-500/30'
-                        : 'bg-orange-50 border-orange-200'
-                    )}
-                  >
-                    {/* 第一行：项目名称和金额 */}
-                    <div className="flex items-start justify-between mb-2">
-                      <div className="flex-1 mr-2">
-                        <h4 className={cn(
-                          'font-semibold text-sm leading-tight',
-                          theme === 'dashboard' ? 'text-cyan-100' : 'text-slate-900'
-                        )}>{project.projectName}</h4>
-                      </div>
-                      <div className="flex flex-col items-end gap-1 flex-shrink-0">
-                        <span className={cn(
-                          'text-lg font-bold',
-                          theme === 'dashboard' ? 'text-cyan-300' : 'text-slate-900'
-                        )}>
-                          {project.orderAmount.toLocaleString()}万
-                        </span>
-                        <span className={cn(
-                          'px-1.5 py-0.5 rounded text-xs',
-                          theme === 'dashboard'
-                            ? project.projectType === '买断'
-                              ? 'bg-blue-500/40 text-blue-300 border border-blue-500/40'
-                              : 'bg-purple-500/40 text-purple-300 border border-purple-500/40'
-                            : project.projectType === '买断'
-                            ? 'bg-blue-500 text-white'
-                            : 'bg-purple-500 text-white'
-                        )}>
-                          {project.projectType}
-                        </span>
-                      </div>
-                    </div>
-
-                    {/* 第二行：大区、城市经理、销售工程师 */}
-                    <div className="flex items-center gap-4 text-xs mb-1">
-                      <div className="flex items-center gap-1">
-                        <MapPin className={cn('w-3 h-3', theme === 'dashboard' ? 'text-orange-400/60' : 'text-slate-400')} />
-                        <span className={cn(theme === 'dashboard' ? 'text-orange-400/70' : 'text-slate-600')}>
-                          {project.region}
-                        </span>
-                      </div>
-                      <div className={cn(theme === 'dashboard' ? 'text-orange-400/70' : 'text-slate-600')}>
-                        经理：{project.cityManager}
-                      </div>
-                      <div className={cn(theme === 'dashboard' ? 'text-orange-400/70' : 'text-slate-600')}>
-                        销售：{project.salesEngineer}
-                      </div>
-                    </div>
-
-                    {/* 第三行：项目阶段和状态 */}
-                    <div className="flex items-center justify-between text-xs mb-1">
-                      <div className="flex items-center gap-2">
-                        <span className={cn(
-                          'px-1.5 py-0.5 rounded text-xs font-medium',
-                          theme === 'dashboard'
-                            ? 'bg-green-500/30 text-green-300 border border-green-500/30'
-                            : 'bg-green-100 text-green-700'
-                        )}>
-                          {project.projectPhase}
-                        </span>
-                        <span className={cn(theme === 'dashboard' ? 'text-orange-400/70' : 'text-slate-600')}>
-                          {project.projectStatus}
-                        </span>
-                      </div>
-                      <span className={cn(
-                        'px-1.5 py-0.5 rounded text-xs',
-                        theme === 'dashboard'
-                          ? project.remark === '已下单'
-                            ? 'bg-green-500/30 text-green-300 border border-green-500/30'
-                            : 'bg-yellow-500/30 text-yellow-300 border border-yellow-500/30'
-                          : project.remark === '已下单'
-                          ? 'bg-green-100 text-green-700'
-                          : 'bg-yellow-100 text-yellow-700'
-                      )}>
-                        {project.remark}
-                      </span>
-                    </div>
-
-                    {/* 第四行：预计下单时间和最后更新 */}
-                    <div className="flex items-center justify-between text-xs mb-1">
-                      <div className="flex items-center gap-1">
-                        <Clock className={cn('w-3 h-3', theme === 'dashboard' ? 'text-orange-400/60' : 'text-slate-400')} />
-                        <span className={cn(theme === 'dashboard' ? 'text-orange-400/70' : 'text-slate-600')}>
-                          预计：{project.estimatedOrderTime}
-                        </span>
-                      </div>
-                      <div className={cn(theme === 'dashboard' ? 'text-orange-400/60' : 'text-slate-500')}>
-                        更新：{project.lastUpdated}
-                      </div>
-                    </div>
-
-                    {/* 第五行：未统计原因和催单 */}
-                    <div className="flex items-center justify-between text-xs mt-auto pt-2 border-t border-orange-500/10">
-                      <span className={cn(
-                        'px-1.5 py-0.5 rounded text-xs',
-                        theme === 'dashboard'
-                          ? 'bg-orange-500/20 text-orange-300 border border-orange-500/30'
-                          : 'bg-orange-100 text-orange-700'
-                      )}>
-                        {project.excludeReason}
-                      </span>
-                      <button
-                        onClick={() => handleUrgeProject(project)}
-                        className={cn(
-                          'flex items-center gap-1 px-2 py-1 rounded-lg text-xs font-medium transition-all',
-                          theme === 'dashboard'
-                            ? 'bg-orange-500/20 border border-orange-500/30 text-orange-300 hover:bg-orange-500/30'
-                            : 'bg-orange-100 text-orange-700 hover:bg-orange-200'
-                        )}
-                      >
-                        <Zap className="w-3 h-3" />
-                        催单
-                      </button>
-                    </div>
-                  </div>
-                ))}
-              </div>
-
-              {/* 未统计项目翻页控件 */}
-              {filteredExcludedProjects.length > projectsPerPage && (
-                <div className="flex items-center justify-center gap-4 mt-4 pt-4 border-t border-orange-500/20">
-                  <button
-                    onClick={() => setExcludedProjectsCurrentPage((prev) => Math.max(1, prev - 1))}
-                    disabled={excludedProjectsCurrentPage === 1}
-                    className={cn(
-                      'px-3 py-1.5 rounded-lg text-sm font-medium transition-all disabled:opacity-50 disabled:cursor-not-allowed',
-                      theme === 'dashboard'
-                        ? 'bg-orange-500/20 border border-orange-500/30 text-orange-300 hover:bg-orange-500/30'
-                        : 'bg-orange-100 text-orange-700 hover:bg-orange-200'
-                    )}
-                  >
-                    上一页
-                  </button>
-                  <span className={cn('text-sm', theme === 'dashboard' ? 'text-orange-300' : 'text-orange-700')}>
-                    第 {excludedProjectsCurrentPage} / {excludedProjectsTotalPages} 页
-                  </span>
-                  <button
-                    onClick={() => setExcludedProjectsCurrentPage((prev) => Math.min(excludedProjectsTotalPages, prev + 1))}
-                    disabled={excludedProjectsCurrentPage === excludedProjectsTotalPages}
-                    className={cn(
-                      'px-3 py-1.5 rounded-lg text-sm font-medium transition-all disabled:opacity-50 disabled:cursor-not-allowed',
-                      theme === 'dashboard'
-                        ? 'bg-orange-500/20 border border-orange-500/30 text-orange-300 hover:bg-orange-500/30'
-                        : 'bg-orange-100 text-orange-700 hover:bg-orange-200'
-                    )}
-                  >
-                    下一页
-                  </button>
-                </div>
-              )}
-            </div>
-          )}
         </div>
       </div>
     </div>
