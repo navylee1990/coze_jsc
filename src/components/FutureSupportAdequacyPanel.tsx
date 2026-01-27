@@ -1767,16 +1767,10 @@ export default function FutureSupportAdequacyPanel({
             const excludedProjectsTotalAmount = level.excludedProjects
               ? level.excludedProjects.reduce((sum, p) => sum + p.amount, 0)
               : 0;
-            // 计算未下单项目总金额（只统计状态为"未下单"的项目）
-            const unOrderedProjectsTotalAmount = level.excludedProjects
-              ? level.excludedProjects
-                  .filter(p => p.projectStatus && p.projectStatus.includes('未下单'))
-                  .reduce((sum, p) => sum + p.amount, 0)
-              : 0;
-            // 计算未下单项目数量
-            const unOrderedProjectsCount = level.excludedProjects
-              ? level.excludedProjects.filter(p => p.projectStatus && p.projectStatus.includes('未下单')).length
-              : 0;
+            // 计算未下单项目数量（所有预测项目）
+            const unOrderedProjectsCount = level.excludedProjects?.length || 0;
+            // 计算未下单项目总金额（所有预测项目）
+            const unOrderedProjectsTotalAmount = excludedProjectsTotalAmount;
             // 计算储备项目总金额
             const reserveProjectsTotalAmount = level.reserveProjects
               ? level.reserveProjects.reduce((sum, p) => sum + p.amount, 0)
@@ -1791,13 +1785,9 @@ export default function FutureSupportAdequacyPanel({
             // 计算预测项目中未下单的区域
             const underachievingRegions: string[] = [];
             if (level.excludedProjects && level.excludedProjects.length > 0) {
-              // 只统计预测项目中未下单的项目
-              const unOrderedProjects = level.excludedProjects.filter(p =>
-                p.projectStatus && p.projectStatus.includes('未下单')
-              );
-              // 提取这些项目的区域
+              // 提取所有预测项目的区域
               const regionsSet = new Set<string>();
-              unOrderedProjects.forEach(p => {
+              level.excludedProjects.forEach(p => {
                 if (p.region) {
                   regionsSet.add(p.region);
                 }
@@ -2348,7 +2338,7 @@ function ProjectDrillDownModal({
                     : 'border-transparent text-slate-500 hover:text-slate-700 hover:bg-slate-100'
                 )}
               >
-                储备项目 ({data.excludedProjects.length})
+                未下单项目 ({data.excludedProjects.length})
               </button>
             )}
             {data.reserveProjects && data.reserveProjects.length > 0 && (
