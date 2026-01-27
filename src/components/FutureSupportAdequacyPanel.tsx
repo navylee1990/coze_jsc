@@ -1859,13 +1859,13 @@ export default function FutureSupportAdequacyPanel({
                     <div className="flex items-center gap-0.5 sm:gap-1">
                       <span className={cn(theme === 'dashboard' ? 'text-cyan-400/60' : 'text-slate-500')}>目标</span>
                       <span className={cn('font-semibold text-xs sm:text-sm', theme === 'dashboard' ? 'text-cyan-300' : 'text-slate-900')}>
-                        {level.target.toLocaleString()}万
+                        {level.target.toFixed(2)}万
                       </span>
                     </div>
                     <div className="flex items-center gap-0.5 sm:gap-1">
                       <span className={cn(theme === 'dashboard' ? 'text-cyan-400/60' : 'text-slate-500')}>支撑</span>
                       <span className={cn('font-semibold text-xs sm:text-sm', theme === 'dashboard' ? 'text-cyan-300' : 'text-slate-900')}>
-                        {level.amount.toLocaleString()}万
+                        {level.amount.toFixed(2)}万
                       </span>
                     </div>
                     <div className="flex items-center gap-0.5 sm:gap-1">
@@ -1899,7 +1899,7 @@ export default function FutureSupportAdequacyPanel({
 
                   {/* 已完成项目数 + 金额 */}
                   <div className="flex items-center gap-1.5 sm:gap-2 text-xs sm:text-sm pt-0.5 sm:pt-1">
-                    <span className={cn('text-xs', theme === 'dashboard' ? 'text-cyan-400/60' : 'text-slate-500')}>已完成</span>
+                    <span className={cn('text-xs', theme === 'dashboard' ? 'text-cyan-400/60' : 'text-slate-500')}>已下单</span>
                     <span className={cn('font-semibold text-xs sm:text-sm', theme === 'dashboard' ? 'text-cyan-300' : 'text-slate-900')}>
                       {level.projects.length}个
                     </span>
@@ -1911,7 +1911,7 @@ export default function FutureSupportAdequacyPanel({
                   {/* 未统计项目数 + 金额 */}
                   {level.excludedProjects && level.excludedProjects.length > 0 && (
                     <div className="flex justify-between text-xs">
-                      <span className={cn('text-[10px] sm:text-xs', theme === 'dashboard' ? 'text-cyan-400/60' : 'text-slate-500')}>预测</span>
+                      <span className={cn('text-[10px] sm:text-xs', theme === 'dashboard' ? 'text-cyan-400/60' : 'text-slate-500')}>未下单</span>
                       <div className="flex items-center gap-1 sm:gap-2">
                         <span className={cn(
                           'font-semibold text-xs text-orange-400',
@@ -2214,7 +2214,7 @@ function ProjectDrillDownModal({
               <div className={cn('text-[9px] sm:text-xs', theme === 'dashboard' ? 'text-cyan-400/70' : 'text-slate-600')}>目标</div>
               <div className="flex items-center justify-center gap-0.5">
                 <div className={cn('text-base sm:text-xl font-bold', theme === 'dashboard' ? 'text-cyan-300' : 'text-slate-900')}>
-                  {totals.target.toLocaleString()}
+                  {totals.target.toFixed(2)}
                 </div>
                 <div className={cn('text-[9px] sm:text-xs', theme === 'dashboard' ? 'text-cyan-400/60' : 'text-slate-500')}>万元</div>
               </div>
@@ -2230,7 +2230,7 @@ function ProjectDrillDownModal({
               <div className={cn('text-[9px] sm:text-xs', theme === 'dashboard' ? 'text-cyan-400/70' : 'text-slate-600')}>支撑</div>
               <div className="flex items-center justify-center gap-0.5">
                 <div className={cn('text-base sm:text-xl font-bold', theme === 'dashboard' ? 'text-cyan-300' : 'text-slate-900')}>
-                  {totals.amount.toLocaleString()}
+                  {totals.amount.toFixed(2)}
                 </div>
                 <div className={cn('text-[9px] sm:text-xs', theme === 'dashboard' ? 'text-cyan-400/60' : 'text-slate-500')}>万元</div>
               </div>
