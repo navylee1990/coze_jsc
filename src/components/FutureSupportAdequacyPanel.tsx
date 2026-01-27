@@ -1891,7 +1891,7 @@ export default function FutureSupportAdequacyPanel({
                     <div className="flex items-center gap-0.5 sm:gap-1">
                       <span className={cn('text-xs', theme === 'dashboard' ? 'text-cyan-400/60' : 'text-slate-500')}>缺口</span>
                       <span className={`text-xs sm:text-sm font-bold ${level.gap > 0 ? 'text-red-400' : 'text-green-400'}`}>
-                        {level.gap > 0 ? `${level.gap}` : `+${Math.abs(level.gap)}`}
+                        {level.gap > 0 ? `${level.gap.toFixed(2)}` : `+${Math.abs(level.gap).toFixed(2)}`}
                       </span>
                       <span className={cn('text-xs', theme === 'dashboard' ? 'text-cyan-400/60' : 'text-slate-500')}>万</span>
                     </div>
@@ -1904,7 +1904,7 @@ export default function FutureSupportAdequacyPanel({
                       {level.projects.length}个
                     </span>
                     <span className={cn('font-semibold text-xs sm:text-sm text-green-400', theme === 'dashboard' ? 'text-green-300' : 'text-green-600')}>
-                      {projectsTotalAmount}万
+                      {projectsTotalAmount.toFixed(2)}万
                     </span>
                   </div>
 
@@ -1920,7 +1920,7 @@ export default function FutureSupportAdequacyPanel({
                         <span className={cn(
                           'font-semibold text-xs text-orange-400',
                           theme === 'dashboard' ? 'text-orange-300' : 'text-orange-600'
-                        )}>{excludedProjectsTotalAmount}万</span>
+                        )}>{excludedProjectsTotalAmount.toFixed(2)}万</span>
                       </div>
                     </div>
                   )}
@@ -1936,7 +1936,7 @@ export default function FutureSupportAdequacyPanel({
                       <span className={cn(
                         'font-semibold text-xs text-purple-400',
                         theme === 'dashboard' ? 'text-purple-300' : 'text-purple-600'
-                      )}>{reserveProjectsTotalAmount}万</span>
+                      )}>{reserveProjectsTotalAmount.toFixed(2)}万</span>
                     </div>
                   </div>
 
@@ -2246,7 +2246,7 @@ function ProjectDrillDownModal({
               <div className={cn('text-[9px] sm:text-xs', theme === 'dashboard' ? 'text-cyan-400/70' : 'text-slate-600')}>缺口</div>
               <div className="flex items-center justify-center gap-0.5">
                 <div className={cn('text-base sm:text-xl font-bold', totals.gap > 0 ? 'text-red-400' : 'text-green-400')}>
-                  {totals.gap > 0 ? `${totals.gap}` : `+${Math.abs(totals.gap)}`}
+                  {totals.gap > 0 ? `${totals.gap.toFixed(2)}` : `+${Math.abs(totals.gap).toFixed(2)}`}
                 </div>
                 <div className={cn('text-[9px] sm:text-xs', theme === 'dashboard' ? 'text-cyan-400/60' : 'text-slate-500')}>万元</div>
               </div>
