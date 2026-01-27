@@ -2330,7 +2330,7 @@ function ProjectDrillDownModal({
 
           {/* 筛选和搜索区 */}
           <div className={cn(
-            'p-3 sm:p-4 border-b flex flex-wrap gap-2 sm:gap-3',
+            'p-3 sm:p-4 border-b flex flex-wrap gap-2 sm:gap-3 items-center',
             theme === 'dashboard' ? 'border-cyan-500/20' : theme === 'dark' ? 'border-slate-700' : 'border-slate-200'
           )}>
             {/* 搜索框 */}
@@ -2385,6 +2385,35 @@ function ProjectDrillDownModal({
               <option value="已下单">已下单</option>
               <option value="未下单">未下单</option>
             </select>
+
+            {/* 一键催单按钮 */}
+            <button
+              onClick={() => {
+                const totalCount = filteredProjects.length;
+                setUrgeMessage({
+                  show: true,
+                  projectName: `全部${activeTab === 'projects' ? '统计' : activeTab === 'excluded' ? '预测' : '储备'}项目 (${totalCount}个)`
+                });
+                setTimeout(() => {
+                  setUrgeMessage({ show: false, projectName: '' });
+                }, 2000);
+              }}
+              className={cn(
+                'flex items-center gap-1.5 sm:gap-2 px-3 sm:px-4 py-1.5 sm:py-2 rounded-lg text-xs sm:text-sm font-medium transition-all ml-auto',
+                theme === 'dashboard'
+                  ? 'bg-orange-500/20 border border-orange-500/30 text-orange-300 hover:bg-orange-500/30'
+                  : 'bg-orange-100 text-orange-700 hover:bg-orange-200'
+              )}
+            >
+              <Zap className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
+              <span>一键催单</span>
+              <span className={cn(
+                'px-1.5 py-0.5 rounded text-[10px] sm:text-xs',
+                theme === 'dashboard' ? 'bg-orange-500/30' : 'bg-orange-200'
+              )}>
+                {filteredProjects.length}
+              </span>
+            </button>
           </div>
 
           {/* 表格区域 */}
@@ -2487,25 +2516,13 @@ function ProjectDrillDownModal({
                       )}
                     </div>
                   </th>
-                  <th className={cn(
-                    'hidden sm:table-cell px-3 py-2 sm:px-4 sm:py-3 text-right font-semibold',
-                    theme === 'dashboard' ? 'text-cyan-300' : 'text-slate-700'
-                  )}>
-                    变化
-                  </th>
-                  <th className={cn(
-                    'px-3 py-2 sm:px-4 sm:py-3 text-center font-semibold',
-                    theme === 'dashboard' ? 'text-cyan-300' : 'text-slate-700'
-                  )}>
-                    操作
-                  </th>
                 </tr>
               </thead>
               <tbody>
                 {displayedProjects.length === 0 ? (
                   <tr>
                     <td
-                      colSpan={9}
+                      colSpan={7}
                       className={cn(
                         'px-4 py-12 text-center',
                         theme === 'dashboard' ? 'text-cyan-400/50' : 'text-slate-500'
@@ -2634,39 +2651,6 @@ function ProjectDrillDownModal({
                           )}>
                             {project.projectStatus || '-'}
                           </span>
-                        </td>
-
-                        {/* 变化金额 */}
-                        <td className={cn(
-                          'hidden sm:table-cell px-3 py-2 sm:px-4 sm:py-3 text-right whitespace-nowrap text-xs font-medium',
-                          theme === 'dashboard' ? 'text-cyan-300/80' : 'text-slate-600'
-                        )}>
-                          {project.changeAmount ? (
-                            <span className={cn(
-                              project.changeAmount > 0 ? 'text-green-400' : project.changeAmount < 0 ? 'text-red-400' : ''
-                            )}>
-                              {project.changeAmount > 0 ? '+' : ''}{project.changeAmount.toFixed(2)}
-                            </span>
-                          ) : (
-                            '-'
-                          )}
-                        </td>
-
-                        {/* 催单操作 */}
-                        <td className={cn('px-3 py-2 sm:px-4 sm:py-3 text-center')}>
-                          <button
-                            onClick={() => handleUrgeProject(project)}
-                            className={cn(
-                              'flex items-center justify-center gap-1 px-2 sm:px-3 py-1 sm:py-1.5 rounded-lg text-[10px] sm:text-xs font-medium transition-all',
-                              theme === 'dashboard'
-                                ? 'bg-orange-500/20 border border-orange-500/30 text-orange-300 hover:bg-orange-500/30'
-                                : 'bg-orange-100 text-orange-700 hover:bg-orange-200'
-                            )}
-                            title="催单"
-                          >
-                            <Zap className="w-3 h-3 sm:w-3.5 sm:h-3.5" />
-                            <span className="hidden sm:inline">催单</span>
-                          </button>
                         </td>
                       </tr>
                     );
