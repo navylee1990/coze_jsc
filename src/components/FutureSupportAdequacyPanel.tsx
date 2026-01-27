@@ -23,8 +23,12 @@ interface SupportLevel {
   gap: number;
   projects: {
     id: number;
-    name: string;
-    amount: number;
+    name: string; // 项目名称
+    amount: number; // 订单金额
+    region?: string; // 大区
+    salesEngineer?: string; // 销售工程师
+    cityManager?: string; // 城市经理
+    projectType?: string; // 项目类型（买断/租赁/服务）
     probability: 'high' | 'medium' | 'low';
     health: 'high' | 'medium' | 'low';
     isOnTrack: boolean;
@@ -33,39 +37,58 @@ interface SupportLevel {
     isDelayed?: boolean;
     isRisk?: boolean;
     detail?: string; // 明细
-    region?: string; // 区域
     owner?: string; // 责任人
     salesperson?: string; // 业务员
     riskDetail?: string; // 项目风险详情
+    expectedOrderDate?: string; // 预计下单时间
     completionTime?: string; // 完成时间
     projectStatus?: string; // 项目状态
+    changeAmount?: number; // 变化金额
+    changeDate?: string; // 变化时间
+    remark?: string; // 备注
   }[];
   excludedProjects?: {
     id: number;
-    name: string;
-    amount: number;
+    name: string; // 项目名称
+    amount: number; // 订单金额
     excludeReason: 'progress_low' | 'delayed' | 'pending_approval' | 'risk_high' | 'not_confirmed';
     excludeReasonText: string; // 未统计原因
     currentProgress: number;
     expectedProgress: number;
     probability: 'high' | 'medium' | 'low';
+    region?: string; // 大区
+    salesEngineer?: string; // 销售工程师
+    cityManager?: string; // 城市经理
+    projectType?: string; // 项目类型
     detail?: string; // 明细
-    region?: string; // 区域
     owner?: string; // 责任人
     salesperson?: string; // 业务员
     riskDetail?: string; // 项目风险详情
+    expectedOrderDate?: string; // 预计下单时间
     completionTime?: string; // 完成时间
     projectStatus?: string; // 项目状态
+    changeAmount?: number; // 变化金额
+    changeDate?: string; // 变化时间
+    remark?: string; // 备注
   }[];
   reserveProjects?: {
     id: number;
-    name: string;
-    amount: number;
+    name: string; // 项目名称
+    amount: number; // 订单金额
     probability: 'high' | 'medium' | 'low';
+    region?: string; // 大区
+    salesEngineer?: string; // 销售工程师
+    cityManager?: string; // 城市经理
+    projectType?: string; // 项目类型
     detail?: string; // 明细
-    region?: string; // 区域
     owner?: string; // 责任人
     salesperson?: string; // 业务员
+    expectedOrderDate?: string; // 预计下单时间
+    completionTime?: string; // 完成时间
+    projectStatus?: string; // 项目状态
+    changeAmount?: number; // 变化金额
+    changeDate?: string; // 变化时间
+    remark?: string; // 备注
   }[];
 }
 
@@ -1937,10 +1960,15 @@ function ProjectDrillDownModal({
   data: SupportLevel;
   theme: Theme;
 }) {
-  // 翻页状态
-  const [projectsCurrentPage, setProjectsCurrentPage] = useState(1);
-  const [excludedProjectsCurrentPage, setExcludedProjectsCurrentPage] = useState(1);
-  const projectsPerPage = 2; // 每页显示2个项目
+  // 表格状态
+  const [searchQuery, setSearchQuery] = useState('');
+  const [filterRegion, setFilterRegion] = useState<string>('all');
+  const [filterStatus, setFilterStatus] = useState<string>('all');
+  const [sortBy, setSortBy] = useState<string>('expectedOrderDate');
+  const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>('asc');
+  const [currentPage, setCurrentPage] = useState(1);
+  const [activeTab, setActiveTab] = useState<'projects' | 'excluded' | 'reserve'>('projects');
+  const itemsPerPage = 15;
 
   // 催单提示状态
   const [urgeMessage, setUrgeMessage] = useState<{ show: boolean; projectName: string }>({ show: false, projectName: '' });
@@ -1953,31 +1981,97 @@ function ProjectDrillDownModal({
     }, 2000);
   };
 
+  // 获取所有项目列表
+  const getActiveProjects = () => {
+    switch (activeTab) {
+      case 'projects':
+        return data.projects.map(p => ({ ...p, projectType: '统计', projectStatus: p.projectStatus || '推进中' }));
+      case 'excluded':
+        return (data.excludedProjects || []).map(p => ({ ...p, projectType: '预测', projectStatus: p.projectStatus || '预测中' }));
+      case 'reserve':
+        return (data.reserveProjects || []).map(p => ({ ...p, projectType: '储备', projectStatus: p.projectStatus || '储备中' }));
+      default:
+        return [];
+    }
+  };
+
+  // 筛选和排序项目
+  const getFilteredAndSortedProjects = () => {
+    let projects = getActiveProjects();
+
+    // 搜索过滤
+    if (searchQuery) {
+      const query = searchQuery.toLowerCase();
+      projects = projects.filter(p =>
+        p.name?.toLowerCase().includes(query) ||
+        p.salesEngineer?.toLowerCase().includes(query) ||
+        p.cityManager?.toLowerCase().includes(query)
+      );
+    }
+
+    // 大区过滤
+    if (filterRegion !== 'all') {
+      projects = projects.filter(p => p.region === filterRegion);
+    }
+
+    // 状态过滤
+    if (filterStatus !== 'all') {
+      projects = projects.filter(p => p.projectStatus === filterStatus);
+    }
+
+    // 排序
+    projects = [...projects].sort((a, b) => {
+      let comparison = 0;
+      switch (sortBy) {
+        case 'expectedOrderDate':
+          comparison = (a.expectedOrderDate || '').localeCompare(b.expectedOrderDate || '');
+          break;
+        case 'amount':
+          comparison = (a.amount || 0) - (b.amount || 0);
+          break;
+        case 'region':
+          comparison = (a.region || '').localeCompare(b.region || '');
+          break;
+        case 'salesEngineer':
+          comparison = (a.salesEngineer || '').localeCompare(b.salesEngineer || '');
+          break;
+        case 'projectStatus':
+          comparison = (a.projectStatus || '').localeCompare(b.projectStatus || '');
+          break;
+        default:
+          comparison = 0;
+      }
+      return sortOrder === 'asc' ? comparison : -comparison;
+    });
+
+    return projects;
+  };
+
+  // 处理排序
+  const handleSort = (column: string) => {
+    if (sortBy === column) {
+      setSortOrder(sortOrder === 'asc' ? 'desc' : 'asc');
+    } else {
+      setSortBy(column);
+      setSortOrder('desc');
+    }
+  };
+
+  // 分页数据
+  const filteredProjects = getFilteredAndSortedProjects();
+  const totalPages = Math.ceil(filteredProjects.length / itemsPerPage);
+  const startIndex = (currentPage - 1) * itemsPerPage;
+  const endIndex = startIndex + itemsPerPage;
+  const displayedProjects = filteredProjects.slice(startIndex, endIndex);
+
   if (!isOpen) return null;
 
   const periodInfo = periodConfig[period];
 
-  // 计算统计项目的分页数据
-  const projectsTotalPages = Math.ceil(data.projects.length / projectsPerPage);
-  const projectsStartIndex = (projectsCurrentPage - 1) * projectsPerPage;
-  const projectsEndIndex = projectsStartIndex + projectsPerPage;
-  const displayedProjects = data.projects.slice(projectsStartIndex, projectsEndIndex);
-
-  // 计算未统计项目的分页数据
-  const excludedProjectsTotalPages = data.excludedProjects
-    ? Math.ceil(data.excludedProjects.length / projectsPerPage)
-    : 0;
-  const excludedProjectsStartIndex = (excludedProjectsCurrentPage - 1) * projectsPerPage;
-  const excludedProjectsEndIndex = excludedProjectsStartIndex + projectsPerPage;
-  const displayedExcludedProjects = data.excludedProjects
-    ? data.excludedProjects.slice(excludedProjectsStartIndex, excludedProjectsEndIndex)
-    : [];
-
-  // 重置页码（当弹窗打开或数据变化时）
+  // 重置页码（当筛选条件变化时）
   useEffect(() => {
-    setProjectsCurrentPage(1);
-    setExcludedProjectsCurrentPage(1);
-  }, [isOpen, period]);
+    setCurrentPage(1);
+  }, [searchQuery, filterRegion, filterStatus, sortBy, sortOrder, activeTab, isOpen]);
 
   // 计算合计
   const totals = {
@@ -2138,126 +2232,426 @@ function ProjectDrillDownModal({
         </div>
 
         {/* 项目列表 */}
-        <div className={cn('p-4 sm:p-6 overflow-y-auto', theme === 'dashboard' ? 'max-h-[calc(90vh-250px)]' : 'max-h-[calc(90vh-280px)]')}>
-          {/* 统计项目 */}
-          <div className="mb-4 sm:mb-6">
-            <h3 className={cn('text-base sm:text-lg font-bold mb-2 sm:mb-3 flex items-center gap-2', theme === 'dashboard' ? 'text-cyan-200' : 'text-slate-900')}>
-              <CheckCircle2 className="w-4 h-4 sm:w-5 sm:h-5 text-green-500" />
+        <div className={cn('flex flex-col', theme === 'dashboard' ? 'max-h-[calc(90vh-250px)]' : 'max-h-[calc(90vh-280px)]')}>
+          {/* Tab切换 */}
+          <div className={cn(
+            'flex border-b px-4 sm:px-6',
+            theme === 'dashboard' ? 'border-cyan-500/20' : theme === 'dark' ? 'border-slate-700' : 'border-slate-200'
+          )}>
+            <button
+              onClick={() => setActiveTab('projects')}
+              className={cn(
+                'px-3 sm:px-4 py-2 sm:py-2.5 text-sm font-medium transition-all border-b-2',
+                activeTab === 'projects'
+                  ? theme === 'dashboard'
+                    ? 'border-cyan-400 text-cyan-300 bg-cyan-500/10'
+                    : theme === 'dark'
+                    ? 'border-blue-500 text-blue-400 bg-blue-500/10'
+                    : 'border-blue-500 text-blue-600 bg-blue-50'
+                  : theme === 'dashboard'
+                  ? 'border-transparent text-cyan-400/50 hover:text-cyan-300 hover:bg-cyan-500/5'
+                  : theme === 'dark'
+                  ? 'border-transparent text-slate-400 hover:text-slate-200 hover:bg-slate-700'
+                  : 'border-transparent text-slate-500 hover:text-slate-700 hover:bg-slate-100'
+              )}
+            >
               统计项目 ({data.projects.length})
-            </h3>
-            {/* 响应式网格：小屏单列，中屏及以上双列 */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-              {displayedProjects.map((project) => (
-                <div
-                  key={project.id}
-                  className={cn(
-                    'p-4 rounded-xl border transition-all duration-200 h-48 flex flex-col',
-                    theme === 'dashboard'
-                      ? 'bg-slate-800/40 border-cyan-500/20 hover:border-cyan-500/40'
+            </button>
+            {data.excludedProjects && data.excludedProjects.length > 0 && (
+              <button
+                onClick={() => setActiveTab('excluded')}
+                className={cn(
+                  'px-3 sm:px-4 py-2 sm:py-2.5 text-sm font-medium transition-all border-b-2',
+                  activeTab === 'excluded'
+                    ? theme === 'dashboard'
+                      ? 'border-orange-400 text-orange-300 bg-orange-500/10'
                       : theme === 'dark'
-                      ? 'bg-slate-800 border-slate-700'
-                      : 'bg-white border-slate-200'
-                  )}
-                >
-                  {/* 第一行：项目名称和标签 */}
-                  <div className="flex items-start justify-between mb-1.5 sm:mb-2">
-                    <div className="flex-1 mr-1 sm:mr-2">
-                      <h4 className={cn(
-                        'font-semibold text-xs sm:text-sm leading-tight',
-                        theme === 'dashboard' ? 'text-cyan-100' : 'text-slate-900'
-                      )}>{project.name}</h4>
-                      {project.detail && (
-                        <p className={cn('text-[10px] sm:text-xs mt-0.5 sm:mt-1 line-clamp-1', theme === 'dashboard' ? 'text-cyan-400/60' : 'text-slate-500')}>
-                          {project.detail}
-                        </p>
-                      )}
-                    </div>
-                    <div className="flex flex-col items-end gap-0.5 sm:gap-1 flex-shrink-0">
-                      <span className={cn('text-base sm:text-lg font-bold', theme === 'dashboard' ? 'text-cyan-300' : 'text-slate-900')}>
-                        {project.amount.toLocaleString()}万
-                      </span>
-                      <div className="flex items-center gap-0.5 sm:gap-1">
-                        {project.isNew && <span className={cn(
-                          'px-1 sm:px-1.5 py-0.5 rounded text-[10px] sm:text-xs',
-                          theme === 'dashboard'
-                            ? 'bg-blue-500/40 text-blue-300 border border-blue-500/40'
-                            : 'bg-blue-500 text-white'
-                        )}>新</span>}
-                        {project.isDelayed && <span className={cn(
-                          'px-1 sm:px-1.5 py-0.5 rounded text-[10px] sm:text-xs',
-                          theme === 'dashboard'
-                            ? 'bg-red-500/40 text-red-300 border border-red-500/40'
-                            : 'bg-red-500 text-white'
-                        )}>延</span>}
-                        {project.isRisk && <span className={cn(
-                          'px-1 sm:px-1.5 py-0.5 rounded text-[10px] sm:text-xs',
-                          theme === 'dashboard'
-                            ? 'bg-orange-500/40 text-orange-300 border border-orange-500/40'
-                            : 'bg-orange-500 text-white'
-                        )}>险</span>}
-                      </div>
-                    </div>
-                  </div>
+                      ? 'border-orange-500 text-orange-400 bg-orange-500/10'
+                      : 'border-orange-500 text-orange-600 bg-orange-50'
+                    : theme === 'dashboard'
+                    ? 'border-transparent text-orange-400/50 hover:text-orange-300 hover:bg-orange-500/5'
+                    : theme === 'dark'
+                    ? 'border-transparent text-slate-400 hover:text-slate-200 hover:bg-slate-700'
+                    : 'border-transparent text-slate-500 hover:text-slate-700 hover:bg-slate-100'
+                )}
+              >
+                预测项目 ({data.excludedProjects.length})
+              </button>
+            )}
+            {data.reserveProjects && data.reserveProjects.length > 0 && (
+              <button
+                onClick={() => setActiveTab('reserve')}
+                className={cn(
+                  'px-3 sm:px-4 py-2 sm:py-2.5 text-sm font-medium transition-all border-b-2',
+                  activeTab === 'reserve'
+                    ? theme === 'dashboard'
+                      ? 'border-purple-400 text-purple-300 bg-purple-500/10'
+                      : theme === 'dark'
+                      ? 'border-purple-500 text-purple-400 bg-purple-500/10'
+                      : 'border-purple-500 text-purple-600 bg-purple-50'
+                    : theme === 'dashboard'
+                    ? 'border-transparent text-purple-400/50 hover:text-purple-300 hover:bg-purple-500/5'
+                    : theme === 'dark'
+                    ? 'border-transparent text-slate-400 hover:text-slate-200 hover:bg-slate-700'
+                    : 'border-transparent text-slate-500 hover:text-slate-700 hover:bg-slate-100'
+                )}
+              >
+                储备项目 ({data.reserveProjects.length})
+              </button>
+            )}
+          </div>
 
-                  {/* 第二行：状态信息 */}
-                  <div className="flex items-center justify-between text-[10px] sm:text-xs mb-0.5 sm:mb-1">
-                    <div className="flex items-center gap-1 sm:gap-1.5">
-                      <div className={cn(
-                        'w-1.5 h-1.5 sm:w-2 sm:h-2 rounded-full',
-                        theme === 'dashboard'
-                          ? project.probability === 'high' ? 'bg-cyan-500' : project.probability === 'medium' ? 'bg-yellow-500' : 'bg-slate-500'
-                          : project.probability === 'high' ? 'bg-green-500' : project.probability === 'medium' ? 'bg-yellow-500' : 'bg-gray-500'
-                      )} />
-                      <span className={cn('text-[10px] sm:text-xs', theme === 'dashboard' ? 'text-cyan-400/70' : 'text-slate-600')}>
-                        {project.probability === 'high' ? '高' : project.probability === 'medium' ? '中' : '低'}
-                      </span>
-                    </div>
-                    <span className={cn(
-                      'text-[10px] sm:text-xs',
-                      getHealthColor(project.health, theme)
-                    )}>
-                      {project.health === 'high' ? '健康' : project.health === 'medium' ? '一般' : '风险'}
-                    </span>
-                    {!project.isOnTrack && project.delayDays && (
-                      <span className={cn('text-[10px] sm:text-xs text-red-500', theme === 'dashboard' ? 'text-red-400' : '')}>
-                        延迟{project.delayDays}天
-                      </span>
-                    )}
-                  </div>
+          {/* 筛选和搜索区 */}
+          <div className={cn(
+            'p-3 sm:p-4 border-b flex flex-wrap gap-2 sm:gap-3',
+            theme === 'dashboard' ? 'border-cyan-500/20' : theme === 'dark' ? 'border-slate-700' : 'border-slate-200'
+          )}>
+            {/* 搜索框 */}
+            <input
+              type="text"
+              placeholder="搜索项目名称、销售、城市..."
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              className={cn(
+                'px-3 py-1.5 sm:px-4 sm:py-2 text-sm rounded-lg border focus:outline-none focus:ring-2 min-w-[200px] sm:min-w-[280px]',
+                theme === 'dashboard'
+                  ? 'bg-slate-900/50 border-cyan-500/30 text-white placeholder-cyan-400/40 focus:ring-cyan-500 focus:text-cyan-100'
+                  : theme === 'dark'
+                  ? 'bg-slate-800 border-slate-600 text-white placeholder-slate-400 focus:ring-blue-500'
+                  : 'bg-white border-slate-300 text-slate-900 placeholder-slate-400 focus:ring-blue-500'
+              )}
+            />
 
-                  {/* 第三行：责任人和区域 */}
-                  <div className="flex items-center justify-between text-[10px] sm:text-xs mt-auto">
-                    <div className="flex items-center gap-2 sm:gap-3">
-                      {project.region && (
-                        <div className="flex items-center gap-0.5 sm:gap-1">
-                          <MapPin className={cn('w-2.5 h-2.5 sm:w-3 sm:h-3', theme === 'dashboard' ? 'text-cyan-400/60' : 'text-slate-400')} />
-                          <span className={cn('text-[10px] sm:text-xs', theme === 'dashboard' ? 'text-cyan-400/70' : 'text-slate-600')}>{project.region}</span>
-                        </div>
-                      )}
-                      {project.owner && (
-                        <div className="flex items-center gap-0.5 sm:gap-1">
-                          <span className={cn('text-[10px] sm:text-xs', theme === 'dashboard' ? 'text-cyan-400/70' : 'text-slate-600')}>{project.owner}</span>
-                        </div>
-                      )}
-                    </div>
-                    {project.completionTime && (
-                      <div className={cn('text-[10px] sm:text-xs', theme === 'dashboard' ? 'text-cyan-400/60' : 'text-slate-500')}>
-                        {project.completionTime}
-                      </div>
-                    )}
-                  </div>
-                </div>
+            {/* 大区筛选 */}
+            <select
+              value={filterRegion}
+              onChange={(e) => setFilterRegion(e.target.value)}
+              className={cn(
+                'px-3 py-1.5 sm:px-4 sm:py-2 text-sm rounded-lg border focus:outline-none focus:ring-2 cursor-pointer',
+                theme === 'dashboard'
+                  ? 'bg-slate-900/50 border-cyan-500/30 text-white focus:ring-cyan-500'
+                  : theme === 'dark'
+                  ? 'bg-slate-800 border-slate-600 text-white focus:ring-blue-500'
+                  : 'bg-white border-slate-300 text-slate-900 focus:ring-blue-500'
+              )}
+            >
+              <option value="all">全部大区</option>
+              {Array.from(new Set(filteredProjects.map(p => p.region).filter(Boolean))).map(region => (
+                <option key={region} value={region}>{region}</option>
               ))}
-            </div>
+            </select>
 
-            {/* 统计项目翻页控件 */}
-            {data.projects.length > projectsPerPage && (
-              <div className="flex items-center justify-center gap-4 mt-4 pt-4 border-t border-cyan-500/20">
+            {/* 状态筛选 */}
+            <select
+              value={filterStatus}
+              onChange={(e) => setFilterStatus(e.target.value)}
+              className={cn(
+                'px-3 py-1.5 sm:px-4 sm:py-2 text-sm rounded-lg border focus:outline-none focus:ring-2 cursor-pointer',
+                theme === 'dashboard'
+                  ? 'bg-slate-900/50 border-cyan-500/30 text-white focus:ring-cyan-500'
+                  : theme === 'dark'
+                  ? 'bg-slate-800 border-slate-600 text-white focus:ring-blue-500'
+                  : 'bg-white border-slate-300 text-slate-900 focus:ring-blue-500'
+              )}
+            >
+              <option value="all">全部状态</option>
+              {Array.from(new Set(filteredProjects.map(p => p.projectStatus).filter(Boolean))).map(status => (
+                <option key={status} value={status}>{status}</option>
+              ))}
+            </select>
+          </div>
+
+          {/* 表格区域 */}
+          <div className={cn('flex-1 overflow-auto', theme === 'dashboard' ? 'bg-slate-900/30' : '')}>
+            <table className={cn('w-full text-sm', theme === 'dashboard' ? 'text-cyan-100' : '')}>
+              <thead className={cn(
+                'sticky top-0 z-10',
+                theme === 'dashboard'
+                  ? 'bg-slate-900/95 border-b border-cyan-500/30'
+                  : theme === 'dark'
+                  ? 'bg-slate-900 border-b border-slate-700'
+                  : 'bg-slate-50 border-b border-slate-200'
+              )}>
+                <tr>
+                  <th
+                    onClick={() => handleSort('expectedOrderDate')}
+                    className={cn(
+                      'px-3 py-2 sm:px-4 sm:py-3 text-left font-semibold cursor-pointer hover:opacity-80 transition-opacity select-none',
+                      theme === 'dashboard' ? 'text-cyan-300' : 'text-slate-700'
+                    )}
+                  >
+                    <div className="flex items-center gap-1">
+                      预计下单
+                      {sortBy === 'expectedOrderDate' && (
+                        <span className="text-xs">{sortOrder === 'asc' ? '↑' : '↓'}</span>
+                      )}
+                    </div>
+                  </th>
+                  <th className={cn(
+                    'px-3 py-2 sm:px-4 sm:py-3 text-left font-semibold',
+                    theme === 'dashboard' ? 'text-cyan-300' : 'text-slate-700'
+                  )}>
+                    项目名称
+                  </th>
+                  <th
+                    onClick={() => handleSort('region')}
+                    className={cn(
+                      'hidden lg:table-cell px-3 py-2 sm:px-4 sm:py-3 text-left font-semibold cursor-pointer hover:opacity-80 transition-opacity select-none',
+                      theme === 'dashboard' ? 'text-cyan-300' : 'text-slate-700'
+                    )}
+                  >
+                    <div className="flex items-center gap-1">
+                      大区
+                      {sortBy === 'region' && (
+                        <span className="text-xs">{sortOrder === 'asc' ? '↑' : '↓'}</span>
+                      )}
+                    </div>
+                  </th>
+                  <th
+                    onClick={() => handleSort('salesEngineer')}
+                    className={cn(
+                      'hidden md:table-cell px-3 py-2 sm:px-4 sm:py-3 text-left font-semibold cursor-pointer hover:opacity-80 transition-opacity select-none',
+                      theme === 'dashboard' ? 'text-cyan-300' : 'text-slate-700'
+                    )}
+                  >
+                    <div className="flex items-center gap-1">
+                      销售
+                      {sortBy === 'salesEngineer' && (
+                        <span className="text-xs">{sortOrder === 'asc' ? '↑' : '↓'}</span>
+                      )}
+                    </div>
+                  </th>
+                  <th className={cn(
+                    'hidden xl:table-cell px-3 py-2 sm:px-4 sm:py-3 text-left font-semibold',
+                    theme === 'dashboard' ? 'text-cyan-300' : 'text-slate-700'
+                  )}>
+                    城市经理
+                  </th>
+                  <th className={cn(
+                    'hidden md:table-cell px-3 py-2 sm:px-4 sm:py-3 text-left font-semibold',
+                    theme === 'dashboard' ? 'text-cyan-300' : 'text-slate-700'
+                  )}>
+                    类型
+                  </th>
+                  <th
+                    onClick={() => handleSort('amount')}
+                    className={cn(
+                      'px-3 py-2 sm:px-4 sm:py-3 text-right font-semibold cursor-pointer hover:opacity-80 transition-opacity select-none',
+                      theme === 'dashboard' ? 'text-cyan-300' : 'text-slate-700'
+                    )}
+                  >
+                    <div className="flex items-center justify-end gap-1">
+                      金额
+                      {sortBy === 'amount' && (
+                        <span className="text-xs">{sortOrder === 'asc' ? '↑' : '↓'}</span>
+                      )}
+                    </div>
+                  </th>
+                  <th
+                    onClick={() => handleSort('projectStatus')}
+                    className={cn(
+                      'px-3 py-2 sm:px-4 sm:py-3 text-center font-semibold cursor-pointer hover:opacity-80 transition-opacity select-none',
+                      theme === 'dashboard' ? 'text-cyan-300' : 'text-slate-700'
+                    )}
+                  >
+                    <div className="flex items-center justify-center gap-1">
+                      状态
+                      {sortBy === 'projectStatus' && (
+                        <span className="text-xs">{sortOrder === 'asc' ? '↑' : '↓'}</span>
+                      )}
+                    </div>
+                  </th>
+                  <th className={cn(
+                    'hidden sm:table-cell px-3 py-2 sm:px-4 sm:py-3 text-right font-semibold',
+                    theme === 'dashboard' ? 'text-cyan-300' : 'text-slate-700'
+                  )}>
+                    变化
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                {displayedProjects.length === 0 ? (
+                  <tr>
+                    <td
+                      colSpan={9}
+                      className={cn(
+                        'px-4 py-12 text-center',
+                        theme === 'dashboard' ? 'text-cyan-400/50' : 'text-slate-500'
+                      )}
+                    >
+                      暂无数据
+                    </td>
+                  </tr>
+                ) : (
+                  displayedProjects.map((project, index) => {
+                    // 获取状态颜色
+                    const getStatusColor = (status?: string) => {
+                      if (!status) return theme === 'dashboard' ? 'text-slate-400' : 'text-slate-500';
+                      const statusLower = status.toLowerCase();
+                      if (statusLower.includes('已下单') || statusLower.includes('完成') || statusLower.includes('完成')) {
+                        return theme === 'dashboard'
+                          ? 'bg-green-500/20 text-green-300 border-green-500/30'
+                          : 'bg-green-100 text-green-700 border-green-200';
+                      }
+                      if (statusLower.includes('推进中') || statusLower.includes('进行中')) {
+                        return theme === 'dashboard'
+                          ? 'bg-cyan-500/20 text-cyan-300 border-cyan-500/30'
+                          : 'bg-cyan-100 text-cyan-700 border-cyan-200';
+                      }
+                      if (statusLower.includes('延迟') || statusLower.includes('滞后')) {
+                        return theme === 'dashboard'
+                          ? 'bg-orange-500/20 text-orange-300 border-orange-500/30'
+                          : 'bg-orange-100 text-orange-700 border-orange-200';
+                      }
+                      if (statusLower.includes('风险') || statusLower.includes('暂停') || statusLower.includes('待')) {
+                        return theme === 'dashboard'
+                          ? 'bg-red-500/20 text-red-300 border-red-500/30'
+                          : 'bg-red-100 text-red-700 border-red-200';
+                      }
+                      return theme === 'dashboard'
+                        ? 'bg-slate-500/20 text-slate-300 border-slate-500/30'
+                        : 'bg-slate-100 text-slate-700 border-slate-200';
+                    };
+
+                    return (
+                      <tr
+                        key={project.id || index}
+                        className={cn(
+                          'border-b transition-colors hover:bg-opacity-50',
+                          theme === 'dashboard'
+                            ? 'border-cyan-500/10 hover:bg-cyan-500/5'
+                            : theme === 'dark'
+                            ? 'border-slate-700 hover:bg-slate-700/50'
+                            : 'border-slate-200 hover:bg-slate-50'
+                        )}
+                      >
+                        {/* 预计下单时间 */}
+                        <td className={cn(
+                          'px-3 py-2 sm:px-4 sm:py-3 text-xs whitespace-nowrap',
+                          theme === 'dashboard' ? 'text-cyan-300' : 'text-slate-700'
+                        )}>
+                          {project.expectedOrderDate || '-'}
+                        </td>
+
+                        {/* 项目名称 */}
+                        <td className={cn(
+                          'px-3 py-2 sm:px-4 sm:py-3',
+                          theme === 'dashboard' ? 'text-cyan-100' : 'text-slate-900'
+                        )}>
+                          <div className="flex flex-col">
+                            <span className={cn(
+                              'font-medium text-xs sm:text-sm max-w-[180px] lg:max-w-[250px] truncate',
+                              theme === 'dashboard' ? 'text-cyan-100' : 'text-slate-900'
+                            )}>
+                              {project.name}
+                            </span>
+                            {project.detail && (
+                              <span className={cn(
+                                'text-[10px] sm:text-xs mt-0.5 line-clamp-1',
+                                theme === 'dashboard' ? 'text-cyan-400/50' : 'text-slate-500'
+                              )}>
+                                {project.detail}
+                              </span>
+                            )}
+                          </div>
+                        </td>
+
+                        {/* 大区 */}
+                        <td className={cn(
+                          'hidden lg:table-cell px-3 py-2 sm:px-4 sm:py-3 text-xs',
+                          theme === 'dashboard' ? 'text-cyan-300/80' : 'text-slate-600'
+                        )}>
+                          {project.region || '-'}
+                        </td>
+
+                        {/* 销售工程师 */}
+                        <td className={cn(
+                          'hidden md:table-cell px-3 py-2 sm:px-4 sm:py-3 text-xs',
+                          theme === 'dashboard' ? 'text-cyan-300/80' : 'text-slate-600'
+                        )}>
+                          {project.salesEngineer || project.salesperson || '-'}
+                        </td>
+
+                        {/* 城市经理 */}
+                        <td className={cn(
+                          'hidden xl:table-cell px-3 py-2 sm:px-4 sm:py-3 text-xs',
+                          theme === 'dashboard' ? 'text-cyan-300/80' : 'text-slate-600'
+                        )}>
+                          {project.cityManager || project.owner || '-'}
+                        </td>
+
+                        {/* 项目类型 */}
+                        <td className={cn(
+                          'hidden md:table-cell px-3 py-2 sm:px-4 sm:py-3 text-xs',
+                          theme === 'dashboard' ? 'text-cyan-300/80' : 'text-slate-600'
+                        )}>
+                          {project.projectType || '-'}
+                        </td>
+
+                        {/* 订单金额 */}
+                        <td className={cn(
+                          'px-3 py-2 sm:px-4 sm:py-3 text-right whitespace-nowrap',
+                          theme === 'dashboard' ? 'text-cyan-300' : 'text-slate-900'
+                        )}>
+                          <span className={cn(
+                            'font-bold text-xs sm:text-sm',
+                            activeTab === 'projects' ? 'text-green-400' : activeTab === 'excluded' ? 'text-orange-400' : 'text-purple-400'
+                          )}>
+                            {project.amount?.toFixed(2) || '0.00'}
+                          </span>
+                          <span className={cn('text-xs ml-1', theme === 'dashboard' ? 'text-cyan-400/50' : 'text-slate-500')}>
+                                万
+                              </span>
+                        </td>
+
+                        {/* 项目状态 */}
+                        <td className={cn('px-3 py-2 sm:px-4 sm:py-3 text-center')}>
+                          <span className={cn(
+                            'inline-block px-2 py-1 rounded text-[10px] sm:text-xs font-medium border',
+                            getStatusColor(project.projectStatus)
+                          )}>
+                            {project.projectStatus || '-'}
+                          </span>
+                        </td>
+
+                        {/* 变化金额 */}
+                        <td className={cn(
+                          'hidden sm:table-cell px-3 py-2 sm:px-4 sm:py-3 text-right whitespace-nowrap text-xs font-medium',
+                          theme === 'dashboard' ? 'text-cyan-300/80' : 'text-slate-600'
+                        )}>
+                          {project.changeAmount ? (
+                            <span className={cn(
+                              project.changeAmount > 0 ? 'text-green-400' : project.changeAmount < 0 ? 'text-red-400' : ''
+                            )}>
+                              {project.changeAmount > 0 ? '+' : ''}{project.changeAmount.toFixed(2)}
+                            </span>
+                          ) : (
+                            '-'
+                          )}
+                        </td>
+                      </tr>
+                    );
+                  })
+                )}
+              </tbody>
+            </table>
+          </div>
+
+          {/* 分页 */}
+          {totalPages > 1 && (
+            <div className={cn(
+              'flex items-center justify-between px-4 sm:px-6 py-3 border-t',
+              theme === 'dashboard' ? 'border-cyan-500/20' : theme === 'dark' ? 'border-slate-700' : 'border-slate-200'
+            )}>
+              <div className={cn('text-xs sm:text-sm', theme === 'dashboard' ? 'text-cyan-400/70' : 'text-slate-600')}>
+                共 {filteredProjects.length} 条
+              </div>
+              <div className="flex items-center gap-2">
                 <button
-                  onClick={() => setProjectsCurrentPage((prev) => Math.max(1, prev - 1))}
-                  disabled={projectsCurrentPage === 1}
+                  onClick={() => setCurrentPage(prev => Math.max(1, prev - 1))}
+                  disabled={currentPage === 1}
                   className={cn(
-                    'px-3 py-1.5 rounded-lg text-sm font-medium transition-all disabled:opacity-50 disabled:cursor-not-allowed',
+                    'px-2 sm:px-3 py-1 sm:py-1.5 rounded-lg text-xs sm:text-sm font-medium transition-all disabled:opacity-50 disabled:cursor-not-allowed',
                     theme === 'dashboard'
                       ? 'bg-cyan-500/20 border border-cyan-500/30 text-cyan-300 hover:bg-cyan-500/30'
                       : 'bg-slate-200 text-slate-700 hover:bg-slate-300'
@@ -2265,14 +2659,17 @@ function ProjectDrillDownModal({
                 >
                   上一页
                 </button>
-                <span className={cn('text-sm', theme === 'dashboard' ? 'text-cyan-300' : 'text-slate-700')}>
-                  第 {projectsCurrentPage} / {projectsTotalPages} 页
+                <span className={cn(
+                  'text-xs sm:text-sm px-2',
+                  theme === 'dashboard' ? 'text-cyan-300' : 'text-slate-700'
+                )}>
+                  {currentPage} / {totalPages}
                 </span>
                 <button
-                  onClick={() => setProjectsCurrentPage((prev) => Math.min(projectsTotalPages, prev + 1))}
-                  disabled={projectsCurrentPage === projectsTotalPages}
+                  onClick={() => setCurrentPage(prev => Math.min(totalPages, prev + 1))}
+                  disabled={currentPage === totalPages}
                   className={cn(
-                    'px-3 py-1.5 rounded-lg text-sm font-medium transition-all disabled:opacity-50 disabled:cursor-not-allowed',
+                    'px-2 sm:px-3 py-1 sm:py-1.5 rounded-lg text-xs sm:text-sm font-medium transition-all disabled:opacity-50 disabled:cursor-not-allowed',
                     theme === 'dashboard'
                       ? 'bg-cyan-500/20 border border-cyan-500/30 text-cyan-300 hover:bg-cyan-500/30'
                       : 'bg-slate-200 text-slate-700 hover:bg-slate-300'
@@ -2281,182 +2678,6 @@ function ProjectDrillDownModal({
                   下一页
                 </button>
               </div>
-            )}
-          </div>
-
-          {/* 未统计项目 */}
-          {data.excludedProjects && data.excludedProjects.length > 0 && (
-            <div>
-              <div className="flex items-center justify-between mb-2 sm:mb-3">
-                <h3 className={cn('text-base sm:text-lg font-bold flex items-center gap-2', theme === 'dashboard' ? 'text-cyan-200' : 'text-slate-900')}>
-                  <XCircle className="w-4 h-4 sm:w-5 sm:h-5 text-orange-500" />
-                  未统计项目 ({data.excludedProjects.length})
-                </h3>
-                <button
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    const totalAmount = data.excludedProjects?.reduce((sum, p) => sum + p.amount, 0) || 0;
-                    setUrgeMessage({
-                      show: true,
-                      projectName: `全部未统计项目 (${data.excludedProjects?.length || 0}个)`
-                    });
-                    setTimeout(() => {
-                      setUrgeMessage({ show: false, projectName: '' });
-                    }, 2000);
-                  }}
-                  className={cn(
-                    'flex items-center gap-1 sm:gap-1.5 px-2 sm:px-3 py-1 sm:py-1.5 rounded-lg text-[10px] sm:text-xs font-medium transition-all',
-                    theme === 'dashboard'
-                      ? 'bg-orange-500/20 border border-orange-500/30 text-orange-300 hover:bg-orange-500/30'
-                      : 'bg-orange-100 text-orange-700 hover:bg-orange-200'
-                  )}
-                  title="批量催单提醒"
-                >
-                  <Zap className="w-2.5 h-2.5 sm:w-3 sm:h-3" />
-                  <span className="hidden sm:inline">全部催单</span>
-                  <span className="sm:hidden">催单</span>
-                </button>
-              </div>
-              {/* 响应式网格：小屏单列，中屏及以上双列 */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                {displayedExcludedProjects.map((project) => (
-                  <div
-                    key={project.id}
-                    className={cn(
-                      'p-3 sm:p-4 rounded-xl border transition-all duration-200 h-40 sm:h-48 flex flex-col',
-                      theme === 'dashboard'
-                        ? 'bg-slate-800/40 border-orange-500/30 hover:border-orange-500/50'
-                        : theme === 'dark'
-                        ? 'bg-slate-800 border-orange-500/30'
-                        : 'bg-orange-50 border-orange-200'
-                    )}
-                  >
-                    {/* 第一行：项目名称和金额 */}
-                    <div className="flex items-start justify-between mb-1.5 sm:mb-2">
-                      <div className="flex-1 mr-1 sm:mr-2">
-                        <h4 className={cn(
-                          'font-semibold text-sm leading-tight',
-                          theme === 'dashboard' ? 'text-cyan-100' : 'text-slate-900'
-                        )}>{project.name}</h4>
-                        {project.detail && (
-                          <p className={cn('text-xs mt-1 line-clamp-1', theme === 'dashboard' ? 'text-orange-400/60' : 'text-slate-500')}>
-                            {project.detail}
-                          </p>
-                        )}
-                      </div>
-                      <span className={cn(
-                        'text-lg font-bold flex-shrink-0',
-                        theme === 'dashboard' ? 'text-cyan-300' : 'text-slate-900'
-                      )}>
-                        {project.amount.toLocaleString()}万
-                      </span>
-                    </div>
-
-                    {/* 第二行：排除原因 */}
-                    <div className={cn(
-                      'text-xs mb-2 p-1.5 rounded overflow-hidden line-clamp-1',
-                      theme === 'dashboard'
-                        ? 'bg-orange-500/10 text-orange-300'
-                        : theme === 'dark'
-                        ? 'bg-orange-500/20 text-orange-300'
-                        : 'bg-orange-100 text-orange-800'
-                    )}>
-                      <span className="font-semibold">{project.excludeReasonText}</span>
-                    </div>
-
-                    {/* 第三行：进度和风险 */}
-                    <div className="flex items-center justify-between text-xs mb-1">
-                      <div className="flex items-center gap-1.5">
-                        <div className={cn(
-                          'w-1.5 h-1.5 rounded-full',
-                          project.currentProgress < project.expectedProgress ? 'bg-red-400' : 'bg-green-400'
-                        )} />
-                        <span className={cn(theme === 'dashboard' ? 'text-cyan-400/70' : 'text-slate-600')}>
-                          进度{project.currentProgress}%/{project.expectedProgress}%
-                        </span>
-                      </div>
-                      <div className="flex items-center gap-1.5">
-                        <div className={cn(
-                          'w-1.5 h-1.5 rounded-full',
-                          theme === 'dashboard'
-                            ? project.probability === 'high' ? 'bg-cyan-500' : project.probability === 'medium' ? 'bg-yellow-500' : 'bg-slate-500'
-                            : project.probability === 'high' ? 'bg-green-500' : project.probability === 'medium' ? 'bg-yellow-500' : 'bg-gray-500'
-                        )} />
-                        <span className={cn(theme === 'dashboard' ? 'text-cyan-400/70' : 'text-slate-600')}>
-                          {project.probability === 'high' ? '高' : project.probability === 'medium' ? '中' : '低'}
-                        </span>
-                      </div>
-                      {project.riskDetail && (
-                        <span className={cn('text-xs text-orange-400', theme === 'dashboard' ? 'text-orange-300' : '')}>
-                          {project.riskDetail.length > 8 ? project.riskDetail.slice(0, 8) + '...' : project.riskDetail}
-                        </span>
-                      )}
-                    </div>
-
-                    {/* 第四行：责任人和催单 */}
-                    <div className="flex items-center justify-between text-xs mt-auto">
-                      <div className="flex items-center gap-3">
-                        {project.region && (
-                          <div className="flex items-center gap-1">
-                            <MapPin className={cn('w-3 h-3', theme === 'dashboard' ? 'text-orange-400/60' : 'text-slate-400')} />
-                            <span className={cn(theme === 'dashboard' ? 'text-orange-400/70' : 'text-slate-600')}>{project.region}</span>
-                          </div>
-                        )}
-                        {project.owner && (
-                          <div className="flex items-center gap-1">
-                            <span className={cn(theme === 'dashboard' ? 'text-orange-400/70' : 'text-slate-600')}>{project.owner}</span>
-                          </div>
-                        )}
-                      </div>
-                      <button
-                        onClick={() => handleUrgeProject(project)}
-                        className={cn(
-                          'flex items-center gap-1 px-2 py-1 rounded-lg text-xs font-medium transition-all',
-                          theme === 'dashboard'
-                            ? 'bg-orange-500/20 border border-orange-500/30 text-orange-300 hover:bg-orange-500/30'
-                            : 'bg-orange-100 text-orange-700 hover:bg-orange-200'
-                        )}
-                      >
-                        <Zap className="w-3 h-3" />
-                        催单
-                      </button>
-                    </div>
-                  </div>
-                ))}
-              </div>
-
-              {/* 未统计项目翻页控件 */}
-              {data.excludedProjects.length > projectsPerPage && (
-                <div className="flex items-center justify-center gap-4 mt-4 pt-4 border-t border-orange-500/20">
-                  <button
-                    onClick={() => setExcludedProjectsCurrentPage((prev) => Math.max(1, prev - 1))}
-                    disabled={excludedProjectsCurrentPage === 1}
-                    className={cn(
-                      'px-3 py-1.5 rounded-lg text-sm font-medium transition-all disabled:opacity-50 disabled:cursor-not-allowed',
-                      theme === 'dashboard'
-                        ? 'bg-orange-500/20 border border-orange-500/30 text-orange-300 hover:bg-orange-500/30'
-                        : 'bg-orange-100 text-orange-700 hover:bg-orange-200'
-                    )}
-                  >
-                    上一页
-                  </button>
-                  <span className={cn('text-sm', theme === 'dashboard' ? 'text-orange-300' : 'text-orange-700')}>
-                    第 {excludedProjectsCurrentPage} / {excludedProjectsTotalPages} 页
-                  </span>
-                  <button
-                    onClick={() => setExcludedProjectsCurrentPage((prev) => Math.min(excludedProjectsTotalPages, prev + 1))}
-                    disabled={excludedProjectsCurrentPage === excludedProjectsTotalPages}
-                    className={cn(
-                      'px-3 py-1.5 rounded-lg text-sm font-medium transition-all disabled:opacity-50 disabled:cursor-not-allowed',
-                      theme === 'dashboard'
-                        ? 'bg-orange-500/20 border border-orange-500/30 text-orange-300 hover:bg-orange-500/30'
-                        : 'bg-orange-100 text-orange-700 hover:bg-orange-200'
-                    )}
-                  >
-                    下一页
-                  </button>
-                </div>
-              )}
             </div>
           )}
         </div>
