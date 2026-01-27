@@ -986,9 +986,9 @@ export default function GMDashboard() {
               </div>
 
               {/* 趋势图表 */}
-              <div className="bg-slate-800/30 rounded-xl p-3 border border-cyan-400/10">
-                <div className="mb-2">
-                  <h4 className={`text-sm font-semibold ${DASHBOARD_STYLES.neon}`}>趋势分析</h4>
+              <div className="bg-slate-800/30 rounded-xl p-2.5 sm:p-3 border border-cyan-400/10">
+                <div className="mb-1.5">
+                  <h4 className={`text-xs sm:text-sm font-semibold ${DASHBOARD_STYLES.neon}`}>趋势分析</h4>
                 </div>
                 <div style={{ height: '230px' }}>
                   <ResponsiveContainer width="100%" height="100%">

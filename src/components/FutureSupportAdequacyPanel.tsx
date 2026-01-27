@@ -2194,7 +2194,7 @@ function ProjectDrillDownModal({
 
         {/* 合计数据栏 - 响应式布局 */}
         <div className={cn(
-          'px-3 sm:px-4 py-2 sm:py-2.5 border-b',
+          'px-2 sm:px-3 py-1.5 sm:py-2 border-b',
           theme === 'dashboard'
             ? 'border-cyan-500/20 bg-cyan-500/10'
             : theme === 'dark'
@@ -2202,62 +2202,70 @@ function ProjectDrillDownModal({
             : 'border-slate-200 bg-slate-50'
         )}>
           {/* 小屏单列，中屏两列，大屏四列 */}
-          <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 sm:gap-4">
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-1.5 sm:gap-3">
             <div className={cn(
-              'text-center p-2 sm:p-3 rounded-lg',
+              'text-center p-1.5 sm:p-2 rounded-lg',
               theme === 'dashboard'
                 ? 'bg-slate-900/50 border border-cyan-500/20'
                 : theme === 'dark'
                 ? 'bg-slate-800'
                 : 'bg-white border border-slate-200'
             )}>
-              <div className={cn('text-[10px] sm:text-xs mb-1', theme === 'dashboard' ? 'text-cyan-400/70' : 'text-slate-600')}>目标</div>
-              <div className={cn('text-lg sm:text-2xl font-bold', theme === 'dashboard' ? 'text-cyan-300' : 'text-slate-900')}>
-                {totals.target.toLocaleString()}
+              <div className={cn('text-[9px] sm:text-xs', theme === 'dashboard' ? 'text-cyan-400/70' : 'text-slate-600')}>目标</div>
+              <div className="flex items-center justify-center gap-0.5">
+                <div className={cn('text-base sm:text-xl font-bold', theme === 'dashboard' ? 'text-cyan-300' : 'text-slate-900')}>
+                  {totals.target.toLocaleString()}
+                </div>
+                <div className={cn('text-[9px] sm:text-xs', theme === 'dashboard' ? 'text-cyan-400/60' : 'text-slate-500')}>万元</div>
               </div>
-              <div className={cn('text-[10px] sm:text-xs mt-1', theme === 'dashboard' ? 'text-cyan-400/60' : 'text-slate-500')}>万元</div>
             </div>
             <div className={cn(
-              'text-center p-2 sm:p-3 rounded-lg',
+              'text-center p-1.5 sm:p-2 rounded-lg',
               theme === 'dashboard'
                 ? 'bg-slate-900/50 border border-cyan-500/20'
                 : theme === 'dark'
                 ? 'bg-slate-800'
                 : 'bg-white border border-slate-200'
             )}>
-              <div className={cn('text-[10px] sm:text-xs mb-1', theme === 'dashboard' ? 'text-cyan-400/70' : 'text-slate-600')}>支撑</div>
-              <div className={cn('text-lg sm:text-2xl font-bold', theme === 'dashboard' ? 'text-cyan-300' : 'text-slate-900')}>
-                {totals.amount.toLocaleString()}
+              <div className={cn('text-[9px] sm:text-xs', theme === 'dashboard' ? 'text-cyan-400/70' : 'text-slate-600')}>支撑</div>
+              <div className="flex items-center justify-center gap-0.5">
+                <div className={cn('text-base sm:text-xl font-bold', theme === 'dashboard' ? 'text-cyan-300' : 'text-slate-900')}>
+                  {totals.amount.toLocaleString()}
+                </div>
+                <div className={cn('text-[9px] sm:text-xs', theme === 'dashboard' ? 'text-cyan-400/60' : 'text-slate-500')}>万元</div>
               </div>
-              <div className={cn('text-[10px] sm:text-xs mt-1', theme === 'dashboard' ? 'text-cyan-400/60' : 'text-slate-500')}>万元</div>
             </div>
             <div className={cn(
-              'text-center p-2 sm:p-3 rounded-lg',
+              'text-center p-1.5 sm:p-2 rounded-lg',
               theme === 'dashboard'
                 ? 'bg-slate-900/50 border border-cyan-500/20'
                 : theme === 'dark'
                 ? 'bg-slate-800'
                 : 'bg-white border border-slate-200'
             )}>
-              <div className={cn('text-[10px] sm:text-xs mb-1', theme === 'dashboard' ? 'text-cyan-400/70' : 'text-slate-600')}>缺口</div>
-              <div className={cn('text-lg sm:text-2xl font-bold', totals.gap > 0 ? 'text-red-400' : 'text-green-400')}>
-                {totals.gap > 0 ? `${totals.gap}` : `+${Math.abs(totals.gap)}`}
+              <div className={cn('text-[9px] sm:text-xs', theme === 'dashboard' ? 'text-cyan-400/70' : 'text-slate-600')}>缺口</div>
+              <div className="flex items-center justify-center gap-0.5">
+                <div className={cn('text-base sm:text-xl font-bold', totals.gap > 0 ? 'text-red-400' : 'text-green-400')}>
+                  {totals.gap > 0 ? `${totals.gap}` : `+${Math.abs(totals.gap)}`}
+                </div>
+                <div className={cn('text-[9px] sm:text-xs', theme === 'dashboard' ? 'text-cyan-400/60' : 'text-slate-500')}>万元</div>
               </div>
-              <div className={cn('text-[10px] sm:text-xs mt-1', theme === 'dashboard' ? 'text-cyan-400/60' : 'text-slate-500')}>万元</div>
             </div>
             <div className={cn(
-              'text-center p-2 sm:p-3 rounded-lg',
+              'text-center p-1.5 sm:p-2 rounded-lg',
               theme === 'dashboard'
                 ? 'bg-slate-900/50 border border-cyan-500/20'
                 : theme === 'dark'
                 ? 'bg-slate-800'
                 : 'bg-white border border-slate-200'
             )}>
-              <div className={cn('text-[10px] sm:text-xs mb-1', theme === 'dashboard' ? 'text-cyan-400/70' : 'text-slate-600')}>覆盖度</div>
-              <div className={cn('text-lg sm:text-2xl font-bold', totals.coverage >= 80 ? 'text-green-400' : totals.coverage >= 50 ? 'text-yellow-400' : 'text-red-400')}>
-                {totals.coverage}%
+              <div className={cn('text-[9px] sm:text-xs', theme === 'dashboard' ? 'text-cyan-400/70' : 'text-slate-600')}>覆盖度</div>
+              <div className="flex items-center justify-center gap-0.5">
+                <div className={cn('text-base sm:text-xl font-bold', totals.coverage >= 80 ? 'text-green-400' : totals.coverage >= 50 ? 'text-yellow-400' : 'text-red-400')}>
+                  {totals.coverage}%
+                </div>
+                <div className={cn('text-[9px] sm:text-xs', theme === 'dashboard' ? 'text-cyan-400/60' : 'text-slate-500')}>支撑达成</div>
               </div>
-              <div className={cn('text-[10px] sm:text-xs mt-1', theme === 'dashboard' ? 'text-cyan-400/60' : 'text-slate-500')}>支撑达成</div>
             </div>
           </div>
         </div>
