@@ -1752,23 +1752,17 @@ export default function FutureSupportAdequacyPanel({
             // 计算还需要新开发的金额
             const newDevNeeded = Math.max(0, level.target - (level.amount + excludedProjectsTotalAmount));
 
-            // 计算各区域在该时间段的达标情况
+            // 计算各区域在该时间段的达标情况（基于未下单项目的区域）
             const underachievingRegions: string[] = [];
-            const regions = ['north', 'east', 'south', 'southwest', 'northwest'] as Region[];
-            regions.forEach(regionKey => {
-              const regionLevel = allRegionData[regionKey]?.supportStructure[period];
-              if (regionLevel) {
-                const regionExcludedAmount = regionLevel.excludedProjects
-                  ? regionLevel.excludedProjects.reduce((sum, p) => sum + p.amount, 0)
-                  : 0;
-                const regionTotalCoverage = regionLevel.target > 0
-                  ? ((regionLevel.amount + regionExcludedAmount) / regionLevel.target) * 100
-                  : 100;
-                if (regionTotalCoverage < 100) {
-                  underachievingRegions.push(regionConfig[regionKey].label);
-                }
-              }
-            });
+            if (level.excludedProjects && level.excludedProjects.length > 0) {
+              // 提取未下单项目的所有区域
+              const regionsWithUnorderedProjects = level.excludedProjects
+                .map(p => p.region)
+                .filter((region): region is string => region !== undefined && region !== null && region !== '');
+              // 去重
+              const uniqueRegions = [...new Set(regionsWithUnorderedProjects)];
+              underachievingRegions.push(...uniqueRegions);
+            }
 
             return (
               <div
@@ -2294,7 +2288,7 @@ function ProjectDrillDownModal({
                   : 'border-transparent text-slate-500 hover:text-slate-700 hover:bg-slate-100'
               )}
             >
-              预测项目 ({data.projects.length})
+              已下单 ({data.projects.length})
             </button>
             {data.excludedProjects && data.excludedProjects.length > 0 && (
               <button
@@ -2314,7 +2308,7 @@ function ProjectDrillDownModal({
                     : 'border-transparent text-slate-500 hover:text-slate-700 hover:bg-slate-100'
                 )}
               >
-                储备项目 ({data.excludedProjects.length})
+                未下单 ({data.excludedProjects.length})
               </button>
             )}
             {data.reserveProjects && data.reserveProjects.length > 0 && (
@@ -2335,7 +2329,7 @@ function ProjectDrillDownModal({
                     : 'border-transparent text-slate-500 hover:text-slate-700 hover:bg-slate-100'
                 )}
               >
-                储备项目 ({data.reserveProjects.length})
+                储备 ({data.reserveProjects.length})
               </button>
             )}
           </div>
@@ -2407,7 +2401,7 @@ function ProjectDrillDownModal({
                 );
                 const unOrderedCount = unOrderedProjects.length;
                 const totalCount = filteredProjects.length;
-                const tabName = activeTab === 'projects' ? '预测' : activeTab === 'excluded' ? '预测' : '储备';
+                const tabName = activeTab === 'projects' ? '已下单' : activeTab === 'excluded' ? '未下单' : '储备';
 
                 if (unOrderedCount === 0) {
                   // 如果没有未下单的项目，不执行催单
