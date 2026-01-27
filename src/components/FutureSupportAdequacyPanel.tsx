@@ -2605,11 +2605,11 @@ function ProjectDrillDownModal({
 
                         {/* 项目名称 */}
                         <td className={cn(
-                          'px-3 py-2 sm:px-4 sm:py-3',
+                          'px-3 py-2 sm:px-4 sm:py-3 text-xs',
                           theme === 'dashboard' ? 'text-cyan-100' : 'text-slate-900'
                         )}>
                           <div className={cn(
-                            'font-medium text-xs sm:text-sm leading-snug',
+                            'font-medium leading-snug',
                             theme === 'dashboard' ? 'text-cyan-100' : 'text-slate-900'
                           )}>
                             {project.name}
