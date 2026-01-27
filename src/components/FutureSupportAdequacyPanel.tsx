@@ -29,6 +29,7 @@ interface SupportLevel {
     salesEngineer?: string; // 销售工程师
     cityManager?: string; // 城市经理
     projectType?: string; // 项目类型（买断/租赁/服务）
+    projectPhase?: string; // 项目阶段（默认：项目采购）
     probability: 'high' | 'medium' | 'low';
     health: 'high' | 'medium' | 'low';
     isOnTrack: boolean;
@@ -60,6 +61,7 @@ interface SupportLevel {
     salesEngineer?: string; // 销售工程师
     cityManager?: string; // 城市经理
     projectType?: string; // 项目类型
+    projectPhase?: string; // 项目阶段（默认：项目采购）
     detail?: string; // 明细
     owner?: string; // 责任人
     salesperson?: string; // 业务员
@@ -80,6 +82,7 @@ interface SupportLevel {
     salesEngineer?: string; // 销售工程师
     cityManager?: string; // 城市经理
     projectType?: string; // 项目类型
+    projectPhase?: string; // 项目阶段（默认：项目采购）
     detail?: string; // 明细
     owner?: string; // 责任人
     salesperson?: string; // 业务员
@@ -2012,11 +2015,11 @@ function ProjectDrillDownModal({
   const getActiveProjects = () => {
     switch (activeTab) {
       case 'projects':
-        return data.projects.map(p => ({ ...p, projectType: p.projectType || '买断', projectStatus: p.projectStatus || '已下单' }));
+        return data.projects.map(p => ({ ...p, projectType: p.projectType || '买断', projectPhase: p.projectPhase || '项目采购', projectStatus: p.projectStatus || '已下单' }));
       case 'excluded':
-        return (data.excludedProjects || []).map(p => ({ ...p, projectType: p.projectType || '买断', projectStatus: p.projectStatus || '未下单' }));
+        return (data.excludedProjects || []).map(p => ({ ...p, projectType: p.projectType || '买断', projectPhase: p.projectPhase || '项目采购', projectStatus: p.projectStatus || '未下单' }));
       case 'reserve':
-        return (data.reserveProjects || []).map(p => ({ ...p, projectType: p.projectType || '买断', projectStatus: p.projectStatus || '未下单' }));
+        return (data.reserveProjects || []).map(p => ({ ...p, projectType: p.projectType || '买断', projectPhase: p.projectPhase || '项目采购', projectStatus: p.projectStatus || '未下单' }));
       default:
         return [];
     }
@@ -2428,6 +2431,18 @@ function ProjectDrillDownModal({
                   : 'bg-slate-50 border-b border-slate-200'
               )}>
                 <tr>
+                  <th className={cn(
+                    'px-3 py-2 sm:px-4 sm:py-3 text-center font-semibold w-16',
+                    theme === 'dashboard' ? 'text-cyan-300' : 'text-slate-700'
+                  )}>
+                    序号
+                  </th>
+                  <th className={cn(
+                    'px-3 py-2 sm:px-4 sm:py-3 text-left font-semibold',
+                    theme === 'dashboard' ? 'text-cyan-300' : 'text-slate-700'
+                  )}>
+                    项目阶段
+                  </th>
                   <th
                     onClick={() => handleSort('expectedOrderDate')}
                     className={cn(
@@ -2522,7 +2537,7 @@ function ProjectDrillDownModal({
                 {displayedProjects.length === 0 ? (
                   <tr>
                     <td
-                      colSpan={7}
+                      colSpan={9}
                       className={cn(
                         'px-4 py-12 text-center',
                         theme === 'dashboard' ? 'text-cyan-400/50' : 'text-slate-500'
@@ -2564,6 +2579,22 @@ function ProjectDrillDownModal({
                             : 'border-slate-200 hover:bg-slate-50'
                         )}
                       >
+                        {/* 序号 */}
+                        <td className={cn(
+                          'px-3 py-2 sm:px-4 sm:py-3 text-center text-xs',
+                          theme === 'dashboard' ? 'text-cyan-300/80' : 'text-slate-600'
+                        )}>
+                          {startIndex + index + 1}
+                        </td>
+
+                        {/* 项目阶段 */}
+                        <td className={cn(
+                          'px-3 py-2 sm:px-4 sm:py-3 text-xs',
+                          theme === 'dashboard' ? 'text-cyan-300/80' : 'text-slate-600'
+                        )}>
+                          {project.projectPhase || '项目采购'}
+                        </td>
+
                         {/* 预计下单时间 */}
                         <td className={cn(
                           'px-3 py-2 sm:px-4 sm:py-3 text-xs whitespace-nowrap',
