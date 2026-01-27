@@ -2015,7 +2015,7 @@ function ProjectDrillDownModal({
   const getActiveProjects = () => {
     switch (activeTab) {
       case 'projects':
-        return data.projects.map(p => ({ ...p, projectType: p.projectType || '买断', projectPhase: p.projectPhase || '项目采购', projectStatus: p.projectStatus || '已下单' }));
+        return data.projects.map(p => ({ ...p, projectType: p.projectType || '买断', projectPhase: p.projectPhase || '项目采购', projectStatus: p.projectStatus || '未下单' }));
       case 'excluded':
         return (data.excludedProjects || []).map(p => ({ ...p, projectType: p.projectType || '买断', projectPhase: p.projectPhase || '项目采购', projectStatus: p.projectStatus || '未下单' }));
       case 'reserve':
@@ -2285,7 +2285,7 @@ function ProjectDrillDownModal({
                   : 'border-transparent text-slate-500 hover:text-slate-700 hover:bg-slate-100'
               )}
             >
-              统计项目 ({data.projects.length})
+              预测项目 ({data.projects.length})
             </button>
             {data.excludedProjects && data.excludedProjects.length > 0 && (
               <button
@@ -2392,10 +2392,29 @@ function ProjectDrillDownModal({
             {/* 一键催单按钮 */}
             <button
               onClick={() => {
+                // 只统计未下单的项目
+                const unOrderedProjects = filteredProjects.filter(p =>
+                  p.projectStatus && p.projectStatus.toLowerCase().includes('未下单')
+                );
+                const unOrderedCount = unOrderedProjects.length;
                 const totalCount = filteredProjects.length;
+                const tabName = activeTab === 'projects' ? '预测' : activeTab === 'excluded' ? '预测' : '储备';
+
+                if (unOrderedCount === 0) {
+                  // 如果没有未下单的项目，不执行催单
+                  setUrgeMessage({
+                    show: true,
+                    projectName: `${tabName}项目中没有需要催单的项目`
+                  });
+                  setTimeout(() => {
+                    setUrgeMessage({ show: false, projectName: '' });
+                  }, 2000);
+                  return;
+                }
+
                 setUrgeMessage({
                   show: true,
-                  projectName: `全部${activeTab === 'projects' ? '统计' : activeTab === 'excluded' ? '预测' : '储备'}项目 (${totalCount}个)`
+                  projectName: `已向${tabName}项目的 ${unOrderedCount} 个未下单项目发送催单提醒`
                 });
                 setTimeout(() => {
                   setUrgeMessage({ show: false, projectName: '' });
@@ -2414,7 +2433,9 @@ function ProjectDrillDownModal({
                 'px-1.5 py-0.5 rounded text-[10px] sm:text-xs',
                 theme === 'dashboard' ? 'bg-orange-500/30' : 'bg-orange-200'
               )}>
-                {filteredProjects.length}
+                {filteredProjects.filter(p =>
+                  p.projectStatus && p.projectStatus.toLowerCase().includes('未下单')
+                ).length}
               </span>
             </button>
           </div>
