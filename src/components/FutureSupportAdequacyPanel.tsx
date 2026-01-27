@@ -2752,7 +2752,6 @@ function ProjectDrillDownModal({
               )}
             </div>
           </div>
-        </div>
 
           {/* 分页 */}
           {totalPages > 1 && (
