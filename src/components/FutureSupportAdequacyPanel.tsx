@@ -2608,21 +2608,11 @@ function ProjectDrillDownModal({
                           'px-3 py-2 sm:px-4 sm:py-3',
                           theme === 'dashboard' ? 'text-cyan-100' : 'text-slate-900'
                         )}>
-                          <div className="flex flex-col">
-                            <span className={cn(
-                              'font-medium text-xs sm:text-sm max-w-[180px] lg:max-w-[250px] truncate',
-                              theme === 'dashboard' ? 'text-cyan-100' : 'text-slate-900'
-                            )}>
-                              {project.name}
-                            </span>
-                            {project.detail && (
-                              <span className={cn(
-                                'text-[10px] sm:text-xs mt-0.5 line-clamp-1',
-                                theme === 'dashboard' ? 'text-cyan-400/50' : 'text-slate-500'
-                              )}>
-                                {project.detail}
-                              </span>
-                            )}
+                          <div className={cn(
+                            'font-medium text-xs sm:text-sm leading-snug',
+                            theme === 'dashboard' ? 'text-cyan-100' : 'text-slate-900'
+                          )}>
+                            {project.name}
                           </div>
                         </td>
 
