@@ -1763,37 +1763,10 @@ export default function FutureSupportAdequacyPanel({
 
             // 计算统计项目总金额
             const projectsTotalAmount = level.projects.reduce((sum, p) => sum + p.amount, 0);
-            // 计算预测完成项目总金额（所有预测项目）
-            const excludedProjectsTotalAmount = level.excludedProjects
-              ? level.excludedProjects.reduce((sum, p) => sum + p.amount, 0)
-              : 0;
-            // 计算未下单项目数量（所有预测项目）
-            const unOrderedProjectsCount = level.excludedProjects?.length || 0;
-            // 计算未下单项目总金额（所有预测项目）
-            const unOrderedProjectsTotalAmount = excludedProjectsTotalAmount;
             // 计算储备项目总金额
             const reserveProjectsTotalAmount = level.reserveProjects
               ? level.reserveProjects.reduce((sum, p) => sum + p.amount, 0)
               : 0;
-            // 加上预测完成后的覆盖率
-            const totalCoverage = level.target > 0
-              ? Math.round(((level.amount + excludedProjectsTotalAmount) / level.target) * 100)
-              : 0;
-            // 计算还需要新开发的金额
-            const newDevNeeded = Math.max(0, level.target - (level.amount + excludedProjectsTotalAmount));
-
-            // 计算预测项目中未下单的区域
-            const underachievingRegions: string[] = [];
-            if (level.excludedProjects && level.excludedProjects.length > 0) {
-              // 提取所有预测项目的区域
-              const regionsSet = new Set<string>();
-              level.excludedProjects.forEach(p => {
-                if (p.region) {
-                  regionsSet.add(p.region);
-                }
-              });
-              underachievingRegions.push(...Array.from(regionsSet));
-            }
 
             return (
               <div
@@ -1832,16 +1805,6 @@ export default function FutureSupportAdequacyPanel({
                       'w-3 h-3 sm:w-4 sm:h-4',
                       theme === 'dashboard' ? 'text-cyan-400/50' : 'text-slate-400'
                     )} />
-                    {newDevNeeded > 0 && (
-                      <span className={cn(
-                        'text-[10px] sm:text-xs font-medium px-1.5 sm:px-2 py-0.5 rounded-full',
-                        theme === 'dashboard'
-                          ? 'bg-yellow-500/30 text-yellow-300 border border-yellow-500/30'
-                          : 'bg-yellow-100 text-yellow-700'
-                      )}>
-                        需新开发{newDevNeeded.toFixed(0)}万
-                      </span>
-                    )}
                   </div>
                   <div className="flex items-center gap-1.5 sm:gap-2">
                     <div className={cn(
@@ -1849,30 +1812,6 @@ export default function FutureSupportAdequacyPanel({
                       statusColor.bg,
                       theme === 'dashboard' && 'shadow-[0_0_8px_currentColor]'
                     )} />
-                    {unOrderedProjectsCount > 0 && (
-                      <button
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          setUrgeMessage({
-                            show: true,
-                            message: `已向【${period}】的 ${unOrderedProjectsCount} 个未下单项目发送催单提醒`
-                          });
-                          setTimeout(() => {
-                            setUrgeMessage({ show: false, message: '' });
-                          }, 2000);
-                        }}
-                        className={cn(
-                          'flex items-center gap-0.5 sm:gap-1 px-1.5 sm:px-2 py-0.5 sm:py-1 rounded-lg text-[10px] sm:text-xs font-medium transition-all',
-                          theme === 'dashboard'
-                            ? 'bg-orange-500/20 border border-orange-500/30 text-orange-300 hover:bg-orange-500/30'
-                            : 'bg-orange-100 text-orange-700 hover:bg-orange-200'
-                        )}
-                        title="批量催单"
-                      >
-                        <Zap className="w-2.5 h-2.5 sm:w-3 sm:h-3" />
-                        <span>{unOrderedProjectsCount}</span>
-                      </button>
-                    )}
                   </div>
                 </div>
 
@@ -1932,23 +1871,6 @@ export default function FutureSupportAdequacyPanel({
                     </span>
                   </div>
 
-                  {/* 未统计项目数 + 金额 */}
-                  {unOrderedProjectsCount > 0 && (
-                    <div className="flex justify-between text-xs">
-                      <span className={cn('text-[10px] sm:text-xs', theme === 'dashboard' ? 'text-cyan-400/60' : 'text-slate-500')}>未下单</span>
-                      <div className="flex items-center gap-1 sm:gap-2">
-                        <span className={cn(
-                          'font-semibold text-xs text-orange-400',
-                          theme === 'dashboard' ? 'text-orange-300' : 'text-orange-600'
-                        )}>{unOrderedProjectsCount}个</span>
-                        <span className={cn(
-                          'font-semibold text-xs text-orange-400',
-                          theme === 'dashboard' ? 'text-orange-300' : 'text-orange-600'
-                        )}>{unOrderedProjectsTotalAmount.toFixed(2)}万</span>
-                      </div>
-                    </div>
-                  )}
-
                   {/* 储备项目数 + 金额 */}
                   <div className="flex justify-between text-xs">
                     <span className={cn('text-[10px] sm:text-xs', theme === 'dashboard' ? 'text-cyan-400/60' : 'text-slate-500')}>储备</span>
@@ -1963,19 +1885,6 @@ export default function FutureSupportAdequacyPanel({
                       )}>{reserveProjectsTotalAmount.toFixed(2)}万</span>
                     </div>
                   </div>
-
-                  {/* 不达标大区 */}
-                  {underachievingRegions.length > 0 && (
-                    <div className="flex justify-between text-xs">
-                      <span className={cn('text-[10px] sm:text-xs', theme === 'dashboard' ? 'text-cyan-400/60' : 'text-slate-500')}>不达标</span>
-                      <span className={cn(
-                        'font-semibold text-xs',
-                        theme === 'dashboard' ? 'text-red-300' : 'text-red-600'
-                      )}>
-                        {underachievingRegions.join(', ')}
-                      </span>
-                    </div>
-                  )}
                 </div>
               </div>
             );
@@ -2021,7 +1930,7 @@ function ProjectDrillDownModal({
   const [sortBy, setSortBy] = useState<string>('expectedOrderDate');
   const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>('asc');
   const [currentPage, setCurrentPage] = useState(1);
-  const [activeTab, setActiveTab] = useState<'projects' | 'excluded' | 'reserve'>('projects');
+  const [activeTab, setActiveTab] = useState<'projects' | 'reserve'>('projects');
   const itemsPerPage = 5;
 
   // 催单提示状态
@@ -2040,8 +1949,6 @@ function ProjectDrillDownModal({
     switch (activeTab) {
       case 'projects':
         return data.projects.map(p => ({ ...p, projectType: p.projectType || '买断', projectPhase: p.projectPhase || '项目采购', projectStatus: p.projectStatus || '未下单' }));
-      case 'excluded':
-        return (data.excludedProjects || []).map(p => ({ ...p, projectType: p.projectType || '买断', projectPhase: p.projectPhase || '项目采购', projectStatus: p.projectStatus || '未下单' }));
       case 'reserve':
         return (data.reserveProjects || []).map(p => ({ ...p, projectType: p.projectType || '买断', projectPhase: p.projectPhase || '项目采购', projectStatus: p.projectStatus || '未下单' }));
       default:
@@ -2320,27 +2227,6 @@ function ProjectDrillDownModal({
             >
               预测项目 ({data.projects.length})
             </button>
-            {data.excludedProjects && data.excludedProjects.length > 0 && (
-              <button
-                onClick={() => setActiveTab('excluded')}
-                className={cn(
-                  'px-3 sm:px-4 py-2 sm:py-2.5 text-sm font-medium transition-all border-b-2',
-                  activeTab === 'excluded'
-                    ? theme === 'dashboard'
-                      ? 'border-orange-400 text-orange-300 bg-orange-500/10'
-                      : theme === 'dark'
-                      ? 'border-orange-500 text-orange-400 bg-orange-500/10'
-                      : 'border-orange-500 text-orange-600 bg-orange-50'
-                    : theme === 'dashboard'
-                    ? 'border-transparent text-orange-400/50 hover:text-orange-300 hover:bg-orange-500/5'
-                    : theme === 'dark'
-                    ? 'border-transparent text-slate-400 hover:text-slate-200 hover:bg-slate-700'
-                    : 'border-transparent text-slate-500 hover:text-slate-700 hover:bg-slate-100'
-                )}
-              >
-                未下单项目 ({data.excludedProjects.length})
-              </button>
-            )}
             {data.reserveProjects && data.reserveProjects.length > 0 && (
               <button
                 onClick={() => setActiveTab('reserve')}
@@ -2421,56 +2307,6 @@ function ProjectDrillDownModal({
               <option value="已下单">已下单</option>
               <option value="未下单">未下单</option>
             </select>
-
-            {/* 一键催单按钮 */}
-            <button
-              onClick={() => {
-                // 只统计未下单的项目
-                const unOrderedProjects = filteredProjects.filter(p =>
-                  p.projectStatus && p.projectStatus.toLowerCase().includes('未下单')
-                );
-                const unOrderedCount = unOrderedProjects.length;
-                const totalCount = filteredProjects.length;
-                const tabName = activeTab === 'projects' ? '预测' : activeTab === 'excluded' ? '预测' : '储备';
-
-                if (unOrderedCount === 0) {
-                  // 如果没有未下单的项目，不执行催单
-                  setUrgeMessage({
-                    show: true,
-                    projectName: `${tabName}项目中没有需要催单的项目`
-                  });
-                  setTimeout(() => {
-                    setUrgeMessage({ show: false, projectName: '' });
-                  }, 2000);
-                  return;
-                }
-
-                setUrgeMessage({
-                  show: true,
-                  projectName: `已向${tabName}项目的 ${unOrderedCount} 个未下单项目发送催单提醒`
-                });
-                setTimeout(() => {
-                  setUrgeMessage({ show: false, projectName: '' });
-                }, 2000);
-              }}
-              className={cn(
-                'flex items-center gap-1.5 sm:gap-2 px-2.5 sm:px-3 py-1.5 rounded-lg text-[10px] sm:text-xs font-medium transition-all ml-auto',
-                theme === 'dashboard'
-                  ? 'bg-orange-500/20 border border-orange-500/30 text-orange-300 hover:bg-orange-500/30'
-                  : 'bg-orange-100 text-orange-700 hover:bg-orange-200'
-              )}
-            >
-              <Zap className="w-3 h-3 sm:w-3.5 sm:h-3.5" />
-              <span>一键催单</span>
-              <span className={cn(
-                'px-1.5 py-0.5 rounded text-[9px] sm:text-[10px]',
-                theme === 'dashboard' ? 'bg-orange-500/30' : 'bg-orange-200'
-              )}>
-                {filteredProjects.filter(p =>
-                  p.projectStatus && p.projectStatus.toLowerCase().includes('未下单')
-                ).length}
-              </span>
-            </button>
           </div>
 
           {/* 表格区域 */}
@@ -2709,7 +2545,7 @@ function ProjectDrillDownModal({
                         )}>
                           <span className={cn(
                             'font-bold text-xs sm:text-sm',
-                            activeTab === 'projects' ? 'text-green-400' : activeTab === 'excluded' ? 'text-orange-400' : 'text-purple-400'
+                            activeTab === 'projects' ? 'text-green-400' : 'text-purple-400'
                           )}>
                             {project.amount?.toFixed(2) || '0.00'}
                           </span>
@@ -2759,7 +2595,7 @@ function ProjectDrillDownModal({
                 </span>
                 <span className={cn(
                   'font-bold text-base sm:text-lg',
-                  activeTab === 'projects' ? 'text-green-400' : activeTab === 'excluded' ? 'text-orange-400' : 'text-purple-400'
+                  activeTab === 'projects' ? 'text-green-400' : 'text-purple-400'
                 )}>
                   {allProjects.reduce((sum, p) => sum + p.amount, 0).toFixed(2)}
                 </span>
