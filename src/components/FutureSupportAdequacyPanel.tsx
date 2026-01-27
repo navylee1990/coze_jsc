@@ -1998,7 +1998,7 @@ function ProjectDrillDownModal({
   const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>('asc');
   const [currentPage, setCurrentPage] = useState(1);
   const [activeTab, setActiveTab] = useState<'projects' | 'excluded' | 'reserve'>('projects');
-  const itemsPerPage = 20;
+  const itemsPerPage = 5;
 
   // 催单提示状态
   const [urgeMessage, setUrgeMessage] = useState<{ show: boolean; projectName: string }>({ show: false, projectName: '' });
