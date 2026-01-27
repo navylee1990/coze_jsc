@@ -1084,6 +1084,11 @@ export default function GMDashboard() {
             'transition-all duration-500 delay-100',
             isMounted && animationPhase >= 3 ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
           )}>
+            {/* 风险识别模块 - 自适应高度 */}
+            <div className={`${DASHBOARD_STYLES.cardBg} ${DASHBOARD_STYLES.cardBorder} rounded-xl p-0 ${DASHBOARD_STYLES.glow}`}>
+              <RiskIdentificationPanel theme="dashboard" />
+            </div>
+
             {/* 区域达成情况 - 自适应高度 */}
             <div className={`${DASHBOARD_STYLES.cardBg} ${DASHBOARD_STYLES.cardBorder} rounded-xl p-4 ${DASHBOARD_STYLES.glow}`}>
               <RegionMatrix
@@ -1093,11 +1098,6 @@ export default function GMDashboard() {
                 salespersonData={salespersonData}
                 theme="dashboard"
               />
-            </div>
-
-            {/* 风险识别模块 - 自适应高度 */}
-            <div className={`${DASHBOARD_STYLES.cardBg} ${DASHBOARD_STYLES.cardBorder} rounded-xl p-0 ${DASHBOARD_STYLES.glow}`}>
-              <RiskIdentificationPanel theme="dashboard" />
             </div>
 
           </div>
