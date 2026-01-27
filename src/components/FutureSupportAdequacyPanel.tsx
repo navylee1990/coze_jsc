@@ -404,6 +404,32 @@ const regionData: RegionData = {
           completionTime: '2025-05-15',
           projectStatus: '意向'
         }
+      ],
+      reserveProjects: [
+        {
+          id: 201,
+          name: '成都高新区管委会项目',
+          amount: 50,
+          probability: 'low',
+          detail: '管委会办公楼净水系统',
+          region: '西南区',
+          owner: '孙丽',
+          salesperson: '周杰',
+          expectedOrderDate: '2026/3/1',
+          projectStatus: '意向'
+        },
+        {
+          id: 202,
+          name: '杭州西湖国际学校项目',
+          amount: 30,
+          probability: 'low',
+          detail: '国际学校饮水设备',
+          region: '华东区',
+          owner: '王强',
+          salesperson: '刘芳',
+          expectedOrderDate: '2026/4/15',
+          projectStatus: '意向'
+        }
       ]
     },
     '本季度': {
