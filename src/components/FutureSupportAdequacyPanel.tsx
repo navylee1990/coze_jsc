@@ -2458,7 +2458,7 @@ function ProjectDrillDownModal({
                     </div>
                   </th>
                   <th className={cn(
-                    'px-3 py-2 sm:px-4 sm:py-3 text-left font-semibold',
+                    'px-3 py-2 sm:px-4 sm:py-3 text-left font-semibold w-48 sm:w-64',
                     theme === 'dashboard' ? 'text-cyan-300' : 'text-slate-700'
                   )}>
                     项目名称
@@ -2559,8 +2559,8 @@ function ProjectDrillDownModal({
                       }
                       if (statusLower.includes('未下单')) {
                         return theme === 'dashboard'
-                          ? 'bg-cyan-500/20 text-cyan-300 border-cyan-500/30'
-                          : 'bg-cyan-100 text-cyan-700 border-cyan-200';
+                          ? 'bg-orange-500/30 text-orange-300 border-orange-500/50 shadow-[0_0_8px_rgba(249,115,22,0.3)]'
+                          : 'bg-orange-100 text-orange-700 border-orange-300';
                       }
                       return theme === 'dashboard'
                         ? 'bg-slate-500/20 text-slate-300 border-slate-500/30'
