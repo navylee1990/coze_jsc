@@ -57,6 +57,16 @@ interface SupportLevel {
     completionTime?: string; // 完成时间
     projectStatus?: string; // 项目状态
   }[];
+  reserveProjects?: {
+    id: number;
+    name: string;
+    amount: number;
+    probability: 'high' | 'medium' | 'low';
+    detail?: string; // 明细
+    region?: string; // 区域
+    owner?: string; // 责任人
+    salesperson?: string; // 业务员
+  }[];
 }
 
 // 诊断问题数据
@@ -1673,11 +1683,15 @@ export default function FutureSupportAdequacyPanel({
 
             // 计算统计项目总金额
             const projectsTotalAmount = level.projects.reduce((sum, p) => sum + p.amount, 0);
-            // 计算未统计项目总金额
+            // 计算预测完成项目总金额
             const excludedProjectsTotalAmount = level.excludedProjects
               ? level.excludedProjects.reduce((sum, p) => sum + p.amount, 0)
               : 0;
-            // 加上未统计后的覆盖率
+            // 计算储备项目总金额
+            const reserveProjectsTotalAmount = level.reserveProjects
+              ? level.reserveProjects.reduce((sum, p) => sum + p.amount, 0)
+              : 0;
+            // 加上预测完成后的覆盖率
             const totalCoverage = level.target > 0
               ? Math.round(((level.amount + excludedProjectsTotalAmount) / level.target) * 100)
               : 0;
@@ -1844,7 +1858,7 @@ export default function FutureSupportAdequacyPanel({
                   {level.excludedProjects && level.excludedProjects.length > 0 && (
                     <>
                       <div className="flex justify-between text-xs">
-                        <span className={cn(theme === 'dashboard' ? 'text-cyan-400/60' : 'text-slate-500')}>未统计</span>
+                        <span className={cn(theme === 'dashboard' ? 'text-cyan-400/60' : 'text-slate-500')}>预测完成</span>
                         <div className="flex items-center gap-2">
                           <span className={cn(
                             'font-semibold text-orange-400',
@@ -1858,7 +1872,7 @@ export default function FutureSupportAdequacyPanel({
                       </div>
                       {/* 加上未统计后的覆盖率 */}
                       <div className="flex justify-between text-xs">
-                        <span className={cn(theme === 'dashboard' ? 'text-cyan-400/60' : 'text-slate-500')}>加上未统计</span>
+                        <span className={cn(theme === 'dashboard' ? 'text-cyan-400/60' : 'text-slate-500')}>加上预测完成</span>
                         <span className={cn(
                           'font-semibold',
                           totalCoverage >= 80 ? 'text-green-400' : totalCoverage > 50 ? 'text-yellow-400' : 'text-red-400'
@@ -1866,19 +1880,39 @@ export default function FutureSupportAdequacyPanel({
                           {totalCoverage}%
                         </span>
                       </div>
-                      {/* 不达标大区 */}
-                      {underachievingRegions.length > 0 && (
-                        <div className="flex justify-between text-xs">
-                          <span className={cn(theme === 'dashboard' ? 'text-cyan-400/60' : 'text-slate-500')}>不达标</span>
-                          <span className={cn(
-                            'font-semibold text-red-400',
-                            theme === 'dashboard' ? 'text-red-300' : 'text-red-600'
-                          )}>
-                            {underachievingRegions.join(', ')}
-                          </span>
-                        </div>
-                      )}
                     </>
+                  )}
+
+                  {/* 储备项目数 + 金额 */}
+                  {level.reserveProjects && level.reserveProjects.length > 0 && (
+                    <>
+                      <div className="flex justify-between text-xs">
+                        <span className={cn(theme === 'dashboard' ? 'text-cyan-400/60' : 'text-slate-500')}>储备</span>
+                        <div className="flex items-center gap-2">
+                          <span className={cn(
+                            'font-semibold text-purple-400',
+                            theme === 'dashboard' ? 'text-purple-300' : 'text-purple-600'
+                          )}>{level.reserveProjects.length}个</span>
+                          <span className={cn(
+                            'font-semibold text-purple-400',
+                            theme === 'dashboard' ? 'text-purple-300' : 'text-purple-600'
+                          )}>{reserveProjectsTotalAmount}万</span>
+                        </div>
+                      </div>
+                    </>
+                  )}
+
+                  {/* 不达标大区 */}
+                  {underachievingRegions.length > 0 && (
+                    <div className="flex justify-between text-xs">
+                      <span className={cn(theme === 'dashboard' ? 'text-cyan-400/60' : 'text-slate-500')}>不达标</span>
+                      <span className={cn(
+                        'font-semibold text-red-400',
+                        theme === 'dashboard' ? 'text-red-300' : 'text-red-600'
+                      )}>
+                        {underachievingRegions.join(', ')}
+                      </span>
+                    </div>
                   )}
                 </div>
               </div>
