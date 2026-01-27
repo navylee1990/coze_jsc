@@ -1885,23 +1885,19 @@ export default function FutureSupportAdequacyPanel({
                   )}
 
                   {/* 储备项目数 + 金额 */}
-                  {level.reserveProjects && level.reserveProjects.length > 0 && (
-                    <>
-                      <div className="flex justify-between text-xs">
-                        <span className={cn('text-[10px] sm:text-xs', theme === 'dashboard' ? 'text-cyan-400/60' : 'text-slate-500')}>储备</span>
-                        <div className="flex items-center gap-1 sm:gap-2">
-                          <span className={cn(
-                            'font-semibold text-xs text-purple-400',
-                            theme === 'dashboard' ? 'text-purple-300' : 'text-purple-600'
-                          )}>{level.reserveProjects.length}个</span>
-                          <span className={cn(
-                            'font-semibold text-xs text-purple-400',
-                            theme === 'dashboard' ? 'text-purple-300' : 'text-purple-600'
-                          )}>{reserveProjectsTotalAmount}万</span>
-                        </div>
-                      </div>
-                    </>
-                  )}
+                  <div className="flex justify-between text-xs">
+                    <span className={cn('text-[10px] sm:text-xs', theme === 'dashboard' ? 'text-cyan-400/60' : 'text-slate-500')}>储备</span>
+                    <div className="flex items-center gap-1 sm:gap-2">
+                      <span className={cn(
+                        'font-semibold text-xs text-purple-400',
+                        theme === 'dashboard' ? 'text-purple-300' : 'text-purple-600'
+                      )}>{level.reserveProjects?.length || 0}个</span>
+                      <span className={cn(
+                        'font-semibold text-xs text-purple-400',
+                        theme === 'dashboard' ? 'text-purple-300' : 'text-purple-600'
+                      )}>{reserveProjectsTotalAmount}万</span>
+                    </div>
+                  </div>
 
                   {/* 不达标大区 */}
                   {underachievingRegions.length > 0 && (
