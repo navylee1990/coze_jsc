@@ -188,104 +188,131 @@ const regionData: RegionData = {
     '本月': {
       period: '本月',
       label: '核心支撑期',
-      amount: 500, // 已统计项目总和
-      coverage: 50, // 500/1000
-      status: 'red',
-      target: 1000,
-      gap: 500, // 1000 - 500
+      amount: 123.4, // 已统计项目总和
+      coverage: 94.9, // 123.4/130
+      status: 'green',
+      target: 130,
+      gap: -6.6, // 实际上超出了
       projects: [
         {
           id: 1,
-          name: '北京协和医院净化项目',
-          amount: 150,
+          name: '高邮市外国语学校行政楼【办公饮水】',
+          amount: 39.9772,
           probability: 'high',
           health: 'high',
           isOnTrack: true,
-          detail: '净化系统设备采购与安装',
-          region: '华北区',
-          owner: '张伟',
-          salesperson: '李明',
-          riskDetail: '无风险',
-          completionTime: '2025-02-15',
-          projectStatus: '推进中'
+          detail: '行政楼办公饮水设备',
+          region: '一区',
+          salesEngineer: '朱若愚',
+          cityManager: '卢继栋',
+          projectType: '买断',
+          expectedOrderDate: '2026/1/4',
+          projectStatus: '已下单',
+          changeAmount: 39.9772,
+          changeDate: '1.19更新'
         },
         {
           id: 2,
-          name: '上海外国语学校净水项目',
-          amount: 100,
-          probability: 'medium',
-          health: 'medium',
-          isOnTrack: false,
-          delayDays: 12,
-          detail: '校园净水设备采购',
-          region: '华东区',
-          owner: '王强',
-          salesperson: '刘芳',
-          riskDetail: '资金审批延迟',
-          completionTime: '2025-02-28',
-          projectStatus: '推进中'
+          name: '国网江苏扬州供电公司（协调1231303）',
+          amount: 40.01375,
+          probability: 'high',
+          health: 'high',
+          isOnTrack: true,
+          detail: '供电公司净水设备',
+          region: '一区',
+          salesEngineer: '朱若愚',
+          cityManager: '卢继栋',
+          projectType: '买断',
+          expectedOrderDate: '2026/1/4',
+          projectStatus: '已下单',
+          changeAmount: 40.01375,
+          changeDate: '1.19更新'
         },
         {
           id: 3,
-          name: '广州天河城购物中心净水项目',
-          amount: 80,
+          name: '江苏省地质矿产局第六地质大队【办公饮水(含咖啡机)】',
+          amount: 0.9104,
           probability: 'high',
           health: 'high',
           isOnTrack: true,
-          isNew: true,
-          detail: '商业综合体净水系统',
-          region: '华南区',
-          owner: '陈明',
-          salesperson: '赵敏',
-          riskDetail: '无风险',
-          completionTime: '2025-03-01',
-          projectStatus: '推进中'
+          detail: '办公饮水设备含咖啡机',
+          region: '一区',
+          salesEngineer: '杨锦宇',
+          cityManager: '卢继栋',
+          projectType: '买断',
+          expectedOrderDate: '2026/1/4',
+          projectStatus: '已下单',
+          changeAmount: 0.9104,
+          changeDate: '1.19更新'
         },
         {
           id: 4,
-          name: '深圳华为总部园区项目',
-          amount: 60,
-          probability: 'medium',
-          health: 'medium',
-          isOnTrack: false,
-          delayDays: 5,
-          detail: '企业园区净水设备',
-          region: '华南区',
-          owner: '孙丽',
-          salesperson: '周杰',
-          riskDetail: '技术方案待确认',
-          completionTime: '2025-03-05',
-          projectStatus: '推进中'
-        },
-        {
-          id: 5,
-          name: '成都天府国际机场航站楼项目',
-          amount: 60,
+          name: '南通能达伊顿国际幼儿园【办公饮水】',
+          amount: 0.06472,
           probability: 'high',
           health: 'high',
           isOnTrack: true,
-          detail: '机场航站楼净化系统',
-          region: '西南区',
-          owner: '吴刚',
-          salesperson: '郑华',
-          riskDetail: '无风险',
-          completionTime: '2025-02-20',
-          projectStatus: '推进中'
+          detail: '幼儿园办公饮水设备',
+          region: '一区',
+          salesEngineer: '单帅',
+          cityManager: '卢继栋',
+          projectType: '买断',
+          expectedOrderDate: '2026/1/4',
+          projectStatus: '已下单',
+          changeAmount: 0.06472,
+          changeDate: '1.19更新'
+        },
+        {
+          id: 5,
+          name: '宿迁东方雨虹建筑材料有限公司【办公饮水】',
+          amount: 16.515,
+          probability: 'high',
+          health: 'high',
+          isOnTrack: true,
+          detail: '建筑材料公司办公饮水',
+          region: '一区',
+          salesEngineer: '施露景',
+          cityManager: '卢继栋',
+          projectType: '买断',
+          expectedOrderDate: '2026/1/4',
+          projectStatus: '已下单',
+          changeAmount: 16.515,
+          changeDate: '1.19更新'
         },
         {
           id: 6,
-          name: '南京河西万达广场项目',
-          amount: 50,
+          name: '希彼埃姆机械(南通)有限公司',
+          amount: 0.4092,
+          probability: 'medium',
+          health: 'high',
+          isOnTrack: true,
+          detail: '机械公司净水设备',
+          region: '一区',
+          salesEngineer: '单帅',
+          cityManager: '卢继栋',
+          projectType: '买断',
+          expectedOrderDate: '2026/1/4',
+          projectStatus: '已下单',
+          changeAmount: 0.4092,
+          changeDate: '1.19更新'
+        },
+        {
+          id: 7,
+          name: '扬州万达广场租赁项目',
+          amount: 25.5,
           probability: 'medium',
           health: 'medium',
-          isOnTrack: true,
-          detail: '商业广场净水设备',
-          region: '华东区',
-          owner: '王强',
-          salesperson: '刘芳',
-          riskDetail: '施工进度略慢',
-          completionTime: '2025-03-10',
-          projectStatus: '推进中'
+          isOnTrack: false,
+          delayDays: 3,
+          detail: '商业广场租赁服务',
+          region: '一区',
+          salesEngineer: '张伟',
+          cityManager: '卢继栋',
+          projectType: '租赁',
+          expectedOrderDate: '2026/1/15',
+          projectStatus: '未下单',
+          changeAmount: 0,
+          changeDate: ''
         }
       ],
       excludedProjects: [
@@ -1985,11 +2012,11 @@ function ProjectDrillDownModal({
   const getActiveProjects = () => {
     switch (activeTab) {
       case 'projects':
-        return data.projects.map(p => ({ ...p, projectType: '统计', projectStatus: p.projectStatus || '推进中' }));
+        return data.projects.map(p => ({ ...p, projectType: p.projectType || '买断', projectStatus: p.projectStatus || '已下单' }));
       case 'excluded':
-        return (data.excludedProjects || []).map(p => ({ ...p, projectType: '预测', projectStatus: p.projectStatus || '预测中' }));
+        return (data.excludedProjects || []).map(p => ({ ...p, projectType: p.projectType || '买断', projectStatus: p.projectStatus || '未下单' }));
       case 'reserve':
-        return (data.reserveProjects || []).map(p => ({ ...p, projectType: '储备', projectStatus: p.projectStatus || '储备中' }));
+        return (data.reserveProjects || []).map(p => ({ ...p, projectType: p.projectType || '买断', projectStatus: p.projectStatus || '未下单' }));
       default:
         return [];
     }
@@ -2355,9 +2382,8 @@ function ProjectDrillDownModal({
               )}
             >
               <option value="all">全部状态</option>
-              {Array.from(new Set(filteredProjects.map(p => p.projectStatus).filter(Boolean))).map(status => (
-                <option key={status} value={status}>{status}</option>
-              ))}
+              <option value="已下单">已下单</option>
+              <option value="未下单">未下单</option>
             </select>
           </div>
 
@@ -2467,6 +2493,12 @@ function ProjectDrillDownModal({
                   )}>
                     变化
                   </th>
+                  <th className={cn(
+                    'px-3 py-2 sm:px-4 sm:py-3 text-center font-semibold',
+                    theme === 'dashboard' ? 'text-cyan-300' : 'text-slate-700'
+                  )}>
+                    操作
+                  </th>
                 </tr>
               </thead>
               <tbody>
@@ -2488,25 +2520,15 @@ function ProjectDrillDownModal({
                     const getStatusColor = (status?: string) => {
                       if (!status) return theme === 'dashboard' ? 'text-slate-400' : 'text-slate-500';
                       const statusLower = status.toLowerCase();
-                      if (statusLower.includes('已下单') || statusLower.includes('完成') || statusLower.includes('完成')) {
+                      if (statusLower.includes('已下单')) {
                         return theme === 'dashboard'
                           ? 'bg-green-500/20 text-green-300 border-green-500/30'
                           : 'bg-green-100 text-green-700 border-green-200';
                       }
-                      if (statusLower.includes('推进中') || statusLower.includes('进行中')) {
+                      if (statusLower.includes('未下单')) {
                         return theme === 'dashboard'
                           ? 'bg-cyan-500/20 text-cyan-300 border-cyan-500/30'
                           : 'bg-cyan-100 text-cyan-700 border-cyan-200';
-                      }
-                      if (statusLower.includes('延迟') || statusLower.includes('滞后')) {
-                        return theme === 'dashboard'
-                          ? 'bg-orange-500/20 text-orange-300 border-orange-500/30'
-                          : 'bg-orange-100 text-orange-700 border-orange-200';
-                      }
-                      if (statusLower.includes('风险') || statusLower.includes('暂停') || statusLower.includes('待')) {
-                        return theme === 'dashboard'
-                          ? 'bg-red-500/20 text-red-300 border-red-500/30'
-                          : 'bg-red-100 text-red-700 border-red-200';
                       }
                       return theme === 'dashboard'
                         ? 'bg-slate-500/20 text-slate-300 border-slate-500/30'
@@ -2628,6 +2650,23 @@ function ProjectDrillDownModal({
                           ) : (
                             '-'
                           )}
+                        </td>
+
+                        {/* 催单操作 */}
+                        <td className={cn('px-3 py-2 sm:px-4 sm:py-3 text-center')}>
+                          <button
+                            onClick={() => handleUrgeProject(project)}
+                            className={cn(
+                              'flex items-center justify-center gap-1 px-2 sm:px-3 py-1 sm:py-1.5 rounded-lg text-[10px] sm:text-xs font-medium transition-all',
+                              theme === 'dashboard'
+                                ? 'bg-orange-500/20 border border-orange-500/30 text-orange-300 hover:bg-orange-500/30'
+                                : 'bg-orange-100 text-orange-700 hover:bg-orange-200'
+                            )}
+                            title="催单"
+                          >
+                            <Zap className="w-3 h-3 sm:w-3.5 sm:h-3.5" />
+                            <span className="hidden sm:inline">催单</span>
+                          </button>
                         </td>
                       </tr>
                     );
