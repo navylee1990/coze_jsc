@@ -2121,7 +2121,7 @@ function ProjectDrillDownModal({
 
       {/* 弹窗内容 - 响应式宽度 */}
       <div className={cn(
-        'relative w-full max-w-5xl mx-2 sm:mx-4 max-h-[90vh] border-2 rounded-2xl overflow-hidden transition-all',
+        'relative w-full max-w-5xl mx-2 sm:mx-4 max-h-[75vh] border-2 rounded-2xl overflow-hidden transition-all',
         theme === 'dashboard'
           ? 'bg-slate-900/80 border-cyan-500/30 shadow-[0_0_30px_rgba(6,182,212,0.3)]'
           : theme === 'dark'
@@ -2130,7 +2130,7 @@ function ProjectDrillDownModal({
       )}>
         {/* 标题栏 */}
         <div className={cn(
-          'flex items-center justify-between px-4 sm:px-6 py-3 sm:py-4 border-b',
+          'flex items-center justify-between px-3 sm:px-4 py-2 sm:py-2.5 border-b',
           theme === 'dashboard'
             ? 'border-cyan-500/30 bg-slate-900/80'
             : theme === 'dark'
@@ -2179,13 +2179,13 @@ function ProjectDrillDownModal({
         {/* 催单提示消息 */}
         {urgeMessage.show && (
           <div className={cn(
-            'mx-6 mt-4 p-3 rounded-lg border flex items-center gap-3 animate-pulse',
+            'mx-3 sm:mx-4 mt-2 sm:mt-3 p-2 rounded-lg border flex items-center gap-2 animate-pulse',
             theme === 'dashboard'
               ? 'bg-orange-500/20 border-orange-500/40 text-orange-300'
               : 'bg-orange-100 border-orange-300 text-orange-800'
           )}>
-            <Zap className={cn('w-5 h-5 flex-shrink-0', theme === 'dashboard' ? 'text-orange-300' : 'text-orange-600')} />
-            <span className="text-sm font-medium">
+            <Zap className={cn('w-4 h-4 flex-shrink-0', theme === 'dashboard' ? 'text-orange-300' : 'text-orange-600')} />
+            <span className="text-xs sm:text-sm font-medium">
               已向【{urgeMessage.projectName}】发送催单提醒
             </span>
           </div>
@@ -2193,7 +2193,7 @@ function ProjectDrillDownModal({
 
         {/* 合计数据栏 - 响应式布局 */}
         <div className={cn(
-          'px-4 sm:px-6 py-3 sm:py-4 border-b',
+          'px-3 sm:px-4 py-2 sm:py-2.5 border-b',
           theme === 'dashboard'
             ? 'border-cyan-500/20 bg-cyan-500/10'
             : theme === 'dark'
@@ -2305,7 +2305,7 @@ function ProjectDrillDownModal({
                     : 'border-transparent text-slate-500 hover:text-slate-700 hover:bg-slate-100'
                 )}
               >
-                预测项目 ({data.excludedProjects.length})
+                储备项目 ({data.excludedProjects.length})
               </button>
             )}
             {data.reserveProjects && data.reserveProjects.length > 0 && (
@@ -2333,7 +2333,7 @@ function ProjectDrillDownModal({
 
           {/* 筛选和搜索区 */}
           <div className={cn(
-            'p-3 sm:p-4 border-b flex flex-wrap gap-2 sm:gap-3 items-center',
+            'px-2 sm:px-3 py-2 sm:py-2.5 border-b flex flex-wrap gap-2 sm:gap-3 items-center',
             theme === 'dashboard' ? 'border-cyan-500/20' : theme === 'dark' ? 'border-slate-700' : 'border-slate-200'
           )}>
             {/* 搜索框 */}
@@ -2343,7 +2343,7 @@ function ProjectDrillDownModal({
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               className={cn(
-                'px-3 py-1.5 sm:px-4 sm:py-2 text-sm rounded-lg border focus:outline-none focus:ring-2 min-w-[200px] sm:min-w-[280px]',
+                'px-2.5 py-1.5 sm:px-3 sm:py-1.5 text-xs sm:text-sm rounded-lg border focus:outline-none focus:ring-2 min-w-[160px] sm:min-w-[240px]',
                 theme === 'dashboard'
                   ? 'bg-slate-900/50 border-cyan-500/30 text-white placeholder-cyan-400/40 focus:ring-cyan-500 focus:text-cyan-100'
                   : theme === 'dark'
@@ -2357,7 +2357,7 @@ function ProjectDrillDownModal({
               value={filterRegion}
               onChange={(e) => setFilterRegion(e.target.value)}
               className={cn(
-                'px-3 py-1.5 sm:px-4 sm:py-2 text-sm rounded-lg border focus:outline-none focus:ring-2 cursor-pointer',
+                'px-2.5 py-1.5 sm:px-3 sm:py-1.5 text-xs sm:text-sm rounded-lg border focus:outline-none focus:ring-2 cursor-pointer',
                 theme === 'dashboard'
                   ? 'bg-slate-900/50 border-cyan-500/30 text-white focus:ring-cyan-500'
                   : theme === 'dark'
@@ -2376,7 +2376,7 @@ function ProjectDrillDownModal({
               value={filterStatus}
               onChange={(e) => setFilterStatus(e.target.value)}
               className={cn(
-                'px-3 py-1.5 sm:px-4 sm:py-2 text-sm rounded-lg border focus:outline-none focus:ring-2 cursor-pointer',
+                'px-2.5 py-1.5 sm:px-3 sm:py-1.5 text-xs sm:text-sm rounded-lg border focus:outline-none focus:ring-2 cursor-pointer',
                 theme === 'dashboard'
                   ? 'bg-slate-900/50 border-cyan-500/30 text-white focus:ring-cyan-500'
                   : theme === 'dark'
@@ -2421,16 +2421,16 @@ function ProjectDrillDownModal({
                 }, 2000);
               }}
               className={cn(
-                'flex items-center gap-1.5 sm:gap-2 px-3 sm:px-4 py-1.5 sm:py-2 rounded-lg text-xs sm:text-sm font-medium transition-all ml-auto',
+                'flex items-center gap-1.5 sm:gap-2 px-2.5 sm:px-3 py-1.5 rounded-lg text-[10px] sm:text-xs font-medium transition-all ml-auto',
                 theme === 'dashboard'
                   ? 'bg-orange-500/20 border border-orange-500/30 text-orange-300 hover:bg-orange-500/30'
                   : 'bg-orange-100 text-orange-700 hover:bg-orange-200'
               )}
             >
-              <Zap className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
+              <Zap className="w-3 h-3 sm:w-3.5 sm:h-3.5" />
               <span>一键催单</span>
               <span className={cn(
-                'px-1.5 py-0.5 rounded text-[10px] sm:text-xs',
+                'px-1.5 py-0.5 rounded text-[9px] sm:text-[10px]',
                 theme === 'dashboard' ? 'bg-orange-500/30' : 'bg-orange-200'
               )}>
                 {filteredProjects.filter(p =>
@@ -2467,7 +2467,7 @@ function ProjectDrillDownModal({
                   <th
                     onClick={() => handleSort('expectedOrderDate')}
                     className={cn(
-                      'px-3 py-2 sm:px-4 sm:py-3 text-left font-semibold cursor-pointer hover:opacity-80 transition-opacity select-none',
+                      'px-3 py-1.5 sm:px-4 sm:py-2 text-left font-semibold cursor-pointer hover:opacity-80 transition-opacity select-none',
                       theme === 'dashboard' ? 'text-cyan-300' : 'text-slate-700'
                     )}
                   >
@@ -2479,7 +2479,7 @@ function ProjectDrillDownModal({
                     </div>
                   </th>
                   <th className={cn(
-                    'px-3 py-2 sm:px-4 sm:py-3 text-left font-semibold w-48 sm:w-64',
+                    'px-3 py-1.5 sm:px-4 sm:py-2 text-left font-semibold w-48 sm:w-64',
                     theme === 'dashboard' ? 'text-cyan-300' : 'text-slate-700'
                   )}>
                     项目名称
@@ -2487,7 +2487,7 @@ function ProjectDrillDownModal({
                   <th
                     onClick={() => handleSort('region')}
                     className={cn(
-                      'hidden lg:table-cell px-3 py-2 sm:px-4 sm:py-3 text-left font-semibold cursor-pointer hover:opacity-80 transition-opacity select-none',
+                      'hidden lg:table-cell px-3 py-1.5 sm:px-4 sm:py-2 text-left font-semibold cursor-pointer hover:opacity-80 transition-opacity select-none',
                       theme === 'dashboard' ? 'text-cyan-300' : 'text-slate-700'
                     )}
                   >
@@ -2501,7 +2501,7 @@ function ProjectDrillDownModal({
                   <th
                     onClick={() => handleSort('salesEngineer')}
                     className={cn(
-                      'hidden md:table-cell px-3 py-2 sm:px-4 sm:py-3 text-left font-semibold cursor-pointer hover:opacity-80 transition-opacity select-none',
+                      'hidden md:table-cell px-3 py-1.5 sm:px-4 sm:py-2 text-left font-semibold cursor-pointer hover:opacity-80 transition-opacity select-none',
                       theme === 'dashboard' ? 'text-cyan-300' : 'text-slate-700'
                     )}
                   >
@@ -2513,13 +2513,13 @@ function ProjectDrillDownModal({
                     </div>
                   </th>
                   <th className={cn(
-                    'hidden xl:table-cell px-3 py-2 sm:px-4 sm:py-3 text-left font-semibold',
+                    'hidden xl:table-cell px-3 py-1.5 sm:px-4 sm:py-2 text-left font-semibold',
                     theme === 'dashboard' ? 'text-cyan-300' : 'text-slate-700'
                   )}>
                     城市经理
                   </th>
                   <th className={cn(
-                    'hidden md:table-cell px-3 py-2 sm:px-4 sm:py-3 text-left font-semibold',
+                    'hidden md:table-cell px-3 py-1.5 sm:px-4 sm:py-2 text-left font-semibold',
                     theme === 'dashboard' ? 'text-cyan-300' : 'text-slate-700'
                   )}>
                     类型
@@ -2527,7 +2527,7 @@ function ProjectDrillDownModal({
                   <th
                     onClick={() => handleSort('amount')}
                     className={cn(
-                      'px-3 py-2 sm:px-4 sm:py-3 text-right font-semibold cursor-pointer hover:opacity-80 transition-opacity select-none',
+                      'px-3 py-1.5 sm:px-4 sm:py-2 text-right font-semibold cursor-pointer hover:opacity-80 transition-opacity select-none',
                       theme === 'dashboard' ? 'text-cyan-300' : 'text-slate-700'
                     )}
                   >
@@ -2541,7 +2541,7 @@ function ProjectDrillDownModal({
                   <th
                     onClick={() => handleSort('projectStatus')}
                     className={cn(
-                      'px-3 py-2 sm:px-4 sm:py-3 text-center font-semibold cursor-pointer hover:opacity-80 transition-opacity select-none',
+                      'px-3 py-1.5 sm:px-4 sm:py-2 text-center font-semibold cursor-pointer hover:opacity-80 transition-opacity select-none',
                       theme === 'dashboard' ? 'text-cyan-300' : 'text-slate-700'
                     )}
                   >
@@ -2602,7 +2602,7 @@ function ProjectDrillDownModal({
                       >
                         {/* 序号 */}
                         <td className={cn(
-                          'px-3 py-2 sm:px-4 sm:py-3 text-center text-xs',
+                          'px-3 py-1.5 sm:px-4 sm:py-2 text-center text-xs',
                           theme === 'dashboard' ? 'text-cyan-300/80' : 'text-slate-600'
                         )}>
                           {startIndex + index + 1}
@@ -2610,7 +2610,7 @@ function ProjectDrillDownModal({
 
                         {/* 项目阶段 */}
                         <td className={cn(
-                          'px-3 py-2 sm:px-4 sm:py-3 text-xs',
+                          'px-3 py-1.5 sm:px-4 sm:py-2 text-xs',
                           theme === 'dashboard' ? 'text-cyan-300/80' : 'text-slate-600'
                         )}>
                           {project.projectPhase || '项目采购'}
@@ -2618,7 +2618,7 @@ function ProjectDrillDownModal({
 
                         {/* 预计下单时间 */}
                         <td className={cn(
-                          'px-3 py-2 sm:px-4 sm:py-3 text-xs whitespace-nowrap',
+                          'px-3 py-1.5 sm:px-4 sm:py-2 text-xs whitespace-nowrap',
                           theme === 'dashboard' ? 'text-cyan-300' : 'text-slate-700'
                         )}>
                           {project.expectedOrderDate || '-'}
@@ -2626,7 +2626,7 @@ function ProjectDrillDownModal({
 
                         {/* 项目名称 */}
                         <td className={cn(
-                          'px-3 py-2 sm:px-4 sm:py-3 text-xs',
+                          'px-3 py-1.5 sm:px-4 sm:py-2 text-xs',
                           theme === 'dashboard' ? 'text-cyan-100' : 'text-slate-900'
                         )}>
                           <div className={cn(
@@ -2639,7 +2639,7 @@ function ProjectDrillDownModal({
 
                         {/* 大区 */}
                         <td className={cn(
-                          'hidden lg:table-cell px-3 py-2 sm:px-4 sm:py-3 text-xs',
+                          'hidden lg:table-cell px-3 py-1.5 sm:px-4 sm:py-2 text-xs',
                           theme === 'dashboard' ? 'text-cyan-300/80' : 'text-slate-600'
                         )}>
                           {project.region || '-'}
@@ -2647,7 +2647,7 @@ function ProjectDrillDownModal({
 
                         {/* 销售工程师 */}
                         <td className={cn(
-                          'hidden md:table-cell px-3 py-2 sm:px-4 sm:py-3 text-xs',
+                          'hidden md:table-cell px-3 py-1.5 sm:px-4 sm:py-2 text-xs',
                           theme === 'dashboard' ? 'text-cyan-300/80' : 'text-slate-600'
                         )}>
                           {project.salesEngineer || project.salesperson || '-'}
@@ -2663,7 +2663,7 @@ function ProjectDrillDownModal({
 
                         {/* 项目类型 */}
                         <td className={cn(
-                          'hidden md:table-cell px-3 py-2 sm:px-4 sm:py-3 text-xs',
+                          'hidden md:table-cell px-3 py-1.5 sm:px-4 sm:py-2 text-xs',
                           theme === 'dashboard' ? 'text-cyan-300/80' : 'text-slate-600'
                         )}>
                           {project.projectType || '-'}
@@ -2671,7 +2671,7 @@ function ProjectDrillDownModal({
 
                         {/* 订单金额 */}
                         <td className={cn(
-                          'px-3 py-2 sm:px-4 sm:py-3 text-right whitespace-nowrap',
+                          'px-3 py-1.5 sm:px-4 sm:py-2 text-right whitespace-nowrap',
                           theme === 'dashboard' ? 'text-cyan-300' : 'text-slate-900'
                         )}>
                           <span className={cn(
@@ -2686,7 +2686,7 @@ function ProjectDrillDownModal({
                         </td>
 
                         {/* 项目状态 */}
-                        <td className={cn('px-3 py-2 sm:px-4 sm:py-3 text-center')}>
+                        <td className={cn('px-3 py-1.5 sm:px-4 sm:py-2 text-center')}>
                           <span className={cn(
                             'inline-block px-2 py-1 rounded text-[10px] sm:text-xs font-medium border',
                             getStatusColor(project.projectStatus)
@@ -2755,19 +2755,19 @@ function ProjectDrillDownModal({
           {/* 分页 */}
           {totalPages > 1 && (
             <div className={cn(
-              'flex flex-col sm:flex-row items-center justify-between gap-3 sm:gap-0 px-4 sm:px-6 py-3 border-t',
+              'flex flex-col sm:flex-row items-center justify-between gap-2 sm:gap-0 px-3 sm:px-4 py-2 sm:py-2.5 border-t',
               theme === 'dashboard' ? 'border-cyan-500/20' : theme === 'dark' ? 'border-slate-700' : 'border-slate-200'
             )}>
-              <div className={cn('text-xs sm:text-sm', theme === 'dashboard' ? 'text-cyan-400/70' : 'text-slate-600')}>
+              <div className={cn('text-[10px] sm:text-xs', theme === 'dashboard' ? 'text-cyan-400/70' : 'text-slate-600')}>
                 共 {filteredProjects.length} 条，{totalPages} 页
               </div>
-              <div className="flex items-center gap-1 sm:gap-2">
+              <div className="flex items-center gap-1 sm:gap-1.5">
                 {/* 首页 */}
                 <button
                   onClick={() => setCurrentPage(1)}
                   disabled={currentPage === 1}
                   className={cn(
-                    'px-2 py-1 rounded text-xs font-medium transition-all disabled:opacity-50 disabled:cursor-not-allowed',
+                    'px-1.5 py-0.5 rounded text-[10px] font-medium transition-all disabled:opacity-50 disabled:cursor-not-allowed',
                     theme === 'dashboard'
                       ? 'bg-cyan-500/20 border border-cyan-500/30 text-cyan-300 hover:bg-cyan-500/30'
                       : 'bg-slate-200 text-slate-700 hover:bg-slate-300'
@@ -2781,7 +2781,7 @@ function ProjectDrillDownModal({
                   onClick={() => setCurrentPage(prev => Math.max(1, prev - 1))}
                   disabled={currentPage === 1}
                   className={cn(
-                    'px-2 sm:px-3 py-1 rounded text-xs sm:text-sm font-medium transition-all disabled:opacity-50 disabled:cursor-not-allowed',
+                    'px-2 sm:px-2.5 py-0.5 rounded text-[10px] sm:text-xs font-medium transition-all disabled:opacity-50 disabled:cursor-not-allowed',
                     theme === 'dashboard'
                       ? 'bg-cyan-500/20 border border-cyan-500/30 text-cyan-300 hover:bg-cyan-500/30'
                       : 'bg-slate-200 text-slate-700 hover:bg-slate-300'
@@ -2826,7 +2826,7 @@ function ProjectDrillDownModal({
                           key={1}
                           onClick={() => setCurrentPage(1)}
                           className={cn(
-                            'px-2 py-1 rounded text-xs font-medium transition-all',
+                            'px-2 sm:px-2.5 py-0.5 rounded text-[10px] sm:text-xs font-medium transition-all',
                             currentPage === 1
                               ? theme === 'dashboard'
                                 ? 'bg-cyan-500 text-white'
@@ -2844,7 +2844,7 @@ function ProjectDrillDownModal({
                       if (currentPage > 3) {
                         pages.push(
                           <span key="ellipsis1" className={cn(
-                            'px-2 py-1 text-xs',
+                            'px-2 py-0.5 text-[10px]',
                             theme === 'dashboard' ? 'text-cyan-400/50' : 'text-slate-400'
                           )}>
                             ...
@@ -2861,7 +2861,7 @@ function ProjectDrillDownModal({
                             key={i}
                             onClick={() => setCurrentPage(i)}
                             className={cn(
-                              'px-2 py-1 rounded text-xs font-medium transition-all',
+                              'px-2 sm:px-2.5 py-0.5 rounded text-[10px] sm:text-xs font-medium transition-all',
                               currentPage === i
                                 ? theme === 'dashboard'
                                   ? 'bg-cyan-500 text-white'
@@ -2880,7 +2880,7 @@ function ProjectDrillDownModal({
                       if (currentPage < totalPages - 2) {
                         pages.push(
                           <span key="ellipsis2" className={cn(
-                            'px-2 py-1 text-xs',
+                            'px-2 py-0.5 text-[10px]',
                             theme === 'dashboard' ? 'text-cyan-400/50' : 'text-slate-400'
                           )}>
                             ...
@@ -2894,7 +2894,7 @@ function ProjectDrillDownModal({
                           key={totalPages}
                           onClick={() => setCurrentPage(totalPages)}
                           className={cn(
-                            'px-2 py-1 rounded text-xs font-medium transition-all',
+                            'px-2 sm:px-2.5 py-0.5 rounded text-[10px] sm:text-xs font-medium transition-all',
                             currentPage === totalPages
                               ? theme === 'dashboard'
                                 ? 'bg-cyan-500 text-white'
@@ -2917,7 +2917,7 @@ function ProjectDrillDownModal({
                   onClick={() => setCurrentPage(prev => Math.min(totalPages, prev + 1))}
                   disabled={currentPage === totalPages}
                   className={cn(
-                    'px-2 sm:px-3 py-1 rounded text-xs sm:text-sm font-medium transition-all disabled:opacity-50 disabled:cursor-not-allowed',
+                    'px-2 sm:px-2.5 py-0.5 rounded text-[10px] sm:text-xs font-medium transition-all disabled:opacity-50 disabled:cursor-not-allowed',
                     theme === 'dashboard'
                       ? 'bg-cyan-500/20 border border-cyan-500/30 text-cyan-300 hover:bg-cyan-500/30'
                       : 'bg-slate-200 text-slate-700 hover:bg-slate-300'
@@ -2930,7 +2930,7 @@ function ProjectDrillDownModal({
                   onClick={() => setCurrentPage(totalPages)}
                   disabled={currentPage === totalPages}
                   className={cn(
-                    'px-2 py-1 rounded text-xs font-medium transition-all disabled:opacity-50 disabled:cursor-not-allowed',
+                    'px-1.5 py-0.5 rounded text-[10px] font-medium transition-all disabled:opacity-50 disabled:cursor-not-allowed',
                     theme === 'dashboard'
                       ? 'bg-cyan-500/20 border border-cyan-500/30 text-cyan-300 hover:bg-cyan-500/30'
                       : 'bg-slate-200 text-slate-700 hover:bg-slate-300'
@@ -2942,7 +2942,7 @@ function ProjectDrillDownModal({
 
                 {/* 跳转 */}
                 <div className="flex items-center gap-1 ml-2">
-                  <span className={cn('text-xs', theme === 'dashboard' ? 'text-cyan-400/70' : 'text-slate-600')}>
+                  <span className={cn('text-[10px]', theme === 'dashboard' ? 'text-cyan-400/70' : 'text-slate-600')}>
                     跳转
                   </span>
                   <input
@@ -2958,7 +2958,7 @@ function ProjectDrillDownModal({
                       }
                     }}
                     className={cn(
-                      'w-12 px-2 py-1 text-xs rounded border text-center focus:outline-none focus:ring-2',
+                      'w-10 sm:w-12 px-1.5 sm:px-2 py-0.5 text-[10px] sm:text-xs rounded border text-center focus:outline-none focus:ring-2',
                       theme === 'dashboard'
                         ? 'bg-slate-900/50 border-cyan-500/30 text-white focus:ring-cyan-500'
                         : theme === 'dark'
