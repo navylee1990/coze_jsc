@@ -1818,7 +1818,7 @@ export default function FutureSupportAdequacyPanel({
                     />
                   </div>
 
-                  {/* 缺口 + 项目数 - 单行显示 */}
+                  {/* 缺口 */}
                   <div className="flex items-center justify-between text-sm pt-1">
                     <div className="flex items-center gap-1">
                       <span className={cn(theme === 'dashboard' ? 'text-cyan-400/60' : 'text-slate-500')}>缺口</span>
@@ -1827,15 +1827,17 @@ export default function FutureSupportAdequacyPanel({
                       </span>
                       <span className={cn(theme === 'dashboard' ? 'text-cyan-400/60' : 'text-slate-500')}>万</span>
                     </div>
-                    <div className="flex items-center gap-2">
-                      <span className={cn(theme === 'dashboard' ? 'text-cyan-400/60' : 'text-slate-500')}>项目</span>
-                      <span className={cn('font-semibold', theme === 'dashboard' ? 'text-cyan-300' : 'text-slate-900')}>
-                        {level.projects.length}个
-                      </span>
-                      <span className={cn('font-semibold text-green-400', theme === 'dashboard' ? 'text-green-300' : 'text-green-600')}>
-                        {projectsTotalAmount}万
-                      </span>
-                    </div>
+                  </div>
+
+                  {/* 已完成项目数 + 金额 */}
+                  <div className="flex items-center gap-2 text-sm pt-1">
+                    <span className={cn(theme === 'dashboard' ? 'text-cyan-400/60' : 'text-slate-500')}>已完成</span>
+                    <span className={cn('font-semibold', theme === 'dashboard' ? 'text-cyan-300' : 'text-slate-900')}>
+                      {level.projects.length}个
+                    </span>
+                    <span className={cn('font-semibold text-green-400', theme === 'dashboard' ? 'text-green-300' : 'text-green-600')}>
+                      {projectsTotalAmount}万
+                    </span>
                   </div>
 
                   {/* 未统计项目数 + 金额 */}
