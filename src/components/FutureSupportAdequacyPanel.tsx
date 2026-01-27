@@ -1857,31 +1857,19 @@ export default function FutureSupportAdequacyPanel({
 
                   {/* 未统计项目数 + 金额 */}
                   {level.excludedProjects && level.excludedProjects.length > 0 && (
-                    <>
-                      <div className="flex justify-between text-xs">
-                        <span className={cn('text-[10px] sm:text-xs', theme === 'dashboard' ? 'text-cyan-400/60' : 'text-slate-500')}>预测完成</span>
-                        <div className="flex items-center gap-1 sm:gap-2">
-                          <span className={cn(
-                            'font-semibold text-xs text-orange-400',
-                            theme === 'dashboard' ? 'text-orange-300' : 'text-orange-600'
-                          )}>{level.excludedProjects.length}个</span>
-                          <span className={cn(
-                            'font-semibold text-xs text-orange-400',
-                            theme === 'dashboard' ? 'text-orange-300' : 'text-orange-600'
-                          )}>{excludedProjectsTotalAmount}万</span>
-                        </div>
-                      </div>
-                      {/* 加上未统计后的覆盖率 */}
-                      <div className="flex justify-between text-xs">
-                        <span className={cn('text-[10px] sm:text-xs', theme === 'dashboard' ? 'text-cyan-400/60' : 'text-slate-500')}>加上预测完成</span>
+                    <div className="flex justify-between text-xs">
+                      <span className={cn('text-[10px] sm:text-xs', theme === 'dashboard' ? 'text-cyan-400/60' : 'text-slate-500')}>预测</span>
+                      <div className="flex items-center gap-1 sm:gap-2">
                         <span className={cn(
-                          'font-semibold text-xs',
-                          totalCoverage >= 80 ? 'text-green-400' : totalCoverage > 50 ? 'text-yellow-400' : 'text-red-400'
-                        )}>
-                          {totalCoverage}%
-                        </span>
+                          'font-semibold text-xs text-orange-400',
+                          theme === 'dashboard' ? 'text-orange-300' : 'text-orange-600'
+                        )}>{level.excludedProjects.length}个</span>
+                        <span className={cn(
+                          'font-semibold text-xs text-orange-400',
+                          theme === 'dashboard' ? 'text-orange-300' : 'text-orange-600'
+                        )}>{excludedProjectsTotalAmount}万</span>
                       </div>
-                    </>
+                    </div>
                   )}
 
                   {/* 储备项目数 + 金额 */}
