@@ -410,8 +410,8 @@ export default function GMDashboard() {
 
       // 限制缩放范围：
       // - 最大不超过 1（不放大，保持设计稿尺寸）
-      // - 最小不低于 0.65（防止过小导致无法阅读，提升笔记本可读性）
-      scale = Math.min(Math.max(scale, 0.65), 1);
+      // - 最小不低于 0.5（防止过小导致无法阅读）
+      scale = Math.min(Math.max(scale, 0.5), 1);
 
       setScaleRatio(scale);
     };
@@ -609,8 +609,8 @@ export default function GMDashboard() {
                 <ChevronLeft className="w-5 h-5" />
               </Link>
               <div>
-                <h1 className={`text-3xl font-bold ${DASHBOARD_STYLES.neon}`}>{PAGE_TITLE}</h1>
-                <p className={`text-base ${DASHBOARD_STYLES.textSecondary}`}>预测驱动 · 数据赋能 · 精准决策</p>
+                <h1 className={`text-2xl font-bold ${DASHBOARD_STYLES.neon}`}>{PAGE_TITLE}</h1>
+                <p className={`text-sm ${DASHBOARD_STYLES.textSecondary}`}>预测驱动 · 数据赋能 · 精准决策</p>
               </div>
               <Badge
                 variant="outline"
@@ -650,14 +650,14 @@ export default function GMDashboard() {
             {/* 核心预测决策卡片 - 固定高度 */}
             <div className={`${DASHBOARD_STYLES.cardBg} ${DASHBOARD_STYLES.cardBorder} rounded-xl p-5 ${DASHBOARD_STYLES.glow}`} style={{ height: '520px' }}>
               <div className="flex items-center justify-between mb-4">
-                <h2 className={`text-xl font-bold ${DASHBOARD_STYLES.neon} flex items-center gap-2`}>
-                  <Target className="w-6 h-6" />
+                <h2 className={`text-lg font-bold ${DASHBOARD_STYLES.neon} flex items-center gap-2`}>
+                  <Target className="w-5 h-5" />
                   核心预测决策
                 </h2>
                 <div className="flex gap-2">
                   <button
                     onClick={() => setSelectedTimeRange('current')}
-                    className={`px-4 py-2 rounded-lg text-sm font-medium transition-all ${
+                    className={`px-3 py-1.5 rounded-lg text-xs font-medium transition-all ${
                       selectedTimeRange === 'current'
                         ? 'bg-cyan-500/30 border-cyan-500/50 text-cyan-300'
                         : 'bg-slate-800/50 border-cyan-400/20 text-cyan-400/70'
@@ -667,7 +667,7 @@ export default function GMDashboard() {
                   </button>
                   <button
                     onClick={() => setSelectedTimeRange('quarter')}
-                    className={`px-4 py-2 rounded-lg text-sm font-medium transition-all ${
+                    className={`px-3 py-1.5 rounded-lg text-xs font-medium transition-all ${
                       selectedTimeRange === 'quarter'
                         ? 'bg-cyan-500/30 border-cyan-500/50 text-cyan-300'
                         : 'bg-slate-800/50 border-cyan-400/20 text-cyan-400/70'
@@ -677,7 +677,7 @@ export default function GMDashboard() {
                   </button>
                   <button
                     onClick={() => setSelectedTimeRange('year')}
-                    className={`px-4 py-2 rounded-lg text-sm font-medium transition-all ${
+                    className={`px-3 py-1.5 rounded-lg text-xs font-medium transition-all ${
                       selectedTimeRange === 'year'
                         ? 'bg-cyan-500/30 border-cyan-500/50 text-cyan-300'
                         : 'bg-slate-800/50 border-cyan-400/20 text-cyan-400/70'
@@ -698,15 +698,15 @@ export default function GMDashboard() {
                       boxShadow: '0 0 25px rgba(34, 211, 238, 0.3), inset 0 0 20px rgba(34, 211, 238, 0.08)'
                     }}
                   >
-                    <div className="flex items-center gap-4">
+                    <div className="flex items-center gap-3">
                       {/* 仪表盘圆形 */}
-                      <div className="relative flex-shrink-0" style={{ width: '100px', height: '100px' }}>
+                      <div className="relative flex-shrink-0" style={{ width: '80px', height: '80px' }}>
                         <svg viewBox="0 0 100 100" className="w-full h-full">
                           {/* 背景圆 */}
                           <circle
                             cx="50"
                             cy="50"
-                            r="38"
+                            r="35"
                             fill="none"
                             stroke="#1e293b"
                             strokeWidth="6"
@@ -714,8 +714,8 @@ export default function GMDashboard() {
                           {/* 刻度线 */}
                           {[...Array(12)].map((_, i) => {
                             const angle = (i * 30 - 90) * (Math.PI / 180)
-                            const innerR = 30
-                            const outerR = 38
+                            const innerR = 28
+                            const outerR = 35
                             const x1 = 50 + innerR * Math.cos(angle)
                             const y1 = 50 + innerR * Math.sin(angle)
                             const x2 = 50 + outerR * Math.cos(angle)
@@ -736,12 +736,12 @@ export default function GMDashboard() {
                           <circle
                             cx="50"
                             cy="50"
-                            r="38"
+                            r="35"
                             fill="none"
                             stroke="#22d3ee"
                             strokeWidth="5"
                             strokeLinecap="round"
-                            strokeDasharray="239"
+                            strokeDasharray="220"
                             strokeDashoffset="0"
                             style={{
                               filter: 'drop-shadow(0 0 6px rgba(34, 211, 238, 0.8))'
@@ -753,9 +753,9 @@ export default function GMDashboard() {
                               x1="0"
                               y1="0"
                               x2="0"
-                              y2="-30"
+                              y2="-28"
                               stroke="#f97316"
-                              strokeWidth="2.5"
+                              strokeWidth="2"
                               style={{
                                 transform: `rotate(${needleAngle1}deg)`,
                                 transformOrigin: '0 0',
@@ -763,22 +763,22 @@ export default function GMDashboard() {
                                 transition: 'transform 1.5s cubic-bezier(0.34, 1.56, 0.64, 1)'
                               }}
                             />
-                            <circle cx="0" cy="0" r="3.5" fill="#22d3ee" />
+                            <circle cx="0" cy="0" r="3" fill="#22d3ee" />
                           </g>
                         </svg>
                         {/* 中心数值 */}
                         <div className="absolute inset-0 flex flex-col items-center justify-center">
-                          <span className="text-xl font-bold text-cyan-400" style={{ textShadow: '0 0 8px rgba(34, 211, 238, 0.8)' }}>
+                          <span className="text-lg font-bold text-cyan-400" style={{ textShadow: '0 0 8px rgba(34, 211, 238, 0.8)' }}>
                             100%
                           </span>
                         </div>
                       </div>
                       {/* 右侧数值 */}
                       <div className="flex-1">
-                        <div className="text-sm text-cyan-400/70 mb-2">目标</div>
-                        <div className="text-2xl font-bold text-orange-400" style={{ textShadow: '0 0 6px rgba(251, 146, 60, 0.6)' }}>
+                        <div className="text-xs text-cyan-400/70 mb-1">目标</div>
+                        <div className="text-xl font-bold text-orange-400" style={{ textShadow: '0 0 6px rgba(251, 146, 60, 0.6)' }}>
                           {animatedTarget.toLocaleString()}
-                          <span className="text-sm text-cyan-400/50 ml-1">万</span>
+                          <span className="text-xs text-cyan-400/50 ml-1">万</span>
                         </div>
                       </div>
                     </div>
@@ -793,15 +793,15 @@ export default function GMDashboard() {
                       boxShadow: '0 0 25px rgba(34, 211, 238, 0.3), inset 0 0 20px rgba(34, 211, 238, 0.08)'
                     }}
                   >
-                    <div className="flex items-center gap-4">
+                    <div className="flex items-center gap-3">
                       {/* 仪表盘圆形 */}
-                      <div className="relative flex-shrink-0" style={{ width: '100px', height: '100px' }}>
+                      <div className="relative flex-shrink-0" style={{ width: '80px', height: '80px' }}>
                         <svg viewBox="0 0 100 100" className="w-full h-full">
                           {/* 背景圆 */}
                           <circle
                             cx="50"
                             cy="50"
-                            r="38"
+                            r="35"
                             fill="none"
                             stroke="#1e293b"
                             strokeWidth="6"
@@ -809,8 +809,8 @@ export default function GMDashboard() {
                           {/* 刻度线 */}
                           {[...Array(12)].map((_, i) => {
                             const angle = (i * 30 - 90) * (Math.PI / 180)
-                            const innerR = 30
-                            const outerR = 38
+                            const innerR = 28
+                            const outerR = 35
                             const x1 = 50 + innerR * Math.cos(angle)
                             const y1 = 50 + innerR * Math.sin(angle)
                             const x2 = 50 + outerR * Math.cos(angle)
@@ -831,13 +831,13 @@ export default function GMDashboard() {
                           <circle
                             cx="50"
                             cy="50"
-                            r="38"
+                            r="35"
                             fill="none"
                             stroke="#22d3ee"
                             strokeWidth="5"
                             strokeLinecap="round"
-                            strokeDasharray="239"
-                            strokeDashoffset={239 - (239 * Math.min(parseFloat(getAchievementRate()), 100) / 100)}
+                            strokeDasharray="220"
+                            strokeDashoffset={220 - (220 * Math.min(parseFloat(getAchievementRate()), 100) / 100)}
                             style={{
                               filter: 'drop-shadow(0 0 8px rgba(34, 211, 238, 0.8))',
                               transition: 'stroke-dashoffset 0.5s ease-out'
@@ -849,7 +849,7 @@ export default function GMDashboard() {
                               x1="0"
                               y1="0"
                               x2="0"
-                              y2="-30"
+                              y2="-28"
                               stroke="#22d3ee"
                               strokeWidth="2.5"
                               style={{
@@ -865,7 +865,7 @@ export default function GMDashboard() {
                         {/* 中心数值 */}
                         <div className="absolute inset-0 flex flex-col items-center justify-center">
                           <span className={cn(
-                            'text-xl font-bold',
+                            'text-lg font-bold',
                             animatedRate >= 90 ? 'text-green-400' : animatedRate >= 70 ? 'text-yellow-400' : 'text-red-400'
                           )} style={{ textShadow: `0 0 8px ${animatedRate >= 90 ? 'rgba(74, 222, 128, 0.8)' : animatedRate >= 70 ? 'rgba(250, 204, 21, 0.8)' : 'rgba(248, 113, 113, 0.8)'}` }}>
                             {animatedRate.toFixed(1)}%
@@ -874,18 +874,18 @@ export default function GMDashboard() {
                       </div>
                       {/* 右侧数值 */}
                       <div className="flex-1">
-                        <div className="text-sm text-cyan-400/70 mb-2 flex items-center gap-1">
+                        <div className="text-xs text-cyan-400/70 mb-1 flex items-center gap-1">
                           预测完成
                           {animatedRate < 100 && (
-                            <AlertTriangle className={`w-5 h-5 animate-pulse ${animatedRate >= 80 ? 'text-yellow-400 drop-shadow-[0_0_6px_rgba(250,204,21,0.6)]' : 'text-red-400 drop-shadow-[0_0_6px_rgba(248,113,113,0.6)]'}`} />
+                            <AlertTriangle className={`w-4 h-4 animate-pulse ${animatedRate >= 80 ? 'text-yellow-400 drop-shadow-[0_0_6px_rgba(250,204,21,0.6)]' : 'text-red-400 drop-shadow-[0_0_6px_rgba(248,113,113,0.6)]'}`} />
                           )}
                         </div>
                         <div className={cn(
-                          'text-2xl font-bold',
+                          'text-xl font-bold',
                           animatedForecast >= getTimeRangeData().target ? 'text-green-400' : 'text-yellow-400'
                         )} style={{ textShadow: animatedForecast >= getTimeRangeData().target ? '0 0 6px rgba(74, 222, 128, 0.6)' : '0 0 6px rgba(250, 204, 21, 0.6)' }}>
                           {animatedForecast.toLocaleString()}
-                          <span className="text-sm text-cyan-400/50 ml-1">万</span>
+                          <span className="text-xs text-cyan-400/50 ml-1">万</span>
                         </div>
                       </div>
                     </div>
@@ -896,7 +896,7 @@ export default function GMDashboard() {
                 <div className="relative">
                   <div
                     className={cn(
-                      'rounded-xl border-2 p-4 transition-all duration-300',
+                      'rounded-xl border-2 p-3 transition-all duration-300',
                       animatedGap <= 0
                         ? 'bg-gradient-to-br from-green-900/20 to-slate-900/90 border-green-500/40'
                         : 'bg-gradient-to-br from-red-900/20 to-slate-900/90 border-red-500/40'
@@ -907,9 +907,9 @@ export default function GMDashboard() {
                         : '0 0 25px rgba(248, 113, 113, 0.3), inset 0 0 20px rgba(248, 113, 113, 0.08)'
                     }}
                   >
-                    <div className="flex items-center gap-4">
+                    <div className="flex items-center gap-3">
                       {/* 仪表盘圆形 */}
-                      <div className="relative flex-shrink-0" style={{ width: '100px', height: '100px' }}>
+                      <div className="relative flex-shrink-0" style={{ width: '80px', height: '80px' }}>
                         <svg viewBox="0 0 100 100" className="w-full h-full">
                           {/* 背景圆 */}
                           <circle
@@ -945,13 +945,13 @@ export default function GMDashboard() {
                           <circle
                             cx="50"
                             cy="50"
-                            r="38"
+                            r="35"
                             fill="none"
                             stroke={getGap() <= 0 ? '#4ade80' : '#f87171'}
                             strokeWidth="5"
                             strokeLinecap="round"
-                            strokeDasharray="239"
-                            strokeDashoffset={getGap() <= 0 ? '0' : '239'}
+                            strokeDasharray="220"
+                            strokeDashoffset={getGap() <= 0 ? '0' : '220'}
                             style={{
                               filter: getGap() <= 0 ? 'drop-shadow(0 0 8px rgba(74, 222, 128, 0.8))' : 'drop-shadow(0 0 8px rgba(248, 113, 113, 0.8))',
                               transition: 'stroke-dashoffset 0.5s ease-out'
@@ -963,7 +963,7 @@ export default function GMDashboard() {
                               x1="0"
                               y1="0"
                               x2="0"
-                              y2="-30"
+                              y2="-28"
                               stroke={animatedGap <= 0 ? '#4ade80' : '#f87171'}
                               strokeWidth="2.5"
                               style={{
@@ -985,13 +985,13 @@ export default function GMDashboard() {
                         {/* 中心数值 */}
                         <div className="absolute inset-0 flex flex-col items-center justify-center">
                           {animatedGap <= 0 ? (
-                            <span className="text-base font-bold text-green-400 flex items-center gap-1" style={{ textShadow: '0 0 8px rgba(74, 222, 128, 0.8)' }}>
-                              <ArrowUp className="w-4 h-4" />
+                            <span className="text-sm font-bold text-green-400 flex items-center gap-1" style={{ textShadow: '0 0 8px rgba(74, 222, 128, 0.8)' }}>
+                              <ArrowUp className="w-3 h-3" />
                               超额
                             </span>
                           ) : (
-                            <span className="text-base font-bold text-red-400 flex items-center gap-1" style={{ textShadow: '0 0 8px rgba(248, 113, 113, 0.8)' }}>
-                              <ArrowDown className="w-4 h-4" />
+                            <span className="text-sm font-bold text-red-400 flex items-center gap-1" style={{ textShadow: '0 0 8px rgba(248, 113, 113, 0.8)' }}>
+                              <ArrowDown className="w-3 h-3" />
                               缺口
                             </span>
                           )}
@@ -999,25 +999,25 @@ export default function GMDashboard() {
                       </div>
                       {/* 右侧数值 */}
                       <div className="flex-1">
-                        <div className="text-sm text-cyan-400/70 mb-2 flex items-center gap-1">
+                        <div className="text-xs text-cyan-400/70 mb-1 flex items-center gap-1">
                           {animatedGap <= 0 ? '超额' : '缺口'}
                           {animatedGap > 0 && (
-                            <AlertTriangle className={`w-5 h-5 animate-pulse ${(Math.abs(animatedGap) / getTimeRangeData().target) * 100 <= 20 ? 'text-yellow-400 drop-shadow-[0_0_6px_rgba(250,204,21,0.6)]' : 'text-red-400 drop-shadow-[0_0_6px_rgba(248,113,113,0.6)]'}`} />
+                            <AlertTriangle className={`w-4 h-4 animate-pulse ${(Math.abs(animatedGap) / getTimeRangeData().target) * 100 <= 20 ? 'text-yellow-400 drop-shadow-[0_0_6px_rgba(250,204,21,0.6)]' : 'text-red-400 drop-shadow-[0_0_6px_rgba(248,113,113,0.6)]'}`} />
                           )}
                         </div>
                         <div className="flex items-start gap-3">
                           <div className={cn(
-                            'text-2xl font-bold',
+                            'text-xl font-bold',
                             animatedGap <= 0 ? 'text-green-400' : 'text-red-400'
                           )} style={{ textShadow: animatedGap <= 0 ? '0 0 6px rgba(74, 222, 128, 0.6)' : '0 0 6px rgba(248, 113, 113, 0.6)' }}>
                             {animatedGap <= 0 ? '+' : ''}{Math.abs(animatedGap).toFixed(0)}
-                            <span className="text-sm text-cyan-400/50 ml-1">万</span>
+                            <span className="text-xs text-cyan-400/50 ml-1">万</span>
                           </div>
                           {/* 延期和新开发项目信息 */}
                           {animatedGap > 0 && (
-                            <div className="space-y-1">
-                              <div className="flex items-center gap-1.5 text-xs">
-                                <div className="w-1.5 h-1.5 rounded-full bg-orange-400"></div>
+                            <div className="space-y-0.5">
+                              <div className="flex items-center gap-1 text-xs">
+                                <div className="w-1 h-1 rounded-full bg-orange-400"></div>
                                 <span className="text-orange-300 font-medium">
                                   延期{getTimeRangeData().gapSolution?.delayedProjects.count || 0}个
                                 </span>
@@ -1025,8 +1025,8 @@ export default function GMDashboard() {
                                   {getTimeRangeData().gapSolution?.delayedProjects.amount || 0}万
                                 </span>
                               </div>
-                              <div className="flex items-center gap-1.5 text-xs">
-                                <div className="w-1.5 h-1.5 rounded-full bg-cyan-400"></div>
+                              <div className="flex items-center gap-1 text-xs">
+                                <div className="w-1 h-1 rounded-full bg-cyan-400"></div>
                                 <span className="text-cyan-300 font-medium">
                                   新开发{getTimeRangeData().gapSolution?.newProjectsNeeded.count || 0}个
                                 </span>
