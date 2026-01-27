@@ -1998,7 +1998,7 @@ function ProjectDrillDownModal({
   const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>('asc');
   const [currentPage, setCurrentPage] = useState(1);
   const [activeTab, setActiveTab] = useState<'projects' | 'excluded' | 'reserve'>('projects');
-  const itemsPerPage = 15;
+  const itemsPerPage = 20;
 
   // 催单提示状态
   const [urgeMessage, setUrgeMessage] = useState<{ show: boolean; projectName: string }>({ show: false, projectName: '' });
@@ -2734,43 +2734,218 @@ function ProjectDrillDownModal({
           {/* 分页 */}
           {totalPages > 1 && (
             <div className={cn(
-              'flex items-center justify-between px-4 sm:px-6 py-3 border-t',
+              'flex flex-col sm:flex-row items-center justify-between gap-3 sm:gap-0 px-4 sm:px-6 py-3 border-t',
               theme === 'dashboard' ? 'border-cyan-500/20' : theme === 'dark' ? 'border-slate-700' : 'border-slate-200'
             )}>
               <div className={cn('text-xs sm:text-sm', theme === 'dashboard' ? 'text-cyan-400/70' : 'text-slate-600')}>
-                共 {filteredProjects.length} 条
+                共 {filteredProjects.length} 条，{totalPages} 页
               </div>
-              <div className="flex items-center gap-2">
+              <div className="flex items-center gap-1 sm:gap-2">
+                {/* 首页 */}
+                <button
+                  onClick={() => setCurrentPage(1)}
+                  disabled={currentPage === 1}
+                  className={cn(
+                    'px-2 py-1 rounded text-xs font-medium transition-all disabled:opacity-50 disabled:cursor-not-allowed',
+                    theme === 'dashboard'
+                      ? 'bg-cyan-500/20 border border-cyan-500/30 text-cyan-300 hover:bg-cyan-500/30'
+                      : 'bg-slate-200 text-slate-700 hover:bg-slate-300'
+                  )}
+                  title="首页"
+                >
+                  &laquo;
+                </button>
+                {/* 上一页 */}
                 <button
                   onClick={() => setCurrentPage(prev => Math.max(1, prev - 1))}
                   disabled={currentPage === 1}
                   className={cn(
-                    'px-2 sm:px-3 py-1 sm:py-1.5 rounded-lg text-xs sm:text-sm font-medium transition-all disabled:opacity-50 disabled:cursor-not-allowed',
+                    'px-2 sm:px-3 py-1 rounded text-xs sm:text-sm font-medium transition-all disabled:opacity-50 disabled:cursor-not-allowed',
                     theme === 'dashboard'
                       ? 'bg-cyan-500/20 border border-cyan-500/30 text-cyan-300 hover:bg-cyan-500/30'
                       : 'bg-slate-200 text-slate-700 hover:bg-slate-300'
                   )}
                 >
-                  上一页
+                  &lsaquo;
                 </button>
-                <span className={cn(
-                  'text-xs sm:text-sm px-2',
-                  theme === 'dashboard' ? 'text-cyan-300' : 'text-slate-700'
-                )}>
-                  {currentPage} / {totalPages}
-                </span>
+
+                {/* 页码列表 */}
+                <div className="flex items-center gap-1">
+                  {(() => {
+                    const pages = [];
+                    const maxVisible = 5; // 最多显示5个页码
+
+                    if (totalPages <= maxVisible) {
+                      // 总页数少于等于最大显示数，显示所有页码
+                      for (let i = 1; i <= totalPages; i++) {
+                        pages.push(
+                          <button
+                            key={i}
+                            onClick={() => setCurrentPage(i)}
+                            className={cn(
+                              'px-2 py-1 rounded text-xs font-medium transition-all',
+                              currentPage === i
+                                ? theme === 'dashboard'
+                                  ? 'bg-cyan-500 text-white'
+                                  : 'bg-blue-500 text-white'
+                                : theme === 'dashboard'
+                                ? 'bg-cyan-500/20 border border-cyan-500/30 text-cyan-300 hover:bg-cyan-500/30'
+                                : 'bg-slate-200 text-slate-700 hover:bg-slate-300'
+                            )}
+                          >
+                            {i}
+                          </button>
+                        );
+                      }
+                    } else {
+                      // 总页数较多，智能显示页码
+                      // 始终显示第一页
+                      pages.push(
+                        <button
+                          key={1}
+                          onClick={() => setCurrentPage(1)}
+                          className={cn(
+                            'px-2 py-1 rounded text-xs font-medium transition-all',
+                            currentPage === 1
+                              ? theme === 'dashboard'
+                                ? 'bg-cyan-500 text-white'
+                                : 'bg-blue-500 text-white'
+                              : theme === 'dashboard'
+                              ? 'bg-cyan-500/20 border border-cyan-500/30 text-cyan-300 hover:bg-cyan-500/30'
+                              : 'bg-slate-200 text-slate-700 hover:bg-slate-300'
+                          )}
+                        >
+                          1
+                        </button>
+                      );
+
+                      // 显示省略号（如果需要）
+                      if (currentPage > 3) {
+                        pages.push(
+                          <span key="ellipsis1" className={cn(
+                            'px-2 py-1 text-xs',
+                            theme === 'dashboard' ? 'text-cyan-400/50' : 'text-slate-400'
+                          )}>
+                            ...
+                          </span>
+                        );
+                      }
+
+                      // 显示当前页附近的页码
+                      const startPage = Math.max(2, currentPage - 1);
+                      const endPage = Math.min(totalPages - 1, currentPage + 1);
+                      for (let i = startPage; i <= endPage; i++) {
+                        pages.push(
+                          <button
+                            key={i}
+                            onClick={() => setCurrentPage(i)}
+                            className={cn(
+                              'px-2 py-1 rounded text-xs font-medium transition-all',
+                              currentPage === i
+                                ? theme === 'dashboard'
+                                  ? 'bg-cyan-500 text-white'
+                                  : 'bg-blue-500 text-white'
+                                : theme === 'dashboard'
+                                ? 'bg-cyan-500/20 border border-cyan-500/30 text-cyan-300 hover:bg-cyan-500/30'
+                                : 'bg-slate-200 text-slate-700 hover:bg-slate-300'
+                            )}
+                          >
+                            {i}
+                          </button>
+                        );
+                      }
+
+                      // 显示省略号（如果需要）
+                      if (currentPage < totalPages - 2) {
+                        pages.push(
+                          <span key="ellipsis2" className={cn(
+                            'px-2 py-1 text-xs',
+                            theme === 'dashboard' ? 'text-cyan-400/50' : 'text-slate-400'
+                          )}>
+                            ...
+                          </span>
+                        );
+                      }
+
+                      // 始终显示最后一页
+                      pages.push(
+                        <button
+                          key={totalPages}
+                          onClick={() => setCurrentPage(totalPages)}
+                          className={cn(
+                            'px-2 py-1 rounded text-xs font-medium transition-all',
+                            currentPage === totalPages
+                              ? theme === 'dashboard'
+                                ? 'bg-cyan-500 text-white'
+                                : 'bg-blue-500 text-white'
+                              : theme === 'dashboard'
+                              ? 'bg-cyan-500/20 border border-cyan-500/30 text-cyan-300 hover:bg-cyan-500/30'
+                              : 'bg-slate-200 text-slate-700 hover:bg-slate-300'
+                          )}
+                        >
+                          {totalPages}
+                        </button>
+                      );
+                    }
+                    return pages;
+                  })()}
+                </div>
+
+                {/* 下一页 */}
                 <button
                   onClick={() => setCurrentPage(prev => Math.min(totalPages, prev + 1))}
                   disabled={currentPage === totalPages}
                   className={cn(
-                    'px-2 sm:px-3 py-1 sm:py-1.5 rounded-lg text-xs sm:text-sm font-medium transition-all disabled:opacity-50 disabled:cursor-not-allowed',
+                    'px-2 sm:px-3 py-1 rounded text-xs sm:text-sm font-medium transition-all disabled:opacity-50 disabled:cursor-not-allowed',
                     theme === 'dashboard'
                       ? 'bg-cyan-500/20 border border-cyan-500/30 text-cyan-300 hover:bg-cyan-500/30'
                       : 'bg-slate-200 text-slate-700 hover:bg-slate-300'
                   )}
                 >
-                  下一页
+                  &rsaquo;
                 </button>
+                {/* 末页 */}
+                <button
+                  onClick={() => setCurrentPage(totalPages)}
+                  disabled={currentPage === totalPages}
+                  className={cn(
+                    'px-2 py-1 rounded text-xs font-medium transition-all disabled:opacity-50 disabled:cursor-not-allowed',
+                    theme === 'dashboard'
+                      ? 'bg-cyan-500/20 border border-cyan-500/30 text-cyan-300 hover:bg-cyan-500/30'
+                      : 'bg-slate-200 text-slate-700 hover:bg-slate-300'
+                  )}
+                  title="末页"
+                >
+                  &raquo;
+                </button>
+
+                {/* 跳转 */}
+                <div className="flex items-center gap-1 ml-2">
+                  <span className={cn('text-xs', theme === 'dashboard' ? 'text-cyan-400/70' : 'text-slate-600')}>
+                    跳转
+                  </span>
+                  <input
+                    type="number"
+                    min={1}
+                    max={totalPages}
+                    value={currentPage === totalPages ? totalPages : ''}
+                    placeholder={currentPage.toString()}
+                    onChange={(e) => {
+                      const page = parseInt(e.target.value);
+                      if (page >= 1 && page <= totalPages) {
+                        setCurrentPage(page);
+                      }
+                    }}
+                    className={cn(
+                      'w-12 px-2 py-1 text-xs rounded border text-center focus:outline-none focus:ring-2',
+                      theme === 'dashboard'
+                        ? 'bg-slate-900/50 border-cyan-500/30 text-white focus:ring-cyan-500'
+                        : theme === 'dark'
+                        ? 'bg-slate-800 border-slate-600 text-white focus:ring-blue-500'
+                        : 'bg-white border-slate-300 text-slate-900 focus:ring-blue-500'
+                    )}
+                  />
+                </div>
               </div>
             </div>
           )}
