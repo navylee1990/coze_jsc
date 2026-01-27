@@ -2088,6 +2088,7 @@ function ProjectDrillDownModal({
   };
 
   // 分页数据
+  const allProjects = getActiveProjects(); // 当前Tab的所有数据（未筛选）
   const filteredProjects = getFilteredAndSortedProjects();
   const totalPages = Math.ceil(filteredProjects.length / itemsPerPage);
   const startIndex = (currentPage - 1) * itemsPerPage;
@@ -2716,7 +2717,7 @@ function ProjectDrillDownModal({
                     项目数量:
                   </span>
                   <span className={cn('font-bold', theme === 'dashboard' ? 'text-cyan-200' : 'text-slate-900')}>
-                    {filteredProjects.length} 个
+                    {allProjects.length} 个
                   </span>
                 </div>
                 <div className={cn('flex items-center gap-2', theme === 'dashboard' ? 'text-cyan-300' : 'text-slate-900')}>
@@ -2727,7 +2728,7 @@ function ProjectDrillDownModal({
                     'font-bold text-base sm:text-lg',
                     activeTab === 'projects' ? 'text-green-400' : activeTab === 'excluded' ? 'text-orange-400' : 'text-purple-400'
                   )}>
-                    {filteredProjects.reduce((sum, p) => sum + p.amount, 0).toFixed(2)}
+                    {allProjects.reduce((sum, p) => sum + p.amount, 0).toFixed(2)}
                   </span>
                   <span className={cn(theme === 'dashboard' ? 'text-cyan-400/60' : 'text-slate-500')}>
                     万
@@ -2741,10 +2742,10 @@ function ProjectDrillDownModal({
                       : 'bg-orange-50 border border-orange-200'
                   )}>
                     <span className={cn('font-medium text-orange-600', theme === 'dashboard' ? 'text-orange-400' : '')}>
-                      {filterStatus}
+                      当前筛选
                     </span>
                     <span className={cn('text-orange-600', theme === 'dashboard' ? 'text-orange-400' : '')}>
-                      共 {filteredProjects.length} 个项目
+                      {filterStatus} 共 {filteredProjects.length} 个
                     </span>
                   </div>
                 )}
