@@ -2122,7 +2122,7 @@ function ProjectDrillDownModal({
 
       {/* 弹窗内容 - 响应式宽度 */}
       <div className={cn(
-        'relative w-full max-w-5xl mx-2 sm:mx-4 max-h-[75vh] border-2 rounded-2xl overflow-hidden transition-all',
+        'relative w-full max-w-5xl mx-2 sm:mx-4 max-h-[75vh] border-2 rounded-2xl overflow-hidden transition-all flex flex-col',
         theme === 'dashboard'
           ? 'bg-slate-900/80 border-cyan-500/30 shadow-[0_0_30px_rgba(6,182,212,0.3)]'
           : theme === 'dark'
@@ -2263,7 +2263,7 @@ function ProjectDrillDownModal({
         </div>
 
         {/* 项目列表 */}
-        <div className={cn('flex flex-col', theme === 'dashboard' ? 'max-h-[calc(90vh-250px)]' : 'max-h-[calc(90vh-280px)]')}>
+        <div className={cn('flex flex-col flex-1 min-h-0')}>
           {/* Tab切换 */}
           <div className={cn(
             'flex border-b px-4 sm:px-6',
@@ -2701,57 +2701,58 @@ function ProjectDrillDownModal({
                 )}
               </tbody>
             </table>
+          </div>
 
-            {/* 合计栏 */}
-            <div className={cn(
-              'mt-2 px-4 sm:px-6 py-3 border-t',
-              theme === 'dashboard'
-                ? 'border-cyan-500/20 bg-cyan-500/5'
-                : theme === 'dark'
-                ? 'border-slate-700 bg-slate-800/50'
-                : 'border-slate-200 bg-slate-50'
-            )}>
-              <div className="flex flex-wrap items-center gap-4 sm:gap-6 text-xs sm:text-sm">
-                <div className={cn('flex items-center gap-2', theme === 'dashboard' ? 'text-cyan-300' : 'text-slate-900')}>
-                  <span className={cn('font-medium', theme === 'dashboard' ? 'text-cyan-400/70' : 'text-slate-600')}>
-                    项目数量:
-                  </span>
-                  <span className={cn('font-bold', theme === 'dashboard' ? 'text-cyan-200' : 'text-slate-900')}>
-                    {allProjects.length} 个
-                  </span>
-                </div>
-                <div className={cn('flex items-center gap-2', theme === 'dashboard' ? 'text-cyan-300' : 'text-slate-900')}>
-                  <span className={cn('font-medium', theme === 'dashboard' ? 'text-cyan-400/70' : 'text-slate-600')}>
-                    合计金额:
-                  </span>
-                  <span className={cn(
-                    'font-bold text-base sm:text-lg',
-                    activeTab === 'projects' ? 'text-green-400' : activeTab === 'excluded' ? 'text-orange-400' : 'text-purple-400'
-                  )}>
-                    {allProjects.reduce((sum, p) => sum + p.amount, 0).toFixed(2)}
-                  </span>
-                  <span className={cn(theme === 'dashboard' ? 'text-cyan-400/60' : 'text-slate-500')}>
-                    万
-                  </span>
-                </div>
-                {filterStatus !== 'all' && (
-                  <div className={cn(
-                    'flex items-center gap-2 px-2 sm:px-3 py-1 rounded-lg',
-                    theme === 'dashboard'
-                      ? 'bg-orange-500/10 border border-orange-500/30'
-                      : 'bg-orange-50 border border-orange-200'
-                  )}>
-                    <span className={cn('font-medium text-orange-600', theme === 'dashboard' ? 'text-orange-400' : '')}>
-                      当前筛选
-                    </span>
-                    <span className={cn('text-orange-600', theme === 'dashboard' ? 'text-orange-400' : '')}>
-                      {filterStatus} 共 {filteredProjects.length} 个
-                    </span>
-                  </div>
-                )}
+          {/* 合计栏 */}
+          <div className={cn(
+            'mt-2 px-4 sm:px-6 py-3 border-t',
+            theme === 'dashboard'
+              ? 'border-cyan-500/20 bg-cyan-500/5'
+              : theme === 'dark'
+              ? 'border-slate-700 bg-slate-800/50'
+              : 'border-slate-200 bg-slate-50'
+          )}>
+            <div className="flex flex-wrap items-center gap-4 sm:gap-6 text-xs sm:text-sm">
+              <div className={cn('flex items-center gap-2', theme === 'dashboard' ? 'text-cyan-300' : 'text-slate-900')}>
+                <span className={cn('font-medium', theme === 'dashboard' ? 'text-cyan-400/70' : 'text-slate-600')}>
+                  项目数量:
+                </span>
+                <span className={cn('font-bold', theme === 'dashboard' ? 'text-cyan-200' : 'text-slate-900')}>
+                  {allProjects.length} 个
+                </span>
               </div>
+              <div className={cn('flex items-center gap-2', theme === 'dashboard' ? 'text-cyan-300' : 'text-slate-900')}>
+                <span className={cn('font-medium', theme === 'dashboard' ? 'text-cyan-400/70' : 'text-slate-600')}>
+                  合计金额:
+                </span>
+                <span className={cn(
+                  'font-bold text-base sm:text-lg',
+                  activeTab === 'projects' ? 'text-green-400' : activeTab === 'excluded' ? 'text-orange-400' : 'text-purple-400'
+                )}>
+                  {allProjects.reduce((sum, p) => sum + p.amount, 0).toFixed(2)}
+                </span>
+                <span className={cn(theme === 'dashboard' ? 'text-cyan-400/60' : 'text-slate-500')}>
+                  万
+                </span>
+              </div>
+              {filterStatus !== 'all' && (
+                <div className={cn(
+                  'flex items-center gap-2 px-2 sm:px-3 py-1 rounded-lg',
+                  theme === 'dashboard'
+                    ? 'bg-orange-500/10 border border-orange-500/30'
+                    : 'bg-orange-50 border border-orange-200'
+                )}>
+                  <span className={cn('font-medium text-orange-600', theme === 'dashboard' ? 'text-orange-400' : '')}>
+                    当前筛选
+                  </span>
+                  <span className={cn('text-orange-600', theme === 'dashboard' ? 'text-orange-400' : '')}>
+                    {filterStatus} 共 {filteredProjects.length} 个
+                  </span>
+                </div>
+              )}
             </div>
           </div>
+        </div>
 
           {/* 分页 */}
           {totalPages > 1 && (
