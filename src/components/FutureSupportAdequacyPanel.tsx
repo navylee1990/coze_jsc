@@ -1737,9 +1737,19 @@ export default function FutureSupportAdequacyPanel({
 
             // 计算统计项目总金额
             const projectsTotalAmount = level.projects.reduce((sum, p) => sum + p.amount, 0);
-            // 计算预测完成项目总金额
+            // 计算预测完成项目总金额（所有预测项目）
             const excludedProjectsTotalAmount = level.excludedProjects
               ? level.excludedProjects.reduce((sum, p) => sum + p.amount, 0)
+              : 0;
+            // 计算未下单项目总金额（只统计状态为"未下单"的项目）
+            const unOrderedProjectsTotalAmount = level.excludedProjects
+              ? level.excludedProjects
+                  .filter(p => p.projectStatus && p.projectStatus.includes('未下单'))
+                  .reduce((sum, p) => sum + p.amount, 0)
+              : 0;
+            // 计算未下单项目数量
+            const unOrderedProjectsCount = level.excludedProjects
+              ? level.excludedProjects.filter(p => p.projectStatus && p.projectStatus.includes('未下单')).length
               : 0;
             // 计算储备项目总金额
             const reserveProjectsTotalAmount = level.reserveProjects
@@ -1752,23 +1762,22 @@ export default function FutureSupportAdequacyPanel({
             // 计算还需要新开发的金额
             const newDevNeeded = Math.max(0, level.target - (level.amount + excludedProjectsTotalAmount));
 
-            // 计算各区域在该时间段的达标情况
+            // 计算预测项目中未下单的区域
             const underachievingRegions: string[] = [];
-            const regions = ['north', 'east', 'south', 'southwest', 'northwest'] as Region[];
-            regions.forEach(regionKey => {
-              const regionLevel = allRegionData[regionKey]?.supportStructure[period];
-              if (regionLevel) {
-                const regionExcludedAmount = regionLevel.excludedProjects
-                  ? regionLevel.excludedProjects.reduce((sum, p) => sum + p.amount, 0)
-                  : 0;
-                const regionTotalCoverage = regionLevel.target > 0
-                  ? ((regionLevel.amount + regionExcludedAmount) / regionLevel.target) * 100
-                  : 100;
-                if (regionTotalCoverage < 100) {
-                  underachievingRegions.push(regionConfig[regionKey].label);
+            if (level.excludedProjects && level.excludedProjects.length > 0) {
+              // 只统计预测项目中未下单的项目
+              const unOrderedProjects = level.excludedProjects.filter(p =>
+                p.projectStatus && p.projectStatus.includes('未下单')
+              );
+              // 提取这些项目的区域
+              const regionsSet = new Set<string>();
+              unOrderedProjects.forEach(p => {
+                if (p.region) {
+                  regionsSet.add(p.region);
                 }
-              }
-            });
+              });
+              underachievingRegions.push(...Array.from(regionsSet));
+            }
 
             return (
               <div
@@ -1824,14 +1833,13 @@ export default function FutureSupportAdequacyPanel({
                       statusColor.bg,
                       theme === 'dashboard' && 'shadow-[0_0_8px_currentColor]'
                     )} />
-                    {level.excludedProjects && level.excludedProjects.length > 0 && (
+                    {unOrderedProjectsCount > 0 && (
                       <button
                         onClick={(e) => {
                           e.stopPropagation();
-                          const excludedCount = level.excludedProjects?.length || 0;
                           setUrgeMessage({
                             show: true,
-                            message: `已向【${period}】的 ${excludedCount} 个未统计项目发送催单提醒`
+                            message: `已向【${period}】的 ${unOrderedProjectsCount} 个未下单项目发送催单提醒`
                           });
                           setTimeout(() => {
                             setUrgeMessage({ show: false, message: '' });
@@ -1846,7 +1854,7 @@ export default function FutureSupportAdequacyPanel({
                         title="批量催单"
                       >
                         <Zap className="w-2.5 h-2.5 sm:w-3 sm:h-3" />
-                        <span>{level.excludedProjects?.length || 0}</span>
+                        <span>{unOrderedProjectsCount}</span>
                       </button>
                     )}
                   </div>
@@ -1909,18 +1917,18 @@ export default function FutureSupportAdequacyPanel({
                   </div>
 
                   {/* 未统计项目数 + 金额 */}
-                  {level.excludedProjects && level.excludedProjects.length > 0 && (
+                  {unOrderedProjectsCount > 0 && (
                     <div className="flex justify-between text-xs">
                       <span className={cn('text-[10px] sm:text-xs', theme === 'dashboard' ? 'text-cyan-400/60' : 'text-slate-500')}>未下单</span>
                       <div className="flex items-center gap-1 sm:gap-2">
                         <span className={cn(
                           'font-semibold text-xs text-orange-400',
                           theme === 'dashboard' ? 'text-orange-300' : 'text-orange-600'
-                        )}>{level.excludedProjects.length}个</span>
+                        )}>{unOrderedProjectsCount}个</span>
                         <span className={cn(
                           'font-semibold text-xs text-orange-400',
                           theme === 'dashboard' ? 'text-orange-300' : 'text-orange-600'
-                        )}>{excludedProjectsTotalAmount.toFixed(2)}万</span>
+                        )}>{unOrderedProjectsTotalAmount.toFixed(2)}万</span>
                       </div>
                     </div>
                   )}
