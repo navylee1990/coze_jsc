@@ -550,7 +550,7 @@ export default function GMDashboard() {
   }, [timeRange]);
 
   return (
-    <div className={`${DASHBOARD_STYLES.bg} ${DASHBOARD_STYLES.text} h-screen flex flex-col overflow-hidden`}>
+    <div className={`${DASHBOARD_STYLES.bg} ${DASHBOARD_STYLES.text} min-h-screen flex flex-col`}>
       {/* 顶部导航栏 */}
       <header
         className={cn(
@@ -584,7 +584,7 @@ export default function GMDashboard() {
       </header>
 
       {/* 主要内容区 - 仪表盘布局 */}
-      <main className="flex-1 flex flex-col overflow-hidden p-2 sm:p-4 lg:p-6">
+      <main className="flex-1 flex flex-col p-2 sm:p-4 lg:p-6">
         {/* 移除固定尺寸和缩放，使用全屏响应式布局 */}
         <div className="w-full h-full">
           {/* 驾驶舱风格布局 - 紧凑对齐 */}
