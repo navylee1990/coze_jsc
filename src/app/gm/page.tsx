@@ -387,10 +387,53 @@ export default function GMDashboard() {
     };
   }, []);
 
-  // 禁用响应式缩放 - 现在使用全屏响应式布局，不再需要缩放
+  // 响应式缩放 - 根据窗口高度动态调整缩放比例，实现一屏展示
   useEffect(() => {
-    // 设置缩放比例为1，禁用缩放功能
-    setScaleRatio(1);
+    const calculateScale = () => {
+      // 基准尺寸：设计稿尺寸（像素）
+      const BASE_HEIGHT = 1080;
+      const BASE_WIDTH = 1920;
+
+      const windowHeight = window.innerHeight;
+      const windowWidth = window.innerWidth;
+
+      // 计算高度方向的缩放比例
+      // 可用高度 = 窗口高度
+      const heightScale = windowHeight / BASE_HEIGHT;
+
+      // 计算宽度方向的缩放比例
+      // 可用宽度 = 窗口宽度
+      const widthScale = windowWidth / BASE_WIDTH;
+
+      // 取较小的缩放比例，确保内容完全显示
+      let scale = Math.min(heightScale, widthScale);
+
+      // 限制缩放范围：
+      // - 最大不超过 1（不放大，保持设计稿尺寸）
+      // - 最小不低于 0.5（防止过小导致无法阅读）
+      scale = Math.min(Math.max(scale, 0.5), 1);
+
+      setScaleRatio(scale);
+    };
+
+    // 初始化计算
+    calculateScale();
+
+    // 监听窗口大小变化，使用防抖优化性能
+    let resizeTimer: NodeJS.Timeout;
+    const handleResize = () => {
+      clearTimeout(resizeTimer);
+      resizeTimer = setTimeout(() => {
+        calculateScale();
+      }, 100); // 100ms 防抖延迟
+    };
+
+    window.addEventListener('resize', handleResize);
+
+    return () => {
+      clearTimeout(resizeTimer);
+      window.removeEventListener('resize', handleResize);
+    };
   }, []);
 
   // 数字滚动动画效果 - 在页面初始化或时间范围变化时触发
@@ -550,7 +593,7 @@ export default function GMDashboard() {
   }, [timeRange]);
 
   return (
-    <div className={`${DASHBOARD_STYLES.bg} ${DASHBOARD_STYLES.text} min-h-screen flex flex-col`}>
+    <div className={`${DASHBOARD_STYLES.bg} ${DASHBOARD_STYLES.text} h-screen flex flex-col overflow-hidden`}>
       {/* 顶部导航栏 */}
       <header
         className={cn(
@@ -559,44 +602,53 @@ export default function GMDashboard() {
           isMounted && animationPhase >= 1 ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-y-4'
         )}
       >
-        <div className="w-full px-4 sm:px-6 py-3 sm:py-4">
+        <div className="max-w-[1920px] mx-auto px-6 py-4">
           <div className="flex items-center justify-between">
-            <div className="flex items-center gap-2 sm:gap-4">
+            <div className="flex items-center gap-4">
               <Link href="/" className={`${DASHBOARD_STYLES.textMuted} hover:text-white transition-colors`}>
-                <ChevronLeft className="w-4 h-4 sm:w-5 sm:h-5" />
+                <ChevronLeft className="w-5 h-5" />
               </Link>
               <div>
-                <h1 className={`text-lg sm:text-2xl font-bold ${DASHBOARD_STYLES.neon}`}>{PAGE_TITLE}</h1>
-                <p className={`text-[10px] sm:text-sm ${DASHBOARD_STYLES.textSecondary}`}>预测驱动 · 数据赋能 · 精准决策</p>
+                <h1 className={`text-2xl font-bold ${DASHBOARD_STYLES.neon}`}>{PAGE_TITLE}</h1>
+                <p className={`text-sm ${DASHBOARD_STYLES.textSecondary}`}>预测驱动 · 数据赋能 · 精准决策</p>
               </div>
               <Badge
                 variant="outline"
-                className="text-xs sm:text-sm bg-cyan-500/20 border-cyan-500/50 text-cyan-300"
+                className="text-sm bg-cyan-500/20 border-cyan-500/50 text-cyan-300"
               >
                 张晖
               </Badge>
             </div>
 
-            <div className="flex items-center gap-2 sm:gap-4">
+            <div className="flex items-center gap-4">
             </div>
           </div>
         </div>
       </header>
 
       {/* 主要内容区 - 仪表盘布局 */}
-      <main className="flex-1 flex flex-col p-2 sm:p-4 lg:p-6">
-        {/* 移除固定尺寸和缩放，使用全屏响应式布局 */}
-        <div className="w-full h-full">
-          {/* 驾驶舱风格布局 - 紧凑对齐 */}
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-2 lg:gap-3 h-full">
-          {/* 中央仪表区 - 响应式布局 */}
+      <main className="flex-1 flex flex-col overflow-hidden relative">
+        {/* 响应式缩放容器 - 根据窗口高度自动缩放，实现一屏展示 */}
+        <div
+          ref={dashboardRef}
+          className="absolute inset-0 flex items-center justify-center"
+          style={{
+            transform: `scale(${scaleRatio})`,
+            transformOrigin: 'center center',
+            transition: 'transform 0.3s ease-out'
+          }}
+        >
+          <div className="max-w-[1920px] w-full p-6" style={{ height: '1080px' }}>
+            {/* 驾驶舱风格布局 - 紧凑对齐 */}
+            <div className="grid grid-cols-12 gap-2 h-full">
+          {/* 中央仪表区 */}
           <div className={cn(
-            'col-span-1 lg:col-span-7 space-y-2 sm:space-y-3',
+            'col-span-7 space-y-2',
             'transition-all duration-500',
             isMounted && animationPhase >= 2 ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
           )}>
-            {/* 核心预测决策卡片 - 响应式高度 */}
-            <div className={`${DASHBOARD_STYLES.cardBg} ${DASHBOARD_STYLES.cardBorder} rounded-xl p-3 sm:p-4 lg:p-5 ${DASHBOARD_STYLES.glow}`} style={{ height: 'min(50vh, 520px)' }}>
+            {/* 核心预测决策卡片 - 固定高度 */}
+            <div className={`${DASHBOARD_STYLES.cardBg} ${DASHBOARD_STYLES.cardBorder} rounded-xl p-5 ${DASHBOARD_STYLES.glow}`} style={{ height: '520px' }}>
               <div className="flex items-center justify-between mb-4">
                 <h2 className={`text-lg font-bold ${DASHBOARD_STYLES.neon} flex items-center gap-2`}>
                   <Target className="w-5 h-5" />
@@ -1084,14 +1136,14 @@ export default function GMDashboard() {
             <FutureSupportAdequacyPanel theme="dashboard" />
           </div>
 
-          {/* 右侧仪表区 - 响应式布局 */}
+          {/* 右侧仪表区 */}
           <div className={cn(
-            'col-span-1 lg:col-span-5 space-y-2 sm:space-y-3',
+            'col-span-5 space-y-2',
             'transition-all duration-500 delay-100',
             isMounted && animationPhase >= 3 ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
           )}>
-            {/* 区域达成情况 - 响应式高度 */}
-            <div className={`${DASHBOARD_STYLES.cardBg} ${DASHBOARD_STYLES.cardBorder} rounded-xl p-3 sm:p-4 ${DASHBOARD_STYLES.glow}`} style={{ height: 'min(50vh, 520px)' }}>
+            {/* 区域达成情况 - 固定高度 */}
+            <div className={`${DASHBOARD_STYLES.cardBg} ${DASHBOARD_STYLES.cardBorder} rounded-xl p-4 ${DASHBOARD_STYLES.glow}`} style={{ height: '520px' }}>
               <RegionMatrix
                 data={currentData}
                 title="区域达成"
@@ -1108,7 +1160,8 @@ export default function GMDashboard() {
 
           </div>
         </div>
-      </div>
+        </div>
+        </div>
       </main>
     </div>
   );
