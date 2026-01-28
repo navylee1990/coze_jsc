@@ -443,17 +443,18 @@ export default function PredictionDecisionCard({
         {/* 曲线图容器 */}
         <div className="flex-1" style={{ minHeight: '252px' }}>
           <ResponsiveContainer width="100%" height="100%">
-            <LineChart data={monthlyTrendData}>
+            <LineChart data={monthlyTrendData} margin={{ right: 20 }}>
               <CartesianGrid
                 strokeDasharray="4 4"
                 stroke="rgba(34,211,238,0.1)"
                 vertical={false}
               />
-              <XAxis
-                dataKey="month"
+              <XAxis 
+                dataKey="month" 
                 tick={{ fill: 'rgba(34,211,238,0.7)', fontSize: 14, fontWeight: 500 }}
                 axisLine={{ stroke: 'rgba(34,211,238,0.2)' }}
                 tickLine={{ stroke: 'rgba(34,211,238,0.2)' }}
+                interval={0}
               />
               <YAxis 
                 tick={{ fill: 'rgba(34,211,238,0.7)', fontSize: 14, fontWeight: 500 }}
@@ -811,7 +812,7 @@ export default function PredictionDecisionCard({
                 actualValue={animatedCompleted}
                 targetValue={target}
                 showPercentage={false}
-                size={120}
+                size={100}
               />
               <div className="mt-1">
                 <div className="text-xs font-semibold text-green-400">实际达成率</div>
@@ -827,7 +828,7 @@ export default function PredictionDecisionCard({
                 actualValue={animatedForecast}
                 targetValue={target}
                 showPercentage={false}
-                size={120}
+                size={100}
               />
               <div className="mt-1">
                 <div className="text-xs font-semibold text-cyan-300">预计达成率</div>

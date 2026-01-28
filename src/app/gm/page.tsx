@@ -378,16 +378,17 @@ export default function GMDashboard() {
                 <h1 className={`text-2xl font-bold ${DASHBOARD_STYLES.neon}`}>{PAGE_TITLE}</h1>
                 <p className={`text-sm ${DASHBOARD_STYLES.textSecondary}`}>预测驱动 · 数据赋能 · 精准决策</p>
               </div>
+            </div>
+
+            {/* 中间：用户信息 + 时间选择器 */}
+            <div className="flex items-center gap-4 flex-1 justify-center">
               <Badge
                 variant="outline"
                 className="text-sm bg-cyan-500/20 border-cyan-500/50 text-cyan-300"
               >
                 张晖
               </Badge>
-            </div>
-
-            {/* 中间：时间维度选择器（居中） */}
-            <div className="flex-1 flex justify-center">
+              {/* 时间维度选择器 */}
               <div className="flex items-center gap-1 bg-slate-800/50 border border-cyan-500/30 rounded-lg p-1">
                 <button
                   onClick={() => setSelectedTimeRange('current')}
@@ -440,13 +441,13 @@ export default function GMDashboard() {
 
           {/* 核心预测决策卡片 - 使用新的汽车驾驶舱风格组件 */}
           <div className={cn(
-            'col-span-1 lg:col-span-7 min-w-0',
+            'col-span-1 lg:col-span-7',
             'transition-all duration-500',
             'opacity-100 translate-y-0'
           )}>
             <div className={cn(
               `${DASHBOARD_STYLES.cardBg} ${DASHBOARD_STYLES.cardBorder} rounded-xl p-0 ${DASHBOARD_STYLES.glow}`,
-              'h-[500px] w-full'
+              'h-[500px]'
             )}>
               <PredictionDecisionCard theme="dashboard" timeRange={selectedTimeRange} />
             </div>
@@ -454,7 +455,7 @@ export default function GMDashboard() {
 
           {/* 风险识别模块 - 自适应高度 */}
           <div className={cn(
-            'col-span-1 lg:col-span-5 min-w-0',
+            'col-span-1 lg:col-span-5',
             'transition-all duration-500 delay-100',
             'opacity-100 translate-y-0'
           )}>
@@ -464,7 +465,7 @@ export default function GMDashboard() {
               'shadow-[0_0_40px_rgba(239,68,68,0.4)]',
               'hover:shadow-[0_0_50px_rgba(239,68,68,0.5)]',
               'transition-shadow duration-300',
-              'h-[500px] w-full'
+              'h-[500px]'
             )}>
               <RiskIdentificationPanel theme="dashboard" timeRange={selectedTimeRange} />
             </div>
