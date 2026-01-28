@@ -364,7 +364,6 @@ export default function GMDashboard() {
   // 按针动画 state
   const [needleAngle1, setNeedleAngle1] = useState(-90); // 目标仪表盘指针
   const [needleAngle2, setNeedleAngle2] = useState(-90); // 预测完成仪表盘指针
-  const [needleAngle3, setNeedleAngle3] = useState(-90); // 缺口仪表盘指针
 
   // 页面初始化动画
   useEffect(() => {
@@ -402,7 +401,6 @@ export default function GMDashboard() {
     // 重置指针角度
     setNeedleAngle1(-90);
     setNeedleAngle2(-90);
-    setNeedleAngle3(-90);
 
     // 等待一小段时间后开始动画，确保 state 重置生效
     const startDelay = setTimeout(() => {
@@ -481,8 +479,6 @@ export default function GMDashboard() {
       const needle1End = 135; // 目标仪表盘指针
       const needle2Start = -90;
       const needle2End = (Math.min(targetRate, 100) / 100) * 180 - 90; // 预测完成仪表盘指针
-      const needle3Start = -90;
-      const needle3End = gapValue <= 0 ? 135 : -135; // 缺口仪表盘指针
       const needleStartTime = Date.now();
 
       const animateNeedles = () => {
@@ -492,7 +488,6 @@ export default function GMDashboard() {
 
         setNeedleAngle1(needle1Start + (needle1End - needle1Start) * easeOut);
         setNeedleAngle2(needle2Start + (needle2End - needle2Start) * easeOut);
-        setNeedleAngle3(needle3Start + (needle3End - needle3Start) * easeOut);
 
         if (progress < 1) {
           requestAnimationFrame(animateNeedles);
@@ -658,10 +653,10 @@ export default function GMDashboard() {
                 </div>
               </div>
 
-              {/* 核心数据展示 - 汽车仪表盘样式 */}
-              <div className="grid grid-cols-2 gap-3 sm:gap-4 mb-4">
+              {/* 核心数据展示 - 左右布局 */}
+              <div className="grid grid-cols-1 lg:grid-cols-12 gap-3 sm:gap-4 mb-4">
                 {/* 仪表盘1 - 达成率 */}
-                <div className="relative">
+                <div className="lg:col-span-5 relative">
                   <div
                     className="rounded-xl border-2 p-4 transition-all duration-300 bg-gradient-to-br from-slate-900/90 to-slate-800/90 border-cyan-500/40"
                     style={{
@@ -770,6 +765,35 @@ export default function GMDashboard() {
                           )}>{animatedForecast.toLocaleString()}万</span>
                           {animatedRate < 100 && (
                             <AlertTriangle className={`w-3 h-3 animate-pulse ${animatedRate >= 80 ? 'text-yellow-400' : 'text-red-400'}`} />
+                          )}
+                        </div>
+                      </div>
+
+                      {/* 缺口信息 */}
+                      <div className="mt-4 pt-3 border-t border-cyan-500/20 w-full">
+                        <div className="flex items-center justify-between text-xs">
+                          <div className="flex items-center gap-2">
+                            <span className="text-cyan-400/70">{animatedGap <= 0 ? '超额' : '缺口'}</span>
+                            <span className={cn(
+                              'font-bold text-sm',
+                              animatedGap <= 0 ? 'text-green-400' : 'text-red-400'
+                            )} style={{ textShadow: animatedGap <= 0 ? '0 0 6px rgba(74, 222, 128, 0.6)' : '0 0 6px rgba(248, 113, 113, 0.6)' }}>
+                              {animatedGap <= 0 ? '+' : ''}{Math.abs(animatedGap).toFixed(0)}万
+                            </span>
+                          </div>
+                          {animatedGap > 0 && (
+                            <div className="flex items-center gap-2">
+                              <div className="flex items-center gap-1">
+                                <div className="w-1 h-1 rounded-full bg-orange-400"></div>
+                                <span className="text-orange-300 font-medium">延期{getTimeRangeData().gapSolution?.delayedProjects.count || 0}个</span>
+                                <span className="text-orange-300/80">{getTimeRangeData().gapSolution?.delayedProjects.amount || 0}万</span>
+                              </div>
+                              <div className="flex items-center gap-1">
+                                <div className="w-1 h-1 rounded-full bg-cyan-400"></div>
+                                <span className="text-cyan-300 font-medium">新开发{getTimeRangeData().gapSolution?.newProjectsNeeded.count || 0}个</span>
+                                <span className="text-cyan-300/80">{getTimeRangeData().gapSolution?.newProjectsNeeded.amount || 0}万</span>
+                              </div>
+                            </div>
                           )}
                         </div>
                       </div>
