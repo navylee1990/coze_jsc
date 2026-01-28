@@ -949,7 +949,7 @@ export default function RiskIdentificationPanel({
               <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-transparent via-cyan-500 to-transparent animate-pulse"></div>
 
               <div className="relative z-10 grid grid-cols-3 gap-3">
-                {/* 依赖项目数卡片 */}
+                {/* 大项目数卡片 */}
                 <div className={cn(
                   'relative rounded-xl p-2 overflow-hidden h-full flex flex-col items-center justify-center',
                   'bg-gradient-to-br from-cyan-900/50 to-cyan-800/30',
@@ -960,7 +960,7 @@ export default function RiskIdentificationPanel({
                   <div className="relative z-10 w-full flex flex-col items-center justify-center">
                     <div className="flex items-center gap-2 mb-1.5">
                       <Building2 className="w-3.5 h-3.5 text-cyan-400 drop-shadow-[0_0_10px_rgba(6,182,212,1)] animate-pulse" />
-                      <div className="text-xs font-bold text-cyan-300">依赖项目</div>
+                      <div className="text-xs font-bold text-cyan-300">大项目数</div>
                     </div>
                     <div className="flex items-baseline gap-1">
                       <span className="text-3xl font-black text-cyan-400 drop-shadow-[0_0_15px_rgba(34,211,238,1)]">
