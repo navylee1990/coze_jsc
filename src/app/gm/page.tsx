@@ -348,9 +348,6 @@ const salespersonData: Record<string, any[]> = {
 
 export default function GMDashboard() {
   const [selectedTimeRange, setSelectedTimeRange] = useState<'current' | 'quarter' | 'year'>('current');
-  const [timeRange, setTimeRange] = useState('month');
-  const [selectedMonth, setSelectedMonth] = useState('1');
-  const [selectedQuarter, setSelectedQuarter] = useState('Q1');
 
   // 页面初始化动画 state
   const [isMounted, setIsMounted] = useState(false);
@@ -364,7 +361,7 @@ export default function GMDashboard() {
   const [animatedGap, setAnimatedGap] = useState(0);
   const [animatedRate, setAnimatedRate] = useState(0);
 
-  // 指针动画 state
+  // 按针动画 state
   const [needleAngle1, setNeedleAngle1] = useState(-90); // 目标仪表盘指针
   const [needleAngle2, setNeedleAngle2] = useState(-90); // 预测完成仪表盘指针
   const [needleAngle3, setNeedleAngle3] = useState(-90); // 缺口仪表盘指针
@@ -540,8 +537,8 @@ export default function GMDashboard() {
 
   // 获取当前时间范围的数据
   const currentData = useMemo(() => {
-    return regionData[timeRange as keyof typeof regionData] || [];
-  }, [timeRange]);
+    return regionData[selectedTimeRange as keyof typeof regionData] || [];
+  }, [selectedTimeRange]);
 
   return (
     <div className={`${DASHBOARD_STYLES.bg} ${DASHBOARD_STYLES.text} min-h-screen flex flex-col`}>

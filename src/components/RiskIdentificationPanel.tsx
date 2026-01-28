@@ -532,6 +532,39 @@ export default function RiskIdentificationPanel({
     { id: 4, label: '当月未下单', icon: Target }
   ];
 
+  // 根据时间维度过滤数据
+  const filteredUnorderedProjects = useMemo(() => {
+    return unorderedProjects.filter(project => {
+      if (!project.expectedOrderDate) return false;
+
+      // 解析日期字符串 (格式: "2026/1/15")
+      const dateMatch = project.expectedOrderDate.match(/(\d{4})\/(\d{1,2})/);
+      if (!dateMatch) return false;
+
+      const year = parseInt(dateMatch[1]);
+      const month = parseInt(dateMatch[2]);
+
+      // 当前年月（假设是2026年1月）
+      const currentYear = 2026;
+      const currentMonth = 1;
+
+      // 根据时间维度过滤
+      switch (timeRange) {
+        case 'current':
+          // 本月：同一年同一个月
+          return year === currentYear && month === currentMonth;
+        case 'quarter':
+          // 本季度：同一年且1-3月（Q1）
+          return year === currentYear && month >= 1 && month <= 3;
+        case 'year':
+          // 本年度：同一年
+          return year === currentYear;
+        default:
+          return true;
+      }
+    });
+  }, [unorderedProjects, timeRange]);
+
   // 切换Tab时重置
   useEffect(() => {
     setCurrentPage(1);
@@ -545,7 +578,7 @@ export default function RiskIdentificationPanel({
       case 1: return stageStagnations;
       case 2: return predictedRisks;
       case 3: return riskPersonnel;
-      case 4: return unorderedProjects;
+      case 4: return filteredUnorderedProjects;
       default: return [];
     }
   };
@@ -567,7 +600,7 @@ export default function RiskIdentificationPanel({
     return riskPersonnel.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage);
   };
   const getPaginatedUnorderedProjects = () => {
-    return unorderedProjects.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage);
+    return filteredUnorderedProjects.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage);
   };
 
   // 高风险数量
@@ -577,7 +610,7 @@ export default function RiskIdentificationPanel({
       case 1: return stageStagnations.filter(p => p.severity === 'high').length;
       case 2: return predictedRisks.filter(p => p.impact === 'high').length;
       case 3: return riskPersonnel.filter(p => p.riskScore >= 80).length;
-      case 4: return unorderedProjects.filter(p => p.delayDays && p.delayDays >= 10).length;
+      case 4: return filteredUnorderedProjects.filter(p => p.delayDays && p.delayDays >= 10).length;
       default: return 0;
     }
   })();
@@ -1383,24 +1416,26 @@ export default function RiskIdentificationPanel({
                   <div className="grid grid-cols-4 gap-3">
                     <div className={cn('rounded-lg p-3 border', DASHBOARD_STYLES.cardBorder)}>
                       <div className={cn('text-xs mb-1', DASHBOARD_STYLES.textMuted)}>未下单项目数</div>
-                      <div className={cn('text-2xl font-bold', DASHBOARD_STYLES.textSecondary)}>{unorderedProjects.length}</div>
+                      <div className={cn('text-2xl font-bold', DASHBOARD_STYLES.textSecondary)}>{filteredUnorderedProjects.length}</div>
                     </div>
                     <div className={cn('rounded-lg p-3 border', DASHBOARD_STYLES.cardBorder)}>
                       <div className={cn('text-xs mb-1', DASHBOARD_STYLES.textMuted)}>总金额</div>
                       <div className={cn('text-2xl font-bold text-orange-400')}>
-                        {unorderedProjects.reduce((sum, p) => sum + p.amount, 0).toFixed(0)}万
+                        {filteredUnorderedProjects.reduce((sum, p) => sum + p.amount, 0).toFixed(0)}万
                       </div>
                     </div>
                     <div className={cn('rounded-lg p-3 border', DASHBOARD_STYLES.cardBorder)}>
                       <div className={cn('text-xs mb-1', DASHBOARD_STYLES.textMuted)}>高风险项目</div>
                       <div className={cn('text-2xl font-bold text-red-400')}>
-                        {unorderedProjects.filter(p => p.delayDays && p.delayDays >= 10).length}
+                        {filteredUnorderedProjects.filter(p => p.delayDays && p.delayDays >= 10).length}
                       </div>
                     </div>
                     <div className={cn('rounded-lg p-3 border', DASHBOARD_STYLES.cardBorder)}>
                       <div className={cn('text-xs mb-1', DASHBOARD_STYLES.textMuted)}>平均延迟天数</div>
                       <div className={cn('text-2xl font-bold text-orange-400')}>
-                        {Math.round(unorderedProjects.reduce((sum, p) => sum + (p.delayDays || 0), 0) / unorderedProjects.length)}
+                        {filteredUnorderedProjects.length > 0
+                          ? Math.round(filteredUnorderedProjects.reduce((sum, p) => sum + (p.delayDays || 0), 0) / filteredUnorderedProjects.length)
+                          : 0}
                       </div>
                     </div>
                   </div>
@@ -1515,7 +1550,7 @@ export default function RiskIdentificationPanel({
 
                 <div className="px-4 py-3 border-t border-cyan-500/20 flex justify-between items-center">
                   <div className={cn('text-xs', DASHBOARD_STYLES.textMuted)}>
-                    共 {unorderedProjects.length} 条记录，当前第 {currentPage} / {totalPages} 页
+                    共 {filteredUnorderedProjects.length} 条记录，当前第 {currentPage} / {totalPages} 页
                   </div>
                   <Pagination currentPage={currentPage} totalPages={totalPages} onPageChange={setCurrentPage} />
                 </div>
