@@ -860,9 +860,7 @@ export default function RiskIdentificationPanel({
                         <th className={cn('text-left py-2 px-3 font-medium text-cyan-300 drop-shadow-[0_0_5px_rgba(6,182,212,0.5)]')}>项目名称</th>
                         <th className={cn('text-left py-2 px-3 font-medium hidden lg:table-cell text-cyan-300 drop-shadow-[0_0_5px_rgba(6,182,212,0.5)]')}>大区</th>
                         <th className={cn('text-left py-2 px-3 font-medium hidden md:table-cell text-cyan-300 drop-shadow-[0_0_5px_rgba(6,182,212,0.5)]')}>销售</th>
-                        <th className={cn('text-left py-2 px-3 font-medium hidden md:table-cell text-cyan-300 drop-shadow-[0_0_5px_rgba(6,182,212,0.5)]')}>城市经理</th>
                         <th className={cn('text-right py-2 px-3 font-medium text-cyan-300 drop-shadow-[0_0_5px_rgba(6,182,212,0.5)]')}>金额</th>
-                        <th className={cn('text-right py-2 px-3 font-medium text-cyan-300 drop-shadow-[0_0_5px_rgba(6,182,212,0.5)]')}>概率</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -904,29 +902,12 @@ export default function RiskIdentificationPanel({
                             {item.salesEngineer || '-'}
                           </td>
 
-                          {/* 城市经理 */}
-                          <td className={cn('hidden md:table-cell py-2 px-3 text-sm text-cyan-200 align-middle')}>
-                            {item.cityManager || '-'}
-                          </td>
-
                           {/* 金额 */}
                           <td className={cn('text-right py-2 px-3 whitespace-nowrap', DASHBOARD_STYLES.textSecondary, 'align-middle')}>
                             <span className="font-black text-orange-400 drop-shadow-[0_0_6px_rgba(251,146,60,0.6)]">
                               {item.amount.toFixed(2)}
                             </span>
                             <span className={cn('text-sm ml-1 text-orange-300/70')}>万</span>
-                          </td>
-
-                          {/* 概率 */}
-                          <td className={cn('text-right py-2 px-3 text-sm text-cyan-200 align-middle')}>
-                            <span className={cn(
-                              'px-2 py-1 rounded text-xs font-medium',
-                              item.probability === 'high' ? 'bg-green-500/20 text-green-400' :
-                              item.probability === 'medium' ? 'bg-yellow-500/20 text-yellow-400' :
-                              'bg-red-500/20 text-red-400'
-                            )}>
-                              {item.probability === 'high' ? '高' : item.probability === 'medium' ? '中' : '低'}
-                            </span>
                           </td>
                         </tr>
                       ))}
@@ -1060,8 +1041,7 @@ export default function RiskIdentificationPanel({
                   <table className="w-full">
                     <thead className="sticky top-0 bg-slate-900/95 backdrop-blur-sm z-10">
                       <tr className={cn('text-sm border-b border-cyan-500/30', DASHBOARD_STYLES.cardBorder)}>
-                        <th className={cn('text-center py-2 px-3 font-medium w-16 text-cyan-300 drop-shadow-[0_0_5px_rgba(6,182,212,0.5)]')}>序号</th>
-                        <th className={cn('text-left py-2 px-3 font-medium text-cyan-300 drop-shadow-[0_0_5px_rgba(6,182,212,0.5)]')}>项目ID</th>
+                        <th className={cn('text-center py-2 px-3 font-medium text-cyan-300 drop-shadow-[0_0_5px_rgba(6,182,212,0.5)]')}>序号</th>
                         <th className={cn('text-left py-2 px-3 font-medium text-cyan-300 drop-shadow-[0_0_5px_rgba(6,182,212,0.5)]')}>项目名称</th>
                         <th className={cn('text-left py-2 px-3 font-medium text-cyan-300 drop-shadow-[0_0_5px_rgba(6,182,212,0.5)]')}>金额</th>
                         <th className={cn('text-left py-2 px-3 font-medium text-cyan-300 drop-shadow-[0_0_5px_rgba(6,182,212,0.5)]')}>预测金额</th>
@@ -1084,10 +1064,6 @@ export default function RiskIdentificationPanel({
                             <div className="inline-flex items-center justify-center w-6 h-6 rounded-full bg-cyan-500/10 border border-cyan-500/30">
                               {(currentPage - 1) * 5 + index + 1}
                             </div>
-                          </td>
-                          {/* 项目ID */}
-                          <td className={cn('py-2 px-3 text-sm text-cyan-200 align-middle')}>
-                            {item.projectId}
                           </td>
                           <td className={cn('py-2 px-3 text-sm', DASHBOARD_STYLES.textSecondary, 'align-middle')}>
                             <div className="font-medium leading-snug text-cyan-100">{item.projectName}</div>
