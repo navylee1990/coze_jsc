@@ -1442,7 +1442,7 @@ export default function RiskIdentificationPanel({
           // 明细视图
           <div className="h-full flex flex-col animate-in fade-in duration-300">
                 <div className="p-4 border-b border-cyan-500/20">
-                  <div className="grid grid-cols-2 gap-3">
+                  <div className="grid grid-cols-3 gap-3">
                     <div className={cn('rounded-lg p-3 border', DASHBOARD_STYLES.cardBorder)}>
                       <div className={cn('text-xs mb-1', DASHBOARD_STYLES.textMuted)}>项目数量</div>
                       <div className={cn('text-2xl font-bold text-red-400')}>{filteredUnorderedProjects.length}</div>
@@ -1452,6 +1452,19 @@ export default function RiskIdentificationPanel({
                       <div className={cn('text-2xl font-bold text-orange-400')}>
                         {filteredUnorderedProjects.reduce((sum, p) => sum + p.amount, 0).toFixed(0)}万
                       </div>
+                    </div>
+                    <div className={cn('rounded-lg p-3 border', DASHBOARD_STYLES.cardBorder)}>
+                      <button
+                        onClick={() => alert(`一键催单：向所有未下单项目的销售工程师发送催办提醒\n\n共 ${filteredUnorderedProjects.length} 个项目，总金额 ${filteredUnorderedProjects.reduce((sum, p) => sum + p.amount, 0).toFixed(0)} 万元`)}
+                        className={cn(
+                          'w-full h-full flex flex-col items-center justify-center gap-1',
+                          'bg-gradient-to-r from-red-500/20 to-orange-500/20 border-red-500/40 rounded-lg',
+                          'transition-all hover:from-red-500/30 hover:to-orange-500/30 hover:border-red-500/50'
+                        )}
+                      >
+                        <div className={cn('text-xs font-bold text-red-400')}>一键催单</div>
+                        <div className={cn('text-xs text-red-300/70')}>全部 {filteredUnorderedProjects.length} 个项目</div>
+                      </button>
                     </div>
                   </div>
                 </div>
@@ -1467,7 +1480,6 @@ export default function RiskIdentificationPanel({
                         <th className={cn('text-left py-2 px-3 font-medium hidden md:table-cell', DASHBOARD_STYLES.textSecondary)}>销售</th>
                         <th className={cn('text-right py-2 px-3 font-medium', DASHBOARD_STYLES.textSecondary)}>金额</th>
                         <th className={cn('text-center py-2 px-3 font-medium', DASHBOARD_STYLES.textSecondary)}>状态</th>
-                        <th className={cn('text-center py-2 px-3 font-medium w-20', DASHBOARD_STYLES.textSecondary)}>操作</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -1522,19 +1534,6 @@ export default function RiskIdentificationPanel({
                             )}>
                               未下单
                             </span>
-                          </td>
-
-                          {/* 操作 */}
-                          <td className={cn('text-center py-3 px-3', DASHBOARD_STYLES.textSecondary)}>
-                            <button
-                              onClick={() => alert(`催办项目：${item.name}\n销售工程师：${item.salesEngineer}`)}
-                              className={cn(
-                                'px-3 py-1 rounded text-xs font-medium border transition-all hover:bg-red-500/20',
-                                'bg-red-500/10 text-red-400 border-red-500/30 hover:border-red-500/50'
-                              )}
-                            >
-                              催办
-                            </button>
                           </td>
                         </tr>
                       ))}
