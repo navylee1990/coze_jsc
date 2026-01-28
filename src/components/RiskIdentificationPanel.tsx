@@ -1316,9 +1316,9 @@ export default function RiskIdentificationPanel({
                   </div>
                 </div>
 
-                {/* 表格区域 - 占位，保持宽度一致 */}
+                {/* 表格区域 */}
                 <div className="flex-1 overflow-auto p-3 bg-gradient-to-b from-slate-900/50 to-transparent">
-                  <table className="w-full invisible">
+                  <table className="w-full">
                     <thead className="sticky top-0 bg-slate-900/95 backdrop-blur-sm z-10">
                       <tr className={cn('text-sm border-b border-yellow-500/30', 'border-yellow-500/20')}>
                         <th className={cn('text-center py-2 px-3 font-medium w-16 text-yellow-300 drop-shadow-[0_0_5px_rgba(234,179,8,0.5)]')}>序号</th>
@@ -1332,32 +1332,36 @@ export default function RiskIdentificationPanel({
                       </tr>
                     </thead>
                     <tbody>
-                      {[...Array(Math.min(5, forecastGaps.length))].map((_, index) => (
-                        <tr key={index} className={cn('align-middle border-b border-yellow-500/10', index === Math.min(5, forecastGaps.length) - 1 && 'border-b-0')}>
+                      {getPaginatedForecastGaps().map((item, index) => (
+                        <tr key={index} className={cn('align-middle border-b border-yellow-500/10 hover:bg-gradient-to-r hover:from-yellow-500/10 hover:to-orange-500/10 transition-all duration-200', index === getPaginatedForecastGaps().length - 1 && 'border-b-0')}>
                           <td className={cn('text-center py-2 px-3 text-sm text-yellow-300 align-middle')}>
                             <div className="inline-flex items-center justify-center w-6 h-6 rounded-full bg-yellow-500/10 border border-yellow-500/30">
-                              {index + 1}
+                              {(currentPage - 1) * 5 + index + 1}
                             </div>
                           </td>
                           <td className={cn('py-2 px-3 text-sm text-yellow-200 align-middle')}>
-                            <div className="font-medium leading-snug text-yellow-100">占位项目名称</div>
+                            <div className="font-medium leading-snug text-yellow-100">{item.projectName}</div>
                           </td>
-                          <td className={cn('hidden lg:table-cell py-2 px-3 text-sm text-yellow-200 align-middle')}>-</td>
-                          <td className={cn('hidden md:table-cell py-2 px-3 text-sm text-yellow-200 align-middle')}>-</td>
+                          <td className={cn('hidden lg:table-cell py-2 px-3 text-sm text-yellow-200 align-middle')}>{item.region || '-'}</td>
+                          <td className={cn('hidden md:table-cell py-2 px-3 text-sm text-yellow-200 align-middle')}>{item.owner || '-'}</td>
                           <td className={cn('text-right py-2 px-3 whitespace-nowrap text-yellow-200 align-middle')}>
-                            <span className="font-medium text-yellow-300">0</span>
+                            <span className="font-medium text-yellow-300">{item.currentForecast}</span>
                             <span className="text-sm ml-1 text-yellow-300/70">万</span>
                           </td>
                           <td className={cn('text-right py-2 px-3 whitespace-nowrap text-yellow-200 align-middle')}>
-                            <span className="font-medium text-yellow-300">0</span>
+                            <span className="font-medium text-yellow-300">{item.targetForecast}</span>
                             <span className="text-sm ml-1 text-yellow-300/70">万</span>
                           </td>
                           <td className={cn('text-right py-2 px-3 whitespace-nowrap text-yellow-200 align-middle')}>
-                            <span className="font-black text-orange-400 drop-shadow-[0_0_6px_rgba(251,146,60,0.6)]">0</span>
-                            <span className={cn('text-sm ml-1 text-orange-300/70')}>万</span>
+                            <span className="font-black text-red-400 drop-shadow-[0_0_6px_rgba(248,113,113,0.6)]">{item.gapAmount}</span>
+                            <span className={cn('text-sm ml-1 text-red-300/70')}>万</span>
                           </td>
                           <td className={cn('text-right py-2 px-3 whitespace-nowrap text-yellow-200 align-middle')}>
-                            <span className={cn('px-2 py-1 rounded text-xs font-bold', 'bg-yellow-500/20 text-yellow-400')}>0%</span>
+                            <span className={cn(
+                              'px-2 py-1 rounded text-xs font-bold',
+                              item.gapPercentage >= 30 ? 'bg-red-500/20 text-red-400' :
+                              item.gapPercentage >= 20 ? 'bg-orange-500/20 text-orange-400' : 'bg-yellow-500/20 text-yellow-400'
+                            )}>{item.gapPercentage}%</span>
                           </td>
                         </tr>
                       ))}
