@@ -369,7 +369,8 @@ export default function GMDashboard() {
       >
         <div className="max-w-[1920px] mx-auto px-6 py-4">
           <div className="flex items-center justify-between">
-            <div className="flex items-center gap-4">
+            {/* 左侧：导航和标题 */}
+            <div className="flex items-center gap-4 flex-1">
               <Link href="/" className={`${DASHBOARD_STYLES.textMuted} hover:text-white transition-colors`}>
                 <ChevronLeft className="w-5 h-5" />
               </Link>
@@ -377,15 +378,16 @@ export default function GMDashboard() {
                 <h1 className={`text-2xl font-bold ${DASHBOARD_STYLES.neon}`}>{PAGE_TITLE}</h1>
                 <p className={`text-sm ${DASHBOARD_STYLES.textSecondary}`}>预测驱动 · 数据赋能 · 精准决策</p>
               </div>
+            </div>
+
+            {/* 中间：用户信息 + 时间选择器 */}
+            <div className="flex items-center gap-4 flex-1 justify-center">
               <Badge
                 variant="outline"
                 className="text-sm bg-cyan-500/20 border-cyan-500/50 text-cyan-300"
               >
                 张晖
               </Badge>
-            </div>
-
-            <div className="flex items-center gap-4">
               {/* 时间维度选择器 */}
               <div className="flex items-center gap-1 bg-slate-800/50 border border-cyan-500/30 rounded-lg p-1">
                 <button
@@ -423,6 +425,9 @@ export default function GMDashboard() {
                 </button>
               </div>
             </div>
+
+            {/* 右侧：空白占位 */}
+            <div className="flex-1"></div>
           </div>
         </div>
       </header>
