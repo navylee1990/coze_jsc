@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect, useMemo } from 'react';
-import { AlertTriangle, Building2, Clock, TrendingDown, Users, ChevronRight, ChevronLeft, PauseCircle, Gauge, Circle, Target, BarChart3, ArrowLeft, Activity } from 'lucide-react';
+import { AlertTriangle, Building2, Clock, TrendingDown, Users, ChevronRight, ChevronLeft, PauseCircle, Gauge, Circle, Target, BarChart3, ArrowLeft, Activity, DollarSign } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
 // 驾驶舱样式
@@ -527,11 +527,11 @@ export default function RiskIdentificationPanel({
   // 当时间维度变化时，重置当前 Tab
   useEffect(() => {
     if (timeRange === 'current') {
-      setCurrentTab(4);
+      setCurrentTab(0);
       setCurrentPage(1);
       setViewMode('summary');
     } else {
-      setCurrentTab(0);
+      setCurrentTab(1);
       setCurrentPage(1);
       setViewMode('summary');
     }
@@ -539,18 +539,18 @@ export default function RiskIdentificationPanel({
 
   // 所有 Tab 定义
   const allTabs = [
-    { id: 0, label: '大项目依赖', icon: Building2 },
-    { id: 1, label: '阶段停滞', icon: PauseCircle },
-    { id: 2, label: '预测风险', icon: TrendingDown },
-    { id: 3, label: '风险人员', icon: Users },
-    { id: 4, label: '当月未下单', icon: Target }
+    { id: 0, label: '当月未下单', icon: Target },
+    { id: 1, label: '大项目依赖', icon: Building2 },
+    { id: 2, label: '阶段停滞', icon: PauseCircle },
+    { id: 3, label: '预测风险', icon: TrendingDown },
+    { id: 4, label: '风险人员', icon: Users }
   ];
 
   // 根据时间维度显示的 Tabs
   // 本月：只显示"当月未下单"
   // 本季度/本年度：显示所有 Tabs
   const visibleTabs = timeRange === 'current'
-    ? allTabs.filter(tab => tab.id === 4)
+    ? allTabs.filter(tab => tab.id === 0)
     : allTabs;
 
   // 根据时间维度过滤数据
@@ -595,11 +595,11 @@ export default function RiskIdentificationPanel({
   // 获取当前Tab的数据
   const getCurrentData = () => {
     switch (currentTab) {
-      case 0: return largeProjectDependencies;
-      case 1: return stageStagnations;
-      case 2: return predictedRisks;
-      case 3: return riskPersonnel;
-      case 4: return filteredUnorderedProjects;
+      case 0: return filteredUnorderedProjects;
+      case 1: return largeProjectDependencies;
+      case 2: return stageStagnations;
+      case 3: return predictedRisks;
+      case 4: return riskPersonnel;
       default: return [];
     }
   };
@@ -627,11 +627,11 @@ export default function RiskIdentificationPanel({
   // 高风险数量
   const highRiskCount = (() => {
     switch (currentTab) {
-      case 0: return largeProjectDependencies.filter(p => p.status === 'critical').length;
-      case 1: return stageStagnations.filter(p => p.severity === 'high').length;
-      case 2: return predictedRisks.filter(p => p.impact === 'high').length;
-      case 3: return riskPersonnel.filter(p => p.riskScore >= 80).length;
-      case 4: return filteredUnorderedProjects.filter(p => p.delayDays && p.delayDays >= 10).length;
+      case 0: return filteredUnorderedProjects.filter(p => p.delayDays && p.delayDays >= 10).length;
+      case 1: return largeProjectDependencies.filter(p => p.status === 'critical').length;
+      case 2: return stageStagnations.filter(p => p.severity === 'high').length;
+      case 3: return predictedRisks.filter(p => p.impact === 'high').length;
+      case 4: return riskPersonnel.filter(p => p.riskScore >= 80).length;
       default: return 0;
     }
   })();
@@ -1437,48 +1437,103 @@ export default function RiskIdentificationPanel({
           </>
         )}
 
-        {/* ============ Tab 4: 当月未下单 ============ */}
-        {currentTab === 4 && (
+        {/* ============ Tab 0: 当月未下单 ============ */}
+        {currentTab === 0 && (
           // 明细视图
           <div className="h-full flex flex-col animate-in fade-in duration-300">
-                <div className="p-4 border-b border-cyan-500/20">
-                  <div className="grid grid-cols-3 gap-3">
-                    <div className={cn('rounded-lg p-3 border', DASHBOARD_STYLES.cardBorder)}>
-                      <div className={cn('text-xs mb-1', DASHBOARD_STYLES.textMuted)}>项目数量</div>
-                      <div className={cn('text-2xl font-bold text-red-400')}>{filteredUnorderedProjects.length}</div>
-                    </div>
-                    <div className={cn('rounded-lg p-3 border', DASHBOARD_STYLES.cardBorder)}>
-                      <div className={cn('text-xs mb-1', DASHBOARD_STYLES.textMuted)}>总金额</div>
-                      <div className={cn('text-2xl font-bold text-orange-400')}>
-                        {filteredUnorderedProjects.reduce((sum, p) => sum + p.amount, 0).toFixed(0)}万
+                {/* 顶部仪表盘风格指标卡片 */}
+                <div className="p-4 bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 border-b border-cyan-500/30 relative overflow-hidden">
+                  {/* 背景装饰网格 */}
+                  <div className="absolute inset-0 opacity-10" style={{
+                    backgroundImage: `
+                      linear-gradient(rgba(6,182,212,0.1) 1px, transparent 1px),
+                      linear-gradient(90deg, rgba(6,182,212,0.1) 1px, transparent 1px)
+                    `,
+                    backgroundSize: '20px 20px'
+                  }}></div>
+                  
+                  {/* 顶部发光线条 */}
+                  <div className="absolute top-0 left-0 right-0 h-0.5 bg-gradient-to-r from-transparent via-cyan-400 to-transparent"></div>
+                  
+                  <div className="relative z-10 grid grid-cols-3 gap-4">
+                    {/* 项目数量卡片 */}
+                    <div className="relative rounded-xl p-4 bg-gradient-to-br from-red-900/30 to-red-800/20 border border-red-500/40 overflow-hidden">
+                      <div className="absolute top-0 right-0 w-20 h-20 bg-red-500/10 rounded-full blur-2xl"></div>
+                      <div className="relative z-10">
+                        <div className="flex items-center gap-2 mb-2">
+                          <AlertTriangle className="w-4 h-4 text-red-400 animate-pulse" />
+                          <div className={cn('text-xs font-bold', DASHBOARD_STYLES.textMuted)}>项目数量</div>
+                        </div>
+                        <div className="flex items-baseline gap-1">
+                          <span className="text-4xl font-black text-red-400 drop-shadow-[0_0_10px_rgba(248,113,113,0.8)]">
+                            {filteredUnorderedProjects.length}
+                          </span>
+                          <span className={cn('text-sm', DASHBOARD_STYLES.textMuted)}>个</span>
+                        </div>
+                        <div className="mt-2 flex items-center gap-1">
+                          <div className="w-1.5 h-1.5 bg-red-400 rounded-full animate-ping"></div>
+                          <div className={cn('text-xs text-red-300/70')}>高风险预警</div>
+                        </div>
                       </div>
                     </div>
-                    <div className={cn('rounded-lg p-3 border', DASHBOARD_STYLES.cardBorder)}>
-                      <button
-                        onClick={() => alert(`一键催单：向所有未下单项目的销售工程师发送催办提醒\n\n共 ${filteredUnorderedProjects.length} 个项目，总金额 ${filteredUnorderedProjects.reduce((sum, p) => sum + p.amount, 0).toFixed(0)} 万元`)}
-                        className={cn(
-                          'w-full h-full flex flex-col items-center justify-center gap-1',
-                          'bg-gradient-to-r from-red-500/20 to-orange-500/20 border-red-500/40 rounded-lg',
-                          'transition-all hover:from-red-500/30 hover:to-orange-500/30 hover:border-red-500/50'
-                        )}
-                      >
-                        <div className={cn('text-xs font-bold text-red-400')}>一键催单</div>
-                        <div className={cn('text-xs text-red-300/70')}>全部 {filteredUnorderedProjects.length} 个项目</div>
-                      </button>
+
+                    {/* 总金额卡片 */}
+                    <div className="relative rounded-xl p-4 bg-gradient-to-br from-orange-900/30 to-orange-800/20 border border-orange-500/40 overflow-hidden">
+                      <div className="absolute top-0 right-0 w-20 h-20 bg-orange-500/10 rounded-full blur-2xl"></div>
+                      <div className="relative z-10">
+                        <div className="flex items-center gap-2 mb-2">
+                          <DollarSign className="w-4 h-4 text-orange-400" />
+                          <div className={cn('text-xs font-bold', DASHBOARD_STYLES.textMuted)}>总金额</div>
+                        </div>
+                        <div className="flex items-baseline gap-1">
+                          <span className="text-4xl font-black text-orange-400 drop-shadow-[0_0_10px_rgba(251,146,60,0.8)]">
+                            {filteredUnorderedProjects.reduce((sum, p) => sum + p.amount, 0).toFixed(0)}
+                          </span>
+                          <span className={cn('text-sm', DASHBOARD_STYLES.textMuted)}>万</span>
+                        </div>
+                        <div className="mt-2 flex items-center gap-1">
+                          <Activity className="w-3 h-3 text-orange-300/70" />
+                          <div className={cn('text-xs text-orange-300/70')}>资金风险</div>
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* 一键催单按钮 */}
+                    <div className="relative rounded-xl overflow-hidden border border-red-500/40 bg-gradient-to-br from-red-900/20 to-orange-900/20 hover:from-red-900/30 hover:to-orange-900/30 transition-all duration-300 cursor-pointer group"
+                         onClick={() => alert(`一键催单：向所有未下单项目的销售工程师发送催办提醒\n\n共 ${filteredUnorderedProjects.length} 个项目，总金额 ${filteredUnorderedProjects.reduce((sum, p) => sum + p.amount, 0).toFixed(0)} 万元`)}>
+                      {/* 按钮发光效果 */}
+                      <div className="absolute inset-0 bg-gradient-to-r from-red-500/20 to-orange-500/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                      <div className="absolute inset-0 border border-red-500/30 rounded-xl animate-pulse"></div>
+                      
+                      <div className="relative z-10 h-full flex flex-col items-center justify-center gap-2 py-4">
+                        <div className="flex items-center gap-2">
+                          <div className="w-8 h-8 rounded-full bg-red-500/30 border border-red-400/50 flex items-center justify-center group-hover:scale-110 transition-transform">
+                            <Target className="w-4 h-4 text-red-400" />
+                          </div>
+                          <div className="text-lg font-black text-red-400 drop-shadow-[0_0_8px_rgba(248,113,113,0.8)]">一键催单</div>
+                        </div>
+                        <div className="flex items-center gap-1">
+                          <div className="w-1.5 h-1.5 bg-red-400 rounded-full animate-bounce" style={{animationDelay: '0ms'}}></div>
+                          <div className="w-1.5 h-1.5 bg-red-400 rounded-full animate-bounce" style={{animationDelay: '150ms'}}></div>
+                          <div className="w-1.5 h-1.5 bg-red-400 rounded-full animate-bounce" style={{animationDelay: '300ms'}}></div>
+                          <div className={cn('text-xs text-red-300/70')}>全部 {filteredUnorderedProjects.length} 个项目</div>
+                        </div>
+                      </div>
                     </div>
                   </div>
                 </div>
 
-                <div className="flex-1 overflow-auto p-4">
+                {/* 表格区域 */}
+                <div className="flex-1 overflow-auto p-4 bg-gradient-to-b from-slate-900/50 to-transparent">
                   <table className="w-full">
                     <thead className="sticky top-0 bg-slate-900/95 backdrop-blur-sm z-10">
-                      <tr className={cn('text-xs border-b', DASHBOARD_STYLES.cardBorder)}>
-                        <th className={cn('text-center py-2 px-3 font-medium w-16', DASHBOARD_STYLES.textSecondary)}>序号</th>
-                        <th className={cn('text-left py-2 px-3 font-medium', DASHBOARD_STYLES.textSecondary)}>预计下单</th>
-                        <th className={cn('text-left py-2 px-3 font-medium', DASHBOARD_STYLES.textSecondary)}>项目名称</th>
-                        <th className={cn('text-left py-2 px-3 font-medium hidden lg:table-cell', DASHBOARD_STYLES.textSecondary)}>大区</th>
-                        <th className={cn('text-left py-2 px-3 font-medium hidden md:table-cell', DASHBOARD_STYLES.textSecondary)}>销售</th>
-                        <th className={cn('text-right py-2 px-3 font-medium', DASHBOARD_STYLES.textSecondary)}>金额</th>
+                      <tr className={cn('text-xs border-b border-cyan-500/30', DASHBOARD_STYLES.cardBorder)}>
+                        <th className={cn('text-center py-3 px-3 font-medium w-16 text-cyan-300 drop-shadow-[0_0_5px_rgba(6,182,212,0.5)]')}>序号</th>
+                        <th className={cn('text-left py-3 px-3 font-medium text-cyan-300 drop-shadow-[0_0_5px_rgba(6,182,212,0.5)]')}>预计下单</th>
+                        <th className={cn('text-left py-3 px-3 font-medium text-cyan-300 drop-shadow-[0_0_5px_rgba(6,182,212,0.5)]')}>项目名称</th>
+                        <th className={cn('text-left py-3 px-3 font-medium hidden lg:table-cell text-cyan-300 drop-shadow-[0_0_5px_rgba(6,182,212,0.5)]')}>大区</th>
+                        <th className={cn('text-left py-3 px-3 font-medium hidden md:table-cell text-cyan-300 drop-shadow-[0_0_5px_rgba(6,182,212,0.5)]')}>销售</th>
+                        <th className={cn('text-right py-3 px-3 font-medium text-cyan-300 drop-shadow-[0_0_5px_rgba(6,182,212,0.5)]')}>金额</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -1486,43 +1541,46 @@ export default function RiskIdentificationPanel({
                         <tr
                           key={index}
                           className={cn(
-                            'border-b border-cyan-500/10 hover:bg-cyan-500/5 transition-colors',
+                            'border-b border-cyan-500/10 hover:bg-gradient-to-r hover:from-red-500/10 hover:to-orange-500/10 transition-all duration-200',
                             index === getPaginatedUnorderedProjects().length - 1 && 'border-b-0'
                           )}
                         >
                           {/* 序号 */}
-                          <td className={cn('text-center py-3 px-3 text-xs', DASHBOARD_STYLES.textSecondary)}>
-                            {(currentPage - 1) * 5 + index + 1}
+                          <td className={cn('text-center py-3 px-3 text-xs text-cyan-300')}>
+                            <div className="inline-flex items-center justify-center w-6 h-6 rounded-full bg-cyan-500/10 border border-cyan-500/30">
+                              {(currentPage - 1) * 5 + index + 1}
+                            </div>
                           </td>
 
                           {/* 预计下单时间 */}
-                          <td className={cn('py-3 px-3 text-xs whitespace-nowrap', DASHBOARD_STYLES.textSecondary)}>
-                            {item.expectedOrderDate || '-'}
+                          <td className={cn('py-3 px-3 text-xs whitespace-nowrap text-cyan-200')}>
+                            <div className="flex items-center gap-1.5">
+                              <Clock className="w-3 h-3 text-cyan-400/70" />
+                              {item.expectedOrderDate || '-'}
+                            </div>
                           </td>
 
                           {/* 项目名称 */}
                           <td className={cn('py-3 px-3 text-xs', DASHBOARD_STYLES.textSecondary)}>
-                            <div className="font-medium leading-snug">{item.name}</div>
+                            <div className="font-medium leading-snug text-cyan-100">{item.name}</div>
                           </td>
 
                           {/* 大区 */}
-                          <td className={cn('hidden lg:table-cell py-3 px-3 text-xs', DASHBOARD_STYLES.textSecondary)}>
+                          <td className={cn('hidden lg:table-cell py-3 px-3 text-xs text-cyan-200')}>
                             {item.region || '-'}
                           </td>
 
                           {/* 销售工程师 */}
-                          <td className={cn('hidden md:table-cell py-3 px-3 text-xs', DASHBOARD_STYLES.textSecondary)}>
+                          <td className={cn('hidden md:table-cell py-3 px-3 text-xs text-cyan-200')}>
                             {item.salesEngineer || '-'}
                           </td>
 
                           {/* 金额 */}
                           <td className={cn('text-right py-3 px-3 whitespace-nowrap', DASHBOARD_STYLES.textSecondary)}>
-                            <span className="font-bold text-orange-400">
+                            <span className="font-black text-orange-400 drop-shadow-[0_0_6px_rgba(251,146,60,0.6)]">
                               {item.amount.toFixed(2)}
                             </span>
-                            <span className={cn('text-xs ml-1', DASHBOARD_STYLES.textMuted)}>
-                              万
-                            </span>
+                            <span className={cn('text-xs ml-1 text-orange-300/70')}>万</span>
                           </td>
                         </tr>
                       ))}
@@ -1530,8 +1588,10 @@ export default function RiskIdentificationPanel({
                   </table>
                 </div>
 
-                <div className="px-4 py-3 border-t border-cyan-500/20 flex justify-between items-center">
-                  <div className={cn('text-xs', DASHBOARD_STYLES.textMuted)}>
+                {/* 分页 */}
+                <div className="px-4 py-3 border-t border-cyan-500/20 flex justify-between items-center bg-gradient-to-r from-slate-900/50 to-transparent">
+                  <div className={cn('text-xs flex items-center gap-2', DASHBOARD_STYLES.textMuted)}>
+                    <Activity className="w-3 h-3 text-cyan-400/70" />
                     共 {filteredUnorderedProjects.length} 条记录，当前第 {currentPage} / {totalPages} 页
                   </div>
                   <Pagination currentPage={currentPage} totalPages={totalPages} onPageChange={setCurrentPage} />
