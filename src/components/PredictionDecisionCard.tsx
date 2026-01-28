@@ -455,8 +455,8 @@ export default function PredictionDecisionCard({
                   <text
                     x={paddingLeft - 12}
                     y={y + 5}
-                    fill="rgba(34,211,238,0.6)"
-                    fontSize="13"
+                    fill="rgba(34,211,238,0.7)"
+                    fontSize="14"
                     textAnchor="end"
                     fontWeight="500"
                   >
