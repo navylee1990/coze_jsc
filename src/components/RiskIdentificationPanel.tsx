@@ -660,7 +660,7 @@ export default function RiskIdentificationPanel({
                     key={tab.id}
                     onClick={() => setCurrentTab(tab.id)}
                     className={cn(
-                      'flex items-center justify-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium transition-all relative w-[100px]',
+                      'flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium transition-all relative',
                       // 未按计划下单使用红色主题
                       isUnorderedProjects && theme === 'dashboard'
                         ? 'bg-red-500/40 text-red-200 border-2 border-red-500/60 shadow-[0_0_20px_rgba(239,68,68,0.6)] animate-pulse'
