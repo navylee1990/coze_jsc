@@ -294,15 +294,49 @@ export default function RegionMatrix({
       )}>
         {renderTableHeader()}
         <div className="flex flex-col">
-          {displayData.map((item, index) => {
-            // 计算排名：第一层从1开始，分页层根据页码计算
-            const rank = shouldPaginate
-              ? (currentPage - 1) * itemsPerPage + index + 1
-              : index + 1;
-            return renderTableRow(item, rank, handleDrillDownChange);
-          })}
+          {displayData.length === 0 ? (
+            // 空状态提示
+            <div className={cn(
+              'py-16 flex flex-col items-center justify-center',
+              theme === 'dashboard' ? 'bg-slate-900/30' : 'bg-slate-50'
+            )}>
+              <div className={cn(
+                'w-16 h-16 rounded-full flex items-center justify-center mb-4',
+                theme === 'dashboard'
+                  ? 'bg-cyan-500/10 border-2 border-cyan-500/30'
+                  : 'bg-slate-100 border-2 border-slate-200'
+              )}>
+                <Activity className={cn(
+                  'w-8 h-8',
+                  theme === 'dashboard' ? 'text-cyan-400/60' : 'text-slate-400'
+                )} />
+              </div>
+              <div className={cn(
+                'text-sm font-medium mb-2',
+                DASHBOARD_STYLES.textSecondary
+              )}>
+                暂无数据
+              </div>
+              <div className={cn(
+                'text-xs',
+                DASHBOARD_STYLES.textMuted
+              )}>
+                {drillDownLevel === 'region' ? '本月暂无区域达成数据' : '该层级暂无数据'}
+              </div>
+            </div>
+          ) : (
+            <>
+              {displayData.map((item, index) => {
+                // 计算排名：第一层从1开始，分页层根据页码计算
+                const rank = shouldPaginate
+                  ? (currentPage - 1) * itemsPerPage + index + 1
+                  : index + 1;
+                return renderTableRow(item, rank, handleDrillDownChange);
+              })}
+            </>
+          )}
           {/* 分页控件 - 只在第二层和第三层显示 */}
-          {shouldPaginate && totalPages > 1 && (
+          {displayData.length > 0 && shouldPaginate && totalPages > 1 && (
             <div className="flex items-center justify-between px-4 py-4 border-t border-cyan-500/20 bg-slate-900/30">
               <div className={cn('text-sm', DASHBOARD_STYLES.textMuted)}>
                 共 {currentData.length} 条记录
@@ -350,6 +384,8 @@ export default function RegionMatrix({
                 </button>
               </div>
             </div>
+          )}
+          </>
           )}
         </div>
       </div>
