@@ -480,9 +480,9 @@ export default function RiskIdentificationPanel({
 
   // 所有 Tab 定义
   const allTabs = [
+    { id: 2, label: '预测不足', icon: TrendingDown },
     { id: 0, label: '未按计划下单', icon: XCircle },
-    { id: 1, label: '大项目依赖', icon: Building2 },
-    { id: 2, label: '预测不足', icon: TrendingDown }
+    { id: 1, label: '大项目依赖', icon: Building2 }
   ];
 
   // 根据时间维度显示的 Tabs
