@@ -963,26 +963,33 @@ export default function RiskIdentificationPanel({
                   </div>
                 </div>
 
-                {/* 高风险占比卡片 */}
+                {/* 在线沟通按钮 */}
                 <div className={cn(
-                  'relative rounded-xl p-2 overflow-hidden h-full flex flex-col items-center justify-center',
-                  'bg-gradient-to-br from-red-900/50 to-red-800/30',
-                  'border-2 border-red-500/60',
-                  'shadow-[0_0_25px_rgba(239,68,68,0.5)]'
-                )}>
-                  <div className="absolute top-0 right-0 w-20 h-20 bg-red-500/20 rounded-full blur-3xl animate-pulse"></div>
+                  'relative rounded-xl p-2 overflow-hidden cursor-pointer group h-full flex flex-col items-center justify-center',
+                  'border-2 border-cyan-500/70',
+                  'bg-gradient-to-br from-cyan-900/30 to-blue-900/20',
+                  'hover:from-cyan-900/50 hover:to-blue-900/30',
+                  'shadow-[0_0_30px_rgba(6,182,212,0.5)]',
+                  'hover:shadow-[0_0_40px_rgba(6,182,212,0.7)]',
+                  'transition-all duration-300'
+                )}
+                     onClick={() => alert(`在线沟通：向大项目依赖的负责人发送沟通提醒\n\n共 ${largeProjectDependencies.length} 个大项目，总金额 ${largeProjectDependencies.reduce((sum, p) => sum + p.amount, 0).toFixed(0)} 万元`)}>
+                  {/* 按钮发光效果 */}
+                  <div className="absolute inset-0 bg-gradient-to-r from-cyan-500/30 to-blue-500/30 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                  <div className="absolute inset-0 border-2 border-cyan-500/50 rounded-xl animate-pulse"></div>
+
                   <div className="relative z-10 w-full flex flex-col items-center justify-center">
-                    <div className="flex items-center gap-2 mb-1.5">
-                      <AlertTriangle className="w-3.5 h-3.5 text-red-400 drop-shadow-[0_0_10px_rgba(239,68,68,1)] animate-pulse" />
-                      <div className="text-xs font-bold text-red-300">高风险占比</div>
+                    <div className="flex items-center gap-1.5 mb-1.5">
+                      <div className="w-8 h-8 rounded-full bg-cyan-500/40 border-2 border-cyan-400/60 flex items-center justify-center group-hover:scale-110 transition-transform shadow-[0_0_15px_rgba(6,182,212,0.8)]">
+                        <Send className="w-4 h-4 text-cyan-400 drop-shadow-[0_0_8px_rgba(34,211,238,1)]" />
+                      </div>
+                      <div className="text-base font-black text-cyan-400 drop-shadow-[0_0_12px_rgba(34,211,238,1)]">在线沟通</div>
                     </div>
-                    <div className="flex items-baseline gap-1">
-                      <span className="text-3xl font-black text-red-400 drop-shadow-[0_0_15px_rgba(248,113,113,1)]">
-                        {largeProjectDependencies.length > 0
-                          ? Math.round(((largeProjectDependencies.filter(p => p.status === 'critical' || p.status === 'highRisk').length) / largeProjectDependencies.length) * 100)
-                          : 0}
-                      </span>
-                      <span className="text-xs text-red-300/80">%</span>
+                    <div className="flex items-center gap-1">
+                      <div className="w-1.5 h-1.5 bg-cyan-400 rounded-full animate-bounce" style={{animationDelay: '0ms'}}></div>
+                      <div className="w-1.5 h-1.5 bg-cyan-400 rounded-full animate-bounce" style={{animationDelay: '150ms'}}></div>
+                      <div className="w-1.5 h-1.5 bg-cyan-400 rounded-full animate-bounce" style={{animationDelay: '300ms'}}></div>
+                      <div className="text-xs text-cyan-300 font-semibold">全部 {largeProjectDependencies.length} 个项目</div>
                     </div>
                   </div>
                 </div>
