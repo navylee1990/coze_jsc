@@ -1,935 +1,455 @@
 'use client';
 
-import { Target, TrendingUp, TrendingDown, AlertTriangle, Zap, ChevronRight, ArrowUp, ArrowDown, CheckCircle, XCircle, AlertCircle, TrendingDown as TrendDown, ArrowUpRight, ArrowDownRight, Minus } from 'lucide-react';
-import { Badge } from '@/components/ui/badge';
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
+import { useState } from 'react';
+import { Target, Zap, Play, AlertTriangle, TrendingUp, TrendingDown, CheckCircle, ChevronRight, ArrowUpRight, ArrowDownRight, PlayCircle, Zap as Flash, Navigation, Radar } from 'lucide-react';
 import { cn } from '@/lib/utils';
-import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip as RechartsTooltip, ResponsiveContainer, PieChart, Pie, Cell } from 'recharts';
 
 // 主题类型
 type Theme = 'dark' | 'dashboard';
 
-// 趋势类型
-type TrendDirection = 'up' | 'down' | 'stable';
-
-// 支撑因子数据类型
-interface SupportFactor {
-  name: string;
-  amount: number;
-  percentage: number;
-  isNew?: boolean;
-  timeLabel: string; // 时间标签：如"30天内生效"、"1-3月支撑"
-  details?: string[];
+// CEO决策操作类型
+interface DecisionAction {
+  id: string;
+  type: 'immediate' | 'followup' | 'optimize';
+  title: string;
+  description: string;
+  impact: string;
+  value: number; // 影响金额（正数=增加，负数=减少）
+  priority: 'critical' | 'high' | 'medium';
+  icon: 'zap' | 'target' | 'alert';
+  status: 'pending' | 'inprogress' | 'completed';
+  details: string[];
 }
 
-// 风险因子数据类型
-interface RiskFactor {
-  source: string;
-  amount: number;
-  level: 'high' | 'medium' | 'low';
-  owner?: string;
-  timeLabel: string; // 时间标签：如"30天内爆发风险"、"1-3月下滑风险"
-  details?: string;
+// 智能洞察
+interface Insight {
+  category: 'opportunity' | 'risk' | 'trend';
+  title: string;
+  description: string;
+  value: number;
+  change: number;
+  icon: 'up' | 'down' | 'stable';
 }
 
-// 行动建议数据类型
-interface ActionItem {
-  icon: 'fire' | 'warning' | 'lightbulb';
-  text: string;
-  link?: string;
-  priority: 'high' | 'medium' | 'low';
-  impact?: string; // 影响金额描述
-}
-
-// 未来趋势数据点
-interface TrendDataPoint {
-  month: string;
-  target: number;
-  forecast: number;
-  forecastLower?: number; // 预测区间下限
-  forecastUpper?: number; // 预测区间上限
-}
-
-// 核心预测决策卡片数据接口
-interface PredictionDecisionCardData {
-  target: number;
-  forecast: number;
-  completed: number;
-  achievementRate: number;
-  gap: number;
-  trendDirection: TrendDirection;
-  trendData: TrendDataPoint[]; // 未来趋势数据
-  supportFactors: SupportFactor[];
-  riskFactors: RiskFactor[];
-  actionItems: ActionItem[];
-}
+// 驾驶舱样式
+const DASHBOARD_STYLES = {
+  bg: 'bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950',
+  cardBg: 'bg-slate-900/80 backdrop-blur-sm',
+  cardBorder: 'border-cyan-500/30',
+  text: 'text-cyan-50',
+  textMuted: 'text-cyan-300/70',
+  textSecondary: 'text-cyan-200',
+  neon: 'text-cyan-400 drop-shadow-[0_0_8px_rgba(6,182,212,0.8)]',
+  neonGlow: 'shadow-[0_0_15px_rgba(6,182,212,0.6)]',
+  warningGlow: 'shadow-[0_0_15px_rgba(239,68,68,0.6)]',
+  successGlow: 'shadow-[0_0_15px_rgba(74,222,128,0.6)]',
+  glow: 'shadow-[0_0_15px_rgba(6,182,212,0.6)]',
+};
 
 // 默认数据
-const defaultData: PredictionDecisionCardData = {
-  target: 1500,
-  forecast: 1350,
-  completed: 1140,
-  achievementRate: 76,
-  gap: 150,
-  trendDirection: 'up',
-  trendData: [
-    { month: '本月', target: 1500, forecast: 1350, forecastLower: 1280, forecastUpper: 1420 },
-    { month: '下月', target: 1500, forecast: 1420, forecastLower: 1350, forecastUpper: 1490 },
-    { month: '1-3月', target: 4500, forecast: 4200, forecastLower: 4000, forecastUpper: 4400 },
-    { month: '3-6月', target: 9000, forecast: 8500, forecastLower: 8100, forecastUpper: 8900 },
-  ],
-  supportFactors: [
-    {
-      name: '高质量商机池',
-      amount: 580,
-      percentage: 43,
-      isNew: false,
-      timeLabel: '30天内生效',
-      details: ['北京协和医院 280万', '上海外国语学校 350万', '杭州阿里巴巴园区 380万']
-    },
-    {
-      name: 'SOP健康度提升',
-      amount: 270,
-      percentage: 20,
-      isNew: true,
-      timeLabel: '1-3月支撑',
-      details: ['整体SOP合规率提升至85%', '新增5个合规项目', '累计预测提升270万']
-    },
-    {
-      name: '重点项目推进',
-      amount: 210,
-      percentage: 15.5,
-      isNew: true,
-      timeLabel: '1-3月支撑',
-      details: ['南京鼓楼医院进入谈判阶段', '深圳四季酒店进入商务阶段', '累计提升预测210万']
-    }
-  ],
-  riskFactors: [
-    {
-      source: '重点项目停滞',
-      amount: -180,
-      level: 'high',
-      owner: '王强、赵敏',
-      timeLabel: '30天内爆发风险',
-      details: '广州某企业办公楼(405万)、西安某学校(84万)停滞超过30天'
-    },
-    {
-      source: 'SOP不达标扣减',
-      amount: -95,
-      level: 'medium',
-      owner: '陈明',
-      timeLabel: '1-3月下滑风险',
-      details: '陈明负责项目SOP合规率仅78%，4个项目被降权'
-    },
-    {
-      source: '价格谈判风险',
-      amount: -60,
-      level: 'medium',
-      owner: '李娜',
-      timeLabel: '1-3月下滑风险',
-      details: '上海项目价格敏感度高，存在降价风险'
-    }
-  ],
-  actionItems: [
-    {
-      icon: 'fire',
-      text: '优先推进项目A（预计影响 +260万）',
-      link: '/gm/projects',
-      priority: 'high',
-      impact: '+260万'
-    },
-    {
-      icon: 'warning',
-      text: '跟进项目B已停滞45天（风险-120万）',
-      link: '/gm/projects',
-      priority: 'high',
-      impact: '-120万'
-    },
-    {
-      icon: 'lightbulb',
-      text: '与客户C重新对齐商务条款（潜在+80万）',
-      link: '/gm/projects',
-      priority: 'medium',
-      impact: '+80万'
-    }
-  ]
-};
+const defaultDecisions: DecisionAction[] = [
+  {
+    id: '1',
+    type: 'immediate',
+    title: '启动重点项目A加速',
+    description: '北京协和医院项目已进入关键期，立即启动商务加速',
+    impact: '+260万',
+    value: 260,
+    priority: 'critical',
+    icon: 'zap',
+    status: 'pending',
+    details: ['商务谈判进入最后阶段', '预计7天内可签约', '竞争对手已报价320万']
+  },
+  {
+    id: '2',
+    type: 'immediate',
+    title: '激活停滞项目B',
+    description: '西安某学校项目停滞45天，需CEO介入激活',
+    impact: '-120万',
+    value: -120,
+    priority: 'critical',
+    icon: 'alert',
+    status: 'pending',
+    details: ['停滞原因：审批流程复杂', '需协调总部资源', '已联系决策人本周二开会']
+  },
+  {
+    id: '3',
+    type: 'followup',
+    title: '跟进高概率商机C',
+    description: '杭州阿里巴巴园区项目，成交概率85%',
+    impact: '+380万',
+    value: 380,
+    priority: 'high',
+    icon: 'target',
+    status: 'pending',
+    details: ['技术方案已通过', '商务条款待确认', '预计本月下旬签约']
+  },
+  {
+    id: '4',
+    type: 'optimize',
+    title: '优化SOP执行策略',
+    description: '陈明团队SOP合规率仅78%，影响5个项目预测',
+    impact: '+95万',
+    value: 95,
+    priority: 'medium',
+    icon: 'target',
+    status: 'pending',
+    details: ['4个项目被降权预测', '需提升合规率至85%', '提供专项培训支持']
+  }
+];
+
+const defaultInsights: Insight[] = [
+  {
+    category: 'opportunity',
+    title: '高质量商机池',
+    description: '3个高概率项目，总金额1060万',
+    value: 1060,
+    change: 15,
+    icon: 'up'
+  },
+  {
+    category: 'risk',
+    title: '重点项目风险',
+    description: '2个停滞项目，影响-240万',
+    value: -240,
+    change: -12,
+    icon: 'down'
+  },
+  {
+    category: 'trend',
+    title: '本月预测趋势',
+    description: '预测达成率76%，趋势向好',
+    value: 76,
+    change: 5,
+    icon: 'up'
+  }
+];
 
 // 组件属性
 interface PredictionDecisionCardProps {
-  data?: Partial<PredictionDecisionCardData>;
   theme?: Theme;
-  onActionClick?: (action: ActionItem) => void;
-  onSupportFactorHover?: (factor: SupportFactor) => void;
-  onRiskFactorHover?: (factor: RiskFactor) => void;
+  onDecisionExecute?: (decision: DecisionAction) => void;
 }
 
 export default function PredictionDecisionCard({
-  data: customData,
-  theme = 'dark',
-  onActionClick,
-  onSupportFactorHover,
-  onRiskFactorHover
+  theme = 'dashboard',
+  onDecisionExecute
 }: PredictionDecisionCardProps) {
-  // 合并默认数据和自定义数据
-  const data = { ...defaultData, ...customData };
+  const [decisions] = useState<DecisionAction[]>(defaultDecisions);
+  const [insights] = useState<Insight[]>(defaultInsights);
+  const [selectedDecision, setSelectedDecision] = useState<string | null>(null);
+  const [isExecuting, setIsExecuting] = useState<string | null>(null);
 
-  // 计算状态
-  const getStatus = () => {
-    if (data.achievementRate >= 110) return 'success';
-    if (data.achievementRate >= 90) return 'warning';
-    return 'danger';
+  const handleExecute = async (decision: DecisionAction) => {
+    setIsExecuting(decision.id);
+    // 模拟异步操作
+    await new Promise(resolve => setTimeout(resolve, 1500));
+    setIsExecuting(null);
+    onDecisionExecute?.(decision);
   };
 
-  const status = getStatus();
-
-  // 获取状态颜色
-  const getStatusColor = () => {
-    switch (status) {
-      case 'success':
-        return {
-          bg: 'bg-green-500/10',
-          border: 'border-green-500/30',
-          text: 'text-green-600',
-          icon: <CheckCircle className="w-6 h-6" />
-        };
-      case 'warning':
-        return {
-          bg: 'bg-yellow-500/10',
-          border: 'border-yellow-500/30',
-          text: 'text-yellow-600',
-          icon: <AlertCircle className="w-6 h-6" />
-        };
-      case 'danger':
-        return {
-          bg: 'bg-red-500/10',
-          border: 'border-red-500/30',
-          text: 'text-red-600',
-          icon: <XCircle className="w-6 h-6" />
-        };
-    }
-  };
-
-  const statusColor = getStatusColor();
-
-  // 获取趋势方向
-  const getTrendDirection = () => {
-    switch (data.trendDirection) {
-      case 'up':
-        return {
-          text: '上升',
-          icon: <ArrowUpRight className="w-4 h-4" />,
-          color: 'text-green-600 bg-green-500/10 border-green-500/30'
-        };
-      case 'down':
-        return {
-          text: '下滑',
-          icon: <ArrowDownRight className="w-4 h-4" />,
-          color: 'text-red-600 bg-red-500/10 border-red-500/30'
-        };
-      default:
-        return {
-          text: '稳定',
-          icon: <Minus className="w-4 h-4" />,
-          color: 'text-slate-600 bg-slate-500/10 border-slate-500/30'
-        };
-    }
-  };
-
-  const trendDirection = getTrendDirection();
-
-  // 计算预测完成警告
-  const getForecastWarning = () => {
-    if (data.achievementRate >= 80) {
-      return { 
-        show: true, 
-        color: theme === 'dashboard' ? 'text-yellow-400' : 'text-yellow-600', 
-        bgColor: theme === 'dashboard' ? 'bg-yellow-500/20' : 'bg-yellow-500/20' 
-      };
-    } else {
-      return { 
-        show: true, 
-        color: theme === 'dashboard' ? 'text-red-400' : 'text-red-600', 
-        bgColor: theme === 'dashboard' ? 'bg-red-500/20' : 'bg-red-500/20' 
-      };
-    }
-  };
-
-  // 计算缺口警告
-  const getGapWarning = () => {
-    if (data.gap > 0) {
-      const gapRatio = (data.gap / data.target) * 100;
-      if (gapRatio <= 20) {
-        return { 
-          show: true, 
-          color: theme === 'dashboard' ? 'text-yellow-400' : 'text-yellow-600', 
-          bgColor: theme === 'dashboard' ? 'bg-yellow-500/20' : 'bg-yellow-500/20' 
-        };
-      } else {
-        return { 
-          show: true, 
-          color: theme === 'dashboard' ? 'text-red-400' : 'text-red-600', 
-          bgColor: theme === 'dashboard' ? 'bg-red-500/20' : 'bg-red-500/20' 
-        };
-      }
-    } else {
-      return { show: false, color: '', bgColor: '' };
-    }
-  };
-
-  const forecastWarning = getForecastWarning();
-  const gapWarning = getGapWarning();
-
-  // 计算支撑和风险总额
-  const totalSupport = data.supportFactors.reduce((sum, f) => sum + f.amount, 0);
-  const totalRisk = Math.abs(data.riskFactors.reduce((sum, f) => sum + f.amount, 0));
-
-  // 迷你对冲图数据
-  const hedgeChartData = [
-    { name: '支撑', value: totalSupport, color: '#22c55e' },
-    { name: '风险', value: totalRisk, color: '#ef4444' }
-  ];
-
-  // 获取风险等级颜色
-  const getRiskLevelColor = (level: string) => {
-    switch (level) {
-      case 'high':
-        return 'text-red-600 bg-red-500/10 border-red-500/30';
-      case 'medium':
-        return 'text-orange-600 bg-orange-500/10 border-orange-500/30';
-      case 'low':
-        return 'text-yellow-600 bg-yellow-500/10 border-yellow-500/30';
-    }
-  };
-
-  // 获取行动图标
-  const getActionIcon = (icon: string) => {
-    switch (icon) {
-      case 'fire':
-        return <Zap className="w-4 h-4 text-red-600" />;
-      case 'warning':
-        return <AlertTriangle className="w-4 h-4 text-orange-600" />;
-      case 'lightbulb':
-        return <Target className="w-4 h-4 text-blue-600" />;
-      default:
-        return <Target className="w-4 h-4" />;
-    }
-  };
-
-  // 获取行动优先级边框颜色
-  const getActionBorderColor = (priority: string) => {
+  const getPriorityStyles = (priority: string) => {
     switch (priority) {
+      case 'critical':
+        return {
+          border: 'border-red-500/40',
+          bg: 'bg-red-900/20',
+          icon: 'text-red-400',
+          glow: DASHBOARD_STYLES.warningGlow
+        };
       case 'high':
-        return 'border-l-4 border-l-red-500';
-      case 'medium':
-        return 'border-l-4 border-l-orange-500';
-      case 'low':
-        return 'border-l-4 border-l-yellow-500';
+        return {
+          border: 'border-orange-500/40',
+          bg: 'bg-orange-900/20',
+          icon: 'text-orange-400',
+          glow: 'shadow-[0_0_15px_rgba(251,146,60,0.6)]'
+        };
       default:
-        return '';
+        return {
+          border: 'border-cyan-500/40',
+          bg: 'bg-cyan-900/20',
+          icon: 'text-cyan-400',
+          glow: DASHBOARD_STYLES.neonGlow
+        };
     }
   };
 
-  // 自定义迷你图表Tooltip
-  const MiniChartTooltip = ({ active, payload, label }: any) => {
-    if (active && payload && payload.length) {
-      return (
-        <div
-          className={cn(
-            'rounded-lg p-2 text-xs',
-            theme === 'dark' ? 'bg-slate-900 border border-slate-700' : 'bg-white border border-slate-200 shadow-lg'
-          )}
-        >
-          <div className="font-semibold mb-1">{label}</div>
-          {payload.map((entry: any, index: number) => (
-            <div key={index} className="flex items-center gap-2">
-              <div
-                className={cn('w-2 h-2 rounded-full', entry.dataKey === 'target' ? 'bg-slate-400' : 'bg-blue-500')}
-              />
-              <span className="text-slate-600">{entry.name}：</span>
-              <span className="font-semibold">{entry.value}万</span>
-            </div>
-          ))}
-        </div>
-      );
+  const getTypeStyles = (type: string) => {
+    switch (type) {
+      case 'immediate':
+        return { label: '立即执行', color: 'text-red-400', bg: 'bg-red-500/10' };
+      case 'followup':
+        return { label: '跟进关注', color: 'text-orange-400', bg: 'bg-orange-500/10' };
+      default:
+        return { label: '优化策略', color: 'text-cyan-400', bg: 'bg-cyan-500/10' };
     }
-    return null;
   };
 
   return (
-    <TooltipProvider>
-      <div
-        className={cn(
-          'w-full rounded-xl border-2 transition-all duration-300',
-          theme === 'dark'
-            ? 'bg-slate-900/80 border-slate-700 hover:border-blue-500/50'
-            : 'bg-white border-slate-200 hover:border-blue-300 hover:shadow-2xl'
-        )}
-      >
-        {/* 顶部标题栏 */}
-        <div
-          className={cn(
-            'px-5 py-3 border-b flex items-center justify-between',
-            theme === 'dark' ? 'border-slate-700' : 'border-slate-200'
-          )}
-        >
-          <div className="flex items-center gap-2">
-            <Target className="w-5 h-5 text-blue-600" />
-            <h3 className="font-bold text-lg text-slate-900">核心预测决策卡片</h3>
-          </div>
-          <div className="flex items-center gap-3">
-            {/* 趋势方向标签 */}
-            <Badge
-              variant="outline"
-              className={cn('text-xs px-3 py-1', trendDirection.color)}
-            >
-              {trendDirection.icon}
-              趋势：{trendDirection.text}
-            </Badge>
-            <Badge
-              variant="outline"
-              className={cn(
-                'text-xs px-3 py-1',
-                status === 'success' && 'bg-green-500/10 text-green-600 border-green-500/30',
-                status === 'warning' && 'bg-yellow-500/10 text-yellow-600 border-yellow-500/30',
-                status === 'danger' && 'bg-red-500/10 text-red-600 border-red-500/30'
-              )}
-            >
-              {status === 'success' ? '预计超额' : status === 'warning' ? '接近目标' : '存在风险'}
-            </Badge>
-          </div>
+    <div className="w-full flex flex-col gap-4">
+      {/* 顶部智能洞察区 - 雷达扫描风格 */}
+      <div className={cn(
+        'relative rounded-xl p-4 overflow-hidden',
+        DASHBOARD_STYLES.cardBg,
+        DASHBOARD_STYLES.cardBorder
+      )}>
+        {/* 背景网格纹理 */}
+        <div className="absolute inset-0 opacity-10" style={{
+          backgroundImage: `
+            linear-gradient(rgba(6,182,212,0.1) 1px, transparent 1px),
+            linear-gradient(90deg, rgba(6,182,212,0.1) 1px, transparent 1px)
+          `,
+          backgroundSize: '20px 20px'
+        }} />
+        
+        {/* 扫描线动画 */}
+        <div className="absolute inset-0 overflow-hidden pointer-events-none">
+          <div className="absolute inset-0 bg-gradient-to-b from-cyan-400/0 via-cyan-400/5 to-cyan-400/0 animate-[scan_3s_linear_infinite]"
+               style={{ height: '100%', transform: 'translateY(-100%)' }} />
         </div>
 
-        {/* 主内容区：三区布局 */}
-        <div className="p-5 grid grid-cols-12 gap-4">
-          {/* 左侧（25%）：汽车仪表盘展示 */}
-          <div className="col-span-3">
-            <div className="space-y-3">
-              {/* 仪表盘1 - 目标 */}
-              <div className="relative">
-                <div
-                  className={cn(
-                    'rounded-xl border-2 p-2 transition-all duration-300',
-                    theme === 'dark'
-                      ? 'bg-gradient-to-br from-slate-900/90 to-slate-800/90 border-slate-600/50'
-                      : 'bg-white border-slate-200'
-                  )}
-                  style={{
-                    boxShadow: theme === 'dark'
-                      ? '0 0 20px rgba(34, 211, 238, 0.2), inset 0 0 20px rgba(34, 211, 238, 0.05)'
-                      : '0 4px 6px -1px rgba(0, 0, 0, 0.1)'
-                  }}
-                >
-                  <div className="flex items-center gap-3">
-                    {/* 仪表盘圆形 */}
-                    <div className="relative flex-shrink-0" style={{ width: '100px', height: '100px' }}>
-                      <svg viewBox="0 0 100 100" className="w-full h-full">
-                        {/* 背景圆 */}
-                        <circle
-                          cx="50"
-                          cy="50"
-                          r="42"
-                          fill="none"
-                          stroke={theme === 'dark' ? '#1e293b' : '#f1f5f9'}
-                          strokeWidth="8"
-                        />
-                        {/* 刻度线 */}
-                        {[...Array(12)].map((_, i) => {
-                          const angle = (i * 30 - 90) * (Math.PI / 180)
-                          const innerR = 35
-                          const outerR = 42
-                          const x1 = 50 + innerR * Math.cos(angle)
-                          const y1 = 50 + innerR * Math.sin(angle)
-                          const x2 = 50 + outerR * Math.cos(angle)
-                          const y2 = 50 + outerR * Math.sin(angle)
-                          return (
-                            <line
-                              key={i}
-                              x1={x1}
-                              y1={y1}
-                              x2={x2}
-                              y2={y2}
-                              stroke={theme === 'dark' ? '#334155' : '#cbd5e1'}
-                              strokeWidth="1"
-                            />
-                          )
-                        })}
-                        {/* 进度弧线 - 目标始终100% */}
-                        <circle
-                          cx="50"
-                          cy="50"
-                          r="42"
-                          fill="none"
-                          stroke="#22d3ee"
-                          strokeWidth="6"
-                          strokeLinecap="round"
-                          strokeDasharray="264"
-                          strokeDashoffset="0"
-                          style={{
-                            filter: 'drop-shadow(0 0 6px rgba(34, 211, 238, 0.6))'
-                          }}
-                        />
-                        {/* 指针 */}
-                        <g transform={`translate(50, 50)`}>
-                          <line
-                            x1="0"
-                            y1="0"
-                            x2="0"
-                            y2="-35"
-                            stroke="#f97316"
-                            strokeWidth="2"
-                            style={{
-                              transform: `rotate(135deg)`,
-                              transformOrigin: '0 0',
-                              filter: 'drop-shadow(0 0 4px rgba(249, 115, 22, 0.8))'
-                            }}
-                          />
-                          <circle cx="0" cy="0" r="4" fill="#22d3ee" />
-                        </g>
-                      </svg>
-                      {/* 中心数值 */}
-                      <div className="absolute inset-0 flex flex-col items-center justify-center">
-                        <span className="text-2xl font-bold text-cyan-400" style={{ textShadow: '0 0 10px rgba(34, 211, 238, 0.8)' }}>
-                          100%
-                        </span>
-                      </div>
-                    </div>
-                    {/* 右侧数值 */}
-                    <div className="flex-1">
-                      <div className="text-sm text-slate-500 mb-1">目标</div>
-                      <div className="text-3xl font-bold text-orange-400" style={{ textShadow: '0 0 8px rgba(251, 146, 60, 0.6)' }}>
-                        {data.target.toLocaleString()}
-                        <span className="text-base text-slate-500 ml-1">万</span>
-                      </div>
-                    </div>
+        <div className="relative z-10">
+          <div className="flex items-center gap-2 mb-3">
+            <Radar className={cn('w-5 h-5', DASHBOARD_STYLES.neon)} />
+            <h3 className={cn('text-sm font-bold', DASHBOARD_STYLES.neon)}>智能驾驶决策洞察</h3>
+          </div>
+
+          <div className="grid grid-cols-3 gap-3">
+            {insights.map((insight, index) => (
+              <div
+                key={index}
+                className={cn(
+                  'rounded-lg p-3 border transition-all hover:scale-105',
+                  DASHBOARD_STYLES.cardBorder,
+                  'bg-slate-800/50'
+                )}
+              >
+                <div className="flex items-center justify-between mb-2">
+                  <div className={cn('text-xs', DASHBOARD_STYLES.textMuted)}>
+                    {insight.title}
                   </div>
+                  {insight.icon === 'up' ? (
+                    <ArrowUpRight className="w-4 h-4 text-green-400" />
+                  ) : insight.icon === 'down' ? (
+                    <ArrowDownRight className="w-4 h-4 text-red-400" />
+                  ) : (
+                    <TrendingUp className="w-4 h-4 text-cyan-400" />
+                  )}
+                </div>
+                <div className={cn('text-lg font-bold', insight.value >= 0 ? 'text-green-400' : 'text-red-400')}>
+                  {insight.value >= 0 ? '+' : ''}{insight.value}万
+                </div>
+                <div className={cn('text-xs mt-1', DASHBOARD_STYLES.textMuted)}>
+                  {insight.description}
                 </div>
               </div>
+            ))}
+          </div>
+        </div>
+      </div>
 
-              {/* 仪表盘2 - 预测完成 */}
-              <div className="relative">
-                {/* 警告角标 */}
-                {forecastWarning.show && (
-                  <div className={`absolute -top-2 -right-2 z-10 ${forecastWarning.bgColor} rounded-full p-1 animate-pulse`}>
-                    <AlertTriangle className={`w-5 h-5 ${forecastWarning.color}`} />
-                  </div>
-                )}
+      {/* CEO决策操作区 - 主驾驶面板 */}
+      <div className={cn(
+        'relative rounded-xl overflow-hidden',
+        DASHBOARD_STYLES.cardBg,
+        DASHBOARD_STYLES.cardBorder,
+        DASHBOARD_STYLES.glow
+      )}>
+        {/* 背景网格纹理 */}
+        <div className="absolute inset-0 opacity-5" style={{
+          backgroundImage: `
+            linear-gradient(rgba(6,182,212,0.1) 1px, transparent 1px),
+            linear-gradient(90deg, rgba(6,182,212,0.1) 1px, transparent 1px)
+          `,
+          backgroundSize: '30px 30px'
+        }} />
+
+        {/* 顶部装饰线条 */}
+        <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-transparent via-cyan-500 to-transparent opacity-50" />
+
+        <div className="relative z-10 p-4">
+          {/* 标题栏 */}
+          <div className="flex items-center justify-between mb-4">
+            <div className="flex items-center gap-2">
+              <Navigation className={cn('w-5 h-5', DASHBOARD_STYLES.neon)} />
+              <h3 className={cn('text-sm font-bold', DASHBOARD_STYLES.neon)}>
+                CEO驾驶决策面板
+              </h3>
+              <span className="px-2 py-0.5 rounded-full text-xs bg-cyan-500/20 text-cyan-400 border border-cyan-500/30">
+                {decisions.filter(d => d.status === 'pending').length} 待执行
+              </span>
+            </div>
+            <div className={cn('text-xs', DASHBOARD_STYLES.textMuted)}>
+              总影响: <span className="text-cyan-400 font-bold">
+                {decisions.reduce((sum, d) => sum + d.value, 0) >= 0 ? '+' : ''}
+                {decisions.reduce((sum, d) => sum + d.value, 0)}万
+              </span>
+            </div>
+          </div>
+
+          {/* 决策卡片列表 */}
+          <div className="space-y-3">
+            {decisions.map((decision, index) => {
+              const priorityStyles = getPriorityStyles(decision.priority);
+              const typeStyles = getTypeStyles(decision.type);
+              const isSelected = selectedDecision === decision.id;
+
+              return (
                 <div
+                  key={decision.id}
                   className={cn(
-                    'rounded-xl border-2 p-2 transition-all duration-300',
-                    theme === 'dark'
-                      ? 'bg-gradient-to-br from-slate-900/90 to-slate-800/90 border-cyan-500/40'
-                      : 'bg-white border-cyan-200'
+                    'relative rounded-lg p-3 border transition-all cursor-pointer',
+                    priorityStyles.border,
+                    priorityStyles.bg,
+                    isSelected ? 'scale-102 shadow-lg' : 'hover:scale-101',
+                    priorityStyles.glow
                   )}
-                  style={{
-                    boxShadow: theme === 'dark'
-                      ? '0 0 25px rgba(34, 211, 238, 0.3), inset 0 0 20px rgba(34, 211, 238, 0.08)'
-                      : '0 4px 6px -1px rgba(0, 0, 0, 0.1)'
-                  }}
+                  onClick={() => setSelectedDecision(isSelected ? null : decision.id)}
+                  style={{ animationDelay: `${index * 100}ms` }}
                 >
-                  <div className="flex items-center gap-3">
-                    {/* 仪表盘圆形 */}
-                    <div className="relative flex-shrink-0" style={{ width: '100px', height: '100px' }}>
-                      <svg viewBox="0 0 100 100" className="w-full h-full">
-                        {/* 背景圆 */}
-                        <circle
-                          cx="50"
-                          cy="50"
-                          r="42"
-                          fill="none"
-                          stroke={theme === 'dark' ? '#1e293b' : '#f1f5f9'}
-                          strokeWidth="8"
-                        />
-                        {/* 刻度线 */}
-                        {[...Array(12)].map((_, i) => {
-                          const angle = (i * 30 - 90) * (Math.PI / 180)
-                          const innerR = 35
-                          const outerR = 42
-                          const x1 = 50 + innerR * Math.cos(angle)
-                          const y1 = 50 + innerR * Math.sin(angle)
-                          const x2 = 50 + outerR * Math.cos(angle)
-                          const y2 = 50 + outerR * Math.sin(angle)
-                          return (
-                            <line
-                              key={i}
-                              x1={x1}
-                              y1={y1}
-                              x2={x2}
-                              y2={y2}
-                              stroke={theme === 'dark' ? '#334155' : '#cbd5e1'}
-                              strokeWidth="1"
-                            />
-                          )
-                        })}
-                        {/* 进度弧线 */}
-                        <circle
-                          cx="50"
-                          cy="50"
-                          r="42"
-                          fill="none"
-                          stroke="#22d3ee"
-                          strokeWidth="6"
-                          strokeLinecap="round"
-                          strokeDasharray="264"
-                          strokeDashoffset={264 - (264 * Math.min(data.achievementRate, 100) / 100)}
-                          style={{
-                            filter: 'drop-shadow(0 0 8px rgba(34, 211, 238, 0.8))',
-                            transition: 'stroke-dashoffset 0.5s ease-out'
-                          }}
-                        />
-                        {/* 指针 */}
-                        <g transform={`translate(50, 50)`}>
-                          <line
-                            x1="0"
-                            y1="0"
-                            x2="0"
-                            y2="-35"
-                            stroke="#22d3ee"
-                            strokeWidth="3"
-                            style={{
-                              transform: `rotate(${(Math.min(data.achievementRate, 100) / 100) * 180 - 90}deg)`,
-                              transformOrigin: '0 0',
-                              filter: 'drop-shadow(0 0 6px rgba(34, 211, 238, 1))'
-                            }}
-                          />
-                          <circle cx="0" cy="0" r="5" fill="#22d3ee" style={{ filter: 'drop-shadow(0 0 4px rgba(34, 211, 238, 0.8))' }} />
-                        </g>
-                      </svg>
-                      {/* 中心数值 */}
-                      <div className="absolute inset-0 flex flex-col items-center justify-center">
+                  {/* 左侧优先级指示条 */}
+                  <div className={cn(
+                    'absolute left-0 top-0 bottom-0 w-1 rounded-l-lg',
+                    decision.priority === 'critical' ? 'bg-red-500' :
+                    decision.priority === 'high' ? 'bg-orange-500' : 'bg-cyan-500'
+                  )} />
+
+                  <div className="flex items-start gap-3 pl-3">
+                    {/* 图标 */}
+                    <div className={cn(
+                      'w-10 h-10 rounded-lg flex items-center justify-center flex-shrink-0',
+                      decision.icon === 'zap' ? 'bg-red-500/20' :
+                      decision.icon === 'alert' ? 'bg-orange-500/20' : 'bg-cyan-500/20'
+                    )}>
+                      {decision.icon === 'zap' && <Zap className={cn('w-5 h-5', priorityStyles.icon)} />}
+                      {decision.icon === 'alert' && <AlertTriangle className={cn('w-5 h-5', priorityStyles.icon)} />}
+                      {decision.icon === 'target' && <Target className={cn('w-5 h-5', priorityStyles.icon)} />}
+                    </div>
+
+                    {/* 内容 */}
+                    <div className="flex-1 min-w-0">
+                      <div className="flex items-start justify-between gap-2 mb-1">
+                        <h4 className={cn('text-sm font-semibold', DASHBOARD_STYLES.textSecondary)}>
+                          {decision.title}
+                        </h4>
                         <span className={cn(
-                          'text-3xl font-bold',
-                          data.achievementRate >= 90 ? 'text-green-400' : data.achievementRate >= 70 ? 'text-yellow-400' : 'text-red-400'
-                        )} style={{ textShadow: `0 0 10px ${data.achievementRate >= 90 ? 'rgba(74, 222, 128, 0.8)' : data.achievementRate >= 70 ? 'rgba(250, 204, 21, 0.8)' : 'rgba(248, 113, 113, 0.8)'}` }}>
-                          {data.achievementRate}%
+                          'px-2 py-0.5 rounded text-xs font-medium flex-shrink-0',
+                          typeStyles.bg,
+                          typeStyles.color
+                        )}>
+                          {typeStyles.label}
                         </span>
                       </div>
-                    </div>
-                    {/* 右侧数值 */}
-                    <div className="flex-1">
-                      <div className="text-sm text-slate-500 mb-1">预测完成</div>
-                      <div className={cn(
-                        'text-3xl font-bold',
-                        data.forecast >= data.target ? 'text-green-400' : 'text-yellow-400'
-                      )} style={{ textShadow: data.forecast >= data.target ? '0 0 8px rgba(74, 222, 128, 0.6)' : '0 0 8px rgba(250, 204, 21, 0.6)' }}>
-                        {data.forecast.toLocaleString()}
-                        <span className="text-base text-slate-500 ml-1">万</span>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
+                      <p className={cn('text-xs mb-2', DASHBOARD_STYLES.textMuted)}>
+                        {decision.description}
+                      </p>
 
-              {/* 仪表盘3 - 缺口 */}
-              <div className="relative">
-                {/* 警告角标 */}
-                {gapWarning.show && (
-                  <div className={`absolute -top-2 -right-2 z-10 ${gapWarning.bgColor} rounded-full p-1 animate-pulse`}>
-                    <AlertTriangle className={`w-5 h-5 ${gapWarning.color}`} />
-                  </div>
-                )}
-                <div
-                  className={cn(
-                    'rounded-xl border-2 p-2 transition-all duration-300',
-                    data.gap <= 0
-                      ? theme === 'dark'
-                        ? 'bg-gradient-to-br from-green-900/20 to-slate-900/90 border-green-500/40'
-                        : 'bg-white border-green-200'
-                      : theme === 'dark'
-                        ? 'bg-gradient-to-br from-red-900/20 to-slate-900/90 border-red-500/40'
-                        : 'bg-white border-red-200'
-                  )}
-                  style={{
-                    boxShadow: data.gap <= 0
-                      ? theme === 'dark'
-                        ? '0 0 25px rgba(74, 222, 128, 0.3), inset 0 0 20px rgba(74, 222, 128, 0.08)'
-                        : '0 4px 6px -1px rgba(0, 0, 0, 0.1)'
-                      : theme === 'dark'
-                        ? '0 0 25px rgba(248, 113, 113, 0.3), inset 0 0 20px rgba(248, 113, 113, 0.08)'
-                        : '0 4px 6px -1px rgba(0, 0, 0, 0.1)'
-                  }}
-                >
-                  <div className="flex items-center gap-3">
-                    {/* 仪表盘圆形 */}
-                    <div className="relative flex-shrink-0" style={{ width: '100px', height: '100px' }}>
-                      <svg viewBox="0 0 100 100" className="w-full h-full">
-                        {/* 背景圆 */}
-                        <circle
-                          cx="50"
-                          cy="50"
-                          r="42"
-                          fill="none"
-                          stroke={theme === 'dark' ? '#1e293b' : '#f1f5f9'}
-                          strokeWidth="8"
-                        />
-                        {/* 刻度线 */}
-                        {[...Array(12)].map((_, i) => {
-                          const angle = (i * 30 - 90) * (Math.PI / 180)
-                          const innerR = 35
-                          const outerR = 42
-                          const x1 = 50 + innerR * Math.cos(angle)
-                          const y1 = 50 + innerR * Math.sin(angle)
-                          const x2 = 50 + outerR * Math.cos(angle)
-                          const y2 = 50 + outerR * Math.sin(angle)
-                          return (
-                            <line
-                              key={i}
-                              x1={x1}
-                              y1={y1}
-                              x2={x2}
-                              y2={y2}
-                              stroke={theme === 'dark' ? '#334155' : '#cbd5e1'}
-                              strokeWidth="1"
-                            />
-                          )
-                        })}
-                        {/* 进度弧线 */}
-                        <circle
-                          cx="50"
-                          cy="50"
-                          r="42"
-                          fill="none"
-                          stroke={data.gap <= 0 ? '#4ade80' : '#f87171'}
-                          strokeWidth="6"
-                          strokeLinecap="round"
-                          strokeDasharray="264"
-                          strokeDashoffset={data.gap <= 0 ? '0' : '264'}
-                          style={{
-                            filter: data.gap <= 0 ? 'drop-shadow(0 0 8px rgba(74, 222, 128, 0.8))' : 'drop-shadow(0 0 8px rgba(248, 113, 113, 0.8))',
-                            transition: 'stroke-dashoffset 0.5s ease-out'
-                          }}
-                        />
-                        {/* 指针 */}
-                        <g transform={`translate(50, 50)`}>
-                          <line
-                            x1="0"
-                            y1="0"
-                            x2="0"
-                            y2="-35"
-                            stroke={data.gap <= 0 ? '#4ade80' : '#f87171'}
-                            strokeWidth="3"
-                            style={{
-                              transform: data.gap <= 0 ? `rotate(135deg)` : `rotate(-135deg)`,
-                              transformOrigin: '0 0',
-                              filter: data.gap <= 0 ? 'drop-shadow(0 0 6px rgba(74, 222, 128, 1))' : 'drop-shadow(0 0 6px rgba(248, 113, 113, 1))'
+                      {/* 展开详情 */}
+                      {isSelected && (
+                        <div className="space-y-2 mt-3 pt-3 border-t border-cyan-500/20">
+                          <div className="text-xs">
+                            <div className={cn('font-medium mb-1', DASHBOARD_STYLES.textSecondary)}>关键信息：</div>
+                            <ul className="space-y-1">
+                              {decision.details.map((detail, idx) => (
+                                <li key={idx} className={cn('flex items-center gap-2', DASHBOARD_STYLES.textMuted)}>
+                                  <ChevronRight className="w-3 h-3 flex-shrink-0 text-cyan-400" />
+                                  <span>{detail}</span>
+                                </li>
+                              ))}
+                            </ul>
+                          </div>
+
+                          {/* CEO操作按钮 */}
+                          <button
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              handleExecute(decision);
                             }}
-                          />
-                          <circle
-                            cx="0"
-                            cy="0"
-                            r="5"
-                            fill={data.gap <= 0 ? '#4ade80' : '#f87171'}
-                            style={{ filter: data.gap <= 0 ? 'drop-shadow(0 0 4px rgba(74, 222, 128, 0.8))' : 'drop-shadow(0 0 4px rgba(248, 113, 113, 0.8))' }}
-                          />
-                        </g>
-                      </svg>
-                      {/* 中心数值 */}
-                      <div className="absolute inset-0 flex flex-col items-center justify-center">
-                        {data.gap <= 0 ? (
-                          <span className="text-xl font-bold text-green-400 flex items-center gap-1" style={{ textShadow: '0 0 10px rgba(74, 222, 128, 0.8)' }}>
-                            <ArrowUp className="w-5 h-5" />
-                            超额
-                          </span>
-                        ) : (
-                          <span className="text-xl font-bold text-red-400 flex items-center gap-1" style={{ textShadow: '0 0 10px rgba(248, 113, 113, 0.8)' }}>
-                            <ArrowDown className="w-5 h-5" />
-                            缺口
-                          </span>
-                        )}
-                      </div>
-                    </div>
-                    {/* 右侧数值 */}
-                    <div className="flex-1">
-                      <div className="text-sm text-slate-500 mb-1">{data.gap <= 0 ? '超额' : '缺口'}</div>
-                      <div className={cn(
-                        'text-3xl font-bold',
-                        data.gap <= 0 ? 'text-green-400' : 'text-red-400'
-                      )} style={{ textShadow: data.gap <= 0 ? '0 0 8px rgba(74, 222, 128, 0.6)' : '0 0 8px rgba(248, 113, 113, 0.6)' }}>
-                        {data.gap <= 0 ? '+' : ''}{data.gap.toLocaleString()}
-                        <span className="text-base text-slate-500 ml-1">万</span>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          {/* 中间（42%）：支撑性驱动因子 */}
-          <div className="col-span-5">
-            <div className={cn('h-full rounded-lg p-2', theme === 'dark' ? 'bg-slate-800/50' : 'bg-slate-50')}>
-              <div className="flex items-center justify-between mb-2">
-                <h4 className="font-semibold text-base text-slate-900 flex items-center gap-1.5">
-                  <TrendingUp className="w-5 h-5 text-green-600" />
-                  支撑因子
-                </h4>
-                <Badge variant="outline" className="text-xs text-slate-600">
-                  Top 3
-                </Badge>
-              </div>
-
-              <div className="space-y-2">
-                {data.supportFactors.map((factor, index) => (
-                  <Tooltip key={index}>
-                    <TooltipTrigger asChild>
-                      <div
-                        className="cursor-pointer hover:bg-white/50 rounded transition-colors p-2 border border-slate-200/50"
-                        onMouseEnter={() => onSupportFactorHover?.(factor)}
-                      >
-                        <div className="flex items-center justify-between mb-1">
-                          <div className="flex items-center gap-1.5 flex-1 min-w-0">
-                            {factor.isNew && (
-                              <Badge className="h-5 px-2 text-xs bg-green-500 text-white flex-shrink-0">
-                                新增
-                              </Badge>
-                            )}
-                            <span className="text-sm font-medium text-slate-900 truncate">{factor.name}</span>
-                          </div>
-                          <div className="text-right flex-shrink-0 ml-2">
-                            <span className="text-sm font-bold text-green-600">
-                              +{factor.amount.toLocaleString()}万
-                            </span>
-                          </div>
-                        </div>
-                        <div className="flex items-center justify-between">
-                          <span className="text-xs text-slate-500">{factor.timeLabel}</span>
-                          <span className="text-xs text-slate-600">占比 {factor.percentage}%</span>
-                        </div>
-                        {/* 进度条 */}
-                        <div className="relative h-1.5 bg-slate-200 rounded-full overflow-hidden mt-1.5">
-                          <div
+                            disabled={isExecuting === decision.id}
                             className={cn(
-                              'h-full transition-all',
-                              factor.isNew ? 'bg-green-500' : 'bg-blue-500'
+                              'w-full mt-2 px-3 py-2 rounded-lg text-sm font-medium flex items-center justify-center gap-2 transition-all',
+                              isExecuting === decision.id
+                                ? 'bg-slate-700 text-slate-400 cursor-not-allowed'
+                                : 'bg-gradient-to-r from-cyan-600 to-cyan-500 text-white hover:from-cyan-500 hover:to-cyan-400'
                             )}
-                            style={{ width: `${factor.percentage}%` }}
-                          />
+                          >
+                            {isExecuting === decision.id ? (
+                              <>
+                                <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                                执行中...
+                              </>
+                            ) : (
+                              <>
+                                <PlayCircle className="w-4 h-4" />
+                                立即执行 - {decision.impact}
+                              </>
+                            )}
+                          </button>
                         </div>
-                      </div>
-                    </TooltipTrigger>
-                    {factor.details && (
-                      <TooltipContent
-                        side="right"
-                        className={cn(
-                          'max-w-xs',
-                          theme === 'dark' ? 'bg-slate-900 border-slate-700' : 'bg-white border-slate-200'
-                        )}
-                      >
-                        <div className="space-y-1">
-                          <div className="font-semibold text-sm mb-2">项目明细</div>
-                          {factor.details.map((detail, idx) => (
-                            <div key={idx} className="text-xs text-slate-600">{detail}</div>
-                          ))}
-                        </div>
-                      </TooltipContent>
-                    )}
-                  </Tooltip>
-                ))}
-              </div>
+                      )}
 
-              {/* 迷你对冲图 - 支撑vs风险 */}
-              <div className="mt-2 pt-2 border-t border-slate-200/50">
-                <div className="flex items-center justify-between">
-                  <div className="w-20 h-20">
-                    <ResponsiveContainer width="100%" height="100%">
-                      <PieChart>
-                        <Pie
-                          data={hedgeChartData}
-                          cx="50%"
-                          cy="50%"
-                          innerRadius={20}
-                          outerRadius={35}
-                          paddingAngle={5}
-                          dataKey="value"
-                        >
-                          {hedgeChartData.map((entry, index) => (
-                            <Cell key={index} fill={entry.color} />
-                          ))}
-                        </Pie>
-                      </PieChart>
-                    </ResponsiveContainer>
-                  </div>
-                  <div className="flex-1 space-y-1">
-                    <div className="flex items-center justify-between text-sm">
-                      <span className="text-slate-600">支撑总额</span>
-                      <span className="font-bold text-green-600">{totalSupport.toLocaleString()}万</span>
-                    </div>
-                    <div className="flex items-center justify-between text-sm">
-                      <span className="text-slate-600">风险总额</span>
-                      <span className="font-bold text-red-600">-{totalRisk.toLocaleString()}万</span>
+                      {/* 未展开时的快速操作 */}
+                      {!isSelected && (
+                        <div className="flex items-center justify-between">
+                          <div className={cn(
+                            'text-xs font-bold',
+                            decision.value >= 0 ? 'text-green-400' : 'text-red-400'
+                          )}>
+                            {decision.impact}
+                          </div>
+                          <ChevronRight className={cn(
+                            'w-4 h-4 transition-transform',
+                            isSelected ? 'rotate-90' : '',
+                            DASHBOARD_STYLES.textMuted
+                          )} />
+                        </div>
+                      )}
                     </div>
                   </div>
                 </div>
-              </div>
-            </div>
+              );
+            })}
           </div>
 
-          {/* 中右（33%）：风险因子 */}
-          <div className="col-span-4">
-            <div className={cn('h-full rounded-lg p-2', theme === 'dark' ? 'bg-slate-800/50' : 'bg-slate-50')}>
-              <div className="flex items-center justify-between mb-2">
-                <h4 className="font-semibold text-base text-slate-900 flex items-center gap-1.5">
-                  <TrendDown className="w-5 h-5 text-red-600" />
-                  风险因子
-                </h4>
-                <Badge variant="outline" className="text-xs text-slate-600">
-                  Top 3
-                </Badge>
-              </div>
-
-              <div className="space-y-2">
-                {data.riskFactors.map((risk, index) => (
-                  <Tooltip key={index}>
-                    <TooltipTrigger asChild>
-                      <div
-                        className="cursor-pointer hover:bg-white/50 rounded transition-colors p-2 border border-slate-200/50"
-                        onMouseEnter={() => onRiskFactorHover?.(risk)}
-                      >
-                        <div className="flex items-center justify-between mb-1">
-                          <span className="text-sm font-medium text-slate-900 flex-1 min-w-0 pr-2 truncate">
-                            {risk.source}
-                          </span>
-                          <div className="text-right flex-shrink-0">
-                            <span className="text-sm font-bold text-red-600">
-                              {risk.amount.toLocaleString()}万
-                            </span>
-                          </div>
-                        </div>
-                        <div className="flex items-center justify-between">
-                          <Badge
-                            variant="outline"
-                            className={cn('text-xs px-1.5 py-0.5', getRiskLevelColor(risk.level))}
-                          >
-                            {risk.level === 'high' ? '高风险' : risk.level === 'medium' ? '中风险' : '低风险'}
-                          </Badge>
-                          <span className="text-xs text-slate-500 truncate ml-1">{risk.timeLabel}</span>
-                        </div>
-                      </div>
-                    </TooltipTrigger>
-                    {risk.details && (
-                      <TooltipContent
-                        side="left"
-                        className={cn(
-                          'max-w-xs',
-                          theme === 'dark' ? 'bg-slate-900 border-slate-700' : 'bg-white border-slate-200'
-                        )}
-                      >
-                        <div className="space-y-1">
-                          <div className="font-semibold text-sm mb-2">风险详情</div>
-                          <div className="text-xs text-slate-600">{risk.details}</div>
-                          {risk.owner && (
-                            <div className="text-xs text-slate-500 mt-2">责任人：{risk.owner}</div>
-                          )}
-                        </div>
-                      </TooltipContent>
-                    )}
-                  </Tooltip>
-                ))}
-              </div>
+          {/* 底部快速操作栏 */}
+          <div className="mt-4 pt-4 border-t border-cyan-500/20">
+            <div className="grid grid-cols-3 gap-2">
+              <button className={cn(
+                'px-3 py-2 rounded-lg text-xs font-medium flex items-center justify-center gap-1.5 transition-all',
+                'bg-gradient-to-r from-red-600 to-red-500 text-white hover:from-red-500 hover:to-red-400',
+                'shadow-[0_0_10px_rgba(239,68,68,0.4)]'
+              )}>
+                <Zap className="w-3.5 h-3.5" />
+                一键激活关键项目
+              </button>
+              <button className={cn(
+                'px-3 py-2 rounded-lg text-xs font-medium flex items-center justify-center gap-1.5 transition-all',
+                'bg-gradient-to-r from-cyan-600 to-cyan-500 text-white hover:from-cyan-500 hover:to-cyan-400',
+                'shadow-[0_0_10px_rgba(6,182,212,0.4)]'
+              )}>
+                <Navigation className="w-3.5 h-3.5" />
+                查看所有待办
+              </button>
+              <button className={cn(
+                'px-3 py-2 rounded-lg text-xs font-medium flex items-center justify-center gap-1.5 transition-all',
+                'bg-slate-800 text-cyan-400 border border-cyan-500/30 hover:bg-slate-700',
+                'shadow-[0_0_10px_rgba(6,182,212,0.2)]'
+              )}>
+                <Flash className="w-3.5 h-3.5" />
+                智能优化建议
+              </button>
             </div>
           </div>
         </div>
       </div>
-    </TooltipProvider>
+
+      {/* 样式定义 */}
+      <style jsx global>{`
+        @keyframes scan {
+          0% { transform: translateY(-100%); }
+          100% { transform: translateY(100%); }
+        }
+      `}</style>
+    </div>
   );
 }
