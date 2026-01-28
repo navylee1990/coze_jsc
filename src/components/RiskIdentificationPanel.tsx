@@ -53,7 +53,6 @@ interface RiskIdentificationPanelProps {
   largeProjectDependencies?: LargeProjectDependency[];
   forecastGaps?: ForecastGap[];
   unorderedProjects?: UnorderedProject[];
-  regionForecastGaps?: RegionForecastGap[];
   theme?: 'dashboard' | 'light' | 'dark';
   timeRange?: 'current' | 'quarter' | 'year';
 }
@@ -74,14 +73,6 @@ const defaultForecastGaps: ForecastGap[] = [
   { projectName: '杭州阿里巴巴园区二期', region: '二区', owner: '刘芳', gapAmount: 180, currentForecast: 220, targetForecast: 400, gapPercentage: 45 },
   { projectName: '广州白云机场T3扩建', region: '华南', owner: '王强', gapAmount: 120, currentForecast: 180, targetForecast: 300, gapPercentage: 40 },
   { projectName: '北京大兴机场配套二期', region: '华北', owner: '张伟', gapAmount: 100, currentForecast: 150, targetForecast: 250, gapPercentage: 40 }
-];
-
-const defaultRegionForecastGaps: RegionForecastGap[] = [
-  { region: '华南', currentForecast: 800, targetForecast: 1200, gapAmount: 400, gapPercentage: 33.33 },
-  { region: '华北', currentForecast: 950, targetForecast: 1400, gapAmount: 450, gapPercentage: 32.14 },
-  { region: '二区', currentForecast: 680, targetForecast: 1100, gapAmount: 420, gapPercentage: 38.18 },
-  { region: '一区', currentForecast: 750, targetForecast: 1200, gapAmount: 450, gapPercentage: 37.50 },
-  { region: '西南', currentForecast: 520, targetForecast: 900, gapAmount: 380, gapPercentage: 42.22 },
 ];
 
 const defaultUnorderedProjects: UnorderedProject[] = [
@@ -239,15 +230,6 @@ interface ForecastGap {
   gapAmount: number; // 缺口金额（万元）
   currentForecast: number; // 当前预测金额
   targetForecast: number; // 目标预测金额
-  gapPercentage: number; // 缺口百分比
-}
-
-// 7. 大区预测不足数据
-interface RegionForecastGap {
-  region: string; // 大区名称
-  currentForecast: number; // 当前预测金额
-  targetForecast: number; // 目标预测金额
-  gapAmount: number; // 缺口金额（万元）
   gapPercentage: number; // 缺口百分比
 }
 
@@ -475,7 +457,6 @@ export default function RiskIdentificationPanel({
   largeProjectDependencies = defaultLargeProjectDependencies,
   forecastGaps = defaultForecastGaps,
   unorderedProjects = defaultUnorderedProjects,
-  regionForecastGaps = defaultRegionForecastGaps,
   theme = 'dashboard',
   timeRange = 'current'
 }: RiskIdentificationPanelProps) {
@@ -570,7 +551,7 @@ export default function RiskIdentificationPanel({
     switch (currentTab) {
       case 0: return filteredUnorderedProjects;
       case 1: return largeProjectDependencies;
-      case 2: return regionForecastGaps;
+      case 2: return forecastGaps;
       default: return [];
     }
   };
@@ -588,16 +569,13 @@ export default function RiskIdentificationPanel({
   const getPaginatedUnorderedProjects = () => {
     return filteredUnorderedProjects.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage);
   };
-  const getPaginatedRegionForecastGaps = () => {
-    return regionForecastGaps.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage);
-  };
 
   // 高风险数量
   const highRiskCount = (() => {
     switch (currentTab) {
       case 0: return filteredUnorderedProjects.filter(p => p.delayDays && p.delayDays >= 10).length;
       case 1: return largeProjectDependencies.filter(p => p.status === 'critical').length;
-      case 2: return regionForecastGaps.filter(p => p.gapPercentage >= 40).length;
+      case 2: return forecastGaps.filter(p => p.gapPercentage >= 40).length;
       default: return 0;
     }
   })();
@@ -1157,7 +1135,7 @@ export default function RiskIdentificationPanel({
                         </div>
                         <div className="flex items-baseline gap-1">
                           <span className="text-3xl font-black text-yellow-400 drop-shadow-[0_0_15px_rgba(250,204,21,1)]">
-                            {regionForecastGaps.reduce((sum, p) => sum + p.gapAmount, 0).toFixed(0)}
+                            {forecastGaps.reduce((sum, p) => sum + p.gapAmount, 0).toFixed(0)}
                           </span>
                           <span className="text-xs text-yellow-300/80">万</span>
                         </div>
@@ -1175,11 +1153,11 @@ export default function RiskIdentificationPanel({
                       <div className="relative z-10 w-full flex flex-col items-center justify-center">
                         <div className="flex items-center gap-2 mb-1.5">
                           <AlertTriangle className="w-3.5 h-3.5 text-orange-400 drop-shadow-[0_0_10px_rgba(251,146,60,1)] animate-pulse" />
-                          <div className="text-xs font-bold text-orange-300">缺口大区数</div>
+                          <div className="text-xs font-bold text-orange-300">缺口数量</div>
                         </div>
                         <div className="flex items-baseline gap-1">
                           <span className="text-3xl font-black text-orange-400 drop-shadow-[0_0_15px_rgba(251,146,60,1)]">
-                            {regionForecastGaps.length}
+                            {forecastGaps.length}
                           </span>
                           <span className="text-xs text-orange-300/80">个</span>
                         </div>
@@ -1198,7 +1176,7 @@ export default function RiskIdentificationPanel({
                     )}
                          onClick={() => openDialog({
                            title: '补预测',
-                           description: `确定要生成预测不足大区的补充预测方案吗？\n\n共 ${regionForecastGaps.length} 个大区，预计缺口 ${regionForecastGaps.reduce((sum, p) => sum + p.gapAmount, 0).toFixed(0)} 万元`,
+                           description: `确定要生成预测不足项目的补充预测方案吗？\n\n共 ${forecastGaps.length} 个项目，预计缺口 ${forecastGaps.reduce((sum, p) => sum + p.gapAmount, 0).toFixed(0)} 万元`,
                            confirmText: '确认生成',
                            cancelText: '取消',
                            onConfirm: async () => {
@@ -1222,7 +1200,7 @@ export default function RiskIdentificationPanel({
                           <div className="w-1.5 h-1.5 bg-yellow-400 rounded-full animate-bounce" style={{animationDelay: '0ms'}}></div>
                           <div className="w-1.5 h-1.5 bg-yellow-400 rounded-full animate-bounce" style={{animationDelay: '150ms'}}></div>
                           <div className="w-1.5 h-1.5 bg-yellow-400 rounded-full animate-bounce" style={{animationDelay: '300ms'}}></div>
-                          <div className="text-xs text-yellow-300 font-semibold">全部 {regionForecastGaps.length} 个大区</div>
+                          <div className="text-xs text-yellow-300 font-semibold">全部 {forecastGaps.length} 个项目</div>
                         </div>
                       </div>
                     </div>
@@ -1235,7 +1213,9 @@ export default function RiskIdentificationPanel({
                     <thead className="sticky top-0 bg-slate-900/95 backdrop-blur-sm z-10">
                       <tr className={cn('text-sm border-b border-yellow-500/30', 'border-yellow-500/20')}>
                         <th className={cn('text-center py-2 px-3 font-medium w-16 text-yellow-300 drop-shadow-[0_0_5px_rgba(234,179,8,0.5)]')}>序号</th>
-                        <th className={cn('text-left py-2 px-3 font-medium text-yellow-300 drop-shadow-[0_0_5px_rgba(234,179,8,0.5)]')}>大区</th>
+                        <th className={cn('text-left py-2 px-3 font-medium text-yellow-300 drop-shadow-[0_0_5px_rgba(234,179,8,0.5)]')}>项目名称</th>
+                        <th className={cn('text-left py-2 px-3 font-medium hidden lg:table-cell text-yellow-300 drop-shadow-[0_0_5px_rgba(234,179,8,0.5)]')}>大区</th>
+                        <th className={cn('text-left py-2 px-3 font-medium hidden md:table-cell text-yellow-300 drop-shadow-[0_0_5px_rgba(234,179,8,0.5)]')}>负责人</th>
                         <th className={cn('text-right py-2 px-3 font-medium text-yellow-300 drop-shadow-[0_0_5px_rgba(234,179,8,0.5)]')}>当前预测</th>
                         <th className={cn('text-right py-2 px-3 font-medium text-yellow-300 drop-shadow-[0_0_5px_rgba(234,179,8,0.5)]')}>目标预测</th>
                         <th className={cn('text-right py-2 px-3 font-medium text-yellow-300 drop-shadow-[0_0_5px_rgba(234,179,8,0.5)]')}>缺口金额</th>
@@ -1243,12 +1223,12 @@ export default function RiskIdentificationPanel({
                       </tr>
                     </thead>
                     <tbody>
-                      {getPaginatedRegionForecastGaps().map((item, index) => (
+                      {getPaginatedForecastGaps().map((item, index) => (
                         <tr
                           key={index}
                           className={cn(
                             'align-middle border-b border-yellow-500/10 hover:bg-gradient-to-r hover:from-yellow-500/10 hover:to-orange-500/10 transition-all duration-200',
-                            index === getPaginatedRegionForecastGaps().length - 1 && 'border-b-0'
+                            index === getPaginatedForecastGaps().length - 1 && 'border-b-0'
                           )}
                         >
                           {/* 序号 */}
@@ -1258,9 +1238,19 @@ export default function RiskIdentificationPanel({
                             </div>
                           </td>
 
+                          {/* 项目名称 */}
+                          <td className={cn('py-2 px-3 text-sm', 'text-yellow-200', 'align-middle')}>
+                            <div className="font-medium leading-snug text-yellow-100">{item.projectName}</div>
+                          </td>
+
                           {/* 大区 */}
-                          <td className={cn('py-2 px-3 text-sm text-yellow-200 align-middle')}>
-                            <div className="font-medium leading-snug text-yellow-100">{item.region}</div>
+                          <td className={cn('hidden lg:table-cell py-2 px-3 text-sm text-yellow-200 align-middle')}>
+                            {item.region || '-'}
+                          </td>
+
+                          {/* 负责人 */}
+                          <td className={cn('hidden md:table-cell py-2 px-3 text-sm text-yellow-200 align-middle')}>
+                            {item.owner || '-'}
                           </td>
 
                           {/* 当前预测 */}
@@ -1304,7 +1294,7 @@ export default function RiskIdentificationPanel({
                 <div className="px-4 py-2 border-t border-yellow-500/20 flex justify-between items-center bg-gradient-to-r from-slate-900/50 to-transparent">
                   <div className={cn('text-xs flex items-center gap-2', 'text-yellow-300/70')}>
                     <Activity className="w-3 h-3 text-yellow-400/70" />
-                    共 {regionForecastGaps.length} 条记录，当前第 {currentPage} / {totalPages} 页
+                    共 {forecastGaps.length} 条记录，当前第 {currentPage} / {totalPages} 页
                   </div>
                   <Pagination currentPage={currentPage} totalPages={totalPages} onPageChange={setCurrentPage} />
                 </div>
