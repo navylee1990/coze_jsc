@@ -444,6 +444,18 @@ export default function GMDashboard() {
               <PredictionDecisionCard theme="dashboard" />
             </div>
 
+            {/* 区域达成情况 */}
+            <div className={`${DASHBOARD_STYLES.cardBg} ${DASHBOARD_STYLES.cardBorder} rounded-xl p-4 ${DASHBOARD_STYLES.glow}`}>
+              <RegionMatrix
+                data={currentData}
+                title="区域达成"
+                cityData={cityData}
+                salespersonData={salespersonData}
+                theme="dashboard"
+                timeRange={selectedTimeRange}
+              />
+            </div>
+
             {/* 未来支撑充分性面板 */}
             <FutureSupportAdequacyPanel theme="dashboard" timeRange={selectedTimeRange} />
           </div>
@@ -463,18 +475,6 @@ export default function GMDashboard() {
               'transition-shadow duration-300'
             )}>
               <RiskIdentificationPanel theme="dashboard" timeRange={selectedTimeRange} />
-            </div>
-
-            {/* 区域达成情况 - 自适应高度 */}
-            <div className={`${DASHBOARD_STYLES.cardBg} ${DASHBOARD_STYLES.cardBorder} rounded-xl p-4 ${DASHBOARD_STYLES.glow}`}>
-              <RegionMatrix
-                data={currentData}
-                title="区域达成"
-                cityData={cityData}
-                salespersonData={salespersonData}
-                theme="dashboard"
-                timeRange={selectedTimeRange}
-              />
             </div>
 
           </div>
