@@ -705,13 +705,20 @@ export default function RiskIdentificationPanel({
             <div className="flex items-center gap-2">
               {visibleTabs.map((tab) => {
                 const Icon = tab.icon;
+                const isUnorderedProjects = tab.id === 0; // 当月未下单
+
                 return (
                   <button
                     key={tab.id}
                     onClick={() => setCurrentTab(tab.id)}
                     className={cn(
                       'flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium transition-all',
-                      currentTab === tab.id
+                      // 当月未下单使用红色主题
+                      isUnorderedProjects && theme === 'dashboard'
+                        ? 'bg-red-500/40 text-red-200 border-2 border-red-500/60 shadow-[0_0_20px_rgba(239,68,68,0.6)] animate-pulse'
+                        : isUnorderedProjects
+                        ? 'bg-red-100 text-red-700 border-2 border-red-400 shadow-[0_0_15px_rgba(239,68,68,0.5)]'
+                        : currentTab === tab.id
                         ? theme === 'dashboard'
                           ? 'bg-cyan-500/30 text-cyan-300 border border-cyan-500/50 shadow-[0_0_10px_rgba(6,182,212,0.4)]'
                           : 'bg-cyan-100 text-cyan-700 border border-cyan-300'
@@ -720,8 +727,17 @@ export default function RiskIdentificationPanel({
                         : 'bg-slate-100 text-slate-600 border border-slate-300'
                     )}
                   >
-                    <Icon className="w-3.5 h-3.5" />
-                    {tab.label}
+                    {isUnorderedProjects ? (
+                      <Icon className={cn(
+                        'w-4 h-4',
+                        theme === 'dashboard' ? 'text-red-400 drop-shadow-[0_0_8px_rgba(239,68,68,1)]' : 'text-red-600'
+                      )} />
+                    ) : (
+                      <Icon className="w-3.5 h-3.5" />
+                    )}
+                    <span className={isUnorderedProjects && theme === 'dashboard' ? 'font-bold text-xs' : ''}>
+                      {tab.label}
+                    </span>
                   </button>
                 );
               })}
@@ -1448,55 +1464,70 @@ export default function RiskIdentificationPanel({
         {currentTab === 0 && (
           // 明细视图
           <div className="h-full flex flex-col animate-in fade-in duration-300">
-                {/* 顶部仪表盘风格指标卡片 */}
-                <div className="p-4 bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 border-b border-cyan-500/30 relative overflow-hidden">
+                {/* 顶部仪表盘风格指标卡片 - 增强红色警告效果 */}
+                <div className={cn(
+                  'p-4 relative overflow-hidden',
+                  'bg-gradient-to-br from-red-950/40 via-slate-900 to-slate-900',
+                  'border-b-2 border-red-500/50',
+                  'shadow-[0_0_20px_rgba(239,68,68,0.3)]'
+                )}>
                   {/* 背景装饰网格 */}
                   <div className="absolute inset-0 opacity-10" style={{
                     backgroundImage: `
-                      linear-gradient(rgba(6,182,212,0.1) 1px, transparent 1px),
-                      linear-gradient(90deg, rgba(6,182,212,0.1) 1px, transparent 1px)
+                      linear-gradient(rgba(239,68,68,0.2) 1px, transparent 1px),
+                      linear-gradient(90deg, rgba(239,68,68,0.2) 1px, transparent 1px)
                     `,
                     backgroundSize: '20px 20px'
                   }}></div>
-                  
-                  {/* 顶部发光线条 */}
-                  <div className="absolute top-0 left-0 right-0 h-0.5 bg-gradient-to-r from-transparent via-cyan-400 to-transparent"></div>
+
+                  {/* 顶部发光线条 - 红色 */}
+                  <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-transparent via-red-500 to-transparent animate-pulse"></div>
                   
                   <div className="relative z-10 grid grid-cols-3 gap-4">
-                    {/* 项目数量卡片 */}
-                    <div className="relative rounded-xl p-4 bg-gradient-to-br from-red-900/30 to-red-800/20 border border-red-500/40 overflow-hidden">
-                      <div className="absolute top-0 right-0 w-20 h-20 bg-red-500/10 rounded-full blur-2xl"></div>
+                    {/* 项目数量卡片 - 增强效果 */}
+                    <div className={cn(
+                      'relative rounded-xl p-4 overflow-hidden',
+                      'bg-gradient-to-br from-red-900/50 to-red-800/30',
+                      'border-2 border-red-500/60',
+                      'shadow-[0_0_25px_rgba(239,68,68,0.5)]'
+                    )}>
+                      <div className="absolute top-0 right-0 w-24 h-24 bg-red-500/20 rounded-full blur-3xl animate-pulse"></div>
                       <div className="relative z-10">
                         <div className="flex items-center gap-2 mb-2">
-                          <AlertTriangle className="w-4 h-4 text-red-400 animate-pulse" />
-                          <div className={cn('text-xs font-bold', DASHBOARD_STYLES.textMuted)}>项目数量</div>
+                          <AlertTriangle className="w-5 h-5 text-red-400 drop-shadow-[0_0_10px_rgba(239,68,68,1)] animate-pulse" />
+                          <div className="text-xs font-bold text-red-300">项目数量</div>
                         </div>
                         <div className="flex items-baseline gap-1">
-                          <span className="text-4xl font-black text-red-400 drop-shadow-[0_0_10px_rgba(248,113,113,0.8)]">
+                          <span className="text-5xl font-black text-red-400 drop-shadow-[0_0_15px_rgba(248,113,113,1)]">
                             {filteredUnorderedProjects.length}
                           </span>
-                          <span className={cn('text-sm', DASHBOARD_STYLES.textMuted)}>个</span>
+                          <span className="text-sm text-red-300/80">个</span>
                         </div>
                         <div className="mt-2 flex items-center gap-1">
-                          <div className="w-1.5 h-1.5 bg-red-400 rounded-full animate-ping"></div>
-                          <div className={cn('text-xs text-red-300/70')}>高风险预警</div>
+                          <div className="w-2 h-2 bg-red-400 rounded-full animate-ping"></div>
+                          <div className="text-xs text-red-300 font-semibold">高风险预警</div>
                         </div>
                       </div>
                     </div>
 
-                    {/* 总金额卡片 */}
-                    <div className="relative rounded-xl p-4 bg-gradient-to-br from-orange-900/30 to-orange-800/20 border border-orange-500/40 overflow-hidden">
-                      <div className="absolute top-0 right-0 w-20 h-20 bg-orange-500/10 rounded-full blur-2xl"></div>
+                    {/* 总金额卡片 - 增强效果 */}
+                    <div className={cn(
+                      'relative rounded-xl p-4 overflow-hidden',
+                      'bg-gradient-to-br from-orange-900/50 to-orange-800/30',
+                      'border-2 border-orange-500/60',
+                      'shadow-[0_0_25px_rgba(251,146,60,0.5)]'
+                    )}>
+                      <div className="absolute top-0 right-0 w-24 h-24 bg-orange-500/20 rounded-full blur-3xl animate-pulse"></div>
                       <div className="relative z-10">
                         <div className="flex items-center gap-2 mb-2">
-                          <DollarSign className="w-4 h-4 text-orange-400" />
-                          <div className={cn('text-xs font-bold', DASHBOARD_STYLES.textMuted)}>总金额</div>
+                          <DollarSign className="w-5 h-5 text-orange-400 drop-shadow-[0_0_10px_rgba(251,146,60,1)]" />
+                          <div className="text-xs font-bold text-orange-300">总金额</div>
                         </div>
                         <div className="flex items-baseline gap-1">
-                          <span className="text-4xl font-black text-orange-400 drop-shadow-[0_0_10px_rgba(251,146,60,0.8)]">
+                          <span className="text-5xl font-black text-orange-400 drop-shadow-[0_0_15px_rgba(251,146,60,1)]">
                             {filteredUnorderedProjects.reduce((sum, p) => sum + p.amount, 0).toFixed(0)}
                           </span>
-                          <span className={cn('text-sm', DASHBOARD_STYLES.textMuted)}>万</span>
+                          <span className="text-sm text-orange-300/80">万</span>
                         </div>
                         <div className="mt-2 flex items-center gap-1">
                           <Activity className="w-3 h-3 text-orange-300/70" />
@@ -1505,25 +1536,33 @@ export default function RiskIdentificationPanel({
                       </div>
                     </div>
 
-                    {/* 一键催单按钮 */}
-                    <div className="relative rounded-xl overflow-hidden border border-red-500/40 bg-gradient-to-br from-red-900/20 to-orange-900/20 hover:from-red-900/30 hover:to-orange-900/30 transition-all duration-300 cursor-pointer group"
+                    {/* 一键催单按钮 - 增强效果 */}
+                    <div className={cn(
+                      'relative rounded-xl overflow-hidden cursor-pointer group',
+                      'border-2 border-red-500/70',
+                      'bg-gradient-to-br from-red-900/30 to-orange-900/20',
+                      'hover:from-red-900/50 hover:to-orange-900/30',
+                      'shadow-[0_0_30px_rgba(239,68,68,0.5)]',
+                      'hover:shadow-[0_0_40px_rgba(239,68,68,0.7)]',
+                      'transition-all duration-300'
+                    )}
                          onClick={() => alert(`一键催单：向所有未下单项目的销售工程师发送催办提醒\n\n共 ${filteredUnorderedProjects.length} 个项目，总金额 ${filteredUnorderedProjects.reduce((sum, p) => sum + p.amount, 0).toFixed(0)} 万元`)}>
                       {/* 按钮发光效果 */}
-                      <div className="absolute inset-0 bg-gradient-to-r from-red-500/20 to-orange-500/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-                      <div className="absolute inset-0 border border-red-500/30 rounded-xl animate-pulse"></div>
-                      
+                      <div className="absolute inset-0 bg-gradient-to-r from-red-500/30 to-orange-500/30 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                      <div className="absolute inset-0 border-2 border-red-500/50 rounded-xl animate-pulse"></div>
+
                       <div className="relative z-10 h-full flex flex-col items-center justify-center gap-2 py-4">
                         <div className="flex items-center gap-2">
-                          <div className="w-8 h-8 rounded-full bg-red-500/30 border border-red-400/50 flex items-center justify-center group-hover:scale-110 transition-transform">
-                            <Target className="w-4 h-4 text-red-400" />
+                          <div className="w-10 h-10 rounded-full bg-red-500/40 border-2 border-red-400/60 flex items-center justify-center group-hover:scale-110 transition-transform shadow-[0_0_15px_rgba(239,68,68,0.8)]">
+                            <Target className="w-5 h-5 text-red-400 drop-shadow-[0_0_8px_rgba(248,113,113,1)]" />
                           </div>
-                          <div className="text-lg font-black text-red-400 drop-shadow-[0_0_8px_rgba(248,113,113,0.8)]">一键催单</div>
+                          <div className="text-xl font-black text-red-400 drop-shadow-[0_0_12px_rgba(248,113,113,1)]">一键催单</div>
                         </div>
                         <div className="flex items-center gap-1">
-                          <div className="w-1.5 h-1.5 bg-red-400 rounded-full animate-bounce" style={{animationDelay: '0ms'}}></div>
-                          <div className="w-1.5 h-1.5 bg-red-400 rounded-full animate-bounce" style={{animationDelay: '150ms'}}></div>
-                          <div className="w-1.5 h-1.5 bg-red-400 rounded-full animate-bounce" style={{animationDelay: '300ms'}}></div>
-                          <div className={cn('text-xs text-red-300/70')}>全部 {filteredUnorderedProjects.length} 个项目</div>
+                          <div className="w-2 h-2 bg-red-400 rounded-full animate-bounce" style={{animationDelay: '0ms'}}></div>
+                          <div className="w-2 h-2 bg-red-400 rounded-full animate-bounce" style={{animationDelay: '150ms'}}></div>
+                          <div className="w-2 h-2 bg-red-400 rounded-full animate-bounce" style={{animationDelay: '300ms'}}></div>
+                          <div className="text-sm text-red-300 font-semibold">全部 {filteredUnorderedProjects.length} 个项目</div>
                         </div>
                       </div>
                     </div>
