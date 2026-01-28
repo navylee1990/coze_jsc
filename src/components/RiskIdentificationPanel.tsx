@@ -871,11 +871,11 @@ export default function RiskIdentificationPanel({
   })();
 
   return (
-    <div className={cn('w-full flex flex-col')}>
+    <div className={cn('w-full flex flex-col h-full overflow-hidden')}>
       {/* 标题栏 */}
       <div
         className={cn(
-          'px-6 py-3 border-b flex items-center justify-between',
+          'px-6 py-3 border-b flex items-center justify-between shrink-0',
           theme === 'dashboard' ? `${DASHBOARD_STYLES.cardBorder} bg-slate-900/60` : 'border-slate-200 bg-white'
         )}
       >
@@ -909,7 +909,7 @@ export default function RiskIdentificationPanel({
 
       {/* Tab切换栏 - 仅在汇总视图显示 */}
       {viewMode === 'summary' && visibleTabs.length >= 1 && (
-        <div className="px-6 py-2 border-b border-cyan-500/20">
+        <div className="px-6 py-2 border-b border-cyan-500/20 shrink-0">
           <div className="flex items-center justify-between">
             <button
               onClick={() => {
@@ -1030,10 +1030,10 @@ export default function RiskIdentificationPanel({
         {/* ============ Tab 0: 未按计划下单 ============ */}
         {currentTab === 0 && (
           // 明细视图
-          <div className="h-full flex flex-col animate-in fade-in duration-300">
+          <div className="h-full flex flex-col animate-in fade-in duration-300 overflow-hidden">
                 {/* 顶部仪表盘风格指标卡片 - 增强红色警告效果 */}
                 <div className={cn(
-                  'p-3 relative overflow-hidden',
+                  'p-3 relative overflow-hidden shrink-0',
                   'bg-gradient-to-br from-red-950/40 via-slate-900 to-slate-900',
                   'border-b-2 border-red-500/50',
                   'shadow-[0_0_20px_rgba(239,68,68,0.3)]'
@@ -1223,7 +1223,7 @@ export default function RiskIdentificationPanel({
                 </div>
 
                 {/* 分页 */}
-                <div className="px-4 py-2 border-t border-cyan-500/20 flex justify-between items-center bg-gradient-to-r from-slate-900/50 to-transparent">
+                <div className="px-4 py-2 border-t border-cyan-500/20 flex justify-between items-center bg-gradient-to-r from-slate-900/50 to-transparent shrink-0">
                   <div className={cn('text-xs flex items-center gap-2', DASHBOARD_STYLES.textMuted)}>
                     <Activity className="w-3 h-3 text-cyan-400/70" />
                     共 {filteredUnorderedProjects.length} 条记录，当前第 {currentPage} / {totalPages} 页
@@ -1236,10 +1236,10 @@ export default function RiskIdentificationPanel({
         {/* ============ Tab 1: 大项目依赖 ============ */}
         {currentTab === 1 && (
           // 明细视图
-          <div className="h-full flex flex-col animate-in fade-in duration-300">
+          <div className="h-full flex flex-col animate-in fade-in duration-300 overflow-hidden">
             {/* 顶部仪表盘风格指标卡片 */}
             <div className={cn(
-              'p-3 relative overflow-hidden',
+              'p-3 relative overflow-hidden shrink-0',
               'bg-gradient-to-br from-cyan-950/40 via-slate-900 to-slate-900',
               'border-b-2 border-cyan-500/50',
               'shadow-[0_0_20px_rgba(6,182,212,0.3)]'
@@ -1400,7 +1400,7 @@ export default function RiskIdentificationPanel({
                   </table>
                 </div>
 
-                <div className="px-4 py-2 border-t border-cyan-500/20 flex justify-between items-center bg-gradient-to-r from-slate-900/50 to-transparent">
+                <div className="px-4 py-2 border-t border-cyan-500/20 flex justify-between items-center bg-gradient-to-r from-slate-900/50 to-transparent shrink-0">
                   <div className={cn('text-sm flex items-center gap-2', DASHBOARD_STYLES.textMuted)}>
                     <Activity className="w-3 h-3 text-cyan-400/70" />
                     共 {largeProjectDependencies.length} 条记录，当前第 {currentPage} / {totalPages} 页
@@ -1413,10 +1413,10 @@ export default function RiskIdentificationPanel({
         {/* ============ Tab 2: 预测不足 ============ */}
         {currentTab === 2 && (
           // 明细视图
-          <div className="h-full flex flex-col animate-in fade-in duration-300">
+          <div className="h-full flex flex-col animate-in fade-in duration-300 overflow-hidden">
                 {/* 顶部仪表盘风格指标卡片 - 黄色警告效果 */}
                 <div className={cn(
-                  'p-3 relative overflow-hidden',
+                  'p-3 relative overflow-hidden shrink-0',
                   'bg-gradient-to-br from-yellow-950/40 via-slate-900 to-slate-900',
                   'border-b-2 border-yellow-500/50',
                   'shadow-[0_0_20px_rgba(234,179,8,0.3)]'
@@ -1571,7 +1571,7 @@ export default function RiskIdentificationPanel({
                 </div>
 
                 {/* 分页 - 占位，保持高度一致 */}
-                <div className="px-4 py-2 border-t border-yellow-500/20 flex justify-between items-center bg-gradient-to-r from-slate-900/50 to-transparent">
+                <div className="px-4 py-2 border-t border-yellow-500/20 flex justify-between items-center bg-gradient-to-r from-slate-900/50 to-transparent shrink-0">
                   <div className={cn('text-xs flex items-center gap-2', 'text-yellow-300/70 invisible')}>
                     <Activity className="w-3 h-3 text-yellow-400/70" />
                     占位分页信息
@@ -1586,10 +1586,10 @@ export default function RiskIdentificationPanel({
 
         {/* ============ Tab 3: 报备不足 ============ */}
         {currentTab === 3 && (
-          <div className="h-full flex flex-col animate-in fade-in duration-300">
+          <div className="h-full flex flex-col animate-in fade-in duration-300 overflow-hidden">
             {/* 顶部仪表盘风格指标卡片 */}
             <div className={cn(
-              'p-3 relative overflow-hidden',
+              'p-3 relative overflow-hidden shrink-0',
               'bg-gradient-to-br from-purple-950/40 via-slate-900 to-slate-900',
               'border-b-2 border-purple-500/50',
               'shadow-[0_0_20px_rgba(168,85,247,0.3)]'
@@ -1765,7 +1765,7 @@ export default function RiskIdentificationPanel({
             </div>
 
             {/* 分页 */}
-            <div className="px-4 py-2 border-t border-purple-500/20 flex justify-between items-center bg-gradient-to-r from-slate-900/50 to-transparent">
+            <div className="px-4 py-2 border-t border-purple-500/20 flex justify-between items-center bg-gradient-to-r from-slate-900/50 to-transparent shrink-0">
               <div className={cn('text-xs flex items-center gap-2', DASHBOARD_STYLES.textMuted)}>
                 <Activity className="w-3 h-3 text-purple-400/70" />
                 共 {insufficientReports.length} 条记录，当前第 {currentPage} / {Math.ceil(insufficientReports.length / itemsPerPage)} 页
@@ -1777,10 +1777,10 @@ export default function RiskIdentificationPanel({
 
         {/* ============ Tab 4: 转化不足 ============ */}
         {currentTab === 4 && (
-          <div className="h-full flex flex-col animate-in fade-in duration-300">
+          <div className="h-full flex flex-col animate-in fade-in duration-300 overflow-hidden">
             {/* 顶部仪表盘风格指标卡片 */}
             <div className={cn(
-              'p-3 relative overflow-hidden',
+              'p-3 relative overflow-hidden shrink-0',
               'bg-gradient-to-br from-emerald-950/40 via-slate-900 to-slate-900',
               'border-b-2 border-emerald-500/50',
               'shadow-[0_0_20px_rgba(16,185,129,0.3)]'
@@ -1961,7 +1961,7 @@ export default function RiskIdentificationPanel({
             </div>
 
             {/* 分页 */}
-            <div className="px-4 py-2 border-t border-emerald-500/20 flex justify-between items-center bg-gradient-to-r from-slate-900/50 to-transparent">
+            <div className="px-4 py-2 border-t border-emerald-500/20 flex justify-between items-center bg-gradient-to-r from-slate-900/50 to-transparent shrink-0">
               <div className={cn('text-xs flex items-center gap-2', DASHBOARD_STYLES.textMuted)}>
                 <Activity className="w-3 h-3 text-emerald-400/70" />
                 共 {insufficientConversions.length} 条记录，当前第 {currentPage} / {Math.ceil(insufficientConversions.length / itemsPerPage)} 页
@@ -1973,10 +1973,10 @@ export default function RiskIdentificationPanel({
 
         {/* ============ Tab 5: 阶段停滞 ============ */}
         {currentTab === 5 && (
-          <div className="h-full flex flex-col animate-in fade-in duration-300">
+          <div className="h-full flex flex-col animate-in fade-in duration-300 overflow-hidden">
             {/* 顶部仪表盘风格指标卡片 */}
             <div className={cn(
-              'p-3 relative overflow-hidden',
+              'p-3 relative overflow-hidden shrink-0',
               'bg-gradient-to-br from-amber-950/40 via-slate-900 to-slate-900',
               'border-b-2 border-amber-500/50',
               'shadow-[0_0_20px_rgba(245,158,11,0.3)]'
@@ -2157,7 +2157,7 @@ export default function RiskIdentificationPanel({
             </div>
 
             {/* 分页 */}
-            <div className="px-4 py-2 border-t border-amber-500/20 flex justify-between items-center bg-gradient-to-r from-slate-900/50 to-transparent">
+            <div className="px-4 py-2 border-t border-amber-500/20 flex justify-between items-center bg-gradient-to-r from-slate-900/50 to-transparent shrink-0">
               <div className={cn('text-xs flex items-center gap-2', DASHBOARD_STYLES.textMuted)}>
                 <Activity className="w-3 h-3 text-amber-400/70" />
                 共 {stageStagnations.length} 条记录，当前第 {currentPage} / {Math.ceil(stageStagnations.length / itemsPerPage)} 页
