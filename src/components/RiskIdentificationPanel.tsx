@@ -1408,12 +1408,16 @@ export default function RiskIdentificationPanel({
                   <table className="w-full">
                     <thead className="sticky top-0 bg-slate-900/95 backdrop-blur-sm z-10">
                       <tr className={cn('text-xs border-b', DASHBOARD_STYLES.cardBorder)}>
+                        <th className={cn('text-center py-2 px-3 font-medium w-16', DASHBOARD_STYLES.textSecondary)}>序号</th>
+                        <th className={cn('text-left py-2 px-3 font-medium', DASHBOARD_STYLES.textSecondary)}>项目阶段</th>
+                        <th className={cn('text-left py-2 px-3 font-medium', DASHBOARD_STYLES.textSecondary)}>预计下单</th>
                         <th className={cn('text-left py-2 px-3 font-medium', DASHBOARD_STYLES.textSecondary)}>项目名称</th>
-                        <th className={cn('text-left py-2 px-3 font-medium', DASHBOARD_STYLES.textSecondary)}>金额</th>
-                        <th className={cn('text-left py-2 px-3 font-medium', DASHBOARD_STYLES.textSecondary)}>区域</th>
-                        <th className={cn('text-left py-2 px-3 font-medium', DASHBOARD_STYLES.textSecondary)}>销售工程师</th>
-                        <th className={cn('text-left py-2 px-3 font-medium', DASHBOARD_STYLES.textSecondary)}>概率</th>
-                        <th className={cn('text-left py-2 px-3 font-medium', DASHBOARD_STYLES.textSecondary)}>预计下单时间</th>
+                        <th className={cn('text-left py-2 px-3 font-medium hidden lg:table-cell', DASHBOARD_STYLES.textSecondary)}>大区</th>
+                        <th className={cn('text-left py-2 px-3 font-medium hidden md:table-cell', DASHBOARD_STYLES.textSecondary)}>销售</th>
+                        <th className={cn('text-left py-2 px-3 font-medium hidden xl:table-cell', DASHBOARD_STYLES.textSecondary)}>城市经理</th>
+                        <th className={cn('text-left py-2 px-3 font-medium hidden md:table-cell', DASHBOARD_STYLES.textSecondary)}>类型</th>
+                        <th className={cn('text-right py-2 px-3 font-medium', DASHBOARD_STYLES.textSecondary)}>金额</th>
+                        <th className={cn('text-center py-2 px-3 font-medium', DASHBOARD_STYLES.textSecondary)}>状态</th>
                         <th className={cn('text-center py-2 px-3 font-medium', DASHBOARD_STYLES.textSecondary)}>延迟天数</th>
                       </tr>
                     </thead>
@@ -1426,27 +1430,68 @@ export default function RiskIdentificationPanel({
                             index === getPaginatedUnorderedProjects().length - 1 && 'border-b-0'
                           )}
                         >
-                          <td className={cn('py-3 px-3', DASHBOARD_STYLES.textSecondary)}>
-                            <div className="font-medium">{item.name}</div>
-                            <div className={cn('text-xs', DASHBOARD_STYLES.textMuted)}>{item.projectType}</div>
+                          {/* 序号 */}
+                          <td className={cn('text-center py-3 px-3 text-xs', DASHBOARD_STYLES.textSecondary)}>
+                            {(currentPage - 1) * 5 + index + 1}
                           </td>
-                          <td className={cn('py-3 px-3', DASHBOARD_STYLES.textSecondary)}>
-                            <span className="text-orange-400">{item.amount.toFixed(2)}万</span>
+
+                          {/* 项目阶段 */}
+                          <td className={cn('py-3 px-3 text-xs', DASHBOARD_STYLES.textSecondary)}>
+                            {item.projectPhase || '项目采购'}
                           </td>
-                          <td className={cn('py-3 px-3', DASHBOARD_STYLES.textSecondary)}>{item.region}</td>
-                          <td className={cn('py-3 px-3', DASHBOARD_STYLES.textSecondary)}>{item.salesEngineer}</td>
-                          <td className={cn('py-3 px-3', DASHBOARD_STYLES.textSecondary)}>
-                            <span className={cn(
-                              'px-2 py-1 rounded text-xs font-medium',
-                              item.probability === 'high' ? 'bg-green-500/30 text-green-300 border border-green-500/50' :
-                              item.probability === 'medium' ? 'bg-yellow-500/30 text-yellow-300 border border-yellow-500/50' :
-                              'bg-red-500/30 text-red-300 border border-red-500/50'
-                            )}>
-                              {item.probability === 'high' ? '高' : item.probability === 'medium' ? '中' : '低'}
+
+                          {/* 预计下单时间 */}
+                          <td className={cn('py-3 px-3 text-xs whitespace-nowrap', DASHBOARD_STYLES.textSecondary)}>
+                            {item.expectedOrderDate || '-'}
+                          </td>
+
+                          {/* 项目名称 */}
+                          <td className={cn('py-3 px-3 text-xs', DASHBOARD_STYLES.textSecondary)}>
+                            <div className="font-medium leading-snug">{item.name}</div>
+                          </td>
+
+                          {/* 大区 */}
+                          <td className={cn('hidden lg:table-cell py-3 px-3 text-xs', DASHBOARD_STYLES.textSecondary)}>
+                            {item.region || '-'}
+                          </td>
+
+                          {/* 销售工程师 */}
+                          <td className={cn('hidden md:table-cell py-3 px-3 text-xs', DASHBOARD_STYLES.textSecondary)}>
+                            {item.salesEngineer || '-'}
+                          </td>
+
+                          {/* 城市经理 */}
+                          <td className={cn('hidden xl:table-cell py-3 px-3 text-xs', DASHBOARD_STYLES.textSecondary)}>
+                            {item.cityManager || '-'}
+                          </td>
+
+                          {/* 项目类型 */}
+                          <td className={cn('hidden md:table-cell py-3 px-3 text-xs', DASHBOARD_STYLES.textSecondary)}>
+                            {item.projectType || '-'}
+                          </td>
+
+                          {/* 金额 */}
+                          <td className={cn('text-right py-3 px-3 whitespace-nowrap', DASHBOARD_STYLES.textSecondary)}>
+                            <span className="font-bold text-orange-400">
+                              {item.amount.toFixed(2)}
+                            </span>
+                            <span className={cn('text-xs ml-1', DASHBOARD_STYLES.textMuted)}>
+                              万
                             </span>
                           </td>
-                          <td className={cn('py-3 px-3', DASHBOARD_STYLES.textSecondary)}>{item.expectedOrderDate}</td>
-                          <td className={cn('py-3 px-3 text-center', DASHBOARD_STYLES.textSecondary)}>
+
+                          {/* 状态 */}
+                          <td className={cn('text-center py-3 px-3', DASHBOARD_STYLES.textSecondary)}>
+                            <span className={cn(
+                              'inline-block px-2 py-1 rounded text-xs font-medium border bg-orange-500/20 text-orange-300 border-orange-500/50',
+                              item.delayDays && item.delayDays >= 20 && 'animate-pulse'
+                            )}>
+                              未下单
+                            </span>
+                          </td>
+
+                          {/* 延迟天数 */}
+                          <td className={cn('text-center py-3 px-3', DASHBOARD_STYLES.textSecondary)}>
                             {item.delayDays !== undefined && item.delayDays > 0 ? (
                               <span className={cn(
                                 'px-2 py-1 rounded text-xs font-medium',
