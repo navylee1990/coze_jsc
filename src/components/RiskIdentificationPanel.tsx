@@ -741,8 +741,8 @@ export default function RiskIdentificationPanel({
 
       {/* 内容区域 */}
       <div className="flex-1 overflow-hidden">
-        {/* ============ Tab 0: 大项目依赖 ============ */}
-        {currentTab === 0 && (
+        {/* ============ Tab 1: 大项目依赖 ============ */}
+        {currentTab === 1 && (
           <>
             {viewMode === 'summary' ? (
               // 汇总视图
@@ -907,8 +907,8 @@ export default function RiskIdentificationPanel({
           </>
         )}
 
-        {/* ============ Tab 1: 阶段停滞 ============ */}
-        {currentTab === 1 && (
+        {/* ============ Tab 2: 阶段停滞 ============ */}
+        {currentTab === 2 && (
           <>
             {viewMode === 'summary' ? (
               // 汇总视图
@@ -1080,8 +1080,8 @@ export default function RiskIdentificationPanel({
           </>
         )}
 
-        {/* ============ Tab 2: 预测风险 ============ */}
-        {currentTab === 2 && (
+        {/* ============ Tab 3: 预测风险 ============ */}
+        {currentTab === 3 && (
           <>
             {viewMode === 'summary' ? (
               // 汇总视图
@@ -1243,8 +1243,8 @@ export default function RiskIdentificationPanel({
           </>
         )}
 
-        {/* ============ Tab 3: 风险人员 ============ */}
-        {currentTab === 3 && (
+        {/* ============ Tab 4: 风险人员 ============ */}
+        {currentTab === 4 && (
           <>
             {viewMode === 'summary' ? (
               // 汇总视图
