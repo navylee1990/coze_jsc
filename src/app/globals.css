@@ -127,13 +127,3 @@
 body {
   @apply font-sans;
 }
-
-/* 隐藏滚动条样式 */
-.scrollbar-hide {
-  -ms-overflow-style: none;  /* IE and Edge */
-  scrollbar-width: none;  /* Firefox */
-}
-
-.scrollbar-hide::-webkit-scrollbar {
-  display: none;  /* Chrome, Safari, Opera */
-}

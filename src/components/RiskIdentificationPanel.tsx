@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect, useMemo } from 'react';
-import { AlertTriangle, Building2, Clock, TrendingDown, Users, ChevronRight, ChevronLeft, PauseCircle, Gauge, Circle, Target, BarChart3, ArrowLeft, Activity, DollarSign, XCircle, Send, AlertCircle, RefreshCw } from 'lucide-react';
+import { AlertTriangle, Building2, Clock, TrendingDown, Users, ChevronRight, ChevronLeft, PauseCircle, Gauge, Circle, Target, BarChart3, ArrowLeft, Activity, DollarSign, XCircle, Send } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import ConfirmDialog from '@/components/ui/confirm-dialog';
 
@@ -59,63 +59,11 @@ interface ForecastGap {
   gapPercentage: number; // 缺口百分比
 }
 
-// 7. 报备不足数据
-interface InsufficientReport {
-  id: number;
-  name: string; // 项目名称
-  amount: number; // 金额
-  probability: 'high' | 'medium' | 'low'; // 成交概率
-  region: string; // 大区
-  salesEngineer: string; // 销售工程师
-  cityManager: string; // 城市经理
-  projectPhase: string; // 项目阶段
-  detail: string; // 项目详情
-  expectedReportDate: string; // 预计报备时间
-  delayDays?: number; // 延迟天数
-  riskReason: string; // 未报备原因
-}
-
-// 8. 转化不足数据
-interface InsufficientConversion {
-  id: number;
-  name: string; // 项目名称
-  amount: number; // 金额
-  probability: 'high' | 'medium' | 'low'; // 成交概率
-  region: string; // 大区
-  salesEngineer: string; // 销售工程师
-  cityManager: string; // 城市经理
-  projectPhase: string; // 项目阶段
-  detail: string; // 项目详情
-  conversionRate: number; // 转化率
-  targetRate: number; // 目标转化率
-  gapRate: number; // 转化率差距
-  stayDays: number; // 滞留天数
-}
-
-// 9. 阶段停滞数据
-interface StageStagnation {
-  id: number;
-  name: string; // 项目名称
-  amount: number; // 金额
-  probability: 'high' | 'medium' | 'low'; // 成交概率
-  region: string; // 大区
-  salesEngineer: string; // 销售工程师
-  cityManager: string; // 城市经理
-  projectPhase: string; // 项目阶段
-  detail: string; // 项目详情
-  stagnationDays: number; // 停滞天数
-  nextPhase: string; // 下一个阶段
-  actionRequired: string; // 需要采取的行动
-}
-
 // 组件属性
 interface RiskIdentificationPanelProps {
   largeProjectDependencies?: LargeProjectDependency[];
   forecastGaps?: ForecastGap[];
   unorderedProjects?: UnorderedProject[];
-  insufficientReports?: InsufficientReport[];
-  insufficientConversions?: InsufficientConversion[];
-  stageStagnations?: StageStagnation[];
   theme?: 'dashboard' | 'light' | 'dark';
   timeRange?: 'current' | 'quarter' | 'year';
 }
@@ -258,233 +206,6 @@ const defaultUnorderedProjects: UnorderedProject[] = [
     expectedOrderDate: '2026/3/5',
     delayDays: 10,
     riskReason: '项目未最终确认，处于意向阶段'
-  }
-];
-
-// 默认报备不足数据
-const defaultInsufficientReports: InsufficientReport[] = [
-  {
-    id: 1,
-    name: '广州白云国际机场T3项目',
-    amount: 180,
-    probability: 'high',
-    region: '华南',
-    salesEngineer: '陈明',
-    cityManager: '赵敏',
-    projectPhase: '新客户开发',
-    detail: '机场航站楼净化系统',
-    expectedReportDate: '2026/1/20',
-    delayDays: 15,
-    riskReason: '销售工程师跟进不及时，未及时报备'
-  },
-  {
-    id: 2,
-    name: '成都天府新区行政中心',
-    amount: 120,
-    probability: 'medium',
-    region: '西南',
-    salesEngineer: '吴刚',
-    cityManager: '郑浩',
-    projectPhase: '项目报备',
-    detail: '行政中心净水设备',
-    expectedReportDate: '2026/1/18',
-    delayDays: 12,
-    riskReason: '报备流程不熟悉，延误报备时间'
-  },
-  {
-    id: 3,
-    name: '武汉光谷科技园项目',
-    amount: 95,
-    probability: 'high',
-    region: '华中',
-    salesEngineer: '刘芳',
-    cityManager: '吴敏',
-    projectPhase: '新客户开发',
-    detail: '科技园区净化系统',
-    expectedReportDate: '2026/1/22',
-    delayDays: 8,
-    riskReason: '客户信息收集不全，影响报备'
-  },
-  {
-    id: 4,
-    name: '南京江北新区管委会',
-    amount: 80,
-    probability: 'medium',
-    region: '二区',
-    salesEngineer: '杨帆',
-    cityManager: '王强',
-    projectPhase: '初步接洽',
-    detail: '管委会办公楼净水系统',
-    expectedReportDate: '2026/1/25',
-    delayDays: 5,
-    riskReason: '内部流程审批延迟'
-  },
-  {
-    id: 5,
-    name: '西安高新区创新港',
-    amount: 70,
-    probability: 'low',
-    region: '华北',
-    salesEngineer: '张伟',
-    cityManager: '马龙',
-    projectPhase: '新客户开发',
-    detail: '创新港综合项目',
-    expectedReportDate: '2026/1/28',
-    delayDays: 3,
-    riskReason: '客户沟通不畅，需求不明确'
-  }
-];
-
-// 默认转化不足数据
-const defaultInsufficientConversions: InsufficientConversion[] = [
-  {
-    id: 1,
-    name: '上海虹桥商务区项目',
-    amount: 220,
-    probability: 'high',
-    region: '一区',
-    salesEngineer: '李娜',
-    cityManager: '卢继栋',
-    projectPhase: '需求意向',
-    detail: '商务区办公楼净化系统',
-    conversionRate: 25,
-    targetRate: 60,
-    gapRate: 35,
-    stayDays: 20
-  },
-  {
-    id: 2,
-    name: '深圳湾科技生态园',
-    amount: 180,
-    probability: 'medium',
-    region: '华南',
-    salesEngineer: '黄磊',
-    cityManager: '徐婷婷',
-    projectPhase: '方案设计',
-    detail: '生态园综合净化系统',
-    conversionRate: 30,
-    targetRate: 70,
-    gapRate: 40,
-    stayDays: 25
-  },
-  {
-    id: 3,
-    name: '杭州未来科技城',
-    amount: 150,
-    probability: 'high',
-    region: '二区',
-    salesEngineer: '陈静',
-    cityManager: '杨帆',
-    projectPhase: '现场勘察',
-    detail: '科技城研发中心',
-    conversionRate: 20,
-    targetRate: 55,
-    gapRate: 35,
-    stayDays: 18
-  },
-  {
-    id: 4,
-    name: '北京中关村软件园',
-    amount: 140,
-    probability: 'medium',
-    region: '华北',
-    salesEngineer: '李强',
-    cityManager: '王芳',
-    projectPhase: '初步接洽',
-    detail: '软件园办公楼',
-    conversionRate: 28,
-    targetRate: 65,
-    gapRate: 37,
-    stayDays: 22
-  },
-  {
-    id: 5,
-    name: '成都东部新区项目',
-    amount: 100,
-    probability: 'low',
-    region: '西南',
-    salesEngineer: '胡燕',
-    cityManager: '杨洋',
-    projectPhase: '需求意向',
-    detail: '新区配套项目',
-    conversionRate: 22,
-    targetRate: 50,
-    gapRate: 28,
-    stayDays: 15
-  }
-];
-
-// 默认阶段停滞数据
-const defaultStageStagnations: StageStagnation[] = [
-  {
-    id: 1,
-    name: '天津滨海新区商业中心',
-    amount: 160,
-    probability: 'high',
-    region: '华北',
-    salesEngineer: '王芳',
-    cityManager: '张伟',
-    projectPhase: '项目采购',
-    detail: '商业中心净化系统',
-    stagnationDays: 30,
-    nextPhase: '项目合同',
-    actionRequired: '推进商务谈判，确认合同条款'
-  },
-  {
-    id: 2,
-    name: '苏州工业园区二期',
-    amount: 145,
-    probability: 'medium',
-    region: '二区',
-    salesEngineer: '刘洋',
-    cityManager: '陈静',
-    projectPhase: '方案设计',
-    detail: '工业园区办公楼',
-    stagnationDays: 25,
-    nextPhase: '现场勘察',
-    actionRequired: '客户反馈修改方案'
-  },
-  {
-    id: 3,
-    name: '广州珠江新城CBD项目',
-    amount: 130,
-    probability: 'high',
-    region: '华南',
-    salesEngineer: '徐婷婷',
-    cityManager: '梁伟',
-    projectPhase: '项目合同',
-    detail: 'CBD办公楼净化',
-    stagnationDays: 20,
-    nextPhase: '赢单',
-    actionRequired: '跟进合同审批流程'
-  },
-  {
-    id: 4,
-    name: '武汉光谷生物城',
-    amount: 110,
-    probability: 'medium',
-    region: '华中',
-    salesEngineer: '吴敏',
-    cityManager: '郑浩',
-    projectPhase: '现场勘察',
-    detail: '生物城净化系统',
-    stagnationDays: 18,
-    nextPhase: '方案设计',
-    actionRequired: '安排现场勘察时间'
-  },
-  {
-    id: 5,
-    name: '重庆两江新区项目',
-    amount: 95,
-    probability: 'low',
-    region: '西南',
-    salesEngineer: '杨洋',
-    cityManager: '赵峰',
-    projectPhase: '需求意向',
-    detail: '新区配套项目',
-    stagnationDays: 15,
-    nextPhase: '初步接洽',
-    actionRequired: '深化需求沟通'
   }
 ];
 
@@ -736,9 +457,6 @@ export default function RiskIdentificationPanel({
   largeProjectDependencies = defaultLargeProjectDependencies,
   forecastGaps = defaultForecastGaps,
   unorderedProjects = defaultUnorderedProjects,
-  insufficientReports = defaultInsufficientReports,
-  insufficientConversions = defaultInsufficientConversions,
-  stageStagnations = defaultStageStagnations,
   theme = 'dashboard',
   timeRange = 'current'
 }: RiskIdentificationPanelProps) {
@@ -782,10 +500,7 @@ export default function RiskIdentificationPanel({
   const allTabs = [
     { id: 2, label: '预测不足', icon: TrendingDown },
     { id: 0, label: '未按计划下单', icon: XCircle },
-    { id: 1, label: '大项目依赖', icon: Building2 },
-    { id: 3, label: '报备不足', icon: AlertCircle },
-    { id: 4, label: '转化不足', icon: RefreshCw },
-    { id: 5, label: '阶段停滞', icon: Clock }
+    { id: 1, label: '大项目依赖', icon: Building2 }
   ];
 
   // 根据时间维度显示的 Tabs
@@ -837,9 +552,6 @@ export default function RiskIdentificationPanel({
       case 0: return filteredUnorderedProjects;
       case 1: return largeProjectDependencies;
       case 2: return forecastGaps;
-      case 3: return insufficientReports;
-      case 4: return insufficientConversions;
-      case 5: return stageStagnations;
       default: return [];
     }
   };
@@ -871,11 +583,11 @@ export default function RiskIdentificationPanel({
   })();
 
   return (
-    <div className={cn('w-full flex flex-col h-full overflow-hidden')}>
+    <div className={cn('w-full flex flex-col')}>
       {/* 标题栏 */}
       <div
         className={cn(
-          'px-6 py-3 border-b flex items-center justify-between shrink-0',
+          'px-6 py-3 border-b flex items-center justify-between',
           theme === 'dashboard' ? `${DASHBOARD_STYLES.cardBorder} bg-slate-900/60` : 'border-slate-200 bg-white'
         )}
       >
@@ -909,7 +621,7 @@ export default function RiskIdentificationPanel({
 
       {/* Tab切换栏 - 仅在汇总视图显示 */}
       {viewMode === 'summary' && visibleTabs.length >= 1 && (
-        <div className="px-6 py-2 border-b border-cyan-500/20 shrink-0">
+        <div className="px-6 py-2 border-b border-cyan-500/20">
           <div className="flex items-center justify-between">
             <button
               onClick={() => {
@@ -927,7 +639,7 @@ export default function RiskIdentificationPanel({
               <ChevronLeft className="w-4 h-4" />
             </button>
 
-            <div className="flex items-center gap-2 overflow-x-auto scrollbar-hide flex-1 mx-2">
+            <div className="flex items-center gap-2">
               {visibleTabs.map((tab) => {
                 const Icon = tab.icon;
                 const isUnorderedProjects = tab.id === 0; // 未按计划下单
@@ -948,7 +660,7 @@ export default function RiskIdentificationPanel({
                     key={tab.id}
                     onClick={() => setCurrentTab(tab.id)}
                     className={cn(
-                      'flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium transition-all relative shrink-0',
+                      'flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium transition-all relative',
                       // 未按计划下单使用红色主题
                       isUnorderedProjects && theme === 'dashboard'
                         ? 'bg-red-500/40 text-red-200 border-2 border-red-500/60 shadow-[0_0_20px_rgba(239,68,68,0.6)] animate-pulse'
@@ -1030,10 +742,10 @@ export default function RiskIdentificationPanel({
         {/* ============ Tab 0: 未按计划下单 ============ */}
         {currentTab === 0 && (
           // 明细视图
-          <div className="h-full flex flex-col animate-in fade-in duration-300 overflow-hidden">
+          <div className="h-full flex flex-col animate-in fade-in duration-300">
                 {/* 顶部仪表盘风格指标卡片 - 增强红色警告效果 */}
                 <div className={cn(
-                  'p-3 relative overflow-hidden shrink-0',
+                  'p-3 relative overflow-hidden',
                   'bg-gradient-to-br from-red-950/40 via-slate-900 to-slate-900',
                   'border-b-2 border-red-500/50',
                   'shadow-[0_0_20px_rgba(239,68,68,0.3)]'
@@ -1150,6 +862,7 @@ export default function RiskIdentificationPanel({
                         <th className={cn('text-left py-2 px-3 font-medium hidden md:table-cell text-cyan-300 drop-shadow-[0_0_5px_rgba(6,182,212,0.5)]')}>销售</th>
                         <th className={cn('text-left py-2 px-3 font-medium hidden md:table-cell text-cyan-300 drop-shadow-[0_0_5px_rgba(6,182,212,0.5)]')}>城市经理</th>
                         <th className={cn('text-right py-2 px-3 font-medium text-cyan-300 drop-shadow-[0_0_5px_rgba(6,182,212,0.5)]')}>金额</th>
+                        <th className={cn('text-right py-2 px-3 font-medium text-cyan-300 drop-shadow-[0_0_5px_rgba(6,182,212,0.5)]')}>概率</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -1203,6 +916,18 @@ export default function RiskIdentificationPanel({
                             </span>
                             <span className={cn('text-sm ml-1 text-orange-300/70')}>万</span>
                           </td>
+
+                          {/* 概率 */}
+                          <td className={cn('text-right py-2 px-3 text-sm text-cyan-200 align-middle')}>
+                            <span className={cn(
+                              'px-2 py-1 rounded text-xs font-medium',
+                              item.probability === 'high' ? 'bg-green-500/20 text-green-400' :
+                              item.probability === 'medium' ? 'bg-yellow-500/20 text-yellow-400' :
+                              'bg-red-500/20 text-red-400'
+                            )}>
+                              {item.probability === 'high' ? '高' : item.probability === 'medium' ? '中' : '低'}
+                            </span>
+                          </td>
                         </tr>
                       ))}
                     </tbody>
@@ -1210,7 +935,7 @@ export default function RiskIdentificationPanel({
                 </div>
 
                 {/* 分页 */}
-                <div className="px-4 py-2 border-t border-cyan-500/20 flex justify-between items-center bg-gradient-to-r from-slate-900/50 to-transparent shrink-0">
+                <div className="px-4 py-2 border-t border-cyan-500/20 flex justify-between items-center bg-gradient-to-r from-slate-900/50 to-transparent">
                   <div className={cn('text-xs flex items-center gap-2', DASHBOARD_STYLES.textMuted)}>
                     <Activity className="w-3 h-3 text-cyan-400/70" />
                     共 {filteredUnorderedProjects.length} 条记录，当前第 {currentPage} / {totalPages} 页
@@ -1223,10 +948,10 @@ export default function RiskIdentificationPanel({
         {/* ============ Tab 1: 大项目依赖 ============ */}
         {currentTab === 1 && (
           // 明细视图
-          <div className="h-full flex flex-col animate-in fade-in duration-300 overflow-hidden">
+          <div className="h-full flex flex-col animate-in fade-in duration-300">
             {/* 顶部仪表盘风格指标卡片 */}
             <div className={cn(
-              'p-3 relative overflow-hidden shrink-0',
+              'p-3 relative overflow-hidden',
               'bg-gradient-to-br from-cyan-950/40 via-slate-900 to-slate-900',
               'border-b-2 border-cyan-500/50',
               'shadow-[0_0_20px_rgba(6,182,212,0.3)]'
@@ -1387,7 +1112,7 @@ export default function RiskIdentificationPanel({
                   </table>
                 </div>
 
-                <div className="px-4 py-2 border-t border-cyan-500/20 flex justify-between items-center bg-gradient-to-r from-slate-900/50 to-transparent shrink-0">
+                <div className="px-4 py-2 border-t border-cyan-500/20 flex justify-between items-center bg-gradient-to-r from-slate-900/50 to-transparent">
                   <div className={cn('text-sm flex items-center gap-2', DASHBOARD_STYLES.textMuted)}>
                     <Activity className="w-3 h-3 text-cyan-400/70" />
                     共 {largeProjectDependencies.length} 条记录，当前第 {currentPage} / {totalPages} 页
@@ -1400,10 +1125,10 @@ export default function RiskIdentificationPanel({
         {/* ============ Tab 2: 预测不足 ============ */}
         {currentTab === 2 && (
           // 明细视图
-          <div className="h-full flex flex-col animate-in fade-in duration-300 overflow-hidden">
+          <div className="h-full flex flex-col animate-in fade-in duration-300">
                 {/* 顶部仪表盘风格指标卡片 - 黄色警告效果 */}
                 <div className={cn(
-                  'p-3 relative overflow-hidden shrink-0',
+                  'p-3 relative overflow-hidden',
                   'bg-gradient-to-br from-yellow-950/40 via-slate-900 to-slate-900',
                   'border-b-2 border-yellow-500/50',
                   'shadow-[0_0_20px_rgba(234,179,8,0.3)]'
@@ -1558,7 +1283,7 @@ export default function RiskIdentificationPanel({
                 </div>
 
                 {/* 分页 - 占位，保持高度一致 */}
-                <div className="px-4 py-2 border-t border-yellow-500/20 flex justify-between items-center bg-gradient-to-r from-slate-900/50 to-transparent shrink-0">
+                <div className="px-4 py-2 border-t border-yellow-500/20 flex justify-between items-center bg-gradient-to-r from-slate-900/50 to-transparent">
                   <div className={cn('text-xs flex items-center gap-2', 'text-yellow-300/70 invisible')}>
                     <Activity className="w-3 h-3 text-yellow-400/70" />
                     占位分页信息
@@ -1570,557 +1295,6 @@ export default function RiskIdentificationPanel({
                 </div>
               </div>
             )}
-
-        {/* ============ Tab 3: 报备不足 ============ */}
-        {currentTab === 3 && (
-          <div className="h-full flex flex-col animate-in fade-in duration-300 overflow-hidden">
-            {/* 顶部仪表盘风格指标卡片 */}
-            <div className={cn(
-              'p-3 relative overflow-hidden shrink-0',
-              'bg-gradient-to-br from-purple-950/40 via-slate-900 to-slate-900',
-              'border-b-2 border-purple-500/50',
-              'shadow-[0_0_20px_rgba(168,85,247,0.3)]'
-            )}>
-              <div className="absolute inset-0 opacity-10" style={{
-                backgroundImage: `
-                  linear-gradient(rgba(168,85,247,0.2) 1px, transparent 1px),
-                  linear-gradient(90deg, rgba(168,85,247,0.2) 1px, transparent 1px)
-                `,
-                backgroundSize: '20px 20px'
-              }}></div>
-              <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-transparent via-purple-500 to-transparent animate-pulse"></div>
-
-              <div className="relative z-10 grid grid-cols-3 gap-3">
-                <div className={cn(
-                  'relative rounded-xl p-2 overflow-hidden h-full flex flex-col items-center justify-center',
-                  'bg-gradient-to-br from-purple-900/50 to-purple-800/30',
-                  'border-2 border-purple-500/60',
-                  'shadow-[0_0_25px_rgba(168,85,247,0.5)]'
-                )}>
-                  <div className="absolute top-0 right-0 w-20 h-20 bg-purple-500/20 rounded-full blur-3xl animate-pulse"></div>
-                  <div className="relative z-10 w-full flex flex-col items-center justify-center">
-                    <div className="flex items-center gap-2 mb-1.5">
-                      <AlertCircle className="w-3.5 h-3.5 text-purple-400 drop-shadow-[0_0_10px_rgba(168,85,247,1)] animate-pulse" />
-                      <div className="text-xs font-bold text-purple-300">报备不足数</div>
-                    </div>
-                    <div className="flex items-baseline gap-1">
-                      <span className="text-3xl font-black text-purple-400 drop-shadow-[0_0_15px_rgba(192,132,252,1)]">
-                        {insufficientReports.length}
-                      </span>
-                      <span className="text-xs text-purple-300/80">个</span>
-                    </div>
-                  </div>
-                </div>
-
-                <div className={cn(
-                  'relative rounded-xl p-2 overflow-hidden h-full flex flex-col items-center justify-center',
-                  'bg-gradient-to-br from-pink-900/50 to-pink-800/30',
-                  'border-2 border-pink-500/60',
-                  'shadow-[0_0_25px_rgba(236,72,153,0.5)]'
-                )}>
-                  <div className="absolute top-0 right-0 w-20 h-20 bg-pink-500/20 rounded-full blur-3xl animate-pulse"></div>
-                  <div className="relative z-10 w-full flex flex-col items-center justify-center">
-                    <div className="flex items-center gap-2 mb-1.5">
-                      <DollarSign className="w-3.5 h-3.5 text-pink-400 drop-shadow-[0_0_10px_rgba(236,72,153,1)]" />
-                      <div className="text-xs font-bold text-pink-300">涉及金额</div>
-                    </div>
-                    <div className="flex items-baseline gap-1">
-                      <span className="text-3xl font-black text-pink-400 drop-shadow-[0_0_15px_rgba(251,113,133,1)]">
-                        {insufficientReports.reduce((sum, p) => sum + p.amount, 0).toFixed(0)}
-                      </span>
-                      <span className="text-xs text-pink-300/80">万</span>
-                    </div>
-                  </div>
-                </div>
-
-                <div className={cn(
-                  'relative rounded-xl p-2 overflow-hidden cursor-pointer group h-full flex flex-col items-center justify-center',
-                  'border-2 border-purple-500/70',
-                  'bg-gradient-to-br from-purple-900/30 to-pink-900/20',
-                  'hover:from-purple-900/50 hover:to-pink-900/30',
-                  'shadow-[0_0_30px_rgba(168,85,247,0.5)]',
-                  'hover:shadow-[0_0_40px_rgba(168,85,247,0.7)]',
-                  'transition-all duration-300'
-                )}
-                  onClick={() => openDialog({
-                    title: '催报备提醒',
-                    description: `确定要向报备不足的销售工程师发送催办提醒吗？\n\n共 ${insufficientReports.length} 个项目，总金额 ${insufficientReports.reduce((sum, p) => sum + p.amount, 0).toFixed(0)} 万元`,
-                    confirmText: '确认发送',
-                    cancelText: '取消',
-                    onConfirm: async () => {
-                      console.log('催报备操作已执行');
-                    },
-                    type: 'warning'
-                  })}>
-                  <div className="absolute inset-0 bg-gradient-to-r from-purple-500/30 to-pink-500/30 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-                  <div className="absolute inset-0 border-2 border-purple-500/50 rounded-xl animate-pulse"></div>
-
-                  <div className="relative z-10 w-full flex flex-col items-center justify-center">
-                    <div className="flex items-center gap-1.5 mb-1.5">
-                      <div className="w-8 h-8 rounded-full bg-purple-500/40 border-2 border-purple-400/60 flex items-center justify-center group-hover:scale-110 transition-transform shadow-[0_0_15px_rgba(168,85,247,0.8)]">
-                        <Send className="w-4 h-4 text-purple-400 drop-shadow-[0_0_8px_rgba(192,132,252,1)]" />
-                      </div>
-                      <div className="text-base font-black text-purple-400 drop-shadow-[0_0_12px_rgba(192,132,252,1)]">催报备</div>
-                    </div>
-                    <div className="flex items-center gap-1">
-                      <div className="w-1.5 h-1.5 bg-purple-400 rounded-full animate-bounce" style={{animationDelay: '0ms'}}></div>
-                      <div className="w-1.5 h-1.5 bg-purple-400 rounded-full animate-bounce" style={{animationDelay: '150ms'}}></div>
-                      <div className="w-1.5 h-1.5 bg-purple-400 rounded-full animate-bounce" style={{animationDelay: '300ms'}}></div>
-                      <div className="text-xs text-purple-300 font-semibold">全部 {insufficientReports.length} 个项目</div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            {/* 表格区域 */}
-            <div className="flex-1 overflow-auto p-3 bg-gradient-to-b from-slate-900/50 to-transparent">
-              <table className="w-full">
-                <thead className="sticky top-0 bg-slate-900/95 backdrop-blur-sm z-10">
-                  <tr className={cn('text-sm border-b border-cyan-500/30', DASHBOARD_STYLES.cardBorder)}>
-                    <th className={cn('text-center py-2 px-3 font-medium w-16 text-cyan-300 drop-shadow-[0_0_5px_rgba(6,182,212,0.5)]')}>序号</th>
-                    <th className={cn('text-left py-2 px-3 font-medium text-cyan-300 drop-shadow-[0_0_5px_rgba(6,182,212,0.5)]')}>项目阶段</th>
-                    <th className={cn('text-left py-2 px-3 font-medium text-cyan-300 drop-shadow-[0_0_5px_rgba(6,182,212,0.5)]')}>项目名称</th>
-                    <th className={cn('text-left py-2 px-3 font-medium hidden lg:table-cell text-cyan-300 drop-shadow-[0_0_5px_rgba(6,182,212,0.5)]')}>大区</th>
-                    <th className={cn('text-left py-2 px-3 font-medium hidden md:table-cell text-cyan-300 drop-shadow-[0_0_5px_rgba(6,182,212,0.5)]')}>销售</th>
-                    <th className={cn('text-left py-2 px-3 font-medium hidden md:table-cell text-cyan-300 drop-shadow-[0_0_5px_rgba(6,182,212,0.5)]')}>城市经理</th>
-                    <th className={cn('text-right py-2 px-3 font-medium text-cyan-300 drop-shadow-[0_0_5px_rgba(6,182,212,0.5)]')}>金额</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {insufficientReports.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage).map((item, index) => (
-                    <tr
-                      key={index}
-                      className={cn(
-                        'align-middle border-b border-cyan-500/10 hover:bg-gradient-to-r hover:from-purple-500/10 hover:to-pink-500/10 transition-all duration-200',
-                        index === insufficientReports.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage).length - 1 && 'border-b-0'
-                      )}
-                    >
-                      <td className={cn('text-center py-2 px-3 text-sm text-cyan-300 align-middle')}>
-                        <div className="inline-flex items-center justify-center w-6 h-6 rounded-full bg-cyan-500/10 border border-cyan-500/30">
-                          {(currentPage - 1) * itemsPerPage + index + 1}
-                        </div>
-                      </td>
-
-                      <td className={cn('py-2 px-3 text-sm text-cyan-200 align-middle')}>
-                        <span className={cn(
-                          'px-2 py-1 rounded text-xs font-medium',
-                          'bg-purple-500/20 text-purple-400'
-                        )}>
-                          {item.projectPhase}
-                        </span>
-                      </td>
-
-                      <td className={cn('py-2 px-3 text-sm', DASHBOARD_STYLES.textSecondary, 'align-middle')}>
-                        <div className="font-medium leading-snug text-cyan-100">{item.name}</div>
-                      </td>
-
-                      <td className={cn('hidden lg:table-cell py-2 px-3 text-sm text-cyan-200 align-middle')}>
-                        {item.region || '-'}
-                      </td>
-
-                      <td className={cn('hidden md:table-cell py-2 px-3 text-sm text-cyan-200 align-middle')}>
-                        {item.salesEngineer || '-'}
-                      </td>
-
-                      <td className={cn('hidden md:table-cell py-2 px-3 text-sm text-cyan-200 align-middle')}>
-                        {item.cityManager || '-'}
-                      </td>
-
-                      <td className={cn('text-right py-2 px-3 whitespace-nowrap', DASHBOARD_STYLES.textSecondary, 'align-middle')}>
-                        <span className="font-black text-pink-400 drop-shadow-[0_0_6px_rgba(251,113,133,0.6)]">
-                          {item.amount.toFixed(2)}
-                        </span>
-                        <span className={cn('text-sm ml-1 text-pink-300/70')}>万</span>
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-
-            {/* 分页 */}
-            <div className="px-4 py-2 border-t border-purple-500/20 flex justify-between items-center bg-gradient-to-r from-slate-900/50 to-transparent shrink-0">
-              <div className={cn('text-xs flex items-center gap-2', DASHBOARD_STYLES.textMuted)}>
-                <Activity className="w-3 h-3 text-purple-400/70" />
-                共 {insufficientReports.length} 条记录，当前第 {currentPage} / {Math.ceil(insufficientReports.length / itemsPerPage)} 页
-              </div>
-              <Pagination currentPage={currentPage} totalPages={Math.ceil(insufficientReports.length / itemsPerPage)} onPageChange={setCurrentPage} />
-            </div>
-          </div>
-        )}
-
-        {/* ============ Tab 4: 转化不足 ============ */}
-        {currentTab === 4 && (
-          <div className="h-full flex flex-col animate-in fade-in duration-300 overflow-hidden">
-            {/* 顶部仪表盘风格指标卡片 */}
-            <div className={cn(
-              'p-3 relative overflow-hidden shrink-0',
-              'bg-gradient-to-br from-emerald-950/40 via-slate-900 to-slate-900',
-              'border-b-2 border-emerald-500/50',
-              'shadow-[0_0_20px_rgba(16,185,129,0.3)]'
-            )}>
-              <div className="absolute inset-0 opacity-10" style={{
-                backgroundImage: `
-                  linear-gradient(rgba(16,185,129,0.2) 1px, transparent 1px),
-                  linear-gradient(90deg, rgba(16,185,129,0.2) 1px, transparent 1px)
-                `,
-                backgroundSize: '20px 20px'
-              }}></div>
-              <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-transparent via-emerald-500 to-transparent animate-pulse"></div>
-
-              <div className="relative z-10 grid grid-cols-3 gap-3">
-                <div className={cn(
-                  'relative rounded-xl p-2 overflow-hidden h-full flex flex-col items-center justify-center',
-                  'bg-gradient-to-br from-emerald-900/50 to-emerald-800/30',
-                  'border-2 border-emerald-500/60',
-                  'shadow-[0_0_25px_rgba(16,185,129,0.5)]'
-                )}>
-                  <div className="absolute top-0 right-0 w-20 h-20 bg-emerald-500/20 rounded-full blur-3xl animate-pulse"></div>
-                  <div className="relative z-10 w-full flex flex-col items-center justify-center">
-                    <div className="flex items-center gap-2 mb-1.5">
-                      <RefreshCw className="w-3.5 h-3.5 text-emerald-400 drop-shadow-[0_0_10px_rgba(16,185,129,1)] animate-pulse" />
-                      <div className="text-xs font-bold text-emerald-300">转化不足数</div>
-                    </div>
-                    <div className="flex items-baseline gap-1">
-                      <span className="text-3xl font-black text-emerald-400 drop-shadow-[0_0_15px_rgba(52,211,153,1)]">
-                        {insufficientConversions.length}
-                      </span>
-                      <span className="text-xs text-emerald-300/80">个</span>
-                    </div>
-                  </div>
-                </div>
-
-                <div className={cn(
-                  'relative rounded-xl p-2 overflow-hidden h-full flex flex-col items-center justify-center',
-                  'bg-gradient-to-br from-teal-900/50 to-teal-800/30',
-                  'border-2 border-teal-500/60',
-                  'shadow-[0_0_25px_rgba(20,184,166,0.5)]'
-                )}>
-                  <div className="absolute top-0 right-0 w-20 h-20 bg-teal-500/20 rounded-full blur-3xl animate-pulse"></div>
-                  <div className="relative z-10 w-full flex flex-col items-center justify-center">
-                    <div className="flex items-center gap-2 mb-1.5">
-                      <DollarSign className="w-3.5 h-3.5 text-teal-400 drop-shadow-[0_0_10px_rgba(20,184,166,1)]" />
-                      <div className="text-xs font-bold text-teal-300">涉及金额</div>
-                    </div>
-                    <div className="flex items-baseline gap-1">
-                      <span className="text-3xl font-black text-teal-400 drop-shadow-[0_0_15px_rgba(45,212,191,1)]">
-                        {insufficientConversions.reduce((sum, p) => sum + p.amount, 0).toFixed(0)}
-                      </span>
-                      <span className="text-xs text-teal-300/80">万</span>
-                    </div>
-                  </div>
-                </div>
-
-                <div className={cn(
-                  'relative rounded-xl p-2 overflow-hidden cursor-pointer group h-full flex flex-col items-center justify-center',
-                  'border-2 border-emerald-500/70',
-                  'bg-gradient-to-br from-emerald-900/30 to-teal-900/20',
-                  'hover:from-emerald-900/50 hover:to-teal-900/30',
-                  'shadow-[0_0_30px_rgba(16,185,129,0.5)]',
-                  'hover:shadow-[0_0_40px_rgba(16,185,129,0.7)]',
-                  'transition-all duration-300'
-                )}
-                  onClick={() => openDialog({
-                    title: '推进转化提醒',
-                    description: `确定要向转化不足的销售工程师发送推进提醒吗？\n\n共 ${insufficientConversions.length} 个项目，总金额 ${insufficientConversions.reduce((sum, p) => sum + p.amount, 0).toFixed(0)} 万元`,
-                    confirmText: '确认发送',
-                    cancelText: '取消',
-                    onConfirm: async () => {
-                      console.log('推进转化操作已执行');
-                    },
-                    type: 'warning'
-                  })}>
-                  <div className="absolute inset-0 bg-gradient-to-r from-emerald-500/30 to-teal-500/30 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-                  <div className="absolute inset-0 border-2 border-emerald-500/50 rounded-xl animate-pulse"></div>
-
-                  <div className="relative z-10 w-full flex flex-col items-center justify-center">
-                    <div className="flex items-center gap-1.5 mb-1.5">
-                      <div className="w-8 h-8 rounded-full bg-emerald-500/40 border-2 border-emerald-400/60 flex items-center justify-center group-hover:scale-110 transition-transform shadow-[0_0_15px_rgba(16,185,129,0.8)]">
-                        <Send className="w-4 h-4 text-emerald-400 drop-shadow-[0_0_8px_rgba(52,211,153,1)]" />
-                      </div>
-                      <div className="text-base font-black text-emerald-400 drop-shadow-[0_0_12px_rgba(52,211,153,1)]">推进转化</div>
-                    </div>
-                    <div className="flex items-center gap-1">
-                      <div className="w-1.5 h-1.5 bg-emerald-400 rounded-full animate-bounce" style={{animationDelay: '0ms'}}></div>
-                      <div className="w-1.5 h-1.5 bg-emerald-400 rounded-full animate-bounce" style={{animationDelay: '150ms'}}></div>
-                      <div className="w-1.5 h-1.5 bg-emerald-400 rounded-full animate-bounce" style={{animationDelay: '300ms'}}></div>
-                      <div className="text-xs text-emerald-300 font-semibold">全部 {insufficientConversions.length} 个项目</div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            {/* 表格区域 */}
-            <div className="flex-1 overflow-auto p-3 bg-gradient-to-b from-slate-900/50 to-transparent">
-              <table className="w-full">
-                <thead className="sticky top-0 bg-slate-900/95 backdrop-blur-sm z-10">
-                  <tr className={cn('text-sm border-b border-cyan-500/30', DASHBOARD_STYLES.cardBorder)}>
-                    <th className={cn('text-center py-2 px-3 font-medium w-16 text-cyan-300 drop-shadow-[0_0_5px_rgba(6,182,212,0.5)]')}>序号</th>
-                    <th className={cn('text-left py-2 px-3 font-medium text-cyan-300 drop-shadow-[0_0_5px_rgba(6,182,212,0.5)]')}>项目名称</th>
-                    <th className={cn('text-left py-2 px-3 font-medium hidden lg:table-cell text-cyan-300 drop-shadow-[0_0_5px_rgba(6,182,212,0.5)]')}>大区</th>
-                    <th className={cn('text-left py-2 px-3 font-medium hidden md:table-cell text-cyan-300 drop-shadow-[0_0_5px_rgba(6,182,212,0.5)]')}>销售</th>
-                    <th className={cn('text-left py-2 px-3 font-medium hidden md:table-cell text-cyan-300 drop-shadow-[0_0_5px_rgba(6,182,212,0.5)]')}>城市经理</th>
-                    <th className={cn('text-right py-2 px-3 font-medium text-cyan-300 drop-shadow-[0_0_5px_rgba(6,182,212,0.5)]')}>金额</th>
-                    <th className={cn('text-right py-2 px-3 font-medium text-cyan-300 drop-shadow-[0_0_5px_rgba(6,182,212,0.5)]')}>转化率</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {insufficientConversions.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage).map((item, index) => (
-                    <tr
-                      key={index}
-                      className={cn(
-                        'align-middle border-b border-cyan-500/10 hover:bg-gradient-to-r hover:from-emerald-500/10 hover:to-teal-500/10 transition-all duration-200',
-                        index === insufficientConversions.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage).length - 1 && 'border-b-0'
-                      )}
-                    >
-                      <td className={cn('text-center py-2 px-3 text-sm text-cyan-300 align-middle')}>
-                        <div className="inline-flex items-center justify-center w-6 h-6 rounded-full bg-cyan-500/10 border border-cyan-500/30">
-                          {(currentPage - 1) * itemsPerPage + index + 1}
-                        </div>
-                      </td>
-
-                      <td className={cn('py-2 px-3 text-sm', DASHBOARD_STYLES.textSecondary, 'align-middle')}>
-                        <div className="font-medium leading-snug text-cyan-100">{item.name}</div>
-                      </td>
-
-                      <td className={cn('hidden lg:table-cell py-2 px-3 text-sm text-cyan-200 align-middle')}>
-                        {item.region || '-'}
-                      </td>
-
-                      <td className={cn('hidden md:table-cell py-2 px-3 text-sm text-cyan-200 align-middle')}>
-                        {item.salesEngineer || '-'}
-                      </td>
-
-                      <td className={cn('hidden md:table-cell py-2 px-3 text-sm text-cyan-200 align-middle')}>
-                        {item.cityManager || '-'}
-                      </td>
-
-                      <td className={cn('text-right py-2 px-3 whitespace-nowrap', DASHBOARD_STYLES.textSecondary, 'align-middle')}>
-                        <span className="font-black text-teal-400 drop-shadow-[0_0_6px_rgba(45,212,191,0.6)]">
-                          {item.amount.toFixed(2)}
-                        </span>
-                        <span className={cn('text-sm ml-1 text-teal-300/70')}>万</span>
-                      </td>
-
-                      <td className={cn('text-right py-2 px-3 text-sm text-cyan-200 align-middle')}>
-                        <div className="flex flex-col items-end gap-0.5">
-                          <span className={cn(
-                            'px-2 py-1 rounded text-xs font-medium',
-                            item.conversionRate < 30 ? 'bg-red-500/20 text-red-400' :
-                            item.conversionRate < 50 ? 'bg-yellow-500/20 text-yellow-400' :
-                            'bg-green-500/20 text-green-400'
-                          )}>
-                            {item.conversionRate.toFixed(0)}%
-                          </span>
-                          <span className="text-xs text-cyan-300/70">
-                            目标: {item.targetRate}%
-                          </span>
-                        </div>
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-
-            {/* 分页 */}
-            <div className="px-4 py-2 border-t border-emerald-500/20 flex justify-between items-center bg-gradient-to-r from-slate-900/50 to-transparent shrink-0">
-              <div className={cn('text-xs flex items-center gap-2', DASHBOARD_STYLES.textMuted)}>
-                <Activity className="w-3 h-3 text-emerald-400/70" />
-                共 {insufficientConversions.length} 条记录，当前第 {currentPage} / {Math.ceil(insufficientConversions.length / itemsPerPage)} 页
-              </div>
-              <Pagination currentPage={currentPage} totalPages={Math.ceil(insufficientConversions.length / itemsPerPage)} onPageChange={setCurrentPage} />
-            </div>
-          </div>
-        )}
-
-        {/* ============ Tab 5: 阶段停滞 ============ */}
-        {currentTab === 5 && (
-          <div className="h-full flex flex-col animate-in fade-in duration-300 overflow-hidden">
-            {/* 顶部仪表盘风格指标卡片 */}
-            <div className={cn(
-              'p-3 relative overflow-hidden shrink-0',
-              'bg-gradient-to-br from-amber-950/40 via-slate-900 to-slate-900',
-              'border-b-2 border-amber-500/50',
-              'shadow-[0_0_20px_rgba(245,158,11,0.3)]'
-            )}>
-              <div className="absolute inset-0 opacity-10" style={{
-                backgroundImage: `
-                  linear-gradient(rgba(245,158,11,0.2) 1px, transparent 1px),
-                  linear-gradient(90deg, rgba(245,158,11,0.2) 1px, transparent 1px)
-                `,
-                backgroundSize: '20px 20px'
-              }}></div>
-              <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-transparent via-amber-500 to-transparent animate-pulse"></div>
-
-              <div className="relative z-10 grid grid-cols-3 gap-3">
-                <div className={cn(
-                  'relative rounded-xl p-2 overflow-hidden h-full flex flex-col items-center justify-center',
-                  'bg-gradient-to-br from-amber-900/50 to-amber-800/30',
-                  'border-2 border-amber-500/60',
-                  'shadow-[0_0_25px_rgba(245,158,11,0.5)]'
-                )}>
-                  <div className="absolute top-0 right-0 w-20 h-20 bg-amber-500/20 rounded-full blur-3xl animate-pulse"></div>
-                  <div className="relative z-10 w-full flex flex-col items-center justify-center">
-                    <div className="flex items-center gap-2 mb-1.5">
-                      <Clock className="w-3.5 h-3.5 text-amber-400 drop-shadow-[0_0_10px_rgba(245,158,11,1)] animate-pulse" />
-                      <div className="text-xs font-bold text-amber-300">停滞项目数</div>
-                    </div>
-                    <div className="flex items-baseline gap-1">
-                      <span className="text-3xl font-black text-amber-400 drop-shadow-[0_0_15px_rgba(251,191,36,1)]">
-                        {stageStagnations.length}
-                      </span>
-                      <span className="text-xs text-amber-300/80">个</span>
-                    </div>
-                  </div>
-                </div>
-
-                <div className={cn(
-                  'relative rounded-xl p-2 overflow-hidden h-full flex flex-col items-center justify-center',
-                  'bg-gradient-to-br from-orange-900/50 to-orange-800/30',
-                  'border-2 border-orange-500/60',
-                  'shadow-[0_0_25px_rgba(249,115,22,0.5)]'
-                )}>
-                  <div className="absolute top-0 right-0 w-20 h-20 bg-orange-500/20 rounded-full blur-3xl animate-pulse"></div>
-                  <div className="relative z-10 w-full flex flex-col items-center justify-center">
-                    <div className="flex items-center gap-2 mb-1.5">
-                      <DollarSign className="w-3.5 h-3.5 text-orange-400 drop-shadow-[0_0_10px_rgba(249,115,22,1)]" />
-                      <div className="text-xs font-bold text-orange-300">涉及金额</div>
-                    </div>
-                    <div className="flex items-baseline gap-1">
-                      <span className="text-3xl font-black text-orange-400 drop-shadow-[0_0_15px_rgba(251,146,60,1)]">
-                        {stageStagnations.reduce((sum, p) => sum + p.amount, 0).toFixed(0)}
-                      </span>
-                      <span className="text-xs text-orange-300/80">万</span>
-                    </div>
-                  </div>
-                </div>
-
-                <div className={cn(
-                  'relative rounded-xl p-2 overflow-hidden cursor-pointer group h-full flex flex-col items-center justify-center',
-                  'border-2 border-amber-500/70',
-                  'bg-gradient-to-br from-amber-900/30 to-orange-900/20',
-                  'hover:from-amber-900/50 hover:to-orange-900/30',
-                  'shadow-[0_0_30px_rgba(245,158,11,0.5)]',
-                  'hover:shadow-[0_0_40px_rgba(245,158,11,0.7)]',
-                  'transition-all duration-300'
-                )}
-                  onClick={() => openDialog({
-                    title: '推动项目提醒',
-                    description: `确定要向阶段停滞的销售工程师发送推动提醒吗？\n\n共 ${stageStagnations.length} 个项目，总金额 ${stageStagnations.reduce((sum, p) => sum + p.amount, 0).toFixed(0)} 万元`,
-                    confirmText: '确认发送',
-                    cancelText: '取消',
-                    onConfirm: async () => {
-                      console.log('推动项目操作已执行');
-                    },
-                    type: 'warning'
-                  })}>
-                  <div className="absolute inset-0 bg-gradient-to-r from-amber-500/30 to-orange-500/30 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-                  <div className="absolute inset-0 border-2 border-amber-500/50 rounded-xl animate-pulse"></div>
-
-                  <div className="relative z-10 w-full flex flex-col items-center justify-center">
-                    <div className="flex items-center gap-1.5 mb-1.5">
-                      <div className="w-8 h-8 rounded-full bg-amber-500/40 border-2 border-amber-400/60 flex items-center justify-center group-hover:scale-110 transition-transform shadow-[0_0_15px_rgba(245,158,11,0.8)]">
-                        <Send className="w-4 h-4 text-amber-400 drop-shadow-[0_0_8px_rgba(251,191,36,1)]" />
-                      </div>
-                      <div className="text-base font-black text-amber-400 drop-shadow-[0_0_12px_rgba(251,191,36,1)]">推动项目</div>
-                    </div>
-                    <div className="flex items-center gap-1">
-                      <div className="w-1.5 h-1.5 bg-amber-400 rounded-full animate-bounce" style={{animationDelay: '0ms'}}></div>
-                      <div className="w-1.5 h-1.5 bg-amber-400 rounded-full animate-bounce" style={{animationDelay: '150ms'}}></div>
-                      <div className="w-1.5 h-1.5 bg-amber-400 rounded-full animate-bounce" style={{animationDelay: '300ms'}}></div>
-                      <div className="text-xs text-amber-300 font-semibold">全部 {stageStagnations.length} 个项目</div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            {/* 表格区域 */}
-            <div className="flex-1 overflow-auto p-3 bg-gradient-to-b from-slate-900/50 to-transparent">
-              <table className="w-full">
-                <thead className="sticky top-0 bg-slate-900/95 backdrop-blur-sm z-10">
-                  <tr className={cn('text-sm border-b border-cyan-500/30', DASHBOARD_STYLES.cardBorder)}>
-                    <th className={cn('text-center py-2 px-3 font-medium w-16 text-cyan-300 drop-shadow-[0_0_5px_rgba(6,182,212,0.5)]')}>序号</th>
-                    <th className={cn('text-left py-2 px-3 font-medium text-cyan-300 drop-shadow-[0_0_5px_rgba(6,182,212,0.5)]')}>项目名称</th>
-                    <th className={cn('text-left py-2 px-3 font-medium hidden lg:table-cell text-cyan-300 drop-shadow-[0_0_5px_rgba(6,182,212,0.5)]')}>大区</th>
-                    <th className={cn('text-left py-2 px-3 font-medium hidden md:table-cell text-cyan-300 drop-shadow-[0_0_5px_rgba(6,182,212,0.5)]')}>销售</th>
-                    <th className={cn('text-left py-2 px-3 font-medium hidden md:table-cell text-cyan-300 drop-shadow-[0_0_5px_rgba(6,182,212,0.5)]')}>城市经理</th>
-                    <th className={cn('text-right py-2 px-3 font-medium text-cyan-300 drop-shadow-[0_0_5px_rgba(6,182,212,0.5)]')}>金额</th>
-                    <th className={cn('text-right py-2 px-3 font-medium text-cyan-300 drop-shadow-[0_0_5px_rgba(6,182,212,0.5)]')}>停滞天数</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {stageStagnations.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage).map((item, index) => (
-                    <tr
-                      key={index}
-                      className={cn(
-                        'align-middle border-b border-cyan-500/10 hover:bg-gradient-to-r hover:from-amber-500/10 hover:to-orange-500/10 transition-all duration-200',
-                        index === stageStagnations.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage).length - 1 && 'border-b-0'
-                      )}
-                    >
-                      <td className={cn('text-center py-2 px-3 text-sm text-cyan-300 align-middle')}>
-                        <div className="inline-flex items-center justify-center w-6 h-6 rounded-full bg-cyan-500/10 border border-cyan-500/30">
-                          {(currentPage - 1) * itemsPerPage + index + 1}
-                        </div>
-                      </td>
-
-                      <td className={cn('py-2 px-3 text-sm', DASHBOARD_STYLES.textSecondary, 'align-middle')}>
-                        <div className="font-medium leading-snug text-cyan-100">{item.name}</div>
-                      </td>
-
-                      <td className={cn('hidden lg:table-cell py-2 px-3 text-sm text-cyan-200 align-middle')}>
-                        {item.region || '-'}
-                      </td>
-
-                      <td className={cn('hidden md:table-cell py-2 px-3 text-sm text-cyan-200 align-middle')}>
-                        {item.salesEngineer || '-'}
-                      </td>
-
-                      <td className={cn('hidden md:table-cell py-2 px-3 text-sm text-cyan-200 align-middle')}>
-                        {item.cityManager || '-'}
-                      </td>
-
-                      <td className={cn('text-right py-2 px-3 whitespace-nowrap', DASHBOARD_STYLES.textSecondary, 'align-middle')}>
-                        <span className="font-black text-orange-400 drop-shadow-[0_0_6px_rgba(251,146,60,0.6)]">
-                          {item.amount.toFixed(2)}
-                        </span>
-                        <span className={cn('text-sm ml-1 text-orange-300/70')}>万</span>
-                      </td>
-
-                      <td className={cn('text-right py-2 px-3 text-sm text-cyan-200 align-middle')}>
-                        <div className="flex flex-col items-end gap-0.5">
-                          <span className={cn(
-                            'px-2 py-1 rounded text-xs font-medium',
-                            item.stagnationDays >= 30 ? 'bg-red-500/20 text-red-400' :
-                            item.stagnationDays >= 20 ? 'bg-yellow-500/20 text-yellow-400' :
-                            'bg-green-500/20 text-green-400'
-                          )}>
-                            {item.stagnationDays} 天
-                          </span>
-                          <span className="text-xs text-cyan-300/70">
-                            → {item.nextPhase}
-                          </span>
-                        </div>
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-
-            {/* 分页 */}
-            <div className="px-4 py-2 border-t border-amber-500/20 flex justify-between items-center bg-gradient-to-r from-slate-900/50 to-transparent shrink-0">
-              <div className={cn('text-xs flex items-center gap-2', DASHBOARD_STYLES.textMuted)}>
-                <Activity className="w-3 h-3 text-amber-400/70" />
-                共 {stageStagnations.length} 条记录，当前第 {currentPage} / {Math.ceil(stageStagnations.length / itemsPerPage)} 页
-              </div>
-              <Pagination currentPage={currentPage} totalPages={Math.ceil(stageStagnations.length / itemsPerPage)} onPageChange={setCurrentPage} />
-            </div>
-          </div>
-        )}
       </div>
 
       {/* 确认对话框 */}
