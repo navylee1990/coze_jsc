@@ -441,7 +441,6 @@ export default function GMDashboard() {
           {/* 核心预测决策卡片 - 使用新的汽车驾驶舱风格组件 */}
           <div className={cn(
             'col-span-1 lg:col-span-7',
-            'transition-all duration-500',
             'opacity-100 translate-y-0'
           )}>
             <div className={cn(
@@ -455,7 +454,6 @@ export default function GMDashboard() {
           {/* 风险识别模块 - 自适应高度 */}
           <div className={cn(
             'col-span-1 lg:col-span-5',
-            'transition-all duration-500 delay-100',
             'opacity-100 translate-y-0'
           )}>
             <div className={cn(
@@ -473,7 +471,6 @@ export default function GMDashboard() {
           {/* 区域达成情况 - 铺满整行 */}
           <div className={cn(
             'col-span-1 lg:col-span-12',
-            'transition-all duration-500',
             'opacity-100 translate-y-0'
           )}>
             <div className={`${DASHBOARD_STYLES.cardBg} ${DASHBOARD_STYLES.cardBorder} rounded-xl p-0 ${DASHBOARD_STYLES.glow}`}>
