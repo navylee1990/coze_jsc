@@ -364,6 +364,7 @@ export default function GMDashboard() {
   // 按针动画 state
   const [needleAngle1, setNeedleAngle1] = useState(-90); // 目标仪表盘指针
   const [needleAngle2, setNeedleAngle2] = useState(-90); // 预测完成仪表盘指针
+  const [needleAngle3, setNeedleAngle3] = useState(-90); // 缺口仪表盘指针
 
   // 页面初始化动画
   useEffect(() => {
@@ -401,6 +402,7 @@ export default function GMDashboard() {
     // 重置指针角度
     setNeedleAngle1(-90);
     setNeedleAngle2(-90);
+    setNeedleAngle3(-90);
 
     // 等待一小段时间后开始动画，确保 state 重置生效
     const startDelay = setTimeout(() => {
@@ -479,6 +481,8 @@ export default function GMDashboard() {
       const needle1End = 135; // 目标仪表盘指针
       const needle2Start = -90;
       const needle2End = (Math.min(targetRate, 100) / 100) * 180 - 90; // 预测完成仪表盘指针
+      const needle3Start = -90;
+      const needle3End = gapValue <= 0 ? 135 : -135; // 缺口仪表盘指针
       const needleStartTime = Date.now();
 
       const animateNeedles = () => {
@@ -488,6 +492,7 @@ export default function GMDashboard() {
 
         setNeedleAngle1(needle1Start + (needle1End - needle1Start) * easeOut);
         setNeedleAngle2(needle2Start + (needle2End - needle2Start) * easeOut);
+        setNeedleAngle3(needle3Start + (needle3End - needle3Start) * easeOut);
 
         if (progress < 1) {
           requestAnimationFrame(animateNeedles);
@@ -653,10 +658,10 @@ export default function GMDashboard() {
                 </div>
               </div>
 
-              {/* 核心数据展示 - 左右布局 */}
-              <div className="grid grid-cols-1 lg:grid-cols-12 gap-3 sm:gap-4 mb-4">
+              {/* 核心数据展示 - 汽车仪表盘样式 */}
+              <div className="grid grid-cols-2 gap-3 sm:gap-4 mb-4">
                 {/* 仪表盘1 - 达成率 */}
-                <div className="lg:col-span-5 relative">
+                <div className="relative">
                   <div
                     className="rounded-xl border-2 p-4 transition-all duration-300 bg-gradient-to-br from-slate-900/90 to-slate-800/90 border-cyan-500/40"
                     style={{
@@ -768,27 +773,163 @@ export default function GMDashboard() {
                           )}
                         </div>
                       </div>
+                    </div>
+                  </div>
+                </div>
 
-                      {/* 缺口信息 */}
-                      <div className="mt-4 pt-3 border-t border-cyan-500/20 w-full">
-                        <div className="flex items-center gap-2 text-xs">
-                          <span className="text-cyan-400/70">{animatedGap <= 0 ? '超额' : '缺口'}</span>
-                          <span className={cn(
-                            'font-bold text-sm',
+                {/* 仪表盘2 - 缺口 */}
+                <div className="relative">
+                  <div
+                    className={cn(
+                      'rounded-xl border-2 p-3 transition-all duration-300',
+                      animatedGap <= 0
+                        ? 'bg-gradient-to-br from-green-900/20 to-slate-900/90 border-green-500/40'
+                        : 'bg-gradient-to-br from-red-900/20 to-slate-900/90 border-red-500/40'
+                    )}
+                    style={{
+                      boxShadow: animatedGap <= 0
+                        ? '0 0 25px rgba(74, 222, 128, 0.3), inset 0 0 20px rgba(74, 222, 128, 0.08)'
+                        : '0 0 25px rgba(248, 113, 113, 0.3), inset 0 0 20px rgba(248, 113, 113, 0.08)'
+                    }}
+                  >
+                    <div className="flex items-center gap-3">
+                      {/* 仪表盘圆形 */}
+                      <div className="relative flex-shrink-0" style={{ width: '80px', height: '80px' }}>
+                        <svg viewBox="0 0 100 100" className="w-full h-full">
+                          {/* 背景圆 */}
+                          <circle
+                            cx="50"
+                            cy="50"
+                            r="35"
+                            fill="none"
+                            stroke="#1e293b"
+                            strokeWidth="6"
+                          />
+                          {/* 刻度线 */}
+                          {[...Array(12)].map((_, i) => {
+                            const angle = (i * 30 - 90) * (Math.PI / 180)
+                            const innerR = 28
+                            const outerR = 35
+                            const x1 = Number((50 + innerR * Math.cos(angle)).toFixed(3))
+                            const y1 = Number((50 + innerR * Math.sin(angle)).toFixed(3))
+                            const x2 = Number((50 + outerR * Math.cos(angle)).toFixed(3))
+                          const y2 = Number((50 + outerR * Math.sin(angle)).toFixed(3))
+                          return (
+                              <line
+                                key={i}
+                                x1={x1}
+                                y1={y1}
+                                x2={x2}
+                                y2={y2}
+                                stroke="#334155"
+                                strokeWidth="1"
+                              />
+                            )
+                          })}
+                          {/* 进度弧线 */}
+                          <circle
+                            cx="50"
+                            cy="50"
+                            r="35"
+                            fill="none"
+                            stroke={getGap() <= 0 ? '#4ade80' : '#f87171'}
+                            strokeWidth="5"
+                            strokeLinecap="round"
+                            strokeDasharray="220"
+                            strokeDashoffset={getGap() <= 0 ? '0' : '220'}
+                            style={{
+                              filter: getGap() <= 0 ? 'drop-shadow(0 0 8px rgba(74, 222, 128, 0.8))' : 'drop-shadow(0 0 8px rgba(248, 113, 113, 0.8))',
+                              transition: 'stroke-dashoffset 0.5s ease-out'
+                            }}
+                          />
+                          {/* 指针 */}
+                          <g transform={`translate(50, 50)`}>
+                            <line
+                              x1="0"
+                              y1="0"
+                              x2="0"
+                              y2="-28"
+                              stroke={animatedGap <= 0 ? '#4ade80' : '#f87171'}
+                              strokeWidth="2.5"
+                              style={{
+                                transform: `rotate(${needleAngle3}deg)`,
+                                transformOrigin: '0 0',
+                                filter: animatedGap <= 0 ? 'drop-shadow(0 0 6px rgba(74, 222, 128, 1))' : 'drop-shadow(0 0 6px rgba(248, 113, 113, 1))',
+                                transition: 'transform 1.5s cubic-bezier(0.34, 1.56, 0.64, 1)'
+                              }}
+                            />
+                            <circle
+                              cx="0"
+                              cy="0"
+                              r="4"
+                              fill={animatedGap <= 0 ? '#4ade80' : '#f87171'}
+                              style={{ filter: animatedGap <= 0 ? 'drop-shadow(0 0 4px rgba(74, 222, 128, 0.8))' : 'drop-shadow(0 0 4px rgba(248, 113, 113, 0.8))' }}
+                            />
+                          </g>
+                        </svg>
+                        {/* 中心数值 */}
+                        <div className="absolute inset-0 flex flex-col items-center justify-center">
+                          {animatedGap <= 0 ? (
+                            <span className="text-sm font-bold text-green-400 flex items-center gap-1" style={{ textShadow: '0 0 8px rgba(74, 222, 128, 0.8)' }}>
+                              <ArrowUp className="w-3 h-3" />
+                              超额
+                            </span>
+                          ) : (
+                            <span className="text-sm font-bold text-red-400 flex items-center gap-1" style={{ textShadow: '0 0 8px rgba(248, 113, 113, 0.8)' }}>
+                              <ArrowDown className="w-3 h-3" />
+                              缺口
+                            </span>
+                          )}
+                        </div>
+                      </div>
+                      {/* 右侧数值 */}
+                      <div className="flex-1">
+                        <div className="text-xs text-cyan-400/70 mb-1 flex items-center gap-1">
+                          {animatedGap <= 0 ? '超额' : '缺口'}
+                          {animatedGap > 0 && (
+                            <AlertTriangle className={`w-4 h-4 animate-pulse ${(Math.abs(animatedGap) / getTimeRangeData().target) * 100 <= 20 ? 'text-yellow-400 drop-shadow-[0_0_6px_rgba(250,204,21,0.6)]' : 'text-red-400 drop-shadow-[0_0_6px_rgba(248,113,113,0.6)]'}`} />
+                          )}
+                        </div>
+                        <div className="flex items-start gap-3">
+                          <div className={cn(
+                            'text-xl font-bold',
                             animatedGap <= 0 ? 'text-green-400' : 'text-red-400'
                           )} style={{ textShadow: animatedGap <= 0 ? '0 0 6px rgba(74, 222, 128, 0.6)' : '0 0 6px rgba(248, 113, 113, 0.6)' }}>
-                            {animatedGap <= 0 ? '+' : ''}{Math.abs(animatedGap).toFixed(0)}万
-                          </span>
+                            {animatedGap <= 0 ? '+' : ''}{Math.abs(animatedGap).toFixed(0)}
+                            <span className="text-xs text-cyan-400/50 ml-1">万</span>
+                          </div>
+                          {/* 延期和新开发项目信息 */}
+                          {animatedGap > 0 && (
+                            <div className="space-y-0.5">
+                              <div className="flex items-center gap-1 text-xs">
+                                <div className="w-1 h-1 rounded-full bg-orange-400"></div>
+                                <span className="text-orange-300 font-medium">
+                                  延期{getTimeRangeData().gapSolution?.delayedProjects.count || 0}个
+                                </span>
+                                <span className="text-orange-300/80">
+                                  {getTimeRangeData().gapSolution?.delayedProjects.amount || 0}万
+                                </span>
+                              </div>
+                              <div className="flex items-center gap-1 text-xs">
+                                <div className="w-1 h-1 rounded-full bg-cyan-400"></div>
+                                <span className="text-cyan-300 font-medium">
+                                  新开发{getTimeRangeData().gapSolution?.newProjectsNeeded.count || 0}个
+                                </span>
+                                <span className="text-cyan-300/80">
+                                  {getTimeRangeData().gapSolution?.newProjectsNeeded.amount || 0}万
+                                </span>
+                              </div>
+                            </div>
+                          )}
                         </div>
                       </div>
                     </div>
                   </div>
                 </div>
               </div>
-            </div>
 
-            {/* 趋势图表 */}
-            <div className="lg:col-span-7 bg-slate-800/30 rounded-xl p-2.5 sm:p-3 border border-cyan-400/10">
+              {/* 趋势图表 */}
+              <div className="bg-slate-800/30 rounded-xl p-2.5 sm:p-3 border border-cyan-400/10">
                 <div className="mb-1.5">
                   <h4 className={`text-xs sm:text-sm font-semibold ${DASHBOARD_STYLES.neon}`}>趋势分析</h4>
                 </div>
