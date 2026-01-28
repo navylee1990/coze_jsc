@@ -1152,32 +1152,21 @@ export default function RiskIdentificationPanel({
                 </div>
 
                 {/* 占位区域 - 保持与其他Tab高度一致 */}
-                <div className="flex-1 flex flex-col items-center justify-center p-10 bg-gradient-to-b from-slate-900/50 to-transparent">
-                  <div className="text-center space-y-4">
-                    <div className={cn(
-                      'inline-flex items-center justify-center w-20 h-20 rounded-full',
-                      'bg-gradient-to-br from-yellow-500/20 to-orange-500/20',
-                      'border-2 border-yellow-500/30',
-                      'shadow-[0_0_20px_rgba(234,179,8,0.3)]',
-                      'animate-pulse'
-                    )}>
-                      <TrendingDown className="w-10 h-10 text-yellow-400 drop-shadow-[0_0_10px_rgba(234,179,8,1)]" />
-                    </div>
-                    <div className={cn('text-base font-medium', DASHBOARD_STYLES.textSecondary)}>
-                      请点击"补预测"按钮生成补充预测方案
-                    </div>
-                    <div className={cn('text-sm', DASHBOARD_STYLES.textMuted)}>
-                      系统将自动识别并生成针对{forecastGaps.length}个项目的补充预测
-                    </div>
+                <div className="flex-1 flex flex-col items-center justify-center bg-gradient-to-b from-slate-900/50 to-transparent">
+                  <div className={cn(
+                    'inline-flex items-center justify-center w-20 h-20 rounded-full',
+                    'bg-gradient-to-br from-yellow-500/20 to-orange-500/20',
+                    'border-2 border-yellow-500/30',
+                    'shadow-[0_0_20px_rgba(234,179,8,0.3)]',
+                    'animate-pulse'
+                  )}>
+                    <TrendingDown className="w-10 h-10 text-yellow-400 drop-shadow-[0_0_10px_rgba(234,179,8,1)]" />
                   </div>
                 </div>
 
                 {/* 分页区域 - 保持与其他Tab高度一致 */}
                 <div className="px-4 py-2 border-t border-cyan-500/20 flex justify-between items-center bg-gradient-to-r from-slate-900/50 to-transparent">
-                  <div className={cn('text-xs flex items-center gap-2', DASHBOARD_STYLES.textMuted)}>
-                    <Activity className="w-3 h-3 text-cyan-400/70" />
-                    共 {forecastGaps.length} 条记录
-                  </div>
+                  <div className="flex-1"></div>
                   {/* 占位分页控件，保持布局一致 */}
                   <div className="flex items-center gap-1">
                     <div className="w-9 h-9 rounded-lg text-xs font-medium text-cyan-400/70 flex items-center justify-center">
