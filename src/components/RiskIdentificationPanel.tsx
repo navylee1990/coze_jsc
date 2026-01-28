@@ -671,15 +671,6 @@ export default function RiskIdentificationPanel({
             风险识别
           </h3>
         </div>
-        {highRiskCount > 0 && viewMode === 'summary' && (
-          <div className={cn(
-            'flex items-center gap-1 px-2 py-1 rounded-full text-xs font-medium animate-pulse',
-            theme === 'dashboard' ? 'bg-red-500/30 text-red-300 border border-red-500/40' : 'bg-red-100 text-red-700'
-          )}>
-            <AlertTriangle className="w-3 h-3" />
-            {highRiskCount} 项高风险
-          </div>
-        )}
       </div>
 
       {/* Tab切换栏 - 仅在汇总视图显示 */}
