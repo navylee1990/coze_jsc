@@ -625,12 +625,22 @@ export default function RiskIdentificationPanel({
                 const isUnorderedProjects = tab.id === 0; // 未按计划下单
                 const isForecastGap = tab.id === 2; // 预测不足
 
+                // 计算角标数量
+                const badgeCount = isUnorderedProjects 
+                  ? filteredUnorderedProjects.length 
+                  : isForecastGap 
+                  ? forecastGaps.length 
+                  : 0;
+
+                // 是否闪烁（数量>0且非当前Tab）
+                const shouldPulse = badgeCount > 0 && tab.id !== currentTab;
+
                 return (
                   <button
                     key={tab.id}
                     onClick={() => setCurrentTab(tab.id)}
                     className={cn(
-                      'flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium transition-all',
+                      'flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium transition-all relative',
                       // 未按计划下单使用红色主题
                       isUnorderedProjects && theme === 'dashboard'
                         ? 'bg-red-500/40 text-red-200 border-2 border-red-500/60 shadow-[0_0_20px_rgba(239,68,68,0.6)] animate-pulse'
@@ -646,7 +656,9 @@ export default function RiskIdentificationPanel({
                           : 'bg-cyan-100 text-cyan-700 border border-cyan-300'
                         : theme === 'dashboard'
                         ? 'bg-slate-800/30 text-cyan-400/70 border border-cyan-400/20'
-                        : 'bg-slate-100 text-slate-600 border border-slate-300'
+                        : 'bg-slate-100 text-slate-600 border border-slate-300',
+                      // 闪烁效果
+                      shouldPulse && 'animate-pulse'
                     )}
                   >
                     {isUnorderedProjects ? (
@@ -665,6 +677,22 @@ export default function RiskIdentificationPanel({
                     <span className={isUnorderedProjects && theme === 'dashboard' ? 'font-bold text-xs' : ''}>
                       {tab.label}
                     </span>
+                    {/* 角标 */}
+                    {badgeCount > 0 && (
+                      <span className={cn(
+                        'absolute -top-1 -right-1 flex items-center justify-center',
+                        'min-w-[16px] h-4 px-1 rounded-full text-[10px] font-bold',
+                        theme === 'dashboard'
+                          ? isUnorderedProjects
+                            ? 'bg-red-500 text-white shadow-[0_0_8px_rgba(239,68,68,0.8)]'
+                            : 'bg-orange-500 text-white shadow-[0_0_8px_rgba(249,115,22,0.8)]'
+                          : isUnorderedProjects
+                          ? 'bg-red-600 text-white'
+                          : 'bg-orange-600 text-white'
+                      )}>
+                        {badgeCount}
+                      </span>
+                    )}
                   </button>
                 );
               })}
