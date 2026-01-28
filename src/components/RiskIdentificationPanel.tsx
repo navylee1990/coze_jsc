@@ -50,6 +50,7 @@ interface UnorderedProject {
 // 组件属性
 interface RiskIdentificationPanelProps {
   largeProjectDependencies?: LargeProjectDependency[];
+  forecastGaps?: ForecastGap[];
   unorderedProjects?: UnorderedProject[];
   theme?: 'dashboard' | 'light' | 'dark';
   timeRange?: 'current' | 'quarter' | 'year';
@@ -63,6 +64,14 @@ const defaultLargeProjectDependencies: LargeProjectDependency[] = [
   { projectName: '深圳科技园', projectId: 'PRJ-003', amount: 680, predictionAmount: 1200, predictionRatio: 57, region: '华南', owner: '王强', status: 'critical' },
   { projectName: '广州高铁南站', projectId: 'PRJ-004', amount: 560, predictionAmount: 1000, predictionRatio: 56, region: '华南', owner: '赵芳', status: 'highRisk' },
   { projectName: '杭州亚运会场馆', projectId: 'PRJ-005', amount: 450, predictionAmount: 800, predictionRatio: 56, region: '二区', owner: '孙伟', status: 'normal' }
+];
+
+const defaultForecastGaps: ForecastGap[] = [
+  { projectName: '深圳前海自贸区综合项目', region: '华南', owner: '周杰', gapAmount: 200, currentForecast: 300, targetForecast: 500, gapPercentage: 40 },
+  { projectName: '天津天河城扩建项目', region: '华北', owner: '李明', gapAmount: 150, currentForecast: 250, targetForecast: 400, gapPercentage: 37.5 },
+  { projectName: '杭州阿里巴巴园区二期', region: '二区', owner: '刘芳', gapAmount: 180, currentForecast: 220, targetForecast: 400, gapPercentage: 45 },
+  { projectName: '广州白云机场T3扩建', region: '华南', owner: '王强', gapAmount: 120, currentForecast: 180, targetForecast: 300, gapPercentage: 40 },
+  { projectName: '北京大兴机场配套二期', region: '华北', owner: '张伟', gapAmount: 100, currentForecast: 150, targetForecast: 250, gapPercentage: 40 }
 ];
 
 const defaultUnorderedProjects: UnorderedProject[] = [
@@ -211,6 +220,17 @@ const getStatusStyles = (status: 'normal' | 'highRisk' | 'critical') => {
       return 'bg-green-500/30 text-green-300 border-green-500/50';
   }
 };
+
+// 6. 预测不足数据
+interface ForecastGap {
+  projectName: string;
+  region: string;
+  owner: string;
+  gapAmount: number; // 缺口金额（万元）
+  currentForecast: number; // 当前预测金额
+  targetForecast: number; // 目标预测金额
+  gapPercentage: number; // 缺口百分比
+}
 
 // ==================== 仪表盘组件 ====================
 
@@ -434,6 +454,7 @@ function Pagination({
 // ==================== 主组件 ====================
 export default function RiskIdentificationPanel({
   largeProjectDependencies = defaultLargeProjectDependencies,
+  forecastGaps = defaultForecastGaps,
   unorderedProjects = defaultUnorderedProjects,
   theme = 'dashboard',
   timeRange = 'current'
@@ -460,7 +481,8 @@ export default function RiskIdentificationPanel({
   // 所有 Tab 定义
   const allTabs = [
     { id: 0, label: '未按计划下单', icon: XCircle },
-    { id: 1, label: '大项目依赖', icon: Building2 }
+    { id: 1, label: '大项目依赖', icon: Building2 },
+    { id: 2, label: '预测不足', icon: TrendingDown }
   ];
 
   // 根据时间维度显示的 Tabs
@@ -511,6 +533,7 @@ export default function RiskIdentificationPanel({
     switch (currentTab) {
       case 0: return filteredUnorderedProjects;
       case 1: return largeProjectDependencies;
+      case 2: return forecastGaps;
       default: return [];
     }
   };
@@ -522,6 +545,9 @@ export default function RiskIdentificationPanel({
   const getPaginatedLargeProjectDependencies = () => {
     return largeProjectDependencies.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage);
   };
+  const getPaginatedForecastGaps = () => {
+    return forecastGaps.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage);
+  };
   const getPaginatedUnorderedProjects = () => {
     return filteredUnorderedProjects.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage);
   };
@@ -531,6 +557,7 @@ export default function RiskIdentificationPanel({
     switch (currentTab) {
       case 0: return filteredUnorderedProjects.filter(p => p.delayDays && p.delayDays >= 10).length;
       case 1: return largeProjectDependencies.filter(p => p.status === 'critical').length;
+      case 2: return forecastGaps.filter(p => p.gapPercentage >= 40).length;
       default: return 0;
     }
   })();
@@ -596,6 +623,7 @@ export default function RiskIdentificationPanel({
               {visibleTabs.map((tab) => {
                 const Icon = tab.icon;
                 const isUnorderedProjects = tab.id === 0; // 未按计划下单
+                const isForecastGap = tab.id === 2; // 预测不足
 
                 return (
                   <button
@@ -608,6 +636,10 @@ export default function RiskIdentificationPanel({
                         ? 'bg-red-500/40 text-red-200 border-2 border-red-500/60 shadow-[0_0_20px_rgba(239,68,68,0.6)] animate-pulse'
                         : isUnorderedProjects
                         ? 'bg-red-100 text-red-700 border-2 border-red-400 shadow-[0_0_15px_rgba(239,68,68,0.5)]'
+                        : isForecastGap && theme === 'dashboard'
+                        ? 'bg-orange-500/40 text-orange-200 border-2 border-orange-500/60 shadow-[0_0_20px_rgba(249,115,22,0.6)]'
+                        : isForecastGap
+                        ? 'bg-orange-100 text-orange-700 border-2 border-orange-400 shadow-[0_0_15px_rgba(249,115,22,0.5)]'
                         : currentTab === tab.id
                         ? theme === 'dashboard'
                           ? 'bg-cyan-500/30 text-cyan-300 border border-cyan-500/50 shadow-[0_0_10px_rgba(6,182,212,0.4)]'
@@ -621,6 +653,11 @@ export default function RiskIdentificationPanel({
                       <Icon className={cn(
                         'w-4 h-4',
                         theme === 'dashboard' ? 'text-red-400 drop-shadow-[0_0_8px_rgba(239,68,68,1)]' : 'text-red-600'
+                      )} />
+                    ) : isForecastGap ? (
+                      <Icon className={cn(
+                        'w-4 h-4',
+                        theme === 'dashboard' ? 'text-orange-400 drop-shadow-[0_0_8px_rgba(249,115,22,1)]' : 'text-orange-600'
                       )} />
                     ) : (
                       <Icon className="w-3.5 h-3.5" />
@@ -984,6 +1021,169 @@ export default function RiskIdentificationPanel({
                 </div>
           </div>
         )}
+
+        {/* ============ Tab 2: 预测不足 ============ */}
+        {currentTab === 2 && (
+          // 明细视图
+          <div className="h-full flex flex-col animate-in fade-in duration-300">
+                {/* 顶部仪表盘风格指标卡片 - 黄色警告效果 */}
+                <div className={cn(
+                  'p-3 relative overflow-hidden',
+                  'bg-gradient-to-br from-yellow-950/40 via-slate-900 to-slate-900',
+                  'border-b-2 border-yellow-500/50',
+                  'shadow-[0_0_20px_rgba(234,179,8,0.3)]'
+                )}>
+                  {/* 背景装饰网格 */}
+                  <div className="absolute inset-0 opacity-10" style={{
+                    backgroundImage: `
+                      linear-gradient(rgba(234,179,8,0.2) 1px, transparent 1px),
+                      linear-gradient(90deg, rgba(234,179,8,0.2) 1px, transparent 1px)
+                    `,
+                    backgroundSize: '20px 20px'
+                  }}></div>
+
+                  {/* 顶部发光线条 - 黄色 */}
+                  <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-transparent via-yellow-500 to-transparent animate-pulse"></div>
+                  
+                  <div className="relative z-10 grid grid-cols-3 gap-3">
+                    {/* 预计缺口金额卡片 */}
+                    <div className={cn(
+                      'relative rounded-xl p-2 overflow-hidden h-full flex flex-col items-center justify-center',
+                      'bg-gradient-to-br from-yellow-900/50 to-yellow-800/30',
+                      'border-2 border-yellow-500/60',
+                      'shadow-[0_0_25px_rgba(234,179,8,0.5)]'
+                    )}>
+                      <div className="absolute top-0 right-0 w-20 h-20 bg-yellow-500/20 rounded-full blur-3xl animate-pulse"></div>
+                      <div className="relative z-10 w-full flex flex-col items-center justify-center">
+                        <div className="flex items-center gap-2 mb-1.5">
+                          <DollarSign className="w-3.5 h-3.5 text-yellow-400 drop-shadow-[0_0_10px_rgba(234,179,8,1)] animate-pulse" />
+                          <div className="text-xs font-bold text-yellow-300">预计缺口金额</div>
+                        </div>
+                        <div className="flex items-baseline gap-1">
+                          <span className="text-3xl font-black text-yellow-400 drop-shadow-[0_0_15px_rgba(250,204,21,1)]">
+                            {forecastGaps.reduce((sum, p) => sum + p.gapAmount, 0).toFixed(0)}
+                          </span>
+                          <span className="text-xs text-yellow-300/80">万</span>
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* 缺口数量卡片 */}
+                    <div className={cn(
+                      'relative rounded-xl p-2 overflow-hidden h-full flex flex-col items-center justify-center',
+                      'bg-gradient-to-br from-orange-900/50 to-orange-800/30',
+                      'border-2 border-orange-500/60',
+                      'shadow-[0_0_25px_rgba(251,146,60,0.5)]'
+                    )}>
+                      <div className="absolute top-0 right-0 w-20 h-20 bg-orange-500/20 rounded-full blur-3xl animate-pulse"></div>
+                      <div className="relative z-10 w-full flex flex-col items-center justify-center">
+                        <div className="flex items-center gap-2 mb-1.5">
+                          <AlertTriangle className="w-3.5 h-3.5 text-orange-400 drop-shadow-[0_0_10px_rgba(251,146,60,1)] animate-pulse" />
+                          <div className="text-xs font-bold text-orange-300">缺口数量</div>
+                        </div>
+                        <div className="flex items-baseline gap-1">
+                          <span className="text-3xl font-black text-orange-400 drop-shadow-[0_0_15px_rgba(251,146,60,1)]">
+                            {forecastGaps.length}
+                          </span>
+                          <span className="text-xs text-orange-300/80">个</span>
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* 补预测按钮 - 增强效果 */}
+                    <div className={cn(
+                      'relative rounded-xl p-2 overflow-hidden cursor-pointer group h-full flex flex-col items-center justify-center',
+                      'border-2 border-yellow-500/70',
+                      'bg-gradient-to-br from-yellow-900/30 to-orange-900/20',
+                      'hover:from-yellow-900/50 hover:to-orange-900/30',
+                      'shadow-[0_0_30px_rgba(234,179,8,0.5)]',
+                      'hover:shadow-[0_0_40px_rgba(234,179,8,0.7)]',
+                      'transition-all duration-300'
+                    )}
+                         onClick={() => alert(`补预测：生成预测不足项目的补充预测方案\n\n共 ${forecastGaps.length} 个项目，预计缺口 ${forecastGaps.reduce((sum, p) => sum + p.gapAmount, 0).toFixed(0)} 万元`)}>
+                      {/* 按钮发光效果 */}
+                      <div className="absolute inset-0 bg-gradient-to-r from-yellow-500/30 to-orange-500/30 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                      <div className="absolute inset-0 border-2 border-yellow-500/50 rounded-xl animate-pulse"></div>
+
+                      <div className="relative z-10 w-full flex flex-col items-center justify-center">
+                        <div className="flex items-center gap-1.5 mb-1.5">
+                          <div className="w-8 h-8 rounded-full bg-yellow-500/40 border-2 border-yellow-400/60 flex items-center justify-center group-hover:scale-110 transition-transform shadow-[0_0_15px_rgba(234,179,8,0.8)]">
+                            <TrendingDown className="w-4 h-4 text-yellow-400 drop-shadow-[0_0_8px_rgba(250,204,21,1)]" />
+                          </div>
+                          <div className="text-base font-black text-yellow-400 drop-shadow-[0_0_12px_rgba(250,204,21,1)]">补预测</div>
+                        </div>
+                        <div className="flex items-center gap-1">
+                          <div className="w-1.5 h-1.5 bg-yellow-400 rounded-full animate-bounce" style={{animationDelay: '0ms'}}></div>
+                          <div className="w-1.5 h-1.5 bg-yellow-400 rounded-full animate-bounce" style={{animationDelay: '150ms'}}></div>
+                          <div className="w-1.5 h-1.5 bg-yellow-400 rounded-full animate-bounce" style={{animationDelay: '300ms'}}></div>
+                          <div className="text-xs text-yellow-300 font-semibold">全部 {forecastGaps.length} 个项目</div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                {/* 表格区域 */}
+                <div className="flex-1 overflow-auto p-3 bg-gradient-to-b from-slate-900/50 to-transparent">
+                  <table className="w-full">
+                    <thead className="sticky top-0 bg-slate-900/95 backdrop-blur-sm z-10">
+                      <tr className={cn('text-xs border-b border-cyan-500/30', DASHBOARD_STYLES.cardBorder)}>
+                        <th className={cn('text-left py-2 px-3 font-medium text-cyan-300 drop-shadow-[0_0_5px_rgba(6,182,212,0.5)]')}>项目名称</th>
+                        <th className={cn('text-left py-2 px-3 font-medium text-cyan-300 drop-shadow-[0_0_5px_rgba(6,182,212,0.5)]')}>区域</th>
+                        <th className={cn('text-left py-2 px-3 font-medium text-cyan-300 drop-shadow-[0_0_5px_rgba(6,182,212,0.5)]')}>负责人</th>
+                        <th className={cn('text-left py-2 px-3 font-medium text-cyan-300 drop-shadow-[0_0_5px_rgba(6,182,212,0.5)]')}>当前预测</th>
+                        <th className={cn('text-left py-2 px-3 font-medium text-cyan-300 drop-shadow-[0_0_5px_rgba(6,182,212,0.5)]')}>目标预测</th>
+                        <th className={cn('text-left py-2 px-3 font-medium text-cyan-300 drop-shadow-[0_0_5px_rgba(6,182,212,0.5)]')}>缺口金额</th>
+                        <th className={cn('text-left py-2 px-3 font-medium text-cyan-300 drop-shadow-[0_0_5px_rgba(6,182,212,0.5)]')}>缺口占比</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {getPaginatedForecastGaps().map((item, index) => (
+                        <tr
+                          key={index}
+                          className={cn(
+                            'align-middle border-b border-cyan-500/10 hover:bg-gradient-to-r hover:from-yellow-500/10 hover:to-orange-500/10 transition-all duration-200',
+                            index === getPaginatedForecastGaps().length - 1 && 'border-b-0'
+                          )}
+                        >
+                          <td className={cn('py-2 px-3 text-xs', DASHBOARD_STYLES.textSecondary, 'align-middle')}>
+                            <div className="font-medium leading-snug text-cyan-100">{item.projectName}</div>
+                          </td>
+                          <td className={cn('py-2 px-3 text-xs text-cyan-200 align-middle')}>{item.region}</td>
+                          <td className={cn('py-2 px-3 text-xs text-cyan-200 align-middle')}>{item.owner}</td>
+                          <td className={cn('py-2 px-3 text-xs text-cyan-200 align-middle')}>{item.currentForecast}万</td>
+                          <td className={cn('py-2 px-3 text-xs text-cyan-200 align-middle')}>{item.targetForecast}万</td>
+                          <td className={cn('py-2 px-3 text-xs', DASHBOARD_STYLES.textSecondary, 'align-middle')}>
+                            <span className="font-black text-yellow-400 drop-shadow-[0_0_6px_rgba(251,146,60,0.6)]">
+                              {item.gapAmount}万
+                            </span>
+                          </td>
+                          <td className={cn('py-2 px-3 text-xs', DASHBOARD_STYLES.textSecondary, 'align-middle')}>
+                            <span className={cn(
+                              'px-2 py-1 rounded text-xs font-medium',
+                              item.gapPercentage >= 45 ? 'bg-red-500/20 text-red-400' :
+                              item.gapPercentage >= 40 ? 'bg-orange-500/20 text-orange-400' :
+                              'bg-yellow-500/20 text-yellow-400'
+                            )}>
+                              {item.gapPercentage}%
+                            </span>
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+
+                {/* 分页 */}
+                <div className="px-4 py-2 border-t border-cyan-500/20 flex justify-between items-center bg-gradient-to-r from-slate-900/50 to-transparent">
+                  <div className={cn('text-xs flex items-center gap-2', DASHBOARD_STYLES.textMuted)}>
+                    <Activity className="w-3 h-3 text-cyan-400/70" />
+                    共 {forecastGaps.length} 条记录，当前第 {currentPage} / {totalPages} 页
+                  </div>
+                  <Pagination currentPage={currentPage} totalPages={totalPages} onPageChange={setCurrentPage} />
+                </div>
+              </div>
+            )}
       </div>
     </div>
   );
