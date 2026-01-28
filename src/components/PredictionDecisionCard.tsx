@@ -348,18 +348,19 @@ export default function PredictionDecisionCard({
 
   // 月度趋势曲线图（驾驶舱风格）
   const MonthlyTrendChart = () => {
-    const maxValue = 1600; // 最大值
-    const width = 1000; // SVG宽度
-    const height = 220; // SVG高度（增加高度）
-    const padding = { top: 10, right: 60, bottom: 35, left: 45 };
-    const chartWidth = width - padding.left - padding.right;
-    const chartHeight = height - padding.top - padding.bottom;
+    const maxValue = 1600;
+    const height = 220;
+    const paddingLeft = 40;
+    const paddingRight = 40;
+    const paddingBottom = 25;
+    const chartWidth = 1000;
+    const chartHeight = height - paddingBottom - 10;
 
     // 计算坐标
-    const getX = (index: number) => padding.left + (index / (monthlyTrendData.length - 1)) * chartWidth;
-    const getY = (value: number) => padding.top + chartHeight - (value / maxValue) * chartHeight;
+    const getX = (index: number) => paddingLeft + (index / (monthlyTrendData.length - 1)) * (chartWidth - paddingLeft - paddingRight);
+    const getY = (value: number) => chartHeight - (value / maxValue) * chartHeight;
 
-    // 生成平滑曲线（贝塞尔曲线）
+    // 生成平滑曲线
     const generateSmoothPath = (data: number[], animatedValues: number[]) => {
       if (data.length < 2) return '';
 
@@ -373,10 +374,8 @@ export default function PredictionDecisionCard({
       for (let i = 0; i < points.length - 1; i++) {
         const curr = points[i];
         const next = points[i + 1];
-
         const xc = (curr.x + next.x) / 2;
         const yc = (curr.y + next.y) / 2;
-
         path += ` Q ${curr.x} ${curr.y} ${xc} ${yc}`;
       }
 
@@ -385,14 +384,11 @@ export default function PredictionDecisionCard({
       return path;
     };
 
-    // 鼠标悬停处理
     const handleMouseMove = (e: React.MouseEvent<SVGSVGElement>) => {
       const svg = e.currentTarget;
       const rect = svg.getBoundingClientRect();
-      const scaleX = width / rect.width;
-      const x = (e.clientX - rect.left) * scaleX;
+      const x = (e.clientX - rect.left) * (chartWidth / rect.width);
 
-      // 找到最近的x坐标
       let minDistance = Infinity;
       let closestIndex = -1;
 
@@ -405,8 +401,7 @@ export default function PredictionDecisionCard({
         }
       });
 
-      // 如果距离足够近（50px以内），显示tooltip
-      if (minDistance < 50 * (width / rect.width)) {
+      if (minDistance < 60 * (chartWidth / rect.width)) {
         setHoveredIndex(closestIndex);
       } else {
         setHoveredIndex(null);
@@ -420,58 +415,50 @@ export default function PredictionDecisionCard({
     return (
       <div className="h-full flex flex-col">
         {/* 图例 */}
-        <div className="grid grid-cols-3 gap-2 p-2 mb-3 bg-slate-800/30 rounded-lg">
+        <div className="flex items-center justify-end gap-5 mb-2 px-2">
           <div className="flex items-center gap-2">
-            <div className="w-3 h-3 rounded bg-orange-400/30 border-2 border-orange-400"></div>
-            <div className="text-xs">
-              <div className="text-orange-400 font-semibold">业务目标</div>
-              <div className="text-cyan-500/60">1500万/月</div>
-            </div>
+            <div className="w-2.5 h-2.5 rounded-full bg-orange-400" />
+            <span className="text-xs text-cyan-400/70">目标线</span>
           </div>
           <div className="flex items-center gap-2">
-            <div className="w-3 h-3 rounded bg-cyan-400 border-2 border-cyan-300"></div>
-            <div className="text-xs">
-              <div className="text-cyan-400 font-semibold">预测完成</div>
-              <div className="text-cyan-500/60">模型预测</div>
-            </div>
+            <div className="w-2.5 h-2.5 rounded-full bg-cyan-400" />
+            <span className="text-xs text-cyan-400/70">预测曲线</span>
           </div>
           <div className="flex items-center gap-2">
-            <div className="w-3 h-3 rounded bg-green-400 border-2 border-green-300"></div>
-            <div className="text-xs">
-              <div className="text-green-400 font-semibold">已完成</div>
-              <div className="text-cyan-500/60">实际签约</div>
-            </div>
+            <div className="w-2.5 h-2.5 rounded-full bg-green-400" />
+            <span className="text-xs text-cyan-400/70">已完成</span>
           </div>
         </div>
 
         {/* 曲线图容器 */}
-        <div className="flex-1 relative w-full" style={{ minHeight: `${height}px` }}>
+        <div className="flex-1 relative" style={{ minHeight: `${height}px` }}>
           <svg
-            viewBox={`0 0 ${width} ${height}`}
+            viewBox={`0 0 ${chartWidth} ${height}`}
             className="w-full h-full"
             onMouseMove={handleMouseMove}
             onMouseLeave={handleMouseLeave}
             style={{ cursor: hoveredIndex !== null ? 'crosshair' : 'default' }}
           >
-            {/* 背景网格 */}
-            {[0, 400, 800, 1200, 1600].map((value, index) => {
+            {/* 网格线（简化为3条） */}
+            {[0, 800, 1600].map((value, index) => {
               const y = getY(value);
               return (
                 <g key={index}>
                   <line
-                    x1={padding.left}
+                    x1={paddingLeft}
                     y1={y}
-                    x2={width - padding.right}
+                    x2={chartWidth - paddingRight}
                     y2={y}
-                    stroke="rgba(6,182,212,0.1)"
-                    strokeWidth="1"
+                    stroke={value === 800 ? 'rgba(34,211,238,0.15)' : 'rgba(34,211,238,0.08)'}
+                    strokeWidth={value === 800 ? 1.5 : 1}
                   />
                   <text
-                    x={padding.left - 10}
+                    x={paddingLeft - 8}
                     y={y + 4}
-                    fill="rgba(6,182,212,0.5)"
+                    fill="rgba(34,211,238,0.5)"
                     fontSize="11"
                     textAnchor="end"
+                    fontWeight="500"
                   >
                     {value}
                   </text>
@@ -479,29 +466,18 @@ export default function PredictionDecisionCard({
               );
             })}
 
-            {/* 业务目标线（橙色虚线） */}
+            {/* 目标线（橙色虚线） */}
             <line
-              x1={padding.left}
+              x1={paddingLeft}
               y1={getY(1500)}
-              x2={width - padding.right}
+              x2={chartWidth - paddingRight}
               y2={getY(1500)}
-              stroke="rgba(251,146,60,0.5)"
+              stroke="rgba(251,146,60,0.6)"
               strokeWidth="2"
-              strokeDasharray="5,5"
+              strokeDasharray="6,4"
             />
 
-            {/* 财务目标线（紫色虚线） */}
-            <line
-              x1={padding.left}
-              y1={getY(1200)}
-              x2={width - padding.right}
-              y2={getY(1200)}
-              stroke="rgba(168,85,247,0.5)"
-              strokeWidth="2"
-              strokeDasharray="5,5"
-            />
-
-            {/* 预测完成曲线（青色） */}
+            {/* 预测完成曲线 */}
             <path
               d={generateSmoothPath(
                 monthlyTrendData.map(d => d.forecast),
@@ -509,13 +485,26 @@ export default function PredictionDecisionCard({
               )}
               fill="none"
               stroke="#22d3ee"
-              strokeWidth="3"
+              strokeWidth="2.5"
               strokeLinecap="round"
               strokeLinejoin="round"
               style={{
-                filter: 'drop-shadow(0 0 8px rgba(34,211,238,0.8))',
+                filter: 'drop-shadow(0 0 6px rgba(34,211,238,0.7))',
               }}
             />
+
+            {/* 悬停指示线 */}
+            {hoveredIndex !== null && (
+              <line
+                x1={getX(hoveredIndex)}
+                y1={0}
+                x2={getX(hoveredIndex)}
+                y2={chartHeight}
+                stroke="rgba(34,211,238,0.4)"
+                strokeWidth="1"
+                strokeDasharray="3,3"
+              />
+            )}
 
             {/* 预测完成数据点 */}
             {monthlyTrendData.map((data, index) => {
@@ -528,82 +517,20 @@ export default function PredictionDecisionCard({
                   <circle
                     cx={x}
                     cy={y}
-                    r={isHovered ? "8" : "5"}
+                    r={isHovered ? 7 : 4.5}
                     fill="#22d3ee"
-                    stroke="#0891b2"
-                    strokeWidth={isHovered ? "3" : "2"}
+                    stroke="#0e7490"
+                    strokeWidth={isHovered ? 2.5 : 1.5}
                     style={{
-                      filter: 'drop-shadow(0 0 6px rgba(34,211,238,1))',
+                      filter: 'drop-shadow(0 0 5px rgba(34,211,238,0.8))',
                       transition: 'all 0.2s ease',
                     }}
                   />
-                  {/* 悬停时显示tooltip */}
-                  {isHovered && (
-                    <g>
-                      {/* tooltip背景 */}
-                      <rect
-                        x={x - 50}
-                        y={y - 75}
-                        width="100"
-                        height="65"
-                        rx="4"
-                        fill="rgba(15,23,42,0.95)"
-                        stroke="#22d3ee"
-                        strokeWidth="1"
-                        style={{
-                          filter: 'drop-shadow(0 0 10px rgba(34,211,238,0.5))',
-                        }}
-                      />
-                      {/* 月份 */}
-                      <text
-                        x={x}
-                        y={y - 58}
-                        fill="#22d3ee"
-                        fontSize="12"
-                        fontWeight="bold"
-                        textAnchor="middle"
-                      >
-                        {data.month}
-                      </text>
-                      {/* 预测完成 */}
-                      <text
-                        x={x}
-                        y={y - 40}
-                        fill="#22d3ee"
-                        fontSize="10"
-                        textAnchor="middle"
-                      >
-                        预测: {Math.round(trendAnimations[index])}万
-                      </text>
-                      {/* 已完成 */}
-                      {data.completed > 0 && (
-                        <text
-                          x={x}
-                          y={y - 25}
-                          fill="#22c55e"
-                          fontSize="10"
-                          textAnchor="middle"
-                        >
-                          已完成: {data.completed}万
-                        </text>
-                      )}
-                      {/* 目标 */}
-                      <text
-                        x={x}
-                        y={y - (data.completed > 0 ? 10 : 25)}
-                        fill="rgba(251,146,60,0.8)"
-                        fontSize="10"
-                        textAnchor="middle"
-                      >
-                        目标: {data.businessTarget}万
-                      </text>
-                    </g>
-                  )}
                 </g>
               );
             })}
 
-            {/* 已完成数据点（仅1月有数据，显示为特殊标记） */}
+            {/* 已完成数据点（仅1月） */}
             {monthlyTrendData.filter(d => d.completed > 0).map((data, index) => {
               const originalIndex = monthlyTrendData.findIndex(d => d.month === data.month);
               const x = getX(originalIndex);
@@ -612,74 +539,108 @@ export default function PredictionDecisionCard({
 
               return (
                 <g key={`completed-${index}`}>
-                  {/* 已完成数据点 - 绿色双圈 */}
                   {!isHovered && (
                     <>
+                      {/* 外圈半透明 */}
                       <circle
                         cx={x}
                         cy={y}
-                        r="8"
+                        r="7"
                         fill="none"
                         stroke="#22c55e"
                         strokeWidth="2"
                         style={{
-                          filter: 'drop-shadow(0 0 8px rgba(74,222,128,0.6))',
-                          opacity: 0.6,
+                          filter: 'drop-shadow(0 0 6px rgba(74,222,128,0.5))',
+                          opacity: 0.5,
                         }}
                       />
+                      {/* 内圈实心 */}
                       <circle
                         cx={x}
                         cy={y}
-                        r="5"
+                        r="4.5"
                         fill="#22c55e"
                         stroke="#15803d"
-                        strokeWidth="2"
-                        style={{
-                          filter: 'drop-shadow(0 0 8px rgba(74,222,128,1))',
-                        }}
-                      />
-                      <text
-                        x={x}
-                        y={y - 12}
-                        fill="#22c55e"
-                        fontSize="10"
-                        fontWeight="bold"
-                        textAnchor="middle"
+                        strokeWidth="1.5"
                         style={{
                           filter: 'drop-shadow(0 0 6px rgba(74,222,128,1))',
                         }}
-                      >
-                        {data.completed}
-                      </text>
+                      />
                     </>
                   )}
                 </g>
               );
             })}
+
+            {/* Tooltip */}
+            {hoveredIndex !== null && (
+              <g>
+                <rect
+                  x={getX(hoveredIndex) - 55}
+                  y={getY(trendAnimations[hoveredIndex]) - 78}
+                  width="110"
+                  height="68"
+                  rx="6"
+                  fill="rgba(15,23,42,0.96)"
+                  stroke="#22d3ee"
+                  strokeWidth="1"
+                  style={{
+                    filter: 'drop-shadow(0 0 12px rgba(34,211,238,0.4))',
+                  }}
+                />
+                <text
+                  x={getX(hoveredIndex)}
+                  y={getY(trendAnimations[hoveredIndex]) - 62}
+                  fill="#22d3ee"
+                  fontSize="13"
+                  fontWeight="bold"
+                  textAnchor="middle"
+                >
+                  {monthlyTrendData[hoveredIndex].month}
+                </text>
+                <text
+                  x={getX(hoveredIndex)}
+                  y={getY(trendAnimations[hoveredIndex]) - 44}
+                  fill="#22d3ee"
+                  fontSize="11"
+                  textAnchor="middle"
+                >
+                  预测: {Math.round(trendAnimations[hoveredIndex])}万
+                </text>
+                {monthlyTrendData[hoveredIndex].completed > 0 && (
+                  <text
+                    x={getX(hoveredIndex)}
+                    y={getY(trendAnimations[hoveredIndex]) - 28}
+                    fill="#22c55e"
+                    fontSize="11"
+                    textAnchor="middle"
+                  >
+                    已完成: {monthlyTrendData[hoveredIndex].completed}万
+                  </text>
+                )}
+                <text
+                  x={getX(hoveredIndex)}
+                  y={getY(trendAnimations[hoveredIndex]) - (monthlyTrendData[hoveredIndex].completed > 0 ? 12 : 28)}
+                  fill="rgba(251,146,60,0.9)"
+                  fontSize="11"
+                  textAnchor="middle"
+                >
+                  目标: {monthlyTrendData[hoveredIndex].businessTarget}万
+                </text>
+              </g>
+            )}
           </svg>
 
           {/* X轴月份标签 */}
-          <div className="absolute bottom-0 left-0 right-0 flex justify-between px-2 pb-2" style={{ paddingLeft: `${padding.left}px`, paddingRight: `${padding.right}px` }}>
+          <div className="absolute bottom-0 left-0 right-0 flex justify-between px-2 pb-1" style={{ paddingLeft: `${paddingLeft}px`, paddingRight: `${paddingRight}px` }}>
             {monthlyTrendData.map((data, index) => (
               <div
                 key={index}
-                className="text-xs text-cyan-400/70 font-medium text-center px-1"
+                className="text-xs text-cyan-400/60 font-medium text-center"
               >
                 {data.month}
               </div>
             ))}
-          </div>
-
-          {/* 目标线标签 */}
-          <div className="absolute left-0 right-0" style={{ top: `${getY(1500)}px` }}>
-            <span className="absolute right-2 -top-5 text-xs text-orange-400 font-semibold whitespace-nowrap bg-slate-900/90 px-2 py-0.5 rounded border border-orange-400/30">
-              业务目标 1500万
-            </span>
-          </div>
-          <div className="absolute left-0 right-0" style={{ top: `${getY(1200)}px` }}>
-            <span className="absolute right-2 -top-5 text-xs text-purple-400 font-semibold whitespace-nowrap bg-slate-900/90 px-2 py-0.5 rounded border border-purple-400/30">
-              财务目标 1200万
-            </span>
           </div>
         </div>
       </div>
@@ -707,37 +668,17 @@ export default function PredictionDecisionCard({
 
       {/* 驾驶舱布局 - 3列 */}
       <div className="grid grid-cols-3 gap-6">
-        {/* 左侧：三个仪表盘 */}
-        <div className="flex flex-col justify-between gap-6">
-          {/* 预测完成 */}
-          <div className="flex-1 flex flex-col items-center justify-center">
-            <SmallGauge
-              value={animatedForecast}
-              maxValue={target}
-              label="预测完成"
-              unit="万"
-              color="cyan"
-              size={140}
-            />
-            <div className="mt-2 text-center">
-              <div className="flex justify-between text-xs text-cyan-500/60 px-2">
-                <span>已完成</span>
-                <span className="font-semibold text-cyan-300">
-                  {mounted ? Math.round(animatedCompleted) : 0}万
-                </span>
-              </div>
-            </div>
-          </div>
-
+        {/* 左侧：两个仪表盘 */}
+        <div className="flex flex-col justify-around gap-8">
           {/* 达成率（主仪表盘） */}
-          <div className="flex-1 flex flex-col items-center justify-center">
+          <div className="flex flex-col items-center justify-center">
             <MainGauge
               value={animatedRate}
               maxValue={100}
-              size={140}
+              size={160}
             />
-            <div className="mt-2 text-center">
-              <div className="flex items-center justify-center gap-2 text-xs">
+            <div className="mt-3 text-center">
+              <div className="flex items-center justify-center gap-3 text-xs">
                 <div className="flex items-center gap-1">
                   <div className="w-1.5 h-1.5 rounded-full bg-orange-400" />
                   <span className="text-cyan-500/60">目标</span>
@@ -755,16 +696,16 @@ export default function PredictionDecisionCard({
           </div>
 
           {/* 时间紧迫度 */}
-          <div className="flex-1 flex flex-col items-center justify-center">
+          <div className="flex flex-col items-center justify-center">
             <SmallGauge
               value={7}
               maxValue={30}
               label="剩余天数"
               unit="天"
               color="red"
-              size={140}
+              size={160}
             />
-            <div className="mt-2 text-center">
+            <div className="mt-3 text-center">
               <div className="flex items-center justify-center gap-2">
                 <AlertTriangle className="w-3 h-3 text-red-400 animate-pulse" />
                 <span className="text-xs text-red-400 font-semibold">紧迫</span>
