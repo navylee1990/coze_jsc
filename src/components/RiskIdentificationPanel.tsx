@@ -74,6 +74,7 @@ interface RiskIdentificationPanelProps {
   predictedRisks?: PredictedRisk[];
   riskPersonnel?: RiskPersonnel[];
   theme?: 'dashboard' | 'light' | 'dark';
+  timeRange?: 'current' | 'quarter' | 'year';
 }
 
 // ==================== 默认数据 ====================
@@ -372,20 +373,31 @@ export default function RiskIdentificationPanel({
   stageStagnations = defaultStageStagnations,
   predictedRisks = defaultPredictedRisks,
   riskPersonnel = defaultRiskPersonnel,
-  theme = 'dashboard'
+  theme = 'dashboard',
+  timeRange = 'current'
 }: RiskIdentificationPanelProps) {
-  // Tab状态
-  const [currentTab, setCurrentTab] = useState(0);
+  // Tab状态 - 本月时默认显示"本月未下单"（对应大项目依赖tab，索引0）
+  const [currentTab, setCurrentTab] = useState(timeRange === 'current' ? 0 : 0);
   const [viewMode, setViewMode] = useState<'summary' | 'detail'>('summary');
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 5;
 
   const tabs = [
-    { id: 0, label: '大项目依赖', icon: Building2 },
+    { id: 0, label: '本月未下单', icon: Building2 },
     { id: 1, label: '阶段停滞', icon: PauseCircle },
     { id: 2, label: '预测风险', icon: TrendingDown },
     { id: 3, label: '风险人员', icon: Users }
   ];
+
+  // 是否显示完整tab切换（本季度和本年度显示，本月不显示）
+  const showFullTabs = timeRange !== 'current';
+
+  // 本月时强制显示第0个tab（本月未下单）
+  useEffect(() => {
+    if (timeRange === 'current') {
+      setCurrentTab(0);
+    }
+  }, [timeRange]);
 
   // 切换Tab时重置
   useEffect(() => {
@@ -471,8 +483,8 @@ export default function RiskIdentificationPanel({
         )}
       </div>
 
-      {/* Tab切换栏 - 仅在汇总视图显示 */}
-      {viewMode === 'summary' && (
+      {/* Tab切换栏 - 仅在汇总视图且本季度/本年度时显示 */}
+      {viewMode === 'summary' && showFullTabs && (
         <div className="px-6 py-2 border-b border-cyan-500/20">
           <div className="flex items-center justify-between">
             <button
