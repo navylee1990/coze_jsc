@@ -211,17 +211,6 @@ const getSeverityStyles = (severity: 'high' | 'medium' | 'low') => {
   }
 };
 
-const getStatusStyles = (status: 'normal' | 'highRisk' | 'critical') => {
-  switch (status) {
-    case 'critical':
-      return 'bg-red-500/30 text-red-300 border-red-500/50 shadow-[0_0_8px_rgba(239,68,68,0.5)]';
-    case 'highRisk':
-      return 'bg-orange-500/30 text-orange-300 border-orange-500/50';
-    case 'normal':
-      return 'bg-green-500/30 text-green-300 border-green-500/50';
-  }
-};
-
 // 6. 预测不足数据
 interface ForecastGap {
   projectName: string;
@@ -1045,7 +1034,6 @@ export default function RiskIdentificationPanel({
                         <th className={cn('text-left py-2 px-3 font-medium text-cyan-300 drop-shadow-[0_0_5px_rgba(6,182,212,0.5)]')}>占比</th>
                         <th className={cn('text-left py-2 px-3 font-medium text-cyan-300 drop-shadow-[0_0_5px_rgba(6,182,212,0.5)]')}>区域</th>
                         <th className={cn('text-left py-2 px-3 font-medium text-cyan-300 drop-shadow-[0_0_5px_rgba(6,182,212,0.5)]')}>负责人</th>
-                        <th className={cn('text-center py-2 px-3 font-medium text-cyan-300 drop-shadow-[0_0_5px_rgba(6,182,212,0.5)]')}>状态</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -1074,11 +1062,6 @@ export default function RiskIdentificationPanel({
                           </td>
                           <td className={cn('py-2 px-3 text-sm text-cyan-200 align-middle')}>{item.region}</td>
                           <td className={cn('py-2 px-3 text-sm text-cyan-200 align-middle')}>{item.owner}</td>
-                          <td className={cn('py-2 px-3 text-center text-sm', DASHBOARD_STYLES.textSecondary, 'align-middle')}>
-                            <span className={cn('px-2 py-1 rounded text-xs font-medium', getStatusStyles(item.status))}>
-                              {item.status === 'critical' ? '紧急' : item.status === 'highRisk' ? '高风险' : '正常'}
-                            </span>
-                          </td>
                         </tr>
                       ))}
                     </tbody>
