@@ -59,11 +59,53 @@ interface ForecastGap {
   gapPercentage: number; // 缺口百分比
 }
 
+// 7. 报备不足数据
+interface ReportInsufficient {
+  projectId: number;
+  projectName: string; // 项目名称
+  isLargeCustomer: boolean; // 是否大客户
+  reportingPeriod: string; // 报备期
+  expectedOrder: number; // 预期订单（万）
+  actualReport: number; // 实际报备（万）
+  shortfall: number; // 缺口（万）
+  achievementRate: number; // 达成率（%）
+  estimatedLoss: number; // 预估损失（万）
+}
+
+// 8. 转化不足数据
+interface ConversionInsufficient {
+  projectId: number;
+  projectName: string; // 项目名称
+  currentStage: string; // 当前阶段
+  opportunityAmount: number; // 商机金额（万）
+  conversionRate: number; // 转化率（%）
+  standardConversionRate: number; // 标准转化率（%）
+  shortfall: number; // 缺口（万）
+  stagnationDays: number; // 停留天数
+  potentialOpportunity: number; // 潜在机会（万）
+}
+
+// 9. 阶段停滞数据
+interface PhaseStagnation {
+  projectId: number;
+  projectName: string; // 项目名称
+  currentStage: string; // 当前阶段
+  opportunityAmount: number; // 商机金额（万）
+  stagnationDays: number; // 停滞天数
+  riskLevel: 'high' | 'medium' | 'low'; // 风险等级
+  lastFollowUp: string; // 最后跟进日期
+  follower: string; // 跟进人
+  suggestedAction: string; // 建议行动
+}
+
 // 组件属性
 interface RiskIdentificationPanelProps {
   largeProjectDependencies?: LargeProjectDependency[];
   forecastGaps?: ForecastGap[];
   unorderedProjects?: UnorderedProject[];
+  reportInsufficient?: ReportInsufficient[];
+  conversionInsufficient?: ConversionInsufficient[];
+  phaseStagnation?: PhaseStagnation[];
   theme?: 'dashboard' | 'light' | 'dark';
   timeRange?: 'current' | 'quarter' | 'year';
 }
@@ -84,6 +126,33 @@ const defaultForecastGaps: ForecastGap[] = [
   { projectName: '杭州阿里巴巴园区二期', region: '二区', owner: '刘芳', gapAmount: 180, currentForecast: 220, targetForecast: 400, gapPercentage: 45 },
   { projectName: '广州白云机场T3扩建', region: '华南', owner: '王强', gapAmount: 120, currentForecast: 180, targetForecast: 300, gapPercentage: 40 },
   { projectName: '北京大兴机场配套二期', region: '华北', owner: '张伟', gapAmount: 100, currentForecast: 150, targetForecast: 250, gapPercentage: 40 }
+];
+
+// 默认报备不足数据
+const defaultReportInsufficient: ReportInsufficient[] = [
+  { projectId: 1, projectName: '华东某大型医院项目', isLargeCustomer: true, reportingPeriod: '2025年1月', expectedOrder: 500, actualReport: 300, shortfall: 200, achievementRate: 60, estimatedLoss: 200 },
+  { projectId: 2, projectName: '北京商业综合体项目', isLargeCustomer: true, reportingPeriod: '2025年1月', expectedOrder: 400, actualReport: 280, shortfall: 120, achievementRate: 70, estimatedLoss: 120 },
+  { projectId: 3, projectName: '深圳写字楼项目', isLargeCustomer: false, reportingPeriod: '2025年1月', expectedOrder: 200, actualReport: 150, shortfall: 50, achievementRate: 75, estimatedLoss: 50 },
+  { projectId: 4, projectName: '上海商业中心项目', isLargeCustomer: true, reportingPeriod: '2025年1月', expectedOrder: 350, actualReport: 210, shortfall: 140, achievementRate: 60, estimatedLoss: 140 },
+  { projectId: 5, projectName: '广州科技园区项目', isLargeCustomer: false, reportingPeriod: '2025年1月', expectedOrder: 180, actualReport: 120, shortfall: 60, achievementRate: 67, estimatedLoss: 60 },
+];
+
+// 默认转化不足数据
+const defaultConversionInsufficient: ConversionInsufficient[] = [
+  { projectId: 1, projectName: '深圳科技园三期', currentStage: '商务谈判', opportunityAmount: 450, conversionRate: 35, standardConversionRate: 60, shortfall: 112.5, stagnationDays: 15, potentialOpportunity: 180 },
+  { projectId: 2, projectName: '天津天河城二期', currentStage: '方案设计', opportunityAmount: 680, conversionRate: 28, standardConversionRate: 55, shortfall: 189, stagnationDays: 22, potentialOpportunity: 272 },
+  { projectId: 3, projectName: '杭州西湖商业中心', currentStage: '技术交流', opportunityAmount: 520, conversionRate: 32, standardConversionRate: 58, shortfall: 135.2, stagnationDays: 18, potentialOpportunity: 208 },
+  { projectId: 4, projectName: '广州珠江新城项目', currentStage: '商务谈判', opportunityAmount: 780, conversionRate: 40, standardConversionRate: 65, shortfall: 195, stagnationDays: 12, potentialOpportunity: 312 },
+  { projectId: 5, projectName: '北京亦庄产业园', currentStage: '需求分析', opportunityAmount: 360, conversionRate: 25, standardConversionRate: 50, shortfall: 90, stagnationDays: 25, potentialOpportunity: 144 },
+];
+
+// 默认阶段停滞数据
+const defaultPhaseStagnation: PhaseStagnation[] = [
+  { projectId: 1, projectName: '深圳前海自贸区综合项目', currentStage: '商务谈判', opportunityAmount: 450, stagnationDays: 45, riskLevel: 'medium', lastFollowUp: '2025-01-10', follower: '周杰', suggestedAction: '重新评估' },
+  { projectId: 2, projectName: '天津天河城扩建项目', currentStage: '合同签署', opportunityAmount: 680, stagnationDays: 38, riskLevel: 'high', lastFollowUp: '2025-01-12', follower: '李明', suggestedAction: '立即跟进' },
+  { projectId: 3, projectName: '杭州阿里巴巴园区二期', currentStage: '方案设计', opportunityAmount: 520, stagnationDays: 52, riskLevel: 'medium', lastFollowUp: '2025-01-05', follower: '刘芳', suggestedAction: '加强沟通' },
+  { projectId: 4, projectName: '广州白云机场T3扩建', currentStage: '技术交流', opportunityAmount: 780, stagnationDays: 28, riskLevel: 'high', lastFollowUp: '2025-01-15', follower: '王强', suggestedAction: '调整方案' },
+  { projectId: 5, projectName: '北京大兴机场配套二期', currentStage: '需求确认', opportunityAmount: 360, stagnationDays: 35, riskLevel: 'low', lastFollowUp: '2025-01-18', follower: '张伟', suggestedAction: '保持关注' },
 ];
 
 const defaultUnorderedProjects: UnorderedProject[] = [
@@ -457,6 +526,9 @@ export default function RiskIdentificationPanel({
   largeProjectDependencies = defaultLargeProjectDependencies,
   forecastGaps = defaultForecastGaps,
   unorderedProjects = defaultUnorderedProjects,
+  reportInsufficient = defaultReportInsufficient,
+  conversionInsufficient = defaultConversionInsufficient,
+  phaseStagnation = defaultPhaseStagnation,
   theme = 'dashboard',
   timeRange = 'current'
 }: RiskIdentificationPanelProps) {
@@ -496,16 +568,27 @@ export default function RiskIdentificationPanel({
     }
   }, [timeRange]);
 
-  // 所有 Tab 定义
-  const allTabs = [
+  // 根据时间维度显示不同的 Tabs
+  const monthlyTabs = [
+    { id: 2, label: '预测不足', icon: TrendingDown },
+    { id: 0, label: '未按计划下单', icon: XCircle },
+    { id: 1, label: '大项目依赖', icon: Building2 }
+  ];
+
+  const quarterlyTabs = [
+    { id: 3, label: '报备不足', icon: AlertTriangle },
+    { id: 4, label: '转化不足', icon: Target },
+    { id: 5, label: '阶段停滞', icon: Clock }
+  ];
+
+  const yearlyTabs = [
     { id: 2, label: '预测不足', icon: TrendingDown },
     { id: 0, label: '未按计划下单', icon: XCircle },
     { id: 1, label: '大项目依赖', icon: Building2 }
   ];
 
   // 根据时间维度显示的 Tabs
-  // 本月、本季度、本年度：都显示所有 Tabs
-  const visibleTabs = allTabs;
+  const visibleTabs = timeRange === 'quarter' ? quarterlyTabs : monthlyTabs;
 
   // 根据时间维度过滤数据
   const filteredUnorderedProjects = useMemo(() => {
@@ -1295,6 +1378,473 @@ export default function RiskIdentificationPanel({
                 </div>
               </div>
             )}
+
+        {/* ============ Tab 3: 报备不足 ============ */}
+        {currentTab === 3 && (
+          <div className="h-full flex flex-col animate-in fade-in duration-300">
+            {/* 顶部仪表盘风格指标卡片 - 蓝色信息效果 */}
+            <div className={cn(
+              "p-4 border-b-2 border-l-4",
+              "bg-gradient-to-r from-slate-900/80 to-slate-800/80",
+              "border-blue-500/40 border-l-blue-500",
+              "shadow-[0_4px_20px_rgba(59,130,246,0.2)]"
+            )}>
+              <div className="grid grid-cols-3 gap-4">
+                {/* 报备不足项目数 */}
+                <div className="relative">
+                  <div className={cn(
+                    "absolute -top-2 -left-2 px-2 py-0.5 rounded-full text-xs font-bold",
+                    "bg-blue-500 text-white shadow-[0_0_10px_rgba(59,130,246,0.8)]"
+                  )}>
+                    {reportInsufficient.length} 个项目
+                  </div>
+                  <div className="bg-slate-900/60 rounded-xl p-3 mt-2 border border-blue-500/30 backdrop-blur-sm">
+                    <div className="text-xs text-blue-300/70 mb-1">报备不足项目</div>
+                    <div className="text-2xl font-black text-blue-400 drop-shadow-[0_0_12px_rgba(96,165,250,1)]">
+                      {reportInsufficient.reduce((sum, item) => sum + item.shortfall, 0)}
+                      <span className="text-base ml-1 text-blue-300/70">万</span>
+                    </div>
+                    <div className="text-xs text-blue-300/60 mt-1">
+                      占总缺口 {((reportInsufficient.reduce((sum, item) => sum + item.shortfall, 0) / 1000) * 100).toFixed(1)}%
+                    </div>
+                  </div>
+                </div>
+
+                {/* 涉及大客户数 */}
+                <div className="relative">
+                  <div className="bg-slate-900/60 rounded-xl p-3 border border-blue-500/30 backdrop-blur-sm">
+                    <div className="text-xs text-blue-300/70 mb-1">涉及大客户</div>
+                    <div className="text-2xl font-black text-blue-400 drop-shadow-[0_0_12px_rgba(96,165,250,1)]">
+                      {reportInsufficient.filter(item => item.isLargeCustomer).length}
+                      <span className="text-base ml-1 text-blue-300/70">个</span>
+                    </div>
+                    <div className="text-xs text-blue-300/60 mt-1">
+                      占比 {(reportInsufficient.filter(item => item.isLargeCustomer).length / reportInsufficient.length * 100).toFixed(1)}%
+                    </div>
+                  </div>
+                </div>
+
+                {/* 预估损失 */}
+                <div className="relative">
+                  <div className="bg-slate-900/60 rounded-xl p-3 border border-blue-500/30 backdrop-blur-sm">
+                    <div className="text-xs text-blue-300/70 mb-1">预估损失</div>
+                    <div className="text-2xl font-black text-blue-400 drop-shadow-[0_0_12px_rgba(96,165,250,1)]">
+                      {reportInsufficient.reduce((sum, item) => sum + item.estimatedLoss, 0)}
+                      <span className="text-base ml-1 text-blue-300/70">万</span>
+                    </div>
+                    <div className="text-xs text-blue-300/60 mt-1">
+                      平均单项目 {(reportInsufficient.reduce((sum, item) => sum + item.estimatedLoss, 0) / reportInsufficient.length).toFixed(1)}万
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* 表格区域 */}
+            <div className="flex-1 overflow-auto p-3 bg-gradient-to-b from-slate-900/50 to-transparent">
+              <table className="w-full">
+                <thead className="sticky top-0 bg-slate-900/95 backdrop-blur-sm z-10">
+                  <tr className={cn('text-sm border-b border-blue-500/30', 'border-blue-500/20')}>
+                    <th className={cn('text-left py-3 px-3 whitespace-nowrap font-black tracking-wide', 'text-blue-400/90')}>项目名称</th>
+                    <th className={cn('text-center py-3 px-3 whitespace-nowrap font-black tracking-wide', 'text-blue-400/90')}>客户类型</th>
+                    <th className={cn('text-center py-3 px-3 whitespace-nowrap font-black tracking-wide', 'text-blue-400/90')}>报备期</th>
+                    <th className={cn('text-center py-3 px-3 whitespace-nowrap font-black tracking-wide', 'text-blue-400/90')}>预期订单</th>
+                    <th className={cn('text-center py-3 px-3 whitespace-nowrap font-black tracking-wide', 'text-blue-400/90')}>实际报备</th>
+                    <th className={cn('text-center py-3 px-3 whitespace-nowrap font-black tracking-wide', 'text-blue-400/90')}>缺口</th>
+                    <th className={cn('text-center py-3 px-3 whitespace-nowrap font-black tracking-wide', 'text-blue-400/90')}>达成率</th>
+                    <th className={cn('text-center py-3 px-3 whitespace-nowrap font-black tracking-wide', 'text-blue-400/90')}>预估损失</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {reportInsufficient.slice(0, 8).map((item, index) => (
+                    <tr
+                      key={`report-${item.projectId}`}
+                      className={cn(
+                        'border-b border-blue-500/10 transition-colors duration-200',
+                        index % 2 === 0 ? 'bg-slate-900/30' : 'bg-slate-800/30',
+                        'hover:bg-blue-500/10'
+                      )}
+                    >
+                      <td className={cn('text-left py-2 px-3 whitespace-nowrap text-blue-200 align-middle font-semibold')}>
+                        {item.projectName}
+                      </td>
+                      <td className={cn('text-center py-2 px-3 whitespace-nowrap text-blue-200 align-middle')}>
+                        <span className={cn(
+                          'px-2 py-1 rounded text-xs font-bold',
+                          item.isLargeCustomer
+                            ? 'bg-purple-500/30 text-purple-400'
+                            : 'bg-blue-500/30 text-blue-400'
+                        )}>
+                          {item.isLargeCustomer ? '大客户' : '普通客户'}
+                        </span>
+                      </td>
+                      <td className={cn('text-center py-2 px-3 whitespace-nowrap text-blue-200 align-middle')}>
+                        <span className={cn('text-sm', 'text-blue-300/90')}>
+                          {item.reportingPeriod}
+                        </span>
+                      </td>
+                      <td className={cn('text-right py-2 px-3 whitespace-nowrap text-blue-200 align-middle')}>
+                        <span className="font-black text-blue-300">
+                          {item.expectedOrder}
+                        </span>
+                        <span className="text-sm ml-1 text-blue-300/70">万</span>
+                      </td>
+                      <td className={cn('text-right py-2 px-3 whitespace-nowrap text-blue-200 align-middle')}>
+                        <span className="font-black text-blue-300">
+                          {item.actualReport}
+                        </span>
+                        <span className="text-sm ml-1 text-blue-300/70">万</span>
+                      </td>
+                      <td className={cn('text-right py-2 px-3 whitespace-nowrap text-blue-200 align-middle')}>
+                        <span className="font-black text-red-400 drop-shadow-[0_0_6px_rgba(248,113,113,0.6)]">
+                          {item.shortfall}
+                        </span>
+                        <span className="text-sm ml-1 text-red-300/70">万</span>
+                      </td>
+                      <td className={cn('text-right py-2 px-3 whitespace-nowrap text-blue-200 align-middle')}>
+                        <span className={cn(
+                          'px-2 py-1 rounded text-xs font-bold',
+                          item.achievementRate >= 70 ? 'bg-blue-500/20 text-blue-400' : 'bg-red-500/20 text-red-400'
+                        )}>
+                          {item.achievementRate}%
+                        </span>
+                      </td>
+                      <td className={cn('text-right py-2 px-3 whitespace-nowrap text-blue-200 align-middle')}>
+                        <span className="font-black text-orange-400 drop-shadow-[0_0_6px_rgba(251,146,60,0.6)]">
+                          {item.estimatedLoss}
+                        </span>
+                        <span className="text-sm ml-1 text-orange-300/70">万</span>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+
+            {/* 分页 */}
+            <div className="px-4 py-2 border-t border-blue-500/20 flex justify-between items-center bg-gradient-to-r from-slate-900/50 to-transparent">
+              <div className={cn('text-xs flex items-center gap-2', 'text-blue-300/70')}>
+                <Activity className="w-3 h-3 text-blue-400/70" />
+                共 {reportInsufficient.length} 个项目
+              </div>
+              <div>
+                <span className="text-sm text-blue-300/60">1 / 1</span>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* ============ Tab 4: 转化不足 ============ */}
+        {currentTab === 4 && (
+          <div className="h-full flex flex-col animate-in fade-in duration-300">
+            {/* 顶部仪表盘风格指标卡片 - 紫色信息效果 */}
+            <div className={cn(
+              "p-4 border-b-2 border-l-4",
+              "bg-gradient-to-r from-slate-900/80 to-slate-800/80",
+              "border-purple-500/40 border-l-purple-500",
+              "shadow-[0_4px_20px_rgba(168,85,247,0.2)]"
+            )}>
+              <div className="grid grid-cols-3 gap-4">
+                {/* 转化不足项目数 */}
+                <div className="relative">
+                  <div className={cn(
+                    "absolute -top-2 -left-2 px-2 py-0.5 rounded-full text-xs font-bold",
+                    "bg-purple-500 text-white shadow-[0_0_10px_rgba(168,85,247,0.8)]"
+                  )}>
+                    {conversionInsufficient.length} 个项目
+                  </div>
+                  <div className="bg-slate-900/60 rounded-xl p-3 mt-2 border border-purple-500/30 backdrop-blur-sm">
+                    <div className="text-xs text-purple-300/70 mb-1">转化不足项目</div>
+                    <div className="text-2xl font-black text-purple-400 drop-shadow-[0_0_12px_rgba(192,132,252,1)]">
+                      {conversionInsufficient.reduce((sum, item) => sum + item.shortfall, 0)}
+                      <span className="text-base ml-1 text-purple-300/70">万</span>
+                    </div>
+                    <div className="text-xs text-purple-300/60 mt-1">
+                      占总缺口 {((conversionInsufficient.reduce((sum, item) => sum + item.shortfall, 0) / 1000) * 100).toFixed(1)}%
+                    </div>
+                  </div>
+                </div>
+
+                {/* 平均转化率 */}
+                <div className="relative">
+                  <div className="bg-slate-900/60 rounded-xl p-3 border border-purple-500/30 backdrop-blur-sm">
+                    <div className="text-xs text-purple-300/70 mb-1">平均转化率</div>
+                    <div className="text-2xl font-black text-purple-400 drop-shadow-[0_0_12px_rgba(192,132,252,1)]">
+                      {conversionInsufficient.reduce((sum, item) => sum + item.conversionRate, 0) / conversionInsufficient.length}
+                      <span className="text-base ml-1 text-purple-300/70">%</span>
+                    </div>
+                    <div className="text-xs text-purple-300/60 mt-1">
+                      低于标准 {(30 - (conversionInsufficient.reduce((sum, item) => sum + item.conversionRate, 0) / conversionInsufficient.length)).toFixed(1)}%
+                    </div>
+                  </div>
+                </div>
+
+                {/* 潜在机会 */}
+                <div className="relative">
+                  <div className="bg-slate-900/60 rounded-xl p-3 border border-purple-500/30 backdrop-blur-sm">
+                    <div className="text-xs text-purple-300/70 mb-1">潜在机会</div>
+                    <div className="text-2xl font-black text-purple-400 drop-shadow-[0_0_12px_rgba(192,132,252,1)]">
+                      {conversionInsufficient.reduce((sum, item) => sum + item.potentialOpportunity, 0)}
+                      <span className="text-base ml-1 text-purple-300/70">万</span>
+                    </div>
+                    <div className="text-xs text-purple-300/60 mt-1">
+                      平均单项目 {(conversionInsufficient.reduce((sum, item) => sum + item.potentialOpportunity, 0) / conversionInsufficient.length).toFixed(1)}万
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* 表格区域 */}
+            <div className="flex-1 overflow-auto p-3 bg-gradient-to-b from-slate-900/50 to-transparent">
+              <table className="w-full">
+                <thead className="sticky top-0 bg-slate-900/95 backdrop-blur-sm z-10">
+                  <tr className={cn('text-sm border-b border-purple-500/30', 'border-purple-500/20')}>
+                    <th className={cn('text-left py-3 px-3 whitespace-nowrap font-black tracking-wide', 'text-purple-400/90')}>项目名称</th>
+                    <th className={cn('text-center py-3 px-3 whitespace-nowrap font-black tracking-wide', 'text-purple-400/90')}>当前阶段</th>
+                    <th className={cn('text-center py-3 px-3 whitespace-nowrap font-black tracking-wide', 'text-purple-400/90')}>商机金额</th>
+                    <th className={cn('text-center py-3 px-3 whitespace-nowrap font-black tracking-wide', 'text-purple-400/90')}>转化率</th>
+                    <th className={cn('text-center py-3 px-3 whitespace-nowrap font-black tracking-wide', 'text-purple-400/90')}>标准转化率</th>
+                    <th className={cn('text-center py-3 px-3 whitespace-nowrap font-black tracking-wide', 'text-purple-400/90')}>缺口</th>
+                    <th className={cn('text-center py-3 px-3 whitespace-nowrap font-black tracking-wide', 'text-purple-400/90')}>停留天数</th>
+                    <th className={cn('text-center py-3 px-3 whitespace-nowrap font-black tracking-wide', 'text-purple-400/90')}>潜在机会</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {conversionInsufficient.slice(0, 8).map((item, index) => (
+                    <tr
+                      key={`conversion-${item.projectId}`}
+                      className={cn(
+                        'border-b border-purple-500/10 transition-colors duration-200',
+                        index % 2 === 0 ? 'bg-slate-900/30' : 'bg-slate-800/30',
+                        'hover:bg-purple-500/10'
+                      )}
+                    >
+                      <td className={cn('text-left py-2 px-3 whitespace-nowrap text-purple-200 align-middle font-semibold')}>
+                        {item.projectName}
+                      </td>
+                      <td className={cn('text-center py-2 px-3 whitespace-nowrap text-purple-200 align-middle')}>
+                        <span className={cn(
+                          'px-2 py-1 rounded text-xs font-bold',
+                          'bg-purple-500/30 text-purple-400'
+                        )}>
+                          {item.currentStage}
+                        </span>
+                      </td>
+                      <td className={cn('text-right py-2 px-3 whitespace-nowrap text-purple-200 align-middle')}>
+                        <span className="font-black text-purple-300">
+                          {item.opportunityAmount}
+                        </span>
+                        <span className="text-sm ml-1 text-purple-300/70">万</span>
+                      </td>
+                      <td className={cn('text-right py-2 px-3 whitespace-nowrap text-purple-200 align-middle')}>
+                        <span className="font-black text-purple-300">
+                          {item.conversionRate}
+                        </span>
+                        <span className="text-sm ml-1 text-purple-300/70">%</span>
+                      </td>
+                      <td className={cn('text-right py-2 px-3 whitespace-nowrap text-purple-200 align-middle')}>
+                        <span className="font-black text-purple-300">
+                          {item.standardConversionRate}
+                        </span>
+                        <span className="text-sm ml-1 text-purple-300/70">%</span>
+                      </td>
+                      <td className={cn('text-right py-2 px-3 whitespace-nowrap text-purple-200 align-middle')}>
+                        <span className="font-black text-red-400 drop-shadow-[0_0_6px_rgba(248,113,113,0.6)]">
+                          {item.shortfall}
+                        </span>
+                        <span className="text-sm ml-1 text-red-300/70">万</span>
+                      </td>
+                      <td className={cn('text-right py-2 px-3 whitespace-nowrap text-purple-200 align-middle')}>
+                        <span className={cn(
+                          'px-2 py-1 rounded text-xs font-bold',
+                          item.stagnationDays > 30 ? 'bg-red-500/20 text-red-400' : 'bg-purple-500/20 text-purple-400'
+                        )}>
+                          {item.stagnationDays}天
+                        </span>
+                      </td>
+                      <td className={cn('text-right py-2 px-3 whitespace-nowrap text-purple-200 align-middle')}>
+                        <span className="font-black text-orange-400 drop-shadow-[0_0_6px_rgba(251,146,60,0.6)]">
+                          {item.potentialOpportunity}
+                        </span>
+                        <span className="text-sm ml-1 text-orange-300/70">万</span>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+
+            {/* 分页 */}
+            <div className="px-4 py-2 border-t border-purple-500/20 flex justify-between items-center bg-gradient-to-r from-slate-900/50 to-transparent">
+              <div className={cn('text-xs flex items-center gap-2', 'text-purple-300/70')}>
+                <Activity className="w-3 h-3 text-purple-400/70" />
+                共 {conversionInsufficient.length} 个项目
+              </div>
+              <div>
+                <span className="text-sm text-purple-300/60">1 / 1</span>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* ============ Tab 5: 阶段停滞 ============ */}
+        {currentTab === 5 && (
+          <div className="h-full flex flex-col animate-in fade-in duration-300">
+            {/* 顶部仪表盘风格指标卡片 - 橙色信息效果 */}
+            <div className={cn(
+              "p-4 border-b-2 border-l-4",
+              "bg-gradient-to-r from-slate-900/80 to-slate-800/80",
+              "border-orange-500/40 border-l-orange-500",
+              "shadow-[0_4px_20px_rgba(249,115,22,0.2)]"
+            )}>
+              <div className="grid grid-cols-3 gap-4">
+                {/* 阶段停滞项目数 */}
+                <div className="relative">
+                  <div className={cn(
+                    "absolute -top-2 -left-2 px-2 py-0.5 rounded-full text-xs font-bold",
+                    "bg-orange-500 text-white shadow-[0_0_10px_rgba(249,115,22,0.8)]"
+                  )}>
+                    {phaseStagnation.length} 个项目
+                  </div>
+                  <div className="bg-slate-900/60 rounded-xl p-3 mt-2 border border-orange-500/30 backdrop-blur-sm">
+                    <div className="text-xs text-orange-300/70 mb-1">阶段停滞项目</div>
+                    <div className="text-2xl font-black text-orange-400 drop-shadow-[0_0_12px_rgba(251,146,60,1)]">
+                      {phaseStagnation.reduce((sum, item) => sum + item.stagnationDays, 0)}
+                      <span className="text-base ml-1 text-orange-300/70">天</span>
+                    </div>
+                    <div className="text-xs text-orange-300/60 mt-1">
+                      平均 {(phaseStagnation.reduce((sum, item) => sum + item.stagnationDays, 0) / phaseStagnation.length).toFixed(0)}天/项目
+                    </div>
+                  </div>
+                </div>
+
+                {/* 高风险项目 */}
+                <div className="relative">
+                  <div className="bg-slate-900/60 rounded-xl p-3 border border-orange-500/30 backdrop-blur-sm">
+                    <div className="text-xs text-orange-300/70 mb-1">高风险项目</div>
+                    <div className="text-2xl font-black text-red-400 drop-shadow-[0_0_12px_rgba(248,113,113,1)]">
+                      {phaseStagnation.filter(item => item.stagnationDays > 60).length}
+                      <span className="text-base ml-1 text-red-300/70">个</span>
+                    </div>
+                    <div className="text-xs text-orange-300/60 mt-1">
+                      停滞 {'>'} 60天
+                    </div>
+                  </div>
+                </div>
+
+                {/* 累计商机金额 */}
+                <div className="relative">
+                  <div className="bg-slate-900/60 rounded-xl p-3 border border-orange-500/30 backdrop-blur-sm">
+                    <div className="text-xs text-orange-300/70 mb-1">累计商机</div>
+                    <div className="text-2xl font-black text-orange-400 drop-shadow-[0_0_12px_rgba(251,146,60,1)]">
+                      {phaseStagnation.reduce((sum, item) => sum + item.opportunityAmount, 0)}
+                      <span className="text-base ml-1 text-orange-300/70">万</span>
+                    </div>
+                    <div className="text-xs text-orange-300/60 mt-1">
+                      平均 {(phaseStagnation.reduce((sum, item) => sum + item.opportunityAmount, 0) / phaseStagnation.length).toFixed(1)}万/项目
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* 表格区域 */}
+            <div className="flex-1 overflow-auto p-3 bg-gradient-to-b from-slate-900/50 to-transparent">
+              <table className="w-full">
+                <thead className="sticky top-0 bg-slate-900/95 backdrop-blur-sm z-10">
+                  <tr className={cn('text-sm border-b border-orange-500/30', 'border-orange-500/20')}>
+                    <th className={cn('text-left py-3 px-3 whitespace-nowrap font-black tracking-wide', 'text-orange-400/90')}>项目名称</th>
+                    <th className={cn('text-center py-3 px-3 whitespace-nowrap font-black tracking-wide', 'text-orange-400/90')}>当前阶段</th>
+                    <th className={cn('text-center py-3 px-3 whitespace-nowrap font-black tracking-wide', 'text-orange-400/90')}>商机金额</th>
+                    <th className={cn('text-center py-3 px-3 whitespace-nowrap font-black tracking-wide', 'text-orange-400/90')}>停滞天数</th>
+                    <th className={cn('text-center py-3 px-3 whitespace-nowrap font-black tracking-wide', 'text-orange-400/90')}>风险等级</th>
+                    <th className={cn('text-center py-3 px-3 whitespace-nowrap font-black tracking-wide', 'text-orange-400/90')}>最后跟进</th>
+                    <th className={cn('text-center py-3 px-3 whitespace-nowrap font-black tracking-wide', 'text-orange-400/90')}>跟进人</th>
+                    <th className={cn('text-center py-3 px-3 whitespace-nowrap font-black tracking-wide', 'text-orange-400/90')}>建议行动</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {phaseStagnation.slice(0, 8).map((item, index) => (
+                    <tr
+                      key={`stagnation-${item.projectId}`}
+                      className={cn(
+                        'border-b border-orange-500/10 transition-colors duration-200',
+                        index % 2 === 0 ? 'bg-slate-900/30' : 'bg-slate-800/30',
+                        'hover:bg-orange-500/10'
+                      )}
+                    >
+                      <td className={cn('text-left py-2 px-3 whitespace-nowrap text-orange-200 align-middle font-semibold')}>
+                        {item.projectName}
+                      </td>
+                      <td className={cn('text-center py-2 px-3 whitespace-nowrap text-orange-200 align-middle')}>
+                        <span className={cn(
+                          'px-2 py-1 rounded text-xs font-bold',
+                          'bg-orange-500/30 text-orange-400'
+                        )}>
+                          {item.currentStage}
+                        </span>
+                      </td>
+                      <td className={cn('text-right py-2 px-3 whitespace-nowrap text-orange-200 align-middle')}>
+                        <span className="font-black text-orange-300">
+                          {item.opportunityAmount}
+                        </span>
+                        <span className="text-sm ml-1 text-orange-300/70">万</span>
+                      </td>
+                      <td className={cn('text-right py-2 px-3 whitespace-nowrap text-orange-200 align-middle')}>
+                        <span className={cn(
+                          'px-2 py-1 rounded text-xs font-bold',
+                          item.stagnationDays > 60 ? 'bg-red-500/20 text-red-400' :
+                          item.stagnationDays > 30 ? 'bg-orange-500/20 text-orange-400' : 'bg-yellow-500/20 text-yellow-400'
+                        )}>
+                          {item.stagnationDays}天
+                        </span>
+                      </td>
+                      <td className={cn('text-center py-2 px-3 whitespace-nowrap text-orange-200 align-middle')}>
+                        <span className={cn(
+                          'px-2 py-1 rounded text-xs font-bold',
+                          item.riskLevel === 'high' ? 'bg-red-500/30 text-red-400' :
+                          item.riskLevel === 'medium' ? 'bg-orange-500/30 text-orange-400' : 'bg-yellow-500/30 text-yellow-400'
+                        )}>
+                          {item.riskLevel === 'high' ? '高风险' : item.riskLevel === 'medium' ? '中风险' : '低风险'}
+                        </span>
+                      </td>
+                      <td className={cn('text-center py-2 px-3 whitespace-nowrap text-orange-200 align-middle')}>
+                        <span className="text-sm text-orange-300/90">
+                          {item.lastFollowUp}
+                        </span>
+                      </td>
+                      <td className={cn('text-center py-2 px-3 whitespace-nowrap text-orange-200 align-middle')}>
+                        <span className="text-sm text-orange-300/90">
+                          {item.follower}
+                        </span>
+                      </td>
+                      <td className={cn('text-center py-2 px-3 whitespace-nowrap text-orange-200 align-middle')}>
+                        <span className={cn(
+                          'px-2 py-1 rounded text-xs font-bold',
+                          'bg-blue-500/20 text-blue-400'
+                        )}>
+                          {item.suggestedAction}
+                        </span>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+
+            {/* 分页 */}
+            <div className="px-4 py-2 border-t border-orange-500/20 flex justify-between items-center bg-gradient-to-r from-slate-900/50 to-transparent">
+              <div className={cn('text-xs flex items-center gap-2', 'text-orange-300/70')}>
+                <Activity className="w-3 h-3 text-orange-400/70" />
+                共 {phaseStagnation.length} 个项目
+              </div>
+              <div>
+                <span className="text-sm text-orange-300/60">1 / 1</span>
+              </div>
+            </div>
+          </div>
+        )}
       </div>
 
       {/* 确认对话框 */}
