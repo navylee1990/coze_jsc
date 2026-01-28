@@ -274,19 +274,19 @@ export default function PredictionDecisionCard({
             </>
           ) : (
             <div className="flex flex-col items-center">
-              <div className="text-base font-black mb-0.5"
+              <div className="text-lg font-black mb-0.5"
                    style={{
                      color: percentage >= 90 ? '#22c55e' :
                             percentage >= 70 ? '#eab308' :
                             '#ef4444',
-                     textShadow: percentage >= 90 ? '0 0 15px rgba(74,222,128,0.8)' :
-                                percentage >= 70 ? '0 0 15px rgba(250,204,21,0.8)' :
-                                '0 0 15px rgba(239,68,68,0.8)',
+                     textShadow: percentage >= 90 ? '0 0 18px rgba(74,222,128,0.8)' :
+                                percentage >= 70 ? '0 0 18px rgba(250,204,21,0.8)' :
+                                '0 0 18px rgba(239,68,68,0.8)',
                    }}
               >
                 {mounted ? Math.round(actualValue) : 0}
               </div>
-              <div className="text-xs text-cyan-400/60">/ {targetValue}</div>
+              <div className="text-sm text-cyan-400/60">/ {targetValue}</div>
             </div>
           )}
         </div>
@@ -764,18 +764,18 @@ export default function PredictionDecisionCard({
       <div className="grid grid-cols-1 lg:grid-cols-10 gap-6">
         {/* 左侧：仪表盘区块 - 30%宽度 */}
         <div className="lg:col-span-3 rounded-xl p-4 border border-cyan-500/20 bg-slate-900/50">
-          <div className="flex flex-col items-center justify-center gap-4">
+          <div className="flex flex-col items-center justify-center gap-5">
             {/* 实际达成率仪表盘 */}
             <div className="text-center">
               <MainGauge
                 actualValue={animatedCompleted}
                 targetValue={target}
                 showPercentage={false}
-                size={80}
+                size={120}
               />
-              <div className="mt-1">
-                <div className="text-xs font-semibold text-green-400">实际达成率</div>
-                <div className="text-lg font-black" style={{ color: '#22c55e', textShadow: '0 0 10px rgba(74,222,128,0.8)' }}>
+              <div className="mt-2">
+                <div className="text-sm font-semibold text-green-400">实际达成率</div>
+                <div className="text-xl font-black" style={{ color: '#22c55e', textShadow: '0 0 12px rgba(74,222,128,0.8)' }}>
                   {mounted ? Math.round((completed / target) * 100) : 0}%
                 </div>
               </div>
@@ -787,11 +787,11 @@ export default function PredictionDecisionCard({
                 actualValue={animatedForecast}
                 targetValue={target}
                 showPercentage={false}
-                size={80}
+                size={120}
               />
-              <div className="mt-1">
-                <div className="text-xs font-semibold text-cyan-300">预计达成率</div>
-                <div className="text-lg font-black" style={{ color: '#22d3ee', textShadow: '0 0 10px rgba(34,211,238,0.8)' }}>
+              <div className="mt-2">
+                <div className="text-sm font-semibold text-cyan-300">预计达成率</div>
+                <div className="text-xl font-black" style={{ color: '#22d3ee', textShadow: '0 0 12px rgba(34,211,238,0.8)' }}>
                   {mounted ? Math.round((forecast / target) * 100) : 0}%
                 </div>
               </div>
