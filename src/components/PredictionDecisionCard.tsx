@@ -335,7 +335,7 @@ export default function PredictionDecisionCard({
             <span className="text-sm text-cyan-400/70 font-medium">业务目标</span>
           </div>
           <div className="flex items-center gap-2">
-            <div className="w-4 h-0.5 bg-yellow-400" style={{ borderStyle: 'dashed', borderWidth: '2px', borderColor: 'rgba(250,204,21,0.8)' }} />
+            <div className="w-4 h-0.5 bg-purple-400" style={{ borderStyle: 'dashed', borderWidth: '2px', borderColor: 'rgba(168,85,247,0.8)' }} />
             <span className="text-sm text-cyan-400/70 font-medium">财务目标</span>
           </div>
           <div className="flex items-center gap-2">
@@ -381,7 +381,7 @@ export default function PredictionDecisionCard({
                 }}
                 formatter={(value: number, name: string) => {
                   if (name === '业务目标') return [<span style={{ color: '#fb923c', fontWeight: 600 }}>{value}万</span>, name];
-                  if (name === '财务目标') return [<span style={{ color: '#facc15', fontWeight: 600 }}>{value}万</span>, name];
+                  if (name === '财务目标') return [<span style={{ color: '#a855f7', fontWeight: 600 }}>{value}万</span>, name];
                   if (name === '预测完成') return [<span style={{ color: '#22d3ee', fontWeight: 600 }}>{value}万</span>, name];
                   if (name === '已完成') return [<span style={{ color: '#22c55e', fontWeight: 600 }}>{value}万</span>, name];
                   return [value, name];
@@ -401,7 +401,7 @@ export default function PredictionDecisionCard({
               <Line
                 type="monotone"
                 dataKey="financialTarget"
-                stroke="#facc15"
+                stroke="#a855f7"
                 strokeWidth={3}
                 strokeDasharray="8 6"
                 dot={false}
