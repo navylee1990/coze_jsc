@@ -1150,66 +1150,6 @@ export default function RiskIdentificationPanel({
                     </div>
                   </div>
                 </div>
-
-                {/* 表格区域 */}
-                <div className="flex-1 overflow-auto p-3 bg-gradient-to-b from-slate-900/50 to-transparent">
-                  <table className="w-full">
-                    <thead className="sticky top-0 bg-slate-900/95 backdrop-blur-sm z-10">
-                      <tr className={cn('text-xs border-b border-cyan-500/30', DASHBOARD_STYLES.cardBorder)}>
-                        <th className={cn('text-left py-2 px-3 font-medium text-cyan-300 drop-shadow-[0_0_5px_rgba(6,182,212,0.5)]')}>项目名称</th>
-                        <th className={cn('text-left py-2 px-3 font-medium text-cyan-300 drop-shadow-[0_0_5px_rgba(6,182,212,0.5)]')}>区域</th>
-                        <th className={cn('text-left py-2 px-3 font-medium text-cyan-300 drop-shadow-[0_0_5px_rgba(6,182,212,0.5)]')}>负责人</th>
-                        <th className={cn('text-left py-2 px-3 font-medium text-cyan-300 drop-shadow-[0_0_5px_rgba(6,182,212,0.5)]')}>当前预测</th>
-                        <th className={cn('text-left py-2 px-3 font-medium text-cyan-300 drop-shadow-[0_0_5px_rgba(6,182,212,0.5)]')}>目标预测</th>
-                        <th className={cn('text-left py-2 px-3 font-medium text-cyan-300 drop-shadow-[0_0_5px_rgba(6,182,212,0.5)]')}>缺口金额</th>
-                        <th className={cn('text-left py-2 px-3 font-medium text-cyan-300 drop-shadow-[0_0_5px_rgba(6,182,212,0.5)]')}>缺口占比</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {getPaginatedForecastGaps().map((item, index) => (
-                        <tr
-                          key={index}
-                          className={cn(
-                            'align-middle border-b border-cyan-500/10 hover:bg-gradient-to-r hover:from-yellow-500/10 hover:to-orange-500/10 transition-all duration-200',
-                            index === getPaginatedForecastGaps().length - 1 && 'border-b-0'
-                          )}
-                        >
-                          <td className={cn('py-2 px-3 text-xs', DASHBOARD_STYLES.textSecondary, 'align-middle')}>
-                            <div className="font-medium leading-snug text-cyan-100">{item.projectName}</div>
-                          </td>
-                          <td className={cn('py-2 px-3 text-xs text-cyan-200 align-middle')}>{item.region}</td>
-                          <td className={cn('py-2 px-3 text-xs text-cyan-200 align-middle')}>{item.owner}</td>
-                          <td className={cn('py-2 px-3 text-xs text-cyan-200 align-middle')}>{item.currentForecast}万</td>
-                          <td className={cn('py-2 px-3 text-xs text-cyan-200 align-middle')}>{item.targetForecast}万</td>
-                          <td className={cn('py-2 px-3 text-xs', DASHBOARD_STYLES.textSecondary, 'align-middle')}>
-                            <span className="font-black text-yellow-400 drop-shadow-[0_0_6px_rgba(251,146,60,0.6)]">
-                              {item.gapAmount}万
-                            </span>
-                          </td>
-                          <td className={cn('py-2 px-3 text-xs', DASHBOARD_STYLES.textSecondary, 'align-middle')}>
-                            <span className={cn(
-                              'px-2 py-1 rounded text-xs font-medium',
-                              item.gapPercentage >= 45 ? 'bg-red-500/20 text-red-400' :
-                              item.gapPercentage >= 40 ? 'bg-orange-500/20 text-orange-400' :
-                              'bg-yellow-500/20 text-yellow-400'
-                            )}>
-                              {item.gapPercentage}%
-                            </span>
-                          </td>
-                        </tr>
-                      ))}
-                    </tbody>
-                  </table>
-                </div>
-
-                {/* 分页 */}
-                <div className="px-4 py-2 border-t border-cyan-500/20 flex justify-between items-center bg-gradient-to-r from-slate-900/50 to-transparent">
-                  <div className={cn('text-xs flex items-center gap-2', DASHBOARD_STYLES.textMuted)}>
-                    <Activity className="w-3 h-3 text-cyan-400/70" />
-                    共 {forecastGaps.length} 条记录，当前第 {currentPage} / {totalPages} 页
-                  </div>
-                  <Pagination currentPage={currentPage} totalPages={totalPages} onPageChange={setCurrentPage} />
-                </div>
               </div>
             )}
       </div>
