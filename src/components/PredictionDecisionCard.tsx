@@ -361,9 +361,9 @@ export default function PredictionDecisionCard({
               <ReferenceArea
                 y1={0}
                 y2={1200}
-                fill="rgba(239,68,68,0.1)"
-                stroke="rgba(239,68,68,0.2)"
-                strokeWidth={1}
+                fill="rgba(239,68,68,0.2)"
+                stroke="rgba(239,68,68,0.4)"
+                strokeWidth={2}
               />
               <XAxis 
                 dataKey="month" 
