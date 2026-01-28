@@ -587,43 +587,11 @@ export default function GMDashboard() {
           )}>
             {/* 核心预测决策卡片 - 自适应高度 */}
             <div className={`${DASHBOARD_STYLES.cardBg} ${DASHBOARD_STYLES.cardBorder} rounded-xl p-4 sm:p-5 ${DASHBOARD_STYLES.glow}`}>
-              <div className="flex items-center justify-between mb-4">
+              <div className="mb-4">
                 <h2 className={`text-lg font-bold ${DASHBOARD_STYLES.neon} flex items-center gap-2`}>
                   <Target className="w-5 h-5" />
                   核心预测决策
                 </h2>
-                <div className="flex gap-2">
-                  <button
-                    onClick={() => setSelectedTimeRange('current')}
-                    className={`px-3 py-1.5 rounded-lg text-xs font-medium transition-all ${
-                      selectedTimeRange === 'current'
-                        ? 'bg-cyan-500/30 border-cyan-500/50 text-cyan-300'
-                        : 'bg-slate-800/50 border-cyan-400/20 text-cyan-400/70'
-                    } border`}
-                  >
-                    本月
-                  </button>
-                  <button
-                    onClick={() => setSelectedTimeRange('quarter')}
-                    className={`px-3 py-1.5 rounded-lg text-xs font-medium transition-all ${
-                      selectedTimeRange === 'quarter'
-                        ? 'bg-cyan-500/30 border-cyan-500/50 text-cyan-300'
-                        : 'bg-slate-800/50 border-cyan-400/20 text-cyan-400/70'
-                    } border`}
-                  >
-                    本季度
-                  </button>
-                  <button
-                    onClick={() => setSelectedTimeRange('year')}
-                    className={`px-3 py-1.5 rounded-lg text-xs font-medium transition-all ${
-                      selectedTimeRange === 'year'
-                        ? 'bg-cyan-500/30 border-cyan-500/50 text-cyan-300'
-                        : 'bg-slate-800/50 border-cyan-400/20 text-cyan-400/70'
-                    } border`}
-                  >
-                    本年度
-                  </button>
-                </div>
               </div>
 
               {/* 核心数据展示 - 汽车仪表盘样式 */}
