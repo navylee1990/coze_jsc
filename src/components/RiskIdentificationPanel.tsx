@@ -211,6 +211,17 @@ const getSeverityStyles = (severity: 'high' | 'medium' | 'low') => {
   }
 };
 
+const getStatusStyles = (status: 'normal' | 'highRisk' | 'critical') => {
+  switch (status) {
+    case 'critical':
+      return 'bg-red-500/30 text-red-300 border-red-500/50 shadow-[0_0_8px_rgba(239,68,68,0.5)]';
+    case 'highRisk':
+      return 'bg-orange-500/30 text-orange-300 border-orange-500/50';
+    case 'normal':
+      return 'bg-green-500/30 text-green-300 border-green-500/50';
+  }
+};
+
 // 6. 预测不足数据
 interface ForecastGap {
   projectName: string;
@@ -842,10 +853,11 @@ export default function RiskIdentificationPanel({
                   <table className="w-full">
                     <thead className="sticky top-0 bg-slate-900/95 backdrop-blur-sm z-10">
                       <tr className={cn('text-sm border-b border-cyan-500/30', DASHBOARD_STYLES.cardBorder)}>
+                        <th className={cn('text-center py-2 px-3 font-medium w-16 text-cyan-300 drop-shadow-[0_0_5px_rgba(6,182,212,0.5)]')}>序号</th>
                         <th className={cn('text-left py-2 px-3 font-medium text-cyan-300 drop-shadow-[0_0_5px_rgba(6,182,212,0.5)]')}>预计下单</th>
                         <th className={cn('text-left py-2 px-3 font-medium text-cyan-300 drop-shadow-[0_0_5px_rgba(6,182,212,0.5)]')}>项目名称</th>
-                        <th className={cn('text-left py-2 px-3 font-medium text-cyan-300 drop-shadow-[0_0_5px_rgba(6,182,212,0.5)]')}>区域</th>
-                        <th className={cn('text-left py-2 px-3 font-medium text-cyan-300 drop-shadow-[0_0_5px_rgba(6,182,212,0.5)]')}>销售工程师</th>
+                        <th className={cn('text-left py-2 px-3 font-medium hidden lg:table-cell text-cyan-300 drop-shadow-[0_0_5px_rgba(6,182,212,0.5)]')}>大区</th>
+                        <th className={cn('text-left py-2 px-3 font-medium hidden md:table-cell text-cyan-300 drop-shadow-[0_0_5px_rgba(6,182,212,0.5)]')}>销售</th>
                         <th className={cn('text-right py-2 px-3 font-medium text-cyan-300 drop-shadow-[0_0_5px_rgba(6,182,212,0.5)]')}>金额</th>
                       </tr>
                     </thead>
@@ -858,6 +870,13 @@ export default function RiskIdentificationPanel({
                             index === getPaginatedUnorderedProjects().length - 1 && 'border-b-0'
                           )}
                         >
+                          {/* 序号 */}
+                          <td className={cn('text-center py-2 px-3 text-sm text-cyan-300 align-middle')}>
+                            <div className="inline-flex items-center justify-center w-6 h-6 rounded-full bg-cyan-500/10 border border-cyan-500/30">
+                              {(currentPage - 1) * 5 + index + 1}
+                            </div>
+                          </td>
+
                           {/* 预计下单时间 */}
                           <td className={cn('py-2 px-3 text-sm whitespace-nowrap text-cyan-200 align-middle')}>
                             <div className="flex items-center gap-1.5">
@@ -871,13 +890,13 @@ export default function RiskIdentificationPanel({
                             <div className="font-medium leading-snug text-cyan-100">{item.name}</div>
                           </td>
 
-                          {/* 区域 */}
-                          <td className={cn('py-2 px-3 text-sm text-cyan-200 align-middle')}>
+                          {/* 大区 */}
+                          <td className={cn('hidden lg:table-cell py-2 px-3 text-sm text-cyan-200 align-middle')}>
                             {item.region || '-'}
                           </td>
 
                           {/* 销售工程师 */}
-                          <td className={cn('py-2 px-3 text-sm text-cyan-200 align-middle')}>
+                          <td className={cn('hidden md:table-cell py-2 px-3 text-sm text-cyan-200 align-middle')}>
                             {item.salesEngineer || '-'}
                           </td>
 
@@ -1012,7 +1031,7 @@ export default function RiskIdentificationPanel({
                     </div>
                   </div>
                 </div>
-            </div>
+              </div>
             </div>
 
             {/* 表格区域 */}
@@ -1026,6 +1045,7 @@ export default function RiskIdentificationPanel({
                         <th className={cn('text-left py-2 px-3 font-medium text-cyan-300 drop-shadow-[0_0_5px_rgba(6,182,212,0.5)]')}>占比</th>
                         <th className={cn('text-left py-2 px-3 font-medium text-cyan-300 drop-shadow-[0_0_5px_rgba(6,182,212,0.5)]')}>区域</th>
                         <th className={cn('text-left py-2 px-3 font-medium text-cyan-300 drop-shadow-[0_0_5px_rgba(6,182,212,0.5)]')}>负责人</th>
+                        <th className={cn('text-center py-2 px-3 font-medium text-cyan-300 drop-shadow-[0_0_5px_rgba(6,182,212,0.5)]')}>状态</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -1054,6 +1074,11 @@ export default function RiskIdentificationPanel({
                           </td>
                           <td className={cn('py-2 px-3 text-sm text-cyan-200 align-middle')}>{item.region}</td>
                           <td className={cn('py-2 px-3 text-sm text-cyan-200 align-middle')}>{item.owner}</td>
+                          <td className={cn('py-2 px-3 text-center text-sm', DASHBOARD_STYLES.textSecondary, 'align-middle')}>
+                            <span className={cn('px-2 py-1 rounded text-xs font-medium', getStatusStyles(item.status))}>
+                              {item.status === 'critical' ? '紧急' : item.status === 'highRisk' ? '高风险' : '正常'}
+                            </span>
+                          </td>
                         </tr>
                       ))}
                     </tbody>
