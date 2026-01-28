@@ -586,70 +586,126 @@ export default function GMDashboard() {
             isMounted && animationPhase >= 2 ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
           )}>
             {/* 核心预测决策卡片 - 自适应高度 */}
-            <div className="bg-white border border-gray-200 rounded-xl p-4 sm:p-5 shadow-sm">
+            <div className={`${DASHBOARD_STYLES.cardBg} ${DASHBOARD_STYLES.cardBorder} rounded-xl p-4 sm:p-5 ${DASHBOARD_STYLES.glow}`}>
               <div className="mb-4">
-                <h2 className="text-lg font-bold text-gray-800 flex items-center gap-2">
-                  <Target className="w-5 h-5 text-blue-600" />
+                <h2 className={`text-lg font-bold ${DASHBOARD_STYLES.neon} flex items-center gap-2`}>
+                  <Target className="w-5 h-5" />
                   核心预测决策
                 </h2>
               </div>
 
-              {/* 核心数据展示 - 商务风格 */}
+              {/* 核心数据展示 - 汽车仪表盘样式 */}
               <div className="grid grid-cols-2 gap-3 sm:gap-4 mb-4">
-                {/* 达成率卡片 */}
+                {/* 仪表盘1 - 达成率 */}
                 <div className="relative">
-                  <div className="rounded-lg border border-gray-200 p-4 bg-gray-50">
+                  <div
+                    className="rounded-xl border-2 p-4 transition-all duration-300 bg-gradient-to-br from-slate-900/90 to-slate-800/90 border-cyan-500/40"
+                    style={{
+                      boxShadow: '0 0 25px rgba(34, 211, 238, 0.3), inset 0 0 20px rgba(34, 211, 238, 0.08)'
+                    }}
+                  >
                     <div className="flex flex-col items-center">
                       {/* 标题 */}
-                      <div className="text-sm font-semibold text-gray-600 mb-3">目标达成率</div>
+                      <div className="text-sm font-semibold text-cyan-400/80 mb-3">目标达成率</div>
 
-                      {/* 简化的圆形进度条 */}
-                      <div className="relative" style={{ width: '120px', height: '120px' }}>
+                      {/* 仪表盘圆形 */}
+                      <div className="relative" style={{ width: '140px', height: '140px' }}>
                         <svg viewBox="0 0 100 100" className="w-full h-full">
                           {/* 背景圆 */}
-                          <circle cx="50" cy="50" r="40" fill="none" stroke="#e5e7eb" strokeWidth="8" />
+                          <circle
+                            cx="50"
+                            cy="50"
+                            r="42"
+                            fill="none"
+                            stroke="#1e293b"
+                            strokeWidth="7"
+                          />
+                          {/* 刻度线 */}
+                          {[...Array(12)].map((_, i) => {
+                            const angle = (i * 30 - 90) * (Math.PI / 180)
+                            const innerR = 36
+                            const outerR = 42
+                            const x1 = Number((50 + innerR * Math.cos(angle)).toFixed(3))
+                            const y1 = Number((50 + innerR * Math.sin(angle)).toFixed(3))
+                            const x2 = Number((50 + outerR * Math.cos(angle)).toFixed(3))
+                            const y2 = Number((50 + outerR * Math.sin(angle)).toFixed(3))
+                            return (
+                              <line
+                                key={i}
+                                x1={x1}
+                                y1={y1}
+                                x2={x2}
+                                y2={y2}
+                                stroke="#334155"
+                                strokeWidth="1.5"
+                              />
+                            )
+                          })}
                           {/* 达成率进度弧线 */}
                           <circle
                             cx="50"
                             cy="50"
-                            r="40"
+                            r="38"
                             fill="none"
-                            stroke={animatedRate >= 90 ? '#10b981' : animatedRate >= 70 ? '#f59e0b' : '#ef4444'}
-                            strokeWidth="8"
+                            stroke={animatedRate >= 90 ? '#22c55e' : animatedRate >= 70 ? '#eab308' : '#ef4444'}
+                            strokeWidth="6"
                             strokeLinecap="round"
-                            strokeDasharray="251"
-                            strokeDashoffset={251 - (251 * Math.min(parseFloat(getAchievementRate()), 100) / 100)}
-                            style={{ transition: 'stroke-dashoffset 0.5s ease-out' }}
+                            strokeDasharray="239"
+                            strokeDashoffset={239 - (239 * Math.min(parseFloat(getAchievementRate()), 100) / 100)}
+                            style={{
+                              filter: animatedRate >= 90 ? 'drop-shadow(0 0 10px rgba(34, 197, 94, 1))' : 
+                                     animatedRate >= 70 ? 'drop-shadow(0 0 10px rgba(234, 179, 8, 1))' : 
+                                     'drop-shadow(0 0 10px rgba(239, 68, 68, 1))',
+                              transition: 'stroke-dashoffset 0.5s ease-out'
+                            }}
                           />
+                          {/* 指针 */}
+                          <g transform={`translate(50, 50)`}>
+                            <line
+                              x1="0"
+                              y1="0"
+                              x2="0"
+                              y2="-34"
+                              stroke="#22d3ee"
+                              strokeWidth="3"
+                              style={{
+                                transform: `rotate(${needleAngle2}deg)`,
+                                transformOrigin: '0 0',
+                                filter: 'drop-shadow(0 0 8px rgba(34, 211, 238, 1))',
+                                transition: 'transform 1.5s cubic-bezier(0.34, 1.56, 0.64, 1)'
+                              }}
+                            />
+                            <circle cx="0" cy="0" r="5" fill="#22d3ee" style={{ filter: 'drop-shadow(0 0 6px rgba(34, 211, 238, 0.9))' }} />
+                          </g>
                         </svg>
                         {/* 中心数值 - 达成率 */}
                         <div className="absolute inset-0 flex flex-col items-center justify-center">
                           <span className={cn(
-                            'text-3xl font-bold',
-                            animatedRate >= 90 ? 'text-green-600' : animatedRate >= 70 ? 'text-amber-600' : 'text-red-600'
-                          )}>
+                            'text-3xl font-black',
+                            animatedRate >= 90 ? 'text-green-400' : animatedRate >= 70 ? 'text-yellow-400' : 'text-red-400'
+                          )} style={{ textShadow: `0 0 15px ${animatedRate >= 90 ? 'rgba(74, 222, 128, 1)' : animatedRate >= 70 ? 'rgba(250, 204, 21, 1)' : 'rgba(248, 113, 113, 1)'}` }}>
                             {animatedRate.toFixed(1)}%
                           </span>
                         </div>
                       </div>
 
-                      {/* 下方辅助信息 */}
+                      {/* 下方辅助信息 - 简化为一行 */}
                       <div className="mt-4 flex items-center justify-center gap-4 text-xs">
                         <div className="flex items-center gap-1.5">
-                          <div className="w-2 h-2 rounded-full bg-blue-500" />
-                          <span className="text-gray-500">目标</span>
-                          <span className="font-semibold text-gray-700">{animatedTarget.toLocaleString()}万</span>
+                          <div className="w-2 h-2 rounded-full bg-orange-400" style={{ boxShadow: '0 0 6px rgba(251, 146, 60, 0.8)' }} />
+                          <span className="text-cyan-400/70">目标</span>
+                          <span className="font-semibold text-orange-400">{animatedTarget.toLocaleString()}万</span>
                         </div>
-                        <div className="w-px h-3 bg-gray-300"></div>
+                        <div className="w-px h-3 bg-cyan-400/30"></div>
                         <div className="flex items-center gap-1.5">
-                          <div className="w-2 h-2 rounded-full bg-green-500" />
-                          <span className="text-gray-500">预测</span>
+                          <div className="w-2 h-2 rounded-full bg-cyan-400" style={{ boxShadow: '0 0 6px rgba(34, 211, 238, 0.8)' }} />
+                          <span className="text-cyan-400/70">预测</span>
                           <span className={cn(
                             'font-semibold',
-                            animatedForecast >= getTimeRangeData().target ? 'text-green-600' : 'text-gray-700'
+                            animatedForecast >= getTimeRangeData().target ? 'text-green-400' : 'text-cyan-400'
                           )}>{animatedForecast.toLocaleString()}万</span>
                           {animatedRate < 100 && (
-                            <AlertTriangle className={`w-3 h-3 ${animatedRate >= 80 ? 'text-amber-500' : 'text-red-500'}`} />
+                            <AlertTriangle className={`w-3 h-3 animate-pulse ${animatedRate >= 80 ? 'text-yellow-400' : 'text-red-400'}`} />
                           )}
                         </div>
                       </div>
@@ -657,58 +713,9 @@ export default function GMDashboard() {
                   </div>
                 </div>
 
-                {/* 预测完成卡片 */}
-                <div className="relative">
-                  <div className="rounded-lg border border-gray-200 p-4 bg-gray-50">
-                    <div className="flex flex-col items-center">
-                      {/* 标题 */}
-                      <div className="text-sm font-semibold text-gray-600 mb-3">预测完成</div>
 
-                      {/* 简化的圆形进度条 */}
-                      <div className="relative" style={{ width: '120px', height: '120px' }}>
-                        <svg viewBox="0 0 100 100" className="w-full h-full">
-                          {/* 背景圆 */}
-                          <circle cx="50" cy="50" r="40" fill="none" stroke="#e5e7eb" strokeWidth="8" />
-                          {/* 预测进度弧线 */}
-                          <circle
-                            cx="50"
-                            cy="50"
-                            r="40"
-                            fill="none"
-                            stroke="#3b82f6"
-                            strokeWidth="8"
-                            strokeLinecap="round"
-                            strokeDasharray="251"
-                            strokeDashoffset={251 - (251 * Math.min(animatedForecast / animatedTarget, 100) / 100)}
-                            style={{ transition: 'stroke-dashoffset 0.5s ease-out' }}
-                          />
-                        </svg>
-                        {/* 中心数值 - 预测完成 */}
-                        <div className="absolute inset-0 flex flex-col items-center justify-center">
-                          <span className="text-3xl font-bold text-blue-600">
-                            {animatedRate.toFixed(1)}%
-                          </span>
-                        </div>
-                      </div>
-
-                      {/* 下方辅助信息 */}
-                      <div className="mt-4 flex items-center justify-center gap-4 text-xs">
-                        <div className="flex items-center gap-1.5">
-                          <div className="w-2 h-2 rounded-full bg-orange-500" />
-                          <span className="text-gray-500">目标</span>
-                          <span className="font-semibold text-gray-700">{animatedTarget.toLocaleString()}万</span>
-                        </div>
-                        <div className="w-px h-3 bg-gray-300"></div>
-                        <div className="flex items-center gap-1.5">
-                          <div className="w-2 h-2 rounded-full bg-blue-500" />
-                          <span className="text-gray-500">预测</span>
-                          <span className="font-semibold text-blue-600">{animatedForecast.toLocaleString()}万</span>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
               </div>
+
               {/* 趋势图表 */}
               <div className="bg-slate-800/30 rounded-xl p-2.5 sm:p-3 border border-cyan-400/10">
                 <div className="mb-1.5">
