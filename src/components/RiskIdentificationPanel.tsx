@@ -626,10 +626,11 @@ export default function RiskIdentificationPanel({
                 const isForecastGap = tab.id === 2; // 预测不足
 
                 // 计算角标数量
+                // 预测不足Tab暂时显示0，因为没有补充明细
                 const badgeCount = isUnorderedProjects 
                   ? filteredUnorderedProjects.length 
                   : isForecastGap 
-                  ? forecastGaps.length 
+                  ? 0 
                   : 0;
 
                 // 是否闪烁（数量>0且非当前Tab）
@@ -1052,11 +1053,11 @@ export default function RiskIdentificationPanel({
 
         {/* ============ Tab 2: 预测不足 ============ */}
         {currentTab === 2 && (
-          // 明细视图
+          // 补充明细视图
           <div className="h-full flex flex-col animate-in fade-in duration-300">
-                {/* 顶部仪表盘风格指标卡片 - 黄色警告效果 */}
+                {/* 顶部提示信息 */}
                 <div className={cn(
-                  'p-3 relative overflow-hidden',
+                  'p-4 relative overflow-hidden',
                   'bg-gradient-to-br from-yellow-950/40 via-slate-900 to-slate-900',
                   'border-b-2 border-yellow-500/50',
                   'shadow-[0_0_20px_rgba(234,179,8,0.3)]'
@@ -1073,142 +1074,189 @@ export default function RiskIdentificationPanel({
                   {/* 顶部发光线条 - 黄色 */}
                   <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-transparent via-yellow-500 to-transparent animate-pulse"></div>
                   
-                  <div className="relative z-10 grid grid-cols-3 gap-3">
-                    {/* 预计缺口金额卡片 */}
-                    <div className={cn(
-                      'relative rounded-xl p-2 overflow-hidden h-full flex flex-col items-center justify-center',
-                      'bg-gradient-to-br from-yellow-900/50 to-yellow-800/30',
-                      'border-2 border-yellow-500/60',
-                      'shadow-[0_0_25px_rgba(234,179,8,0.5)]'
-                    )}>
-                      <div className="absolute top-0 right-0 w-20 h-20 bg-yellow-500/20 rounded-full blur-3xl animate-pulse"></div>
-                      <div className="relative z-10 w-full flex flex-col items-center justify-center">
-                        <div className="flex items-center gap-2 mb-1.5">
-                          <DollarSign className="w-3.5 h-3.5 text-yellow-400 drop-shadow-[0_0_10px_rgba(234,179,8,1)] animate-pulse" />
-                          <div className="text-xs font-bold text-yellow-300">预计缺口金额</div>
-                        </div>
-                        <div className="flex items-baseline gap-1">
-                          <span className="text-3xl font-black text-yellow-400 drop-shadow-[0_0_15px_rgba(250,204,21,1)]">
-                            {forecastGaps.reduce((sum, p) => sum + p.gapAmount, 0).toFixed(0)}
-                          </span>
-                          <span className="text-xs text-yellow-300/80">万</span>
-                        </div>
-                      </div>
+                  <div className="relative z-10">
+                    <div className="flex items-center gap-2 mb-2">
+                      <AlertTriangle className="w-5 h-5 text-yellow-400 drop-shadow-[0_0_10px_rgba(234,179,8,1)] animate-pulse" />
+                      <h3 className="text-sm font-bold text-yellow-300 drop-shadow-[0_0_8px_rgba(234,179,8,0.8)]">
+                        需要补充预测明细
+                      </h3>
                     </div>
-
-                    {/* 缺口数量卡片 */}
-                    <div className={cn(
-                      'relative rounded-xl p-2 overflow-hidden h-full flex flex-col items-center justify-center',
-                      'bg-gradient-to-br from-orange-900/50 to-orange-800/30',
-                      'border-2 border-orange-500/60',
-                      'shadow-[0_0_25px_rgba(251,146,60,0.5)]'
-                    )}>
-                      <div className="absolute top-0 right-0 w-20 h-20 bg-orange-500/20 rounded-full blur-3xl animate-pulse"></div>
-                      <div className="relative z-10 w-full flex flex-col items-center justify-center">
-                        <div className="flex items-center gap-2 mb-1.5">
-                          <AlertTriangle className="w-3.5 h-3.5 text-orange-400 drop-shadow-[0_0_10px_rgba(251,146,60,1)] animate-pulse" />
-                          <div className="text-xs font-bold text-orange-300">缺口数量</div>
-                        </div>
-                        <div className="flex items-baseline gap-1">
-                          <span className="text-3xl font-black text-orange-400 drop-shadow-[0_0_15px_rgba(251,146,60,1)]">
-                            {forecastGaps.length}
-                          </span>
-                          <span className="text-xs text-orange-300/80">个</span>
-                        </div>
-                      </div>
-                    </div>
-
-                    {/* 补预测按钮 - 增强效果 */}
-                    <div className={cn(
-                      'relative rounded-xl p-2 overflow-hidden cursor-pointer group h-full flex flex-col items-center justify-center',
-                      'border-2 border-yellow-500/70',
-                      'bg-gradient-to-br from-yellow-900/30 to-orange-900/20',
-                      'hover:from-yellow-900/50 hover:to-orange-900/30',
-                      'shadow-[0_0_30px_rgba(234,179,8,0.5)]',
-                      'hover:shadow-[0_0_40px_rgba(234,179,8,0.7)]',
-                      'transition-all duration-300'
-                    )}
-                         onClick={() => alert(`补预测：生成预测不足项目的补充预测方案\n\n共 ${forecastGaps.length} 个项目，预计缺口 ${forecastGaps.reduce((sum, p) => sum + p.gapAmount, 0).toFixed(0)} 万元`)}>
-                      {/* 按钮发光效果 */}
-                      <div className="absolute inset-0 bg-gradient-to-r from-yellow-500/30 to-orange-500/30 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-                      <div className="absolute inset-0 border-2 border-yellow-500/50 rounded-xl animate-pulse"></div>
-
-                      <div className="relative z-10 w-full flex flex-col items-center justify-center">
-                        <div className="flex items-center gap-1.5 mb-1.5">
-                          <div className="w-8 h-8 rounded-full bg-yellow-500/40 border-2 border-yellow-400/60 flex items-center justify-center group-hover:scale-110 transition-transform shadow-[0_0_15px_rgba(234,179,8,0.8)]">
-                            <TrendingDown className="w-4 h-4 text-yellow-400 drop-shadow-[0_0_8px_rgba(250,204,21,1)]" />
-                          </div>
-                          <div className="text-base font-black text-yellow-400 drop-shadow-[0_0_12px_rgba(250,204,21,1)]">补预测</div>
-                        </div>
-                        <div className="flex items-center gap-1">
-                          <div className="w-1.5 h-1.5 bg-yellow-400 rounded-full animate-bounce" style={{animationDelay: '0ms'}}></div>
-                          <div className="w-1.5 h-1.5 bg-yellow-400 rounded-full animate-bounce" style={{animationDelay: '150ms'}}></div>
-                          <div className="w-1.5 h-1.5 bg-yellow-400 rounded-full animate-bounce" style={{animationDelay: '300ms'}}></div>
-                          <div className="text-xs text-yellow-300 font-semibold">全部 {forecastGaps.length} 个项目</div>
-                        </div>
-                      </div>
-                    </div>
+                    <p className="text-xs text-yellow-200/80 leading-relaxed">
+                      当前预测与目标存在缺口，请补充具体的项目明细以完善预测数据
+                    </p>
                   </div>
                 </div>
 
-                {/* 表格区域 */}
-                <div className="flex-1 overflow-auto p-3 bg-gradient-to-b from-slate-900/50 to-transparent">
-                  <table className="w-full">
-                    <thead className="sticky top-0 bg-slate-900/95 backdrop-blur-sm z-10">
-                      <tr className={cn('text-xs border-b border-cyan-500/30', DASHBOARD_STYLES.cardBorder)}>
-                        <th className={cn('text-left py-2 px-3 font-medium text-cyan-300 drop-shadow-[0_0_5px_rgba(6,182,212,0.5)]')}>项目名称</th>
-                        <th className={cn('text-left py-2 px-3 font-medium text-cyan-300 drop-shadow-[0_0_5px_rgba(6,182,212,0.5)]')}>区域</th>
-                        <th className={cn('text-left py-2 px-3 font-medium text-cyan-300 drop-shadow-[0_0_5px_rgba(6,182,212,0.5)]')}>负责人</th>
-                        <th className={cn('text-left py-2 px-3 font-medium text-cyan-300 drop-shadow-[0_0_5px_rgba(6,182,212,0.5)]')}>当前预测</th>
-                        <th className={cn('text-left py-2 px-3 font-medium text-cyan-300 drop-shadow-[0_0_5px_rgba(6,182,212,0.5)]')}>目标预测</th>
-                        <th className={cn('text-left py-2 px-3 font-medium text-cyan-300 drop-shadow-[0_0_5px_rgba(6,182,212,0.5)]')}>缺口金额</th>
-                        <th className={cn('text-left py-2 px-3 font-medium text-cyan-300 drop-shadow-[0_0_5px_rgba(6,182,212,0.5)]')}>缺口占比</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {getPaginatedForecastGaps().map((item, index) => (
-                        <tr
-                          key={index}
+                {/* 补充明细表单 */}
+                <div className="flex-1 overflow-auto p-4 bg-gradient-to-b from-slate-900/50 to-transparent">
+                  <div className="space-y-4">
+                    {/* 项目名称 */}
+                    <div>
+                      <label className="block text-xs font-medium text-cyan-300 mb-1.5">
+                        项目名称 <span className="text-red-400">*</span>
+                      </label>
+                      <input
+                        type="text"
+                        placeholder="请输入项目名称"
+                        className={cn(
+                          'w-full px-3 py-2 rounded-lg text-sm',
+                          'bg-slate-800/50 border border-cyan-500/30',
+                          'text-cyan-100 placeholder-cyan-400/50',
+                          'focus:outline-none focus:border-cyan-500/60',
+                          'focus:shadow-[0_0_15px_rgba(6,182,212,0.3)]',
+                          'transition-all duration-300'
+                        )}
+                      />
+                    </div>
+
+                    {/* 区域和负责人 */}
+                    <div className="grid grid-cols-2 gap-4">
+                      <div>
+                        <label className="block text-xs font-medium text-cyan-300 mb-1.5">
+                          区域 <span className="text-red-400">*</span>
+                        </label>
+                        <select
                           className={cn(
-                            'align-middle border-b border-cyan-500/10 hover:bg-gradient-to-r hover:from-yellow-500/10 hover:to-orange-500/10 transition-all duration-200',
-                            index === getPaginatedForecastGaps().length - 1 && 'border-b-0'
+                            'w-full px-3 py-2 rounded-lg text-sm',
+                            'bg-slate-800/50 border border-cyan-500/30',
+                            'text-cyan-100',
+                            'focus:outline-none focus:border-cyan-500/60',
+                            'focus:shadow-[0_0_15px_rgba(6,182,212,0.3)]',
+                            'transition-all duration-300'
                           )}
                         >
-                          <td className={cn('py-2 px-3 text-xs', DASHBOARD_STYLES.textSecondary, 'align-middle')}>
-                            <div className="font-medium leading-snug text-cyan-100">{item.projectName}</div>
-                          </td>
-                          <td className={cn('py-2 px-3 text-xs text-cyan-200 align-middle')}>{item.region}</td>
-                          <td className={cn('py-2 px-3 text-xs text-cyan-200 align-middle')}>{item.owner}</td>
-                          <td className={cn('py-2 px-3 text-xs text-cyan-200 align-middle')}>{item.currentForecast}万</td>
-                          <td className={cn('py-2 px-3 text-xs text-cyan-200 align-middle')}>{item.targetForecast}万</td>
-                          <td className={cn('py-2 px-3 text-xs', DASHBOARD_STYLES.textSecondary, 'align-middle')}>
-                            <span className="font-black text-yellow-400 drop-shadow-[0_0_6px_rgba(251,146,60,0.6)]">
-                              {item.gapAmount}万
-                            </span>
-                          </td>
-                          <td className={cn('py-2 px-3 text-xs', DASHBOARD_STYLES.textSecondary, 'align-middle')}>
-                            <span className={cn(
-                              'px-2 py-1 rounded text-xs font-medium',
-                              item.gapPercentage >= 45 ? 'bg-red-500/20 text-red-400' :
-                              item.gapPercentage >= 40 ? 'bg-orange-500/20 text-orange-400' :
-                              'bg-yellow-500/20 text-yellow-400'
-                            )}>
-                              {item.gapPercentage}%
-                            </span>
-                          </td>
-                        </tr>
-                      ))}
-                    </tbody>
-                  </table>
-                </div>
+                          <option value="">请选择区域</option>
+                          <option value="华北">华北</option>
+                          <option value="华南">华南</option>
+                          <option value="一区">一区</option>
+                          <option value="二区">二区</option>
+                        </select>
+                      </div>
+                      <div>
+                        <label className="block text-xs font-medium text-cyan-300 mb-1.5">
+                          负责人 <span className="text-red-400">*</span>
+                        </label>
+                        <input
+                          type="text"
+                          placeholder="请输入负责人"
+                          className={cn(
+                            'w-full px-3 py-2 rounded-lg text-sm',
+                            'bg-slate-800/50 border border-cyan-500/30',
+                            'text-cyan-100 placeholder-cyan-400/50',
+                            'focus:outline-none focus:border-cyan-500/60',
+                            'focus:shadow-[0_0_15px_rgba(6,182,212,0.3)]',
+                            'transition-all duration-300'
+                          )}
+                        />
+                      </div>
+                    </div>
 
-                {/* 分页 */}
-                <div className="px-4 py-2 border-t border-cyan-500/20 flex justify-between items-center bg-gradient-to-r from-slate-900/50 to-transparent">
-                  <div className={cn('text-xs flex items-center gap-2', DASHBOARD_STYLES.textMuted)}>
-                    <Activity className="w-3 h-3 text-cyan-400/70" />
-                    共 {forecastGaps.length} 条记录，当前第 {currentPage} / {totalPages} 页
+                    {/* 预测金额 */}
+                    <div className="grid grid-cols-2 gap-4">
+                      <div>
+                        <label className="block text-xs font-medium text-cyan-300 mb-1.5">
+                          当前预测金额（万） <span className="text-red-400">*</span>
+                        </label>
+                        <input
+                          type="number"
+                          placeholder="0"
+                          className={cn(
+                            'w-full px-3 py-2 rounded-lg text-sm',
+                            'bg-slate-800/50 border border-cyan-500/30',
+                            'text-cyan-100 placeholder-cyan-400/50',
+                            'focus:outline-none focus:border-cyan-500/60',
+                            'focus:shadow-[0_0_15px_rgba(6,182,212,0.3)]',
+                            'transition-all duration-300'
+                          )}
+                        />
+                      </div>
+                      <div>
+                        <label className="block text-xs font-medium text-cyan-300 mb-1.5">
+                          目标预测金额（万） <span className="text-red-400">*</span>
+                        </label>
+                        <input
+                          type="number"
+                          placeholder="0"
+                          className={cn(
+                            'w-full px-3 py-2 rounded-lg text-sm',
+                            'bg-slate-800/50 border border-cyan-500/30',
+                            'text-cyan-100 placeholder-cyan-400/50',
+                            'focus:outline-none focus:border-cyan-500/60',
+                            'focus:shadow-[0_0_15px_rgba(6,182,212,0.3)]',
+                            'transition-all duration-300'
+                          )}
+                        />
+                      </div>
+                    </div>
+
+                    {/* 预计完成时间 */}
+                    <div>
+                      <label className="block text-xs font-medium text-cyan-300 mb-1.5">
+                        预计完成时间 <span className="text-red-400">*</span>
+                      </label>
+                      <input
+                        type="date"
+                        className={cn(
+                          'w-full px-3 py-2 rounded-lg text-sm',
+                          'bg-slate-800/50 border border-cyan-500/30',
+                          'text-cyan-100',
+                          'focus:outline-none focus:border-cyan-500/60',
+                          'focus:shadow-[0_0_15px_rgba(6,182,212,0.3)]',
+                          'transition-all duration-300'
+                        )}
+                      />
+                    </div>
+
+                    {/* 补充说明 */}
+                    <div>
+                      <label className="block text-xs font-medium text-cyan-300 mb-1.5">
+                        补充说明
+                      </label>
+                      <textarea
+                        rows={3}
+                        placeholder="请输入补充说明（选填）"
+                        className={cn(
+                          'w-full px-3 py-2 rounded-lg text-sm resize-none',
+                          'bg-slate-800/50 border border-cyan-500/30',
+                          'text-cyan-100 placeholder-cyan-400/50',
+                          'focus:outline-none focus:border-cyan-500/60',
+                          'focus:shadow-[0_0_15px_rgba(6,182,212,0.3)]',
+                          'transition-all duration-300'
+                        )}
+                      />
+                    </div>
+
+                    {/* 提交按钮 */}
+                    <div className="pt-4">
+                      <button
+                        className={cn(
+                          'w-full px-4 py-3 rounded-xl font-bold text-sm',
+                          'bg-gradient-to-r from-yellow-500 to-orange-500',
+                          'text-white',
+                          'hover:from-yellow-600 hover:to-orange-600',
+                          'shadow-[0_0_30px_rgba(234,179,8,0.5)]',
+                          'hover:shadow-[0_0_40px_rgba(234,179,8,0.7)]',
+                          'transition-all duration-300',
+                          'flex items-center justify-center gap-2'
+                        )}
+                        onClick={() => alert('补充明细提交成功')}
+                      >
+                        <TrendingDown className="w-4 h-4" />
+                        提交补充明细
+                      </button>
+                    </div>
+
+                    {/* 提示信息 */}
+                    <div className="mt-6 p-3 rounded-lg bg-yellow-500/10 border border-yellow-500/30">
+                      <div className="flex items-start gap-2">
+                        <AlertTriangle className="w-4 h-4 text-yellow-400 flex-shrink-0 mt-0.5" />
+                        <div className="text-xs text-yellow-200/80 leading-relaxed">
+                          <p className="font-semibold text-yellow-300 mb-1">温馨提示</p>
+                          <p>请确保填写的预测数据准确，提交后将自动更新预测缺口信息。如有疑问，请联系相关负责人。</p>
+                        </div>
+                      </div>
+                    </div>
                   </div>
-                  <Pagination currentPage={currentPage} totalPages={totalPages} onPageChange={setCurrentPage} />
                 </div>
               </div>
             )}
