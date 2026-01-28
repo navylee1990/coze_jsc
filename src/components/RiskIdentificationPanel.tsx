@@ -759,7 +759,7 @@ export default function RiskIdentificationPanel({
                       </div>
                     </div>
 
-                    {/* 一键催单按钮 - 增强效果 */}
+                    {/* 催下单按钮 - 增强效果 */}
                     <div className={cn(
                       'relative rounded-xl p-2 overflow-hidden cursor-pointer group h-full flex flex-col items-center justify-center',
                       'border-2 border-red-500/70',
@@ -769,7 +769,7 @@ export default function RiskIdentificationPanel({
                       'hover:shadow-[0_0_40px_rgba(239,68,68,0.7)]',
                       'transition-all duration-300'
                     )}
-                         onClick={() => alert(`一键催单：向所有未下单项目的销售工程师发送催办提醒\n\n共 ${filteredUnorderedProjects.length} 个项目，总金额 ${filteredUnorderedProjects.reduce((sum, p) => sum + p.amount, 0).toFixed(0)} 万元`)}>
+                         onClick={() => alert(`催下单：向所有未下单项目的销售工程师发送催办提醒\n\n共 ${filteredUnorderedProjects.length} 个项目，总金额 ${filteredUnorderedProjects.reduce((sum, p) => sum + p.amount, 0).toFixed(0)} 万元`)}>
                       {/* 按钮发光效果 */}
                       <div className="absolute inset-0 bg-gradient-to-r from-red-500/30 to-orange-500/30 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
                       <div className="absolute inset-0 border-2 border-red-500/50 rounded-xl animate-pulse"></div>
@@ -779,7 +779,7 @@ export default function RiskIdentificationPanel({
                           <div className="w-8 h-8 rounded-full bg-red-500/40 border-2 border-red-400/60 flex items-center justify-center group-hover:scale-110 transition-transform shadow-[0_0_15px_rgba(239,68,68,0.8)]">
                             <Send className="w-4 h-4 text-red-400 drop-shadow-[0_0_8px_rgba(248,113,113,1)]" />
                           </div>
-                          <div className="text-base font-black text-red-400 drop-shadow-[0_0_12px_rgba(248,113,113,1)]">一键催单</div>
+                          <div className="text-base font-black text-red-400 drop-shadow-[0_0_12px_rgba(248,113,113,1)]">催下单</div>
                         </div>
                         <div className="flex items-center gap-1">
                           <div className="w-1.5 h-1.5 bg-red-400 rounded-full animate-bounce" style={{animationDelay: '0ms'}}></div>
