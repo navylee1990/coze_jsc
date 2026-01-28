@@ -668,63 +668,26 @@ export default function PredictionDecisionCard({
 
       {/* 驾驶舱布局 - 3列 */}
       <div className="grid grid-cols-3 gap-4">
-        {/* 左侧：两个仪表盘 */}
-        <div className="flex flex-col justify-around gap-4">
-          {/* 达成率（主仪表盘） */}
-          <div className="flex flex-col items-center justify-center">
-            <MainGauge
-              value={animatedRate}
-              maxValue={100}
-              size={110}
-            />
-            <div className="mt-2 text-center">
-              <div className="flex items-center justify-center gap-2 text-[10px]">
-                <div className="flex items-center gap-0.5">
-                  <div className="w-1 h-1 rounded-full bg-orange-400" />
-                  <span className="text-cyan-500/60">目标</span>
-                  <span className="font-semibold text-orange-400">{target}万</span>
-                </div>
-                <div className="flex items-center gap-0.5">
-                  <div className="w-1 h-1 rounded-full bg-cyan-400" />
-                  <span className="text-cyan-500/60">预测</span>
-                  <span className="font-semibold text-cyan-300">
-                    {mounted ? Math.round(animatedForecast) : 0}万
-                  </span>
-                </div>
+        {/* 左侧：达成率仪表盘 */}
+        <div className="flex flex-col items-center justify-center">
+          <MainGauge
+            value={animatedRate}
+            maxValue={100}
+            size={140}
+          />
+          <div className="mt-3 text-center">
+            <div className="flex items-center justify-center gap-3 text-xs">
+              <div className="flex items-center gap-1">
+                <div className="w-1.5 h-1.5 rounded-full bg-orange-400" />
+                <span className="text-cyan-500/60">目标</span>
+                <span className="font-semibold text-orange-400">{target}万</span>
               </div>
-            </div>
-          </div>
-
-          {/* 时间紧迫度 */}
-          <div className="flex flex-col items-center justify-center">
-            <SmallGauge
-              value={7}
-              maxValue={30}
-              label="剩余天数"
-              unit="天"
-              color="red"
-              size={110}
-            />
-            <div className="mt-2 w-full max-w-[140px]">
-              <div className="flex items-center justify-center gap-1.5 mb-2">
-                <AlertTriangle className="w-2.5 h-2.5 text-red-400 animate-pulse" />
-                <span className="text-[10px] text-red-400 font-semibold">紧迫事项</span>
-              </div>
-              <div>
-                {/* 本月 */}
-                <div>
-                  <div className="flex items-center justify-between text-[10px] mb-0.5">
-                    <div className="flex items-center gap-1">
-                      <Clock className="w-2.5 h-2.5 text-red-400" />
-                      <span className="text-cyan-500/70">本月</span>
-                    </div>
-                    <span className="font-semibold text-red-400 text-[10px]">高优先级</span>
-                  </div>
-                  <div className="relative h-1 bg-slate-800/50 rounded-full overflow-hidden">
-                    <div className="absolute left-0 top-0 bottom-0 bg-gradient-to-r from-red-600 to-red-400 rounded-full animate-pulse" style={{ width: '85%' }}></div>
-                  </div>
-                  <div className="mt-0.5 text-[10px] text-cyan-300 font-medium">处理当月未下单</div>
-                </div>
+              <div className="flex items-center gap-1">
+                <div className="w-1.5 h-1.5 rounded-full bg-cyan-400" />
+                <span className="text-cyan-500/60">预测</span>
+                <span className="font-semibold text-cyan-300">
+                  {mounted ? Math.round(animatedForecast) : 0}万
+                </span>
               </div>
             </div>
           </div>
