@@ -30,7 +30,7 @@ interface LargeProjectDependency {
   status: 'normal' | 'highRisk' | 'critical';
 }
 
-// 5. 当月未下单数据
+// 5. 未按计划下单数据
 interface UnorderedProject {
   id: number;
   name: string; // 项目名称
@@ -459,7 +459,7 @@ export default function RiskIdentificationPanel({
 
   // 所有 Tab 定义
   const allTabs = [
-    { id: 0, label: '当月未下单', icon: XCircle },
+    { id: 0, label: '未按计划下单', icon: XCircle },
     { id: 1, label: '大项目依赖', icon: Building2 }
   ];
 
@@ -595,7 +595,7 @@ export default function RiskIdentificationPanel({
             <div className="flex items-center gap-2">
               {visibleTabs.map((tab) => {
                 const Icon = tab.icon;
-                const isUnorderedProjects = tab.id === 0; // 当月未下单
+                const isUnorderedProjects = tab.id === 0; // 未按计划下单
 
                 return (
                   <button
@@ -603,7 +603,7 @@ export default function RiskIdentificationPanel({
                     onClick={() => setCurrentTab(tab.id)}
                     className={cn(
                       'flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium transition-all',
-                      // 当月未下单使用红色主题
+                      // 未按计划下单使用红色主题
                       isUnorderedProjects && theme === 'dashboard'
                         ? 'bg-red-500/40 text-red-200 border-2 border-red-500/60 shadow-[0_0_20px_rgba(239,68,68,0.6)] animate-pulse'
                         : isUnorderedProjects
@@ -654,7 +654,7 @@ export default function RiskIdentificationPanel({
 
       {/* 内容区域 */}
       <div className="flex-1 overflow-hidden">
-        {/* ============ Tab 0: 当月未下单 ============ */}
+        {/* ============ Tab 0: 未按计划下单 ============ */}
         {currentTab === 0 && (
           // 明细视图
           <div className="h-full flex flex-col animate-in fade-in duration-300">
