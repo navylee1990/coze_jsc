@@ -757,112 +757,99 @@ export default function RiskIdentificationPanel({
       <div className="flex-1 overflow-hidden">
         {/* ============ Tab 1: 大项目依赖 ============ */}
         {currentTab === 1 && (
-          <>
-            {viewMode === 'summary' ? (
-              // 汇总视图
-              <div className="h-full p-4 space-y-4 animate-in fade-in duration-300 overflow-y-auto">
-                {/* 顶部仪表盘 */}
-                <div className="grid grid-cols-3 gap-3">
-                  <div className={cn('rounded-lg p-4 border text-center', DASHBOARD_STYLES.cardBorder)}>
-                    <CircularGauge value={largeProjectDependencies.length} max={20} color="cyan" size={100} label="依赖项目" />
-                  </div>
-                  <div className={cn('rounded-lg p-4 border', DASHBOARD_STYLES.cardBorder)}>
-                    <div className="text-xs mb-2 text-cyan-400/70">总金额</div>
-                    <div className="text-3xl font-bold text-cyan-300" style={{ textShadow: '0 0 10px rgba(34,211,238,0.8)' }}>
-                      {largeProjectDependencies.reduce((sum, p) => sum + p.amount, 0).toFixed(0)}
-                      <span className="text-sm ml-1">万</span>
+          // 明细视图
+          <div className="h-full flex flex-col animate-in fade-in duration-300">
+            {/* 顶部仪表盘风格指标卡片 */}
+            <div className={cn(
+              'p-3 relative overflow-hidden',
+              'bg-gradient-to-br from-cyan-950/40 via-slate-900 to-slate-900',
+              'border-b-2 border-cyan-500/50',
+              'shadow-[0_0_20px_rgba(6,182,212,0.3)]'
+            )}>
+              {/* 背景装饰网格 */}
+              <div className="absolute inset-0 opacity-10" style={{
+                backgroundImage: `
+                  linear-gradient(rgba(6,182,212,0.2) 1px, transparent 1px),
+                  linear-gradient(90deg, rgba(6,182,212,0.2) 1px, transparent 1px)
+                `,
+                backgroundSize: '20px 20px'
+              }}></div>
+              {/* 顶部发光线条 */}
+              <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-transparent via-cyan-500 to-transparent animate-pulse"></div>
+
+              <div className="relative z-10 grid grid-cols-3 gap-3">
+                {/* 依赖项目数卡片 */}
+                <div className={cn(
+                  'relative rounded-xl p-2 overflow-hidden',
+                  'bg-gradient-to-br from-cyan-900/50 to-cyan-800/30',
+                  'border-2 border-cyan-500/60',
+                  'shadow-[0_0_25px_rgba(6,182,212,0.5)]'
+                )}>
+                  <div className="absolute top-0 right-0 w-20 h-20 bg-cyan-500/20 rounded-full blur-3xl animate-pulse"></div>
+                  <div className="relative z-10">
+                    <div className="flex items-center gap-2 mb-1.5">
+                      <Building2 className="w-3.5 h-3.5 text-cyan-400 drop-shadow-[0_0_10px_rgba(6,182,212,1)] animate-pulse" />
+                      <div className="text-xs font-bold text-cyan-300">依赖项目</div>
                     </div>
-                  </div>
-                  <div className={cn('rounded-lg p-4 border', DASHBOARD_STYLES.cardBorder)}>
-                    <HalfGauge value={largeProjectDependencies.reduce((sum, p) => sum + p.dependencyCount, 0) / largeProjectDependencies.length} max={5} unit="平均依赖数" />
+                    <div className="flex items-baseline gap-1">
+                      <span className="text-3xl font-black text-cyan-400 drop-shadow-[0_0_15px_rgba(34,211,238,1)]">
+                        {largeProjectDependencies.length}
+                      </span>
+                      <span className="text-xs text-cyan-300/80">个</span>
+                    </div>
                   </div>
                 </div>
 
-                {/* 状态分布饼图风格 */}
-                <div className={cn('rounded-lg p-4 border', DASHBOARD_STYLES.cardBorder)}>
-                  <h4 className="text-sm font-semibold text-cyan-300 mb-3 flex items-center gap-2">
-                    <Circle className="w-4 h-4" />
-                    状态分布
-                  </h4>
-                  <div className="grid grid-cols-3 gap-3">
-                    <div className="text-center">
-                      <div className="text-3xl font-bold text-red-400 mb-1">{largeProjectDependencies.filter(p => p.status === 'critical').length}</div>
-                      <div className="text-xs text-red-300/70">紧急</div>
+                {/* 总金额卡片 */}
+                <div className={cn(
+                  'relative rounded-xl p-2 overflow-hidden',
+                  'bg-gradient-to-br from-orange-900/50 to-orange-800/30',
+                  'border-2 border-orange-500/60',
+                  'shadow-[0_0_25px_rgba(249,115,22,0.5)]'
+                )}>
+                  <div className="absolute top-0 right-0 w-20 h-20 bg-orange-500/20 rounded-full blur-3xl animate-pulse"></div>
+                  <div className="relative z-10">
+                    <div className="flex items-center gap-2 mb-1.5">
+                      <DollarSign className="w-3.5 h-3.5 text-orange-400 drop-shadow-[0_0_10px_rgba(249,115,22,1)] animate-pulse" />
+                      <div className="text-xs font-bold text-orange-300">总金额</div>
                     </div>
-                    <div className="text-center">
-                      <div className="text-3xl font-bold text-orange-400 mb-1">{largeProjectDependencies.filter(p => p.status === 'highRisk').length}</div>
-                      <div className="text-xs text-orange-300/70">高风险</div>
-                    </div>
-                    <div className="text-center">
-                      <div className="text-3xl font-bold text-green-400 mb-1">{largeProjectDependencies.filter(p => p.status === 'normal').length}</div>
-                      <div className="text-xs text-green-300/70">正常</div>
+                    <div className="flex items-baseline gap-1">
+                      <span className="text-3xl font-black text-orange-400 drop-shadow-[0_0_15px_rgba(251,146,60,1)]">
+                        {largeProjectDependencies.reduce((sum, p) => sum + p.amount, 0).toFixed(0)}
+                      </span>
+                      <span className="text-xs text-orange-300/80">万</span>
                     </div>
                   </div>
                 </div>
 
-                {/* Top 3 高风险项目卡片 */}
-                <div className={cn('rounded-lg p-4 border', DASHBOARD_STYLES.cardBorder)}>
-                  <h4 className="text-sm font-semibold text-cyan-300 mb-3 flex items-center gap-2">
-                    <Target className="w-4 h-4" />
-                    高风险项目 Top 3
-                  </h4>
-                  <div className="space-y-2">
-                    {largeProjectDependencies
-                      .filter(p => p.status === 'critical')
-                      .slice(0, 3)
-                      .map((item, index) => (
-                        <div key={index} className="bg-red-500/10 border border-red-500/30 rounded-lg p-3">
-                          <div className="flex justify-between items-center">
-                            <div>
-                              <div className="text-sm font-medium text-cyan-200">{item.projectName}</div>
-                              <div className="text-xs text-cyan-400/70">{item.region} · {item.owner}</div>
-                            </div>
-                            <div className="text-xl font-bold text-red-400">{item.amount}万</div>
-                          </div>
-                        </div>
-                      ))}
+                {/* 高风险占比卡片 */}
+                <div className={cn(
+                  'relative rounded-xl p-2 overflow-hidden',
+                  'bg-gradient-to-br from-red-900/50 to-red-800/30',
+                  'border-2 border-red-500/60',
+                  'shadow-[0_0_25px_rgba(239,68,68,0.5)]'
+                )}>
+                  <div className="absolute top-0 right-0 w-20 h-20 bg-red-500/20 rounded-full blur-3xl animate-pulse"></div>
+                  <div className="relative z-10">
+                    <div className="flex items-center gap-2 mb-1.5">
+                      <AlertTriangle className="w-3.5 h-3.5 text-red-400 drop-shadow-[0_0_10px_rgba(239,68,68,1)] animate-pulse" />
+                      <div className="text-xs font-bold text-red-300">高风险占比</div>
+                    </div>
+                    <div className="flex items-baseline gap-1">
+                      <span className="text-3xl font-black text-red-400 drop-shadow-[0_0_15px_rgba(248,113,113,1)]">
+                        {largeProjectDependencies.length > 0
+                          ? Math.round(((largeProjectDependencies.filter(p => p.status === 'critical' || p.status === 'highRisk').length) / largeProjectDependencies.length) * 100)
+                          : 0}
+                      </span>
+                      <span className="text-xs text-red-300/80">%</span>
+                    </div>
                   </div>
                 </div>
-
-                {/* 查看详情按钮 */}
-                <button
-                  onClick={() => setViewMode('detail')}
-                  className="w-full py-3 rounded-lg bg-cyan-500/20 border border-cyan-500/50 text-cyan-300 font-medium hover:bg-cyan-500/30 transition-all"
-                >
-                  查看详细数据
-                </button>
               </div>
-            ) : (
-              // 明细视图
-              <div className="h-full flex flex-col animate-in fade-in duration-300">
-                <div className="p-4 border-b border-cyan-500/20">
-                  <div className="grid grid-cols-4 gap-3">
-                    <div className={cn('rounded-lg p-3 border', DASHBOARD_STYLES.cardBorder)}>
-                      <div className={cn('text-xs mb-1', DASHBOARD_STYLES.textMuted)}>依赖项目数</div>
-                      <div className={cn('text-2xl font-bold', DASHBOARD_STYLES.textSecondary)}>{largeProjectDependencies.length}</div>
-                    </div>
-                    <div className={cn('rounded-lg p-3 border', DASHBOARD_STYLES.cardBorder)}>
-                      <div className={cn('text-xs mb-1', DASHBOARD_STYLES.textMuted)}>总金额</div>
-                      <div className={cn('text-2xl font-bold', DASHBOARD_STYLES.textSecondary)}>
-                        {largeProjectDependencies.reduce((sum, p) => sum + p.amount, 0).toFixed(0)}万
-                      </div>
-                    </div>
-                    <div className={cn('rounded-lg p-3 border', DASHBOARD_STYLES.cardBorder)}>
-                      <div className={cn('text-xs mb-1', DASHBOARD_STYLES.textMuted)}>高风险项目</div>
-                      <div className={cn('text-2xl font-bold text-red-400')}>
-                        {largeProjectDependencies.filter(p => p.status === 'critical').length}
-                      </div>
-                    </div>
-                    <div className={cn('rounded-lg p-3 border', DASHBOARD_STYLES.cardBorder)}>
-                      <div className={cn('text-xs mb-1', DASHBOARD_STYLES.textMuted)}>平均依赖数</div>
-                      <div className={cn('text-2xl font-bold', DASHBOARD_STYLES.textSecondary)}>
-                        {(largeProjectDependencies.reduce((sum, p) => sum + p.dependencyCount, 0) / largeProjectDependencies.length).toFixed(1)}
-                      </div>
-                    </div>
-                  </div>
-                </div>
+            </div>
 
-                <div className="flex-1 overflow-auto p-3">
+            {/* 表格区域 */}
+            <div className="flex-1 overflow-auto p-3">
                   <table className="w-full">
                     <thead className="sticky top-0 bg-slate-900/95 backdrop-blur-sm z-10">
                       <tr className={cn('text-xs border-b', DASHBOARD_STYLES.cardBorder)}>
@@ -916,9 +903,7 @@ export default function RiskIdentificationPanel({
                   </div>
                   <Pagination currentPage={currentPage} totalPages={totalPages} onPageChange={setCurrentPage} />
                 </div>
-              </div>
-            )}
-          </>
+          </div>
         )}
 
         {/* ============ Tab 2: 阶段停滞 ============ */}
@@ -1085,11 +1070,11 @@ export default function RiskIdentificationPanel({
 
                 <div className="px-4 py-2 border-t border-cyan-500/20 flex justify-between items-center">
                   <div className={cn('text-xs', DASHBOARD_STYLES.textMuted)}>
-                    共 {largeProjectDependencies.length} 条记录，当前第 {currentPage} / {totalPages} 页
+                    共 {predictedRisks.length} 条记录，当前第 {currentPage} / {totalPages} 页
                   </div>
                   <Pagination currentPage={currentPage} totalPages={totalPages} onPageChange={setCurrentPage} />
                 </div>
-              </div>
+          </div>
             )}
           </>
         )}
@@ -1252,7 +1237,7 @@ export default function RiskIdentificationPanel({
                   </div>
                   <Pagination currentPage={currentPage} totalPages={totalPages} onPageChange={setCurrentPage} />
                 </div>
-              </div>
+          </div>
             )}
           </>
         )}
