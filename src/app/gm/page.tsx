@@ -377,12 +377,6 @@ export default function GMDashboard() {
                 <h1 className={`text-2xl font-bold ${DASHBOARD_STYLES.neon}`}>{PAGE_TITLE}</h1>
                 <p className={`text-sm ${DASHBOARD_STYLES.textSecondary}`}>预测驱动 · 数据赋能 · 精准决策</p>
               </div>
-              <Badge
-                variant="outline"
-                className="text-sm bg-cyan-500/20 border-cyan-500/50 text-cyan-300"
-              >
-                张晖
-              </Badge>
             </div>
 
             <div className="flex items-center gap-4">
@@ -422,6 +416,15 @@ export default function GMDashboard() {
                   本年度
                 </button>
               </div>
+            </div>
+
+            <div className="flex items-center gap-4">
+              <Badge
+                variant="outline"
+                className="text-sm bg-cyan-500/20 border-cyan-500/50 text-cyan-300"
+              >
+                张晖
+              </Badge>
             </div>
           </div>
         </div>
