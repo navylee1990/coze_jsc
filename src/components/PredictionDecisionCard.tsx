@@ -733,68 +733,47 @@ export default function PredictionDecisionCard({
       <div className="grid grid-cols-1 lg:grid-cols-10 gap-6">
         {/* 左侧：仪表盘区块 - 30%宽度 */}
         <div className="lg:col-span-3 rounded-xl p-6 border border-cyan-500/20 bg-slate-900/50">
-          <div className="flex flex-col items-center justify-center">
-            <MainGauge
-              value={animatedRate}
-              maxValue={100}
-              size={120}
-            />
-            <div className="mt-4 text-center">
-              <div className="text-cyan-400/60 text-xs mb-3">预计达成率</div>
-              <div className="flex items-center justify-center gap-4 text-sm whitespace-nowrap">
-                <div className="flex items-center gap-1.5">
-                  <div className="w-1.5 h-1.5 rounded-full bg-orange-400" />
-                  <span className="text-cyan-400/70 text-xs">目标</span>
-                  <span className="font-semibold text-orange-400 text-sm">{target}万</span>
-                </div>
-                <div className="flex items-center gap-1.5">
-                  <div className="w-1.5 h-1.5 rounded-full bg-cyan-400" />
-                  <span className="text-cyan-400/70 text-xs">预测</span>
-                  <span className="font-semibold text-cyan-300 text-sm">
-                    {mounted ? Math.round(animatedForecast) : 0}万
-                  </span>
+          <div className="flex flex-col items-center justify-center gap-6">
+            {/* 实际达成率仪表盘 */}
+            <div className="text-center">
+              <MainGauge
+                value={animatedActualRate}
+                maxValue={100}
+                size={100}
+              />
+              <div className="mt-3">
+                <div className="text-xs text-cyan-400/60 mb-1">实际达成率</div>
+                <div className="text-lg font-semibold text-green-400">
+                  {completed}万 / {target}万
                 </div>
               </div>
             </div>
 
-            {/* 三个指标卡片 */}
-            <div className="mt-6 grid grid-cols-3 gap-3 w-full">
-              {/* 实际达成率 */}
-              <div className="bg-slate-800/40 rounded-lg p-3 border border-green-500/30">
-                <div className="text-xs text-cyan-400/60 mb-2 text-center">实际达成率</div>
-                <div className="text-center">
-                  <div className="text-2xl font-black text-green-400 drop-shadow-[0_0_10px_rgba(74,222,128,0.8)]">
-                    {mounted ? Math.round(animatedActualRate) : 0}%
-                  </div>
-                  <div className="text-xs text-cyan-400/60 mt-1">
-                    {completed}万 / {target}万
-                  </div>
+            {/* 预计达成率仪表盘 */}
+            <div className="text-center">
+              <MainGauge
+                value={animatedRate}
+                maxValue={100}
+                size={100}
+              />
+              <div className="mt-3">
+                <div className="text-xs text-cyan-400/60 mb-1">预计达成率</div>
+                <div className="text-lg font-semibold text-cyan-300">
+                  {forecast}万 / {target}万
                 </div>
               </div>
+            </div>
 
-              {/* 预计达成率 */}
-              <div className="bg-slate-800/40 rounded-lg p-3 border border-cyan-500/30">
-                <div className="text-xs text-cyan-400/60 mb-2 text-center">预计达成率</div>
-                <div className="text-center">
-                  <div className="text-2xl font-black text-cyan-300 drop-shadow-[0_0_10px_rgba(34,211,238,0.8)]">
-                    {mounted ? Math.round(animatedRate) : 0}%
-                  </div>
-                  <div className="text-xs text-cyan-400/60 mt-1">
-                    {forecast}万 / {target}万
-                  </div>
+            {/* 预计缺口卡片 */}
+            <div className="w-full bg-slate-800/40 rounded-lg p-4 border border-red-500/30">
+              <div className="flex items-center justify-between">
+                <div>
+                  <div className="text-xs text-cyan-400/60 mb-1">预计缺口</div>
+                  <div className="text-xs text-cyan-400/50">{target}万 - {forecast}万</div>
                 </div>
-              </div>
-
-              {/* 预计缺口 */}
-              <div className="bg-slate-800/40 rounded-lg p-3 border border-red-500/30">
-                <div className="text-xs text-cyan-400/60 mb-2 text-center">预计缺口</div>
-                <div className="text-center">
-                  <div className="text-2xl font-black text-red-400 drop-shadow-[0_0_10px_rgba(248,113,113,0.8)]">
-                    {mounted ? Math.round(animatedForecastGap) : 0}万
-                  </div>
-                  <div className="text-xs text-cyan-400/60 mt-1">
-                    {target}万 - {forecast}万
-                  </div>
+                <div className="text-3xl font-black text-red-400 drop-shadow-[0_0_10px_rgba(248,113,113,0.8)]">
+                  {mounted ? Math.round(animatedForecastGap) : 0}
+                  <span className="text-sm font-semibold ml-1">万</span>
                 </div>
               </div>
             </div>
