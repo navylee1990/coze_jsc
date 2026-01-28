@@ -246,20 +246,19 @@ export default function PredictionDecisionCard({
 
         {/* 中心数值显示 */}
         <div className="absolute inset-0 flex flex-col items-center justify-center">
-          <div className="text-4xl font-black mb-1"
+          <div className="text-2xl font-black mb-1"
                style={{
                  color: percentage >= 90 ? '#22c55e' :
                         percentage >= 70 ? '#eab308' :
                         '#ef4444',
-                 textShadow: percentage >= 90 ? '0 0 20px rgba(74,222,128,1)' :
-                            percentage >= 70 ? '0 0 20px rgba(250,204,21,1)' :
-                            '0 0 20px rgba(239,68,68,1)',
+                 textShadow: percentage >= 90 ? '0 0 15px rgba(74,222,128,0.8)' :
+                            percentage >= 70 ? '0 0 15px rgba(250,204,21,0.8)' :
+                            '0 0 15px rgba(239,68,68,0.8)',
                }}
           >
             {mounted ? Math.round(value) : 0}
           </div>
           <div className="text-xs font-semibold text-cyan-400/70">%</div>
-          <div className="text-xs text-cyan-500/50 mt-1">达成率</div>
         </div>
       </div>
     );
