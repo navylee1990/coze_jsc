@@ -33,13 +33,13 @@ const TIME_RANGE_DATA = {
   },
   quarter: {
     target: 4500,
-    forecast: 3420,
-    completed: 2400,
+    forecast: 3510,  // 78%达成率
+    completed: 2250, // 50%达成率
   },
   year: {
     target: 9000,
-    forecast: 6840,
-    completed: 4800,
+    forecast: 7380,  // 82%达成率
+    completed: 5850, // 65%达成率
   },
 };
 

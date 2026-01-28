@@ -169,8 +169,8 @@ const forecastOverviewData = {
   },
   threeMonth: {
     target: 4500,
-    forecast: 3420, // 76%达成率: 4500 * 0.76 = 3420
-    completed: 2400,
+    forecast: 3510, // 78%达成率: 4500 * 0.78 = 3510
+    completed: 2250, // 50%达成率: 4500 * 0.50 = 2250
     gapSolution: {
       delayedProjects: { count: threeMonthDelayed.count, amount: threeMonthDelayed.amount },
       newProjectsNeeded: { count: threeMonthNewNeeded.count, amount: threeMonthNewNeeded.amount }
@@ -178,8 +178,8 @@ const forecastOverviewData = {
   },
   sixMonth: {
     target: 9000,
-    forecast: 6840, // 76%达成率: 9000 * 0.76 = 6840
-    completed: 4800,
+    forecast: 7380, // 82%达成率: 9000 * 0.82 = 7380
+    completed: 5850, // 65%达成率: 9000 * 0.65 = 5850
     gapSolution: {
       delayedProjects: { count: sixMonthDelayed.count, amount: sixMonthDelayed.amount },
       newProjectsNeeded: { count: sixMonthNewNeeded.count, amount: sixMonthNewNeeded.amount }
