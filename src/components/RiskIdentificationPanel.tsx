@@ -67,12 +67,30 @@ interface RiskPersonnel {
   lastClosedAmount: number;
 }
 
+// 5. 当月未下单数据
+interface UnorderedProject {
+  id: number;
+  name: string; // 项目名称
+  amount: number; // 金额
+  probability: 'high' | 'medium' | 'low'; // 成交概率
+  region: string; // 大区
+  salesEngineer: string; // 销售工程师
+  cityManager: string; // 城市经理
+  projectType: string; // 项目类型
+  projectPhase: string; // 项目阶段
+  detail: string; // 项目详情
+  expectedOrderDate: string; // 预计下单时间
+  delayDays?: number; // 延迟天数
+  riskReason: string; // 未下单原因
+}
+
 // 组件属性
 interface RiskIdentificationPanelProps {
   largeProjectDependencies?: LargeProjectDependency[];
   stageStagnations?: StageStagnation[];
   predictedRisks?: PredictedRisk[];
   riskPersonnel?: RiskPersonnel[];
+  unorderedProjects?: UnorderedProject[];
   theme?: 'dashboard' | 'light' | 'dark';
 }
 
@@ -111,6 +129,129 @@ const defaultRiskPersonnel: RiskPersonnel[] = [
   { name: '王芳', region: '华中', role: '销售经理', riskType: 'zeroProject', riskDuration: '1个月', riskScore: 70, activeProjects: 0, lastClosedAmount: 0 },
   { name: '赵强', region: '西南', role: '销售经理', riskType: 'lowPerformance', riskDuration: '3个月', riskScore: 82, activeProjects: 2, lastClosedAmount: 95 },
   { name: '孙丽', region: '华北', role: '销售经理', riskType: 'highDependency', riskDuration: '2个月', riskScore: 80, activeProjects: 1, lastClosedAmount: 450 }
+];
+
+const defaultUnorderedProjects: UnorderedProject[] = [
+  {
+    id: 1,
+    name: '扬州万达广场租赁项目',
+    amount: 25.5,
+    probability: 'medium',
+    region: '一区',
+    salesEngineer: '张伟',
+    cityManager: '卢继栋',
+    projectType: '租赁',
+    projectPhase: '项目采购',
+    detail: '商业广场租赁服务',
+    expectedOrderDate: '2026/1/15',
+    delayDays: 3,
+    riskReason: '合同条款待确认'
+  },
+  {
+    id: 2,
+    name: '天津天河城净水项目',
+    amount: 100,
+    probability: 'high',
+    region: '华北',
+    salesEngineer: '李明',
+    cityManager: '王强',
+    projectType: '买断',
+    projectPhase: '项目采购',
+    detail: '商业综合体净水系统',
+    expectedOrderDate: '2026/1/20',
+    delayDays: 15,
+    riskReason: '客户需求变更，方案需调整'
+  },
+  {
+    id: 3,
+    name: '广州白云机场航站楼项目',
+    amount: 80,
+    probability: 'high',
+    region: '华南',
+    salesEngineer: '赵敏',
+    cityManager: '陈明',
+    projectType: '买断',
+    projectPhase: '商务谈判',
+    detail: '机场航站楼净化系统',
+    expectedOrderDate: '2026/1/25',
+    delayDays: 8,
+    riskReason: '商务合同待审批'
+  },
+  {
+    id: 4,
+    name: '北京大兴国际机场配套项目',
+    amount: 60,
+    probability: 'medium',
+    region: '华北',
+    salesEngineer: '李明',
+    cityManager: '张伟',
+    projectType: '买断',
+    projectPhase: '项目采购',
+    detail: '机场配套设施净化系统',
+    expectedOrderDate: '2026/2/1',
+    delayDays: 20,
+    riskReason: '客户决策延迟，商务谈判暂停'
+  },
+  {
+    id: 5,
+    name: '重庆环球金融中心项目',
+    amount: 150,
+    probability: 'medium',
+    region: '西南',
+    salesEngineer: '周杰',
+    cityManager: '孙丽',
+    projectType: '买断',
+    projectPhase: '商务谈判',
+    detail: '商业中心净化系统',
+    expectedOrderDate: '2026/2/10',
+    delayDays: 12,
+    riskReason: '客户决策延迟，商务谈判暂停'
+  },
+  {
+    id: 6,
+    name: '杭州阿里巴巴园区项目',
+    amount: 130,
+    probability: 'low',
+    region: '二区',
+    salesEngineer: '刘芳',
+    cityManager: '王强',
+    projectType: '买断',
+    projectPhase: '项目采购',
+    detail: '企业园区净水设备',
+    expectedOrderDate: '2026/2/15',
+    delayDays: 8,
+    riskReason: '需求变更延迟'
+  },
+  {
+    id: 7,
+    name: '上海浦东国际博览中心项目',
+    amount: 40,
+    probability: 'low',
+    region: '一区',
+    salesEngineer: '刘芳',
+    cityManager: '李娜',
+    projectType: '买断',
+    projectPhase: '初步接触',
+    detail: '展览中心净水设备',
+    expectedOrderDate: '2026/3/1',
+    delayDays: 5,
+    riskReason: '项目风险较高，客户资金链紧张'
+  },
+  {
+    id: 8,
+    name: '深圳前海自贸区综合项目',
+    amount: 20,
+    probability: 'medium',
+    region: '华南',
+    salesEngineer: '周杰',
+    cityManager: '孙丽',
+    projectType: '买断',
+    projectPhase: '意向',
+    detail: '自贸区综合项目净水系统',
+    expectedOrderDate: '2026/3/5',
+    delayDays: 10,
+    riskReason: '项目未最终确认，处于意向阶段'
+  }
 ];
 
 // ==================== 辅助函数 ====================
@@ -372,6 +513,7 @@ export default function RiskIdentificationPanel({
   stageStagnations = defaultStageStagnations,
   predictedRisks = defaultPredictedRisks,
   riskPersonnel = defaultRiskPersonnel,
+  unorderedProjects = defaultUnorderedProjects,
   theme = 'dashboard'
 }: RiskIdentificationPanelProps) {
   // Tab状态
@@ -384,7 +526,8 @@ export default function RiskIdentificationPanel({
     { id: 0, label: '大项目依赖', icon: Building2 },
     { id: 1, label: '阶段停滞', icon: PauseCircle },
     { id: 2, label: '预测风险', icon: TrendingDown },
-    { id: 3, label: '风险人员', icon: Users }
+    { id: 3, label: '风险人员', icon: Users },
+    { id: 4, label: '当月未下单', icon: Target }
   ];
 
   // 切换Tab时重置
@@ -400,6 +543,7 @@ export default function RiskIdentificationPanel({
       case 1: return stageStagnations;
       case 2: return predictedRisks;
       case 3: return riskPersonnel;
+      case 4: return unorderedProjects;
       default: return [];
     }
   };
@@ -420,6 +564,9 @@ export default function RiskIdentificationPanel({
   const getPaginatedRiskPersonnel = () => {
     return riskPersonnel.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage);
   };
+  const getPaginatedUnorderedProjects = () => {
+    return unorderedProjects.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage);
+  };
 
   // 高风险数量
   const highRiskCount = (() => {
@@ -428,6 +575,7 @@ export default function RiskIdentificationPanel({
       case 1: return stageStagnations.filter(p => p.severity === 'high').length;
       case 2: return predictedRisks.filter(p => p.impact === 'high').length;
       case 3: return riskPersonnel.filter(p => p.riskScore >= 80).length;
+      case 4: return unorderedProjects.filter(p => p.delayDays && p.delayDays >= 10).length;
       default: return 0;
     }
   })();
@@ -1216,7 +1364,197 @@ export default function RiskIdentificationPanel({
 
                 <div className="px-4 py-3 border-t border-cyan-500/20 flex justify-between items-center">
                   <div className={cn('text-xs', DASHBOARD_STYLES.textMuted)}>
-                    共 {largeProjectDependencies.length} 条记录，当前第 {currentPage} / {totalPages} 页
+                    共 {riskPersonnel.length} 条记录，当前第 {currentPage} / {totalPages} 页
+                  </div>
+                  <Pagination currentPage={currentPage} totalPages={totalPages} onPageChange={setCurrentPage} />
+                </div>
+              </div>
+            )}
+          </>
+        )}
+
+        {/* ============ Tab 4: 当月未下单 ============ */}
+        {currentTab === 4 && (
+          <>
+            {viewMode === 'summary' ? (
+              // 汇总视图
+              <div className="h-full p-4 space-y-4 animate-in fade-in duration-300 overflow-y-auto">
+                {/* 顶部仪表盘 */}
+                <div className="grid grid-cols-3 gap-3">
+                  <div className={cn('rounded-lg p-4 border text-center', DASHBOARD_STYLES.cardBorder)}>
+                    <CircularGauge value={unorderedProjects.length} max={20} color="orange" size={100} label="未下单项目" />
+                  </div>
+                  <div className={cn('rounded-lg p-4 border', DASHBOARD_STYLES.cardBorder)}>
+                    <div className="text-xs mb-2 text-cyan-400/70">未下单总金额</div>
+                    <div className="text-3xl font-bold text-orange-400" style={{ textShadow: '0 0 10px rgba(249,115,22,0.8)' }}>
+                      {unorderedProjects.reduce((sum, p) => sum + p.amount, 0).toFixed(0)}
+                      <span className="text-sm ml-1">万</span>
+                    </div>
+                  </div>
+                  <div className={cn('rounded-lg p-4 border', DASHBOARD_STYLES.cardBorder)}>
+                    <HalfGauge value={Math.max(...unorderedProjects.map(p => p.delayDays || 0))} max={30} unit="最长延迟(天)" />
+                  </div>
+                </div>
+
+                {/* 概率分布 */}
+                <div className={cn('rounded-lg p-4 border', DASHBOARD_STYLES.cardBorder)}>
+                  <h4 className="text-sm font-semibold text-cyan-300 mb-3 flex items-center gap-2">
+                    <Target className="w-4 h-4" />
+                    成交概率分布
+                  </h4>
+                  <div className="grid grid-cols-3 gap-2">
+                    {['high', 'medium', 'low'].map((probability) => {
+                      const count = unorderedProjects.filter(p => p.probability === probability).length;
+                      const totalAmount = unorderedProjects.filter(p => p.probability === probability).reduce((sum, p) => sum + p.amount, 0);
+                      const color = probability === 'high' ? 'bg-green-500' : probability === 'medium' ? 'bg-yellow-500' : 'bg-red-500';
+                      const label = probability === 'high' ? '高' : probability === 'medium' ? '中' : '低';
+                      return (
+                        <div key={probability} className="bg-slate-800/50 rounded-lg p-3">
+                          <div className="text-xs text-cyan-400/70 mb-1">{label}概率</div>
+                          <div className="text-xl font-bold text-cyan-200">{count}<span className="text-xs ml-1">个</span></div>
+                          <div className="text-xs text-orange-400 mt-1">{totalAmount.toFixed(0)}万</div>
+                        </div>
+                      );
+                    })}
+                  </div>
+                </div>
+
+                {/* 高风险未下单项目 */}
+                <div className={cn('rounded-lg p-4 border', DASHBOARD_STYLES.cardBorder)}>
+                  <h4 className="text-sm font-semibold text-cyan-300 mb-3 flex items-center gap-2">
+                    <AlertTriangle className="w-4 h-4" />
+                    高风险未下单项目（延迟≥10天）
+                  </h4>
+                  <div className="space-y-2">
+                    {unorderedProjects
+                      .filter(p => p.delayDays && p.delayDays >= 10)
+                      .sort((a, b) => (b.delayDays || 0) - (a.delayDays || 0))
+                      .slice(0, 5)
+                      .map((item, index) => (
+                        <div key={item.id} className={cn(
+                          'rounded-lg p-3 border transition-all',
+                          item.delayDays && item.delayDays >= 20 ? 'bg-red-500/20 border-red-500/50' : 'bg-orange-500/20 border-orange-500/50'
+                        )}>
+                          <div className="flex items-start justify-between mb-2">
+                            <div className="flex-1 min-w-0">
+                              <div className="text-sm font-medium text-cyan-200 truncate">{item.name}</div>
+                              <div className="text-xs text-cyan-400/70">{item.region} · {item.salesEngineer}</div>
+                            </div>
+                            <div className="text-right ml-3">
+                              <div className="text-lg font-bold text-orange-400">{item.amount.toFixed(0)}<span className="text-xs">万</span></div>
+                              <div className="text-xs text-red-400">延迟{item.delayDays}天</div>
+                            </div>
+                          </div>
+                          <div className="text-xs text-cyan-400/60">
+                            原因：{item.riskReason}
+                          </div>
+                        </div>
+                      ))}
+                  </div>
+                </div>
+
+                <button
+                  onClick={() => setViewMode('detail')}
+                  className="w-full py-3 rounded-lg bg-cyan-500/20 border border-cyan-500/50 text-cyan-300 font-medium hover:bg-cyan-500/30 transition-all"
+                >
+                  查看详细数据
+                </button>
+              </div>
+            ) : (
+              // 明细视图
+              <div className="h-full flex flex-col animate-in fade-in duration-300">
+                <div className="p-4 border-b border-cyan-500/20">
+                  <div className="grid grid-cols-4 gap-3">
+                    <div className={cn('rounded-lg p-3 border', DASHBOARD_STYLES.cardBorder)}>
+                      <div className={cn('text-xs mb-1', DASHBOARD_STYLES.textMuted)}>未下单项目数</div>
+                      <div className={cn('text-2xl font-bold', DASHBOARD_STYLES.textSecondary)}>{unorderedProjects.length}</div>
+                    </div>
+                    <div className={cn('rounded-lg p-3 border', DASHBOARD_STYLES.cardBorder)}>
+                      <div className={cn('text-xs mb-1', DASHBOARD_STYLES.textMuted)}>总金额</div>
+                      <div className={cn('text-2xl font-bold text-orange-400')}>
+                        {unorderedProjects.reduce((sum, p) => sum + p.amount, 0).toFixed(0)}万
+                      </div>
+                    </div>
+                    <div className={cn('rounded-lg p-3 border', DASHBOARD_STYLES.cardBorder)}>
+                      <div className={cn('text-xs mb-1', DASHBOARD_STYLES.textMuted)}>高风险项目</div>
+                      <div className={cn('text-2xl font-bold text-red-400')}>
+                        {unorderedProjects.filter(p => p.delayDays && p.delayDays >= 10).length}
+                      </div>
+                    </div>
+                    <div className={cn('rounded-lg p-3 border', DASHBOARD_STYLES.cardBorder)}>
+                      <div className={cn('text-xs mb-1', DASHBOARD_STYLES.textMuted)}>平均延迟天数</div>
+                      <div className={cn('text-2xl font-bold text-orange-400')}>
+                        {Math.round(unorderedProjects.reduce((sum, p) => sum + (p.delayDays || 0), 0) / unorderedProjects.length)}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="flex-1 overflow-auto p-4">
+                  <table className="w-full">
+                    <thead className="sticky top-0 bg-slate-900/95 backdrop-blur-sm z-10">
+                      <tr className={cn('text-xs border-b', DASHBOARD_STYLES.cardBorder)}>
+                        <th className={cn('text-left py-2 px-3 font-medium', DASHBOARD_STYLES.textSecondary)}>项目名称</th>
+                        <th className={cn('text-left py-2 px-3 font-medium', DASHBOARD_STYLES.textSecondary)}>金额</th>
+                        <th className={cn('text-left py-2 px-3 font-medium', DASHBOARD_STYLES.textSecondary)}>区域</th>
+                        <th className={cn('text-left py-2 px-3 font-medium', DASHBOARD_STYLES.textSecondary)}>销售工程师</th>
+                        <th className={cn('text-left py-2 px-3 font-medium', DASHBOARD_STYLES.textSecondary)}>概率</th>
+                        <th className={cn('text-left py-2 px-3 font-medium', DASHBOARD_STYLES.textSecondary)}>预计下单时间</th>
+                        <th className={cn('text-center py-2 px-3 font-medium', DASHBOARD_STYLES.textSecondary)}>延迟天数</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {getPaginatedUnorderedProjects().map((item, index) => (
+                        <tr
+                          key={index}
+                          className={cn(
+                            'border-b border-cyan-500/10 hover:bg-cyan-500/5 transition-colors',
+                            index === getPaginatedUnorderedProjects().length - 1 && 'border-b-0'
+                          )}
+                        >
+                          <td className={cn('py-3 px-3', DASHBOARD_STYLES.textSecondary)}>
+                            <div className="font-medium">{item.name}</div>
+                            <div className={cn('text-xs', DASHBOARD_STYLES.textMuted)}>{item.projectType}</div>
+                          </td>
+                          <td className={cn('py-3 px-3', DASHBOARD_STYLES.textSecondary)}>
+                            <span className="text-orange-400">{item.amount.toFixed(2)}万</span>
+                          </td>
+                          <td className={cn('py-3 px-3', DASHBOARD_STYLES.textSecondary)}>{item.region}</td>
+                          <td className={cn('py-3 px-3', DASHBOARD_STYLES.textSecondary)}>{item.salesEngineer}</td>
+                          <td className={cn('py-3 px-3', DASHBOARD_STYLES.textSecondary)}>
+                            <span className={cn(
+                              'px-2 py-1 rounded text-xs font-medium',
+                              item.probability === 'high' ? 'bg-green-500/30 text-green-300 border border-green-500/50' :
+                              item.probability === 'medium' ? 'bg-yellow-500/30 text-yellow-300 border border-yellow-500/50' :
+                              'bg-red-500/30 text-red-300 border border-red-500/50'
+                            )}>
+                              {item.probability === 'high' ? '高' : item.probability === 'medium' ? '中' : '低'}
+                            </span>
+                          </td>
+                          <td className={cn('py-3 px-3', DASHBOARD_STYLES.textSecondary)}>{item.expectedOrderDate}</td>
+                          <td className={cn('py-3 px-3 text-center', DASHBOARD_STYLES.textSecondary)}>
+                            {item.delayDays !== undefined && item.delayDays > 0 ? (
+                              <span className={cn(
+                                'px-2 py-1 rounded text-xs font-medium',
+                                item.delayDays >= 20 ? 'bg-red-500/30 text-red-300 border border-red-500/50' :
+                                item.delayDays >= 10 ? 'bg-orange-500/30 text-orange-300 border border-orange-500/50' :
+                                'bg-yellow-500/30 text-yellow-300 border border-yellow-500/50'
+                              )}>
+                                {item.delayDays}天
+                              </span>
+                            ) : (
+                              <span className={cn('text-xs', DASHBOARD_STYLES.textMuted)}>-</span>
+                            )}
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+
+                <div className="px-4 py-3 border-t border-cyan-500/20 flex justify-between items-center">
+                  <div className={cn('text-xs', DASHBOARD_STYLES.textMuted)}>
+                    共 {unorderedProjects.length} 条记录，当前第 {currentPage} / {totalPages} 页
                   </div>
                   <Pagination currentPage={currentPage} totalPages={totalPages} onPageChange={setCurrentPage} />
                 </div>
