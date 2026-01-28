@@ -39,31 +39,6 @@ export default function HomePage() {
             </Card>
           </Link>
 
-          {/* 经销商经营看板 */}
-          <Link href="/dealer" className="group">
-            <Card className="border-2 border-gray-200 hover:border-purple-400 hover:shadow-xl transition-all duration-300 bg-white h-full">
-              <CardContent className="p-8">
-                <div className="flex flex-col items-center text-center h-full justify-center">
-                  <div className="w-16 h-16 bg-gradient-to-br from-purple-500 to-pink-600 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
-                    <Users className="w-8 h-8 text-white" />
-                  </div>
-                  <h2 className="text-2xl font-bold text-gray-900 mb-3">经销商经营看板</h2>
-                  <p className="text-gray-600 mb-6">老板视角，查看整体经营状况、区域表现、风险预警</p>
-                  <div className="flex items-center gap-4 text-sm text-gray-500">
-                    <div className="flex items-center gap-1.5">
-                      <BarChart3 className="w-4 h-4 text-purple-500" />
-                      <span>经营总览</span>
-                    </div>
-                    <div className="flex items-center gap-1.5">
-                      <Target className="w-4 h-4 text-pink-500" />
-                      <span>区域分析</span>
-                    </div>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
-          </Link>
-
           {/* 商用总经理驾驶舱 */}
           <Link href="/gm" className="group">
             <Card className="border-2 border-gray-200 hover:border-green-400 hover:shadow-xl transition-all duration-300 bg-white h-full">
