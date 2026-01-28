@@ -519,7 +519,7 @@ export default function RiskIdentificationPanel({
   timeRange = 'current'
 }: RiskIdentificationPanelProps) {
   // Tab状态
-  const [currentTab, setCurrentTab] = useState(timeRange === 'current' ? 4 : 0);
+  const [currentTab, setCurrentTab] = useState(0);
   const [viewMode, setViewMode] = useState<'summary' | 'detail'>('summary');
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 5;
