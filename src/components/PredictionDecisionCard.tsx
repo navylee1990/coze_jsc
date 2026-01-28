@@ -759,30 +759,6 @@ export default function PredictionDecisionCard({
           <MonthlyTrendChart />
         </div>
       </div>
-
-      {/* 底部：驾驶舱科技装饰 */}
-      <div className="mt-5 pt-3 border-t border-cyan-500/20">
-        <div className="flex items-center justify-between text-sm text-cyan-500/40">
-          <div className="flex items-center gap-2">
-            <Gauge className="w-3 h-3" />
-            <span>驾驶舱模式已激活</span>
-          </div>
-          <div className="flex items-center gap-5">
-            <div className="flex items-center gap-1.5">
-              <div className="w-1.5 h-1.5 rounded-full bg-green-400 animate-pulse" />
-              <span>系统正常</span>
-            </div>
-            <div className="flex items-center gap-1.5">
-              <TrendingUp className="w-3 h-3" />
-              <span>趋势实时</span>
-            </div>
-            <div className="flex items-center gap-1.5">
-              <Zap className="w-3 h-3" />
-              <span>数据实时</span>
-            </div>
-          </div>
-        </div>
-      </div>
     </div>
   );
 }
