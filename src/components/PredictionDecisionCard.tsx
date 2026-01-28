@@ -350,8 +350,8 @@ export default function PredictionDecisionCard({
   const MonthlyTrendChart = () => {
     const maxValue = 1600; // 最大值
     const width = 1000; // SVG宽度
-    const height = 200; // SVG高度
-    const padding = { top: 20, right: 80, bottom: 30, left: 50 };
+    const height = 220; // SVG高度（增加高度）
+    const padding = { top: 10, right: 60, bottom: 35, left: 45 };
     const chartWidth = width - padding.left - padding.right;
     const chartHeight = height - padding.top - padding.bottom;
 
@@ -418,43 +418,34 @@ export default function PredictionDecisionCard({
     };
 
     return (
-      <div className="mt-6 pt-6 border-t border-cyan-500/20">
-        <div className="mb-4">
-          <div className="flex items-center justify-between mb-3">
-            <div className="flex items-center gap-2">
-              <BarChart3 className={cn('w-5 h-5', DASHBOARD_STYLES.neon)} />
-              <h3 className={cn('text-lg font-bold', DASHBOARD_STYLES.neon)}>
-                年度趋势预测
-              </h3>
+      <div className="h-full flex flex-col">
+        {/* 图例 */}
+        <div className="grid grid-cols-3 gap-2 p-2 mb-3 bg-slate-800/30 rounded-lg">
+          <div className="flex items-center gap-2">
+            <div className="w-3 h-3 rounded bg-orange-400/30 border-2 border-orange-400"></div>
+            <div className="text-xs">
+              <div className="text-orange-400 font-semibold">业务目标</div>
+              <div className="text-cyan-500/60">1500万/月</div>
             </div>
           </div>
-          <div className="grid grid-cols-3 gap-2 p-3 bg-slate-800/30 rounded-lg">
-            <div className="flex items-center gap-2">
-              <div className="w-4 h-4 rounded bg-orange-400/30 border-2 border-orange-400"></div>
-              <div className="text-xs">
-                <div className="text-orange-400 font-semibold">业务目标</div>
-                <div className="text-cyan-500/60">1500万/月</div>
-              </div>
+          <div className="flex items-center gap-2">
+            <div className="w-3 h-3 rounded bg-cyan-400 border-2 border-cyan-300"></div>
+            <div className="text-xs">
+              <div className="text-cyan-400 font-semibold">预测完成</div>
+              <div className="text-cyan-500/60">模型预测</div>
             </div>
-            <div className="flex items-center gap-2">
-              <div className="w-4 h-4 rounded bg-cyan-400 border-2 border-cyan-300"></div>
-              <div className="text-xs">
-                <div className="text-cyan-400 font-semibold">预测完成</div>
-                <div className="text-cyan-500/60">模型预测</div>
-              </div>
-            </div>
-            <div className="flex items-center gap-2">
-              <div className="w-4 h-4 rounded bg-green-400 border-2 border-green-300"></div>
-              <div className="text-xs">
-                <div className="text-green-400 font-semibold">已完成</div>
-                <div className="text-cyan-500/60">实际签约</div>
-              </div>
+          </div>
+          <div className="flex items-center gap-2">
+            <div className="w-3 h-3 rounded bg-green-400 border-2 border-green-300"></div>
+            <div className="text-xs">
+              <div className="text-green-400 font-semibold">已完成</div>
+              <div className="text-cyan-500/60">实际签约</div>
             </div>
           </div>
         </div>
 
         {/* 曲线图容器 */}
-        <div className="relative w-full" style={{ height: `${height}px` }}>
+        <div className="flex-1 relative w-full" style={{ minHeight: `${height}px` }}>
           <svg
             viewBox={`0 0 ${width} ${height}`}
             className="w-full h-full"
@@ -714,80 +705,85 @@ export default function PredictionDecisionCard({
         </div>
       </div>
 
-      {/* 驾驶舱布局 - 仪表盘 */}
-      <div className="grid grid-cols-3 gap-4 mb-6">
-        {/* 左侧：预测完成 */}
-        <div className="flex flex-col items-center">
-          <SmallGauge
-            value={animatedForecast}
-            maxValue={target}
-            label="预测完成"
-            unit="万"
-            color="cyan"
-            size={150}
-          />
-          <div className="mt-3 text-center">
-            <div className="flex justify-between text-xs text-cyan-500/60 px-4">
-              <span>已完成</span>
-              <span className="font-semibold text-cyan-300">
-                {mounted ? Math.round(animatedCompleted) : 0}万
-              </span>
-            </div>
-          </div>
-        </div>
-
-        {/* 中央：达成率（主仪表盘） */}
-        <div className="flex flex-col items-center">
-          <MainGauge
-            value={animatedRate}
-            maxValue={100}
-            size={200}
-          />
-          <div className="mt-3 text-center">
-            <div className="flex items-center justify-center gap-3 text-xs">
-              <div className="flex items-center gap-1">
-                <div className="w-1.5 h-1.5 rounded-full bg-orange-400" />
-                <span className="text-cyan-500/60">目标</span>
-                <span className="font-semibold text-orange-400">{target}万</span>
-              </div>
-              <div className="flex items-center gap-1">
-                <div className="w-1.5 h-1.5 rounded-full bg-cyan-400" />
-                <span className="text-cyan-500/60">预测</span>
+      {/* 驾驶舱布局 - 3列 */}
+      <div className="grid grid-cols-3 gap-6">
+        {/* 左侧：三个仪表盘 */}
+        <div className="flex flex-col justify-between gap-6">
+          {/* 预测完成 */}
+          <div className="flex-1 flex flex-col items-center justify-center">
+            <SmallGauge
+              value={animatedForecast}
+              maxValue={target}
+              label="预测完成"
+              unit="万"
+              color="cyan"
+              size={140}
+            />
+            <div className="mt-2 text-center">
+              <div className="flex justify-between text-xs text-cyan-500/60 px-2">
+                <span>已完成</span>
                 <span className="font-semibold text-cyan-300">
-                  {mounted ? Math.round(animatedForecast) : 0}万
+                  {mounted ? Math.round(animatedCompleted) : 0}万
                 </span>
               </div>
             </div>
           </div>
-        </div>
 
-        {/* 右侧：时间紧迫度 */}
-        <div className="flex flex-col items-center">
-          <SmallGauge
-            value={7}
-            maxValue={30}
-            label="剩余天数"
-            unit="天"
-            color="red"
-            size={150}
-          />
-          <div className="mt-3 text-center">
-            <div className="flex items-center justify-center gap-2">
-              <AlertTriangle className="w-3 h-3 text-red-400 animate-pulse" />
-              <span className="text-xs text-red-400 font-semibold">紧迫</span>
+          {/* 达成率（主仪表盘） */}
+          <div className="flex-1 flex flex-col items-center justify-center">
+            <MainGauge
+              value={animatedRate}
+              maxValue={100}
+              size={140}
+            />
+            <div className="mt-2 text-center">
+              <div className="flex items-center justify-center gap-2 text-xs">
+                <div className="flex items-center gap-1">
+                  <div className="w-1.5 h-1.5 rounded-full bg-orange-400" />
+                  <span className="text-cyan-500/60">目标</span>
+                  <span className="font-semibold text-orange-400">{target}万</span>
+                </div>
+                <div className="flex items-center gap-1">
+                  <div className="w-1.5 h-1.5 rounded-full bg-cyan-400" />
+                  <span className="text-cyan-500/60">预测</span>
+                  <span className="font-semibold text-cyan-300">
+                    {mounted ? Math.round(animatedForecast) : 0}万
+                  </span>
+                </div>
+              </div>
             </div>
-            <div className="mt-1 text-xs text-cyan-500/60">
-              日均需完成 <span className="font-semibold text-cyan-300">95万</span>
+          </div>
+
+          {/* 时间紧迫度 */}
+          <div className="flex-1 flex flex-col items-center justify-center">
+            <SmallGauge
+              value={7}
+              maxValue={30}
+              label="剩余天数"
+              unit="天"
+              color="red"
+              size={140}
+            />
+            <div className="mt-2 text-center">
+              <div className="flex items-center justify-center gap-2">
+                <AlertTriangle className="w-3 h-3 text-red-400 animate-pulse" />
+                <span className="text-xs text-red-400 font-semibold">紧迫</span>
+              </div>
+              <div className="mt-1 text-xs text-cyan-500/60">
+                日均需完成 <span className="font-semibold text-cyan-300">95万</span>
+              </div>
             </div>
           </div>
         </div>
+
+        {/* 右侧两列：年度趋势图 */}
+        <div className="col-span-2 flex flex-col">
+          <MonthlyTrendChart />
+        </div>
       </div>
 
-      {/* 年度趋势图 */}
-      <MonthlyTrendChart />
-
       {/* 底部：驾驶舱科技装饰 */}
-      <div className="mt-6 pt-4 border-t border-cyan-500/20">
+      <div className="mt-4 pt-3 border-t border-cyan-500/20">
         <div className="flex items-center justify-between text-xs text-cyan-500/40">
           <div className="flex items-center gap-2">
             <Gauge className="w-3 h-3" />
