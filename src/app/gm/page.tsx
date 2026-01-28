@@ -367,7 +367,7 @@ export default function GMDashboard() {
           'opacity-100 translate-y-0'
         )}
       >
-        <div className="max-w-[1920px] mx-auto px-6 py-4">
+        <div className="max-w-[1920px] mx-auto px-6 py-4 relative">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-4">
               <Link href="/" className={`${DASHBOARD_STYLES.textMuted} hover:text-white transition-colors`}>
@@ -385,7 +385,7 @@ export default function GMDashboard() {
               </Badge>
             </div>
 
-            <div className="flex items-center gap-4">
+            <div className="flex items-center gap-4 absolute left-1/2 -translate-x-1/2">
               {/* 时间维度选择器 */}
               <div className="flex items-center gap-1 bg-slate-800/50 border border-cyan-500/30 rounded-lg p-1">
                 <button
@@ -422,6 +422,10 @@ export default function GMDashboard() {
                   本年度
                 </button>
               </div>
+            </div>
+
+            <div className="flex items-center gap-4">
+              {/* 占位，保持三栏平衡 */}
             </div>
           </div>
         </div>
