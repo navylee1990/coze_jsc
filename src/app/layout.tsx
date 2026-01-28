@@ -33,6 +33,12 @@ export const metadata: Metadata = {
   ],
   authors: [{ name: 'Coze Code Team', url: 'https://code.coze.cn' }],
   generator: 'Coze Code',
+  viewport: {
+    width: 'device-width',
+    initialScale: 1,
+    maximumScale: 1,
+    userScalable: false,
+  },
   // icons: {
   //   icon: '',
   // },

@@ -367,25 +367,25 @@ export default function GMDashboard() {
           'opacity-100 translate-y-0'
         )}
       >
-        <div className="max-w-[1920px] mx-auto px-6 py-4">
+        <div className="max-w-[1920px] mx-auto px-3 sm:px-6 py-2 sm:py-4">
           <div className="flex items-center justify-between">
-            <div className="flex items-center gap-4">
+            <div className="flex items-center gap-2 sm:gap-4">
               <Link href="/" className={`${DASHBOARD_STYLES.textMuted} hover:text-white transition-colors`}>
-                <ChevronLeft className="w-5 h-5" />
+                <ChevronLeft className="w-4 h-4 sm:w-5 sm:h-5" />
               </Link>
               <div>
-                <h1 className={`text-2xl font-bold ${DASHBOARD_STYLES.neon}`}>{PAGE_TITLE}</h1>
-                <p className={`text-sm ${DASHBOARD_STYLES.textSecondary}`}>预测驱动 · 数据赋能 · 精准决策</p>
+                <h1 className={`text-lg sm:text-2xl font-bold ${DASHBOARD_STYLES.neon}`}>{PAGE_TITLE}</h1>
+                <p className={`text-xs sm:text-sm ${DASHBOARD_STYLES.textSecondary}`}>预测驱动 · 数据赋能 · 精准决策</p>
               </div>
             </div>
 
-            <div className="flex items-center gap-4">
+            <div className="flex items-center gap-2 sm:gap-4">
               {/* 时间维度选择器 */}
               <div className="flex items-center gap-1 bg-slate-800/50 border border-cyan-500/30 rounded-lg p-1">
                 <button
                   onClick={() => setSelectedTimeRange('current')}
                   className={cn(
-                    'px-3 py-1.5 text-xs font-medium rounded-md transition-all',
+                    'px-2 sm:px-3 py-1 sm:py-1.5 text-[10px] sm:text-xs font-medium rounded-md transition-all',
                     selectedTimeRange === 'current'
                       ? 'bg-cyan-500/20 text-cyan-300 border border-cyan-500/50 shadow-[0_0_8px_rgba(34,211,238,0.3)]'
                       : 'text-cyan-400/60 hover:text-cyan-300 hover:bg-cyan-500/10'
@@ -396,7 +396,7 @@ export default function GMDashboard() {
                 <button
                   onClick={() => setSelectedTimeRange('quarter')}
                   className={cn(
-                    'px-3 py-1.5 text-xs font-medium rounded-md transition-all',
+                    'px-2 sm:px-3 py-1 sm:py-1.5 text-[10px] sm:text-xs font-medium rounded-md transition-all',
                     selectedTimeRange === 'quarter'
                       ? 'bg-cyan-500/20 text-cyan-300 border border-cyan-500/50 shadow-[0_0_8px_rgba(34,211,238,0.3)]'
                       : 'text-cyan-400/60 hover:text-cyan-300 hover:bg-cyan-500/10'
@@ -407,7 +407,7 @@ export default function GMDashboard() {
                 <button
                   onClick={() => setSelectedTimeRange('year')}
                   className={cn(
-                    'px-3 py-1.5 text-xs font-medium rounded-md transition-all',
+                    'px-2 sm:px-3 py-1 sm:py-1.5 text-[10px] sm:text-xs font-medium rounded-md transition-all',
                     selectedTimeRange === 'year'
                       ? 'bg-cyan-500/20 text-cyan-300 border border-cyan-500/50 shadow-[0_0_8px_rgba(34,211,238,0.3)]'
                       : 'text-cyan-400/60 hover:text-cyan-300 hover:bg-cyan-500/10'
@@ -418,10 +418,10 @@ export default function GMDashboard() {
               </div>
             </div>
 
-            <div className="flex items-center gap-4">
+            <div className="flex items-center gap-2 sm:gap-4">
               <Badge
                 variant="outline"
-                className="text-sm bg-cyan-500/20 border-cyan-500/50 text-cyan-300"
+                className="text-[10px] sm:text-sm bg-cyan-500/20 border-cyan-500/50 text-cyan-300"
               >
                 张晖
               </Badge>
@@ -433,7 +433,7 @@ export default function GMDashboard() {
       {/* 主要内容区 - 自适应流式布局 */}
       <main className="flex-1 flex flex-col">
         {/* 流式容器 - 根据分辨率自动适配，不限制高度 */}
-        <div className="max-w-[1920px] mx-auto p-4 sm:p-6">
+        <div className="max-w-[1920px] mx-auto p-2 sm:p-4">
             {/* 驾驶舱风格布局 - 响应式网格 */}
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-2 sm:gap-4">
 
@@ -445,7 +445,7 @@ export default function GMDashboard() {
           )}>
             <div className={cn(
               `${DASHBOARD_STYLES.cardBg} ${DASHBOARD_STYLES.cardBorder} rounded-xl p-0 ${DASHBOARD_STYLES.glow}`,
-              'h-[500px]'
+              'h-[400px] sm:h-[500px]'
             )}>
               <PredictionDecisionCard theme="dashboard" timeRange={selectedTimeRange} />
             </div>
@@ -463,7 +463,7 @@ export default function GMDashboard() {
               'shadow-[0_0_40px_rgba(239,68,68,0.4)]',
               'hover:shadow-[0_0_50px_rgba(239,68,68,0.5)]',
               'transition-shadow duration-300',
-              'h-[500px]'
+              'h-[400px] sm:h-[500px]'
             )}>
               <RiskIdentificationPanel theme="dashboard" timeRange={selectedTimeRange} />
             </div>
