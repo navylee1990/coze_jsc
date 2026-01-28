@@ -46,10 +46,14 @@ export default function PredictionDecisionCard({
   const target = 1500;      // 目标（万元）
   const forecast = 1140;    // 预测（万元）
   const completed = 800;    // 已完成（万元）
-  const achievementRate = 76; // 达成率 %
+  const achievementRate = 76; // 预计达成率 %
+  const actualAchievementRate = Math.round((completed / target) * 100); // 实际达成率 %
+  const forecastGap = target - forecast; // 预计缺口（万元）
 
   // 动画状态
   const [animatedRate, setAnimatedRate] = useState(0);
+  const [animatedActualRate, setAnimatedActualRate] = useState(0);
+  const [animatedForecastGap, setAnimatedForecastGap] = useState(0);
   const [needleAngle, setNeedleAngle] = useState(-90);
   const [animatedForecast, setAnimatedForecast] = useState(0);
   const [animatedCompleted, setAnimatedCompleted] = useState(0);
@@ -71,6 +75,32 @@ export default function PredictionDecisionCard({
 
       if (progress < 1) {
         requestAnimationFrame(animateRate);
+      }
+    };
+
+    // 1.1 实际达成率动画
+    const actualRateStartTime = Date.now();
+    const animateActualRate = () => {
+      const elapsed = Date.now() - actualRateStartTime;
+      const progress = Math.min(elapsed / rateDuration, 1);
+      const easeOut = 1 - Math.pow(1 - progress, 3);
+      setAnimatedActualRate(actualAchievementRate * easeOut);
+
+      if (progress < 1) {
+        requestAnimationFrame(animateActualRate);
+      }
+    };
+
+    // 1.2 预计缺口动画
+    const gapStartTime = Date.now();
+    const animateForecastGap = () => {
+      const elapsed = Date.now() - gapStartTime;
+      const progress = Math.min(elapsed / rateDuration, 1);
+      const easeOut = 1 - Math.pow(1 - progress, 3);
+      setAnimatedForecastGap(forecastGap * easeOut);
+
+      if (progress < 1) {
+        requestAnimationFrame(animateForecastGap);
       }
     };
 
@@ -106,6 +136,8 @@ export default function PredictionDecisionCard({
     };
 
     animateRate();
+    animateActualRate();
+    animateForecastGap();
     animateNeedle();
     animateNumbers();
   }, []);
@@ -700,15 +732,15 @@ export default function PredictionDecisionCard({
       {/* 左右两个独立块布局 */}
       <div className="grid grid-cols-1 lg:grid-cols-10 gap-6">
         {/* 左侧：仪表盘区块 - 30%宽度 */}
-        <div className="lg:col-span-3 rounded-xl p-7 border border-cyan-500/20 bg-slate-900/50">
+        <div className="lg:col-span-3 rounded-xl p-6 border border-cyan-500/20 bg-slate-900/50">
           <div className="flex flex-col items-center justify-center">
             <MainGauge
               value={animatedRate}
               maxValue={100}
-              size={144}
+              size={120}
             />
-            <div className="mt-6 text-center">
-              <div className="text-cyan-400/60 text-xs mb-3">本月达成率</div>
+            <div className="mt-4 text-center">
+              <div className="text-cyan-400/60 text-xs mb-3">预计达成率</div>
               <div className="flex items-center justify-center gap-4 text-sm whitespace-nowrap">
                 <div className="flex items-center gap-1.5">
                   <div className="w-1.5 h-1.5 rounded-full bg-orange-400" />
@@ -721,6 +753,48 @@ export default function PredictionDecisionCard({
                   <span className="font-semibold text-cyan-300 text-sm">
                     {mounted ? Math.round(animatedForecast) : 0}万
                   </span>
+                </div>
+              </div>
+            </div>
+
+            {/* 三个指标卡片 */}
+            <div className="mt-6 grid grid-cols-3 gap-3 w-full">
+              {/* 实际达成率 */}
+              <div className="bg-slate-800/40 rounded-lg p-3 border border-green-500/30">
+                <div className="text-xs text-cyan-400/60 mb-2 text-center">实际达成率</div>
+                <div className="text-center">
+                  <div className="text-2xl font-black text-green-400 drop-shadow-[0_0_10px_rgba(74,222,128,0.8)]">
+                    {mounted ? Math.round(animatedActualRate) : 0}%
+                  </div>
+                  <div className="text-xs text-cyan-400/60 mt-1">
+                    {completed}万 / {target}万
+                  </div>
+                </div>
+              </div>
+
+              {/* 预计达成率 */}
+              <div className="bg-slate-800/40 rounded-lg p-3 border border-cyan-500/30">
+                <div className="text-xs text-cyan-400/60 mb-2 text-center">预计达成率</div>
+                <div className="text-center">
+                  <div className="text-2xl font-black text-cyan-300 drop-shadow-[0_0_10px_rgba(34,211,238,0.8)]">
+                    {mounted ? Math.round(animatedRate) : 0}%
+                  </div>
+                  <div className="text-xs text-cyan-400/60 mt-1">
+                    {forecast}万 / {target}万
+                  </div>
+                </div>
+              </div>
+
+              {/* 预计缺口 */}
+              <div className="bg-slate-800/40 rounded-lg p-3 border border-red-500/30">
+                <div className="text-xs text-cyan-400/60 mb-2 text-center">预计缺口</div>
+                <div className="text-center">
+                  <div className="text-2xl font-black text-red-400 drop-shadow-[0_0_10px_rgba(248,113,113,0.8)]">
+                    {mounted ? Math.round(animatedForecastGap) : 0}万
+                  </div>
+                  <div className="text-xs text-cyan-400/60 mt-1">
+                    {target}万 - {forecast}万
+                  </div>
                 </div>
               </div>
             </div>
