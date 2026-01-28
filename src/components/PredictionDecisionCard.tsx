@@ -725,9 +725,9 @@ export default function PredictionDecisionCard({
       </div>
 
       {/* 左右两个独立块布局 */}
-      <div className="grid grid-cols-1 lg:grid-cols-5 gap-6">
-        {/* 左侧：仪表盘区块 - 2列宽度 */}
-        <div className="lg:col-span-2 rounded-xl p-6 border border-cyan-500/20 bg-slate-900/50">
+      <div className="grid grid-cols-1 lg:grid-cols-10 gap-6">
+        {/* 左侧：仪表盘区块 - 30%宽度 */}
+        <div className="lg:col-span-3 rounded-xl p-6 border border-cyan-500/20 bg-slate-900/50">
           <div className="flex flex-col items-center justify-center">
             <MainGauge
               value={animatedRate}
@@ -754,8 +754,8 @@ export default function PredictionDecisionCard({
           </div>
         </div>
 
-        {/* 右侧：趋势图区块 - 3列宽度 */}
-        <div className="lg:col-span-3 rounded-xl p-4 border border-cyan-500/20 bg-slate-900/50">
+        {/* 右侧：趋势图区块 - 70%宽度 */}
+        <div className="lg:col-span-7 rounded-xl p-4 border border-cyan-500/20 bg-slate-900/50">
           <MonthlyTrendChart />
         </div>
       </div>
