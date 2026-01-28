@@ -345,9 +345,57 @@ export default function PredictionDecisionCard({
     );
   };
 
-  // 月度趋势柱状图（驾驶舱风格）
+  // 月度趋势曲线图（驾驶舱风格）
   const MonthlyTrendChart = () => {
     const maxValue = 1600; // 最大值
+    const width = 1000; // SVG宽度
+    const height = 200; // SVG高度
+    const padding = { top: 20, right: 80, bottom: 30, left: 50 };
+    const chartWidth = width - padding.left - padding.right;
+    const chartHeight = height - padding.top - padding.bottom;
+
+    // 计算坐标
+    const getX = (index: number) => padding.left + (index / (monthlyTrendData.length - 1)) * chartWidth;
+    const getY = (value: number) => padding.top + chartHeight - (value / maxValue) * chartHeight;
+
+    // 生成曲线路径
+    const generatePath = (data: number[], animatedValues: number[]) => {
+      if (data.length === 0) return '';
+
+      const pathD = data.map((_, index) => {
+        const x = getX(index);
+        const y = getY(animatedValues[index]);
+        return `${index === 0 ? 'M' : 'L'} ${x} ${y}`;
+      }).join(' ');
+
+      return pathD;
+    };
+
+    // 生成平滑曲线（贝塞尔曲线）
+    const generateSmoothPath = (data: number[], animatedValues: number[]) => {
+      if (data.length < 2) return '';
+
+      const points = data.map((_, index) => ({
+        x: getX(index),
+        y: getY(animatedValues[index])
+      }));
+
+      let path = `M ${points[0].x} ${points[0].y}`;
+
+      for (let i = 0; i < points.length - 1; i++) {
+        const curr = points[i];
+        const next = points[i + 1];
+
+        const xc = (curr.x + next.x) / 2;
+        const yc = (curr.y + next.y) / 2;
+
+        path += ` Q ${curr.x} ${curr.y} ${xc} ${yc}`;
+      }
+
+      path += ` T ${points[points.length - 1].x} ${points[points.length - 1].y}`;
+
+      return path;
+    };
 
     return (
       <div className="mt-6 pt-6 border-t border-cyan-500/20">
@@ -385,109 +433,152 @@ export default function PredictionDecisionCard({
           </div>
         </div>
 
-        {/* 柱状图容器 */}
-        <div className="relative h-48 w-full">
-          {/* 业务目标线（1500万） */}
-          <div
-            className="absolute left-0 right-0 border-t-2 border-dashed border-orange-400"
-            style={{ top: `${100 - (1500 / maxValue) * 100}%` }}
-          >
-            <span className="absolute right-2 -top-5 text-xs text-orange-400 font-semibold whitespace-nowrap bg-slate-900/90 px-2 py-0.5 rounded">
+        {/* 曲线图容器 */}
+        <div className="relative w-full" style={{ height: `${height}px` }}>
+          <svg viewBox={`0 0 ${width} ${height}`} className="w-full h-full">
+            {/* 背景网格 */}
+            {[0, 400, 800, 1200, 1600].map((value, index) => {
+              const y = getY(value);
+              return (
+                <g key={index}>
+                  <line
+                    x1={padding.left}
+                    y1={y}
+                    x2={width - padding.right}
+                    y2={y}
+                    stroke="rgba(6,182,212,0.1)"
+                    strokeWidth="1"
+                  />
+                  <text
+                    x={padding.left - 10}
+                    y={y + 4}
+                    fill="rgba(6,182,212,0.5)"
+                    fontSize="11"
+                    textAnchor="end"
+                  >
+                    {value}
+                  </text>
+                </g>
+              );
+            })}
+
+            {/* 业务目标线（橙色虚线） */}
+            <line
+              x1={padding.left}
+              y1={getY(1500)}
+              x2={width - padding.right}
+              y2={getY(1500)}
+              stroke="rgba(251,146,60,0.5)"
+              strokeWidth="2"
+              strokeDasharray="5,5"
+            />
+
+            {/* 财务目标线（紫色虚线） */}
+            <line
+              x1={padding.left}
+              y1={getY(1200)}
+              x2={width - padding.right}
+              y2={getY(1200)}
+              stroke="rgba(168,85,247,0.5)"
+              strokeWidth="2"
+              strokeDasharray="5,5"
+            />
+
+            {/* 预测完成曲线（青色） */}
+            <path
+              d={generateSmoothPath(
+                monthlyTrendData.map(d => d.forecast),
+                trendAnimations
+              )}
+              fill="none"
+              stroke="#22d3ee"
+              strokeWidth="3"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              style={{
+                filter: 'drop-shadow(0 0 8px rgba(34,211,238,0.8))',
+              }}
+            />
+
+            {/* 预测完成数据点 */}
+            {monthlyTrendData.map((data, index) => {
+              const x = getX(index);
+              const y = getY(trendAnimations[index]);
+
+              return (
+                <g key={`forecast-${index}`}>
+                  <circle
+                    cx={x}
+                    cy={y}
+                    r="5"
+                    fill="#22d3ee"
+                    stroke="#0891b2"
+                    strokeWidth="2"
+                    style={{
+                      filter: 'drop-shadow(0 0 6px rgba(34,211,238,1))',
+                    }}
+                  />
+                </g>
+              );
+            })}
+
+            {/* 已完成曲线（绿色，仅1月有数据） */}
+            {monthlyTrendData.filter(d => d.completed > 0).map((data, index) => {
+              const originalIndex = monthlyTrendData.findIndex(d => d.month === data.month);
+              const x = getX(originalIndex);
+              const y = getY(data.completed);
+
+              return (
+                <g key={`completed-${index}`}>
+                  <circle
+                    cx={x}
+                    cy={y}
+                    r="6"
+                    fill="#22c55e"
+                    stroke="#15803d"
+                    strokeWidth="2"
+                    style={{
+                      filter: 'drop-shadow(0 0 8px rgba(74,222,128,1))',
+                    }}
+                  />
+                  {/* 数值标签 */}
+                  <text
+                    x={x}
+                    y={y - 12}
+                    fill="#22c55e"
+                    fontSize="11"
+                    fontWeight="bold"
+                    textAnchor="middle"
+                  >
+                    {data.completed}
+                  </text>
+                </g>
+              );
+            })}
+          </svg>
+
+          {/* X轴月份标签 */}
+          <div className="absolute bottom-0 left-0 right-0 flex justify-between px-2 pb-2" style={{ paddingLeft: `${padding.left}px`, paddingRight: `${padding.right}px` }}>
+            {monthlyTrendData.map((data, index) => (
+              <div
+                key={index}
+                className="text-xs text-cyan-400/70 font-medium text-center px-1"
+              >
+                {data.month}
+              </div>
+            ))}
+          </div>
+
+          {/* 目标线标签 */}
+          <div className="absolute left-0 right-0" style={{ top: `${getY(1500)}px` }}>
+            <span className="absolute right-2 -top-5 text-xs text-orange-400 font-semibold whitespace-nowrap bg-slate-900/90 px-2 py-0.5 rounded border border-orange-400/30">
               业务目标 1500万
             </span>
           </div>
-
-          {/* 财务目标线（1200万） */}
-          <div
-            className="absolute left-0 right-0 border-t-2 border-dashed border-purple-400"
-            style={{ top: `${100 - (1200 / maxValue) * 100}%` }}
-          >
-            <span className="absolute right-2 -top-5 text-xs text-purple-400 font-semibold whitespace-nowrap bg-slate-900/90 px-2 py-0.5 rounded">
+          <div className="absolute left-0 right-0" style={{ top: `${getY(1200)}px` }}>
+            <span className="absolute right-2 -top-5 text-xs text-purple-400 font-semibold whitespace-nowrap bg-slate-900/90 px-2 py-0.5 rounded border border-purple-400/30">
               财务目标 1200万
             </span>
-          </div>
-
-          {/* Y轴刻度 */}
-          <div className="absolute left-0 top-0 bottom-0 flex flex-col justify-between text-xs text-cyan-500/50 -ml-2">
-            <span>1600</span>
-            <span>1200</span>
-            <span>800</span>
-            <span>400</span>
-            <span>0</span>
-          </div>
-
-          {/* 柱状图 */}
-          <div className="flex items-end justify-between h-full gap-1 sm:gap-2 px-2 ml-6">
-            {monthlyTrendData.map((data, index) => {
-              const targetHeight = (data.businessTarget / maxValue) * 100;
-              const forecastHeight = (trendAnimations[index] / maxValue) * 100;
-              const completedHeight = (data.completed / maxValue) * 100;
-
-              return (
-                <div key={index} className="flex-1 flex flex-col items-center justify-end h-full group">
-                  {/* 数值显示（hover时显示） */}
-                  <div className="mb-2 opacity-0 group-hover:opacity-100 transition-opacity text-center z-10">
-                    <div className="flex flex-col gap-1">
-                      {data.completed > 0 && (
-                        <div className="text-xs text-green-400">
-                          <span className="font-semibold">已完成:</span> {data.completed}万
-                        </div>
-                      )}
-                      <div className="text-xs text-cyan-300">
-                        <span className="font-semibold">预测:</span> {mounted ? Math.round(trendAnimations[index]) : 0}万
-                      </div>
-                      <div className="text-xs text-orange-400">
-                        <span className="font-semibold">目标:</span> {data.businessTarget}万
-                      </div>
-                    </div>
-                  </div>
-
-                  {/* 柱状图 */}
-                  <div className="relative w-full max-w-[5rem] min-h-[4rem] bg-slate-800/50 rounded-t-lg overflow-hidden">
-                    {/* 目标柱（背景 - 橙色半透明） */}
-                    <div
-                      className="absolute inset-0 bg-orange-500/30 rounded-t-lg border-t-2 border-orange-400"
-                      style={{ height: `${targetHeight}%` }}
-                    />
-
-                    {/* 预测柱（前景 - 青色渐变） */}
-                    <div
-                      className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-cyan-600 to-cyan-400 rounded-t-lg transition-all duration-500"
-                      style={{
-                        height: `${Math.max(forecastHeight, 0.5)}%`, // 最小高度0.5%
-                        filter: 'drop-shadow(0 0 10px rgba(34,211,238,0.8))',
-                        boxShadow: '0 0 20px rgba(34,211,238,0.4)',
-                      }}
-                    >
-                      {/* 已完成部分（实心 - 绿色） */}
-                      {data.completed > 0 && (
-                        <div
-                          className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-green-600 to-green-400 rounded-t-lg border-t-2 border-green-300"
-                          style={{
-                            height: `${(completedHeight / forecastHeight) * 100}%`,
-                            filter: 'drop-shadow(0 0 10px rgba(74,222,128,0.8))',
-                            boxShadow: '0 0 20px rgba(74,222,128,0.4)',
-                          }}
-                        />
-                      )}
-
-                      {/* 顶部发光效果 */}
-                      <div
-                        className="absolute top-0 left-0 right-0 h-1.5 bg-cyan-300"
-                        style={{
-                          filter: 'drop-shadow(0 0 12px rgba(34,211,238,1))',
-                        }}
-                      />
-                    </div>
-                  </div>
-
-                  {/* 月份标签 */}
-                  <div className="mt-2 px-2 py-1 rounded text-xs text-cyan-400/70 font-medium transition-all group-hover:bg-cyan-500/20 group-hover:text-cyan-300">
-                    {data.month}
-                  </div>
-                </div>
-              );
-            })}
           </div>
         </div>
       </div>
