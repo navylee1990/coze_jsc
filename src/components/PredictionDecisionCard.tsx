@@ -516,6 +516,7 @@ export default function PredictionDecisionCard({
                       <g>
                         {/* 外层光晕 */}
                         <circle
+                          key="forecast-outer"
                           cx={cx}
                           cy={cy}
                           r={12}
@@ -526,6 +527,7 @@ export default function PredictionDecisionCard({
                         />
                         {/* 内层光晕 */}
                         <circle
+                          key="forecast-inner"
                           cx={cx}
                           cy={cy}
                           r={8}
@@ -536,6 +538,7 @@ export default function PredictionDecisionCard({
                         />
                         {/* 核心圆 */}
                         <circle
+                          key="forecast-core"
                           cx={cx}
                           cy={cy}
                           r={5}
@@ -575,6 +578,7 @@ export default function PredictionDecisionCard({
                       <g>
                         {/* 外层光晕 */}
                         <circle
+                          key="forecast-outer-active"
                           cx={cx}
                           cy={cy}
                           r={18}
@@ -585,6 +589,7 @@ export default function PredictionDecisionCard({
                         />
                         {/* 内层光晕 */}
                         <circle
+                          key="forecast-inner-active"
                           cx={cx}
                           cy={cy}
                           r={12}
@@ -595,6 +600,7 @@ export default function PredictionDecisionCard({
                         />
                         {/* 核心圆 */}
                         <circle
+                          key="forecast-core-active"
                           cx={cx}
                           cy={cy}
                           r={8}
@@ -647,6 +653,7 @@ export default function PredictionDecisionCard({
                       <g>
                         {/* 外层光晕 */}
                         <circle
+                          key="completed-outer"
                           cx={props.cx}
                           cy={props.cy}
                           r={12}
@@ -657,6 +664,7 @@ export default function PredictionDecisionCard({
                         />
                         {/* 内层光晕 */}
                         <circle
+                          key="completed-inner"
                           cx={props.cx}
                           cy={props.cy}
                           r={8}
@@ -667,6 +675,7 @@ export default function PredictionDecisionCard({
                         />
                         {/* 核心圆 */}
                         <circle
+                          key="completed-core"
                           cx={props.cx}
                           cy={props.cy}
                           r={5}
@@ -711,6 +720,7 @@ export default function PredictionDecisionCard({
                       <g>
                         {/* 外层光晕 */}
                         <circle
+                          key="completed-outer-active"
                           cx={props.cx}
                           cy={props.cy}
                           r={18}
@@ -721,6 +731,7 @@ export default function PredictionDecisionCard({
                         />
                         {/* 内层光晕 */}
                         <circle
+                          key="completed-inner-active"
                           cx={props.cx}
                           cy={props.cy}
                           r={12}
@@ -731,6 +742,7 @@ export default function PredictionDecisionCard({
                         />
                         {/* 核心圆 */}
                         <circle
+                          key="completed-core-active"
                           cx={props.cx}
                           cy={props.cy}
                           r={8}
