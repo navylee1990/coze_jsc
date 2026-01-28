@@ -870,7 +870,6 @@ export default function RiskIdentificationPanel({
                         >
                           <td className={cn('py-2 px-3 text-xs', DASHBOARD_STYLES.textSecondary)}>
                             <div className="font-medium leading-snug text-cyan-100">{item.projectName}</div>
-                            <div className={cn('text-xs', DASHBOARD_STYLES.textMuted)}>{item.projectId}</div>
                           </td>
                           <td className={cn('py-2 px-3 text-xs text-cyan-200')}>{item.amount.toFixed(0)}万</td>
                           <td className={cn('py-2 px-3 text-xs text-cyan-200')}>{item.predictionAmount}万</td>
@@ -1508,7 +1507,7 @@ export default function RiskIdentificationPanel({
 
                     {/* 一键催单按钮 - 增强效果 */}
                     <div className={cn(
-                      'relative rounded-xl overflow-hidden cursor-pointer group',
+                      'relative rounded-xl p-2 overflow-hidden cursor-pointer group h-full flex flex-col items-center justify-center',
                       'border-2 border-red-500/70',
                       'bg-gradient-to-br from-red-900/30 to-orange-900/20',
                       'hover:from-red-900/50 hover:to-orange-900/30',
@@ -1521,8 +1520,8 @@ export default function RiskIdentificationPanel({
                       <div className="absolute inset-0 bg-gradient-to-r from-red-500/30 to-orange-500/30 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
                       <div className="absolute inset-0 border-2 border-red-500/50 rounded-xl animate-pulse"></div>
 
-                      <div className="relative z-10 h-full flex flex-col items-center justify-center gap-1.5 py-2">
-                        <div className="flex items-center gap-1.5">
+                      <div className="relative z-10 w-full flex flex-col items-center justify-center">
+                        <div className="flex items-center gap-1.5 mb-1.5">
                           <div className="w-8 h-8 rounded-full bg-red-500/40 border-2 border-red-400/60 flex items-center justify-center group-hover:scale-110 transition-transform shadow-[0_0_15px_rgba(239,68,68,0.8)]">
                             <Send className="w-4 h-4 text-red-400 drop-shadow-[0_0_8px_rgba(248,113,113,1)]" />
                           </div>
