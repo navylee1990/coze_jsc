@@ -726,24 +726,24 @@ export default function PredictionDecisionCard({
 
       {/* 驾驶舱布局 - 3列平衡布局 */}
       <div className="grid grid-cols-1 lg:grid-cols-5 gap-6">
-        {/* 左侧：达成率仪表盘 - 1列宽度 */}
+        {/* 左侧：达成率仪表盘 - 1列宽度，仪表盘和目标预测一行显示 */}
         <div className="lg:col-span-1 flex flex-col items-center justify-center">
-          <MainGauge
-            value={animatedRate}
-            maxValue={100}
-            size={160}
-          />
-          <div className="mt-5 text-center">
-            <div className="flex items-center justify-center gap-6 text-sm">
+          <div className="flex items-center gap-4">
+            <MainGauge
+              value={animatedRate}
+              maxValue={100}
+              size={120}
+            />
+            <div className="flex flex-col gap-2 text-xs">
               <div className="flex items-center gap-1.5">
-                <div className="w-2 h-2 rounded-full bg-orange-400" />
+                <div className="w-1.5 h-1.5 rounded-full bg-orange-400" />
                 <span className="text-cyan-400/70">目标</span>
-                <span className="font-semibold text-orange-400 text-base">{target}万</span>
+                <span className="font-semibold text-orange-400 text-sm">{target}万</span>
               </div>
               <div className="flex items-center gap-1.5">
-                <div className="w-2 h-2 rounded-full bg-cyan-400" />
+                <div className="w-1.5 h-1.5 rounded-full bg-cyan-400" />
                 <span className="text-cyan-400/70">预测</span>
-                <span className="font-semibold text-cyan-300 text-base">
+                <span className="font-semibold text-cyan-300 text-sm">
                   {mounted ? Math.round(animatedForecast) : 0}万
                 </span>
               </div>
