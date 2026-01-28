@@ -385,8 +385,6 @@ export default function RegionMatrix({
               </div>
             </div>
           )}
-          </>
-          )}
         </div>
       </div>
     </div>
