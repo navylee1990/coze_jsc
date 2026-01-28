@@ -725,7 +725,7 @@ export default function RiskIdentificationPanel({
       )}
 
       {/* 内容区域 */}
-      <div className="flex-1 overflow-hidden">
+      <div className="flex-1 overflow-hidden min-h-0">
         {/* ============ Tab 0: 未按计划下单 ============ */}
         {currentTab === 0 && (
           // 明细视图
