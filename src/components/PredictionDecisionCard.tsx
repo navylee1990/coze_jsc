@@ -724,10 +724,10 @@ export default function PredictionDecisionCard({
         </div>
       </div>
 
-      {/* 驾驶舱布局 - 3列平衡布局 */}
+      {/* 驾驶舱布局 - 平衡布局 */}
       <div className="grid grid-cols-1 lg:grid-cols-5 gap-6">
-        {/* 左侧：达成率仪表盘 - 1列宽度 */}
-        <div className="lg:col-span-1 flex flex-col items-center justify-center">
+        {/* 左侧：达成率仪表盘 - 2列宽度 */}
+        <div className="lg:col-span-2 flex flex-col items-center justify-center">
           <MainGauge
             value={animatedRate}
             maxValue={100}
@@ -752,8 +752,8 @@ export default function PredictionDecisionCard({
           </div>
         </div>
 
-        {/* 右侧：年度趋势图 - 4列宽度 */}
-        <div className="lg:col-span-4 flex flex-col">
+        {/* 右侧：年度趋势图 - 3列宽度 */}
+        <div className="lg:col-span-3 flex flex-col">
           <MonthlyTrendChart />
         </div>
       </div>
