@@ -440,7 +440,7 @@ export default function GMDashboard() {
 
           {/* 核心预测决策卡片 - 使用新的汽车驾驶舱风格组件 */}
           <div className={cn(
-            'col-span-1 lg:col-span-7',
+            'col-span-1 lg:col-span-7 min-w-0',
             'opacity-100 translate-y-0'
           )}>
             <div className={cn(
@@ -453,7 +453,7 @@ export default function GMDashboard() {
 
           {/* 风险识别模块 - 自适应高度 */}
           <div className={cn(
-            'col-span-1 lg:col-span-5',
+            'col-span-1 lg:col-span-5 min-w-0',
             'opacity-100 translate-y-0'
           )}>
             <div className={cn(
