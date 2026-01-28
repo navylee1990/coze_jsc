@@ -1012,7 +1012,7 @@ export default function RiskIdentificationPanel({
                     </div>
                   </div>
                 </div>
-              </div>
+            </div>
             </div>
 
             {/* 表格区域 */}
