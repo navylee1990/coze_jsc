@@ -724,37 +724,40 @@ export default function PredictionDecisionCard({
         </div>
       </div>
 
-      {/* 仪表盘区块 */}
-      <div className="rounded-xl p-6 border border-cyan-500/20 bg-slate-900/50">
-        <div className="flex flex-col items-center justify-center">
-          <MainGauge
-            value={animatedRate}
-            maxValue={100}
-            size={160}
-          />
-          <div className="mt-5 text-center">
-            <div className="text-cyan-400/60 text-sm mb-3">本月达成率</div>
-            <div className="flex items-center justify-center gap-6 text-base">
-              <div className="flex items-center gap-2">
-                <div className="w-2 h-2 rounded-full bg-orange-400" />
-                <span className="text-cyan-400/70">目标</span>
-                <span className="font-semibold text-orange-400">{target}万</span>
-              </div>
-              <div className="flex items-center gap-2">
-                <div className="w-2 h-2 rounded-full bg-cyan-400" />
-                <span className="text-cyan-400/70">预测</span>
-                <span className="font-semibold text-cyan-300">
-                  {mounted ? Math.round(animatedForecast) : 0}万
-                </span>
+      {/* 左右两个独立块布局 */}
+      <div className="grid grid-cols-1 lg:grid-cols-5 gap-6">
+        {/* 左侧：仪表盘区块 - 2列宽度 */}
+        <div className="lg:col-span-2 rounded-xl p-6 border border-cyan-500/20 bg-slate-900/50">
+          <div className="flex flex-col items-center justify-center">
+            <MainGauge
+              value={animatedRate}
+              maxValue={100}
+              size={160}
+            />
+            <div className="mt-5 text-center">
+              <div className="text-cyan-400/60 text-sm mb-3">本月达成率</div>
+              <div className="flex items-center justify-center gap-6 text-base">
+                <div className="flex items-center gap-2">
+                  <div className="w-2 h-2 rounded-full bg-orange-400" />
+                  <span className="text-cyan-400/70">目标</span>
+                  <span className="font-semibold text-orange-400">{target}万</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <div className="w-2 h-2 rounded-full bg-cyan-400" />
+                  <span className="text-cyan-400/70">预测</span>
+                  <span className="font-semibold text-cyan-300">
+                    {mounted ? Math.round(animatedForecast) : 0}万
+                  </span>
+                </div>
               </div>
             </div>
           </div>
         </div>
-      </div>
 
-      {/* 趋势图区块 */}
-      <div className="rounded-xl p-4 border border-cyan-500/20 bg-slate-900/50">
-        <MonthlyTrendChart />
+        {/* 右侧：趋势图区块 - 3列宽度 */}
+        <div className="lg:col-span-3 rounded-xl p-4 border border-cyan-500/20 bg-slate-900/50">
+          <MonthlyTrendChart />
+        </div>
       </div>
 
       {/* 底部：驾驶舱科技装饰 */}
