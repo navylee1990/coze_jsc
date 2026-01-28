@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { Target, Clock, AlertTriangle, Zap, Gauge, BarChart3, TrendingUp } from 'lucide-react';
+import { Target, Clock, AlertTriangle, Zap, Gauge, BarChart3, TrendingUp, Calendar } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
 // 主题类型
@@ -705,23 +705,55 @@ export default function PredictionDecisionCard({
               color="red"
               size={140}
             />
-            <div className="mt-3 text-center">
-              <div className="flex items-center justify-center gap-2">
+            <div className="mt-3 w-full max-w-[180px]">
+              <div className="flex items-center justify-center gap-2 mb-3">
                 <AlertTriangle className="w-3 h-3 text-red-400 animate-pulse" />
                 <span className="text-xs text-red-400 font-semibold">紧迫事项</span>
               </div>
-              <div className="mt-2 space-y-1">
-                <div className="flex items-center justify-between gap-2 text-xs">
-                  <span className="text-cyan-500/60">本月</span>
-                  <span className="font-semibold text-red-400">处理当月未下单</span>
+              <div className="space-y-2.5">
+                {/* 本月 */}
+                <div>
+                  <div className="flex items-center justify-between text-xs mb-1">
+                    <div className="flex items-center gap-1.5">
+                      <Clock className="w-3 h-3 text-red-400" />
+                      <span className="text-cyan-500/70">本月</span>
+                    </div>
+                    <span className="font-semibold text-red-400 text-xs">高优先级</span>
+                  </div>
+                  <div className="relative h-1.5 bg-slate-800/50 rounded-full overflow-hidden">
+                    <div className="absolute left-0 top-0 bottom-0 bg-gradient-to-r from-red-600 to-red-400 rounded-full animate-pulse" style={{ width: '85%' }}></div>
+                  </div>
+                  <div className="mt-0.5 text-xs text-cyan-300 font-medium">处理当月未下单</div>
                 </div>
-                <div className="flex items-center justify-between gap-2 text-xs">
-                  <span className="text-cyan-500/60">本季度</span>
-                  <span className="font-semibold text-orange-400">目标达成95%</span>
+
+                {/* 本季度 */}
+                <div>
+                  <div className="flex items-center justify-between text-xs mb-1">
+                    <div className="flex items-center gap-1.5">
+                      <Calendar className="w-3 h-3 text-orange-400" />
+                      <span className="text-cyan-500/70">本季度</span>
+                    </div>
+                    <span className="font-semibold text-orange-400 text-xs">中优先级</span>
+                  </div>
+                  <div className="relative h-1.5 bg-slate-800/50 rounded-full overflow-hidden">
+                    <div className="absolute left-0 top-0 bottom-0 bg-gradient-to-r from-orange-600 to-orange-400 rounded-full" style={{ width: '65%' }}></div>
+                  </div>
+                  <div className="mt-0.5 text-xs text-cyan-300 font-medium">目标达成95%</div>
                 </div>
-                <div className="flex items-center justify-between gap-2 text-xs">
-                  <span className="text-cyan-500/60">本年度</span>
-                  <span className="font-semibold text-yellow-400">追赶进度</span>
+
+                {/* 本年度 */}
+                <div>
+                  <div className="flex items-center justify-between text-xs mb-1">
+                    <div className="flex items-center gap-1.5">
+                      <Target className="w-3 h-3 text-yellow-400" />
+                      <span className="text-cyan-500/70">本年度</span>
+                    </div>
+                    <span className="font-semibold text-yellow-400 text-xs">待关注</span>
+                  </div>
+                  <div className="relative h-1.5 bg-slate-800/50 rounded-full overflow-hidden">
+                    <div className="absolute left-0 top-0 bottom-0 bg-gradient-to-r from-yellow-600 to-yellow-400 rounded-full" style={{ width: '45%' }}></div>
+                  </div>
+                  <div className="mt-0.5 text-xs text-cyan-300 font-medium">追赶进度</div>
                 </div>
               </div>
             </div>
