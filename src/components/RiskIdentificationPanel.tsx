@@ -1150,27 +1150,6 @@ export default function RiskIdentificationPanel({
                     </div>
                   </div>
                 </div>
-
-                {/* 占位区域 - 保持与其他Tab高度一致 */}
-                <div className="flex-1 flex flex-col items-center justify-center p-6 bg-gradient-to-b from-slate-900/50 to-transparent">
-                  <div className="text-center space-y-3">
-                    <div className={cn(
-                      'inline-flex items-center justify-center w-16 h-16 rounded-full',
-                      'bg-gradient-to-br from-yellow-500/20 to-orange-500/20',
-                      'border-2 border-yellow-500/30',
-                      'shadow-[0_0_20px_rgba(234,179,8,0.3)]',
-                      'animate-pulse'
-                    )}>
-                      <TrendingDown className="w-8 h-8 text-yellow-400 drop-shadow-[0_0_10px_rgba(234,179,8,1)]" />
-                    </div>
-                    <div className={cn('text-sm font-medium', DASHBOARD_STYLES.textSecondary)}>
-                      请点击"补预测"按钮生成补充预测方案
-                    </div>
-                    <div className={cn('text-xs', DASHBOARD_STYLES.textMuted)}>
-                      系统将自动识别并生成针对{forecastGaps.length}个项目的补充预测
-                    </div>
-                  </div>
-                </div>
               </div>
             )}
       </div>
