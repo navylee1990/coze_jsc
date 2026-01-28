@@ -658,7 +658,7 @@ export default function RiskIdentificationPanel({
                     key={tab.id}
                     onClick={() => setCurrentTab(tab.id)}
                     className={cn(
-                      'flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium transition-colors duration-200 relative',
+                      'flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium transition-all relative',
                       // 未按计划下单使用红色主题
                       isUnorderedProjects && theme === 'dashboard'
                         ? 'bg-red-500/40 text-red-200 border-2 border-red-500/60 shadow-[0_0_20px_rgba(239,68,68,0.6)] animate-pulse'
@@ -1172,7 +1172,7 @@ export default function RiskIdentificationPanel({
                       'hover:from-yellow-900/50 hover:to-orange-900/30',
                       'shadow-[0_0_30px_rgba(234,179,8,0.5)]',
                       'hover:shadow-[0_0_40px_rgba(234,179,8,0.7)]',
-                      'transition-colors duration-300'
+                      'transition-all duration-300'
                     )}
                          onClick={() => openDialog({
                            title: '补预测',
@@ -1208,7 +1208,7 @@ export default function RiskIdentificationPanel({
                 </div>
 
                 {/* 占位区域 - 保持与其他Tab高度一致 */}
-                <div className="flex-1 min-w-full overflow-auto bg-gradient-to-b from-slate-900/50 to-transparent"></div>
+                <div className="flex-1 bg-gradient-to-b from-slate-900/50 to-transparent"></div>
               </div>
             )}
       </div>
