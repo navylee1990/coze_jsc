@@ -864,16 +864,16 @@ export default function RiskIdentificationPanel({
                         <tr
                           key={index}
                           className={cn(
-                            'border-b border-cyan-500/10 hover:bg-gradient-to-r hover:from-cyan-500/10 hover:to-cyan-500/5 transition-all duration-200',
+                            'align-middle border-b border-cyan-500/10 hover:bg-gradient-to-r hover:from-cyan-500/10 hover:to-cyan-500/5 transition-all duration-200',
                             index === getPaginatedLargeProjectDependencies().length - 1 && 'border-b-0'
                           )}
                         >
-                          <td className={cn('py-2 px-3 text-xs', DASHBOARD_STYLES.textSecondary)}>
+                          <td className={cn('py-2 px-3 text-xs', DASHBOARD_STYLES.textSecondary, 'align-middle')}>
                             <div className="font-medium leading-snug text-cyan-100">{item.projectName}</div>
                           </td>
-                          <td className={cn('py-2 px-3 text-xs text-cyan-200')}>{item.amount.toFixed(0)}万</td>
-                          <td className={cn('py-2 px-3 text-xs text-cyan-200')}>{item.predictionAmount}万</td>
-                          <td className={cn('py-2 px-3 text-xs', DASHBOARD_STYLES.textSecondary)}>
+                          <td className={cn('py-2 px-3 text-xs text-cyan-200 align-middle')}>{item.amount.toFixed(0)}万</td>
+                          <td className={cn('py-2 px-3 text-xs text-cyan-200 align-middle')}>{item.predictionAmount}万</td>
+                          <td className={cn('py-2 px-3 text-xs', DASHBOARD_STYLES.textSecondary, 'align-middle')}>
                             <span className={cn(
                               'px-2 py-1 rounded text-xs font-medium',
                               item.predictionRatio >= 60 ? 'bg-red-500/20 text-red-400' :
@@ -883,9 +883,9 @@ export default function RiskIdentificationPanel({
                               {item.predictionRatio}%
                             </span>
                           </td>
-                          <td className={cn('py-2 px-3 text-xs text-cyan-200')}>{item.region}</td>
-                          <td className={cn('py-2 px-3 text-xs text-cyan-200')}>{item.owner}</td>
-                          <td className={cn('py-2 px-3 text-center text-xs', DASHBOARD_STYLES.textSecondary)}>
+                          <td className={cn('py-2 px-3 text-xs text-cyan-200 align-middle')}>{item.region}</td>
+                          <td className={cn('py-2 px-3 text-xs text-cyan-200 align-middle')}>{item.owner}</td>
+                          <td className={cn('py-2 px-3 text-center text-xs', DASHBOARD_STYLES.textSecondary, 'align-middle')}>
                             <span className={cn('px-2 py-1 rounded text-xs font-medium', getStatusStyles(item.status))}>
                               {item.status === 'critical' ? '紧急' : item.status === 'highRisk' ? '高风险' : '正常'}
                             </span>
@@ -1044,20 +1044,18 @@ export default function RiskIdentificationPanel({
                     </thead>
                     <tbody>
                       {getPaginatedStageStagnations().map((item, index) => (
-                        <tr key={index} className={cn('border-b border-cyan-500/10 hover:bg-cyan-500/5 transition-colors', index === getPaginatedStageStagnations().length - 1 && 'border-b-0')}>
-                          <td className={cn('py-3 px-3', DASHBOARD_STYLES.textSecondary)}>
+                        <tr key={index} className={cn('align-middle border-b border-cyan-500/10 hover:bg-cyan-500/5 transition-colors', index === getPaginatedStageStagnations().length - 1 && 'border-b-0')}>
+                          <td className={cn('py-2 px-3', DASHBOARD_STYLES.textSecondary, 'align-middle')}>
                             <div className="font-medium">{item.projectName}</div>
-                            <div className={cn('text-xs', DASHBOARD_STYLES.textMuted)}>{item.projectId}</div>
                           </td>
-                          <td className={cn('py-3 px-3', DASHBOARD_STYLES.textSecondary)}>{item.currentStage}</td>
-                          <td className={cn('py-3 px-3', DASHBOARD_STYLES.textSecondary)}>
+                          <td className={cn('py-2 px-3', DASHBOARD_STYLES.textSecondary, 'align-middle')}>{item.currentStage}</td>
+                          <td className={cn('py-2 px-3', DASHBOARD_STYLES.textSecondary, 'align-middle')}>
                             <div className="font-medium">{item.stagnationDuration}</div>
-                            <div className={cn('text-xs', DASHBOARD_STYLES.textMuted)}>{item.stagnationDays}天</div>
                           </td>
-                          <td className={cn('py-2 px-3', DASHBOARD_STYLES.textSecondary)}>{item.region}</td>
-                          <td className={cn('py-2 px-3', DASHBOARD_STYLES.textSecondary)}>{item.owner}</td>
-                          <td className={cn('py-2 px-3', DASHBOARD_STYLES.textSecondary)}><div className="text-xs max-w-[200px] truncate">{item.reason}</div></td>
-                          <td className={cn('py-2 px-3 text-center', DASHBOARD_STYLES.textSecondary)}>
+                          <td className={cn('py-2 px-3', DASHBOARD_STYLES.textSecondary, 'align-middle')}>{item.region}</td>
+                          <td className={cn('py-2 px-3', DASHBOARD_STYLES.textSecondary, 'align-middle')}>{item.owner}</td>
+                          <td className={cn('py-2 px-3', DASHBOARD_STYLES.textSecondary, 'align-middle')}><div className="text-xs max-w-[200px] truncate">{item.reason}</div></td>
+                          <td className={cn('py-2 px-3 text-center', DASHBOARD_STYLES.textSecondary, 'align-middle')}>
                             <span className={cn('px-2 py-1 rounded text-xs font-medium', getSeverityStyles(item.severity))}>
                               {item.severity === 'high' ? '高' : item.severity === 'medium' ? '中' : '低'}
                             </span>
@@ -1201,16 +1199,15 @@ export default function RiskIdentificationPanel({
                     </thead>
                     <tbody>
                       {getPaginatedPredictedRisks().map((item, index) => (
-                        <tr key={index} className={cn('border-b border-cyan-500/10 hover:bg-cyan-500/5 transition-colors', index === getPaginatedPredictedRisks().length - 1 && 'border-b-0')}>
-                          <td className={cn('py-3 px-3', DASHBOARD_STYLES.textSecondary)}>
+                        <tr key={index} className={cn('align-middle border-b border-cyan-500/10 hover:bg-cyan-500/5 transition-colors', index === getPaginatedPredictedRisks().length - 1 && 'border-b-0')}>
+                          <td className={cn('py-2 px-3', DASHBOARD_STYLES.textSecondary, 'align-middle')}>
                             <div className="font-medium">{item.projectName}</div>
-                            <div className={cn('text-xs', DASHBOARD_STYLES.textMuted)}>{item.projectId}</div>
                           </td>
-                          <td className={cn('py-3 px-3', DASHBOARD_STYLES.textSecondary)}>{item.riskType}</td>
-                          <td className={cn('py-3 px-3', DASHBOARD_STYLES.textSecondary)}>
+                          <td className={cn('py-2 px-3', DASHBOARD_STYLES.textSecondary, 'align-middle')}>{item.riskType}</td>
+                          <td className={cn('py-2 px-3', DASHBOARD_STYLES.textSecondary, 'align-middle')}>
                             <span className="text-orange-400 font-medium">{item.riskAmount.toFixed(0)}万</span>
                           </td>
-                          <td className={cn('py-3 px-3', DASHBOARD_STYLES.textSecondary)}>
+                          <td className={cn('py-2 px-3', DASHBOARD_STYLES.textSecondary, 'align-middle')}>
                             <div className="flex items-center gap-2">
                               <div className="w-16 h-2 bg-slate-700 rounded-full overflow-hidden">
                                 <div className={cn('h-full transition-all', item.probability >= 80 ? 'bg-red-500' : item.probability >= 60 ? 'bg-yellow-500' : 'bg-green-500')} style={{ width: `${item.probability}%` }} />
@@ -1218,9 +1215,9 @@ export default function RiskIdentificationPanel({
                               <span className="text-xs">{item.probability}%</span>
                             </div>
                           </td>
-                          <td className={cn('py-2 px-3', DASHBOARD_STYLES.textSecondary)}>{item.region}</td>
-                          <td className={cn('py-2 px-3', DASHBOARD_STYLES.textSecondary)}>{item.owner}</td>
-                          <td className={cn('py-2 px-3 text-center', DASHBOARD_STYLES.textSecondary)}>
+                          <td className={cn('py-2 px-3', DASHBOARD_STYLES.textSecondary, 'align-middle')}>{item.region}</td>
+                          <td className={cn('py-2 px-3', DASHBOARD_STYLES.textSecondary, 'align-middle')}>{item.owner}</td>
+                          <td className={cn('py-2 px-3 text-center', DASHBOARD_STYLES.textSecondary, 'align-middle')}>
                             <span className={cn('px-2 py-1 rounded text-xs font-medium', getSeverityStyles(item.impact))}>
                               {item.impact === 'high' ? '高' : item.impact === 'medium' ? '中' : '低'}
                             </span>
@@ -1384,13 +1381,12 @@ export default function RiskIdentificationPanel({
                     </thead>
                     <tbody>
                       {getPaginatedRiskPersonnel().map((item, index) => (
-                        <tr key={index} className={cn('border-b border-cyan-500/10 hover:bg-cyan-500/5 transition-colors', index === getPaginatedRiskPersonnel().length - 1 && 'border-b-0')}>
-                          <td className={cn('py-3 px-3', DASHBOARD_STYLES.textSecondary)}>
+                        <tr key={index} className={cn('align-middle border-b border-cyan-500/10 hover:bg-cyan-500/5 transition-colors', index === getPaginatedRiskPersonnel().length - 1 && 'border-b-0')}>
+                          <td className={cn('py-2 px-3', DASHBOARD_STYLES.textSecondary, 'align-middle')}>
                             <div className="font-medium">{item.name}</div>
-                            <div className={cn('text-xs', DASHBOARD_STYLES.textMuted)}>{item.role}</div>
                           </td>
-                          <td className={cn('py-3 px-3', DASHBOARD_STYLES.textSecondary)}>{item.region}</td>
-                          <td className={cn('py-3 px-3', DASHBOARD_STYLES.textSecondary)}>
+                          <td className={cn('py-2 px-3', DASHBOARD_STYLES.textSecondary, 'align-middle')}>{item.region}</td>
+                          <td className={cn('py-2 px-3', DASHBOARD_STYLES.textSecondary, 'align-middle')}>
                             <span className={cn(
                               'px-2 py-1 rounded text-xs font-medium',
                               item.riskScore >= 80 ? 'bg-red-500/30 text-red-300 border border-red-500/50' :
@@ -1400,8 +1396,8 @@ export default function RiskIdentificationPanel({
                               {getRiskTypeText(item.riskType)}
                             </span>
                           </td>
-                          <td className={cn('py-3 px-3', DASHBOARD_STYLES.textSecondary)}>{item.riskDuration}</td>
-                          <td className={cn('py-3 px-3', DASHBOARD_STYLES.textSecondary)}>
+                          <td className={cn('py-2 px-3', DASHBOARD_STYLES.textSecondary, 'align-middle')}>{item.riskDuration}</td>
+                          <td className={cn('py-2 px-3', DASHBOARD_STYLES.textSecondary, 'align-middle')}>
                             <div className="flex items-center gap-2">
                               <div className="w-16 h-2 bg-slate-700 rounded-full overflow-hidden">
                                 <div className={cn('h-full transition-all', item.riskScore >= 80 ? 'bg-red-500' : item.riskScore >= 70 ? 'bg-yellow-500' : 'bg-green-500')} style={{ width: `${item.riskScore}%` }} />
@@ -1409,11 +1405,10 @@ export default function RiskIdentificationPanel({
                               <span className="text-xs">{item.riskScore}</span>
                             </div>
                           </td>
-                          <td className={cn('py-2 px-3', DASHBOARD_STYLES.textSecondary)}>
+                          <td className={cn('py-2 px-3', DASHBOARD_STYLES.textSecondary, 'align-middle')}>
                             <div className="font-medium">{item.activeProjects}</div>
-                            <div className={cn('text-xs', DASHBOARD_STYLES.textMuted)}>个</div>
                           </td>
-                          <td className={cn('py-2 px-3', DASHBOARD_STYLES.textSecondary)}>
+                          <td className={cn('py-2 px-3', DASHBOARD_STYLES.textSecondary, 'align-middle')}>
                             {item.lastClosedAmount > 0 ? (
                               <span className="text-cyan-400">{item.lastClosedAmount.toFixed(0)}万</span>
                             ) : (
@@ -1556,19 +1551,19 @@ export default function RiskIdentificationPanel({
                         <tr
                           key={index}
                           className={cn(
-                            'border-b border-cyan-500/10 hover:bg-gradient-to-r hover:from-red-500/10 hover:to-orange-500/10 transition-all duration-200',
+                            'align-middle border-b border-cyan-500/10 hover:bg-gradient-to-r hover:from-red-500/10 hover:to-orange-500/10 transition-all duration-200',
                             index === getPaginatedUnorderedProjects().length - 1 && 'border-b-0'
                           )}
                         >
                           {/* 序号 */}
-                          <td className={cn('text-center py-2 px-3 text-xs text-cyan-300')}>
+                          <td className={cn('text-center py-2 px-3 text-xs text-cyan-300 align-middle')}>
                             <div className="inline-flex items-center justify-center w-6 h-6 rounded-full bg-cyan-500/10 border border-cyan-500/30">
                               {(currentPage - 1) * 5 + index + 1}
                             </div>
                           </td>
 
                           {/* 预计下单时间 */}
-                          <td className={cn('py-2 px-3 text-xs whitespace-nowrap text-cyan-200')}>
+                          <td className={cn('py-2 px-3 text-xs whitespace-nowrap text-cyan-200 align-middle')}>
                             <div className="flex items-center gap-1.5">
                               <Clock className="w-3 h-3 text-cyan-400/70" />
                               {item.expectedOrderDate || '-'}
@@ -1576,22 +1571,22 @@ export default function RiskIdentificationPanel({
                           </td>
 
                           {/* 项目名称 */}
-                          <td className={cn('py-2 px-3 text-xs', DASHBOARD_STYLES.textSecondary)}>
+                          <td className={cn('py-2 px-3 text-xs', DASHBOARD_STYLES.textSecondary, 'align-middle')}>
                             <div className="font-medium leading-snug text-cyan-100">{item.name}</div>
                           </td>
 
                           {/* 大区 */}
-                          <td className={cn('hidden lg:table-cell py-2 px-3 text-xs text-cyan-200')}>
+                          <td className={cn('hidden lg:table-cell py-2 px-3 text-xs text-cyan-200 align-middle')}>
                             {item.region || '-'}
                           </td>
 
                           {/* 销售工程师 */}
-                          <td className={cn('hidden md:table-cell py-2 px-3 text-xs text-cyan-200')}>
+                          <td className={cn('hidden md:table-cell py-2 px-3 text-xs text-cyan-200 align-middle')}>
                             {item.salesEngineer || '-'}
                           </td>
 
                           {/* 金额 */}
-                          <td className={cn('text-right py-2 px-3 whitespace-nowrap', DASHBOARD_STYLES.textSecondary)}>
+                          <td className={cn('text-right py-2 px-3 whitespace-nowrap', DASHBOARD_STYLES.textSecondary, 'align-middle')}>
                             <span className="font-black text-orange-400 drop-shadow-[0_0_6px_rgba(251,146,60,0.6)]">
                               {item.amount.toFixed(2)}
                             </span>
