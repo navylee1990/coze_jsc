@@ -1680,43 +1680,64 @@ export default function FutureSupportAdequacyPanel({
   return (
     <div
       className={cn(
-        'w-full rounded-lg overflow-hidden transition-all duration-300',
+        'w-full rounded-xl overflow-hidden transition-all duration-300 relative',
         theme === 'dashboard'
-          ? 'bg-slate-900/80 border border-cyan-500/30 shadow-[0_0_30px_rgba(6,182,212,0.3)]'
+          ? 'bg-gradient-to-br from-cyan-950/40 via-slate-900 to-slate-900 border-2 border-cyan-500/40 shadow-[0_0_40px_rgba(6,182,212,0.4)]'
           : theme === 'dark'
           ? 'bg-slate-900/80 border border-slate-700'
           : 'bg-gradient-to-br from-slate-50 to-slate-100 border border-slate-200'
       )}
     >
+      {/* 背景装饰网格 */}
+      {theme === 'dashboard' && (
+        <div className="absolute inset-0 opacity-10 pointer-events-none" style={{
+          backgroundImage: `
+            linear-gradient(rgba(6,182,212,0.2) 1px, transparent 1px),
+            linear-gradient(90deg, rgba(6,182,212,0.2) 1px, transparent 1px)
+          `,
+          backgroundSize: '20px 20px'
+        }}></div>
+      )}
+
       {/* 标题区 */}
       <div
         className={cn(
-          'px-6 py-3 border-b flex items-center justify-between',
+          'px-6 py-4 border-b flex items-center justify-between relative z-10',
           theme === 'dashboard'
-            ? 'border-cyan-500/30 bg-slate-900/60'
+            ? 'border-cyan-500/30 bg-gradient-to-r from-cyan-950/60 via-slate-900/60 to-slate-900/60'
             : theme === 'dark'
             ? 'border-slate-700 bg-slate-900/50'
             : 'border-slate-200 bg-white'
         )}
       >
+        {/* 顶部发光线条 */}
+        {theme === 'dashboard' && (
+          <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-transparent via-cyan-500 to-transparent animate-pulse"></div>
+        )}
+
         <div className="flex items-center gap-3">
-          <Activity className={cn(
-            'w-5 h-5',
-            theme === 'dashboard'
-              ? 'text-cyan-400 drop-shadow-[0_0_8px_rgba(6,182,212,0.8)]'
-              : 'text-green-600'
-          )} />
+          <div className={cn(
+            'relative',
+            theme === 'dashboard' && 'p-2 bg-cyan-500/20 rounded-lg border border-cyan-500/40'
+          )}>
+            <Activity className={cn(
+              'w-5 h-5',
+              theme === 'dashboard'
+                ? 'text-cyan-400 drop-shadow-[0_0_12px_rgba(6,182,212,1)] animate-pulse'
+                : 'text-green-600'
+            )} />
+          </div>
           <h3 className={cn(
-            'font-bold text-lg',
+            'font-bold text-xl',
             theme === 'dashboard'
-              ? 'text-cyan-300 drop-shadow-[0_0_10px_rgba(6,182,212,0.6)]'
+              ? 'text-cyan-300 drop-shadow-[0_0_15px_rgba(6,182,212,0.8)]'
               : 'text-slate-900'
           )}>关键支撑</h3>
         </div>
         <div className="flex items-center gap-4">
           {/* 区域选择器 */}
           <div className="flex items-center gap-2">
-            <MapPin className={cn('w-4 h-4', theme === 'dashboard' ? 'text-cyan-400' : 'text-slate-600')} />
+            <MapPin className={cn('w-4 h-4', theme === 'dashboard' ? 'text-cyan-400 drop-shadow-[0_0_8px_rgba(6,182,212,0.8)]' : 'text-slate-600')} />
             <div className="relative">
               <select
                 value={selectedRegion}
@@ -1725,7 +1746,7 @@ export default function FutureSupportAdequacyPanel({
                   'appearance-none pl-3 pr-8 py-1.5 text-sm rounded-lg border cursor-pointer',
                   'transition-colors focus:outline-none focus:ring-2',
                   theme === 'dashboard'
-                    ? 'bg-slate-900/80 border-cyan-500/40 text-white hover:bg-cyan-500/20 focus:ring-cyan-500 focus:text-cyan-100'
+                    ? 'bg-slate-900/80 border-cyan-500/40 text-white hover:bg-cyan-500/20 focus:ring-cyan-500 focus:text-cyan-100 shadow-[0_0_10px_rgba(6,182,212,0.3)]'
                     : theme === 'dark'
                     ? 'bg-slate-800 border-slate-700 text-white hover:bg-slate-700 focus:ring-blue-500'
                     : 'bg-white border-slate-200 text-slate-900 hover:bg-slate-50 focus:ring-blue-500'
@@ -1749,14 +1770,16 @@ export default function FutureSupportAdequacyPanel({
               <ChevronDown className={cn('absolute right-2 top-1/2 -translate-y-1/2 w-4 h-4 pointer-events-none', theme === 'dashboard' ? 'text-cyan-400' : 'text-slate-600')} />
             </div>
           </div>
-          <div
-            className={cn(
-              'h-6 w-px',
-              theme === 'dashboard' ? 'bg-cyan-500/30' : theme === 'dark' ? 'bg-slate-700' : 'bg-slate-200'
-            )}
-          />
+          {theme === 'dashboard' && (
+            <div
+              className={cn(
+                'h-6 w-px',
+                'bg-cyan-500/40 shadow-[0_0_10px_rgba(6,182,212,0.6)]'
+              )}
+            />
+          )}
           <div className="flex items-center gap-2">
-            <BarChart3 className={cn('w-4 h-4', theme === 'dashboard' ? 'text-cyan-400' : 'text-slate-600')} />
+            <BarChart3 className={cn('w-4 h-4', theme === 'dashboard' ? 'text-cyan-400 drop-shadow-[0_0_8px_rgba(6,182,212,0.8)]' : 'text-slate-600')} />
           </div>
         </div>
       </div>
@@ -1775,7 +1798,7 @@ export default function FutureSupportAdequacyPanel({
       )}
 
       {/* 主内容区 - 时间段矩阵卡片布局 */}
-      <div className="p-4">
+      <div className="p-8 relative z-10">
         {/* 根据timeRange只显示对应的时间段卡片 */}
         {(() => {
           const period = currentPeriodKey;
@@ -1792,20 +1815,38 @@ export default function FutureSupportAdequacyPanel({
 
           const index = period === '本月' ? 0 : period === '本季度' ? 1 : 2;
 
+          // 获取对应的渐变和发光效果
+          const getCardStyle = (index: number) => {
+            if (theme !== 'dashboard') return '';
+            switch (index) {
+              case 0:
+                return 'bg-gradient-to-br from-red-950/50 via-slate-900 to-slate-900 border-2 border-red-500/60 hover:shadow-[0_0_50px_rgba(239,68,68,0.7)] shadow-[0_0_40px_rgba(239,68,68,0.5)]';
+              case 1:
+                return 'bg-gradient-to-br from-yellow-950/50 via-slate-900 to-slate-900 border-2 border-yellow-500/60 hover:shadow-[0_0_50px_rgba(234,179,8,0.7)] shadow-[0_0_40px_rgba(234,179,8,0.5)]';
+              case 2:
+                return 'bg-gradient-to-br from-green-950/50 via-slate-900 to-slate-900 border-2 border-green-500/60 hover:shadow-[0_0_50px_rgba(34,197,94,0.7)] shadow-[0_0_40px_rgba(34,197,94,0.5)]';
+              default:
+                return '';
+            }
+          };
+
+          const getGlowColor = (index: number) => {
+            switch (index) {
+              case 0: return 'rgba(239,68,68,0.4)';
+              case 1: return 'rgba(234,179,8,0.4)';
+              case 2: return 'rgba(34,197,94,0.4)';
+              default: return 'rgba(6,182,212,0.4)';
+            }
+          };
+
           return (
             <div
               key={period}
               className={cn(
-                'p-4 rounded-xl relative border transition-all duration-300 cursor-pointer hover:scale-105',
+                'p-8 rounded-2xl relative border transition-all duration-300 cursor-pointer hover:scale-105 overflow-hidden backdrop-blur-sm max-w-2xl mx-auto',
                 theme === 'dashboard'
                   ? cn(
-                      'bg-slate-900/60 backdrop-blur-sm',
-                      index === 0
-                        ? 'border-red-500/30 hover:shadow-[0_0_20px_rgba(239,68,68,0.4)]'
-                        : index === 1
-                        ? 'border-yellow-500/30 hover:shadow-[0_0_20px_rgba(234,179,8,0.4)]'
-                        : 'border-green-500/30 hover:shadow-[0_0_20px_rgba(34,197,94,0.4)]',
-                      'shadow-[0_0_15px_rgba(6,182,212,0.2)]'
+                      getCardStyle(index)
                     )
                   : theme === 'dark'
                   ? 'bg-slate-800/50 border-slate-700/50'
@@ -1816,96 +1857,112 @@ export default function FutureSupportAdequacyPanel({
                 setIsDrillDownOpen(true);
               }}
             >
+              {/* 背景发光装饰 */}
+              {theme === 'dashboard' && (
+                <>
+                  <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-transparent to-current opacity-20 blur-3xl rounded-full" style={{ color: getGlowColor(index) }}></div>
+                  <div className="absolute bottom-0 left-0 w-24 h-24 bg-gradient-to-tr from-transparent to-current opacity-10 blur-2xl rounded-full" style={{ color: getGlowColor(index) }}></div>
+                </>
+              )}
+
               {/* 时间段标签 */}
-              <div className="flex items-center justify-between mb-2 sm:mb-3">
-                <div className="flex items-center gap-1.5 sm:gap-2">
+              <div className="flex items-center justify-between mb-4 relative z-10">
+                <div className="flex items-center gap-2 sm:gap-3">
                   <h4 className={cn(
-                      'text-xs sm:text-sm font-bold',
+                      'text-sm sm:text-base font-bold',
                       theme === 'dashboard'
-                        ? 'text-cyan-200 drop-shadow-[0_0_6px_rgba(6,182,212,0.5)]'
+                        ? 'text-cyan-200 drop-shadow-[0_0_10px_rgba(6,182,212,0.8)]'
                         : 'text-slate-900'
                     )}>{period}</h4>
                     <ChevronRight className={cn(
-                      'w-3 h-3 sm:w-4 sm:h-4',
-                      theme === 'dashboard' ? 'text-cyan-400/50' : 'text-slate-400'
+                      'w-4 h-4 sm:w-5 sm:h-5',
+                      theme === 'dashboard' ? 'text-cyan-400 drop-shadow-[0_0_6px_rgba(6,182,212,0.6)]' : 'text-slate-400'
                     )} />
                   </div>
-                  <div className="flex items-center gap-1.5 sm:gap-2">
+                  <div className="flex items-center gap-2 sm:gap-3">
                     <div className={cn(
-                      'w-1.5 h-1.5 sm:w-2 sm:h-2 rounded-full',
+                      'w-2 h-2 sm:w-2.5 sm:h-2.5 rounded-full animate-pulse',
                       statusColor.bg,
-                      theme === 'dashboard' && 'shadow-[0_0_8px_currentColor]'
+                      theme === 'dashboard' && 'shadow-[0_0_12px_currentColor]'
                     )} />
                   </div>
                 </div>
 
-                {/* 核心指标 - 紧凑布局 */}
-                <div className="space-y-1.5">
+                {/* 核心指标 - 增强样式 */}
+                <div className="space-y-2 relative z-10">
                   {/* 目标/支撑/覆盖率 - 单行显示，响应式字体大小 */}
-                  <div className="flex items-center justify-between text-xs sm:text-sm gap-1 sm:gap-2">
-                    <div className="flex items-center gap-0.5 sm:gap-1">
-                      <span className={cn(theme === 'dashboard' ? 'text-cyan-400/60' : 'text-slate-500')}>目标</span>
-                      <span className={cn('font-semibold text-xs sm:text-sm', theme === 'dashboard' ? 'text-cyan-300' : 'text-slate-900')}>
+                  <div className="flex items-center justify-between text-sm gap-2 sm:gap-3">
+                    <div className="flex items-center gap-1 sm:gap-2">
+                      <span className={cn(theme === 'dashboard' ? 'text-cyan-400/70' : 'text-slate-500')}>目标</span>
+                      <span className={cn('font-semibold text-sm sm:text-base', theme === 'dashboard' ? 'text-cyan-300 drop-shadow-[0_0_6px_rgba(6,182,212,0.6)]' : 'text-slate-900')}>
                         {level.target.toFixed(2)}万
                       </span>
                     </div>
-                    <div className="flex items-center gap-0.5 sm:gap-1">
-                      <span className={cn(theme === 'dashboard' ? 'text-cyan-400/60' : 'text-slate-500')}>支撑</span>
-                      <span className={cn('font-semibold text-xs sm:text-sm', theme === 'dashboard' ? 'text-cyan-300' : 'text-slate-900')}>
+                    <div className="flex items-center gap-1 sm:gap-2">
+                      <span className={cn(theme === 'dashboard' ? 'text-cyan-400/70' : 'text-slate-500')}>支撑</span>
+                      <span className={cn('font-semibold text-sm sm:text-base', theme === 'dashboard' ? 'text-cyan-300 drop-shadow-[0_0_6px_rgba(6,182,212,0.6)]' : 'text-slate-900')}>
                         {level.amount.toFixed(2)}万
                       </span>
                     </div>
-                    <div className="flex items-center gap-0.5 sm:gap-1">
-                      <span className={cn(theme === 'dashboard' ? 'text-cyan-400/60' : 'text-slate-500')}>覆盖率</span>
-                      <span className={cn('font-semibold text-xs sm:text-sm', level.coverage >= 80 ? 'text-green-400' : level.coverage > 50 ? 'text-yellow-400' : 'text-red-400')}>
+                    <div className="flex items-center gap-1 sm:gap-2">
+                      <span className={cn(theme === 'dashboard' ? 'text-cyan-400/70' : 'text-slate-500')}>覆盖率</span>
+                      <span className={cn('font-semibold text-sm sm:text-base drop-shadow-[0_0_6px_currentColor]', level.coverage >= 80 ? (theme === 'dashboard' ? 'text-green-400' : 'text-green-600') : level.coverage > 50 ? (theme === 'dashboard' ? 'text-yellow-400' : 'text-yellow-600') : (theme === 'dashboard' ? 'text-red-400' : 'text-red-600'))}>
                         {level.coverage}%
                       </span>
                     </div>
                   </div>
 
-                  {/* 覆盖度进度条 */}
-                  <div className={cn('w-full h-1 sm:h-1.5 rounded-full overflow-hidden', theme === 'dashboard' ? 'bg-slate-700/50' : 'bg-slate-200')}>
+                  {/* 覆盖度进度条 - 增强效果 */}
+                  <div className={cn('w-full h-2.5 sm:h-3 rounded-full overflow-hidden relative shadow-inner', theme === 'dashboard' ? 'bg-slate-700/80 border border-cyan-500/30' : 'bg-slate-200')}>
                     <div
-                      className={`h-full transition-all duration-500 ${
-                        level.coverage >= 80 ? 'bg-green-500' : level.coverage > 50 ? 'bg-yellow-500' : 'bg-red-500'
+                      className={`h-full transition-all duration-500 relative ${
+                        level.coverage >= 80 ? 'bg-gradient-to-r from-green-500 to-green-400' : level.coverage > 50 ? 'bg-gradient-to-r from-yellow-500 to-yellow-400' : 'bg-gradient-to-r from-red-500 to-red-400'
                       }`}
                       style={{ width: `${Math.min(level.coverage, 100)}%` }}
-                    />
+                    >
+                      {/* 进度条发光效果 */}
+                      {theme === 'dashboard' && (
+                        <div className={cn(
+                          'absolute inset-0 blur-[3px] opacity-70 animate-pulse',
+                          level.coverage >= 80 ? 'bg-green-400' : level.coverage > 50 ? 'bg-yellow-400' : 'bg-red-400'
+                        )}></div>
+                      )}
+                    </div>
                   </div>
 
-                  {/* 缺口 */}
-                  <div className="flex items-center justify-between text-xs sm:text-sm pt-0.5 sm:pt-1">
-                    <div className="flex items-center gap-0.5 sm:gap-1">
-                      <span className={cn('text-xs', theme === 'dashboard' ? 'text-cyan-400/60' : 'text-slate-500')}>缺口</span>
-                      <span className={`text-xs sm:text-sm font-bold ${level.gap > 0 ? 'text-red-400' : 'text-green-400'}`}>
+                  {/* 缺口 - 增强样式 */}
+                  <div className="flex items-center justify-between text-sm pt-1">
+                    <div className="flex items-center gap-1 sm:gap-2">
+                      <span className={cn('text-xs sm:text-sm', theme === 'dashboard' ? 'text-cyan-400/70' : 'text-slate-500')}>缺口</span>
+                      <span className={cn('text-sm sm:text-base font-bold drop-shadow-[0_0_6px_currentColor]', level.gap > 0 ? (theme === 'dashboard' ? 'text-red-400' : 'text-red-600') : (theme === 'dashboard' ? 'text-green-400' : 'text-green-600'))}>
                         {level.gap > 0 ? `${level.gap.toFixed(2)}` : `+${Math.abs(level.gap).toFixed(2)}`}
                       </span>
-                      <span className={cn('text-xs', theme === 'dashboard' ? 'text-cyan-400/60' : 'text-slate-500')}>万</span>
+                      <span className={cn('text-xs sm:text-sm', theme === 'dashboard' ? 'text-cyan-400/70' : 'text-slate-500')}>万</span>
                     </div>
                   </div>
 
                   {/* 已完成项目数 + 金额 */}
-                  <div className="flex items-center gap-1.5 sm:gap-2 text-xs sm:text-sm pt-0.5 sm:pt-1">
-                    <span className={cn('text-xs', theme === 'dashboard' ? 'text-cyan-400/60' : 'text-slate-500')}>已下单</span>
-                    <span className={cn('font-semibold text-xs sm:text-sm', theme === 'dashboard' ? 'text-cyan-300' : 'text-slate-900')}>
+                  <div className="flex items-center gap-2 sm:gap-3 text-sm pt-1">
+                    <span className={cn('text-xs sm:text-sm', theme === 'dashboard' ? 'text-cyan-400/70' : 'text-slate-500')}>已下单</span>
+                    <span className={cn('font-semibold text-sm sm:text-base', theme === 'dashboard' ? 'text-cyan-300 drop-shadow-[0_0_4px_rgba(6,182,212,0.5)]' : 'text-slate-900')}>
                       {level.projects.length}个
                     </span>
-                    <span className={cn('font-semibold text-xs sm:text-sm text-green-400', theme === 'dashboard' ? 'text-green-300' : 'text-green-600')}>
+                    <span className={cn('font-semibold text-sm sm:text-base drop-shadow-[0_0_6px_currentColor]', theme === 'dashboard' ? 'text-green-400' : 'text-green-600')}>
                       {projectsTotalAmount.toFixed(2)}万
                     </span>
                   </div>
 
                   {/* 储备项目数 + 金额 */}
-                  <div className="flex justify-between text-xs">
-                    <span className={cn('text-[10px] sm:text-xs', theme === 'dashboard' ? 'text-cyan-400/60' : 'text-slate-500')}>储备</span>
+                  <div className="flex justify-between text-sm pt-1">
+                    <span className={cn('text-xs sm:text-sm', theme === 'dashboard' ? 'text-cyan-400/70' : 'text-slate-500')}>储备</span>
                     <div className="flex items-center gap-1 sm:gap-2">
                       <span className={cn(
-                        'font-semibold text-xs text-purple-400',
-                        theme === 'dashboard' ? 'text-purple-300' : 'text-purple-600'
+                        'font-semibold text-sm drop-shadow-[0_0_6px_currentColor]',
+                        theme === 'dashboard' ? 'text-purple-400' : 'text-purple-600'
                       )}>{level.reserveProjects?.length || 0}个</span>
                       <span className={cn(
-                        'font-semibold text-xs text-purple-400',
-                        theme === 'dashboard' ? 'text-purple-300' : 'text-purple-600'
+                        'font-semibold text-sm drop-shadow-[0_0_6px_currentColor]',
+                        theme === 'dashboard' ? 'text-purple-400' : 'text-purple-600'
                       )}>{reserveProjectsTotalAmount.toFixed(2)}万</span>
                     </div>
                   </div>
