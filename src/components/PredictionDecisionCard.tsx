@@ -456,7 +456,7 @@ export default function PredictionDecisionCard({
                     x={paddingLeft - 12}
                     y={y + 5}
                     fill="rgba(34,211,238,0.7)"
-                    fontSize="14"
+                    fontSize="16"
                     textAnchor="end"
                     fontWeight="500"
                   >
@@ -466,13 +466,24 @@ export default function PredictionDecisionCard({
               );
             })}
 
-            {/* 目标线（橙色虚线） */}
+            {/* 业务目标线（橙色虚线） */}
             <line
               x1={paddingLeft}
               y1={getY(1500)}
               x2={chartWidth - paddingRight}
               y2={getY(1500)}
               stroke="rgba(251,146,60,0.6)"
+              strokeWidth="2"
+              strokeDasharray="6,4"
+            />
+
+            {/* 财务目标线（黄色虚线） */}
+            <line
+              x1={paddingLeft}
+              y1={getY(1200)}
+              x2={chartWidth - paddingRight}
+              y2={getY(1200)}
+              stroke="rgba(250,204,21,0.6)"
               strokeWidth="2"
               strokeDasharray="6,4"
             />
@@ -576,10 +587,10 @@ export default function PredictionDecisionCard({
             {hoveredIndex !== null && (
               <g>
                 <rect
-                  x={getX(hoveredIndex) - 60}
-                  y={Math.max(10, getY(trendAnimations[hoveredIndex]) - 85)}
-                  width="120"
-                  height="75"
+                  x={getX(hoveredIndex) - 70}
+                  y={Math.max(10, getY(trendAnimations[hoveredIndex]) - 110)}
+                  width="140"
+                  height="100"
                   rx="6"
                   fill="rgba(15,23,42,0.96)"
                   stroke="#22d3ee"
@@ -590,9 +601,9 @@ export default function PredictionDecisionCard({
                 />
                 <text
                   x={getX(hoveredIndex)}
-                  y={Math.max(10, getY(trendAnimations[hoveredIndex]) - 67)}
+                  y={Math.max(10, getY(trendAnimations[hoveredIndex]) - 90)}
                   fill="#22d3ee"
-                  fontSize="14"
+                  fontSize="16"
                   fontWeight="bold"
                   textAnchor="middle"
                 >
@@ -600,9 +611,9 @@ export default function PredictionDecisionCard({
                 </text>
                 <text
                   x={getX(hoveredIndex)}
-                  y={Math.max(10, getY(trendAnimations[hoveredIndex]) - 47)}
+                  y={Math.max(10, getY(trendAnimations[hoveredIndex]) - 65)}
                   fill="#22d3ee"
-                  fontSize="12"
+                  fontSize="14"
                   textAnchor="middle"
                 >
                   预测: {Math.round(trendAnimations[hoveredIndex])}万
@@ -610,9 +621,9 @@ export default function PredictionDecisionCard({
                 {monthlyTrendData[hoveredIndex].completed > 0 && (
                   <text
                     x={getX(hoveredIndex)}
-                    y={Math.max(10, getY(trendAnimations[hoveredIndex]) - 29)}
+                    y={Math.max(10, getY(trendAnimations[hoveredIndex]) - 43)}
                     fill="#22c55e"
-                    fontSize="12"
+                    fontSize="14"
                     textAnchor="middle"
                   >
                     已完成: {monthlyTrendData[hoveredIndex].completed}万
@@ -620,12 +631,21 @@ export default function PredictionDecisionCard({
                 )}
                 <text
                   x={getX(hoveredIndex)}
-                  y={Math.max(10, getY(trendAnimations[hoveredIndex]) - (monthlyTrendData[hoveredIndex].completed > 0 ? 12 : 30))}
+                  y={Math.max(10, getY(trendAnimations[hoveredIndex]) - (monthlyTrendData[hoveredIndex].completed > 0 ? 21 : 43))}
                   fill="rgba(251,146,60,0.9)"
-                  fontSize="12"
+                  fontSize="14"
                   textAnchor="middle"
                 >
-                  目标: {monthlyTrendData[hoveredIndex].businessTarget}万
+                  业务目标: {monthlyTrendData[hoveredIndex].businessTarget}万
+                </text>
+                <text
+                  x={getX(hoveredIndex)}
+                  y={Math.max(10, getY(trendAnimations[hoveredIndex]) - (monthlyTrendData[hoveredIndex].completed > 0 ? 0 : 21))}
+                  fill="rgba(250,204,21,0.9)"
+                  fontSize="14"
+                  textAnchor="middle"
+                >
+                  财务目标: {monthlyTrendData[hoveredIndex].financialTarget}万
                 </text>
               </g>
             )}
@@ -639,7 +659,7 @@ export default function PredictionDecisionCard({
                   x={x}
                   y={height - 10}
                   fill="rgba(34,211,238,0.7)"
-                  fontSize="14"
+                  fontSize="16"
                   textAnchor="middle"
                   fontWeight="500"
                 >
@@ -672,26 +692,31 @@ export default function PredictionDecisionCard({
         </div>
       </div>
 
-      {/* 驾驶舱布局 - 压缩左侧，放大右侧 */}
+      {/* 驾驶舱布局 - 3列平衡布局 */}
       <div className="grid grid-cols-1 lg:grid-cols-5 gap-6">
-        {/* 左侧：达成率仪表盘 - 压缩列宽 */}
-        <div className="lg:col-span-2 flex flex-col items-center justify-center">
+        {/* 左侧：达成率仪表盘 - 1列宽度 */}
+        <div className="lg:col-span-1 flex flex-col items-center justify-center">
           <MainGauge
             value={animatedRate}
             maxValue={100}
             size={160}
           />
-          <div className="mt-4 text-center">
-            <div className="flex items-center justify-center gap-5 text-base">
+          <div className="mt-5 text-center">
+            <div className="flex flex-col items-center gap-3 text-sm">
               <div className="flex items-center gap-1.5">
                 <div className="w-2 h-2 rounded-full bg-orange-400" />
-                <span className="text-cyan-400/70">目标</span>
-                <span className="font-semibold text-orange-400">{target}万</span>
+                <span className="text-cyan-400/70">业务目标</span>
+                <span className="font-semibold text-orange-400 text-base">1500万</span>
+              </div>
+              <div className="flex items-center gap-1.5">
+                <div className="w-2 h-2 rounded-full bg-yellow-400" />
+                <span className="text-cyan-400/70">财务目标</span>
+                <span className="font-semibold text-yellow-400 text-base">1200万</span>
               </div>
               <div className="flex items-center gap-1.5">
                 <div className="w-2 h-2 rounded-full bg-cyan-400" />
                 <span className="text-cyan-400/70">预测</span>
-                <span className="font-semibold text-cyan-300">
+                <span className="font-semibold text-cyan-300 text-base">
                   {mounted ? Math.round(animatedForecast) : 0}万
                 </span>
               </div>
@@ -699,8 +724,8 @@ export default function PredictionDecisionCard({
           </div>
         </div>
 
-        {/* 右侧：年度趋势图 - 扩大列宽 */}
-        <div className="lg:col-span-3 flex flex-col">
+        {/* 右侧：年度趋势图 - 4列宽度 */}
+        <div className="lg:col-span-4 flex flex-col">
           <MonthlyTrendChart />
         </div>
       </div>
