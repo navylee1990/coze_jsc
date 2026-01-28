@@ -777,13 +777,13 @@ export default function RiskIdentificationPanel({
               <div className="relative z-10 grid grid-cols-3 gap-3">
                 {/* 依赖项目数卡片 */}
                 <div className={cn(
-                  'relative rounded-xl p-2 overflow-hidden',
+                  'relative rounded-xl p-2 overflow-hidden h-full flex flex-col items-center justify-center',
                   'bg-gradient-to-br from-cyan-900/50 to-cyan-800/30',
                   'border-2 border-cyan-500/60',
                   'shadow-[0_0_25px_rgba(6,182,212,0.5)]'
                 )}>
                   <div className="absolute top-0 right-0 w-20 h-20 bg-cyan-500/20 rounded-full blur-3xl animate-pulse"></div>
-                  <div className="relative z-10">
+                  <div className="relative z-10 w-full flex flex-col items-center justify-center">
                     <div className="flex items-center gap-2 mb-1.5">
                       <Building2 className="w-3.5 h-3.5 text-cyan-400 drop-shadow-[0_0_10px_rgba(6,182,212,1)] animate-pulse" />
                       <div className="text-xs font-bold text-cyan-300">依赖项目</div>
@@ -799,13 +799,13 @@ export default function RiskIdentificationPanel({
 
                 {/* 总金额卡片 */}
                 <div className={cn(
-                  'relative rounded-xl p-2 overflow-hidden',
+                  'relative rounded-xl p-2 overflow-hidden h-full flex flex-col items-center justify-center',
                   'bg-gradient-to-br from-orange-900/50 to-orange-800/30',
                   'border-2 border-orange-500/60',
                   'shadow-[0_0_25px_rgba(249,115,22,0.5)]'
                 )}>
                   <div className="absolute top-0 right-0 w-20 h-20 bg-orange-500/20 rounded-full blur-3xl animate-pulse"></div>
-                  <div className="relative z-10">
+                  <div className="relative z-10 w-full flex flex-col items-center justify-center">
                     <div className="flex items-center gap-2 mb-1.5">
                       <DollarSign className="w-3.5 h-3.5 text-orange-400 drop-shadow-[0_0_10px_rgba(249,115,22,1)] animate-pulse" />
                       <div className="text-xs font-bold text-orange-300">总金额</div>
@@ -821,13 +821,13 @@ export default function RiskIdentificationPanel({
 
                 {/* 高风险占比卡片 */}
                 <div className={cn(
-                  'relative rounded-xl p-2 overflow-hidden',
+                  'relative rounded-xl p-2 overflow-hidden h-full flex flex-col items-center justify-center',
                   'bg-gradient-to-br from-red-900/50 to-red-800/30',
                   'border-2 border-red-500/60',
                   'shadow-[0_0_25px_rgba(239,68,68,0.5)]'
                 )}>
                   <div className="absolute top-0 right-0 w-20 h-20 bg-red-500/20 rounded-full blur-3xl animate-pulse"></div>
-                  <div className="relative z-10">
+                  <div className="relative z-10 w-full flex flex-col items-center justify-center">
                     <div className="flex items-center gap-2 mb-1.5">
                       <AlertTriangle className="w-3.5 h-3.5 text-red-400 drop-shadow-[0_0_10px_rgba(239,68,68,1)] animate-pulse" />
                       <div className="text-xs font-bold text-red-300">高风险占比</div>
@@ -1464,13 +1464,13 @@ export default function RiskIdentificationPanel({
                   <div className="relative z-10 grid grid-cols-3 gap-3">
                     {/* 项目数量卡片 - 增强效果 */}
                     <div className={cn(
-                      'relative rounded-xl p-2 overflow-hidden',
+                      'relative rounded-xl p-2 overflow-hidden h-full flex flex-col items-center justify-center',
                       'bg-gradient-to-br from-red-900/50 to-red-800/30',
                       'border-2 border-red-500/60',
                       'shadow-[0_0_25px_rgba(239,68,68,0.5)]'
                     )}>
                       <div className="absolute top-0 right-0 w-20 h-20 bg-red-500/20 rounded-full blur-3xl animate-pulse"></div>
-                      <div className="relative z-10">
+                      <div className="relative z-10 w-full flex flex-col items-center justify-center">
                         <div className="flex items-center gap-2 mb-1.5">
                           <AlertTriangle className="w-3.5 h-3.5 text-red-400 drop-shadow-[0_0_10px_rgba(239,68,68,1)] animate-pulse" />
                           <div className="text-xs font-bold text-red-300">项目数量</div>
@@ -1486,13 +1486,13 @@ export default function RiskIdentificationPanel({
 
                     {/* 总金额卡片 - 增强效果 */}
                     <div className={cn(
-                      'relative rounded-xl p-2 overflow-hidden',
+                      'relative rounded-xl p-2 overflow-hidden h-full flex flex-col items-center justify-center',
                       'bg-gradient-to-br from-orange-900/50 to-orange-800/30',
                       'border-2 border-orange-500/60',
                       'shadow-[0_0_25px_rgba(251,146,60,0.5)]'
                     )}>
                       <div className="absolute top-0 right-0 w-20 h-20 bg-orange-500/20 rounded-full blur-3xl animate-pulse"></div>
-                      <div className="relative z-10">
+                      <div className="relative z-10 w-full flex flex-col items-center justify-center">
                         <div className="flex items-center gap-2 mb-1.5">
                           <DollarSign className="w-3.5 h-3.5 text-orange-400 drop-shadow-[0_0_10px_rgba(251,146,60,1)]" />
                           <div className="text-xs font-bold text-orange-300">总金额</div>
