@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { Target, Clock, AlertTriangle, Zap, Gauge } from 'lucide-react';
+import { Target, Clock, AlertTriangle, Zap, Gauge, BarChart3, TrendingUp } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
 // 主题类型
@@ -22,6 +22,22 @@ interface PredictionDecisionCardProps {
   theme?: Theme;
 }
 
+// 月度趋势数据
+const monthlyTrendData = [
+  { month: '1月', businessTarget: 1500, financialTarget: 1200, completed: 800, forecast: 900 },
+  { month: '2月', businessTarget: 1500, financialTarget: 1200, completed: 0, forecast: 950 },
+  { month: '3月', businessTarget: 1500, financialTarget: 1200, completed: 0, forecast: 880 },
+  { month: '4月', businessTarget: 1500, financialTarget: 1200, completed: 0, forecast: 1020 },
+  { month: '5月', businessTarget: 1500, financialTarget: 1200, completed: 0, forecast: 980 },
+  { month: '6月', businessTarget: 1500, financialTarget: 1200, completed: 0, forecast: 1050 },
+  { month: '7月', businessTarget: 1500, financialTarget: 1200, completed: 0, forecast: 1100 },
+  { month: '8月', businessTarget: 1500, financialTarget: 1200, completed: 0, forecast: 1080 },
+  { month: '9月', businessTarget: 1500, financialTarget: 1200, completed: 0, forecast: 1030 },
+  { month: '10月', businessTarget: 1500, financialTarget: 1200, completed: 0, forecast: 990 },
+  { month: '11月', businessTarget: 1500, financialTarget: 1200, completed: 0, forecast: 960 },
+  { month: '12月', businessTarget: 1500, financialTarget: 1200, completed: 0, forecast: 940 },
+];
+
 export default function PredictionDecisionCard({
   theme = 'dashboard',
 }: PredictionDecisionCardProps) {
@@ -36,6 +52,7 @@ export default function PredictionDecisionCard({
   const [needleAngle, setNeedleAngle] = useState(-90);
   const [animatedForecast, setAnimatedForecast] = useState(0);
   const [animatedCompleted, setAnimatedCompleted] = useState(0);
+  const [trendAnimations, setTrendAnimations] = useState<number[]>(new Array(12).fill(0));
   const [mounted, setMounted] = useState(false);
 
   // 启动动画
@@ -87,13 +104,33 @@ export default function PredictionDecisionCard({
       }
     };
 
+    // 4. 趋势图动画
+    const trendDuration = 2200;
+    const trendStartTime = Date.now();
+    const animateTrend = () => {
+      const elapsed = Date.now() - trendStartTime;
+      const progress = Math.min(elapsed / trendDuration, 1);
+      const easeOut = 1 - Math.pow(1 - progress, 3);
+
+      const newAnimations = monthlyTrendData.map((data, index) => {
+        return data.forecast * easeOut * (1 + (index * 0.05)); // 错开动画
+      });
+
+      setTrendAnimations(newAnimations);
+
+      if (progress < 1) {
+        requestAnimationFrame(animateTrend);
+      }
+    };
+
     animateRate();
     animateNeedle();
     animateNumbers();
+    animateTrend();
   }, []);
 
   // 主仪表盘组件
-  const MainGauge = ({ value, maxValue, size = 240 }: { value: number; maxValue: number; size?: number }) => {
+  const MainGauge = ({ value, maxValue, size = 200 }: { value: number; maxValue: number; size?: number }) => {
     const percentage = Math.min((value / maxValue) * 100, 100);
     const angle = (percentage / 100) * 180 - 90;
 
@@ -115,17 +152,17 @@ export default function PredictionDecisionCard({
           <circle
             cx="100"
             cy="100"
-            r="85"
+            r="75"
             fill="none"
             stroke="rgba(30,41,59,0.8)"
-            strokeWidth="12"
+            strokeWidth="10"
           />
 
           {/* 刻度线 */}
           {[...Array(11)].map((_, i) => {
             const angle = (i * 18 - 90) * (Math.PI / 180);
-            const innerR = 75;
-            const outerR = 85;
+            const innerR = 65;
+            const outerR = 75;
             const x1 = 100 + innerR * Math.cos(angle);
             const y1 = 100 + innerR * Math.sin(angle);
             const x2 = 100 + outerR * Math.cos(angle);
@@ -155,14 +192,14 @@ export default function PredictionDecisionCard({
           <circle
             cx="100"
             cy="100"
-            r="85"
+            r="75"
             fill="none"
             stroke={percentage >= 90 ? '#22c55e' :
                     percentage >= 70 ? '#eab308' :
                     '#ef4444'}
-            strokeWidth="12"
+            strokeWidth="10"
             strokeLinecap="round"
-            strokeDasharray={`${percentage * 5.34} 534`}
+            strokeDasharray={`${percentage * 4.71} 471`}
             strokeDashoffset={0}
             transform="rotate(-90 100 100)"
             style={{
@@ -176,7 +213,7 @@ export default function PredictionDecisionCard({
           {/* 指针 */}
           <g transform={`translate(100, 100) rotate(${angle})`}>
             <polygon
-              points="-4,0 0,-65 4,0"
+              points="-3,0 0,-55 3,0"
               fill="#22d3ee"
               style={{
                 filter: 'drop-shadow(0 0 8px rgba(34,211,238,1))',
@@ -185,7 +222,7 @@ export default function PredictionDecisionCard({
             <circle
               cx="0"
               cy="0"
-              r="8"
+              r="6"
               fill="#22d3ee"
               style={{
                 filter: 'drop-shadow(0 0 6px rgba(34,211,238,0.9))',
@@ -196,7 +233,7 @@ export default function PredictionDecisionCard({
 
         {/* 中心数值显示 */}
         <div className="absolute inset-0 flex flex-col items-center justify-center">
-          <div className="text-5xl font-black mb-1"
+          <div className="text-4xl font-black mb-1"
                style={{
                  color: percentage >= 90 ? '#22c55e' :
                         percentage >= 70 ? '#eab308' :
@@ -208,21 +245,21 @@ export default function PredictionDecisionCard({
           >
             {mounted ? Math.round(value) : 0}
           </div>
-          <div className="text-sm font-semibold text-cyan-400/70">%</div>
+          <div className="text-xs font-semibold text-cyan-400/70">%</div>
           <div className="text-xs text-cyan-500/50 mt-1">达成率</div>
         </div>
       </div>
     );
   };
 
-  // 小型仪表盘（用于预测完成、时间紧迫度）
+  // 小型仪表盘
   const SmallGauge = ({
     value,
     maxValue,
     label,
     unit = '万',
     color = 'cyan',
-    size = 180
+    size = 150
   }: {
     value: number;
     maxValue: number;
@@ -250,22 +287,22 @@ export default function PredictionDecisionCard({
           <circle
             cx="100"
             cy="100"
-            r="75"
+            r="70"
             fill="none"
             stroke="rgba(30,41,59,0.8)"
-            strokeWidth="10"
+            strokeWidth="8"
           />
 
           {/* 进度弧线 */}
           <circle
             cx="100"
             cy="100"
-            r="75"
+            r="70"
             fill="none"
             stroke={strokeColor}
-            strokeWidth="10"
+            strokeWidth="8"
             strokeLinecap="round"
-            strokeDasharray={`${percentage * 4.71} 471`}
+            strokeDasharray={`${percentage * 4.40} 440`}
             strokeDashoffset={0}
             transform="rotate(-90 100 100)"
             style={{
@@ -277,19 +314,19 @@ export default function PredictionDecisionCard({
           {/* 指针 */}
           <g transform={`translate(100, 100) rotate(${angle})`}>
             <polygon
-              points="-3,0 0,-60 3,0"
+              points="-2.5,0 0,-50 2.5,0"
               fill={strokeColor}
               style={{
                 filter: `drop-shadow(0 0 6px ${strokeColor})`,
               }}
             />
-            <circle cx="0" cy="0" r="6" fill={strokeColor} />
+            <circle cx="0" cy="0" r="5" fill={strokeColor} />
           </g>
         </svg>
 
         {/* 中心数值显示 */}
         <div className="absolute inset-0 flex flex-col items-center justify-center">
-          <div className="text-3xl font-black"
+          <div className="text-2xl font-black"
                style={{
                  color: strokeColor,
                  textShadow: `0 0 15px ${strokeColor}`,
@@ -306,16 +343,120 @@ export default function PredictionDecisionCard({
     );
   };
 
+  // 月度趋势柱状图（驾驶舱风格）
+  const MonthlyTrendChart = () => {
+    const maxValue = 1600; // 最大值
+
+    return (
+      <div className="mt-6 pt-6 border-t border-cyan-500/20">
+        <div className="mb-4 flex items-center justify-between">
+          <div className="flex items-center gap-2">
+            <BarChart3 className={cn('w-5 h-5', DASHBOARD_STYLES.neon)} />
+            <h3 className={cn('text-lg font-bold', DASHBOARD_STYLES.neon)}>
+              年度趋势预测
+            </h3>
+          </div>
+          <div className="flex items-center gap-4 text-xs text-cyan-400/60">
+            <div className="flex items-center gap-1">
+              <div className="w-3 h-3 rounded bg-orange-400" />
+              <span>业务目标</span>
+            </div>
+            <div className="flex items-center gap-1">
+              <div className="w-3 h-3 rounded bg-cyan-400" />
+              <span>预测完成</span>
+            </div>
+          </div>
+        </div>
+
+        {/* 柱状图容器 */}
+        <div className="relative h-48 w-full">
+          {/* 目标线 */}
+          <div
+            className="absolute left-0 right-0 border-t-2 border-dashed border-orange-400/50"
+            style={{ top: '15%' }}
+          >
+            <span className="absolute -right-12 -top-3 text-xs text-orange-400/70 font-semibold">
+              目标 1500万
+            </span>
+          </div>
+
+          {/* 柱状图 */}
+          <div className="flex items-end justify-between h-full gap-1 sm:gap-2 px-2">
+            {monthlyTrendData.map((data, index) => {
+              const targetHeight = (data.businessTarget / maxValue) * 100;
+              const forecastHeight = (trendAnimations[index] / maxValue) * 100;
+              const completedHeight = (data.completed / maxValue) * 100;
+
+              return (
+                <div key={index} className="flex-1 flex flex-col items-center justify-end h-full group">
+                  {/* 数值显示（hover时显示） */}
+                  <div className="mb-2 opacity-0 group-hover:opacity-100 transition-opacity text-center">
+                    <div className="text-xs font-semibold text-cyan-300">
+                      {mounted ? Math.round(trendAnimations[index]) : 0}
+                    </div>
+                    <div className="text-xs text-cyan-500/60">万</div>
+                  </div>
+
+                  {/* 柱状图 */}
+                  <div className="relative w-full max-w-[4.5rem] bg-slate-800/50 rounded-t-lg overflow-hidden">
+                    {/* 目标柱（背景） */}
+                    <div
+                      className="absolute inset-0 bg-orange-400/20 rounded-t-lg"
+                      style={{ height: `${targetHeight}%` }}
+                    />
+
+                    {/* 预测柱（前景） */}
+                    <div
+                      className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-cyan-600 to-cyan-400 rounded-t-lg transition-all duration-500"
+                      style={{
+                        height: `${forecastHeight}%`,
+                        filter: 'drop-shadow(0 0 8px rgba(34,211,238,0.6))',
+                      }}
+                    >
+                      {/* 已完成部分（实心） */}
+                      {data.completed > 0 && (
+                        <div
+                          className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-green-600 to-green-400 rounded-t-lg"
+                          style={{
+                            height: `${(completedHeight / forecastHeight) * 100}%`,
+                            filter: 'drop-shadow(0 0 8px rgba(74,222,128,0.6))',
+                          }}
+                        />
+                      )}
+
+                      {/* 顶部发光效果 */}
+                      <div
+                        className="absolute top-0 left-0 right-0 h-1 bg-cyan-300"
+                        style={{
+                          filter: 'drop-shadow(0 0 10px rgba(34,211,238,1))',
+                        }}
+                      />
+                    </div>
+                  </div>
+
+                  {/* 月份标签 */}
+                  <div className="mt-2 text-xs text-cyan-400/70 font-medium">
+                    {data.month}
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      </div>
+    );
+  };
+
   return (
     <div className={cn(
-      'p-6',
+      'p-5',
       theme === 'dashboard' && DASHBOARD_STYLES.bg
     )}>
       {/* 标题栏 */}
-      <div className="mb-6 flex items-center justify-between">
+      <div className="mb-4 flex items-center justify-between">
         <div className="flex items-center gap-3">
-          <Target className={cn('w-6 h-6', DASHBOARD_STYLES.neon)} />
-          <h2 className={cn('text-xl font-bold', DASHBOARD_STYLES.neon)}>
+          <Target className={cn('w-5 h-5', DASHBOARD_STYLES.neon)} />
+          <h2 className={cn('text-lg font-bold', DASHBOARD_STYLES.neon)}>
             核心预测决策
           </h2>
         </div>
@@ -325,8 +466,8 @@ export default function PredictionDecisionCard({
         </div>
       </div>
 
-      {/* 驾驶舱布局 */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+      {/* 驾驶舱布局 - 仪表盘 */}
+      <div className="grid grid-cols-3 gap-4 mb-6">
         {/* 左侧：预测完成 */}
         <div className="flex flex-col items-center">
           <SmallGauge
@@ -335,45 +476,34 @@ export default function PredictionDecisionCard({
             label="预测完成"
             unit="万"
             color="cyan"
+            size={150}
           />
-          <div className="mt-4 text-center">
-            <div className="text-sm text-cyan-400/70 mb-2">关键指标</div>
-            <div className="space-y-1">
-              <div className="flex justify-between text-xs text-cyan-500/60">
-                <span>已完成</span>
-                <span className="font-semibold text-cyan-300">
-                  {mounted ? Math.round(animatedCompleted) : 0} 万
-                </span>
-              </div>
-              <div className="flex justify-between text-xs text-cyan-500/60">
-                <span>缺口</span>
-                <span className={cn('font-semibold',
-                  forecast >= target ? 'text-green-400' : 'text-red-400'
-                )}>
-                  {mounted ? (animatedForecast - animatedCompleted > 0 ? '+' : '') : ''}{mounted ? Math.round(animatedForecast - animatedCompleted) : 0} 万
-                </span>
-              </div>
+          <div className="mt-3 text-center">
+            <div className="flex justify-between text-xs text-cyan-500/60 px-4">
+              <span>已完成</span>
+              <span className="font-semibold text-cyan-300">
+                {mounted ? Math.round(animatedCompleted) : 0}万
+              </span>
             </div>
           </div>
         </div>
 
         {/* 中央：达成率（主仪表盘） */}
-        <div className="flex flex-col items-center lg:col-span-1">
+        <div className="flex flex-col items-center">
           <MainGauge
             value={animatedRate}
             maxValue={100}
-            size={260}
+            size={200}
           />
-          <div className="mt-4 text-center">
-            <div className="text-sm text-cyan-400/70 mb-2">目标达成</div>
-            <div className="flex items-center justify-center gap-4 text-xs">
+          <div className="mt-3 text-center">
+            <div className="flex items-center justify-center gap-3 text-xs">
               <div className="flex items-center gap-1">
-                <div className="w-2 h-2 rounded-full bg-orange-400" />
+                <div className="w-1.5 h-1.5 rounded-full bg-orange-400" />
                 <span className="text-cyan-500/60">目标</span>
                 <span className="font-semibold text-orange-400">{target}万</span>
               </div>
               <div className="flex items-center gap-1">
-                <div className="w-2 h-2 rounded-full bg-cyan-400" />
+                <div className="w-1.5 h-1.5 rounded-full bg-cyan-400" />
                 <span className="text-cyan-500/60">预测</span>
                 <span className="font-semibold text-cyan-300">
                   {mounted ? Math.round(animatedForecast) : 0}万
@@ -391,19 +521,22 @@ export default function PredictionDecisionCard({
             label="剩余天数"
             unit="天"
             color="red"
+            size={150}
           />
-          <div className="mt-4 text-center">
-            <div className="text-sm text-cyan-400/70 mb-2">时间状态</div>
+          <div className="mt-3 text-center">
             <div className="flex items-center justify-center gap-2">
-              <AlertTriangle className="w-4 h-4 text-red-400 animate-pulse" />
+              <AlertTriangle className="w-3 h-3 text-red-400 animate-pulse" />
               <span className="text-xs text-red-400 font-semibold">紧迫</span>
             </div>
-            <div className="mt-2 text-xs text-cyan-500/60">
+            <div className="mt-1 text-xs text-cyan-500/60">
               日均需完成 <span className="font-semibold text-cyan-300">95万</span>
             </div>
           </div>
         </div>
       </div>
+
+      {/* 年度趋势图 */}
+      <MonthlyTrendChart />
 
       {/* 底部：驾驶舱科技装饰 */}
       <div className="mt-6 pt-4 border-t border-cyan-500/20">
@@ -416,6 +549,10 @@ export default function PredictionDecisionCard({
             <div className="flex items-center gap-1">
               <div className="w-1.5 h-1.5 rounded-full bg-green-400 animate-pulse" />
               <span>系统正常</span>
+            </div>
+            <div className="flex items-center gap-1">
+              <TrendingUp className="w-3 h-3" />
+              <span>趋势实时</span>
             </div>
             <div className="flex items-center gap-1">
               <Zap className="w-3 h-3" />
