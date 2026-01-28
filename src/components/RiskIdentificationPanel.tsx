@@ -547,11 +547,8 @@ export default function RiskIdentificationPanel({
   ];
 
   // 根据时间维度显示的 Tabs
-  // 本月：只显示"当月未下单"
-  // 本季度/本年度：显示所有 Tabs
-  const visibleTabs = timeRange === 'current'
-    ? allTabs.filter(tab => tab.id === 0)
-    : allTabs;
+  // 本月、本季度、本年度：都显示所有 Tabs
+  const visibleTabs = allTabs;
 
   // 根据时间维度过滤数据
   const filteredUnorderedProjects = useMemo(() => {
