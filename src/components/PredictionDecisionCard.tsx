@@ -349,7 +349,7 @@ export default function PredictionDecisionCard({
   // 月度趋势曲线图（驾驶舱风格）
   const MonthlyTrendChart = () => {
     const maxValue = 1600;
-    const height = 280;
+    const height = 252;
     const paddingLeft = 50;
     const paddingRight = 50;
     const paddingBottom = 32;
@@ -732,7 +732,7 @@ export default function PredictionDecisionCard({
             <MainGauge
               value={animatedRate}
               maxValue={100}
-              size={160}
+              size={144}
             />
             <div className="mt-5 text-center">
               <div className="text-cyan-400/60 text-xs mb-3">本月达成率</div>
