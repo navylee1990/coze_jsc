@@ -848,7 +848,7 @@ export default function RiskIdentificationPanel({
                   </div>
                 </div>
 
-                {/* 表格区域 */}
+                {/* 表格区域 - 预测不足 */}
                 <div className="flex-1 overflow-auto p-3 bg-gradient-to-b from-slate-900/50 to-transparent">
                   <table className="w-full">
                     <thead className="sticky top-0 bg-slate-900/95 backdrop-blur-sm z-10">
@@ -1207,7 +1207,7 @@ export default function RiskIdentificationPanel({
                   </div>
                 </div>
 
-                {/* 表格区域 */}
+                {/* 表格区域 - 预测不足 */}
                 <div className="flex-1 overflow-auto p-3 bg-gradient-to-b from-slate-900/50 to-transparent">
                   <table className="w-full">
                     <thead className="sticky top-0 bg-slate-900/95 backdrop-blur-sm z-10">
