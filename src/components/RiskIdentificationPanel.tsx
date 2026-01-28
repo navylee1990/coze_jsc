@@ -1209,28 +1209,65 @@ export default function RiskIdentificationPanel({
                   </div>
                 </div>
 
-                {/* 占位区域 - 保持宽度一致但不显示内容 */}
-                <div className="flex-1 overflow-auto p-3 bg-gradient-to-b from-slate-900/50 to-transparent min-w-full">
+                {/* 表格区域 - 占位，保持宽度一致 */}
+                <div className="flex-1 overflow-auto p-3 bg-gradient-to-b from-slate-900/50 to-transparent">
                   <table className="w-full invisible">
-                    <thead>
-                      <tr>
-                        <th className="w-16"></th>
-                        <th></th>
-                        <th className="hidden lg:table-cell"></th>
-                        <th className="hidden md:table-cell"></th>
-                        <th></th>
-                        <th></th>
-                        <th></th>
-                        <th></th>
+                    <thead className="sticky top-0 bg-slate-900/95 backdrop-blur-sm z-10">
+                      <tr className={cn('text-sm border-b border-yellow-500/30', 'border-yellow-500/20')}>
+                        <th className={cn('text-center py-2 px-3 font-medium w-16 text-yellow-300 drop-shadow-[0_0_5px_rgba(234,179,8,0.5)]')}>序号</th>
+                        <th className={cn('text-left py-2 px-3 font-medium text-yellow-300 drop-shadow-[0_0_5px_rgba(234,179,8,0.5)]')}>项目名称</th>
+                        <th className={cn('text-left py-2 px-3 font-medium hidden lg:table-cell text-yellow-300 drop-shadow-[0_0_5px_rgba(234,179,8,0.5)]')}>大区</th>
+                        <th className={cn('text-left py-2 px-3 font-medium hidden md:table-cell text-yellow-300 drop-shadow-[0_0_5px_rgba(234,179,8,0.5)]')}>负责人</th>
+                        <th className={cn('text-right py-2 px-3 font-medium text-yellow-300 drop-shadow-[0_0_5px_rgba(234,179,8,0.5)]')}>当前预测</th>
+                        <th className={cn('text-right py-2 px-3 font-medium text-yellow-300 drop-shadow-[0_0_5px_rgba(234,179,8,0.5)]')}>目标预测</th>
+                        <th className={cn('text-right py-2 px-3 font-medium text-yellow-300 drop-shadow-[0_0_5px_rgba(234,179,8,0.5)]')}>缺口金额</th>
+                        <th className={cn('text-right py-2 px-3 font-medium text-yellow-300 drop-shadow-[0_0_5px_rgba(234,179,8,0.5)]')}>缺口比例</th>
                       </tr>
                     </thead>
+                    <tbody>
+                      {[...Array(Math.min(5, forecastGaps.length))].map((_, index) => (
+                        <tr key={index} className={cn('align-middle border-b border-yellow-500/10', index === Math.min(5, forecastGaps.length) - 1 && 'border-b-0')}>
+                          <td className={cn('text-center py-2 px-3 text-sm text-yellow-300 align-middle')}>
+                            <div className="inline-flex items-center justify-center w-6 h-6 rounded-full bg-yellow-500/10 border border-yellow-500/30">
+                              {index + 1}
+                            </div>
+                          </td>
+                          <td className={cn('py-2 px-3 text-sm text-yellow-200 align-middle')}>
+                            <div className="font-medium leading-snug text-yellow-100">占位项目名称</div>
+                          </td>
+                          <td className={cn('hidden lg:table-cell py-2 px-3 text-sm text-yellow-200 align-middle')}>-</td>
+                          <td className={cn('hidden md:table-cell py-2 px-3 text-sm text-yellow-200 align-middle')}>-</td>
+                          <td className={cn('text-right py-2 px-3 whitespace-nowrap text-yellow-200 align-middle')}>
+                            <span className="font-medium text-yellow-300">0</span>
+                            <span className="text-sm ml-1 text-yellow-300/70">万</span>
+                          </td>
+                          <td className={cn('text-right py-2 px-3 whitespace-nowrap text-yellow-200 align-middle')}>
+                            <span className="font-medium text-yellow-300">0</span>
+                            <span className="text-sm ml-1 text-yellow-300/70">万</span>
+                          </td>
+                          <td className={cn('text-right py-2 px-3 whitespace-nowrap text-yellow-200 align-middle')}>
+                            <span className="font-black text-orange-400 drop-shadow-[0_0_6px_rgba(251,146,60,0.6)]">0</span>
+                            <span className={cn('text-sm ml-1 text-orange-300/70')}>万</span>
+                          </td>
+                          <td className={cn('text-right py-2 px-3 whitespace-nowrap text-yellow-200 align-middle')}>
+                            <span className={cn('px-2 py-1 rounded text-xs font-bold', 'bg-yellow-500/20 text-yellow-400')}>0%</span>
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
                   </table>
                 </div>
 
-                {/* 占位分页 - 保持高度一致 */}
-                <div className="px-4 py-2 border-t border-transparent flex justify-between items-center">
-                  <div className="h-4"></div>
-                  <div className="h-4 w-32"></div>
+                {/* 分页 - 占位，保持高度一致 */}
+                <div className="px-4 py-2 border-t border-yellow-500/20 flex justify-between items-center bg-gradient-to-r from-slate-900/50 to-transparent">
+                  <div className={cn('text-xs flex items-center gap-2', 'text-yellow-300/70 invisible')}>
+                    <Activity className="w-3 h-3 text-yellow-400/70" />
+                    占位分页信息
+                  </div>
+                  <div className="invisible">
+                    {/* 占位分页控件 */}
+                    <span className="text-sm">◀ 1 / 1 ▶</span>
+                  </div>
                 </div>
               </div>
             )}
