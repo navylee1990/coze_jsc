@@ -10,6 +10,7 @@ interface RegionMatrixProps {
   cityData?: Record<string, any[]>;
   salespersonData?: Record<string, any[]>;
   theme?: 'dashboard' | 'dark' | 'light';
+  timeRange?: 'current' | 'quarter' | 'year';
 }
 
 // 驾驶舱样式
@@ -57,7 +58,8 @@ export default function RegionMatrix({
   title = '区域达成',
   cityData = {},
   salespersonData = {},
-  theme = 'dashboard'
+  theme = 'dashboard',
+  timeRange = 'current'
 }: RegionMatrixProps) {
   const [drillDownLevel, setDrillDownLevel] = useState<'region' | 'city' | 'salesperson'>('region');
   const [selectedRegion, setSelectedRegion] = useState<string>('');

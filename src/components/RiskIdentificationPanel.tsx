@@ -92,6 +92,7 @@ interface RiskIdentificationPanelProps {
   riskPersonnel?: RiskPersonnel[];
   unorderedProjects?: UnorderedProject[];
   theme?: 'dashboard' | 'light' | 'dark';
+  timeRange?: 'current' | 'quarter' | 'year';
 }
 
 // ==================== 默认数据 ====================
@@ -514,7 +515,8 @@ export default function RiskIdentificationPanel({
   predictedRisks = defaultPredictedRisks,
   riskPersonnel = defaultRiskPersonnel,
   unorderedProjects = defaultUnorderedProjects,
-  theme = 'dashboard'
+  theme = 'dashboard',
+  timeRange = 'current'
 }: RiskIdentificationPanelProps) {
   // Tab状态
   const [currentTab, setCurrentTab] = useState(0);

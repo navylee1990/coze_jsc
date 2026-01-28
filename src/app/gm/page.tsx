@@ -572,6 +572,42 @@ export default function GMDashboard() {
             </div>
 
             <div className="flex items-center gap-4">
+              {/* 时间维度选择器 */}
+              <div className="flex items-center gap-1 bg-slate-800/50 border border-cyan-500/30 rounded-lg p-1">
+                <button
+                  onClick={() => setSelectedTimeRange('current')}
+                  className={cn(
+                    'px-3 py-1.5 text-xs font-medium rounded-md transition-all',
+                    selectedTimeRange === 'current'
+                      ? 'bg-cyan-500/20 text-cyan-300 border border-cyan-500/50 shadow-[0_0_8px_rgba(34,211,238,0.3)]'
+                      : 'text-cyan-400/60 hover:text-cyan-300 hover:bg-cyan-500/10'
+                  )}
+                >
+                  本月
+                </button>
+                <button
+                  onClick={() => setSelectedTimeRange('quarter')}
+                  className={cn(
+                    'px-3 py-1.5 text-xs font-medium rounded-md transition-all',
+                    selectedTimeRange === 'quarter'
+                      ? 'bg-cyan-500/20 text-cyan-300 border border-cyan-500/50 shadow-[0_0_8px_rgba(34,211,238,0.3)]'
+                      : 'text-cyan-400/60 hover:text-cyan-300 hover:bg-cyan-500/10'
+                  )}
+                >
+                  本季度
+                </button>
+                <button
+                  onClick={() => setSelectedTimeRange('year')}
+                  className={cn(
+                    'px-3 py-1.5 text-xs font-medium rounded-md transition-all',
+                    selectedTimeRange === 'year'
+                      ? 'bg-cyan-500/20 text-cyan-300 border border-cyan-500/50 shadow-[0_0_8px_rgba(34,211,238,0.3)]'
+                      : 'text-cyan-400/60 hover:text-cyan-300 hover:bg-cyan-500/10'
+                  )}
+                >
+                  本年度
+                </button>
+              </div>
             </div>
           </div>
         </div>
@@ -990,7 +1026,7 @@ export default function GMDashboard() {
             </div>
 
             {/* 未来支撑充分性面板 */}
-            <FutureSupportAdequacyPanel theme="dashboard" />
+            <FutureSupportAdequacyPanel theme="dashboard" timeRange={selectedTimeRange} />
           </div>
 
           {/* 右侧仪表区 */}
@@ -1001,7 +1037,7 @@ export default function GMDashboard() {
           )}>
             {/* 风险识别模块 - 自适应高度 */}
             <div className={`${DASHBOARD_STYLES.cardBg} ${DASHBOARD_STYLES.cardBorder} rounded-xl p-0 ${DASHBOARD_STYLES.glow}`}>
-              <RiskIdentificationPanel theme="dashboard" />
+              <RiskIdentificationPanel theme="dashboard" timeRange={selectedTimeRange} />
             </div>
 
             {/* 区域达成情况 - 自适应高度 */}
@@ -1012,6 +1048,7 @@ export default function GMDashboard() {
                 cityData={cityData}
                 salespersonData={salespersonData}
                 theme="dashboard"
+                timeRange={selectedTimeRange}
               />
             </div>
 

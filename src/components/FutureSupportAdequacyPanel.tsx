@@ -1526,6 +1526,7 @@ interface FutureSupportAdequacyPanelProps {
   data?: Partial<RegionData>;
   theme?: Theme;
   defaultRegion?: Region;
+  timeRange?: 'current' | 'quarter' | 'year';
 }
 
 // 辅助函数：获取状态颜色
@@ -1579,7 +1580,8 @@ const getHealthColor = (health: 'high' | 'medium' | 'low', theme: Theme) => {
 export default function FutureSupportAdequacyPanel({
   data: customData,
   theme = 'dark',
-  defaultRegion = 'national'
+  defaultRegion = 'national',
+  timeRange = 'current'
 }: FutureSupportAdequacyPanelProps) {
   // 区域选择状态
   const [selectedRegion, setSelectedRegion] = useState<Region>(defaultRegion);
