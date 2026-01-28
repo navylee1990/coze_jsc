@@ -1208,7 +1208,7 @@ export default function RiskIdentificationPanel({
                 </div>
 
                 {/* 占位区域 - 保持与其他Tab高度一致 */}
-                <div className="flex-1 bg-gradient-to-b from-slate-900/50 to-transparent"></div>
+                <div className="flex-1 min-w-full bg-gradient-to-b from-slate-900/50 to-transparent"></div>
               </div>
             )}
       </div>
