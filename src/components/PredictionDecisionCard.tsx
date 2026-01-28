@@ -680,11 +680,11 @@ export default function PredictionDecisionCard({
 
   return (
     <div className={cn(
-      'p-6',
+      'p-7',
       theme === 'dashboard' && DASHBOARD_STYLES.bg
     )}>
       {/* 标题栏 */}
-      <div className="mb-5 flex items-center justify-between">
+      <div className="mb-6 flex items-center justify-between">
         <div className="flex items-center gap-3">
           <TrendingUp className={cn('w-6 h-6', DASHBOARD_STYLES.neon)} />
           <h2 className={cn('text-xl font-bold', DASHBOARD_STYLES.neon)}>
@@ -700,14 +700,14 @@ export default function PredictionDecisionCard({
       {/* 左右两个独立块布局 */}
       <div className="grid grid-cols-1 lg:grid-cols-10 gap-6">
         {/* 左侧：仪表盘区块 - 30%宽度 */}
-        <div className="lg:col-span-3 rounded-xl p-6 border border-cyan-500/20 bg-slate-900/50">
+        <div className="lg:col-span-3 rounded-xl p-7 border border-cyan-500/20 bg-slate-900/50">
           <div className="flex flex-col items-center justify-center">
             <MainGauge
               value={animatedRate}
               maxValue={100}
               size={144}
             />
-            <div className="mt-5 text-center">
+            <div className="mt-6 text-center">
               <div className="text-cyan-400/60 text-xs mb-3">本月达成率</div>
               <div className="flex items-center justify-center gap-4 text-sm whitespace-nowrap">
                 <div className="flex items-center gap-1.5">
