@@ -487,14 +487,14 @@ export default function GMDashboard() {
             </div>
           </div>
 
-          {/* 未来支撑充分性面板 - 已隐藏 */}
-          {/* <div className={cn(
+          {/* 未来支撑充分性面板 */}
+          <div className={cn(
             'col-span-1 lg:col-span-7',
             'transition-all duration-500',
             'opacity-100 translate-y-0'
           )}>
             <FutureSupportAdequacyPanel theme="dashboard" timeRange={selectedTimeRange} />
-          </div> */}
+          </div>
 
         </div>
         </div>
