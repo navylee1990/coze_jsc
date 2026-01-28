@@ -1477,44 +1477,44 @@ export default function RiskIdentificationPanel({
                   <div className="relative z-10 grid grid-cols-3 gap-3">
                     {/* 项目数量卡片 - 增强效果 */}
                     <div className={cn(
-                      'relative rounded-xl p-3 overflow-hidden',
+                      'relative rounded-xl p-2 overflow-hidden',
                       'bg-gradient-to-br from-red-900/50 to-red-800/30',
                       'border-2 border-red-500/60',
                       'shadow-[0_0_25px_rgba(239,68,68,0.5)]'
                     )}>
                       <div className="absolute top-0 right-0 w-20 h-20 bg-red-500/20 rounded-full blur-3xl animate-pulse"></div>
                       <div className="relative z-10">
-                        <div className="flex items-center gap-2 mb-2">
-                          <AlertTriangle className="w-4 h-4 text-red-400 drop-shadow-[0_0_10px_rgba(239,68,68,1)] animate-pulse" />
+                        <div className="flex items-center gap-2 mb-1.5">
+                          <AlertTriangle className="w-3.5 h-3.5 text-red-400 drop-shadow-[0_0_10px_rgba(239,68,68,1)] animate-pulse" />
                           <div className="text-xs font-bold text-red-300">项目数量</div>
                         </div>
                         <div className="flex items-baseline gap-1">
-                          <span className="text-4xl font-black text-red-400 drop-shadow-[0_0_15px_rgba(248,113,113,1)]">
+                          <span className="text-3xl font-black text-red-400 drop-shadow-[0_0_15px_rgba(248,113,113,1)]">
                             {filteredUnorderedProjects.length}
                           </span>
-                          <span className="text-sm text-red-300/80">个</span>
+                          <span className="text-xs text-red-300/80">个</span>
                         </div>
                       </div>
                     </div>
 
                     {/* 总金额卡片 - 增强效果 */}
                     <div className={cn(
-                      'relative rounded-xl p-3 overflow-hidden',
+                      'relative rounded-xl p-2 overflow-hidden',
                       'bg-gradient-to-br from-orange-900/50 to-orange-800/30',
                       'border-2 border-orange-500/60',
                       'shadow-[0_0_25px_rgba(251,146,60,0.5)]'
                     )}>
                       <div className="absolute top-0 right-0 w-20 h-20 bg-orange-500/20 rounded-full blur-3xl animate-pulse"></div>
                       <div className="relative z-10">
-                        <div className="flex items-center gap-2 mb-2">
-                          <DollarSign className="w-4 h-4 text-orange-400 drop-shadow-[0_0_10px_rgba(251,146,60,1)]" />
+                        <div className="flex items-center gap-2 mb-1.5">
+                          <DollarSign className="w-3.5 h-3.5 text-orange-400 drop-shadow-[0_0_10px_rgba(251,146,60,1)]" />
                           <div className="text-xs font-bold text-orange-300">总金额</div>
                         </div>
                         <div className="flex items-baseline gap-1">
-                          <span className="text-4xl font-black text-orange-400 drop-shadow-[0_0_15px_rgba(251,146,60,1)]">
+                          <span className="text-3xl font-black text-orange-400 drop-shadow-[0_0_15px_rgba(251,146,60,1)]">
                             {filteredUnorderedProjects.reduce((sum, p) => sum + p.amount, 0).toFixed(0)}
                           </span>
-                          <span className="text-sm text-orange-300/80">万</span>
+                          <span className="text-xs text-orange-300/80">万</span>
                         </div>
                       </div>
                     </div>
@@ -1534,12 +1534,12 @@ export default function RiskIdentificationPanel({
                       <div className="absolute inset-0 bg-gradient-to-r from-red-500/30 to-orange-500/30 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
                       <div className="absolute inset-0 border-2 border-red-500/50 rounded-xl animate-pulse"></div>
 
-                      <div className="relative z-10 h-full flex flex-col items-center justify-center gap-2 py-3">
+                      <div className="relative z-10 h-full flex flex-col items-center justify-center gap-1.5 py-2">
                         <div className="flex items-center gap-1.5">
-                          <div className="w-9 h-9 rounded-full bg-red-500/40 border-2 border-red-400/60 flex items-center justify-center group-hover:scale-110 transition-transform shadow-[0_0_15px_rgba(239,68,68,0.8)]">
-                            <Send className="w-4.5 h-4.5 text-red-400 drop-shadow-[0_0_8px_rgba(248,113,113,1)]" />
+                          <div className="w-8 h-8 rounded-full bg-red-500/40 border-2 border-red-400/60 flex items-center justify-center group-hover:scale-110 transition-transform shadow-[0_0_15px_rgba(239,68,68,0.8)]">
+                            <Send className="w-4 h-4 text-red-400 drop-shadow-[0_0_8px_rgba(248,113,113,1)]" />
                           </div>
-                          <div className="text-lg font-black text-red-400 drop-shadow-[0_0_12px_rgba(248,113,113,1)]">一键催单</div>
+                          <div className="text-base font-black text-red-400 drop-shadow-[0_0_12px_rgba(248,113,113,1)]">一键催单</div>
                         </div>
                         <div className="flex items-center gap-1">
                           <div className="w-1.5 h-1.5 bg-red-400 rounded-full animate-bounce" style={{animationDelay: '0ms'}}></div>
