@@ -349,7 +349,7 @@ export default function PredictionDecisionCard({
   // 月度趋势曲线图（驾驶舱风格）
   const MonthlyTrendChart = () => {
     const maxValue = 1600;
-    const height = 220;
+    const height = 280;
     const paddingLeft = 50;
     const paddingRight = 50;
     const paddingBottom = 32;
@@ -672,14 +672,14 @@ export default function PredictionDecisionCard({
         </div>
       </div>
 
-      {/* 驾驶舱布局 - 3列 */}
-      <div className="grid grid-cols-3 gap-8">
-        {/* 左侧：达成率仪表盘 */}
-        <div className="flex flex-col items-center justify-center">
+      {/* 驾驶舱布局 - 压缩左侧，放大右侧 */}
+      <div className="grid grid-cols-1 lg:grid-cols-5 gap-6">
+        {/* 左侧：达成率仪表盘 - 压缩列宽 */}
+        <div className="lg:col-span-2 flex flex-col items-center justify-center">
           <MainGauge
             value={animatedRate}
             maxValue={100}
-            size={180}
+            size={160}
           />
           <div className="mt-4 text-center">
             <div className="flex items-center justify-center gap-5 text-base">
@@ -699,8 +699,8 @@ export default function PredictionDecisionCard({
           </div>
         </div>
 
-        {/* 右侧两列：年度趋势图 */}
-        <div className="col-span-2 flex flex-col">
+        {/* 右侧：年度趋势图 - 扩大列宽 */}
+        <div className="lg:col-span-3 flex flex-col">
           <MonthlyTrendChart />
         </div>
       </div>
