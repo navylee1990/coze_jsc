@@ -845,7 +845,7 @@ export default function RiskIdentificationPanel({
                 </div>
 
                 {/* 表格区域 */}
-                <div className="flex-1 overflow-auto p-3 bg-gradient-to-b from-slate-900/50 to-transparent">
+                <div className="flex-1 overflow-auto p-3 bg-gradient-to-b from-slate-900/50 to-transparent min-h-[280px]">
                   <table className="w-full">
                     <thead className="sticky top-0 bg-slate-900/95 backdrop-blur-sm z-10">
                       <tr className={cn('text-xs border-b border-cyan-500/30', DASHBOARD_STYLES.cardBorder)}>
@@ -1176,70 +1176,72 @@ export default function RiskIdentificationPanel({
                 </div>
 
                 {/* 大区预测缺口占比图表 */}
-                <div className="flex-1 overflow-auto p-3 bg-gradient-to-b from-slate-900/50 to-transparent">
-                  <div className="h-full min-h-[240px]">
+                <div className="flex-1 overflow-hidden p-3 bg-gradient-to-b from-slate-900/50 to-transparent">
+                  <div className="h-full min-h-[280px] flex flex-col">
                     {regionGapData.length > 0 ? (
-                      <ResponsiveContainer width="100%" height="100%">
-                        <BarChart
-                          data={regionGapData}
-                          layout="vertical"
-                          margin={{ top: 10, right: 40, left: 50, bottom: 10 }}
-                        >
-                          <CartesianGrid strokeDasharray="3 3" stroke="rgba(6,182,212,0.1)" />
-                          <XAxis
-                            type="number"
-                            tick={{ fill: '#67e8f9', fontSize: 11 }}
-                            stroke="rgba(6,182,212,0.3)"
-                            axisLine={false}
-                            tickLine={false}
-                          />
-                          <YAxis
-                            type="category"
-                            dataKey="region"
-                            tick={{ fill: '#67e8f9', fontSize: 12, fontWeight: 500 }}
-                            stroke="rgba(6,182,212,0.3)"
-                            axisLine={false}
-                            tickLine={false}
-                            width={50}
-                          />
-                          <Tooltip
-                            contentStyle={{
-                              backgroundColor: 'rgba(15,23,42,0.95)',
-                              border: '1px solid rgba(6,182,212,0.3)',
-                              borderRadius: '8px',
-                              padding: '12px'
-                            }}
-                            itemStyle={{ color: '#67e8f9' }}
-                            labelStyle={{ color: '#a5f3fc' }}
-                            formatter={(value: number, name: string) => {
-                              if (name === 'gapAmount') return [`${value}万`, '缺口金额'];
-                              if (name === 'gapPercentage') return [`${value}%`, '占比'];
-                              return [value, name];
-                            }}
-                          />
-                          <Bar dataKey="gapAmount" radius={[0, 4, 4, 0]} barSize={30}>
-                            {regionGapData.map((entry, index) => {
-                              const colors = [
-                                '#f59e0b', // 橙色
-                                '#ef4444', // 红色
-                                '#eab308', // 黄色
-                                '#f97316', // 橙红色
-                                '#fbbf24', // 浅黄色
-                                '#dc2626', // 深红色
-                              ];
-                              return (
-                                <Cell
-                                  key={`cell-${index}`}
-                                  fill={colors[index % colors.length]}
-                                  fillOpacity={0.85}
-                                />
-                              );
-                            })}
-                          </Bar>
-                        </BarChart>
-                      </ResponsiveContainer>
+                      <div className="flex-1">
+                        <ResponsiveContainer width="100%" height="100%">
+                          <BarChart
+                            data={regionGapData}
+                            layout="vertical"
+                            margin={{ top: 5, right: 40, left: 50, bottom: 5 }}
+                          >
+                            <CartesianGrid strokeDasharray="3 3" stroke="rgba(6,182,212,0.1)" />
+                            <XAxis
+                              type="number"
+                              tick={{ fill: '#67e8f9', fontSize: 11 }}
+                              stroke="rgba(6,182,212,0.3)"
+                              axisLine={false}
+                              tickLine={false}
+                            />
+                            <YAxis
+                              type="category"
+                              dataKey="region"
+                              tick={{ fill: '#67e8f9', fontSize: 12, fontWeight: 500 }}
+                              stroke="rgba(6,182,212,0.3)"
+                              axisLine={false}
+                              tickLine={false}
+                              width={50}
+                            />
+                            <Tooltip
+                              contentStyle={{
+                                backgroundColor: 'rgba(15,23,42,0.95)',
+                                border: '1px solid rgba(6,182,212,0.3)',
+                                borderRadius: '8px',
+                                padding: '12px'
+                              }}
+                              itemStyle={{ color: '#67e8f9' }}
+                              labelStyle={{ color: '#a5f3fc' }}
+                              formatter={(value: number, name: string) => {
+                                if (name === 'gapAmount') return [`${value}万`, '缺口金额'];
+                                if (name === 'gapPercentage') return [`${value}%`, '占比'];
+                                return [value, name];
+                              }}
+                            />
+                            <Bar dataKey="gapAmount" radius={[0, 4, 4, 0]} barSize={32}>
+                              {regionGapData.map((entry, index) => {
+                                const colors = [
+                                  '#f59e0b', // 橙色
+                                  '#ef4444', // 红色
+                                  '#eab308', // 黄色
+                                  '#f97316', // 橙红色
+                                  '#fbbf24', // 浅黄色
+                                  '#dc2626', // 深红色
+                                ];
+                                return (
+                                  <Cell
+                                    key={`cell-${index}`}
+                                    fill={colors[index % colors.length]}
+                                    fillOpacity={0.85}
+                                  />
+                                );
+                              })}
+                            </Bar>
+                          </BarChart>
+                        </ResponsiveContainer>
+                      </div>
                     ) : (
-                      <div className="flex items-center justify-center h-full">
+                      <div className="flex-1 flex items-center justify-center">
                         <div className="text-center text-cyan-300/50 text-sm">暂无数据</div>
                       </div>
                     )}
