@@ -460,8 +460,54 @@ export default function PredictionDecisionCard({
                 dataKey="completed"
                 stroke="#22c55e"
                 strokeWidth={3.5}
-                dot={{ fill: '#22c55e', strokeWidth: 2, r: 4 }}
-                activeDot={{ r: 6, strokeWidth: 2 }}
+                dot={(props: any) => {
+                  const { payload } = props;
+                  // 不显示值为0的点，返回不可见的圆
+                  if (!payload || payload.completed === 0) {
+                    return <circle cx={props.cx} cy={props.cy} r={0} fill="transparent" />;
+                  }
+                  
+                  const isBelowTarget = payload.completed < 1200;
+                  return (
+                    <circle
+                      cx={props.cx}
+                      cy={props.cy}
+                      r={5}
+                      fill={isBelowTarget ? '#ef4444' : '#22c55e'}
+                      stroke={isBelowTarget ? '#991b1b' : '#15803d'}
+                      strokeWidth={2}
+                      style={{
+                        filter: isBelowTarget 
+                          ? 'drop-shadow(0 0 8px rgba(239,68,68,0.8))'
+                          : 'drop-shadow(0 0 8px rgba(74,222,128,0.8))',
+                      }}
+                    />
+                  );
+                }}
+                activeDot={(props: any) => {
+                  const { payload } = props;
+                  // 不显示值为0的点，返回不可见的圆
+                  if (!payload || payload.completed === 0) {
+                    return <circle cx={props.cx} cy={props.cy} r={0} fill="transparent" />;
+                  }
+                  
+                  const isBelowTarget = payload.completed < 1200;
+                  return (
+                    <circle
+                      cx={props.cx}
+                      cy={props.cy}
+                      r={7}
+                      fill={isBelowTarget ? '#ef4444' : '#22c55e'}
+                      stroke={isBelowTarget ? '#991b1b' : '#15803d'}
+                      strokeWidth={3}
+                      style={{
+                        filter: isBelowTarget 
+                          ? 'drop-shadow(0 0 12px rgba(239,68,68,1))'
+                          : 'drop-shadow(0 0 12px rgba(74,222,128,1))',
+                      }}
+                    />
+                  );
+                }}
                 name="已完成"
                 animationDuration={2000}
               />
