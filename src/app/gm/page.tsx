@@ -440,7 +440,10 @@ export default function GMDashboard() {
             'transition-all duration-500',
             'opacity-100 translate-y-0'
           )}>
-            <div className={`${DASHBOARD_STYLES.cardBg} ${DASHBOARD_STYLES.cardBorder} rounded-xl p-0 ${DASHBOARD_STYLES.glow}`}>
+            <div className={cn(
+              `${DASHBOARD_STYLES.cardBg} ${DASHBOARD_STYLES.cardBorder} rounded-xl p-0 ${DASHBOARD_STYLES.glow}`,
+              'h-[500px]'
+            )}>
               <PredictionDecisionCard theme="dashboard" />
             </div>
           </div>

@@ -744,7 +744,7 @@ export default function PredictionDecisionCard({
       'p-6',
       theme === 'dashboard' && DASHBOARD_STYLES.bg
     )}
-    style={{ height: '520px', display: 'flex', flexDirection: 'column' }}
+    style={{ height: '500px', display: 'flex', flexDirection: 'column' }}
     >
       {/* 标题栏 */}
       <div className="mb-4 flex items-center justify-between flex-shrink-0">
