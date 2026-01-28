@@ -1650,11 +1650,31 @@ export default function FutureSupportAdequacyPanel({
     }
   };
 
-  // 支撑结构数据转换（用于图表）
+  // 根据timeRange获取对应的时间段键
+  const getPeriodKeyFromTimeRange = (timeRange: 'current' | 'quarter' | 'year'): '本月' | '本季度' | '半年度' => {
+    switch (timeRange) {
+      case 'current':
+        return '本月';
+      case 'quarter':
+        return '本季度';
+      case 'year':
+        return '半年度';
+      default:
+        return '本月';
+    }
+  };
+
+  // 获取当前选择的时间段
+  const currentPeriodKey = getPeriodKeyFromTimeRange(timeRange);
+
+  // 支撑结构数据转换（用于图表） - 只显示当前时间范围的数据
   const supportStructureData = [
-    { name: '本月', amount: data.supportStructure['本月'].amount, coverage: data.supportStructure['本月'].coverage, status: data.supportStructure['本月'].status },
-    { name: '本季度', amount: data.supportStructure['本季度'].amount, coverage: data.supportStructure['本季度'].coverage, status: data.supportStructure['本季度'].status },
-    { name: '半年度', amount: data.supportStructure['半年度'].amount, coverage: data.supportStructure['半年度'].coverage, status: data.supportStructure['半年度'].status }
+    {
+      name: currentPeriodKey,
+      amount: data.supportStructure[currentPeriodKey].amount,
+      coverage: data.supportStructure[currentPeriodKey].coverage,
+      status: data.supportStructure[currentPeriodKey].status
+    }
   ];
 
   return (
@@ -1756,48 +1776,50 @@ export default function FutureSupportAdequacyPanel({
 
       {/* 主内容区 - 时间段矩阵卡片布局 */}
       <div className="p-4">
-        {/* 响应式网格布局：小屏单列，中屏双列，大屏三列 */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
-          {(['本月', '本季度', '半年度'] as const).map((period, index) => {
-            const level = data.supportStructure[period];
-            const statusColor = getStatusColor(level.status, theme);
-            const periodConfigInfo = periodConfig[period];
+        {/* 根据timeRange只显示对应的时间段卡片 */}
+        {(() => {
+          const period = currentPeriodKey;
+          const level = data.supportStructure[period];
+          const statusColor = getStatusColor(level.status, theme);
+          const periodConfigInfo = periodConfig[period];
 
-            // 计算统计项目总金额
-            const projectsTotalAmount = level.projects.reduce((sum, p) => sum + p.amount, 0);
-            // 计算储备项目总金额
-            const reserveProjectsTotalAmount = level.reserveProjects
-              ? level.reserveProjects.reduce((sum, p) => sum + p.amount, 0)
-              : 0;
+          // 计算统计项目总金额
+          const projectsTotalAmount = level.projects.reduce((sum: number, p: any) => sum + p.amount, 0);
+          // 计算储备项目总金额
+          const reserveProjectsTotalAmount = level.reserveProjects
+            ? level.reserveProjects.reduce((sum: number, p: any) => sum + p.amount, 0)
+            : 0;
 
-            return (
-              <div
-                key={period}
-                className={cn(
-                  'p-4 rounded-xl relative border transition-all duration-300 cursor-pointer hover:scale-105',
-                  theme === 'dashboard'
-                    ? cn(
-                        'bg-slate-900/60 backdrop-blur-sm',
-                        index === 0
-                          ? 'border-red-500/30 hover:shadow-[0_0_20px_rgba(239,68,68,0.4)]'
-                          : index === 1
-                          ? 'border-yellow-500/30 hover:shadow-[0_0_20px_rgba(234,179,8,0.4)]'
-                          : 'border-green-500/30 hover:shadow-[0_0_20px_rgba(34,197,94,0.4)]',
-                        'shadow-[0_0_15px_rgba(6,182,212,0.2)]'
-                      )
-                    : theme === 'dark'
-                    ? 'bg-slate-800/50 border-slate-700/50'
-                    : `bg-gradient-to-b ${index === 0 ? 'from-red-50/50 to-slate-50/30' : index === 1 ? 'from-yellow-50/50 to-slate-50/30' : 'from-green-50/50 to-slate-50/30'}`
-                )}
-                onClick={() => {
-                  setSelectedPeriod(period);
-                  setIsDrillDownOpen(true);
-                }}
-              >
-                {/* 时间段标签 */}
-                <div className="flex items-center justify-between mb-2 sm:mb-3">
-                  <div className="flex items-center gap-1.5 sm:gap-2">
-                    <h4 className={cn(
+          const index = period === '本月' ? 0 : period === '本季度' ? 1 : 2;
+
+          return (
+            <div
+              key={period}
+              className={cn(
+                'p-4 rounded-xl relative border transition-all duration-300 cursor-pointer hover:scale-105',
+                theme === 'dashboard'
+                  ? cn(
+                      'bg-slate-900/60 backdrop-blur-sm',
+                      index === 0
+                        ? 'border-red-500/30 hover:shadow-[0_0_20px_rgba(239,68,68,0.4)]'
+                        : index === 1
+                        ? 'border-yellow-500/30 hover:shadow-[0_0_20px_rgba(234,179,8,0.4)]'
+                        : 'border-green-500/30 hover:shadow-[0_0_20px_rgba(34,197,94,0.4)]',
+                      'shadow-[0_0_15px_rgba(6,182,212,0.2)]'
+                    )
+                  : theme === 'dark'
+                  ? 'bg-slate-800/50 border-slate-700/50'
+                  : `bg-gradient-to-b ${index === 0 ? 'from-red-50/50 to-slate-50/30' : index === 1 ? 'from-yellow-50/50 to-slate-50/30' : 'from-green-50/50 to-slate-50/30'}`
+              )}
+              onClick={() => {
+                setSelectedPeriod(period);
+                setIsDrillDownOpen(true);
+              }}
+            >
+              {/* 时间段标签 */}
+              <div className="flex items-center justify-between mb-2 sm:mb-3">
+                <div className="flex items-center gap-1.5 sm:gap-2">
+                  <h4 className={cn(
                       'text-xs sm:text-sm font-bold',
                       theme === 'dashboard'
                         ? 'text-cyan-200 drop-shadow-[0_0_6px_rgba(6,182,212,0.5)]'
@@ -1890,8 +1912,7 @@ export default function FutureSupportAdequacyPanel({
                 </div>
               </div>
             );
-          })}
-        </div>
+        })()}
       </div>
 
       {/* 钻取弹窗 */}

@@ -487,9 +487,9 @@ export default function GMDashboard() {
             </div>
           </div>
 
-          {/* 未来支撑充分性面板 */}
+          {/* 未来支撑充分性面板 - 全屏展示 */}
           <div className={cn(
-            'col-span-1 lg:col-span-7',
+            'col-span-1 lg:col-span-12',
             'transition-all duration-500',
             'opacity-100 translate-y-0'
           )}>
