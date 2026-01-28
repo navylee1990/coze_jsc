@@ -1171,6 +1171,20 @@ export default function RiskIdentificationPanel({
                     </div>
                   </div>
                 </div>
+
+                {/* 分页区域 - 保持与其他Tab高度一致 */}
+                <div className="px-4 py-2 border-t border-cyan-500/20 flex justify-between items-center bg-gradient-to-r from-slate-900/50 to-transparent">
+                  <div className={cn('text-xs flex items-center gap-2', DASHBOARD_STYLES.textMuted)}>
+                    <Activity className="w-3 h-3 text-cyan-400/70" />
+                    共 {forecastGaps.length} 条记录
+                  </div>
+                  {/* 占位分页控件，保持布局一致 */}
+                  <div className="flex items-center gap-1">
+                    <div className="w-9 h-9 rounded-lg text-xs font-medium text-cyan-400/70 flex items-center justify-center">
+                      1
+                    </div>
+                  </div>
+                </div>
               </div>
             )}
       </div>
