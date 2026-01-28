@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react';
 import { Target, Clock, AlertTriangle, Zap, Gauge, BarChart3, TrendingUp, Calendar } from 'lucide-react';
 import { cn } from '@/lib/utils';
-import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, Area } from 'recharts';
+import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 
 // 主题类型
 type Theme = 'dark' | 'dashboard';
@@ -352,18 +352,6 @@ export default function PredictionDecisionCard({
         <div className="flex-1" style={{ minHeight: '252px' }}>
           <ResponsiveContainer width="100%" height="100%">
             <LineChart data={monthlyTrendData}>
-              {/* 定义渐变：预测完成曲线下方填充 */}
-              <defs>
-                <linearGradient id="forecastGradient" x1="0" y1="0" x2="0" y2="1">
-                  {/* 财务目标以上（29.4%位置）：青色 */}
-                  <stop offset="0%" stopColor="#22d3ee" stopOpacity="0.3" />
-                  <stop offset="29.4%" stopColor="#22d3ee" stopOpacity="0.15" />
-                  {/* 财务目标以下（29.4%-100%）：红色 */}
-                  <stop offset="29.4%" stopColor="rgba(239,68,68,0.3)" />
-                  <stop offset="100%" stopColor="rgba(239,68,68,0.15)" />
-                </linearGradient>
-              </defs>
-
               <CartesianGrid
                 strokeDasharray="4 4"
                 stroke="rgba(34,211,238,0.1)"
@@ -421,21 +409,49 @@ export default function PredictionDecisionCard({
                 name="财务目标"
                 animationDuration={1500}
               />
-              {/* 预测完成区域填充 */}
-              <Area
-                type="monotone"
-                dataKey="forecast"
-                fill="url(#forecastGradient)"
-                stroke="none"
-                animationDuration={2000}
-              />
               <Line
                 type="monotone"
                 dataKey="forecast"
                 stroke="#22d3ee"
                 strokeWidth={3.5}
-                dot={{ fill: '#22d3ee', strokeWidth: 2, r: 4 }}
-                activeDot={{ r: 6, strokeWidth: 2 }}
+                dot={(props: any) => {
+                  const { cx, cy, payload } = props;
+                  const isBelowTarget = payload.forecast < 1200;
+                  return (
+                    <circle
+                      cx={cx}
+                      cy={cy}
+                      r={5}
+                      fill={isBelowTarget ? '#ef4444' : '#22d3ee'}
+                      stroke={isBelowTarget ? '#991b1b' : '#0e7490'}
+                      strokeWidth={2}
+                      style={{
+                        filter: isBelowTarget 
+                          ? 'drop-shadow(0 0 8px rgba(239,68,68,0.8))'
+                          : 'drop-shadow(0 0 8px rgba(34,211,238,0.8))',
+                      }}
+                    />
+                  );
+                }}
+                activeDot={(props: any) => {
+                  const { cx, cy, payload } = props;
+                  const isBelowTarget = payload.forecast < 1200;
+                  return (
+                    <circle
+                      cx={cx}
+                      cy={cy}
+                      r={7}
+                      fill={isBelowTarget ? '#ef4444' : '#22d3ee'}
+                      stroke={isBelowTarget ? '#991b1b' : '#0e7490'}
+                      strokeWidth={3}
+                      style={{
+                        filter: isBelowTarget 
+                          ? 'drop-shadow(0 0 12px rgba(239,68,68,1))'
+                          : 'drop-shadow(0 0 12px rgba(34,211,238,1))',
+                      }}
+                    />
+                  );
+                }}
                 name="预测完成"
                 animationDuration={2000}
               />
