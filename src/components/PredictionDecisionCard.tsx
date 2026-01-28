@@ -443,7 +443,7 @@ export default function PredictionDecisionCard({
         {/* 曲线图容器 */}
         <div className="flex-1" style={{ minHeight: '252px' }}>
           <ResponsiveContainer width="100%" height="100%">
-            <LineChart data={monthlyTrendData}>
+            <LineChart data={monthlyTrendData} margin={{ right: 20 }}>
               <CartesianGrid
                 strokeDasharray="4 4"
                 stroke="rgba(34,211,238,0.1)"
