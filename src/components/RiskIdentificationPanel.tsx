@@ -3,6 +3,7 @@
 import { useState, useEffect, useMemo } from 'react';
 import { AlertTriangle, Building2, Clock, TrendingDown, Users, ChevronRight, ChevronLeft, PauseCircle, Gauge, Circle, Target, BarChart3, ArrowLeft, Activity, DollarSign, XCircle, Send } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import ConfirmDialog from '@/components/ui/confirm-dialog';
 
 // 驾驶舱样式
 const DASHBOARD_STYLES = {
@@ -465,6 +466,23 @@ export default function RiskIdentificationPanel({
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 3;
 
+  // 模态框状态
+  const [dialogOpen, setDialogOpen] = useState(false);
+  const [dialogConfig, setDialogConfig] = useState<{
+    title: string;
+    description: string;
+    confirmText?: string;
+    cancelText?: string;
+    onConfirm: () => Promise<void> | void;
+    type?: 'default' | 'danger' | 'warning' | 'success' | 'info';
+  } | null>(null);
+
+  // 打开模态框的辅助函数
+  const openDialog = (config: typeof dialogConfig) => {
+    setDialogConfig(config);
+    setDialogOpen(true);
+  };
+
   // 当时间维度变化时，重置当前 Tab
   useEffect(() => {
     if (timeRange === 'current') {
@@ -797,7 +815,17 @@ export default function RiskIdentificationPanel({
                       'hover:shadow-[0_0_40px_rgba(239,68,68,0.7)]',
                       'transition-all duration-300'
                     )}
-                         onClick={() => alert(`催下单：向所有未下单项目的销售工程师发送催办提醒\n\n共 ${filteredUnorderedProjects.length} 个项目，总金额 ${filteredUnorderedProjects.reduce((sum, p) => sum + p.amount, 0).toFixed(0)} 万元`)}>
+                         onClick={() => openDialog({
+                           title: '催下单提醒',
+                           description: `确定要向所有未下单项目的销售工程师发送催办提醒吗？\n\n共 ${filteredUnorderedProjects.length} 个项目，总金额 ${filteredUnorderedProjects.reduce((sum, p) => sum + p.amount, 0).toFixed(0)} 万元`,
+                           confirmText: '确认发送',
+                           cancelText: '取消',
+                           onConfirm: async () => {
+                             // TODO: 实际的催下单逻辑
+                             console.log('催下单操作已执行');
+                           },
+                           type: 'warning'
+                         })}>
                       {/* 按钮发光效果 */}
                       <div className="absolute inset-0 bg-gradient-to-r from-red-500/30 to-orange-500/30 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
                       <div className="absolute inset-0 border-2 border-red-500/50 rounded-xl animate-pulse"></div>
@@ -973,7 +1001,17 @@ export default function RiskIdentificationPanel({
                   'hover:shadow-[0_0_40px_rgba(6,182,212,0.7)]',
                   'transition-all duration-300'
                 )}
-                     onClick={() => alert(`在线沟通：向大项目依赖的负责人发送沟通提醒\n\n共 ${largeProjectDependencies.length} 个大项目，总金额 ${largeProjectDependencies.reduce((sum, p) => sum + p.amount, 0).toFixed(0)} 万元`)}>
+                     onClick={() => openDialog({
+                       title: '在线沟通',
+                       description: `确定要向大项目依赖的负责人发送沟通提醒吗？\n\n共 ${largeProjectDependencies.length} 个大项目，总金额 ${largeProjectDependencies.reduce((sum, p) => sum + p.amount, 0).toFixed(0)} 万元`,
+                       confirmText: '确认发送',
+                       cancelText: '取消',
+                       onConfirm: async () => {
+                         // TODO: 实际的在线沟通逻辑
+                         console.log('在线沟通操作已执行');
+                       },
+                       type: 'info'
+                     })}>
                   {/* 按钮发光效果 */}
                   <div className="absolute inset-0 bg-gradient-to-r from-cyan-500/30 to-blue-500/30 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
                   <div className="absolute inset-0 border-2 border-cyan-500/50 rounded-xl animate-pulse"></div>
@@ -1135,7 +1173,17 @@ export default function RiskIdentificationPanel({
                       'hover:shadow-[0_0_40px_rgba(234,179,8,0.7)]',
                       'transition-all duration-300'
                     )}
-                         onClick={() => alert(`补预测：生成预测不足项目的补充预测方案\n\n共 ${forecastGaps.length} 个项目，预计缺口 ${forecastGaps.reduce((sum, p) => sum + p.gapAmount, 0).toFixed(0)} 万元`)}>
+                         onClick={() => openDialog({
+                           title: '补预测',
+                           description: `确定要生成预测不足项目的补充预测方案吗？\n\n共 ${forecastGaps.length} 个项目，预计缺口 ${forecastGaps.reduce((sum, p) => sum + p.gapAmount, 0).toFixed(0)} 万元`,
+                           confirmText: '确认生成',
+                           cancelText: '取消',
+                           onConfirm: async () => {
+                             // TODO: 实际的补预测逻辑
+                             console.log('补预测操作已执行');
+                           },
+                           type: 'warning'
+                         })}>
                       {/* 按钮发光效果 */}
                       <div className="absolute inset-0 bg-gradient-to-r from-yellow-500/30 to-orange-500/30 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
                       <div className="absolute inset-0 border-2 border-yellow-500/50 rounded-xl animate-pulse"></div>
@@ -1163,6 +1211,20 @@ export default function RiskIdentificationPanel({
               </div>
             )}
       </div>
+
+      {/* 确认对话框 */}
+      {dialogConfig && (
+        <ConfirmDialog
+          open={dialogOpen}
+          onOpenChange={setDialogOpen}
+          title={dialogConfig.title}
+          description={dialogConfig.description}
+          confirmText={dialogConfig.confirmText}
+          cancelText={dialogConfig.cancelText}
+          onConfirm={dialogConfig.onConfirm}
+          type={dialogConfig.type}
+        />
+      )}
     </div>
   );
 }

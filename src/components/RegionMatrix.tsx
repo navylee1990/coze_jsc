@@ -3,6 +3,7 @@
 import { useState, useMemo } from 'react';
 import { Activity, ArrowLeft, TrendingUp, TrendingDown, Minus, Crown, Medal, Award, User, ChevronLeft, ChevronRight, Send } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import ConfirmDialog from '@/components/ui/confirm-dialog';
 
 interface RegionMatrixProps {
   data: any[];
@@ -65,6 +66,17 @@ export default function RegionMatrix({
   const [selectedRegion, setSelectedRegion] = useState<string>('');
   const [selectedCity, setSelectedCity] = useState<string>('');
   const [currentPage, setCurrentPage] = useState(1);
+
+  // 模态框状态
+  const [dialogOpen, setDialogOpen] = useState(false);
+  const [dialogConfig, setDialogConfig] = useState<{
+    title: string;
+    description: string;
+    confirmText?: string;
+    cancelText?: string;
+    onConfirm: () => Promise<void> | void;
+    type?: 'default' | 'danger' | 'warning' | 'success' | 'info';
+  } | null>(null);
 
   // 每页显示的行数
   const itemsPerPage = 8;
@@ -289,7 +301,21 @@ export default function RegionMatrix({
         {/* 补预测按钮 */}
         <div className="flex-shrink-0">
           <button
-            onClick={() => alert(`补预测：生成区域达成补充预测方案\n\n共 ${currentData.length} 个${drillDownLevel === 'region' ? '区域' : drillDownLevel === 'city' ? '城市' : '业务员'}，预计生成补充预测`)}
+            onClick={() => {
+              const levelName = drillDownLevel === 'region' ? '区域' : drillDownLevel === 'city' ? '城市' : '业务员';
+              setDialogConfig({
+                title: '补预测',
+                description: `确定要生成区域达成补充预测方案吗？\n\n共 ${currentData.length} 个${levelName}，预计生成补充预测`,
+                confirmText: '确认生成',
+                cancelText: '取消',
+                onConfirm: async () => {
+                  // TODO: 实际的补预测逻辑
+                  console.log('补预测操作已执行');
+                },
+                type: 'info'
+              });
+              setDialogOpen(true);
+            }}
             className={cn(
               'flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium transition-all',
               'bg-gradient-to-br from-cyan-500/30 to-blue-500/20',
@@ -408,6 +434,20 @@ export default function RegionMatrix({
           )}
         </div>
       </div>
+
+      {/* 确认对话框 */}
+      {dialogConfig && (
+        <ConfirmDialog
+          open={dialogOpen}
+          onOpenChange={setDialogOpen}
+          title={dialogConfig.title}
+          description={dialogConfig.description}
+          confirmText={dialogConfig.confirmText}
+          cancelText={dialogConfig.cancelText}
+          onConfirm={dialogConfig.onConfirm}
+          type={dialogConfig.type}
+        />
+      )}
     </div>
   );
 }
