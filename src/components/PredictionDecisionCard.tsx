@@ -113,7 +113,9 @@ export default function PredictionDecisionCard({
       const easeOut = 1 - Math.pow(1 - progress, 3);
 
       const newAnimations = monthlyTrendData.map((data, index) => {
-        return data.forecast * easeOut * (1 + (index * 0.05)); // 错开动画
+        // 错开动画：每个柱子延迟一点
+        const staggerProgress = Math.min(progress * (1 + index * 0.08), 1);
+        return data.forecast * staggerProgress;
       });
 
       setTrendAnimations(newAnimations);
@@ -441,7 +443,7 @@ export default function PredictionDecisionCard({
                   </div>
 
                   {/* 柱状图 */}
-                  <div className="relative w-full max-w-[4.5rem] bg-slate-800/50 rounded-t-lg overflow-hidden">
+                  <div className="relative w-full max-w-[5rem] min-h-[4rem] bg-slate-800/50 rounded-t-lg overflow-hidden">
                     {/* 目标柱（背景 - 橙色半透明） */}
                     <div
                       className="absolute inset-0 bg-orange-500/30 rounded-t-lg border-t-2 border-orange-400"
@@ -449,36 +451,34 @@ export default function PredictionDecisionCard({
                     />
 
                     {/* 预测柱（前景 - 青色渐变） */}
-                    {forecastHeight > 0 && (
-                      <div
-                        className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-cyan-600 to-cyan-400 rounded-t-lg transition-all duration-500"
-                        style={{
-                          height: `${forecastHeight}%`,
-                          filter: 'drop-shadow(0 0 10px rgba(34,211,238,0.8))',
-                          boxShadow: '0 0 20px rgba(34,211,238,0.4)',
-                        }}
-                      >
-                        {/* 已完成部分（实心 - 绿色） */}
-                        {data.completed > 0 && (
-                          <div
-                            className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-green-600 to-green-400 rounded-t-lg border-t-2 border-green-300"
-                            style={{
-                              height: `${(completedHeight / forecastHeight) * 100}%`,
-                              filter: 'drop-shadow(0 0 10px rgba(74,222,128,0.8))',
-                              boxShadow: '0 0 20px rgba(74,222,128,0.4)',
-                            }}
-                          />
-                        )}
-
-                        {/* 顶部发光效果 */}
+                    <div
+                      className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-cyan-600 to-cyan-400 rounded-t-lg transition-all duration-500"
+                      style={{
+                        height: `${Math.max(forecastHeight, 0.5)}%`, // 最小高度0.5%
+                        filter: 'drop-shadow(0 0 10px rgba(34,211,238,0.8))',
+                        boxShadow: '0 0 20px rgba(34,211,238,0.4)',
+                      }}
+                    >
+                      {/* 已完成部分（实心 - 绿色） */}
+                      {data.completed > 0 && (
                         <div
-                          className="absolute top-0 left-0 right-0 h-1 bg-cyan-300"
+                          className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-green-600 to-green-400 rounded-t-lg border-t-2 border-green-300"
                           style={{
-                            filter: 'drop-shadow(0 0 12px rgba(34,211,238,1))',
+                            height: `${(completedHeight / forecastHeight) * 100}%`,
+                            filter: 'drop-shadow(0 0 10px rgba(74,222,128,0.8))',
+                            boxShadow: '0 0 20px rgba(74,222,128,0.4)',
                           }}
                         />
-                      </div>
-                    )}
+                      )}
+
+                      {/* 顶部发光效果 */}
+                      <div
+                        className="absolute top-0 left-0 right-0 h-1.5 bg-cyan-300"
+                        style={{
+                          filter: 'drop-shadow(0 0 12px rgba(34,211,238,1))',
+                        }}
+                      />
+                    </div>
                   </div>
 
                   {/* 月份标签 */}
