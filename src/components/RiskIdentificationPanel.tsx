@@ -1039,13 +1039,13 @@ export default function RiskIdentificationPanel({
                   <table className="w-full">
                     <thead className="sticky top-0 bg-slate-900/95 backdrop-blur-sm z-10">
                       <tr className={cn('text-sm border-b border-cyan-500/30', DASHBOARD_STYLES.cardBorder)}>
+                        <th className={cn('text-center py-2 px-3 font-medium text-cyan-300 drop-shadow-[0_0_5px_rgba(6,182,212,0.5)]')}>序号</th>
                         <th className={cn('text-left py-2 px-3 font-medium text-cyan-300 drop-shadow-[0_0_5px_rgba(6,182,212,0.5)]')}>项目名称</th>
                         <th className={cn('text-left py-2 px-3 font-medium text-cyan-300 drop-shadow-[0_0_5px_rgba(6,182,212,0.5)]')}>金额</th>
                         <th className={cn('text-left py-2 px-3 font-medium text-cyan-300 drop-shadow-[0_0_5px_rgba(6,182,212,0.5)]')}>预测金额</th>
                         <th className={cn('text-left py-2 px-3 font-medium text-cyan-300 drop-shadow-[0_0_5px_rgba(6,182,212,0.5)]')}>占比</th>
                         <th className={cn('text-left py-2 px-3 font-medium text-cyan-300 drop-shadow-[0_0_5px_rgba(6,182,212,0.5)]')}>区域</th>
                         <th className={cn('text-left py-2 px-3 font-medium text-cyan-300 drop-shadow-[0_0_5px_rgba(6,182,212,0.5)]')}>负责人</th>
-                        <th className={cn('text-center py-2 px-3 font-medium text-cyan-300 drop-shadow-[0_0_5px_rgba(6,182,212,0.5)]')}>状态</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -1057,6 +1057,12 @@ export default function RiskIdentificationPanel({
                             index === getPaginatedLargeProjectDependencies().length - 1 && 'border-b-0'
                           )}
                         >
+                          {/* 序号 */}
+                          <td className={cn('text-center py-2 px-3 text-sm text-cyan-300 align-middle')}>
+                            <div className="inline-flex items-center justify-center w-6 h-6 rounded-full bg-cyan-500/10 border border-cyan-500/30">
+                              {(currentPage - 1) * 5 + index + 1}
+                            </div>
+                          </td>
                           <td className={cn('py-2 px-3 text-sm', DASHBOARD_STYLES.textSecondary, 'align-middle')}>
                             <div className="font-medium leading-snug text-cyan-100">{item.projectName}</div>
                           </td>
@@ -1074,11 +1080,6 @@ export default function RiskIdentificationPanel({
                           </td>
                           <td className={cn('py-2 px-3 text-sm text-cyan-200 align-middle')}>{item.region}</td>
                           <td className={cn('py-2 px-3 text-sm text-cyan-200 align-middle')}>{item.owner}</td>
-                          <td className={cn('py-2 px-3 text-center text-sm', DASHBOARD_STYLES.textSecondary, 'align-middle')}>
-                            <span className={cn('px-2 py-1 rounded text-xs font-medium', getStatusStyles(item.status))}>
-                              {item.status === 'critical' ? '紧急' : item.status === 'highRisk' ? '高风险' : '正常'}
-                            </span>
-                          </td>
                         </tr>
                       ))}
                     </tbody>
