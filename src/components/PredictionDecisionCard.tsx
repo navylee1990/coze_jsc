@@ -349,25 +349,36 @@ export default function PredictionDecisionCard({
 
     return (
       <div className="mt-6 pt-6 border-t border-cyan-500/20">
-        <div className="mb-4 flex items-center justify-between">
-          <div className="flex items-center gap-2">
-            <BarChart3 className={cn('w-5 h-5', DASHBOARD_STYLES.neon)} />
-            <h3 className={cn('text-lg font-bold', DASHBOARD_STYLES.neon)}>
-              年度趋势预测
-            </h3>
+        <div className="mb-4">
+          <div className="flex items-center justify-between mb-3">
+            <div className="flex items-center gap-2">
+              <BarChart3 className={cn('w-5 h-5', DASHBOARD_STYLES.neon)} />
+              <h3 className={cn('text-lg font-bold', DASHBOARD_STYLES.neon)}>
+                年度趋势预测
+              </h3>
+            </div>
           </div>
-          <div className="flex items-center gap-4 text-xs text-cyan-400/60">
-            <div className="flex items-center gap-1">
-              <div className="w-3 h-3 rounded bg-orange-400" />
-              <span>业务目标</span>
+          <div className="grid grid-cols-3 gap-2 p-3 bg-slate-800/30 rounded-lg">
+            <div className="flex items-center gap-2">
+              <div className="w-4 h-4 rounded bg-orange-400/30 border-2 border-orange-400"></div>
+              <div className="text-xs">
+                <div className="text-orange-400 font-semibold">业务目标</div>
+                <div className="text-cyan-500/60">1500万/月</div>
+              </div>
             </div>
-            <div className="flex items-center gap-1">
-              <div className="w-3 h-3 rounded bg-purple-400" />
-              <span>财务目标</span>
+            <div className="flex items-center gap-2">
+              <div className="w-4 h-4 rounded bg-cyan-400 border-2 border-cyan-300"></div>
+              <div className="text-xs">
+                <div className="text-cyan-400 font-semibold">预测完成</div>
+                <div className="text-cyan-500/60">模型预测</div>
+              </div>
             </div>
-            <div className="flex items-center gap-1">
-              <div className="w-3 h-3 rounded bg-cyan-400" />
-              <span>预测完成</span>
+            <div className="flex items-center gap-2">
+              <div className="w-4 h-4 rounded bg-green-400 border-2 border-green-300"></div>
+              <div className="text-xs">
+                <div className="text-green-400 font-semibold">已完成</div>
+                <div className="text-cyan-500/60">实际签约</div>
+              </div>
             </div>
           </div>
         </div>
@@ -413,52 +424,65 @@ export default function PredictionDecisionCard({
               return (
                 <div key={index} className="flex-1 flex flex-col items-center justify-end h-full group">
                   {/* 数值显示（hover时显示） */}
-                  <div className="mb-2 opacity-0 group-hover:opacity-100 transition-opacity text-center">
-                    <div className="text-xs font-semibold text-cyan-300">
-                      {mounted ? Math.round(trendAnimations[index]) : 0}
+                  <div className="mb-2 opacity-0 group-hover:opacity-100 transition-opacity text-center z-10">
+                    <div className="flex flex-col gap-1">
+                      {data.completed > 0 && (
+                        <div className="text-xs text-green-400">
+                          <span className="font-semibold">已完成:</span> {data.completed}万
+                        </div>
+                      )}
+                      <div className="text-xs text-cyan-300">
+                        <span className="font-semibold">预测:</span> {mounted ? Math.round(trendAnimations[index]) : 0}万
+                      </div>
+                      <div className="text-xs text-orange-400">
+                        <span className="font-semibold">目标:</span> {data.businessTarget}万
+                      </div>
                     </div>
-                    <div className="text-xs text-cyan-500/60">万</div>
                   </div>
 
                   {/* 柱状图 */}
                   <div className="relative w-full max-w-[4.5rem] bg-slate-800/50 rounded-t-lg overflow-hidden">
-                    {/* 目标柱（背景） */}
+                    {/* 目标柱（背景 - 橙色半透明） */}
                     <div
-                      className="absolute inset-0 bg-orange-400/20 rounded-t-lg"
+                      className="absolute inset-0 bg-orange-500/30 rounded-t-lg border-t-2 border-orange-400"
                       style={{ height: `${targetHeight}%` }}
                     />
 
-                    {/* 预测柱（前景） */}
-                    <div
-                      className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-cyan-600 to-cyan-400 rounded-t-lg transition-all duration-500"
-                      style={{
-                        height: `${forecastHeight}%`,
-                        filter: 'drop-shadow(0 0 8px rgba(34,211,238,0.6))',
-                      }}
-                    >
-                      {/* 已完成部分（实心） */}
-                      {data.completed > 0 && (
+                    {/* 预测柱（前景 - 青色渐变） */}
+                    {forecastHeight > 0 && (
+                      <div
+                        className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-cyan-600 to-cyan-400 rounded-t-lg transition-all duration-500"
+                        style={{
+                          height: `${forecastHeight}%`,
+                          filter: 'drop-shadow(0 0 10px rgba(34,211,238,0.8))',
+                          boxShadow: '0 0 20px rgba(34,211,238,0.4)',
+                        }}
+                      >
+                        {/* 已完成部分（实心 - 绿色） */}
+                        {data.completed > 0 && (
+                          <div
+                            className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-green-600 to-green-400 rounded-t-lg border-t-2 border-green-300"
+                            style={{
+                              height: `${(completedHeight / forecastHeight) * 100}%`,
+                              filter: 'drop-shadow(0 0 10px rgba(74,222,128,0.8))',
+                              boxShadow: '0 0 20px rgba(74,222,128,0.4)',
+                            }}
+                          />
+                        )}
+
+                        {/* 顶部发光效果 */}
                         <div
-                          className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-green-600 to-green-400 rounded-t-lg"
+                          className="absolute top-0 left-0 right-0 h-1 bg-cyan-300"
                           style={{
-                            height: `${(completedHeight / forecastHeight) * 100}%`,
-                            filter: 'drop-shadow(0 0 8px rgba(74,222,128,0.6))',
+                            filter: 'drop-shadow(0 0 12px rgba(34,211,238,1))',
                           }}
                         />
-                      )}
-
-                      {/* 顶部发光效果 */}
-                      <div
-                        className="absolute top-0 left-0 right-0 h-1 bg-cyan-300"
-                        style={{
-                          filter: 'drop-shadow(0 0 10px rgba(34,211,238,1))',
-                        }}
-                      />
-                    </div>
+                      </div>
+                    )}
                   </div>
 
                   {/* 月份标签 */}
-                  <div className="mt-2 text-xs text-cyan-400/70 font-medium">
+                  <div className="mt-2 px-2 py-1 rounded text-xs text-cyan-400/70 font-medium transition-all group-hover:bg-cyan-500/20 group-hover:text-cyan-300">
                     {data.month}
                   </div>
                 </div>
