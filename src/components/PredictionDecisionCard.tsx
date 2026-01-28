@@ -744,7 +744,6 @@ export default function PredictionDecisionCard({
       'p-7',
       theme === 'dashboard' && DASHBOARD_STYLES.bg
     )}
-    style={{ height: '500px', display: 'flex', flexDirection: 'column' }}
     >
       {/* 标题栏 */}
       <div className="mb-6 flex items-center justify-between">
@@ -761,10 +760,10 @@ export default function PredictionDecisionCard({
       </div>
 
       {/* 左右两个独立块布局 */}
-      <div className="grid grid-cols-1 lg:grid-cols-10 gap-6">
+      <div className="flex flex-col lg:flex-row gap-6 items-stretch">
         {/* 左侧：仪表盘区块 - 30%宽度 */}
-        <div className="lg:col-span-3 rounded-xl p-4 border border-cyan-500/20 bg-slate-900/50">
-          <div className="flex flex-col items-center justify-center gap-5">
+        <div className="lg:w-[30%] rounded-xl p-4 border border-cyan-500/20 bg-slate-900/50">
+          <div className="flex flex-col items-center justify-center gap-4 h-full">
             {/* 实际达成率仪表盘 */}
             <div className="text-center">
               <MainGauge
@@ -811,7 +810,7 @@ export default function PredictionDecisionCard({
         </div>
 
         {/* 右侧：趋势图区块 - 70%宽度 */}
-        <div className="lg:col-span-7 rounded-xl p-4 border border-cyan-500/20 bg-slate-900/50">
+        <div className="lg:w-[70%] rounded-xl p-4 border border-cyan-500/20 bg-slate-900/50" style={{ height: '440px' }}>
           <MonthlyTrendChart />
         </div>
       </div>
