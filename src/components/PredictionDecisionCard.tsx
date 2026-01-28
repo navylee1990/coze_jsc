@@ -509,11 +509,11 @@ export default function PredictionDecisionCard({
                 dot={(props: any) => {
                   const { cx, cy, payload } = props;
                   const isBelowTarget = payload.forecast < 1200;
-                  
+
                   if (isBelowTarget) {
                     // 风险点：更大、更醒目的红色
                     return (
-                      <g>
+                      <g key={`forecast-risk-${payload.month}`}>
                         {/* 外层光晕 */}
                         <circle
                           key="forecast-outer"
@@ -552,7 +552,7 @@ export default function PredictionDecisionCard({
                       </g>
                     );
                   }
-                  
+
                   // 正常点：青色
                   return (
                     <circle
@@ -571,11 +571,11 @@ export default function PredictionDecisionCard({
                 activeDot={(props: any) => {
                   const { cx, cy, payload } = props;
                   const isBelowTarget = payload.forecast < 1200;
-                  
+
                   if (isBelowTarget) {
                     // 风险点悬停：超大、超醒目
                     return (
-                      <g>
+                      <g key={`forecast-risk-active-${payload.month}`}>
                         {/* 外层光晕 */}
                         <circle
                           key="forecast-outer-active"
@@ -614,7 +614,7 @@ export default function PredictionDecisionCard({
                       </g>
                     );
                   }
-                  
+
                   // 正常点悬停
                   return (
                     <circle
@@ -646,11 +646,11 @@ export default function PredictionDecisionCard({
                   }
                   
                   const isBelowTarget = payload.completed < 1200;
-                  
+
                   if (isBelowTarget) {
                     // 风险点：更大、更醒目的红色
                     return (
-                      <g>
+                      <g key={`completed-risk-${payload.month}`}>
                         {/* 外层光晕 */}
                         <circle
                           key="completed-outer"
@@ -713,11 +713,11 @@ export default function PredictionDecisionCard({
                   }
                   
                   const isBelowTarget = payload.completed < 1200;
-                  
+
                   if (isBelowTarget) {
                     // 风险点悬停：超大、超醒目
                     return (
-                      <g>
+                      <g key={`completed-risk-active-${payload.month}`}>
                         {/* 外层光晕 */}
                         <circle
                           key="completed-outer-active"
