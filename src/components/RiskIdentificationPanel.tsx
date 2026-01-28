@@ -3,7 +3,6 @@
 import { useState, useEffect, useMemo } from 'react';
 import { AlertTriangle, Building2, Clock, TrendingDown, Users, ChevronRight, ChevronLeft, PauseCircle, Gauge, Circle, Target, BarChart3, ArrowLeft, Activity, DollarSign, XCircle, Send } from 'lucide-react';
 import { cn } from '@/lib/utils';
-import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Cell } from 'recharts';
 
 // 驾驶舱样式
 const DASHBOARD_STYLES = {
@@ -563,31 +562,8 @@ export default function RiskIdentificationPanel({
     }
   })();
 
-  // 按大区汇总预测缺口数据
-  const regionGapData = useMemo(() => {
-    const regionMap = new Map<string, { gapAmount: number; gapCount: number }>();
-
-    forecastGaps.forEach(gap => {
-      const existing = regionMap.get(gap.region) || { gapAmount: 0, gapCount: 0 };
-      regionMap.set(gap.region, {
-        gapAmount: existing.gapAmount + gap.gapAmount,
-        gapCount: existing.gapCount + 1
-      });
-    });
-
-    // 转换为数组并按缺口金额排序
-    return Array.from(regionMap.entries())
-      .map(([region, data]) => ({
-        region,
-        gapAmount: data.gapAmount,
-        gapCount: data.gapCount,
-        gapPercentage: Math.round((data.gapAmount / forecastGaps.reduce((sum, g) => sum + g.gapAmount, 0)) * 100)
-      }))
-      .sort((a, b) => b.gapAmount - a.gapAmount);
-  }, [forecastGaps]);
-
   return (
-    <div className={cn('w-full h-full flex flex-col')}>
+    <div className={cn('w-full flex flex-col')}>
       {/* 标题栏 */}
       <div
         className={cn(
@@ -845,7 +821,7 @@ export default function RiskIdentificationPanel({
                 </div>
 
                 {/* 表格区域 */}
-                <div className="flex-1 overflow-auto p-3 bg-gradient-to-b from-slate-900/50 to-transparent min-h-[280px]">
+                <div className="flex-1 overflow-auto p-3 bg-gradient-to-b from-slate-900/50 to-transparent">
                   <table className="w-full">
                     <thead className="sticky top-0 bg-slate-900/95 backdrop-blur-sm z-10">
                       <tr className={cn('text-xs border-b border-cyan-500/30', DASHBOARD_STYLES.cardBorder)}>
@@ -1175,89 +1151,23 @@ export default function RiskIdentificationPanel({
                   </div>
                 </div>
 
-                {/* 大区预测缺口占比图表 */}
-                <div className="flex-1 overflow-hidden p-3 bg-gradient-to-b from-slate-900/50 to-transparent">
-                  <div className="h-full min-h-[280px] flex flex-col">
-                    {regionGapData.length > 0 ? (
-                      <div className="flex-1">
-                        <ResponsiveContainer width="100%" height="100%">
-                          <BarChart
-                            data={regionGapData}
-                            layout="vertical"
-                            margin={{ top: 5, right: 40, left: 50, bottom: 5 }}
-                          >
-                            <CartesianGrid strokeDasharray="3 3" stroke="rgba(6,182,212,0.1)" />
-                            <XAxis
-                              type="number"
-                              tick={{ fill: '#67e8f9', fontSize: 11 }}
-                              stroke="rgba(6,182,212,0.3)"
-                              axisLine={false}
-                              tickLine={false}
-                            />
-                            <YAxis
-                              type="category"
-                              dataKey="region"
-                              tick={{ fill: '#67e8f9', fontSize: 12, fontWeight: 500 }}
-                              stroke="rgba(6,182,212,0.3)"
-                              axisLine={false}
-                              tickLine={false}
-                              width={50}
-                            />
-                            <Tooltip
-                              contentStyle={{
-                                backgroundColor: 'rgba(15,23,42,0.95)',
-                                border: '1px solid rgba(6,182,212,0.3)',
-                                borderRadius: '8px',
-                                padding: '12px'
-                              }}
-                              itemStyle={{ color: '#67e8f9' }}
-                              labelStyle={{ color: '#a5f3fc' }}
-                              formatter={(value: number, name: string) => {
-                                if (name === 'gapAmount') return [`${value}万`, '缺口金额'];
-                                if (name === 'gapPercentage') return [`${value}%`, '占比'];
-                                return [value, name];
-                              }}
-                            />
-                            <Bar dataKey="gapAmount" radius={[0, 4, 4, 0]} barSize={32}>
-                              {regionGapData.map((entry, index) => {
-                                const colors = [
-                                  '#f59e0b', // 橙色
-                                  '#ef4444', // 红色
-                                  '#eab308', // 黄色
-                                  '#f97316', // 橙红色
-                                  '#fbbf24', // 浅黄色
-                                  '#dc2626', // 深红色
-                                ];
-                                return (
-                                  <Cell
-                                    key={`cell-${index}`}
-                                    fill={colors[index % colors.length]}
-                                    fillOpacity={0.85}
-                                  />
-                                );
-                              })}
-                            </Bar>
-                          </BarChart>
-                        </ResponsiveContainer>
-                      </div>
-                    ) : (
-                      <div className="flex-1 flex items-center justify-center">
-                        <div className="text-center text-cyan-300/50 text-sm">暂无数据</div>
-                      </div>
-                    )}
-                  </div>
-                </div>
-
-                {/* 分页区域 - 保持与其他Tab高度一致 */}
-                <div className="px-4 py-2 border-t border-cyan-500/20 flex justify-between items-center bg-gradient-to-r from-slate-900/50 to-transparent">
-                  <div className={cn('text-xs flex items-center gap-2', DASHBOARD_STYLES.textMuted)}>
-                    <Activity className="w-3 h-3 text-cyan-400/70" />
-                    共 {regionGapData.length} 个区域
-                  </div>
-                  {/* 占位分页控件，保持布局一致 */}
-                  <div className="flex items-center gap-1">
-                    <div className="w-9 h-9 rounded-lg text-xs font-medium text-cyan-400/70 flex items-center justify-center">
-                      1
+                {/* 占位区域 - 保持与其他Tab高度一致 */}
+                <div className="flex-1 flex flex-col items-center justify-center p-6 bg-gradient-to-b from-slate-900/50 to-transparent">
+                  <div className="text-center space-y-3">
+                    <div className={cn(
+                      'inline-flex items-center justify-center w-16 h-16 rounded-full',
+                      'bg-gradient-to-br from-yellow-500/20 to-orange-500/20',
+                      'border-2 border-yellow-500/30',
+                      'shadow-[0_0_20px_rgba(234,179,8,0.3)]',
+                      'animate-pulse'
+                    )}>
+                      <TrendingDown className="w-8 h-8 text-yellow-400 drop-shadow-[0_0_10px_rgba(234,179,8,1)]" />
+                    </div>
+                    <div className={cn('text-sm font-medium', DASHBOARD_STYLES.textSecondary)}>
+                      请点击"补预测"按钮生成补充预测方案
+                    </div>
+                    <div className={cn('text-xs', DASHBOARD_STYLES.textMuted)}>
+                      系统将自动识别并生成针对{forecastGaps.length}个项目的补充预测
                     </div>
                   </div>
                 </div>

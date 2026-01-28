@@ -468,7 +468,7 @@ export default function GMDashboard() {
           )}>
             {/* 风险识别模块 - 自适应高度 */}
             <div className={cn(
-              'bg-slate-900/60 backdrop-blur-sm rounded-xl p-0 overflow-hidden',
+              'bg-slate-900/60 backdrop-blur-sm rounded-xl p-0',
               'border-2 border-red-500/40',
               'shadow-[0_0_40px_rgba(239,68,68,0.4)]',
               'hover:shadow-[0_0_50px_rgba(239,68,68,0.5)]',
