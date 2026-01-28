@@ -658,46 +658,41 @@ export default function RiskIdentificationPanel({
                     key={tab.id}
                     onClick={() => setCurrentTab(tab.id)}
                     className={cn(
-                      'flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-semibold transition-all relative hover:scale-105 active:scale-95',
+                      'flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium transition-all relative',
                       // 未按计划下单使用红色主题
                       isUnorderedProjects && theme === 'dashboard'
-                        ? 'bg-red-500/50 text-red-100 border-2 border-red-500/70 shadow-[0_0_25px_rgba(239,68,68,0.7)] animate-pulse'
+                        ? 'bg-red-500/40 text-red-200 border-2 border-red-500/60 shadow-[0_0_20px_rgba(239,68,68,0.6)] animate-pulse'
                         : isUnorderedProjects
                         ? 'bg-red-100 text-red-700 border-2 border-red-400 shadow-[0_0_15px_rgba(239,68,68,0.5)]'
                         : isForecastGap && theme === 'dashboard'
-                        ? 'bg-orange-500/50 text-orange-100 border-2 border-orange-500/70 shadow-[0_0_25px_rgba(249,115,22,0.7)]'
+                        ? 'bg-orange-500/40 text-orange-200 border-2 border-orange-500/60 shadow-[0_0_20px_rgba(249,115,22,0.6)]'
                         : isForecastGap
                         ? 'bg-orange-100 text-orange-700 border-2 border-orange-400 shadow-[0_0_15px_rgba(249,115,22,0.5)]'
                         : currentTab === tab.id
                         ? theme === 'dashboard'
-                          ? 'bg-cyan-500/40 text-cyan-200 border-2 border-cyan-500/70 shadow-[0_0_15px_rgba(6,182,212,0.6)]'
-                          : 'bg-cyan-100 text-cyan-700 border-2 border-cyan-400'
+                          ? 'bg-cyan-500/30 text-cyan-300 border border-cyan-500/50 shadow-[0_0_10px_rgba(6,182,212,0.4)]'
+                          : 'bg-cyan-100 text-cyan-700 border border-cyan-300'
                         : theme === 'dashboard'
-                        ? 'bg-slate-800/40 text-cyan-400/80 border border-cyan-400/30 hover:bg-slate-700/40'
-                        : 'bg-slate-100 text-slate-600 border border-slate-300 hover:bg-slate-200',
+                        ? 'bg-slate-800/30 text-cyan-400/70 border border-cyan-400/20'
+                        : 'bg-slate-100 text-slate-600 border border-slate-300',
                       // 闪烁效果
                       shouldPulse && 'animate-pulse'
                     )}
                   >
                     {isUnorderedProjects ? (
                       <Icon className={cn(
-                        'w-5 h-5',
-                        theme === 'dashboard' ? 'text-red-400 drop-shadow-[0_0_10px_rgba(239,68,68,1)]' : 'text-red-600'
+                        'w-4 h-4',
+                        theme === 'dashboard' ? 'text-red-400 drop-shadow-[0_0_8px_rgba(239,68,68,1)]' : 'text-red-600'
                       )} />
                     ) : isForecastGap ? (
                       <Icon className={cn(
-                        'w-5 h-5',
-                        theme === 'dashboard' ? 'text-orange-400 drop-shadow-[0_0_10px_rgba(249,115,22,1)]' : 'text-orange-600'
+                        'w-4 h-4',
+                        theme === 'dashboard' ? 'text-orange-400 drop-shadow-[0_0_8px_rgba(249,115,22,1)]' : 'text-orange-600'
                       )} />
                     ) : (
-                      <Icon className="w-4 h-4" />
+                      <Icon className="w-3.5 h-3.5" />
                     )}
-                    <span className={cn(
-                      'font-bold',
-                      isUnorderedProjects && theme === 'dashboard' ? 'text-red-100' : 
-                      isForecastGap && theme === 'dashboard' ? 'text-orange-100' :
-                      currentTab === tab.id ? 'text-cyan-100' : ''
-                    )}>
+                    <span className={isUnorderedProjects && theme === 'dashboard' ? 'font-bold text-xs' : ''}>
                       {tab.label}
                     </span>
                     {/* 角标 */}
