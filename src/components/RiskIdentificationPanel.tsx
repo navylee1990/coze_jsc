@@ -1477,11 +1477,13 @@ export default function RiskIdentificationPanel({
                         <th className={cn('text-center py-2 px-3 font-medium w-16', DASHBOARD_STYLES.textSecondary)}>序号</th>
                         <th className={cn('text-left py-2 px-3 font-medium', DASHBOARD_STYLES.textSecondary)}>项目阶段</th>
                         <th className={cn('text-left py-2 px-3 font-medium', DASHBOARD_STYLES.textSecondary)}>预计下单</th>
+                        <th className={cn('text-left py-2 px-3 font-medium', DASHBOARD_STYLES.textSecondary)}>项目阶段</th>
+                        <th className={cn('text-left py-2 px-3 font-medium', DASHBOARD_STYLES.textSecondary)}>预计下单时间</th>
                         <th className={cn('text-left py-2 px-3 font-medium', DASHBOARD_STYLES.textSecondary)}>项目名称</th>
-                        <th className={cn('text-left py-2 px-3 font-medium hidden lg:table-cell', DASHBOARD_STYLES.textSecondary)}>大区</th>
-                        <th className={cn('text-left py-2 px-3 font-medium hidden md:table-cell', DASHBOARD_STYLES.textSecondary)}>销售</th>
-                        <th className={cn('text-left py-2 px-3 font-medium hidden xl:table-cell', DASHBOARD_STYLES.textSecondary)}>城市经理</th>
-                        <th className={cn('text-left py-2 px-3 font-medium hidden md:table-cell', DASHBOARD_STYLES.textSecondary)}>类型</th>
+                        <th className={cn('text-left py-2 px-3 font-medium', DASHBOARD_STYLES.textSecondary)}>大区</th>
+                        <th className={cn('text-left py-2 px-3 font-medium', DASHBOARD_STYLES.textSecondary)}>销售</th>
+                        <th className={cn('text-left py-2 px-3 font-medium', DASHBOARD_STYLES.textSecondary)}>城市经理</th>
+                        <th className={cn('text-left py-2 px-3 font-medium', DASHBOARD_STYLES.textSecondary)}>类型</th>
                         <th className={cn('text-right py-2 px-3 font-medium', DASHBOARD_STYLES.textSecondary)}>金额</th>
                         <th className={cn('text-center py-2 px-3 font-medium', DASHBOARD_STYLES.textSecondary)}>状态</th>
                         <th className={cn('text-center py-2 px-3 font-medium', DASHBOARD_STYLES.textSecondary)}>延迟天数</th>
@@ -1517,22 +1519,22 @@ export default function RiskIdentificationPanel({
                           </td>
 
                           {/* 大区 */}
-                          <td className={cn('hidden lg:table-cell py-3 px-3 text-xs', DASHBOARD_STYLES.textSecondary)}>
+                          <td className={cn('py-3 px-3 text-xs', DASHBOARD_STYLES.textSecondary)}>
                             {item.region || '-'}
                           </td>
 
                           {/* 销售工程师 */}
-                          <td className={cn('hidden md:table-cell py-3 px-3 text-xs', DASHBOARD_STYLES.textSecondary)}>
+                          <td className={cn('py-3 px-3 text-xs', DASHBOARD_STYLES.textSecondary)}>
                             {item.salesEngineer || '-'}
                           </td>
 
                           {/* 城市经理 */}
-                          <td className={cn('hidden xl:table-cell py-3 px-3 text-xs', DASHBOARD_STYLES.textSecondary)}>
+                          <td className={cn('py-3 px-3 text-xs', DASHBOARD_STYLES.textSecondary)}>
                             {item.cityManager || '-'}
                           </td>
 
                           {/* 项目类型 */}
-                          <td className={cn('hidden md:table-cell py-3 px-3 text-xs', DASHBOARD_STYLES.textSecondary)}>
+                          <td className={cn('py-3 px-3 text-xs', DASHBOARD_STYLES.textSecondary)}>
                             {item.projectType || '-'}
                           </td>
 
