@@ -519,18 +519,39 @@ export default function RiskIdentificationPanel({
   timeRange = 'current'
 }: RiskIdentificationPanelProps) {
   // Tab状态
-  const [currentTab, setCurrentTab] = useState(0);
+  const [currentTab, setCurrentTab] = useState(timeRange === 'current' ? 4 : 0);
   const [viewMode, setViewMode] = useState<'summary' | 'detail'>('summary');
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 5;
 
-  const tabs = [
+  // 当时间维度变化时，重置当前 Tab
+  useEffect(() => {
+    if (timeRange === 'current') {
+      setCurrentTab(4);
+      setCurrentPage(1);
+      setViewMode('summary');
+    } else {
+      setCurrentTab(0);
+      setCurrentPage(1);
+      setViewMode('summary');
+    }
+  }, [timeRange]);
+
+  // 所有 Tab 定义
+  const allTabs = [
     { id: 0, label: '大项目依赖', icon: Building2 },
     { id: 1, label: '阶段停滞', icon: PauseCircle },
     { id: 2, label: '预测风险', icon: TrendingDown },
     { id: 3, label: '风险人员', icon: Users },
     { id: 4, label: '当月未下单', icon: Target }
   ];
+
+  // 根据时间维度显示的 Tabs
+  // 本月：只显示"当月未下单"
+  // 本季度/本年度：显示所有 Tabs
+  const visibleTabs = timeRange === 'current'
+    ? allTabs.filter(tab => tab.id === 4)
+    : allTabs;
 
   // 根据时间维度过滤数据
   const filteredUnorderedProjects = useMemo(() => {
@@ -655,11 +676,15 @@ export default function RiskIdentificationPanel({
       </div>
 
       {/* Tab切换栏 - 仅在汇总视图显示 */}
-      {viewMode === 'summary' && (
+      {viewMode === 'summary' && visibleTabs.length > 1 && (
         <div className="px-6 py-2 border-b border-cyan-500/20">
           <div className="flex items-center justify-between">
             <button
-              onClick={() => setCurrentTab(prev => (prev - 1 + tabs.length) % tabs.length)}
+              onClick={() => {
+                const currentIndex = visibleTabs.findIndex(tab => tab.id === currentTab);
+                const newIndex = (currentIndex - 1 + visibleTabs.length) % visibleTabs.length;
+                setCurrentTab(visibleTabs[newIndex].id);
+              }}
               className={cn(
                 'p-1.5 rounded-lg transition-all',
                 theme === 'dashboard'
@@ -671,15 +696,15 @@ export default function RiskIdentificationPanel({
             </button>
 
             <div className="flex items-center gap-2">
-              {tabs.map((tab, index) => {
+              {visibleTabs.map((tab) => {
                 const Icon = tab.icon;
                 return (
                   <button
                     key={tab.id}
-                    onClick={() => setCurrentTab(index)}
+                    onClick={() => setCurrentTab(tab.id)}
                     className={cn(
                       'flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium transition-all',
-                      currentTab === index
+                      currentTab === tab.id
                         ? theme === 'dashboard'
                           ? 'bg-cyan-500/30 text-cyan-300 border border-cyan-500/50 shadow-[0_0_10px_rgba(6,182,212,0.4)]'
                           : 'bg-cyan-100 text-cyan-700 border border-cyan-300'
@@ -696,7 +721,11 @@ export default function RiskIdentificationPanel({
             </div>
 
             <button
-              onClick={() => setCurrentTab(prev => (prev + 1) % tabs.length)}
+              onClick={() => {
+                const currentIndex = visibleTabs.findIndex(tab => tab.id === currentTab);
+                const newIndex = (currentIndex + 1) % visibleTabs.length;
+                setCurrentTab(visibleTabs[newIndex].id);
+              }}
               className={cn(
                 'p-1.5 rounded-lg transition-all',
                 theme === 'dashboard'
