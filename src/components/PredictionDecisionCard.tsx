@@ -449,12 +449,11 @@ export default function PredictionDecisionCard({
                 stroke="rgba(34,211,238,0.1)"
                 vertical={false}
               />
-              <XAxis
-                dataKey="month"
+              <XAxis 
+                dataKey="month" 
                 tick={{ fill: 'rgba(34,211,238,0.7)', fontSize: 14, fontWeight: 500 }}
                 axisLine={{ stroke: 'rgba(34,211,238,0.2)' }}
                 tickLine={{ stroke: 'rgba(34,211,238,0.2)' }}
-                interval={0}
               />
               <YAxis 
                 tick={{ fill: 'rgba(34,211,238,0.7)', fontSize: 14, fontWeight: 500 }}
@@ -510,11 +509,11 @@ export default function PredictionDecisionCard({
                 dot={(props: any) => {
                   const { cx, cy, payload } = props;
                   const isBelowTarget = payload.forecast < 1200;
-
+                  
                   if (isBelowTarget) {
                     // 风险点：更大、更醒目的红色
                     return (
-                      <g key={`forecast-risk-${payload.month}`}>
+                      <g>
                         {/* 外层光晕 */}
                         <circle
                           key="forecast-outer"
@@ -553,7 +552,7 @@ export default function PredictionDecisionCard({
                       </g>
                     );
                   }
-
+                  
                   // 正常点：青色
                   return (
                     <circle
@@ -572,11 +571,11 @@ export default function PredictionDecisionCard({
                 activeDot={(props: any) => {
                   const { cx, cy, payload } = props;
                   const isBelowTarget = payload.forecast < 1200;
-
+                  
                   if (isBelowTarget) {
                     // 风险点悬停：超大、超醒目
                     return (
-                      <g key={`forecast-risk-active-${payload.month}`}>
+                      <g>
                         {/* 外层光晕 */}
                         <circle
                           key="forecast-outer-active"
@@ -615,7 +614,7 @@ export default function PredictionDecisionCard({
                       </g>
                     );
                   }
-
+                  
                   // 正常点悬停
                   return (
                     <circle
@@ -647,11 +646,11 @@ export default function PredictionDecisionCard({
                   }
                   
                   const isBelowTarget = payload.completed < 1200;
-
+                  
                   if (isBelowTarget) {
                     // 风险点：更大、更醒目的红色
                     return (
-                      <g key={`completed-risk-${payload.month}`}>
+                      <g>
                         {/* 外层光晕 */}
                         <circle
                           key="completed-outer"
@@ -714,11 +713,11 @@ export default function PredictionDecisionCard({
                   }
                   
                   const isBelowTarget = payload.completed < 1200;
-
+                  
                   if (isBelowTarget) {
                     // 风险点悬停：超大、超醒目
                     return (
-                      <g key={`completed-risk-active-${payload.month}`}>
+                      <g>
                         {/* 外层光晕 */}
                         <circle
                           key="completed-outer-active"
@@ -802,9 +801,9 @@ export default function PredictionDecisionCard({
       </div>
 
       {/* 左右两个独立块布局 */}
-      <div className="flex flex-col lg:flex-row gap-4 items-stretch flex-1 overflow-visible">
+      <div className="flex flex-col lg:flex-row gap-4 items-stretch flex-1 overflow-hidden">
         {/* 左侧：仪表盘区块 - 30%宽度 */}
-        <div className="lg:w-[30%] rounded-xl p-3 border border-cyan-500/20 bg-slate-900/50 flex-shrink-0">
+        <div className="lg:w-[30%] rounded-xl p-3 border border-cyan-500/20 bg-slate-900/50">
           <div className="flex flex-col items-center justify-center gap-3 h-full">
             {/* 实际达成率仪表盘 */}
             <div className="text-center">
@@ -852,7 +851,7 @@ export default function PredictionDecisionCard({
         </div>
 
         {/* 右侧：趋势图区块 - 70%宽度 */}
-        <div className="lg:w-[70%] rounded-xl p-3 border border-cyan-500/20 bg-slate-900/50 h-full min-w-0 flex-1">
+        <div className="lg:w-[70%] rounded-xl p-3 border border-cyan-500/20 bg-slate-900/50 h-full">
           <MonthlyTrendChart />
         </div>
       </div>
