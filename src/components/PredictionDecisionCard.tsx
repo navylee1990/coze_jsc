@@ -449,11 +449,12 @@ export default function PredictionDecisionCard({
                 stroke="rgba(34,211,238,0.1)"
                 vertical={false}
               />
-              <XAxis 
-                dataKey="month" 
+              <XAxis
+                dataKey="month"
                 tick={{ fill: 'rgba(34,211,238,0.7)', fontSize: 14, fontWeight: 500 }}
                 axisLine={{ stroke: 'rgba(34,211,238,0.2)' }}
                 tickLine={{ stroke: 'rgba(34,211,238,0.2)' }}
+                interval={0}
               />
               <YAxis 
                 tick={{ fill: 'rgba(34,211,238,0.7)', fontSize: 14, fontWeight: 500 }}
