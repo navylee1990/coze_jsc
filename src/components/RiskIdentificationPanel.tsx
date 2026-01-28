@@ -659,8 +659,15 @@ export default function RiskIdentificationPanel({
               <ArrowLeft className="w-4 h-4" />
             </button>
           )}
-          <AlertTriangle className={cn('w-5 h-5', theme === 'dashboard' ? 'text-cyan-400' : 'text-slate-700')} />
-          <h3 className={cn('font-bold text-lg', theme === 'dashboard' ? DASHBOARD_STYLES.textSecondary : 'text-slate-900')}>
+          <AlertTriangle className={cn(
+            'w-6 h-6',
+            theme === 'dashboard' 
+              ? 'text-red-500 drop-shadow-[0_0_10px_rgba(239,68,68,1)]' 
+              : 'text-slate-700'
+          )} />
+          <h3 className={cn('font-bold text-xl', theme === 'dashboard' 
+            ? 'text-red-400 drop-shadow-[0_0_12px_rgba(239,68,68,0.9)]' 
+            : 'text-slate-900')}>
             风险识别
           </h3>
         </div>
