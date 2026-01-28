@@ -1172,7 +1172,7 @@ export default function RiskIdentificationPanel({
                       'hover:from-yellow-900/50 hover:to-orange-900/30',
                       'shadow-[0_0_30px_rgba(234,179,8,0.5)]',
                       'hover:shadow-[0_0_40px_rgba(234,179,8,0.7)]',
-                      'transition-all duration-300'
+                      'transition-colors duration-300'
                     )}
                          onClick={() => openDialog({
                            title: '补预测',
