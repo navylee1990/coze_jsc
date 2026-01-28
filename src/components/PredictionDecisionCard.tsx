@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react';
 import { Target, Clock, AlertTriangle, Zap, Gauge, BarChart3, TrendingUp, Calendar } from 'lucide-react';
 import { cn } from '@/lib/utils';
-import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
+import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, ReferenceArea } from 'recharts';
 
 // 主题类型
 type Theme = 'dark' | 'dashboard';
@@ -352,10 +352,18 @@ export default function PredictionDecisionCard({
         <div className="flex-1" style={{ minHeight: '252px' }}>
           <ResponsiveContainer width="100%" height="100%">
             <LineChart data={monthlyTrendData}>
-              <CartesianGrid 
-                strokeDasharray="4 4" 
-                stroke="rgba(34,211,238,0.1)" 
+              <CartesianGrid
+                strokeDasharray="4 4"
+                stroke="rgba(34,211,238,0.1)"
                 vertical={false}
+              />
+              {/* 预警区域：财务目标以下 */}
+              <ReferenceArea
+                y1={0}
+                y2={1200}
+                fill="rgba(239,68,68,0.1)"
+                stroke="rgba(239,68,68,0.2)"
+                strokeWidth={1}
               />
               <XAxis 
                 dataKey="month" 
