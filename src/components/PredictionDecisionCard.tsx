@@ -747,11 +747,17 @@ export default function PredictionDecisionCard({
     style={{ height: '500px', display: 'flex', flexDirection: 'column' }}
     >
       {/* 标题栏 */}
-      <div className="mb-6 flex items-center gap-3">
-        <TrendingUp className={cn('w-6 h-6', DASHBOARD_STYLES.neon)} />
-        <h2 className={cn('text-xl font-bold', DASHBOARD_STYLES.neon)}>
-          核心预测
-        </h2>
+      <div className="mb-6 flex items-center justify-between">
+        <div className="flex items-center gap-3">
+          <TrendingUp className={cn('w-6 h-6', DASHBOARD_STYLES.neon)} />
+          <h2 className={cn('text-xl font-bold', DASHBOARD_STYLES.neon)}>
+            核心预测
+          </h2>
+        </div>
+        <div className="flex items-center gap-2 text-base text-cyan-400/60">
+          <Clock className="w-4 h-4" />
+          <span>实时数据</span>
+        </div>
       </div>
 
       {/* 左右两个独立块布局 */}
@@ -765,11 +771,11 @@ export default function PredictionDecisionCard({
                 actualValue={animatedCompleted}
                 targetValue={target}
                 showPercentage={false}
-                size={130}
+                size={80}
               />
-              <div className="mt-2">
-                <div className="text-sm font-semibold text-green-400">实际达成率</div>
-                <div className="text-2xl font-black" style={{ color: '#22c55e', textShadow: '0 0 10px rgba(74,222,128,0.8)' }}>
+              <div className="mt-1">
+                <div className="text-xs font-semibold text-green-400">实际达成率</div>
+                <div className="text-lg font-black" style={{ color: '#22c55e', textShadow: '0 0 10px rgba(74,222,128,0.8)' }}>
                   {mounted ? Math.round((completed / target) * 100) : 0}%
                 </div>
               </div>
@@ -781,11 +787,11 @@ export default function PredictionDecisionCard({
                 actualValue={animatedForecast}
                 targetValue={target}
                 showPercentage={false}
-                size={130}
+                size={80}
               />
-              <div className="mt-2">
-                <div className="text-sm font-semibold text-cyan-300">预计达成率</div>
-                <div className="text-2xl font-black" style={{ color: '#22d3ee', textShadow: '0 0 10px rgba(34,211,238,0.8)' }}>
+              <div className="mt-1">
+                <div className="text-xs font-semibold text-cyan-300">预计达成率</div>
+                <div className="text-lg font-black" style={{ color: '#22d3ee', textShadow: '0 0 10px rgba(34,211,238,0.8)' }}>
                   {mounted ? Math.round((forecast / target) * 100) : 0}%
                 </div>
               </div>
