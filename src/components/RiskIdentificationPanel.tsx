@@ -1069,7 +1069,7 @@ export default function RiskIdentificationPanel({
                 </div>
 
                 <div className="px-4 py-2 border-t border-cyan-500/20 flex justify-between items-center bg-gradient-to-r from-slate-900/50 to-transparent">
-                  <div className={cn('text-sm flex items-center gap-2', DASHBOARD_STYLES.textMuted)}>
+                  <div className={cn('text-xs flex items-center gap-2', DASHBOARD_STYLES.textMuted)}>
                     <Activity className="w-3 h-3 text-cyan-400/70" />
                     共 {largeProjectDependencies.length} 条记录，当前第 {currentPage} / {totalPages} 页
                   </div>
