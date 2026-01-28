@@ -432,7 +432,7 @@ export default function GMDashboard() {
       </header>
 
       {/* 主要内容区 - 自适应流式布局 */}
-      <main className="flex-1 flex flex-col">
+      <main className="flex flex-col">
         {/* 流式容器 - 根据分辨率自动适配，不限制高度 */}
         <div className="max-w-[1920px] mx-auto p-4 sm:p-6">
             {/* 驾驶舱风格布局 - 响应式网格 */}
