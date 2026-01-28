@@ -1479,7 +1479,6 @@ export default function RiskIdentificationPanel({
                         <th className={cn('text-left py-2 px-3 font-medium hidden lg:table-cell', DASHBOARD_STYLES.textSecondary)}>大区</th>
                         <th className={cn('text-left py-2 px-3 font-medium hidden md:table-cell', DASHBOARD_STYLES.textSecondary)}>销售</th>
                         <th className={cn('text-right py-2 px-3 font-medium', DASHBOARD_STYLES.textSecondary)}>金额</th>
-                        <th className={cn('text-center py-2 px-3 font-medium', DASHBOARD_STYLES.textSecondary)}>状态</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -1523,16 +1522,6 @@ export default function RiskIdentificationPanel({
                             </span>
                             <span className={cn('text-xs ml-1', DASHBOARD_STYLES.textMuted)}>
                               万
-                            </span>
-                          </td>
-
-                          {/* 状态 */}
-                          <td className={cn('text-center py-3 px-3', DASHBOARD_STYLES.textSecondary)}>
-                            <span className={cn(
-                              'inline-block px-2 py-1 rounded text-xs font-medium border bg-orange-500/20 text-orange-300 border-orange-500/50',
-                              item.delayDays && item.delayDays >= 20 && 'animate-pulse'
-                            )}>
-                              未下单
                             </span>
                           </td>
                         </tr>
