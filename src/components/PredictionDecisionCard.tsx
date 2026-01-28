@@ -801,9 +801,9 @@ export default function PredictionDecisionCard({
       </div>
 
       {/* 左右两个独立块布局 */}
-      <div className="flex flex-col lg:flex-row gap-4 items-stretch flex-1 overflow-hidden">
+      <div className="flex flex-col lg:flex-row gap-4 items-stretch flex-1 overflow-visible">
         {/* 左侧：仪表盘区块 - 30%宽度 */}
-        <div className="lg:w-[30%] rounded-xl p-3 border border-cyan-500/20 bg-slate-900/50">
+        <div className="lg:w-[30%] rounded-xl p-3 border border-cyan-500/20 bg-slate-900/50 flex-shrink-0">
           <div className="flex flex-col items-center justify-center gap-3 h-full">
             {/* 实际达成率仪表盘 */}
             <div className="text-center">
@@ -851,7 +851,7 @@ export default function PredictionDecisionCard({
         </div>
 
         {/* 右侧：趋势图区块 - 70%宽度 */}
-        <div className="lg:w-[70%] rounded-xl p-3 border border-cyan-500/20 bg-slate-900/50 h-full">
+        <div className="lg:w-[70%] rounded-xl p-3 border border-cyan-500/20 bg-slate-900/50 h-full min-w-0 flex-1">
           <MonthlyTrendChart />
         </div>
       </div>
