@@ -421,7 +421,7 @@ export default function PredictionDecisionCard({
       <div className="h-full flex flex-col justify-end">
         <div className="h-[90%] flex flex-col">
           {/* 图例 */}
-          <div className="flex items-center justify-center gap-3 mb-4 px-2">
+          <div className="flex items-center justify-center gap-5 mb-8 px-2">
           <div className="flex items-center gap-2">
             <div className="w-4 h-0.5 bg-orange-400" style={{ borderStyle: 'dashed', borderWidth: '2px', borderColor: 'rgba(251,146,60,0.8)' }} />
             <span className="text-sm text-cyan-400/70 font-medium">业务目标</span>
@@ -786,26 +786,26 @@ export default function PredictionDecisionCard({
 
   return (
     <div className={cn(
-      'p-4',
+      'p-6',
       theme === 'dashboard' && DASHBOARD_STYLES.bg
     )}
     style={{ height: '500px', display: 'flex', flexDirection: 'column' }}
     >
       {/* 标题栏 */}
-      <div className="mb-2 flex items-center flex-shrink-0">
-        <div className="flex items-center gap-2">
-          <TrendingUp className={cn('w-4 h-4', DASHBOARD_STYLES.neon)} />
-          <h2 className={cn('text-base font-bold', DASHBOARD_STYLES.neon)}>
+      <div className="mb-4 flex items-center flex-shrink-0">
+        <div className="flex items-center gap-3">
+          <TrendingUp className={cn('w-5 h-5', DASHBOARD_STYLES.neon)} />
+          <h2 className={cn('text-lg font-bold', DASHBOARD_STYLES.neon)}>
             核心预测
           </h2>
         </div>
       </div>
 
       {/* 左右两个独立块布局 */}
-      <div className="flex flex-col lg:flex-row gap-2 items-stretch flex-1 overflow-hidden">
+      <div className="flex flex-col lg:flex-row gap-4 items-stretch flex-1 overflow-hidden">
         {/* 左侧：仪表盘区块 - 30%宽度 */}
-        <div className="lg:w-[30%] rounded-xl p-2 border border-cyan-500/20 bg-slate-900/50">
-          <div className="flex flex-col items-center justify-center gap-2 h-full">
+        <div className="lg:w-[30%] rounded-xl p-3 border border-cyan-500/20 bg-slate-900/50">
+          <div className="flex flex-col items-center justify-center gap-3 h-full">
             {/* 实际达成率仪表盘 */}
             <div className="text-center">
               <MainGauge
@@ -852,7 +852,7 @@ export default function PredictionDecisionCard({
         </div>
 
         {/* 右侧：趋势图区块 - 70%宽度 */}
-        <div className="lg:w-[70%] rounded-xl p-2 border border-cyan-500/20 bg-slate-900/50 h-full">
+        <div className="lg:w-[70%] rounded-xl p-3 border border-cyan-500/20 bg-slate-900/50 h-full">
           <MonthlyTrendChart />
         </div>
       </div>
