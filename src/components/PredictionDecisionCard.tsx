@@ -362,6 +362,10 @@ export default function PredictionDecisionCard({
               <span>业务目标</span>
             </div>
             <div className="flex items-center gap-1">
+              <div className="w-3 h-3 rounded bg-purple-400" />
+              <span>财务目标</span>
+            </div>
+            <div className="flex items-center gap-1">
               <div className="w-3 h-3 rounded bg-cyan-400" />
               <span>预测完成</span>
             </div>
@@ -370,18 +374,37 @@ export default function PredictionDecisionCard({
 
         {/* 柱状图容器 */}
         <div className="relative h-48 w-full">
-          {/* 目标线 */}
+          {/* 业务目标线（1500万） */}
           <div
-            className="absolute left-0 right-0 border-t-2 border-dashed border-orange-400/50"
-            style={{ top: '15%' }}
+            className="absolute left-0 right-0 border-t-2 border-dashed border-orange-400"
+            style={{ top: `${100 - (1500 / maxValue) * 100}%` }}
           >
-            <span className="absolute -right-12 -top-3 text-xs text-orange-400/70 font-semibold">
-              目标 1500万
+            <span className="absolute right-2 -top-5 text-xs text-orange-400 font-semibold whitespace-nowrap bg-slate-900/90 px-2 py-0.5 rounded">
+              业务目标 1500万
             </span>
           </div>
 
+          {/* 财务目标线（1200万） */}
+          <div
+            className="absolute left-0 right-0 border-t-2 border-dashed border-purple-400"
+            style={{ top: `${100 - (1200 / maxValue) * 100}%` }}
+          >
+            <span className="absolute right-2 -top-5 text-xs text-purple-400 font-semibold whitespace-nowrap bg-slate-900/90 px-2 py-0.5 rounded">
+              财务目标 1200万
+            </span>
+          </div>
+
+          {/* Y轴刻度 */}
+          <div className="absolute left-0 top-0 bottom-0 flex flex-col justify-between text-xs text-cyan-500/50 -ml-2">
+            <span>1600</span>
+            <span>1200</span>
+            <span>800</span>
+            <span>400</span>
+            <span>0</span>
+          </div>
+
           {/* 柱状图 */}
-          <div className="flex items-end justify-between h-full gap-1 sm:gap-2 px-2">
+          <div className="flex items-end justify-between h-full gap-1 sm:gap-2 px-2 ml-6">
             {monthlyTrendData.map((data, index) => {
               const targetHeight = (data.businessTarget / maxValue) * 100;
               const forecastHeight = (trendAnimations[index] / maxValue) * 100;
