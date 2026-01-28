@@ -581,7 +581,7 @@ export default function RiskIdentificationPanel({
   })();
 
   return (
-    <div className={cn('w-full flex flex-col min-w-0')}>
+    <div className={cn('w-full flex flex-col')}>
       {/* 标题栏 */}
       <div
         className={cn(
@@ -1208,7 +1208,7 @@ export default function RiskIdentificationPanel({
                 </div>
 
                 {/* 占位区域 - 保持与其他Tab高度一致 */}
-                <div className="flex-1 bg-gradient-to-b from-slate-900/50 to-transparent"></div>
+                <div className="flex-1 min-w-full overflow-auto bg-gradient-to-b from-slate-900/50 to-transparent"></div>
               </div>
             )}
       </div>
