@@ -415,17 +415,21 @@ export default function PredictionDecisionCard({
     return (
       <div className="h-full flex flex-col">
         {/* 图例 */}
-        <div className="flex items-center justify-end gap-6 mb-3 px-2">
-          <div className="flex items-center gap-2.5">
-            <div className="w-3 h-3 rounded-full bg-orange-400" />
-            <span className="text-sm text-cyan-400/70 font-medium">目标线</span>
+        <div className="flex items-center justify-end gap-5 mb-3 px-2">
+          <div className="flex items-center gap-2">
+            <div className="w-4 h-0.5 bg-orange-400" style={{ borderStyle: 'dashed', borderWidth: '2px', borderColor: 'rgba(251,146,60,0.8)' }} />
+            <span className="text-sm text-cyan-400/70 font-medium">业务目标</span>
           </div>
-          <div className="flex items-center gap-2.5">
-            <div className="w-3 h-3 rounded-full bg-cyan-400" />
-            <span className="text-sm text-cyan-400/70 font-medium">预测曲线</span>
+          <div className="flex items-center gap-2">
+            <div className="w-4 h-0.5 bg-yellow-400" style={{ borderStyle: 'dashed', borderWidth: '2px', borderColor: 'rgba(250,204,21,0.8)' }} />
+            <span className="text-sm text-cyan-400/70 font-medium">财务目标</span>
           </div>
-          <div className="flex items-center gap-2.5">
-            <div className="w-3 h-3 rounded-full bg-green-400" />
+          <div className="flex items-center gap-2">
+            <div className="w-4 h-0.5 bg-cyan-400" />
+            <span className="text-sm text-cyan-400/70 font-medium">预测完成</span>
+          </div>
+          <div className="flex items-center gap-2">
+            <div className="w-4 h-0.5 bg-green-400" />
             <span className="text-sm text-cyan-400/70 font-medium">已完成</span>
           </div>
         </div>
@@ -466,29 +470,41 @@ export default function PredictionDecisionCard({
               );
             })}
 
-            {/* 业务目标线（橙色虚线） */}
-            <line
-              x1={paddingLeft}
-              y1={getY(1500)}
-              x2={chartWidth - paddingRight}
-              y2={getY(1500)}
-              stroke="rgba(251,146,60,0.6)"
-              strokeWidth="2"
-              strokeDasharray="6,4"
+            {/* 业务目标曲线（橙色虚线） */}
+            <path
+              d={generateSmoothPath(
+                monthlyTrendData.map(d => d.businessTarget),
+                monthlyTrendData.map(d => d.businessTarget)
+              )}
+              fill="none"
+              stroke="rgba(251,146,60,0.8)"
+              strokeWidth="3"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeDasharray="8,6"
+              style={{
+                filter: 'drop-shadow(0 0 8px rgba(251,146,60,0.5))',
+              }}
             />
 
-            {/* 财务目标线（黄色虚线） */}
-            <line
-              x1={paddingLeft}
-              y1={getY(1200)}
-              x2={chartWidth - paddingRight}
-              y2={getY(1200)}
-              stroke="rgba(250,204,21,0.6)"
-              strokeWidth="2"
-              strokeDasharray="6,4"
+            {/* 财务目标曲线（黄色虚线） */}
+            <path
+              d={generateSmoothPath(
+                monthlyTrendData.map(d => d.financialTarget),
+                monthlyTrendData.map(d => d.financialTarget)
+              )}
+              fill="none"
+              stroke="rgba(250,204,21,0.8)"
+              strokeWidth="3"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeDasharray="8,6"
+              style={{
+                filter: 'drop-shadow(0 0 8px rgba(250,204,21,0.5))',
+              }}
             />
 
-            {/* 预测完成曲线 */}
+            {/* 预测完成曲线（青色实线） */}
             <path
               d={generateSmoothPath(
                 monthlyTrendData.map(d => d.forecast),
@@ -540,6 +556,22 @@ export default function PredictionDecisionCard({
                 </g>
               );
             })}
+
+            {/* 已完成曲线（绿色实线） */}
+            <path
+              d={generateSmoothPath(
+                monthlyTrendData.map(d => d.completed),
+                monthlyTrendData.map(d => d.completed)
+              )}
+              fill="none"
+              stroke="#22c55e"
+              strokeWidth="3.5"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              style={{
+                filter: 'drop-shadow(0 0 10px rgba(74,222,128,0.7))',
+              }}
+            />
 
             {/* 已完成数据点（仅1月） */}
             {monthlyTrendData.filter(d => d.completed > 0).map((data, index) => {
