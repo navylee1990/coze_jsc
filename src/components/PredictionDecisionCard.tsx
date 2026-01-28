@@ -526,9 +526,9 @@ export default function PredictionDecisionCard({
       {/* 标题栏 */}
       <div className="mb-5 flex items-center justify-between">
         <div className="flex items-center gap-3">
-          <Target className={cn('w-6 h-6', DASHBOARD_STYLES.neon)} />
+          <TrendingUp className={cn('w-6 h-6', DASHBOARD_STYLES.neon)} />
           <h2 className={cn('text-xl font-bold', DASHBOARD_STYLES.neon)}>
-            核心预测决策
+            核心预测
           </h2>
         </div>
         <div className="flex items-center gap-2 text-base text-cyan-400/60">
