@@ -741,40 +741,41 @@ export default function PredictionDecisionCard({
 
   return (
     <div className={cn(
-      'p-7',
+      'p-6',
       theme === 'dashboard' && DASHBOARD_STYLES.bg
     )}
+    style={{ height: '520px', display: 'flex', flexDirection: 'column' }}
     >
       {/* 标题栏 */}
-      <div className="mb-6 flex items-center justify-between">
+      <div className="mb-4 flex items-center justify-between flex-shrink-0">
         <div className="flex items-center gap-3">
-          <TrendingUp className={cn('w-6 h-6', DASHBOARD_STYLES.neon)} />
-          <h2 className={cn('text-xl font-bold', DASHBOARD_STYLES.neon)}>
+          <TrendingUp className={cn('w-5 h-5', DASHBOARD_STYLES.neon)} />
+          <h2 className={cn('text-lg font-bold', DASHBOARD_STYLES.neon)}>
             核心预测
           </h2>
         </div>
-        <div className="flex items-center gap-2 text-base text-cyan-400/60">
-          <Clock className="w-4 h-4" />
+        <div className="flex items-center gap-2 text-sm text-cyan-400/60">
+          <Clock className="w-3.5 h-3.5" />
           <span>实时数据</span>
         </div>
       </div>
 
       {/* 左右两个独立块布局 */}
-      <div className="flex flex-col lg:flex-row gap-6 items-stretch">
+      <div className="flex flex-col lg:flex-row gap-4 items-stretch flex-1 overflow-hidden">
         {/* 左侧：仪表盘区块 - 30%宽度 */}
-        <div className="lg:w-[30%] rounded-xl p-4 border border-cyan-500/20 bg-slate-900/50">
-          <div className="flex flex-col items-center justify-center gap-4 h-full">
+        <div className="lg:w-[30%] rounded-xl p-3 border border-cyan-500/20 bg-slate-900/50">
+          <div className="flex flex-col items-center justify-center gap-3 h-full">
             {/* 实际达成率仪表盘 */}
             <div className="text-center">
               <MainGauge
                 actualValue={animatedCompleted}
                 targetValue={target}
                 showPercentage={false}
-                size={120}
+                size={100}
               />
-              <div className="mt-2">
-                <div className="text-sm font-semibold text-green-400">实际达成率</div>
-                <div className="text-xl font-black" style={{ color: '#22c55e', textShadow: '0 0 12px rgba(74,222,128,0.8)' }}>
+              <div className="mt-1">
+                <div className="text-xs font-semibold text-green-400">实际达成率</div>
+                <div className="text-lg font-black" style={{ color: '#22c55e', textShadow: '0 0 10px rgba(74,222,128,0.8)' }}>
                   {mounted ? Math.round((completed / target) * 100) : 0}%
                 </div>
               </div>
@@ -786,23 +787,23 @@ export default function PredictionDecisionCard({
                 actualValue={animatedForecast}
                 targetValue={target}
                 showPercentage={false}
-                size={120}
+                size={100}
               />
-              <div className="mt-2">
-                <div className="text-sm font-semibold text-cyan-300">预计达成率</div>
-                <div className="text-xl font-black" style={{ color: '#22d3ee', textShadow: '0 0 12px rgba(34,211,238,0.8)' }}>
+              <div className="mt-1">
+                <div className="text-xs font-semibold text-cyan-300">预计达成率</div>
+                <div className="text-lg font-black" style={{ color: '#22d3ee', textShadow: '0 0 10px rgba(34,211,238,0.8)' }}>
                   {mounted ? Math.round((forecast / target) * 100) : 0}%
                 </div>
               </div>
             </div>
 
             {/* 预计缺口卡片 */}
-            <div className="w-full bg-slate-800/40 rounded-lg p-3 border border-red-500/30">
+            <div className="w-full bg-slate-800/40 rounded-lg p-2 border border-red-500/30">
               <div className="flex items-center justify-between">
                 <div className="text-xs font-semibold text-cyan-400/70">预计缺口</div>
-                <div className="text-2xl font-black text-red-400">
+                <div className="text-xl font-black text-red-400">
                   {mounted ? Math.round(animatedForecastGap) : 0}
-                  <span className="text-sm font-semibold ml-1">万</span>
+                  <span className="text-xs font-semibold ml-1">万</span>
                 </div>
               </div>
             </div>
@@ -810,7 +811,7 @@ export default function PredictionDecisionCard({
         </div>
 
         {/* 右侧：趋势图区块 - 70%宽度 */}
-        <div className="lg:w-[70%] rounded-xl p-4 border border-cyan-500/20 bg-slate-900/50" style={{ height: '440px' }}>
+        <div className="lg:w-[70%] rounded-xl p-3 border border-cyan-500/20 bg-slate-900/50 h-full">
           <MonthlyTrendChart />
         </div>
       </div>
