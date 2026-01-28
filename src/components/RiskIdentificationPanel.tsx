@@ -1207,8 +1207,97 @@ export default function RiskIdentificationPanel({
                   </div>
                 </div>
 
-                {/* 占位区域 - 保持与其他Tab高度一致 */}
-                <div className="flex-1 min-w-full bg-gradient-to-b from-slate-900/50 to-transparent"></div>
+                {/* 表格区域 */}
+                <div className="flex-1 overflow-auto p-3 bg-gradient-to-b from-slate-900/50 to-transparent">
+                  <table className="w-full">
+                    <thead className="sticky top-0 bg-slate-900/95 backdrop-blur-sm z-10">
+                      <tr className={cn('text-sm border-b border-yellow-500/30', 'border-yellow-500/20')}>
+                        <th className={cn('text-center py-2 px-3 font-medium w-16 text-yellow-300 drop-shadow-[0_0_5px_rgba(234,179,8,0.5)]')}>序号</th>
+                        <th className={cn('text-left py-2 px-3 font-medium text-yellow-300 drop-shadow-[0_0_5px_rgba(234,179,8,0.5)]')}>项目名称</th>
+                        <th className={cn('text-left py-2 px-3 font-medium hidden lg:table-cell text-yellow-300 drop-shadow-[0_0_5px_rgba(234,179,8,0.5)]')}>大区</th>
+                        <th className={cn('text-left py-2 px-3 font-medium hidden md:table-cell text-yellow-300 drop-shadow-[0_0_5px_rgba(234,179,8,0.5)]')}>负责人</th>
+                        <th className={cn('text-right py-2 px-3 font-medium text-yellow-300 drop-shadow-[0_0_5px_rgba(234,179,8,0.5)]')}>当前预测</th>
+                        <th className={cn('text-right py-2 px-3 font-medium text-yellow-300 drop-shadow-[0_0_5px_rgba(234,179,8,0.5)]')}>目标预测</th>
+                        <th className={cn('text-right py-2 px-3 font-medium text-yellow-300 drop-shadow-[0_0_5px_rgba(234,179,8,0.5)]')}>缺口金额</th>
+                        <th className={cn('text-right py-2 px-3 font-medium text-yellow-300 drop-shadow-[0_0_5px_rgba(234,179,8,0.5)]')}>缺口比例</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {getPaginatedForecastGaps().map((item, index) => (
+                        <tr
+                          key={index}
+                          className={cn(
+                            'align-middle border-b border-yellow-500/10 hover:bg-gradient-to-r hover:from-yellow-500/10 hover:to-orange-500/10 transition-all duration-200',
+                            index === getPaginatedForecastGaps().length - 1 && 'border-b-0'
+                          )}
+                        >
+                          {/* 序号 */}
+                          <td className={cn('text-center py-2 px-3 text-sm text-yellow-300 align-middle')}>
+                            <div className="inline-flex items-center justify-center w-6 h-6 rounded-full bg-yellow-500/10 border border-yellow-500/30">
+                              {(currentPage - 1) * 5 + index + 1}
+                            </div>
+                          </td>
+
+                          {/* 项目名称 */}
+                          <td className={cn('py-2 px-3 text-sm', 'text-yellow-200', 'align-middle')}>
+                            <div className="font-medium leading-snug text-yellow-100">{item.projectName}</div>
+                          </td>
+
+                          {/* 大区 */}
+                          <td className={cn('hidden lg:table-cell py-2 px-3 text-sm text-yellow-200 align-middle')}>
+                            {item.region || '-'}
+                          </td>
+
+                          {/* 负责人 */}
+                          <td className={cn('hidden md:table-cell py-2 px-3 text-sm text-yellow-200 align-middle')}>
+                            {item.owner || '-'}
+                          </td>
+
+                          {/* 当前预测 */}
+                          <td className={cn('text-right py-2 px-3 whitespace-nowrap', 'text-yellow-200', 'align-middle')}>
+                            <span className="font-medium text-yellow-300">{item.currentForecast.toFixed(0)}</span>
+                            <span className="text-sm ml-1 text-yellow-300/70">万</span>
+                          </td>
+
+                          {/* 目标预测 */}
+                          <td className={cn('text-right py-2 px-3 whitespace-nowrap', 'text-yellow-200', 'align-middle')}>
+                            <span className="font-medium text-yellow-300">{item.targetForecast.toFixed(0)}</span>
+                            <span className="text-sm ml-1 text-yellow-300/70">万</span>
+                          </td>
+
+                          {/* 缺口金额 */}
+                          <td className={cn('text-right py-2 px-3 whitespace-nowrap', 'text-yellow-200', 'align-middle')}>
+                            <span className="font-black text-orange-400 drop-shadow-[0_0_6px_rgba(251,146,60,0.6)]">
+                              {item.gapAmount.toFixed(0)}
+                            </span>
+                            <span className={cn('text-sm ml-1 text-orange-300/70')}>万</span>
+                          </td>
+
+                          {/* 缺口比例 */}
+                          <td className={cn('text-right py-2 px-3 whitespace-nowrap', 'text-yellow-200', 'align-middle')}>
+                            <span className={cn(
+                              'px-2 py-1 rounded text-xs font-bold',
+                              item.gapPercentage >= 45 ? 'bg-red-500/20 text-red-400' :
+                              item.gapPercentage >= 35 ? 'bg-orange-500/20 text-orange-400' :
+                              'bg-yellow-500/20 text-yellow-400'
+                            )}>
+                              {item.gapPercentage.toFixed(1)}%
+                            </span>
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+
+                {/* 分页 */}
+                <div className="px-4 py-2 border-t border-yellow-500/20 flex justify-between items-center bg-gradient-to-r from-slate-900/50 to-transparent">
+                  <div className={cn('text-xs flex items-center gap-2', 'text-yellow-300/70')}>
+                    <Activity className="w-3 h-3 text-yellow-400/70" />
+                    共 {forecastGaps.length} 条记录，当前第 {currentPage} / {totalPages} 页
+                  </div>
+                  <Pagination currentPage={currentPage} totalPages={totalPages} onPageChange={setCurrentPage} />
+                </div>
               </div>
             )}
       </div>
