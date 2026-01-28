@@ -466,13 +466,14 @@ export default function GMDashboard() {
             'transition-all duration-500 delay-100',
             'opacity-100 translate-y-0'
           )}>
-            {/* 风险识别模块 - 自适应高度 */}
+            {/* 风险识别模块 - 固定高度 */}
             <div className={cn(
-              'bg-slate-900/60 backdrop-blur-sm rounded-xl p-0',
+              'bg-slate-900/60 backdrop-blur-sm rounded-xl p-0 overflow-hidden',
               'border-2 border-red-500/40',
               'shadow-[0_0_40px_rgba(239,68,68,0.4)]',
               'hover:shadow-[0_0_50px_rgba(239,68,68,0.5)]',
-              'transition-shadow duration-300'
+              'transition-shadow duration-300',
+              'h-[600px]' // 固定高度确保所有Tab高度一致
             )}>
               <RiskIdentificationPanel theme="dashboard" timeRange={selectedTimeRange} />
             </div>

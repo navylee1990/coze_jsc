@@ -563,7 +563,7 @@ export default function RiskIdentificationPanel({
   })();
 
   return (
-    <div className={cn('w-full flex flex-col')}>
+    <div className={cn('w-full h-full flex flex-col')}>
       {/* 标题栏 */}
       <div
         className={cn(
