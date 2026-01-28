@@ -445,7 +445,7 @@ export default function GMDashboard() {
             </div>
 
             {/* 区域达成情况 */}
-            <div className={`${DASHBOARD_STYLES.cardBg} ${DASHBOARD_STYLES.cardBorder} rounded-xl p-4 ${DASHBOARD_STYLES.glow}`}>
+            <div className={`${DASHBOARD_STYLES.cardBg} ${DASHBOARD_STYLES.cardBorder} rounded-xl p-0 ${DASHBOARD_STYLES.glow}`}>
               <RegionMatrix
                 data={currentData}
                 title="区域达成"
