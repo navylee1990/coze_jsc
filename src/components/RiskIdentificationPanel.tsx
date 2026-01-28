@@ -676,7 +676,7 @@ export default function RiskIdentificationPanel({
       </div>
 
       {/* Tab切换栏 - 仅在汇总视图显示 */}
-      {viewMode === 'summary' && visibleTabs.length > 1 && (
+      {viewMode === 'summary' && visibleTabs.length >= 1 && (
         <div className="px-6 py-2 border-b border-cyan-500/20">
           <div className="flex items-center justify-between">
             <button
