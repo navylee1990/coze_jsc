@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect, useMemo } from 'react';
-import { AlertTriangle, Building2, Clock, TrendingDown, Users, ChevronRight, ChevronLeft, PauseCircle, Gauge, Circle, Target, BarChart3, ArrowLeft, Activity, DollarSign } from 'lucide-react';
+import { AlertTriangle, Building2, Clock, TrendingDown, Users, ChevronRight, ChevronLeft, PauseCircle, Gauge, Circle, Target, BarChart3, ArrowLeft, Activity, DollarSign, XCircle, Send } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
 // 驾驶舱样式
@@ -539,7 +539,7 @@ export default function RiskIdentificationPanel({
 
   // 所有 Tab 定义
   const allTabs = [
-    { id: 0, label: '当月未下单', icon: Target },
+    { id: 0, label: '当月未下单', icon: XCircle },
     { id: 1, label: '大项目依赖', icon: Building2 },
     { id: 2, label: '阶段停滞', icon: PauseCircle },
     { id: 3, label: '预测风险', icon: TrendingDown },
@@ -1554,7 +1554,7 @@ export default function RiskIdentificationPanel({
                       <div className="relative z-10 h-full flex flex-col items-center justify-center gap-2 py-4">
                         <div className="flex items-center gap-2">
                           <div className="w-10 h-10 rounded-full bg-red-500/40 border-2 border-red-400/60 flex items-center justify-center group-hover:scale-110 transition-transform shadow-[0_0_15px_rgba(239,68,68,0.8)]">
-                            <Target className="w-5 h-5 text-red-400 drop-shadow-[0_0_8px_rgba(248,113,113,1)]" />
+                            <Send className="w-5 h-5 text-red-400 drop-shadow-[0_0_8px_rgba(248,113,113,1)]" />
                           </div>
                           <div className="text-xl font-black text-red-400 drop-shadow-[0_0_12px_rgba(248,113,113,1)]">一键催单</div>
                         </div>
