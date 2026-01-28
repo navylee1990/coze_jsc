@@ -675,7 +675,7 @@ export default function PredictionDecisionCard({
             <MainGauge
               value={animatedRate}
               maxValue={100}
-              size={160}
+              size={140}
             />
             <div className="mt-3 text-center">
               <div className="flex items-center justify-center gap-3 text-xs">
@@ -703,15 +703,26 @@ export default function PredictionDecisionCard({
               label="剩余天数"
               unit="天"
               color="red"
-              size={160}
+              size={140}
             />
             <div className="mt-3 text-center">
               <div className="flex items-center justify-center gap-2">
                 <AlertTriangle className="w-3 h-3 text-red-400 animate-pulse" />
-                <span className="text-xs text-red-400 font-semibold">紧迫</span>
+                <span className="text-xs text-red-400 font-semibold">紧迫事项</span>
               </div>
-              <div className="mt-1 text-xs text-cyan-500/60">
-                日均需完成 <span className="font-semibold text-cyan-300">95万</span>
+              <div className="mt-2 space-y-1">
+                <div className="flex items-center justify-between gap-2 text-xs">
+                  <span className="text-cyan-500/60">本月</span>
+                  <span className="font-semibold text-red-400">处理当月未下单</span>
+                </div>
+                <div className="flex items-center justify-between gap-2 text-xs">
+                  <span className="text-cyan-500/60">本季度</span>
+                  <span className="font-semibold text-orange-400">目标达成95%</span>
+                </div>
+                <div className="flex items-center justify-between gap-2 text-xs">
+                  <span className="text-cyan-500/60">本年度</span>
+                  <span className="font-semibold text-yellow-400">追赶进度</span>
+                </div>
               </div>
             </div>
           </div>
