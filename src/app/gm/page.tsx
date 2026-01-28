@@ -433,18 +433,41 @@ export default function GMDashboard() {
         <div className="max-w-[1920px] mx-auto p-4 sm:p-6">
             {/* 驾驶舱风格布局 - 响应式网格 */}
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-2 sm:gap-4">
-          {/* 中央仪表区 */}
+
+          {/* 核心预测决策卡片 - 使用新的汽车驾驶舱风格组件 */}
           <div className={cn(
-            'col-span-1 lg:col-span-7 space-y-2 sm:space-y-4',
+            'col-span-1 lg:col-span-7',
             'transition-all duration-500',
             'opacity-100 translate-y-0'
           )}>
-            {/* 核心预测决策卡片 - 使用新的汽车驾驶舱风格组件 */}
             <div className={`${DASHBOARD_STYLES.cardBg} ${DASHBOARD_STYLES.cardBorder} rounded-xl p-0 ${DASHBOARD_STYLES.glow}`}>
               <PredictionDecisionCard theme="dashboard" />
             </div>
+          </div>
 
-            {/* 区域达成情况 */}
+          {/* 风险识别模块 - 自适应高度 */}
+          <div className={cn(
+            'col-span-1 lg:col-span-5',
+            'transition-all duration-500 delay-100',
+            'opacity-100 translate-y-0'
+          )}>
+            <div className={cn(
+              'bg-slate-900/60 backdrop-blur-sm rounded-xl p-0',
+              'border-2 border-red-500/40',
+              'shadow-[0_0_40px_rgba(239,68,68,0.4)]',
+              'hover:shadow-[0_0_50px_rgba(239,68,68,0.5)]',
+              'transition-shadow duration-300'
+            )}>
+              <RiskIdentificationPanel theme="dashboard" timeRange={selectedTimeRange} />
+            </div>
+          </div>
+
+          {/* 区域达成情况 - 铺满整行 */}
+          <div className={cn(
+            'col-span-1 lg:col-span-12',
+            'transition-all duration-500',
+            'opacity-100 translate-y-0'
+          )}>
             <div className={`${DASHBOARD_STYLES.cardBg} ${DASHBOARD_STYLES.cardBorder} rounded-xl p-0 ${DASHBOARD_STYLES.glow}`}>
               <RegionMatrix
                 data={currentData}
@@ -455,29 +478,17 @@ export default function GMDashboard() {
                 timeRange={selectedTimeRange}
               />
             </div>
+          </div>
 
-            {/* 未来支撑充分性面板 */}
+          {/* 未来支撑充分性面板 */}
+          <div className={cn(
+            'col-span-1 lg:col-span-7',
+            'transition-all duration-500',
+            'opacity-100 translate-y-0'
+          )}>
             <FutureSupportAdequacyPanel theme="dashboard" timeRange={selectedTimeRange} />
           </div>
 
-          {/* 右侧仪表区 */}
-          <div className={cn(
-            'col-span-1 lg:col-span-5 space-y-2 sm:space-y-4',
-            'transition-all duration-500 delay-100',
-            'opacity-100 translate-y-0'
-          )}>
-            {/* 风险识别模块 - 自适应高度 */}
-            <div className={cn(
-              'bg-slate-900/60 backdrop-blur-sm rounded-xl p-0',
-              'border-2 border-red-500/40',
-              'shadow-[0_0_40px_rgba(239,68,68,0.4)]',
-              'hover:shadow-[0_0_50px_rgba(239,68,68,0.5)]',
-              'transition-shadow duration-300'
-            )}>
-              <RiskIdentificationPanel theme="dashboard" timeRange={selectedTimeRange} />
-            </div>
-
-          </div>
         </div>
         </div>
       </main>
