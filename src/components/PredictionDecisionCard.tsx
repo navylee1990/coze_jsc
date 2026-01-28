@@ -21,34 +21,67 @@ const DASHBOARD_STYLES = {
 // 组件属性
 interface PredictionDecisionCardProps {
   theme?: Theme;
+  timeRange?: 'current' | 'quarter' | 'year';
 }
 
-// 月度趋势数据
-const monthlyTrendData = [
-  { month: '1月', businessTarget: 1500, financialTarget: 1200, completed: 800, forecast: 900 },
-  { month: '2月', businessTarget: 1500, financialTarget: 1200, completed: 0, forecast: 1550 },
-  { month: '3月', businessTarget: 1500, financialTarget: 1200, completed: 0, forecast: 1350 },
-  { month: '4月', businessTarget: 1500, financialTarget: 1200, completed: 0, forecast: 1100 },
-  { month: '5月', businessTarget: 1500, financialTarget: 1200, completed: 0, forecast: 1580 },
-  { month: '6月', businessTarget: 1500, financialTarget: 1200, completed: 0, forecast: 950 },
-  { month: '7月', businessTarget: 1500, financialTarget: 1200, completed: 0, forecast: 1520 },
-  { month: '8月', businessTarget: 1500, financialTarget: 1200, completed: 0, forecast: 1280 },
-  { month: '9月', businessTarget: 1500, financialTarget: 1200, completed: 0, forecast: 1150 },
-  { month: '10月', businessTarget: 1500, financialTarget: 1200, completed: 0, forecast: 1560 },
-  { month: '11月', businessTarget: 1500, financialTarget: 1200, completed: 0, forecast: 1320 },
-  { month: '12月', businessTarget: 1500, financialTarget: 1200, completed: 0, forecast: 1050 },
-];
+// 不同时间范围的数据
+const TIME_RANGE_DATA = {
+  current: {
+    target: 1500,
+    forecast: 1140,
+    completed: 800,
+  },
+  quarter: {
+    target: 4500,
+    forecast: 3420,
+    completed: 2400,
+  },
+  year: {
+    target: 9000,
+    forecast: 6840,
+    completed: 4800,
+  },
+};
+
+// 不同时间范围的月度趋势数据
+const MONTHLY_TREND_DATA = {
+  current: [
+    { month: '1月', businessTarget: 1500, financialTarget: 1200, completed: 800, forecast: 900 },
+  ],
+  quarter: [
+    { month: '1月', businessTarget: 1500, financialTarget: 1200, completed: 800, forecast: 900 },
+    { month: '2月', businessTarget: 1500, financialTarget: 1200, completed: 0, forecast: 950 },
+    { month: '3月', businessTarget: 1500, financialTarget: 1200, completed: 0, forecast: 880 },
+  ],
+  year: [
+    { month: '1月', businessTarget: 1500, financialTarget: 1200, completed: 800, forecast: 900 },
+    { month: '2月', businessTarget: 1500, financialTarget: 1200, completed: 0, forecast: 950 },
+    { month: '3月', businessTarget: 1500, financialTarget: 1200, completed: 0, forecast: 880 },
+    { month: '4月', businessTarget: 1500, financialTarget: 1200, completed: 0, forecast: 920 },
+    { month: '5月', businessTarget: 1500, financialTarget: 1200, completed: 0, forecast: 960 },
+    { month: '6月', businessTarget: 1500, financialTarget: 1200, completed: 0, forecast: 910 },
+    { month: '7月', businessTarget: 1500, financialTarget: 1200, completed: 0, forecast: 930 },
+    { month: '8月', businessTarget: 1500, financialTarget: 1200, completed: 0, forecast: 890 },
+    { month: '9月', businessTarget: 1500, financialTarget: 1200, completed: 0, forecast: 940 },
+    { month: '10月', businessTarget: 1500, financialTarget: 1200, completed: 0, forecast: 970 },
+    { month: '11月', businessTarget: 1500, financialTarget: 1200, completed: 0, forecast: 920 },
+    { month: '12月', businessTarget: 1500, financialTarget: 1200, completed: 0, forecast: 880 },
+  ],
+};
 
 export default function PredictionDecisionCard({
   theme = 'dashboard',
+  timeRange = 'current',
 }: PredictionDecisionCardProps) {
-  // 核心数据
-  const target = 1500;      // 目标（万元）
-  const forecast = 1140;    // 预测（万元）
-  const completed = 800;    // 已完成（万元）
-  const achievementRate = 76; // 预计达成率 %
+  // 根据时间范围获取数据
+  const data = TIME_RANGE_DATA[timeRange];
+  const target = data.target;
+  const forecast = data.forecast;
+  const completed = data.completed;
+  const achievementRate = Math.round((forecast / target) * 100); // 预计达成率 %
   const actualAchievementRate = Math.round((completed / target) * 100); // 实际达成率 %
   const forecastGap = target - forecast; // 预计缺口（万元）
+  const monthlyTrendData = MONTHLY_TREND_DATA[timeRange];
 
   // 动画状态
   const [animatedRate, setAnimatedRate] = useState(0);

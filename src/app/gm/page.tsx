@@ -444,7 +444,7 @@ export default function GMDashboard() {
               `${DASHBOARD_STYLES.cardBg} ${DASHBOARD_STYLES.cardBorder} rounded-xl p-0 ${DASHBOARD_STYLES.glow}`,
               'h-[500px]'
             )}>
-              <PredictionDecisionCard theme="dashboard" />
+              <PredictionDecisionCard theme="dashboard" timeRange={selectedTimeRange} />
             </div>
           </div>
 
