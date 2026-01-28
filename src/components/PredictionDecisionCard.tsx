@@ -737,18 +737,13 @@ export default function PredictionDecisionCard({
             <div className="flex flex-col items-center gap-3 text-sm">
               <div className="flex items-center gap-1.5">
                 <div className="w-2 h-2 rounded-full bg-orange-400" />
-                <span className="text-cyan-400/70">业务目标</span>
-                <span className="font-semibold text-orange-400 text-base">1500万</span>
-              </div>
-              <div className="flex items-center gap-1.5">
-                <div className="w-2 h-2 rounded-full bg-yellow-400" />
-                <span className="text-cyan-400/70">财务目标</span>
-                <span className="font-semibold text-yellow-400 text-base">1200万</span>
+                <span className="text-cyan-400/70">目标</span>
+                <span className="font-semibold text-orange-400 text-lg">{target}万</span>
               </div>
               <div className="flex items-center gap-1.5">
                 <div className="w-2 h-2 rounded-full bg-cyan-400" />
                 <span className="text-cyan-400/70">预测</span>
-                <span className="font-semibold text-cyan-300 text-base">
+                <span className="font-semibold text-cyan-300 text-lg">
                   {mounted ? Math.round(animatedForecast) : 0}万
                 </span>
               </div>
