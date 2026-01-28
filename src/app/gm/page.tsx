@@ -367,7 +367,7 @@ export default function GMDashboard() {
           'opacity-100 translate-y-0'
         )}
       >
-        <div className="max-w-[1920px] mx-auto px-6 py-4">
+        <div className="max-w-[1920px] mx-auto px-4 py-2">
           <div className="flex items-center justify-between">
             {/* 左侧：导航和标题 */}
             <div className="flex items-center gap-4 flex-1">
@@ -434,9 +434,9 @@ export default function GMDashboard() {
       {/* 主要内容区 - 自适应流式布局 */}
       <main className="flex flex-col">
         {/* 流式容器 - 根据分辨率自动适配，不限制高度 */}
-        <div className="max-w-[1920px] mx-auto p-4 sm:p-6">
+        <div className="max-w-[1920px] mx-auto p-2 sm:p-4">
             {/* 驾驶舱风格布局 - 响应式网格 */}
-            <div className="grid grid-cols-1 lg:grid-cols-12 gap-2 sm:gap-4">
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-1 sm:gap-2">
 
           {/* 核心预测决策卡片 - 使用新的汽车驾驶舱风格组件 */}
           <div className={cn(
@@ -446,7 +446,7 @@ export default function GMDashboard() {
           )}>
             <div className={cn(
               `${DASHBOARD_STYLES.cardBg} ${DASHBOARD_STYLES.cardBorder} rounded-xl p-0 ${DASHBOARD_STYLES.glow}`,
-              'h-[500px]'
+              'h-[380px]'
             )}>
               <PredictionDecisionCard theme="dashboard" timeRange={selectedTimeRange} />
             </div>
@@ -464,7 +464,7 @@ export default function GMDashboard() {
               'shadow-[0_0_40px_rgba(239,68,68,0.4)]',
               'hover:shadow-[0_0_50px_rgba(239,68,68,0.5)]',
               'transition-shadow duration-300',
-              'h-[500px]'
+              'h-[380px]'
             )}>
               <RiskIdentificationPanel theme="dashboard" timeRange={selectedTimeRange} />
             </div>
