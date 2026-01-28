@@ -522,7 +522,7 @@ export default function RiskIdentificationPanel({
   const [currentTab, setCurrentTab] = useState(0);
   const [viewMode, setViewMode] = useState<'summary' | 'detail'>('summary');
   const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 5;
+  const itemsPerPage = 3;
 
   // 当时间维度变化时，重置当前 Tab
   useEffect(() => {
