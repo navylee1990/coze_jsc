@@ -631,8 +631,8 @@ export default function GMDashboard() {
               </div>
 
               {/* 核心数据展示 - 汽车仪表盘样式 */}
-              <div className="grid grid-cols-3 gap-3 mb-4">
-                {/* 仪表盘1 - 目标 */}
+              <div className="grid grid-cols-2 gap-3 sm:gap-4 mb-4">
+                {/* 仪表盘1 - 目标与达成率 */}
                 <div className="relative">
                   <div
                     className="rounded-xl border-2 p-3 transition-all duration-300 bg-gradient-to-br from-slate-900/90 to-slate-800/90 border-cyan-500/40"
@@ -642,13 +642,13 @@ export default function GMDashboard() {
                   >
                     <div className="flex items-center gap-3">
                       {/* 仪表盘圆形 */}
-                      <div className="relative flex-shrink-0" style={{ width: '80px', height: '80px' }}>
+                      <div className="relative flex-shrink-0" style={{ width: '100px', height: '100px' }}>
                         <svg viewBox="0 0 100 100" className="w-full h-full">
                           {/* 背景圆 */}
                           <circle
                             cx="50"
                             cy="50"
-                            r="35"
+                            r="40"
                             fill="none"
                             stroke="#1e293b"
                             strokeWidth="6"
@@ -656,8 +656,8 @@ export default function GMDashboard() {
                           {/* 刻度线 */}
                           {[...Array(12)].map((_, i) => {
                             const angle = (i * 30 - 90) * (Math.PI / 180)
-                            const innerR = 28
-                            const outerR = 35
+                            const innerR = 34
+                            const outerR = 40
                             const x1 = 50 + innerR * Math.cos(angle)
                             const y1 = 50 + innerR * Math.sin(angle)
                             const x2 = 50 + outerR * Math.cos(angle)
@@ -674,114 +674,35 @@ export default function GMDashboard() {
                               />
                             )
                           })}
-                          {/* 进度弧线 - 目标始终100% */}
+                          {/* 目标弧线 - 橙色虚线 */}
                           <circle
                             cx="50"
                             cy="50"
                             r="35"
                             fill="none"
-                            stroke="#22d3ee"
-                            strokeWidth="5"
+                            stroke="#f97316"
+                            strokeWidth="3"
                             strokeLinecap="round"
-                            strokeDasharray="220"
-                            strokeDashoffset="0"
+                            strokeDasharray="4 4"
                             style={{
-                              filter: 'drop-shadow(0 0 6px rgba(34, 211, 238, 0.8))'
+                              filter: 'drop-shadow(0 0 4px rgba(249, 115, 22, 0.6))'
                             }}
                           />
-                          {/* 指针 */}
-                          <g transform={`translate(50, 50)`}>
-                            <line
-                              x1="0"
-                              y1="0"
-                              x2="0"
-                              y2="-28"
-                              stroke="#f97316"
-                              strokeWidth="2"
-                              style={{
-                                transform: `rotate(${needleAngle1}deg)`,
-                                transformOrigin: '0 0',
-                                filter: 'drop-shadow(0 0 4px rgba(249, 115, 22, 0.8))',
-                                transition: 'transform 1.5s cubic-bezier(0.34, 1.56, 0.64, 1)'
-                              }}
-                            />
-                            <circle cx="0" cy="0" r="3" fill="#22d3ee" />
-                          </g>
-                        </svg>
-                        {/* 中心数值 */}
-                        <div className="absolute inset-0 flex flex-col items-center justify-center">
-                          <span className="text-lg font-bold text-cyan-400" style={{ textShadow: '0 0 8px rgba(34, 211, 238, 0.8)' }}>
-                            100%
-                          </span>
-                        </div>
-                      </div>
-                      {/* 右侧数值 */}
-                      <div className="flex-1">
-                        <div className="text-xs text-cyan-400/70 mb-1">目标</div>
-                        <div className="text-xl font-bold text-orange-400" style={{ textShadow: '0 0 6px rgba(251, 146, 60, 0.6)' }}>
-                          {animatedTarget.toLocaleString()}
-                          <span className="text-xs text-cyan-400/50 ml-1">万</span>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
-                {/* 仪表盘2 - 预测完成 */}
-                <div className="relative">
-                  <div
-                    className="rounded-xl border-2 p-3 transition-all duration-300 bg-gradient-to-br from-slate-900/90 to-slate-800/90 border-cyan-500/40"
-                    style={{
-                      boxShadow: '0 0 25px rgba(34, 211, 238, 0.3), inset 0 0 20px rgba(34, 211, 238, 0.08)'
-                    }}
-                  >
-                    <div className="flex items-center gap-3">
-                      {/* 仪表盘圆形 */}
-                      <div className="relative flex-shrink-0" style={{ width: '80px', height: '80px' }}>
-                        <svg viewBox="0 0 100 100" className="w-full h-full">
-                          {/* 背景圆 */}
+                          {/* 达成率进度弧线 */}
                           <circle
                             cx="50"
                             cy="50"
                             r="35"
                             fill="none"
-                            stroke="#1e293b"
-                            strokeWidth="6"
-                          />
-                          {/* 刻度线 */}
-                          {[...Array(12)].map((_, i) => {
-                            const angle = (i * 30 - 90) * (Math.PI / 180)
-                            const innerR = 28
-                            const outerR = 35
-                            const x1 = 50 + innerR * Math.cos(angle)
-                            const y1 = 50 + innerR * Math.sin(angle)
-                            const x2 = 50 + outerR * Math.cos(angle)
-                            const y2 = 50 + outerR * Math.sin(angle)
-                            return (
-                              <line
-                                key={i}
-                                x1={x1}
-                                y1={y1}
-                                x2={x2}
-                                y2={y2}
-                                stroke="#334155"
-                                strokeWidth="1"
-                              />
-                            )
-                          })}
-                          {/* 进度弧线 */}
-                          <circle
-                            cx="50"
-                            cy="50"
-                            r="35"
-                            fill="none"
-                            stroke="#22d3ee"
+                            stroke={animatedRate >= 90 ? '#22c55e' : animatedRate >= 70 ? '#eab308' : '#ef4444'}
                             strokeWidth="5"
                             strokeLinecap="round"
                             strokeDasharray="220"
                             strokeDashoffset={220 - (220 * Math.min(parseFloat(getAchievementRate()), 100) / 100)}
                             style={{
-                              filter: 'drop-shadow(0 0 8px rgba(34, 211, 238, 0.8))',
+                              filter: animatedRate >= 90 ? 'drop-shadow(0 0 8px rgba(34, 197, 94, 0.8))' : 
+                                     animatedRate >= 70 ? 'drop-shadow(0 0 8px rgba(234, 179, 8, 0.8))' : 
+                                     'drop-shadow(0 0 8px rgba(239, 68, 68, 0.8))',
                               transition: 'stroke-dashoffset 0.5s ease-out'
                             }}
                           />
@@ -791,7 +712,7 @@ export default function GMDashboard() {
                               x1="0"
                               y1="0"
                               x2="0"
-                              y2="-28"
+                              y2="-32"
                               stroke="#22d3ee"
                               strokeWidth="2.5"
                               style={{
@@ -804,37 +725,52 @@ export default function GMDashboard() {
                             <circle cx="0" cy="0" r="4" fill="#22d3ee" style={{ filter: 'drop-shadow(0 0 4px rgba(34, 211, 238, 0.8))' }} />
                           </g>
                         </svg>
-                        {/* 中心数值 */}
+                        {/* 中心数值 - 达成率 */}
                         <div className="absolute inset-0 flex flex-col items-center justify-center">
                           <span className={cn(
-                            'text-lg font-bold',
+                            'text-xl font-bold',
                             animatedRate >= 90 ? 'text-green-400' : animatedRate >= 70 ? 'text-yellow-400' : 'text-red-400'
-                          )} style={{ textShadow: `0 0 8px ${animatedRate >= 90 ? 'rgba(74, 222, 128, 0.8)' : animatedRate >= 70 ? 'rgba(250, 204, 21, 0.8)' : 'rgba(248, 113, 113, 0.8)'}` }}>
+                          )} style={{ textShadow: `0 0 10px ${animatedRate >= 90 ? 'rgba(74, 222, 128, 0.8)' : animatedRate >= 70 ? 'rgba(250, 204, 21, 0.8)' : 'rgba(248, 113, 113, 0.8)'}` }}>
                             {animatedRate.toFixed(1)}%
                           </span>
+                          <span className="text-xs text-cyan-400/60">达成率</span>
                         </div>
                       </div>
                       {/* 右侧数值 */}
-                      <div className="flex-1">
-                        <div className="text-xs text-cyan-400/70 mb-1 flex items-center gap-1">
-                          预测完成
-                          {animatedRate < 100 && (
-                            <AlertTriangle className={`w-4 h-4 animate-pulse ${animatedRate >= 80 ? 'text-yellow-400 drop-shadow-[0_0_6px_rgba(250,204,21,0.6)]' : 'text-red-400 drop-shadow-[0_0_6px_rgba(248,113,113,0.6)]'}`} />
-                          )}
+                      <div className="flex-1 space-y-3">
+                        {/* 目标 */}
+                        <div>
+                          <div className="text-xs text-cyan-400/70 mb-1 flex items-center gap-1">
+                            <Target className="w-3 h-3" />
+                            目标
+                          </div>
+                          <div className="text-xl font-bold text-orange-400" style={{ textShadow: '0 0 6px rgba(251, 146, 60, 0.6)' }}>
+                            {animatedTarget.toLocaleString()}
+                            <span className="text-xs text-cyan-400/50 ml-1">万</span>
+                          </div>
                         </div>
-                        <div className={cn(
-                          'text-xl font-bold',
-                          animatedForecast >= getTimeRangeData().target ? 'text-green-400' : 'text-yellow-400'
-                        )} style={{ textShadow: animatedForecast >= getTimeRangeData().target ? '0 0 6px rgba(74, 222, 128, 0.6)' : '0 0 6px rgba(250, 204, 21, 0.6)' }}>
-                          {animatedForecast.toLocaleString()}
-                          <span className="text-xs text-cyan-400/50 ml-1">万</span>
+                        {/* 预测完成 */}
+                        <div>
+                          <div className="text-xs text-cyan-400/70 mb-1 flex items-center gap-1">
+                            预测完成
+                            {animatedRate < 100 && (
+                              <AlertTriangle className={`w-3 h-3 animate-pulse ${animatedRate >= 80 ? 'text-yellow-400 drop-shadow-[0_0_6px_rgba(250,204,21,0.6)]' : 'text-red-400 drop-shadow-[0_0_6px_rgba(248,113,113,0.6)]'}`} />
+                            )}
+                          </div>
+                          <div className={cn(
+                            'text-xl font-bold',
+                            animatedForecast >= getTimeRangeData().target ? 'text-green-400' : 'text-yellow-400'
+                          )} style={{ textShadow: animatedForecast >= getTimeRangeData().target ? '0 0 6px rgba(74, 222, 128, 0.6)' : '0 0 6px rgba(250, 204, 21, 0.6)' }}>
+                            {animatedForecast.toLocaleString()}
+                            <span className="text-xs text-cyan-400/50 ml-1">万</span>
+                          </div>
                         </div>
                       </div>
                     </div>
                   </div>
                 </div>
 
-                {/* 仪表盘3 - 缺口 */}
+                {/* 仪表盘2 - 缺口 */}
                 <div className="relative">
                   <div
                     className={cn(
