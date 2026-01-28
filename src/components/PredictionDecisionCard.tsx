@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react';
 import { Target, Clock, AlertTriangle, Zap, Gauge, BarChart3, TrendingUp, Calendar } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 
 // 主题类型
 type Theme = 'dark' | 'dashboard';
@@ -52,7 +53,6 @@ export default function PredictionDecisionCard({
   const [needleAngle, setNeedleAngle] = useState(-90);
   const [animatedForecast, setAnimatedForecast] = useState(0);
   const [animatedCompleted, setAnimatedCompleted] = useState(0);
-  const [trendAnimations, setTrendAnimations] = useState<number[]>(new Array(12).fill(0));
   const [mounted, setMounted] = useState(false);
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
 
@@ -105,31 +105,9 @@ export default function PredictionDecisionCard({
       }
     };
 
-    // 4. 趋势图动画
-    const trendDuration = 2200;
-    const trendStartTime = Date.now();
-    const animateTrend = () => {
-      const elapsed = Date.now() - trendStartTime;
-      const progress = Math.min(elapsed / trendDuration, 1);
-      const easeOut = 1 - Math.pow(1 - progress, 3);
-
-      const newAnimations = monthlyTrendData.map((data, index) => {
-        // 错开动画：每个柱子延迟一点
-        const staggerProgress = Math.min(progress * (1 + index * 0.08), 1);
-        return data.forecast * staggerProgress;
-      });
-
-      setTrendAnimations(newAnimations);
-
-      if (progress < 1) {
-        requestAnimationFrame(animateTrend);
-      }
-    };
-
     animateRate();
     animateNeedle();
     animateNumbers();
-    animateTrend();
   }, []);
 
   // 主仪表盘组件
@@ -346,72 +324,8 @@ export default function PredictionDecisionCard({
     );
   };
 
-  // 月度趋势曲线图（驾驶舱风格）
+  // 月度趋势曲线图（使用recharts组件）
   const MonthlyTrendChart = () => {
-    const maxValue = 1600;
-    const height = 252;
-    const paddingLeft = 50;
-    const paddingRight = 50;
-    const paddingBottom = 32;
-    const chartWidth = 1000;
-    const chartHeight = height - paddingBottom - 10;
-
-    // 计算坐标
-    const getX = (index: number) => paddingLeft + (index / (monthlyTrendData.length - 1)) * (chartWidth - paddingLeft - paddingRight);
-    const getY = (value: number) => chartHeight - (value / maxValue) * chartHeight;
-
-    // 生成平滑曲线
-    const generateSmoothPath = (data: number[], animatedValues: number[]) => {
-      if (data.length < 2) return '';
-
-      const points = data.map((_, index) => ({
-        x: getX(index),
-        y: getY(animatedValues[index])
-      }));
-
-      let path = `M ${points[0].x} ${points[0].y}`;
-
-      for (let i = 0; i < points.length - 1; i++) {
-        const curr = points[i];
-        const next = points[i + 1];
-        const xc = (curr.x + next.x) / 2;
-        const yc = (curr.y + next.y) / 2;
-        path += ` Q ${curr.x} ${curr.y} ${xc} ${yc}`;
-      }
-
-      path += ` T ${points[points.length - 1].x} ${points[points.length - 1].y}`;
-
-      return path;
-    };
-
-    const handleMouseMove = (e: React.MouseEvent<SVGSVGElement>) => {
-      const svg = e.currentTarget;
-      const rect = svg.getBoundingClientRect();
-      const x = (e.clientX - rect.left) * (chartWidth / rect.width);
-
-      let minDistance = Infinity;
-      let closestIndex = -1;
-
-      monthlyTrendData.forEach((_, index) => {
-        const pointX = getX(index);
-        const distance = Math.abs(x - pointX);
-        if (distance < minDistance) {
-          minDistance = distance;
-          closestIndex = index;
-        }
-      });
-
-      if (minDistance < 70 * (chartWidth / rect.width)) {
-        setHoveredIndex(closestIndex);
-      } else {
-        setHoveredIndex(null);
-      }
-    };
-
-    const handleMouseLeave = () => {
-      setHoveredIndex(null);
-    };
-
     return (
       <div className="h-full flex flex-col">
         {/* 图例 */}
@@ -435,271 +349,88 @@ export default function PredictionDecisionCard({
         </div>
 
         {/* 曲线图容器 */}
-        <div className="flex-1 relative" style={{ minHeight: `${height}px` }}>
-          <svg
-            viewBox={`0 0 ${chartWidth} ${height}`}
-            className="w-full h-full"
-            onMouseMove={handleMouseMove}
-            onMouseLeave={handleMouseLeave}
-            style={{ cursor: hoveredIndex !== null ? 'crosshair' : 'default' }}
-          >
-            {/* 网格线（简化为3条） */}
-            {[0, 800, 1600].map((value, index) => {
-              const y = getY(value);
-              return (
-                <g key={index}>
-                  <line
-                    x1={paddingLeft}
-                    y1={y}
-                    x2={chartWidth - paddingRight}
-                    y2={y}
-                    stroke={value === 800 ? 'rgba(34,211,238,0.15)' : 'rgba(34,211,238,0.08)'}
-                    strokeWidth={value === 800 ? 1.5 : 1}
-                  />
-                  <text
-                    x={paddingLeft - 12}
-                    y={y + 5}
-                    fill="rgba(34,211,238,0.7)"
-                    fontSize="16"
-                    textAnchor="end"
-                    fontWeight="500"
-                  >
-                    {value}
-                  </text>
-                </g>
-              );
-            })}
-
-            {/* 业务目标曲线（橙色虚线） */}
-            <path
-              d={generateSmoothPath(
-                monthlyTrendData.map(d => d.businessTarget),
-                monthlyTrendData.map(d => d.businessTarget)
-              )}
-              fill="none"
-              stroke="rgba(251,146,60,0.8)"
-              strokeWidth="3"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeDasharray="8,6"
-              style={{
-                filter: 'drop-shadow(0 0 8px rgba(251,146,60,0.5))',
-              }}
-            />
-
-            {/* 财务目标曲线（黄色虚线） */}
-            <path
-              d={generateSmoothPath(
-                monthlyTrendData.map(d => d.financialTarget),
-                monthlyTrendData.map(d => d.financialTarget)
-              )}
-              fill="none"
-              stroke="rgba(250,204,21,0.8)"
-              strokeWidth="3"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeDasharray="8,6"
-              style={{
-                filter: 'drop-shadow(0 0 8px rgba(250,204,21,0.5))',
-              }}
-            />
-
-            {/* 预测完成曲线（青色实线） */}
-            <path
-              d={generateSmoothPath(
-                monthlyTrendData.map(d => d.forecast),
-                trendAnimations
-              )}
-              fill="none"
-              stroke="#22d3ee"
-              strokeWidth="3.5"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              style={{
-                filter: 'drop-shadow(0 0 10px rgba(34,211,238,0.7))',
-              }}
-            />
-
-            {/* 悬停指示线 */}
-            {hoveredIndex !== null && (
-              <line
-                x1={getX(hoveredIndex)}
-                y1={0}
-                x2={getX(hoveredIndex)}
-                y2={chartHeight}
-                stroke="rgba(34,211,238,0.4)"
-                strokeWidth="1"
-                strokeDasharray="3,3"
+        <div className="flex-1" style={{ minHeight: '252px' }}>
+          <ResponsiveContainer width="100%" height="100%">
+            <LineChart data={monthlyTrendData}>
+              <CartesianGrid 
+                strokeDasharray="4 4" 
+                stroke="rgba(34,211,238,0.1)" 
+                vertical={false}
               />
-            )}
-
-            {/* 预测完成数据点 */}
-            {monthlyTrendData.map((data, index) => {
-              const x = getX(index);
-              const y = getY(trendAnimations[index]);
-              const isHovered = hoveredIndex === index;
-
-              return (
-                <g key={`forecast-${index}`}>
-                  <circle
-                    cx={x}
-                    cy={y}
-                    r={isHovered ? 8 : 5.5}
-                    fill="#22d3ee"
-                    stroke="#0e7490"
-                    strokeWidth={isHovered ? 3 : 2}
-                    style={{
-                      filter: 'drop-shadow(0 0 8px rgba(34,211,238,0.8))',
-                      transition: 'all 0.2s ease',
-                    }}
-                  />
-                </g>
-              );
-            })}
-
-            {/* 已完成曲线（绿色实线） */}
-            <path
-              d={generateSmoothPath(
-                monthlyTrendData.map(d => d.completed),
-                monthlyTrendData.map(d => d.completed)
-              )}
-              fill="none"
-              stroke="#22c55e"
-              strokeWidth="3.5"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              style={{
-                filter: 'drop-shadow(0 0 10px rgba(74,222,128,0.7))',
-              }}
-            />
-
-            {/* 已完成数据点（仅1月） */}
-            {monthlyTrendData.filter(d => d.completed > 0).map((data, index) => {
-              const originalIndex = monthlyTrendData.findIndex(d => d.month === data.month);
-              const x = getX(originalIndex);
-              const y = getY(data.completed);
-              const isHovered = hoveredIndex === originalIndex;
-
-              return (
-                <g key={`completed-${index}`}>
-                  {!isHovered && (
-                    <>
-                      {/* 外圈半透明 */}
-                      <circle
-                        cx={x}
-                        cy={y}
-                        r="8"
-                        fill="none"
-                        stroke="#22c55e"
-                        strokeWidth="2.5"
-                        style={{
-                          filter: 'drop-shadow(0 0 8px rgba(74,222,128,0.5))',
-                          opacity: 0.5,
-                        }}
-                      />
-                      {/* 内圈实心 */}
-                      <circle
-                        cx={x}
-                        cy={y}
-                        r="5"
-                        fill="#22c55e"
-                        stroke="#15803d"
-                        strokeWidth="2"
-                        style={{
-                          filter: 'drop-shadow(0 0 8px rgba(74,222,128,1))',
-                        }}
-                      />
-                    </>
-                  )}
-                </g>
-              );
-            })}
-
-            {/* Tooltip */}
-            {hoveredIndex !== null && (
-              <g>
-                <rect
-                  x={getX(hoveredIndex) - 70}
-                  y={Math.max(10, getY(trendAnimations[hoveredIndex]) - 110)}
-                  width="140"
-                  height="100"
-                  rx="6"
-                  fill="rgba(15,23,42,0.96)"
-                  stroke="#22d3ee"
-                  strokeWidth="1.5"
-                  style={{
-                    filter: 'drop-shadow(0 0 15px rgba(34,211,238,0.4))',
-                  }}
-                />
-                <text
-                  x={getX(hoveredIndex)}
-                  y={Math.max(10, getY(trendAnimations[hoveredIndex]) - 90)}
-                  fill="#22d3ee"
-                  fontSize="16"
-                  fontWeight="bold"
-                  textAnchor="middle"
-                >
-                  {monthlyTrendData[hoveredIndex].month}
-                </text>
-                <text
-                  x={getX(hoveredIndex)}
-                  y={Math.max(10, getY(trendAnimations[hoveredIndex]) - 65)}
-                  fill="#22d3ee"
-                  fontSize="14"
-                  textAnchor="middle"
-                >
-                  预测: {Math.round(trendAnimations[hoveredIndex])}万
-                </text>
-                {monthlyTrendData[hoveredIndex].completed > 0 && (
-                  <text
-                    x={getX(hoveredIndex)}
-                    y={Math.max(10, getY(trendAnimations[hoveredIndex]) - 43)}
-                    fill="#22c55e"
-                    fontSize="14"
-                    textAnchor="middle"
-                  >
-                    已完成: {monthlyTrendData[hoveredIndex].completed}万
-                  </text>
-                )}
-                <text
-                  x={getX(hoveredIndex)}
-                  y={Math.max(10, getY(trendAnimations[hoveredIndex]) - (monthlyTrendData[hoveredIndex].completed > 0 ? 21 : 43))}
-                  fill="rgba(251,146,60,0.9)"
-                  fontSize="14"
-                  textAnchor="middle"
-                >
-                  业务目标: {monthlyTrendData[hoveredIndex].businessTarget}万
-                </text>
-                <text
-                  x={getX(hoveredIndex)}
-                  y={Math.max(10, getY(trendAnimations[hoveredIndex]) - (monthlyTrendData[hoveredIndex].completed > 0 ? 0 : 21))}
-                  fill="rgba(250,204,21,0.9)"
-                  fontSize="14"
-                  textAnchor="middle"
-                >
-                  财务目标: {monthlyTrendData[hoveredIndex].financialTarget}万
-                </text>
-              </g>
-            )}
-
-            {/* X轴月份标签 */}
-            {monthlyTrendData.map((data, index) => {
-              const x = getX(index);
-              return (
-                <text
-                  key={`x-axis-${index}`}
-                  x={x}
-                  y={height - 10}
-                  fill="rgba(34,211,238,0.7)"
-                  fontSize="16"
-                  textAnchor="middle"
-                  fontWeight="500"
-                >
-                  {data.month}
-                </text>
-              );
-            })}
-          </svg>
+              <XAxis 
+                dataKey="month" 
+                tick={{ fill: 'rgba(34,211,238,0.7)', fontSize: 14, fontWeight: 500 }}
+                axisLine={{ stroke: 'rgba(34,211,238,0.2)' }}
+                tickLine={{ stroke: 'rgba(34,211,238,0.2)' }}
+              />
+              <YAxis 
+                tick={{ fill: 'rgba(34,211,238,0.7)', fontSize: 14, fontWeight: 500 }}
+                axisLine={false}
+                tickLine={false}
+                tickFormatter={(value) => `${value}`}
+                domain={[0, 1700]}
+              />
+              <Tooltip
+                contentStyle={{
+                  backgroundColor: 'rgba(15,23,42,0.96)',
+                  border: '1px solid #22d3ee',
+                  borderRadius: '8px',
+                  boxShadow: '0 0 15px rgba(34,211,238,0.4)',
+                  padding: '12px 16px',
+                  fontSize: '14px',
+                }}
+                formatter={(value: number, name: string) => {
+                  if (name === '业务目标') return [<span style={{ color: '#fb923c', fontWeight: 600 }}>{value}万</span>, name];
+                  if (name === '财务目标') return [<span style={{ color: '#facc15', fontWeight: 600 }}>{value}万</span>, name];
+                  if (name === '预测完成') return [<span style={{ color: '#22d3ee', fontWeight: 600 }}>{value}万</span>, name];
+                  if (name === '已完成') return [<span style={{ color: '#22c55e', fontWeight: 600 }}>{value}万</span>, name];
+                  return [value, name];
+                }}
+              />
+              <Line
+                type="monotone"
+                dataKey="businessTarget"
+                stroke="#fb923c"
+                strokeWidth={3}
+                strokeDasharray="8 6"
+                dot={false}
+                activeDot={false}
+                name="业务目标"
+                animationDuration={1500}
+              />
+              <Line
+                type="monotone"
+                dataKey="financialTarget"
+                stroke="#facc15"
+                strokeWidth={3}
+                strokeDasharray="8 6"
+                dot={false}
+                activeDot={false}
+                name="财务目标"
+                animationDuration={1500}
+              />
+              <Line
+                type="monotone"
+                dataKey="forecast"
+                stroke="#22d3ee"
+                strokeWidth={3.5}
+                dot={{ fill: '#22d3ee', strokeWidth: 2, r: 4 }}
+                activeDot={{ r: 6, strokeWidth: 2 }}
+                name="预测完成"
+                animationDuration={2000}
+              />
+              <Line
+                type="monotone"
+                dataKey="completed"
+                stroke="#22c55e"
+                strokeWidth={3.5}
+                dot={{ fill: '#22c55e', strokeWidth: 2, r: 4 }}
+                activeDot={{ r: 6, strokeWidth: 2 }}
+                name="已完成"
+                animationDuration={2000}
+              />
+            </LineChart>
+          </ResponsiveContainer>
         </div>
       </div>
     );
