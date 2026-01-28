@@ -349,10 +349,10 @@ export default function PredictionDecisionCard({
   // 月度趋势曲线图（驾驶舱风格）
   const MonthlyTrendChart = () => {
     const maxValue = 1600;
-    const height = 240;
-    const paddingLeft = 45;
-    const paddingRight = 45;
-    const paddingBottom = 30;
+    const height = 220;
+    const paddingLeft = 50;
+    const paddingRight = 50;
+    const paddingBottom = 32;
     const chartWidth = 1000;
     const chartHeight = height - paddingBottom - 10;
 
@@ -415,18 +415,18 @@ export default function PredictionDecisionCard({
     return (
       <div className="h-full flex flex-col">
         {/* 图例 */}
-        <div className="flex items-center justify-end gap-5 mb-2.5 px-2">
-          <div className="flex items-center gap-2">
-            <div className="w-2.5 h-2.5 rounded-full bg-orange-400" />
-            <span className="text-xs text-cyan-400/70">目标线</span>
+        <div className="flex items-center justify-end gap-6 mb-3 px-2">
+          <div className="flex items-center gap-2.5">
+            <div className="w-3 h-3 rounded-full bg-orange-400" />
+            <span className="text-sm text-cyan-400/70 font-medium">目标线</span>
           </div>
-          <div className="flex items-center gap-2">
-            <div className="w-2.5 h-2.5 rounded-full bg-cyan-400" />
-            <span className="text-xs text-cyan-400/70">预测曲线</span>
+          <div className="flex items-center gap-2.5">
+            <div className="w-3 h-3 rounded-full bg-cyan-400" />
+            <span className="text-sm text-cyan-400/70 font-medium">预测曲线</span>
           </div>
-          <div className="flex items-center gap-2">
-            <div className="w-2.5 h-2.5 rounded-full bg-green-400" />
-            <span className="text-xs text-cyan-400/70">已完成</span>
+          <div className="flex items-center gap-2.5">
+            <div className="w-3 h-3 rounded-full bg-green-400" />
+            <span className="text-sm text-cyan-400/70 font-medium">已完成</span>
           </div>
         </div>
 
@@ -453,10 +453,10 @@ export default function PredictionDecisionCard({
                     strokeWidth={value === 800 ? 1.5 : 1}
                   />
                   <text
-                    x={paddingLeft - 10}
-                    y={y + 4}
-                    fill="rgba(34,211,238,0.5)"
-                    fontSize="11"
+                    x={paddingLeft - 12}
+                    y={y + 5}
+                    fill="rgba(34,211,238,0.6)"
+                    fontSize="13"
                     textAnchor="end"
                     fontWeight="500"
                   >
@@ -485,11 +485,11 @@ export default function PredictionDecisionCard({
               )}
               fill="none"
               stroke="#22d3ee"
-              strokeWidth="3"
+              strokeWidth="3.5"
               strokeLinecap="round"
               strokeLinejoin="round"
               style={{
-                filter: 'drop-shadow(0 0 8px rgba(34,211,238,0.7))',
+                filter: 'drop-shadow(0 0 10px rgba(34,211,238,0.7))',
               }}
             />
 
@@ -517,12 +517,12 @@ export default function PredictionDecisionCard({
                   <circle
                     cx={x}
                     cy={y}
-                    r={isHovered ? 7 : 4.5}
+                    r={isHovered ? 8 : 5.5}
                     fill="#22d3ee"
                     stroke="#0e7490"
-                    strokeWidth={isHovered ? 2.5 : 1.5}
+                    strokeWidth={isHovered ? 3 : 2}
                     style={{
-                      filter: 'drop-shadow(0 0 6px rgba(34,211,238,0.8))',
+                      filter: 'drop-shadow(0 0 8px rgba(34,211,238,0.8))',
                       transition: 'all 0.2s ease',
                     }}
                   />
@@ -545,12 +545,12 @@ export default function PredictionDecisionCard({
                       <circle
                         cx={x}
                         cy={y}
-                        r="7"
+                        r="8"
                         fill="none"
                         stroke="#22c55e"
-                        strokeWidth="2"
+                        strokeWidth="2.5"
                         style={{
-                          filter: 'drop-shadow(0 0 6px rgba(74,222,128,0.5))',
+                          filter: 'drop-shadow(0 0 8px rgba(74,222,128,0.5))',
                           opacity: 0.5,
                         }}
                       />
@@ -558,12 +558,12 @@ export default function PredictionDecisionCard({
                       <circle
                         cx={x}
                         cy={y}
-                        r="4.5"
+                        r="5"
                         fill="#22c55e"
                         stroke="#15803d"
-                        strokeWidth="1.5"
+                        strokeWidth="2"
                         style={{
-                          filter: 'drop-shadow(0 0 6px rgba(74,222,128,1))',
+                          filter: 'drop-shadow(0 0 8px rgba(74,222,128,1))',
                         }}
                       />
                     </>
@@ -576,23 +576,23 @@ export default function PredictionDecisionCard({
             {hoveredIndex !== null && (
               <g>
                 <rect
-                  x={getX(hoveredIndex) - 55}
-                  y={Math.max(10, getY(trendAnimations[hoveredIndex]) - 78)}
-                  width="110"
-                  height="68"
+                  x={getX(hoveredIndex) - 60}
+                  y={Math.max(10, getY(trendAnimations[hoveredIndex]) - 85)}
+                  width="120"
+                  height="75"
                   rx="6"
                   fill="rgba(15,23,42,0.96)"
                   stroke="#22d3ee"
-                  strokeWidth="1"
+                  strokeWidth="1.5"
                   style={{
-                    filter: 'drop-shadow(0 0 12px rgba(34,211,238,0.4))',
+                    filter: 'drop-shadow(0 0 15px rgba(34,211,238,0.4))',
                   }}
                 />
                 <text
                   x={getX(hoveredIndex)}
-                  y={Math.max(10, getY(trendAnimations[hoveredIndex]) - 62)}
+                  y={Math.max(10, getY(trendAnimations[hoveredIndex]) - 67)}
                   fill="#22d3ee"
-                  fontSize="13"
+                  fontSize="14"
                   fontWeight="bold"
                   textAnchor="middle"
                 >
@@ -600,9 +600,9 @@ export default function PredictionDecisionCard({
                 </text>
                 <text
                   x={getX(hoveredIndex)}
-                  y={Math.max(10, getY(trendAnimations[hoveredIndex]) - 44)}
+                  y={Math.max(10, getY(trendAnimations[hoveredIndex]) - 47)}
                   fill="#22d3ee"
-                  fontSize="11"
+                  fontSize="12"
                   textAnchor="middle"
                 >
                   预测: {Math.round(trendAnimations[hoveredIndex])}万
@@ -610,9 +610,9 @@ export default function PredictionDecisionCard({
                 {monthlyTrendData[hoveredIndex].completed > 0 && (
                   <text
                     x={getX(hoveredIndex)}
-                    y={Math.max(10, getY(trendAnimations[hoveredIndex]) - 28)}
+                    y={Math.max(10, getY(trendAnimations[hoveredIndex]) - 29)}
                     fill="#22c55e"
-                    fontSize="11"
+                    fontSize="12"
                     textAnchor="middle"
                   >
                     已完成: {monthlyTrendData[hoveredIndex].completed}万
@@ -620,9 +620,9 @@ export default function PredictionDecisionCard({
                 )}
                 <text
                   x={getX(hoveredIndex)}
-                  y={Math.max(10, getY(trendAnimations[hoveredIndex]) - (monthlyTrendData[hoveredIndex].completed > 0 ? 12 : 28))}
+                  y={Math.max(10, getY(trendAnimations[hoveredIndex]) - (monthlyTrendData[hoveredIndex].completed > 0 ? 12 : 30))}
                   fill="rgba(251,146,60,0.9)"
-                  fontSize="11"
+                  fontSize="12"
                   textAnchor="middle"
                 >
                   目标: {monthlyTrendData[hoveredIndex].businessTarget}万
@@ -638,8 +638,8 @@ export default function PredictionDecisionCard({
                   key={`x-axis-${index}`}
                   x={x}
                   y={height - 10}
-                  fill="rgba(34,211,238,0.6)"
-                  fontSize="12"
+                  fill="rgba(34,211,238,0.7)"
+                  fontSize="14"
                   textAnchor="middle"
                   fontWeight="500"
                 >
@@ -655,42 +655,42 @@ export default function PredictionDecisionCard({
 
   return (
     <div className={cn(
-      'p-5',
+      'p-6',
       theme === 'dashboard' && DASHBOARD_STYLES.bg
     )}>
       {/* 标题栏 */}
-      <div className="mb-4 flex items-center justify-between">
+      <div className="mb-5 flex items-center justify-between">
         <div className="flex items-center gap-3">
-          <Target className={cn('w-5 h-5', DASHBOARD_STYLES.neon)} />
-          <h2 className={cn('text-lg font-bold', DASHBOARD_STYLES.neon)}>
+          <Target className={cn('w-6 h-6', DASHBOARD_STYLES.neon)} />
+          <h2 className={cn('text-xl font-bold', DASHBOARD_STYLES.neon)}>
             核心预测决策
           </h2>
         </div>
-        <div className="flex items-center gap-2 text-sm text-cyan-400/60">
+        <div className="flex items-center gap-2 text-base text-cyan-400/60">
           <Clock className="w-4 h-4" />
           <span>实时数据</span>
         </div>
       </div>
 
       {/* 驾驶舱布局 - 3列 */}
-      <div className="grid grid-cols-3 gap-6">
+      <div className="grid grid-cols-3 gap-8">
         {/* 左侧：达成率仪表盘 */}
         <div className="flex flex-col items-center justify-center">
           <MainGauge
             value={animatedRate}
             maxValue={100}
-            size={160}
+            size={180}
           />
           <div className="mt-4 text-center">
-            <div className="flex items-center justify-center gap-4 text-sm">
+            <div className="flex items-center justify-center gap-5 text-base">
               <div className="flex items-center gap-1.5">
-                <div className="w-1.5 h-1.5 rounded-full bg-orange-400" />
-                <span className="text-cyan-500/60">目标</span>
+                <div className="w-2 h-2 rounded-full bg-orange-400" />
+                <span className="text-cyan-400/70">目标</span>
                 <span className="font-semibold text-orange-400">{target}万</span>
               </div>
               <div className="flex items-center gap-1.5">
-                <div className="w-1.5 h-1.5 rounded-full bg-cyan-400" />
-                <span className="text-cyan-500/60">预测</span>
+                <div className="w-2 h-2 rounded-full bg-cyan-400" />
+                <span className="text-cyan-400/70">预测</span>
                 <span className="font-semibold text-cyan-300">
                   {mounted ? Math.round(animatedForecast) : 0}万
                 </span>
@@ -706,22 +706,22 @@ export default function PredictionDecisionCard({
       </div>
 
       {/* 底部：驾驶舱科技装饰 */}
-      <div className="mt-4 pt-3 border-t border-cyan-500/20">
-        <div className="flex items-center justify-between text-xs text-cyan-500/40">
+      <div className="mt-5 pt-3 border-t border-cyan-500/20">
+        <div className="flex items-center justify-between text-sm text-cyan-500/40">
           <div className="flex items-center gap-2">
             <Gauge className="w-3 h-3" />
             <span>驾驶舱模式已激活</span>
           </div>
-          <div className="flex items-center gap-4">
-            <div className="flex items-center gap-1">
+          <div className="flex items-center gap-5">
+            <div className="flex items-center gap-1.5">
               <div className="w-1.5 h-1.5 rounded-full bg-green-400 animate-pulse" />
               <span>系统正常</span>
             </div>
-            <div className="flex items-center gap-1">
+            <div className="flex items-center gap-1.5">
               <TrendingUp className="w-3 h-3" />
               <span>趋势实时</span>
             </div>
-            <div className="flex items-center gap-1">
+            <div className="flex items-center gap-1.5">
               <Zap className="w-3 h-3" />
               <span>数据实时</span>
             </div>
