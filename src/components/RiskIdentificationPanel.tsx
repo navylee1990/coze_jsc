@@ -1457,7 +1457,7 @@ export default function RiskIdentificationPanel({
           <div className="h-full flex flex-col animate-in fade-in duration-300">
                 {/* 顶部仪表盘风格指标卡片 - 增强红色警告效果 */}
                 <div className={cn(
-                  'p-4 relative overflow-hidden',
+                  'p-3 relative overflow-hidden',
                   'bg-gradient-to-br from-red-950/40 via-slate-900 to-slate-900',
                   'border-b-2 border-red-500/50',
                   'shadow-[0_0_20px_rgba(239,68,68,0.3)]'
@@ -1553,16 +1553,16 @@ export default function RiskIdentificationPanel({
                 </div>
 
                 {/* 表格区域 */}
-                <div className="flex-1 overflow-auto p-4 bg-gradient-to-b from-slate-900/50 to-transparent">
+                <div className="flex-1 overflow-auto p-3 bg-gradient-to-b from-slate-900/50 to-transparent">
                   <table className="w-full">
                     <thead className="sticky top-0 bg-slate-900/95 backdrop-blur-sm z-10">
                       <tr className={cn('text-xs border-b border-cyan-500/30', DASHBOARD_STYLES.cardBorder)}>
-                        <th className={cn('text-center py-3 px-3 font-medium w-16 text-cyan-300 drop-shadow-[0_0_5px_rgba(6,182,212,0.5)]')}>序号</th>
-                        <th className={cn('text-left py-3 px-3 font-medium text-cyan-300 drop-shadow-[0_0_5px_rgba(6,182,212,0.5)]')}>预计下单</th>
-                        <th className={cn('text-left py-3 px-3 font-medium text-cyan-300 drop-shadow-[0_0_5px_rgba(6,182,212,0.5)]')}>项目名称</th>
-                        <th className={cn('text-left py-3 px-3 font-medium hidden lg:table-cell text-cyan-300 drop-shadow-[0_0_5px_rgba(6,182,212,0.5)]')}>大区</th>
-                        <th className={cn('text-left py-3 px-3 font-medium hidden md:table-cell text-cyan-300 drop-shadow-[0_0_5px_rgba(6,182,212,0.5)]')}>销售</th>
-                        <th className={cn('text-right py-3 px-3 font-medium text-cyan-300 drop-shadow-[0_0_5px_rgba(6,182,212,0.5)]')}>金额</th>
+                        <th className={cn('text-center py-2 px-3 font-medium w-16 text-cyan-300 drop-shadow-[0_0_5px_rgba(6,182,212,0.5)]')}>序号</th>
+                        <th className={cn('text-left py-2 px-3 font-medium text-cyan-300 drop-shadow-[0_0_5px_rgba(6,182,212,0.5)]')}>预计下单</th>
+                        <th className={cn('text-left py-2 px-3 font-medium text-cyan-300 drop-shadow-[0_0_5px_rgba(6,182,212,0.5)]')}>项目名称</th>
+                        <th className={cn('text-left py-2 px-3 font-medium hidden lg:table-cell text-cyan-300 drop-shadow-[0_0_5px_rgba(6,182,212,0.5)]')}>大区</th>
+                        <th className={cn('text-left py-2 px-3 font-medium hidden md:table-cell text-cyan-300 drop-shadow-[0_0_5px_rgba(6,182,212,0.5)]')}>销售</th>
+                        <th className={cn('text-right py-2 px-3 font-medium text-cyan-300 drop-shadow-[0_0_5px_rgba(6,182,212,0.5)]')}>金额</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -1575,14 +1575,14 @@ export default function RiskIdentificationPanel({
                           )}
                         >
                           {/* 序号 */}
-                          <td className={cn('text-center py-3 px-3 text-xs text-cyan-300')}>
+                          <td className={cn('text-center py-2 px-3 text-xs text-cyan-300')}>
                             <div className="inline-flex items-center justify-center w-6 h-6 rounded-full bg-cyan-500/10 border border-cyan-500/30">
                               {(currentPage - 1) * 5 + index + 1}
                             </div>
                           </td>
 
                           {/* 预计下单时间 */}
-                          <td className={cn('py-3 px-3 text-xs whitespace-nowrap text-cyan-200')}>
+                          <td className={cn('py-2 px-3 text-xs whitespace-nowrap text-cyan-200')}>
                             <div className="flex items-center gap-1.5">
                               <Clock className="w-3 h-3 text-cyan-400/70" />
                               {item.expectedOrderDate || '-'}
@@ -1590,22 +1590,22 @@ export default function RiskIdentificationPanel({
                           </td>
 
                           {/* 项目名称 */}
-                          <td className={cn('py-3 px-3 text-xs', DASHBOARD_STYLES.textSecondary)}>
+                          <td className={cn('py-2 px-3 text-xs', DASHBOARD_STYLES.textSecondary)}>
                             <div className="font-medium leading-snug text-cyan-100">{item.name}</div>
                           </td>
 
                           {/* 大区 */}
-                          <td className={cn('hidden lg:table-cell py-3 px-3 text-xs text-cyan-200')}>
+                          <td className={cn('hidden lg:table-cell py-2 px-3 text-xs text-cyan-200')}>
                             {item.region || '-'}
                           </td>
 
                           {/* 销售工程师 */}
-                          <td className={cn('hidden md:table-cell py-3 px-3 text-xs text-cyan-200')}>
+                          <td className={cn('hidden md:table-cell py-2 px-3 text-xs text-cyan-200')}>
                             {item.salesEngineer || '-'}
                           </td>
 
                           {/* 金额 */}
-                          <td className={cn('text-right py-3 px-3 whitespace-nowrap', DASHBOARD_STYLES.textSecondary)}>
+                          <td className={cn('text-right py-2 px-3 whitespace-nowrap', DASHBOARD_STYLES.textSecondary)}>
                             <span className="font-black text-orange-400 drop-shadow-[0_0_6px_rgba(251,146,60,0.6)]">
                               {item.amount.toFixed(2)}
                             </span>
@@ -1618,7 +1618,7 @@ export default function RiskIdentificationPanel({
                 </div>
 
                 {/* 分页 */}
-                <div className="px-4 py-3 border-t border-cyan-500/20 flex justify-between items-center bg-gradient-to-r from-slate-900/50 to-transparent">
+                <div className="px-4 py-2 border-t border-cyan-500/20 flex justify-between items-center bg-gradient-to-r from-slate-900/50 to-transparent">
                   <div className={cn('text-xs flex items-center gap-2', DASHBOARD_STYLES.textMuted)}>
                     <Activity className="w-3 h-3 text-cyan-400/70" />
                     共 {filteredUnorderedProjects.length} 条记录，当前第 {currentPage} / {totalPages} 页
