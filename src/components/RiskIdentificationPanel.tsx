@@ -862,7 +862,7 @@ export default function RiskIdentificationPanel({
                   </div>
                 </div>
 
-                <div className="flex-1 overflow-auto p-4">
+                <div className="flex-1 overflow-auto p-3">
                   <table className="w-full">
                     <thead className="sticky top-0 bg-slate-900/95 backdrop-blur-sm z-10">
                       <tr className={cn('text-xs border-b', DASHBOARD_STYLES.cardBorder)}>
@@ -888,18 +888,18 @@ export default function RiskIdentificationPanel({
                             <div className="font-medium">{item.projectName}</div>
                             <div className={cn('text-xs', DASHBOARD_STYLES.textMuted)}>{item.projectId}</div>
                           </td>
-                          <td className={cn('py-3 px-3', DASHBOARD_STYLES.textSecondary)}>{item.amount.toFixed(0)}万</td>
-                          <td className={cn('py-3 px-3', DASHBOARD_STYLES.textSecondary)}>{item.dependencyCount}</td>
-                          <td className={cn('py-3 px-3', DASHBOARD_STYLES.textSecondary)}>
+                          <td className={cn('py-2 px-3', DASHBOARD_STYLES.textSecondary)}>{item.amount.toFixed(0)}万</td>
+                          <td className={cn('py-2 px-3', DASHBOARD_STYLES.textSecondary)}>{item.dependencyCount}</td>
+                          <td className={cn('py-2 px-3', DASHBOARD_STYLES.textSecondary)}>
                             <div className="text-xs space-y-1">
                               {item.dependentProjects.map((dep: string, idx: number) => (
                                 <div key={idx} className={cn(DASHBOARD_STYLES.textMuted)}>{dep}</div>
                               ))}
                             </div>
                           </td>
-                          <td className={cn('py-3 px-3', DASHBOARD_STYLES.textSecondary)}>{item.region}</td>
-                          <td className={cn('py-3 px-3', DASHBOARD_STYLES.textSecondary)}>{item.owner}</td>
-                          <td className={cn('py-3 px-3 text-center', DASHBOARD_STYLES.textSecondary)}>
+                          <td className={cn('py-2 px-3', DASHBOARD_STYLES.textSecondary)}>{item.region}</td>
+                          <td className={cn('py-2 px-3', DASHBOARD_STYLES.textSecondary)}>{item.owner}</td>
+                          <td className={cn('py-2 px-3 text-center', DASHBOARD_STYLES.textSecondary)}>
                             <span className={cn('px-2 py-1 rounded text-xs font-medium', getStatusStyles(item.status))}>
                               {item.status === 'critical' ? '紧急' : item.status === 'highRisk' ? '高风险' : '正常'}
                             </span>
@@ -910,7 +910,7 @@ export default function RiskIdentificationPanel({
                   </table>
                 </div>
 
-                <div className="px-4 py-3 border-t border-cyan-500/20 flex justify-between items-center">
+                <div className="px-4 py-2 border-t border-cyan-500/20 flex justify-between items-center">
                   <div className={cn('text-xs', DASHBOARD_STYLES.textMuted)}>
                     共 {largeProjectDependencies.length} 条记录，当前第 {currentPage} / {totalPages} 页
                   </div>
@@ -1044,7 +1044,7 @@ export default function RiskIdentificationPanel({
                   </div>
                 </div>
 
-                <div className="flex-1 overflow-auto p-4">
+                <div className="flex-1 overflow-auto p-3">
                   <table className="w-full">
                     <thead className="sticky top-0 bg-slate-900/95 backdrop-blur-sm z-10">
                       <tr className={cn('text-xs border-b', DASHBOARD_STYLES.cardBorder)}>
@@ -1069,10 +1069,10 @@ export default function RiskIdentificationPanel({
                             <div className="font-medium">{item.stagnationDuration}</div>
                             <div className={cn('text-xs', DASHBOARD_STYLES.textMuted)}>{item.stagnationDays}天</div>
                           </td>
-                          <td className={cn('py-3 px-3', DASHBOARD_STYLES.textSecondary)}>{item.region}</td>
-                          <td className={cn('py-3 px-3', DASHBOARD_STYLES.textSecondary)}>{item.owner}</td>
-                          <td className={cn('py-3 px-3', DASHBOARD_STYLES.textSecondary)}><div className="text-xs max-w-[200px] truncate">{item.reason}</div></td>
-                          <td className={cn('py-3 px-3 text-center', DASHBOARD_STYLES.textSecondary)}>
+                          <td className={cn('py-2 px-3', DASHBOARD_STYLES.textSecondary)}>{item.region}</td>
+                          <td className={cn('py-2 px-3', DASHBOARD_STYLES.textSecondary)}>{item.owner}</td>
+                          <td className={cn('py-2 px-3', DASHBOARD_STYLES.textSecondary)}><div className="text-xs max-w-[200px] truncate">{item.reason}</div></td>
+                          <td className={cn('py-2 px-3 text-center', DASHBOARD_STYLES.textSecondary)}>
                             <span className={cn('px-2 py-1 rounded text-xs font-medium', getSeverityStyles(item.severity))}>
                               {item.severity === 'high' ? '高' : item.severity === 'medium' ? '中' : '低'}
                             </span>
@@ -1083,7 +1083,7 @@ export default function RiskIdentificationPanel({
                   </table>
                 </div>
 
-                <div className="px-4 py-3 border-t border-cyan-500/20 flex justify-between items-center">
+                <div className="px-4 py-2 border-t border-cyan-500/20 flex justify-between items-center">
                   <div className={cn('text-xs', DASHBOARD_STYLES.textMuted)}>
                     共 {largeProjectDependencies.length} 条记录，当前第 {currentPage} / {totalPages} 页
                   </div>
@@ -1201,7 +1201,7 @@ export default function RiskIdentificationPanel({
                   </div>
                 </div>
 
-                <div className="flex-1 overflow-auto p-4">
+                <div className="flex-1 overflow-auto p-3">
                   <table className="w-full">
                     <thead className="sticky top-0 bg-slate-900/95 backdrop-blur-sm z-10">
                       <tr className={cn('text-xs border-b', DASHBOARD_STYLES.cardBorder)}>
@@ -1233,9 +1233,9 @@ export default function RiskIdentificationPanel({
                               <span className="text-xs">{item.probability}%</span>
                             </div>
                           </td>
-                          <td className={cn('py-3 px-3', DASHBOARD_STYLES.textSecondary)}>{item.region}</td>
-                          <td className={cn('py-3 px-3', DASHBOARD_STYLES.textSecondary)}>{item.owner}</td>
-                          <td className={cn('py-3 px-3 text-center', DASHBOARD_STYLES.textSecondary)}>
+                          <td className={cn('py-2 px-3', DASHBOARD_STYLES.textSecondary)}>{item.region}</td>
+                          <td className={cn('py-2 px-3', DASHBOARD_STYLES.textSecondary)}>{item.owner}</td>
+                          <td className={cn('py-2 px-3 text-center', DASHBOARD_STYLES.textSecondary)}>
                             <span className={cn('px-2 py-1 rounded text-xs font-medium', getSeverityStyles(item.impact))}>
                               {item.impact === 'high' ? '高' : item.impact === 'medium' ? '中' : '低'}
                             </span>
@@ -1246,7 +1246,7 @@ export default function RiskIdentificationPanel({
                   </table>
                 </div>
 
-                <div className="px-4 py-3 border-t border-cyan-500/20 flex justify-between items-center">
+                <div className="px-4 py-2 border-t border-cyan-500/20 flex justify-between items-center">
                   <div className={cn('text-xs', DASHBOARD_STYLES.textMuted)}>
                     共 {largeProjectDependencies.length} 条记录，当前第 {currentPage} / {totalPages} 页
                   </div>
@@ -1383,7 +1383,7 @@ export default function RiskIdentificationPanel({
                   </div>
                 </div>
 
-                <div className="flex-1 overflow-auto p-4">
+                <div className="flex-1 overflow-auto p-3">
                   <table className="w-full">
                     <thead className="sticky top-0 bg-slate-900/95 backdrop-blur-sm z-10">
                       <tr className={cn('text-xs border-b', DASHBOARD_STYLES.cardBorder)}>
@@ -1423,11 +1423,11 @@ export default function RiskIdentificationPanel({
                               <span className="text-xs">{item.riskScore}</span>
                             </div>
                           </td>
-                          <td className={cn('py-3 px-3', DASHBOARD_STYLES.textSecondary)}>
+                          <td className={cn('py-2 px-3', DASHBOARD_STYLES.textSecondary)}>
                             <div className="font-medium">{item.activeProjects}</div>
                             <div className={cn('text-xs', DASHBOARD_STYLES.textMuted)}>个</div>
                           </td>
-                          <td className={cn('py-3 px-3', DASHBOARD_STYLES.textSecondary)}>
+                          <td className={cn('py-2 px-3', DASHBOARD_STYLES.textSecondary)}>
                             {item.lastClosedAmount > 0 ? (
                               <span className="text-cyan-400">{item.lastClosedAmount.toFixed(0)}万</span>
                             ) : (
@@ -1440,7 +1440,7 @@ export default function RiskIdentificationPanel({
                   </table>
                 </div>
 
-                <div className="px-4 py-3 border-t border-cyan-500/20 flex justify-between items-center">
+                <div className="px-4 py-2 border-t border-cyan-500/20 flex justify-between items-center">
                   <div className={cn('text-xs', DASHBOARD_STYLES.textMuted)}>
                     共 {riskPersonnel.length} 条记录，当前第 {currentPage} / {totalPages} 页
                   </div>
