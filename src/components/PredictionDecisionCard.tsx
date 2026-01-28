@@ -417,18 +417,58 @@ export default function PredictionDecisionCard({
                 dot={(props: any) => {
                   const { cx, cy, payload } = props;
                   const isBelowTarget = payload.forecast < 1200;
+                  
+                  if (isBelowTarget) {
+                    // 风险点：更大、更醒目的红色
+                    return (
+                      <g>
+                        {/* 外层光晕 */}
+                        <circle
+                          cx={cx}
+                          cy={cy}
+                          r={12}
+                          fill="rgba(239,68,68,0.2)"
+                          style={{
+                            filter: 'drop-shadow(0 0 15px rgba(239,68,68,0.9))',
+                          }}
+                        />
+                        {/* 内层光晕 */}
+                        <circle
+                          cx={cx}
+                          cy={cy}
+                          r={8}
+                          fill="rgba(239,68,68,0.4)"
+                          style={{
+                            filter: 'drop-shadow(0 0 10px rgba(239,68,68,0.8))',
+                          }}
+                        />
+                        {/* 核心圆 */}
+                        <circle
+                          cx={cx}
+                          cy={cy}
+                          r={5}
+                          fill="#ef4444"
+                          stroke="#7f1d1d"
+                          strokeWidth={2.5}
+                          style={{
+                            filter: 'drop-shadow(0 0 8px rgba(239,68,68,1))',
+                          }}
+                        />
+                      </g>
+                    );
+                  }
+                  
+                  // 正常点：青色
                   return (
                     <circle
                       cx={cx}
                       cy={cy}
                       r={5}
-                      fill={isBelowTarget ? '#ef4444' : '#22d3ee'}
-                      stroke={isBelowTarget ? '#991b1b' : '#0e7490'}
+                      fill="#22d3ee"
+                      stroke="#0e7490"
                       strokeWidth={2}
                       style={{
-                        filter: isBelowTarget 
-                          ? 'drop-shadow(0 0 8px rgba(239,68,68,0.8))'
-                          : 'drop-shadow(0 0 8px rgba(34,211,238,0.8))',
+                        filter: 'drop-shadow(0 0 6px rgba(34,211,238,0.6))',
                       }}
                     />
                   );
@@ -436,18 +476,58 @@ export default function PredictionDecisionCard({
                 activeDot={(props: any) => {
                   const { cx, cy, payload } = props;
                   const isBelowTarget = payload.forecast < 1200;
+                  
+                  if (isBelowTarget) {
+                    // 风险点悬停：超大、超醒目
+                    return (
+                      <g>
+                        {/* 外层光晕 */}
+                        <circle
+                          cx={cx}
+                          cy={cy}
+                          r={18}
+                          fill="rgba(239,68,68,0.3)"
+                          style={{
+                            filter: 'drop-shadow(0 0 25px rgba(239,68,68,1))',
+                          }}
+                        />
+                        {/* 内层光晕 */}
+                        <circle
+                          cx={cx}
+                          cy={cy}
+                          r={12}
+                          fill="rgba(239,68,68,0.5)"
+                          style={{
+                            filter: 'drop-shadow(0 0 18px rgba(239,68,68,0.9))',
+                          }}
+                        />
+                        {/* 核心圆 */}
+                        <circle
+                          cx={cx}
+                          cy={cy}
+                          r={8}
+                          fill="#ef4444"
+                          stroke="#7f1d1d"
+                          strokeWidth={3}
+                          style={{
+                            filter: 'drop-shadow(0 0 12px rgba(239,68,68,1))',
+                          }}
+                        />
+                      </g>
+                    );
+                  }
+                  
+                  // 正常点悬停
                   return (
                     <circle
                       cx={cx}
                       cy={cy}
                       r={7}
-                      fill={isBelowTarget ? '#ef4444' : '#22d3ee'}
-                      stroke={isBelowTarget ? '#991b1b' : '#0e7490'}
+                      fill="#22d3ee"
+                      stroke="#0e7490"
                       strokeWidth={3}
                       style={{
-                        filter: isBelowTarget 
-                          ? 'drop-shadow(0 0 12px rgba(239,68,68,1))'
-                          : 'drop-shadow(0 0 12px rgba(34,211,238,1))',
+                        filter: 'drop-shadow(0 0 10px rgba(34,211,238,0.8))',
                       }}
                     />
                   );
@@ -468,18 +548,58 @@ export default function PredictionDecisionCard({
                   }
                   
                   const isBelowTarget = payload.completed < 1200;
+                  
+                  if (isBelowTarget) {
+                    // 风险点：更大、更醒目的红色
+                    return (
+                      <g>
+                        {/* 外层光晕 */}
+                        <circle
+                          cx={props.cx}
+                          cy={props.cy}
+                          r={12}
+                          fill="rgba(239,68,68,0.2)"
+                          style={{
+                            filter: 'drop-shadow(0 0 15px rgba(239,68,68,0.9))',
+                          }}
+                        />
+                        {/* 内层光晕 */}
+                        <circle
+                          cx={props.cx}
+                          cy={props.cy}
+                          r={8}
+                          fill="rgba(239,68,68,0.4)"
+                          style={{
+                            filter: 'drop-shadow(0 0 10px rgba(239,68,68,0.8))',
+                          }}
+                        />
+                        {/* 核心圆 */}
+                        <circle
+                          cx={props.cx}
+                          cy={props.cy}
+                          r={5}
+                          fill="#ef4444"
+                          stroke="#7f1d1d"
+                          strokeWidth={2.5}
+                          style={{
+                            filter: 'drop-shadow(0 0 8px rgba(239,68,68,1))',
+                          }}
+                        />
+                      </g>
+                    );
+                  }
+                  
+                  // 正常点：绿色
                   return (
                     <circle
                       cx={props.cx}
                       cy={props.cy}
                       r={5}
-                      fill={isBelowTarget ? '#ef4444' : '#22c55e'}
-                      stroke={isBelowTarget ? '#991b1b' : '#15803d'}
+                      fill="#22c55e"
+                      stroke="#15803d"
                       strokeWidth={2}
                       style={{
-                        filter: isBelowTarget 
-                          ? 'drop-shadow(0 0 8px rgba(239,68,68,0.8))'
-                          : 'drop-shadow(0 0 8px rgba(74,222,128,0.8))',
+                        filter: 'drop-shadow(0 0 6px rgba(74,222,128,0.6))',
                       }}
                     />
                   );
@@ -492,18 +612,58 @@ export default function PredictionDecisionCard({
                   }
                   
                   const isBelowTarget = payload.completed < 1200;
+                  
+                  if (isBelowTarget) {
+                    // 风险点悬停：超大、超醒目
+                    return (
+                      <g>
+                        {/* 外层光晕 */}
+                        <circle
+                          cx={props.cx}
+                          cy={props.cy}
+                          r={18}
+                          fill="rgba(239,68,68,0.3)"
+                          style={{
+                            filter: 'drop-shadow(0 0 25px rgba(239,68,68,1))',
+                          }}
+                        />
+                        {/* 内层光晕 */}
+                        <circle
+                          cx={props.cx}
+                          cy={props.cy}
+                          r={12}
+                          fill="rgba(239,68,68,0.5)"
+                          style={{
+                            filter: 'drop-shadow(0 0 18px rgba(239,68,68,0.9))',
+                          }}
+                        />
+                        {/* 核心圆 */}
+                        <circle
+                          cx={props.cx}
+                          cy={props.cy}
+                          r={8}
+                          fill="#ef4444"
+                          stroke="#7f1d1d"
+                          strokeWidth={3}
+                          style={{
+                            filter: 'drop-shadow(0 0 12px rgba(239,68,68,1))',
+                          }}
+                        />
+                      </g>
+                    );
+                  }
+                  
+                  // 正常点悬停
                   return (
                     <circle
                       cx={props.cx}
                       cy={props.cy}
                       r={7}
-                      fill={isBelowTarget ? '#ef4444' : '#22c55e'}
-                      stroke={isBelowTarget ? '#991b1b' : '#15803d'}
+                      fill="#22c55e"
+                      stroke="#15803d"
                       strokeWidth={3}
                       style={{
-                        filter: isBelowTarget 
-                          ? 'drop-shadow(0 0 12px rgba(239,68,68,1))'
-                          : 'drop-shadow(0 0 12px rgba(74,222,128,1))',
+                        filter: 'drop-shadow(0 0 10px rgba(74,222,128,0.8))',
                       }}
                     />
                   );
