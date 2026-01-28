@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react';
 import { Target, Clock, AlertTriangle, Zap, Gauge, BarChart3, TrendingUp, Calendar } from 'lucide-react';
 import { cn } from '@/lib/utils';
-import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, ReferenceArea } from 'recharts';
+import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, Area } from 'recharts';
 
 // 主题类型
 type Theme = 'dark' | 'dashboard';
@@ -352,18 +352,22 @@ export default function PredictionDecisionCard({
         <div className="flex-1" style={{ minHeight: '252px' }}>
           <ResponsiveContainer width="100%" height="100%">
             <LineChart data={monthlyTrendData}>
+              {/* 定义渐变：预测完成曲线下方填充 */}
+              <defs>
+                <linearGradient id="forecastGradient" x1="0" y1="0" x2="0" y2="1">
+                  {/* 财务目标以上（29.4%位置）：青色 */}
+                  <stop offset="0%" stopColor="#22d3ee" stopOpacity="0.3" />
+                  <stop offset="29.4%" stopColor="#22d3ee" stopOpacity="0.15" />
+                  {/* 财务目标以下（29.4%-100%）：红色 */}
+                  <stop offset="29.4%" stopColor="rgba(239,68,68,0.3)" />
+                  <stop offset="100%" stopColor="rgba(239,68,68,0.15)" />
+                </linearGradient>
+              </defs>
+
               <CartesianGrid
                 strokeDasharray="4 4"
                 stroke="rgba(34,211,238,0.1)"
                 vertical={false}
-              />
-              {/* 预警区域：财务目标以下 */}
-              <ReferenceArea
-                y1={0}
-                y2={1200}
-                fill="rgba(239,68,68,0.2)"
-                stroke="rgba(239,68,68,0.4)"
-                strokeWidth={2}
               />
               <XAxis 
                 dataKey="month" 
@@ -416,6 +420,14 @@ export default function PredictionDecisionCard({
                 activeDot={false}
                 name="财务目标"
                 animationDuration={1500}
+              />
+              {/* 预测完成区域填充 */}
+              <Area
+                type="monotone"
+                dataKey="forecast"
+                fill="url(#forecastGradient)"
+                stroke="none"
+                animationDuration={2000}
               />
               <Line
                 type="monotone"
