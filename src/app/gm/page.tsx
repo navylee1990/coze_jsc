@@ -530,11 +530,6 @@ export default function GMDashboard() {
     return data.target - data.forecast;
   };
 
-  // 默认时间范围为月度
-  useEffect(() => {
-    setTimeRange('month');
-  }, []);
-
   // 获取当前时间范围的数据
   const currentData = useMemo(() => {
     return regionData[selectedTimeRange as keyof typeof regionData] || [];
@@ -694,10 +689,10 @@ export default function GMDashboard() {
                             const angle = (i * 30 - 90) * (Math.PI / 180)
                             const innerR = 36
                             const outerR = 42
-                            const x1 = 50 + innerR * Math.cos(angle)
-                            const y1 = 50 + innerR * Math.sin(angle)
-                            const x2 = 50 + outerR * Math.cos(angle)
-                            const y2 = 50 + outerR * Math.sin(angle)
+                            const x1 = Number((50 + innerR * Math.cos(angle)).toFixed(3))
+                            const y1 = Number((50 + innerR * Math.sin(angle)).toFixed(3))
+                            const x2 = Number((50 + outerR * Math.cos(angle)).toFixed(3))
+                            const y2 = Number((50 + outerR * Math.sin(angle)).toFixed(3))
                             return (
                               <line
                                 key={i}
@@ -815,10 +810,10 @@ export default function GMDashboard() {
                             const angle = (i * 30 - 90) * (Math.PI / 180)
                             const innerR = 28
                             const outerR = 35
-                            const x1 = 50 + innerR * Math.cos(angle)
-                            const y1 = 50 + innerR * Math.sin(angle)
-                            const x2 = 50 + outerR * Math.cos(angle)
-                          const y2 = 50 + outerR * Math.sin(angle)
+                            const x1 = Number((50 + innerR * Math.cos(angle)).toFixed(3))
+                            const y1 = Number((50 + innerR * Math.sin(angle)).toFixed(3))
+                            const x2 = Number((50 + outerR * Math.cos(angle)).toFixed(3))
+                          const y2 = Number((50 + outerR * Math.sin(angle)).toFixed(3))
                           return (
                               <line
                                 key={i}
