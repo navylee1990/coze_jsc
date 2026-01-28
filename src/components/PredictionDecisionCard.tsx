@@ -54,6 +54,7 @@ export default function PredictionDecisionCard({
   const [animatedCompleted, setAnimatedCompleted] = useState(0);
   const [trendAnimations, setTrendAnimations] = useState<number[]>(new Array(12).fill(0));
   const [mounted, setMounted] = useState(false);
+  const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
 
   // 启动动画
   useEffect(() => {
@@ -358,19 +359,6 @@ export default function PredictionDecisionCard({
     const getX = (index: number) => padding.left + (index / (monthlyTrendData.length - 1)) * chartWidth;
     const getY = (value: number) => padding.top + chartHeight - (value / maxValue) * chartHeight;
 
-    // 生成曲线路径
-    const generatePath = (data: number[], animatedValues: number[]) => {
-      if (data.length === 0) return '';
-
-      const pathD = data.map((_, index) => {
-        const x = getX(index);
-        const y = getY(animatedValues[index]);
-        return `${index === 0 ? 'M' : 'L'} ${x} ${y}`;
-      }).join(' ');
-
-      return pathD;
-    };
-
     // 生成平滑曲线（贝塞尔曲线）
     const generateSmoothPath = (data: number[], animatedValues: number[]) => {
       if (data.length < 2) return '';
@@ -395,6 +383,38 @@ export default function PredictionDecisionCard({
       path += ` T ${points[points.length - 1].x} ${points[points.length - 1].y}`;
 
       return path;
+    };
+
+    // 鼠标悬停处理
+    const handleMouseMove = (e: React.MouseEvent<SVGSVGElement>) => {
+      const svg = e.currentTarget;
+      const rect = svg.getBoundingClientRect();
+      const scaleX = width / rect.width;
+      const x = (e.clientX - rect.left) * scaleX;
+
+      // 找到最近的x坐标
+      let minDistance = Infinity;
+      let closestIndex = -1;
+
+      monthlyTrendData.forEach((_, index) => {
+        const pointX = getX(index);
+        const distance = Math.abs(x - pointX);
+        if (distance < minDistance) {
+          minDistance = distance;
+          closestIndex = index;
+        }
+      });
+
+      // 如果距离足够近（50px以内），显示tooltip
+      if (minDistance < 50 * (width / rect.width)) {
+        setHoveredIndex(closestIndex);
+      } else {
+        setHoveredIndex(null);
+      }
+    };
+
+    const handleMouseLeave = () => {
+      setHoveredIndex(null);
     };
 
     return (
@@ -435,7 +455,13 @@ export default function PredictionDecisionCard({
 
         {/* 曲线图容器 */}
         <div className="relative w-full" style={{ height: `${height}px` }}>
-          <svg viewBox={`0 0 ${width} ${height}`} className="w-full h-full">
+          <svg
+            viewBox={`0 0 ${width} ${height}`}
+            className="w-full h-full"
+            onMouseMove={handleMouseMove}
+            onMouseLeave={handleMouseLeave}
+            style={{ cursor: hoveredIndex !== null ? 'crosshair' : 'default' }}
+          >
             {/* 背景网格 */}
             {[0, 400, 800, 1200, 1600].map((value, index) => {
               const y = getY(value);
@@ -504,54 +530,138 @@ export default function PredictionDecisionCard({
             {monthlyTrendData.map((data, index) => {
               const x = getX(index);
               const y = getY(trendAnimations[index]);
+              const isHovered = hoveredIndex === index;
 
               return (
                 <g key={`forecast-${index}`}>
                   <circle
                     cx={x}
                     cy={y}
-                    r="5"
+                    r={isHovered ? "8" : "5"}
                     fill="#22d3ee"
                     stroke="#0891b2"
-                    strokeWidth="2"
+                    strokeWidth={isHovered ? "3" : "2"}
                     style={{
                       filter: 'drop-shadow(0 0 6px rgba(34,211,238,1))',
+                      transition: 'all 0.2s ease',
                     }}
                   />
+                  {/* 悬停时显示tooltip */}
+                  {isHovered && (
+                    <g>
+                      {/* tooltip背景 */}
+                      <rect
+                        x={x - 50}
+                        y={y - 75}
+                        width="100"
+                        height="65"
+                        rx="4"
+                        fill="rgba(15,23,42,0.95)"
+                        stroke="#22d3ee"
+                        strokeWidth="1"
+                        style={{
+                          filter: 'drop-shadow(0 0 10px rgba(34,211,238,0.5))',
+                        }}
+                      />
+                      {/* 月份 */}
+                      <text
+                        x={x}
+                        y={y - 58}
+                        fill="#22d3ee"
+                        fontSize="12"
+                        fontWeight="bold"
+                        textAnchor="middle"
+                      >
+                        {data.month}
+                      </text>
+                      {/* 预测完成 */}
+                      <text
+                        x={x}
+                        y={y - 40}
+                        fill="#22d3ee"
+                        fontSize="10"
+                        textAnchor="middle"
+                      >
+                        预测: {Math.round(trendAnimations[index])}万
+                      </text>
+                      {/* 已完成 */}
+                      {data.completed > 0 && (
+                        <text
+                          x={x}
+                          y={y - 25}
+                          fill="#22c55e"
+                          fontSize="10"
+                          textAnchor="middle"
+                        >
+                          已完成: {data.completed}万
+                        </text>
+                      )}
+                      {/* 目标 */}
+                      <text
+                        x={x}
+                        y={y - (data.completed > 0 ? 10 : 25)}
+                        fill="rgba(251,146,60,0.8)"
+                        fontSize="10"
+                        textAnchor="middle"
+                      >
+                        目标: {data.businessTarget}万
+                      </text>
+                    </g>
+                  )}
                 </g>
               );
             })}
 
-            {/* 已完成曲线（绿色，仅1月有数据） */}
+            {/* 已完成数据点（仅1月有数据，显示为特殊标记） */}
             {monthlyTrendData.filter(d => d.completed > 0).map((data, index) => {
               const originalIndex = monthlyTrendData.findIndex(d => d.month === data.month);
               const x = getX(originalIndex);
               const y = getY(data.completed);
+              const isHovered = hoveredIndex === originalIndex;
 
               return (
                 <g key={`completed-${index}`}>
-                  <circle
-                    cx={x}
-                    cy={y}
-                    r="6"
-                    fill="#22c55e"
-                    stroke="#15803d"
-                    strokeWidth="2"
-                    style={{
-                      filter: 'drop-shadow(0 0 8px rgba(74,222,128,1))',
-                    }}
-                  />
-                  {/* 数值标签 */}
-                  <text
-                    x={x}
-                    y={y - 12}
-                    fill="#22c55e"
-                    fontSize="11"
-                    fontWeight="bold"
-                    textAnchor="middle"
-                  >
-                    {data.completed}
-                  </text>
+                  {/* 已完成数据点 - 绿色双圈 */}
+                  {!isHovered && (
+                    <>
+                      <circle
+                        cx={x}
+                        cy={y}
+                        r="8"
+                        fill="none"
+                        stroke="#22c55e"
+                        strokeWidth="2"
+                        style={{
+                          filter: 'drop-shadow(0 0 8px rgba(74,222,128,0.6))',
+                          opacity: 0.6,
+                        }}
+                      />
+                      <circle
+                        cx={x}
+                        cy={y}
+                        r="5"
+                        fill="#22c55e"
+                        stroke="#15803d"
+                        strokeWidth="2"
+                        style={{
+                          filter: 'drop-shadow(0 0 8px rgba(74,222,128,1))',
+                        }}
+                      />
+                      <text
+                        x={x}
+                        y={y - 12}
+                        fill="#22c55e"
+                        fontSize="10"
+                        fontWeight="bold"
+                        textAnchor="middle"
+                        style={{
+                          filter: 'drop-shadow(0 0 6px rgba(74,222,128,1))',
+                        }}
+                      >
+                        {data.completed}
+                      </text>
+                    </>
+                  )}
                 </g>
               );
             })}
