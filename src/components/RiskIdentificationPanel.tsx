@@ -1375,94 +1375,8 @@ export default function RiskIdentificationPanel({
 
         {/* ============ Tab 4: 当月未下单 ============ */}
         {currentTab === 4 && (
-          <>
-            {viewMode === 'summary' ? (
-              // 汇总视图
-              <div className="h-full p-4 space-y-4 animate-in fade-in duration-300 overflow-y-auto">
-                {/* 顶部仪表盘 */}
-                <div className="grid grid-cols-3 gap-3">
-                  <div className={cn('rounded-lg p-4 border text-center', DASHBOARD_STYLES.cardBorder)}>
-                    <CircularGauge value={unorderedProjects.length} max={20} color="orange" size={100} label="未下单项目" />
-                  </div>
-                  <div className={cn('rounded-lg p-4 border', DASHBOARD_STYLES.cardBorder)}>
-                    <div className="text-xs mb-2 text-cyan-400/70">未下单总金额</div>
-                    <div className="text-3xl font-bold text-orange-400" style={{ textShadow: '0 0 10px rgba(249,115,22,0.8)' }}>
-                      {unorderedProjects.reduce((sum, p) => sum + p.amount, 0).toFixed(0)}
-                      <span className="text-sm ml-1">万</span>
-                    </div>
-                  </div>
-                  <div className={cn('rounded-lg p-4 border', DASHBOARD_STYLES.cardBorder)}>
-                    <HalfGauge value={Math.max(...unorderedProjects.map(p => p.delayDays || 0))} max={30} unit="最长延迟(天)" />
-                  </div>
-                </div>
-
-                {/* 概率分布 */}
-                <div className={cn('rounded-lg p-4 border', DASHBOARD_STYLES.cardBorder)}>
-                  <h4 className="text-sm font-semibold text-cyan-300 mb-3 flex items-center gap-2">
-                    <Target className="w-4 h-4" />
-                    成交概率分布
-                  </h4>
-                  <div className="grid grid-cols-3 gap-2">
-                    {['high', 'medium', 'low'].map((probability) => {
-                      const count = unorderedProjects.filter(p => p.probability === probability).length;
-                      const totalAmount = unorderedProjects.filter(p => p.probability === probability).reduce((sum, p) => sum + p.amount, 0);
-                      const color = probability === 'high' ? 'bg-green-500' : probability === 'medium' ? 'bg-yellow-500' : 'bg-red-500';
-                      const label = probability === 'high' ? '高' : probability === 'medium' ? '中' : '低';
-                      return (
-                        <div key={probability} className="bg-slate-800/50 rounded-lg p-3">
-                          <div className="text-xs text-cyan-400/70 mb-1">{label}概率</div>
-                          <div className="text-xl font-bold text-cyan-200">{count}<span className="text-xs ml-1">个</span></div>
-                          <div className="text-xs text-orange-400 mt-1">{totalAmount.toFixed(0)}万</div>
-                        </div>
-                      );
-                    })}
-                  </div>
-                </div>
-
-                {/* 高风险未下单项目 */}
-                <div className={cn('rounded-lg p-4 border', DASHBOARD_STYLES.cardBorder)}>
-                  <h4 className="text-sm font-semibold text-cyan-300 mb-3 flex items-center gap-2">
-                    <AlertTriangle className="w-4 h-4" />
-                    高风险未下单项目（延迟≥10天）
-                  </h4>
-                  <div className="space-y-2">
-                    {unorderedProjects
-                      .filter(p => p.delayDays && p.delayDays >= 10)
-                      .sort((a, b) => (b.delayDays || 0) - (a.delayDays || 0))
-                      .slice(0, 5)
-                      .map((item, index) => (
-                        <div key={item.id} className={cn(
-                          'rounded-lg p-3 border transition-all',
-                          item.delayDays && item.delayDays >= 20 ? 'bg-red-500/20 border-red-500/50' : 'bg-orange-500/20 border-orange-500/50'
-                        )}>
-                          <div className="flex items-start justify-between mb-2">
-                            <div className="flex-1 min-w-0">
-                              <div className="text-sm font-medium text-cyan-200 truncate">{item.name}</div>
-                              <div className="text-xs text-cyan-400/70">{item.region} · {item.salesEngineer}</div>
-                            </div>
-                            <div className="text-right ml-3">
-                              <div className="text-lg font-bold text-orange-400">{item.amount.toFixed(0)}<span className="text-xs">万</span></div>
-                              <div className="text-xs text-red-400">延迟{item.delayDays}天</div>
-                            </div>
-                          </div>
-                          <div className="text-xs text-cyan-400/60">
-                            原因：{item.riskReason}
-                          </div>
-                        </div>
-                      ))}
-                  </div>
-                </div>
-
-                <button
-                  onClick={() => setViewMode('detail')}
-                  className="w-full py-3 rounded-lg bg-cyan-500/20 border border-cyan-500/50 text-cyan-300 font-medium hover:bg-cyan-500/30 transition-all"
-                >
-                  查看详细数据
-                </button>
-              </div>
-            ) : (
-              // 明细视图
-              <div className="h-full flex flex-col animate-in fade-in duration-300">
+          // 明细视图
+          <div className="h-full flex flex-col animate-in fade-in duration-300">
                 <div className="p-4 border-b border-cyan-500/20">
                   <div className="grid grid-cols-4 gap-3">
                     <div className={cn('rounded-lg p-3 border', DASHBOARD_STYLES.cardBorder)}>
@@ -1560,8 +1474,6 @@ export default function RiskIdentificationPanel({
                 </div>
               </div>
             )}
-          </>
-        )}
       </div>
     </div>
   );
