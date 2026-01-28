@@ -23,8 +23,8 @@ interface LargeProjectDependency {
   projectName: string;
   projectId: string;
   amount: number;
-  dependentProjects: string[];
-  dependencyCount: number;
+  predictionAmount: number; // 当月预测金额
+  predictionRatio: number; // 占预测金额的比例（百分比）
   region: string;
   owner: string;
   status: 'normal' | 'highRisk' | 'critical';
@@ -98,11 +98,11 @@ interface RiskIdentificationPanelProps {
 // ==================== 默认数据 ====================
 
 const defaultLargeProjectDependencies: LargeProjectDependency[] = [
-  { projectName: '北京地铁17号线', projectId: 'PRJ-001', amount: 1200, dependentProjects: ['地铁站点A', '地铁站点B', '控制中心'], dependencyCount: 3, region: '华北', owner: '张明', status: 'highRisk' },
-  { projectName: '上海国际机场T4', projectId: 'PRJ-002', amount: 850, dependentProjects: ['航站楼A', '航站楼B'], dependencyCount: 2, region: '一区', owner: '李娜', status: 'normal' },
-  { projectName: '深圳科技园', projectId: 'PRJ-003', amount: 680, dependentProjects: ['研发中心', '数据中心', '展示中心'], dependencyCount: 3, region: '华南', owner: '王强', status: 'critical' },
-  { projectName: '广州高铁南站', projectId: 'PRJ-004', amount: 560, dependentProjects: ['候车厅', '商业区'], dependencyCount: 2, region: '华南', owner: '赵芳', status: 'highRisk' },
-  { projectName: '杭州亚运会场馆', projectId: 'PRJ-005', amount: 450, dependentProjects: ['体育馆', '游泳馆'], dependencyCount: 2, region: '二区', owner: '孙伟', status: 'normal' }
+  { projectName: '北京地铁17号线', projectId: 'PRJ-001', amount: 1200, predictionAmount: 2000, predictionRatio: 60, region: '华北', owner: '张明', status: 'highRisk' },
+  { projectName: '上海国际机场T4', projectId: 'PRJ-002', amount: 850, predictionAmount: 1500, predictionRatio: 57, region: '一区', owner: '李娜', status: 'normal' },
+  { projectName: '深圳科技园', projectId: 'PRJ-003', amount: 680, predictionAmount: 1200, predictionRatio: 57, region: '华南', owner: '王强', status: 'critical' },
+  { projectName: '广州高铁南站', projectId: 'PRJ-004', amount: 560, predictionAmount: 1000, predictionRatio: 56, region: '华南', owner: '赵芳', status: 'highRisk' },
+  { projectName: '杭州亚运会场馆', projectId: 'PRJ-005', amount: 450, predictionAmount: 800, predictionRatio: 56, region: '二区', owner: '孙伟', status: 'normal' }
 ];
 
 const defaultStageStagnations: StageStagnation[] = [
@@ -855,8 +855,8 @@ export default function RiskIdentificationPanel({
                       <tr className={cn('text-xs border-b', DASHBOARD_STYLES.cardBorder)}>
                         <th className={cn('text-left py-2 px-3 font-medium', DASHBOARD_STYLES.textSecondary)}>项目名称</th>
                         <th className={cn('text-left py-2 px-3 font-medium', DASHBOARD_STYLES.textSecondary)}>金额</th>
-                        <th className={cn('text-left py-2 px-3 font-medium', DASHBOARD_STYLES.textSecondary)}>依赖数</th>
-                        <th className={cn('text-left py-2 px-3 font-medium', DASHBOARD_STYLES.textSecondary)}>依赖项目</th>
+                        <th className={cn('text-left py-2 px-3 font-medium', DASHBOARD_STYLES.textSecondary)}>预测金额</th>
+                        <th className={cn('text-left py-2 px-3 font-medium', DASHBOARD_STYLES.textSecondary)}>占比</th>
                         <th className={cn('text-left py-2 px-3 font-medium', DASHBOARD_STYLES.textSecondary)}>区域</th>
                         <th className={cn('text-left py-2 px-3 font-medium', DASHBOARD_STYLES.textSecondary)}>负责人</th>
                         <th className={cn('text-center py-2 px-3 font-medium', DASHBOARD_STYLES.textSecondary)}>状态</th>
@@ -876,13 +876,16 @@ export default function RiskIdentificationPanel({
                             <div className={cn('text-xs', DASHBOARD_STYLES.textMuted)}>{item.projectId}</div>
                           </td>
                           <td className={cn('py-2 px-3', DASHBOARD_STYLES.textSecondary)}>{item.amount.toFixed(0)}万</td>
-                          <td className={cn('py-2 px-3', DASHBOARD_STYLES.textSecondary)}>{item.dependencyCount}</td>
+                          <td className={cn('py-2 px-3', DASHBOARD_STYLES.textSecondary)}>{item.predictionAmount}万</td>
                           <td className={cn('py-2 px-3', DASHBOARD_STYLES.textSecondary)}>
-                            <div className="text-xs space-y-1">
-                              {item.dependentProjects.map((dep: string, idx: number) => (
-                                <div key={idx} className={cn(DASHBOARD_STYLES.textMuted)}>{dep}</div>
-                              ))}
-                            </div>
+                            <span className={cn(
+                              'px-2 py-1 rounded text-xs font-medium',
+                              item.predictionRatio >= 60 ? 'bg-red-500/20 text-red-400' :
+                              item.predictionRatio >= 55 ? 'bg-orange-500/20 text-orange-400' :
+                              'bg-yellow-500/20 text-yellow-400'
+                            )}>
+                              {item.predictionRatio}%
+                            </span>
                           </td>
                           <td className={cn('py-2 px-3', DASHBOARD_STYLES.textSecondary)}>{item.region}</td>
                           <td className={cn('py-2 px-3', DASHBOARD_STYLES.textSecondary)}>{item.owner}</td>
