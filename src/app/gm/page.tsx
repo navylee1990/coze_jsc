@@ -658,10 +658,8 @@ export default function GMDashboard() {
                 </div>
               </div>
 
-              {/* 核心数据展示 - 左右两列布局 */}
-              <div className="grid grid-cols-1 lg:grid-cols-12 gap-3 sm:gap-4 mb-4">
-                {/* 左侧：目标达成率 (5/12 ≈ 41.67%) */}
-                <div className="lg:col-span-5 space-y-3 sm:space-y-4">
+              {/* 核心数据展示 - 汽车仪表盘样式 */}
+              <div className="grid grid-cols-2 gap-3 sm:gap-4 mb-4">
                 {/* 仪表盘1 - 达成率 */}
                 <div className="relative">
                   <div
@@ -929,16 +927,13 @@ export default function GMDashboard() {
                   </div>
                 </div>
               </div>
-                </div>
 
-                {/* 右侧：趋势分析 (7/12 ≈ 58.33%) */}
-                <div className="lg:col-span-7">
               {/* 趋势图表 */}
-              <div className="bg-slate-800/30 rounded-xl p-2.5 sm:p-3 border border-cyan-400/10 h-full flex flex-col">
+              <div className="bg-slate-800/30 rounded-xl p-2.5 sm:p-3 border border-cyan-400/10">
                 <div className="mb-1.5">
                   <h4 className={`text-xs sm:text-sm font-semibold ${DASHBOARD_STYLES.neon}`}>趋势分析</h4>
                 </div>
-                <div className="flex-1" style={{ minHeight: '280px' }}>
+                <div style={{ height: '230px' }}>
                   <ResponsiveContainer width="100%" height="100%">
                     <AreaChart data={forecastTrendData}>
                       <CartesianGrid strokeDasharray="3 3" stroke="rgba(6,182,212,0.1)" vertical={false} />
@@ -1020,7 +1015,6 @@ export default function GMDashboard() {
                   </ResponsiveContainer>
                 </div>
               </div>
-                </div>
             </div>
 
             {/* 未来支撑充分性面板 */}
