@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useMemo } from 'react';
-import { Activity, ArrowLeft, TrendingUp, TrendingDown, Minus, Crown, Medal, Award, User, ChevronLeft, ChevronRight } from 'lucide-react';
+import { Activity, ArrowLeft, TrendingUp, TrendingDown, Minus, Crown, Medal, Award, User, ChevronLeft, ChevronRight, Send } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
 interface RegionMatrixProps {
@@ -284,6 +284,27 @@ export default function RegionMatrix({
               </span>
             </h3>
           </div>
+        </div>
+        
+        {/* 补预测按钮 */}
+        <div className="flex-shrink-0">
+          <button
+            onClick={() => alert(`补预测：生成区域达成补充预测方案\n\n共 ${currentData.length} 个${drillDownLevel === 'region' ? '区域' : drillDownLevel === 'city' ? '城市' : '业务员'}，预计生成补充预测`)}
+            className={cn(
+              'flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium transition-all',
+              'bg-gradient-to-br from-cyan-500/30 to-blue-500/20',
+              'border-2 border-cyan-500/50',
+              'text-cyan-300',
+              'shadow-[0_0_20px_rgba(6,182,212,0.4)]',
+              'hover:from-cyan-500/50 hover:to-blue-500/30',
+              'hover:shadow-[0_0_30px_rgba(6,182,212,0.6)]',
+              'hover:scale-105',
+              'active:scale-95'
+            )}
+          >
+            <TrendingDown className="w-3.5 h-3.5" />
+            <span>补预测</span>
+          </button>
         </div>
       </div>
 
