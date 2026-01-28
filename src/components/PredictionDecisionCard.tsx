@@ -84,6 +84,14 @@ export default function PredictionDecisionCard({
 
   // 启动动画
   useEffect(() => {
+    // 重置动画状态
+    setAnimatedRate(0);
+    setAnimatedActualRate(0);
+    setAnimatedForecastGap(0);
+    setAnimatedForecast(0);
+    setAnimatedCompleted(0);
+    setNeedleAngle(-90);
+
     setMounted(true);
 
     // 1. 达成率动画
@@ -162,7 +170,7 @@ export default function PredictionDecisionCard({
     animateForecastGap();
     animateNeedle();
     animateNumbers();
-  }, []);
+  }, [timeRange, target, forecast, completed, achievementRate, actualAchievementRate, forecastGap]);
 
   // 主仪表盘组件
   const MainGauge = ({
