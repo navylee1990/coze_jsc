@@ -852,7 +852,7 @@ export default function RiskIdentificationPanel({
                 <div className="flex-1 overflow-auto p-3 bg-gradient-to-b from-slate-900/50 to-transparent">
                   <table className="w-full">
                     <thead className="sticky top-0 bg-slate-900/95 backdrop-blur-sm z-10">
-                      <tr className={cn('text-xs border-b border-cyan-500/30', DASHBOARD_STYLES.cardBorder)}>
+                      <tr className={cn('text-sm border-b border-cyan-500/30', DASHBOARD_STYLES.cardBorder)}>
                         <th className={cn('text-center py-2 px-3 font-medium w-16 text-cyan-300 drop-shadow-[0_0_5px_rgba(6,182,212,0.5)]')}>序号</th>
                         <th className={cn('text-left py-2 px-3 font-medium text-cyan-300 drop-shadow-[0_0_5px_rgba(6,182,212,0.5)]')}>预计下单</th>
                         <th className={cn('text-left py-2 px-3 font-medium text-cyan-300 drop-shadow-[0_0_5px_rgba(6,182,212,0.5)]')}>项目名称</th>
@@ -871,14 +871,14 @@ export default function RiskIdentificationPanel({
                           )}
                         >
                           {/* 序号 */}
-                          <td className={cn('text-center py-2 px-3 text-xs text-cyan-300 align-middle')}>
+                          <td className={cn('text-center py-2 px-3 text-sm text-cyan-300 align-middle')}>
                             <div className="inline-flex items-center justify-center w-6 h-6 rounded-full bg-cyan-500/10 border border-cyan-500/30">
                               {(currentPage - 1) * 5 + index + 1}
                             </div>
                           </td>
 
                           {/* 预计下单时间 */}
-                          <td className={cn('py-2 px-3 text-xs whitespace-nowrap text-cyan-200 align-middle')}>
+                          <td className={cn('py-2 px-3 text-sm whitespace-nowrap text-cyan-200 align-middle')}>
                             <div className="flex items-center gap-1.5">
                               <Clock className="w-3 h-3 text-cyan-400/70" />
                               {item.expectedOrderDate || '-'}
@@ -886,17 +886,17 @@ export default function RiskIdentificationPanel({
                           </td>
 
                           {/* 项目名称 */}
-                          <td className={cn('py-2 px-3 text-xs', DASHBOARD_STYLES.textSecondary, 'align-middle')}>
+                          <td className={cn('py-2 px-3 text-sm', DASHBOARD_STYLES.textSecondary, 'align-middle')}>
                             <div className="font-medium leading-snug text-cyan-100">{item.name}</div>
                           </td>
 
                           {/* 大区 */}
-                          <td className={cn('hidden lg:table-cell py-2 px-3 text-xs text-cyan-200 align-middle')}>
+                          <td className={cn('hidden lg:table-cell py-2 px-3 text-sm text-cyan-200 align-middle')}>
                             {item.region || '-'}
                           </td>
 
                           {/* 销售工程师 */}
-                          <td className={cn('hidden md:table-cell py-2 px-3 text-xs text-cyan-200 align-middle')}>
+                          <td className={cn('hidden md:table-cell py-2 px-3 text-sm text-cyan-200 align-middle')}>
                             {item.salesEngineer || '-'}
                           </td>
 
@@ -905,7 +905,7 @@ export default function RiskIdentificationPanel({
                             <span className="font-black text-orange-400 drop-shadow-[0_0_6px_rgba(251,146,60,0.6)]">
                               {item.amount.toFixed(2)}
                             </span>
-                            <span className={cn('text-xs ml-1 text-orange-300/70')}>万</span>
+                            <span className={cn('text-sm ml-1 text-orange-300/70')}>万</span>
                           </td>
                         </tr>
                       ))}
@@ -1038,7 +1038,7 @@ export default function RiskIdentificationPanel({
             <div className="flex-1 overflow-auto p-3 bg-gradient-to-b from-slate-900/50 to-transparent">
                   <table className="w-full">
                     <thead className="sticky top-0 bg-slate-900/95 backdrop-blur-sm z-10">
-                      <tr className={cn('text-xs border-b border-cyan-500/30', DASHBOARD_STYLES.cardBorder)}>
+                      <tr className={cn('text-sm border-b border-cyan-500/30', DASHBOARD_STYLES.cardBorder)}>
                         <th className={cn('text-left py-2 px-3 font-medium text-cyan-300 drop-shadow-[0_0_5px_rgba(6,182,212,0.5)]')}>项目名称</th>
                         <th className={cn('text-left py-2 px-3 font-medium text-cyan-300 drop-shadow-[0_0_5px_rgba(6,182,212,0.5)]')}>金额</th>
                         <th className={cn('text-left py-2 px-3 font-medium text-cyan-300 drop-shadow-[0_0_5px_rgba(6,182,212,0.5)]')}>预测金额</th>
@@ -1057,12 +1057,12 @@ export default function RiskIdentificationPanel({
                             index === getPaginatedLargeProjectDependencies().length - 1 && 'border-b-0'
                           )}
                         >
-                          <td className={cn('py-2 px-3 text-xs', DASHBOARD_STYLES.textSecondary, 'align-middle')}>
+                          <td className={cn('py-2 px-3 text-sm', DASHBOARD_STYLES.textSecondary, 'align-middle')}>
                             <div className="font-medium leading-snug text-cyan-100">{item.projectName}</div>
                           </td>
-                          <td className={cn('py-2 px-3 text-xs text-cyan-200 align-middle')}>{item.amount.toFixed(0)}万</td>
-                          <td className={cn('py-2 px-3 text-xs text-cyan-200 align-middle')}>{item.predictionAmount}万</td>
-                          <td className={cn('py-2 px-3 text-xs', DASHBOARD_STYLES.textSecondary, 'align-middle')}>
+                          <td className={cn('py-2 px-3 text-sm text-cyan-200 align-middle')}>{item.amount.toFixed(0)}万</td>
+                          <td className={cn('py-2 px-3 text-sm text-cyan-200 align-middle')}>{item.predictionAmount}万</td>
+                          <td className={cn('py-2 px-3 text-sm', DASHBOARD_STYLES.textSecondary, 'align-middle')}>
                             <span className={cn(
                               'px-2 py-1 rounded text-xs font-medium',
                               item.predictionRatio >= 60 ? 'bg-red-500/20 text-red-400' :
@@ -1072,9 +1072,9 @@ export default function RiskIdentificationPanel({
                               {item.predictionRatio}%
                             </span>
                           </td>
-                          <td className={cn('py-2 px-3 text-xs text-cyan-200 align-middle')}>{item.region}</td>
-                          <td className={cn('py-2 px-3 text-xs text-cyan-200 align-middle')}>{item.owner}</td>
-                          <td className={cn('py-2 px-3 text-center text-xs', DASHBOARD_STYLES.textSecondary, 'align-middle')}>
+                          <td className={cn('py-2 px-3 text-sm text-cyan-200 align-middle')}>{item.region}</td>
+                          <td className={cn('py-2 px-3 text-sm text-cyan-200 align-middle')}>{item.owner}</td>
+                          <td className={cn('py-2 px-3 text-center text-sm', DASHBOARD_STYLES.textSecondary, 'align-middle')}>
                             <span className={cn('px-2 py-1 rounded text-xs font-medium', getStatusStyles(item.status))}>
                               {item.status === 'critical' ? '紧急' : item.status === 'highRisk' ? '高风险' : '正常'}
                             </span>
@@ -1086,7 +1086,7 @@ export default function RiskIdentificationPanel({
                 </div>
 
                 <div className="px-4 py-2 border-t border-cyan-500/20 flex justify-between items-center bg-gradient-to-r from-slate-900/50 to-transparent">
-                  <div className={cn('text-xs flex items-center gap-2', DASHBOARD_STYLES.textMuted)}>
+                  <div className={cn('text-sm flex items-center gap-2', DASHBOARD_STYLES.textMuted)}>
                     <Activity className="w-3 h-3 text-cyan-400/70" />
                     共 {largeProjectDependencies.length} 条记录，当前第 {currentPage} / {totalPages} 页
                   </div>
