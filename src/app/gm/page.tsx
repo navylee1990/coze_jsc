@@ -446,7 +446,7 @@ export default function GMDashboard() {
           )}>
             <div className={cn(
               `${DASHBOARD_STYLES.cardBg} ${DASHBOARD_STYLES.cardBorder} rounded-xl p-0 ${DASHBOARD_STYLES.glow}`,
-              'h-[420px]'
+              'h-[500px]'
             )}>
               <PredictionDecisionCard theme="dashboard" timeRange={selectedTimeRange} />
             </div>
@@ -464,7 +464,7 @@ export default function GMDashboard() {
               'shadow-[0_0_40px_rgba(239,68,68,0.4)]',
               'hover:shadow-[0_0_50px_rgba(239,68,68,0.5)]',
               'transition-shadow duration-300',
-              'h-[420px]'
+              'h-[500px]'
             )}>
               <RiskIdentificationPanel theme="dashboard" timeRange={selectedTimeRange} />
             </div>
