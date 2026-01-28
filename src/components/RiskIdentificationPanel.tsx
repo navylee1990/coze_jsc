@@ -1285,7 +1285,6 @@ export default function RiskIdentificationPanel({
                   <Pagination currentPage={currentPage} totalPages={totalPages} onPageChange={setCurrentPage} />
                 </div>
               </div>
-              </div>
             )}
       </div>
 
