@@ -389,7 +389,7 @@ export default function PredictionDecisionCard({
   const MonthlyTrendChart = () => {
     return (
       <div className="h-full flex flex-col justify-end">
-        <div className="h-[80%] flex flex-col">
+        <div className="h-[90%] flex flex-col">
           {/* 图例 */}
           <div className="flex items-center justify-center gap-5 mb-8 px-2">
           <div className="flex items-center gap-2">
