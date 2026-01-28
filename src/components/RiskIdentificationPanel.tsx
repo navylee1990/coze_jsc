@@ -48,6 +48,17 @@ interface UnorderedProject {
   riskReason: string; // 未下单原因
 }
 
+// 6. 预测不足数据
+interface ForecastGap {
+  projectName: string;
+  region: string;
+  owner: string;
+  gapAmount: number; // 缺口金额（万元）
+  currentForecast: number; // 当前预测金额
+  targetForecast: number; // 目标预测金额
+  gapPercentage: number; // 缺口百分比
+}
+
 // 组件属性
 interface RiskIdentificationPanelProps {
   largeProjectDependencies?: LargeProjectDependency[];
@@ -221,17 +232,6 @@ const getStatusStyles = (status: 'normal' | 'highRisk' | 'critical') => {
       return 'bg-green-500/30 text-green-300 border-green-500/50';
   }
 };
-
-// 6. 预测不足数据
-interface ForecastGap {
-  projectName: string;
-  region: string;
-  owner: string;
-  gapAmount: number; // 缺口金额（万元）
-  currentForecast: number; // 当前预测金额
-  targetForecast: number; // 目标预测金额
-  gapPercentage: number; // 缺口百分比
-}
 
 // ==================== 仪表盘组件 ====================
 
@@ -564,7 +564,9 @@ export default function RiskIdentificationPanel({
     return largeProjectDependencies.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage);
   };
   const getPaginatedForecastGaps = () => {
-    return forecastGaps.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage);
+    const result = forecastGaps.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage);
+    console.log('getPaginatedForecastGaps:', { currentPage, itemsPerPage, forecastGaps: forecastGaps.length, result: result.length });
+    return result;
   };
   const getPaginatedUnorderedProjects = () => {
     return filteredUnorderedProjects.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage);
@@ -1234,7 +1236,7 @@ export default function RiskIdentificationPanel({
                           {/* 序号 */}
                           <td className={cn('text-center py-2 px-3 text-sm text-yellow-300 align-middle')}>
                             <div className="inline-flex items-center justify-center w-6 h-6 rounded-full bg-yellow-500/10 border border-yellow-500/30">
-                              {(currentPage - 1) * 5 + index + 1}
+                              {(currentPage - 1) * itemsPerPage + index + 1}
                             </div>
                           </td>
 
