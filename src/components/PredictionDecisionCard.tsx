@@ -388,7 +388,7 @@ export default function PredictionDecisionCard({
   // 月度趋势曲线图（使用recharts组件）
   const MonthlyTrendChart = () => {
     return (
-      <div className="h-full flex flex-col">
+      <div className="h-[80%] flex flex-col">
         {/* 图例 */}
         <div className="flex items-center justify-center gap-5 mb-3 px-2">
           <div className="flex items-center gap-2">
@@ -747,16 +747,12 @@ export default function PredictionDecisionCard({
     style={{ height: '500px', display: 'flex', flexDirection: 'column' }}
     >
       {/* 标题栏 */}
-      <div className="mb-4 flex items-center justify-between flex-shrink-0">
+      <div className="mb-4 flex items-center flex-shrink-0">
         <div className="flex items-center gap-3">
           <TrendingUp className={cn('w-5 h-5', DASHBOARD_STYLES.neon)} />
           <h2 className={cn('text-lg font-bold', DASHBOARD_STYLES.neon)}>
             核心预测
           </h2>
-        </div>
-        <div className="flex items-center gap-2 text-sm text-cyan-400/60">
-          <Clock className="w-3.5 h-3.5" />
-          <span>实时数据</span>
         </div>
       </div>
 
