@@ -43,31 +43,21 @@ const TIME_RANGE_DATA = {
   },
 };
 
-// 不同时间范围的月度趋势数据
-const MONTHLY_TREND_DATA = {
-  current: [
-    { month: '1月', businessTarget: 1500, financialTarget: 1200, completed: 800, forecast: 900 },
-  ],
-  quarter: [
-    { month: '1月', businessTarget: 1500, financialTarget: 1200, completed: 800, forecast: 900 },
-    { month: '2月', businessTarget: 1500, financialTarget: 1200, completed: 0, forecast: 950 },
-    { month: '3月', businessTarget: 1500, financialTarget: 1200, completed: 0, forecast: 880 },
-  ],
-  year: [
-    { month: '1月', businessTarget: 1500, financialTarget: 1200, completed: 800, forecast: 900 },
-    { month: '2月', businessTarget: 1500, financialTarget: 1200, completed: 0, forecast: 950 },
-    { month: '3月', businessTarget: 1500, financialTarget: 1200, completed: 0, forecast: 880 },
-    { month: '4月', businessTarget: 1500, financialTarget: 1200, completed: 0, forecast: 920 },
-    { month: '5月', businessTarget: 1500, financialTarget: 1200, completed: 0, forecast: 960 },
-    { month: '6月', businessTarget: 1500, financialTarget: 1200, completed: 0, forecast: 910 },
-    { month: '7月', businessTarget: 1500, financialTarget: 1200, completed: 0, forecast: 930 },
-    { month: '8月', businessTarget: 1500, financialTarget: 1200, completed: 0, forecast: 890 },
-    { month: '9月', businessTarget: 1500, financialTarget: 1200, completed: 0, forecast: 940 },
-    { month: '10月', businessTarget: 1500, financialTarget: 1200, completed: 0, forecast: 970 },
-    { month: '11月', businessTarget: 1500, financialTarget: 1200, completed: 0, forecast: 920 },
-    { month: '12月', businessTarget: 1500, financialTarget: 1200, completed: 0, forecast: 880 },
-  ],
-};
+// 月度趋势数据（固定显示12个月，不受时间范围影响）
+const monthlyTrendData = [
+  { month: '1月', businessTarget: 1500, financialTarget: 1200, completed: 800, forecast: 900 },
+  { month: '2月', businessTarget: 1500, financialTarget: 1200, completed: 0, forecast: 950 },
+  { month: '3月', businessTarget: 1500, financialTarget: 1200, completed: 0, forecast: 880 },
+  { month: '4月', businessTarget: 1500, financialTarget: 1200, completed: 0, forecast: 920 },
+  { month: '5月', businessTarget: 1500, financialTarget: 1200, completed: 0, forecast: 960 },
+  { month: '6月', businessTarget: 1500, financialTarget: 1200, completed: 0, forecast: 910 },
+  { month: '7月', businessTarget: 1500, financialTarget: 1200, completed: 0, forecast: 930 },
+  { month: '8月', businessTarget: 1500, financialTarget: 1200, completed: 0, forecast: 890 },
+  { month: '9月', businessTarget: 1500, financialTarget: 1200, completed: 0, forecast: 940 },
+  { month: '10月', businessTarget: 1500, financialTarget: 1200, completed: 0, forecast: 970 },
+  { month: '11月', businessTarget: 1500, financialTarget: 1200, completed: 0, forecast: 920 },
+  { month: '12月', businessTarget: 1500, financialTarget: 1200, completed: 0, forecast: 880 },
+];
 
 export default function PredictionDecisionCard({
   theme = 'dashboard',
@@ -81,7 +71,6 @@ export default function PredictionDecisionCard({
   const achievementRate = Math.round((forecast / target) * 100); // 预计达成率 %
   const actualAchievementRate = Math.round((completed / target) * 100); // 实际达成率 %
   const forecastGap = target - forecast; // 预计缺口（万元）
-  const monthlyTrendData = MONTHLY_TREND_DATA[timeRange];
 
   // 动画状态
   const [animatedRate, setAnimatedRate] = useState(0);
