@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect, useMemo } from 'react';
-import { AlertTriangle, Building2, Clock, TrendingDown, Users, ChevronRight, ChevronLeft, PauseCircle, Gauge, Circle, Target, BarChart3, ArrowLeft, Activity, DollarSign, XCircle, Send, FileText, PlusCircle } from 'lucide-react';
+import { AlertTriangle, Building2, Clock, TrendingDown, Users, ChevronRight, ChevronLeft, PauseCircle, Gauge, Circle, Target, BarChart3, ArrowLeft, Activity, DollarSign, XCircle, Send, FileText, PlusCircle, Zap, Pause, Play } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import ConfirmDialog from '@/components/ui/confirm-dialog';
 
@@ -59,11 +59,38 @@ interface ForecastGap {
   gapPercentage: number; // 缺口百分比
 }
 
+// 7. 转化不足数据（项目报备一直没有进入下一阶段）
+interface InsufficientConversion {
+  projectName: string;
+  region: string;
+  salesEngineer: string;
+  cityManager: string;
+  currentPhase: string; // 当前阶段
+  stayDays: number; // 停留天数
+  amount: number; // 金额
+  riskReason: string; // 转化不足原因
+}
+
+// 8. 阶段停滞数据（项目在某个阶段停滞）
+interface PhaseStagnation {
+  projectName: string;
+  region: string;
+  salesEngineer: string;
+  cityManager: string;
+  currentPhase: string; // 当前阶段
+  stayDays: number; // 停留天数
+  amount: number; // 金额
+  riskLevel: 'high' | 'medium' | 'low'; // 风险等级
+  nextPhase?: string; // 下一阶段
+}
+
 // 组件属性
 interface RiskIdentificationPanelProps {
   largeProjectDependencies?: LargeProjectDependency[];
   forecastGaps?: ForecastGap[];
   unorderedProjects?: UnorderedProject[];
+  insufficientConversions?: InsufficientConversion[];
+  phaseStagnations?: PhaseStagnation[];
   theme?: 'dashboard' | 'light' | 'dark';
   timeRange?: 'current' | 'quarter' | 'year';
 }
@@ -84,6 +111,119 @@ const defaultForecastGaps: ForecastGap[] = [
   { projectName: '杭州阿里巴巴园区二期', region: '二区', owner: '刘芳', gapAmount: 180, currentForecast: 220, targetForecast: 400, gapPercentage: 45 },
   { projectName: '广州白云机场T3扩建', region: '华南', owner: '王强', gapAmount: 120, currentForecast: 180, targetForecast: 300, gapPercentage: 40 },
   { projectName: '北京大兴机场配套二期', region: '华北', owner: '张伟', gapAmount: 100, currentForecast: 150, targetForecast: 250, gapPercentage: 40 }
+];
+
+// 默认转化不足数据
+const defaultInsufficientConversions: InsufficientConversion[] = [
+  {
+    projectName: '上海浦东国际博览中心项目',
+    region: '一区',
+    salesEngineer: '刘洋',
+    cityManager: '陈明',
+    currentPhase: '项目报备',
+    stayDays: 15,
+    amount: 180,
+    riskReason: '报备后无跟进，客户需求不明确'
+  },
+  {
+    projectName: '广州天河城购物中心',
+    region: '华南',
+    salesEngineer: '陈静',
+    cityManager: '林婷',
+    currentPhase: '初步接洽',
+    stayDays: 12,
+    amount: 220,
+    riskReason: '初步接洽后客户反馈不及时'
+  },
+  {
+    projectName: '深圳前海自贸区',
+    region: '华南',
+    salesEngineer: '赵雪',
+    cityManager: '黄磊',
+    currentPhase: '现场勘察',
+    stayDays: 8,
+    amount: 150,
+    riskReason: '现场勘察未完成，技术方案待确认'
+  },
+  {
+    projectName: '杭州阿里巴巴园区',
+    region: '二区',
+    salesEngineer: '杨帆',
+    cityManager: '郑浩',
+    currentPhase: '需求意向',
+    stayDays: 10,
+    amount: 200,
+    riskReason: '需求意向不明确，客户预算未确定'
+  },
+  {
+    projectName: '北京中关村科技园',
+    region: '华北',
+    salesEngineer: '马龙',
+    cityManager: '张伟',
+    currentPhase: '方案设计',
+    stayDays: 18,
+    amount: 250,
+    riskReason: '方案设计反复修改，客户要求不明确'
+  }
+];
+
+// 默认阶段停滞数据
+const defaultPhaseStagnations: PhaseStagnation[] = [
+  {
+    projectName: '成都天府新区',
+    region: '西南',
+    salesEngineer: '胡燕',
+    cityManager: '吴敏',
+    currentPhase: '方案设计',
+    stayDays: 25,
+    amount: 120,
+    riskLevel: 'high',
+    nextPhase: '项目采购'
+  },
+  {
+    projectName: '重庆江北国际机场',
+    region: '西南',
+    salesEngineer: '杨洋',
+    cityManager: '孙丽',
+    currentPhase: '项目采购',
+    stayDays: 20,
+    amount: 300,
+    riskLevel: 'high',
+    nextPhase: '项目合同'
+  },
+  {
+    projectName: '西安高新区',
+    region: '西南',
+    salesEngineer: '赵峰',
+    cityManager: '王芳',
+    currentPhase: '项目合同',
+    stayDays: 15,
+    amount: 180,
+    riskLevel: 'medium',
+    nextPhase: '赢单'
+  },
+  {
+    projectName: '武汉绿地中心',
+    region: '华中',
+    salesEngineer: '郑浩',
+    cityManager: '李强',
+    currentPhase: '需求意向',
+    stayDays: 12,
+    amount: 150,
+    riskLevel: 'medium',
+    nextPhase: '方案设计'
+  },
+  {
+    projectName: '长沙五一广场',
+    region: '华中',
+    salesEngineer: '吴敏',
+    cityManager: '王伟',
+    currentPhase: '初步接洽',
+    stayDays: 10,
+    amount: 100,
+    riskLevel: 'low',
+    nextPhase: '现场勘察'
+  }
 ];
 
 const defaultUnorderedProjects: UnorderedProject[] = [
@@ -457,6 +597,8 @@ export default function RiskIdentificationPanel({
   largeProjectDependencies = defaultLargeProjectDependencies,
   forecastGaps = defaultForecastGaps,
   unorderedProjects = defaultUnorderedProjects,
+  insufficientConversions = defaultInsufficientConversions,
+  phaseStagnations = defaultPhaseStagnations,
   theme = 'dashboard',
   timeRange = 'current'
 }: RiskIdentificationPanelProps) {
@@ -501,7 +643,9 @@ export default function RiskIdentificationPanel({
     { id: 2, label: '预测不足', icon: TrendingDown },
     { id: 0, label: '未按计划下单', icon: XCircle },
     { id: 1, label: '大项目依赖', icon: Building2 },
-    { id: 3, label: '报项目', icon: PlusCircle }
+    { id: 3, label: '报项目', icon: PlusCircle },
+    { id: 4, label: '转化不足', icon: Zap },
+    { id: 5, label: '阶段停滞', icon: Pause }
   ];
 
   // 根据时间维度显示的 Tabs
@@ -1446,6 +1590,389 @@ export default function RiskIdentificationPanel({
                   <div className="invisible">
                     {/* 占位分页控件 */}
                     <span className="text-sm">◀ 1 / 1 ▶</span>
+                  </div>
+                </div>
+              </div>
+            )}
+
+        {/* ============ Tab 4: 转化不足 ============ */}
+        {currentTab === 4 && (
+          // 明细视图
+          <div className="h-full flex flex-col animate-in fade-in duration-300">
+                {/* 顶部仪表盘风格指标卡片 - 粉色效果 */}
+                <div className={cn(
+                  'p-3 relative overflow-hidden',
+                  'bg-gradient-to-br from-pink-950/40 via-slate-900 to-slate-900',
+                  'border-b-2 border-pink-500/50',
+                  'shadow-[0_0_20px_rgba(236,72,153,0.3)]'
+                )}>
+                  {/* 背景装饰网格 */}
+                  <div className="absolute inset-0 opacity-10" style={{
+                    backgroundImage: `
+                      linear-gradient(rgba(236,72,153,0.2) 1px, transparent 1px),
+                      linear-gradient(90deg, rgba(236,72,153,0.2) 1px, transparent 1px)
+                    `,
+                    backgroundSize: '20px 20px'
+                  }}></div>
+
+                  {/* 顶部发光线条 - 粉色 */}
+                  <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-transparent via-pink-500 to-transparent animate-pulse"></div>
+                  
+                  <div className="relative z-10 grid grid-cols-3 gap-3">
+                    {/* 待转化项目数卡片 */}
+                    <div className={cn(
+                      'relative rounded-xl p-2 overflow-hidden h-full flex flex-col items-center justify-center',
+                      'bg-gradient-to-br from-pink-900/50 to-pink-800/30',
+                      'border-2 border-pink-500/60',
+                      'shadow-[0_0_25px_rgba(236,72,153,0.5)]'
+                    )}>
+                      <div className="absolute top-0 right-0 w-20 h-20 bg-pink-500/20 rounded-full blur-3xl animate-pulse"></div>
+                      <div className="relative z-10 w-full flex flex-col items-center justify-center">
+                        <div className="flex items-center gap-2 mb-1.5">
+                          <Zap className="w-3.5 h-3.5 text-pink-400 drop-shadow-[0_0_10px_rgba(236,72,153,1)] animate-pulse" />
+                          <div className="text-xs font-bold text-pink-300">待转化项目数</div>
+                        </div>
+                        <div className="flex items-baseline gap-1">
+                          <span className="text-3xl font-black text-pink-400 drop-shadow-[0_0_15px_rgba(244,114,182,1)]">
+                            {insufficientConversions.length}
+                          </span>
+                          <span className="text-xs text-pink-300/80">个</span>
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* 总金额卡片 */}
+                    <div className={cn(
+                      'relative rounded-xl p-2 overflow-hidden h-full flex flex-col items-center justify-center',
+                      'bg-gradient-to-br from-rose-900/50 to-rose-800/30',
+                      'border-2 border-rose-500/60',
+                      'shadow-[0_0_25px_rgba(244,63,94,0.5)]'
+                    )}>
+                      <div className="absolute top-0 right-0 w-20 h-20 bg-rose-500/20 rounded-full blur-3xl animate-pulse"></div>
+                      <div className="relative z-10 w-full flex flex-col items-center justify-center">
+                        <div className="flex items-center gap-2 mb-1.5">
+                          <DollarSign className="w-3.5 h-3.5 text-rose-400 drop-shadow-[0_0_10px_rgba(244,63,94,1)] animate-pulse" />
+                          <div className="text-xs font-bold text-rose-300">总金额</div>
+                        </div>
+                        <div className="flex items-baseline gap-1">
+                          <span className="text-3xl font-black text-rose-400 drop-shadow-[0_0_15px_rgba(251,113,133,1)]">
+                            {insufficientConversions.reduce((sum, p) => sum + p.amount, 0).toFixed(0)}
+                          </span>
+                          <span className="text-xs text-rose-300/80">万</span>
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* 立即跟进按钮 - 增强效果 */}
+                    <div className={cn(
+                      'relative rounded-xl p-2 overflow-hidden cursor-pointer group h-full flex flex-col items-center justify-center',
+                      'border-2 border-pink-500/70',
+                      'bg-gradient-to-br from-pink-900/30 to-rose-900/20',
+                      'hover:from-pink-900/50 hover:to-rose-900/30',
+                      'shadow-[0_0_30px_rgba(236,72,153,0.5)]',
+                      'hover:shadow-[0_0_40px_rgba(236,72,153,0.7)]',
+                      'transition-all duration-300'
+                    )}
+                         onClick={() => openDialog({
+                           title: '立即跟进',
+                           description: `确定要立即跟进待转化项目吗？\n\n共 ${insufficientConversions.length} 个项目，总金额 ${insufficientConversions.reduce((sum, p) => sum + p.amount, 0).toFixed(0)} 万元`,
+                           confirmText: '确认跟进',
+                           cancelText: '取消',
+                           onConfirm: async () => {
+                             // TODO: 实际的跟进逻辑
+                             console.log('跟进操作已执行');
+                           },
+                           type: 'info'
+                         })}>
+                      {/* 按钮发光效果 */}
+                      <div className="absolute inset-0 bg-gradient-to-r from-pink-500/30 to-rose-500/30 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                      <div className="absolute inset-0 border-2 border-pink-500/50 rounded-xl animate-pulse"></div>
+
+                      <div className="relative z-10 w-full flex flex-col items-center justify-center">
+                        <div className="flex items-center gap-1.5 mb-1.5">
+                          <div className="w-8 h-8 rounded-full bg-pink-500/40 border-2 border-pink-400/60 flex items-center justify-center group-hover:scale-110 transition-transform shadow-[0_0_15px_rgba(236,72,153,0.8)]">
+                            <Send className="w-4 h-4 text-pink-400 drop-shadow-[0_0_8px_rgba(236,72,153,1)]" />
+                          </div>
+                          <div className="text-base font-black text-pink-400 drop-shadow-[0_0_12px_rgba(244,114,182,1)]">立即跟进</div>
+                        </div>
+                        <div className="flex items-center gap-1">
+                          <div className="w-1.5 h-1.5 bg-pink-400 rounded-full animate-bounce" style={{animationDelay: '0ms'}}></div>
+                          <div className="w-1.5 h-1.5 bg-pink-400 rounded-full animate-bounce" style={{animationDelay: '150ms'}}></div>
+                          <div className="w-1.5 h-1.5 bg-pink-400 rounded-full animate-bounce" style={{animationDelay: '300ms'}}></div>
+                          <div className="text-xs text-pink-300 font-semibold">全部 {insufficientConversions.length} 个项目</div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                {/* 表格区域 */}
+                <div className="flex-1 overflow-auto p-3 bg-gradient-to-b from-slate-900/50 to-transparent">
+                  <table className="w-full">
+                    <thead className="sticky top-0 bg-slate-900/95 backdrop-blur-sm z-10">
+                      <tr className={cn('text-sm border-b border-pink-500/30', 'border-pink-500/20')}>
+                        <th className={cn('text-center py-2 px-3 font-medium w-16 text-pink-300 drop-shadow-[0_0_5px_rgba(236,72,153,0.5)]')}>序号</th>
+                        <th className={cn('text-left py-2 px-3 font-medium text-pink-300 drop-shadow-[0_0_5px_rgba(236,72,153,0.5)]')}>项目名称</th>
+                        <th className={cn('text-left py-2 px-3 font-medium hidden lg:table-cell text-pink-300 drop-shadow-[0_0_5px_rgba(236,72,153,0.5)]')}>当前阶段</th>
+                        <th className={cn('text-left py-2 px-3 font-medium hidden md:table-cell text-pink-300 drop-shadow-[0_0_5px_rgba(236,72,153,0.5)]')}>大区</th>
+                        <th className={cn('text-right py-2 px-3 font-medium text-pink-300 drop-shadow-[0_0_5px_rgba(236,72,153,0.5)]')}>停留天数</th>
+                        <th className={cn('text-right py-2 px-3 font-medium text-pink-300 drop-shadow-[0_0_5px_rgba(236,72,153,0.5)]')}>金额</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {insufficientConversions.map((item, index) => (
+                        <tr
+                          key={index}
+                          className={cn(
+                            'align-middle border-b border-pink-500/10 hover:bg-gradient-to-r hover:from-pink-500/10 hover:to-rose-500/10 transition-all duration-200',
+                            index === insufficientConversions.length - 1 && 'border-b-0'
+                          )}
+                        >
+                          {/* 序号 */}
+                          <td className={cn('text-center py-2 px-3 text-sm text-pink-300 align-middle')}>
+                            <div className="inline-flex items-center justify-center w-6 h-6 rounded-full bg-pink-500/10 border border-pink-500/30">
+                              {index + 1}
+                            </div>
+                          </td>
+
+                          {/* 项目名称 */}
+                          <td className={cn('py-2 px-3 text-sm', 'text-pink-200', 'align-middle')}>
+                            <div className="font-medium leading-snug text-pink-100">{item.projectName}</div>
+                          </td>
+
+                          {/* 当前阶段 */}
+                          <td className={cn('hidden lg:table-cell py-2 px-3 text-sm text-pink-200 align-middle')}>
+                            <span className={cn('px-2 py-1 rounded text-xs font-medium bg-pink-500/20 text-pink-300')}>{item.currentPhase}</span>
+                          </td>
+
+                          {/* 大区 */}
+                          <td className={cn('hidden md:table-cell py-2 px-3 text-sm text-pink-200 align-middle')}>
+                            {item.region || '-'}
+                          </td>
+
+                          {/* 停留天数 */}
+                          <td className={cn('text-right py-2 px-3 whitespace-nowrap text-pink-200 align-middle')}>
+                            <span className={cn(
+                              'font-bold',
+                              item.stayDays >= 15 ? 'text-red-400' : item.stayDays >= 10 ? 'text-orange-400' : 'text-pink-300'
+                            )}>{item.stayDays}</span>
+                            <span className="text-sm ml-1 text-pink-300/70">天</span>
+                          </td>
+
+                          {/* 金额 */}
+                          <td className={cn('text-right py-2 px-3 whitespace-nowrap', 'text-pink-200', 'align-middle')}>
+                            <span className="font-black text-pink-300">{item.amount.toFixed(0)}</span>
+                            <span className={cn('text-sm ml-1 text-pink-300/70')}>万</span>
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+
+                {/* 分页 */}
+                <div className="px-4 py-2 border-t border-pink-500/20 flex justify-between items-center bg-gradient-to-r from-slate-900/50 to-transparent">
+                  <div className={cn('text-xs flex items-center gap-2', 'text-pink-300/70')}>
+                    <Activity className="w-3 h-3 text-pink-400/70" />
+                    共 {insufficientConversions.length} 条记录
+                  </div>
+                </div>
+              </div>
+            )}
+
+        {/* ============ Tab 5: 阶段停滞 ============ */}
+        {currentTab === 5 && (
+          // 明细视图
+          <div className="h-full flex flex-col animate-in fade-in duration-300">
+                {/* 顶部仪表盘风格指标卡片 - 蓝灰色效果 */}
+                <div className={cn(
+                  'p-3 relative overflow-hidden',
+                  'bg-gradient-to-br from-slate-800/40 via-slate-900 to-slate-900',
+                  'border-b-2 border-slate-500/50',
+                  'shadow-[0_0_20px_rgba(148,163,184,0.3)]'
+                )}>
+                  {/* 背景装饰网格 */}
+                  <div className="absolute inset-0 opacity-10" style={{
+                    backgroundImage: `
+                      linear-gradient(rgba(148,163,184,0.2) 1px, transparent 1px),
+                      linear-gradient(90deg, rgba(148,163,184,0.2) 1px, transparent 1px)
+                    `,
+                    backgroundSize: '20px 20px'
+                  }}></div>
+
+                  {/* 顶部发光线条 - 蓝灰色 */}
+                  <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-transparent via-slate-500 to-transparent animate-pulse"></div>
+                  
+                  <div className="relative z-10 grid grid-cols-3 gap-3">
+                    {/* 停滞项目数卡片 */}
+                    <div className={cn(
+                      'relative rounded-xl p-2 overflow-hidden h-full flex flex-col items-center justify-center',
+                      'bg-gradient-to-br from-slate-800/50 to-slate-700/30',
+                      'border-2 border-slate-500/60',
+                      'shadow-[0_0_25px_rgba(148,163,184,0.5)]'
+                    )}>
+                      <div className="absolute top-0 right-0 w-20 h-20 bg-slate-500/20 rounded-full blur-3xl animate-pulse"></div>
+                      <div className="relative z-10 w-full flex flex-col items-center justify-center">
+                        <div className="flex items-center gap-2 mb-1.5">
+                          <Pause className="w-3.5 h-3.5 text-slate-400 drop-shadow-[0_0_10px_rgba(148,163,184,1)] animate-pulse" />
+                          <div className="text-xs font-bold text-slate-300">停滞项目数</div>
+                        </div>
+                        <div className="flex items-baseline gap-1">
+                          <span className="text-3xl font-black text-slate-400 drop-shadow-[0_0_15px_rgba(203,213,225,1)]">
+                            {phaseStagnations.length}
+                          </span>
+                          <span className="text-xs text-slate-300/80">个</span>
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* 总金额卡片 */}
+                    <div className={cn(
+                      'relative rounded-xl p-2 overflow-hidden h-full flex flex-col items-center justify-center',
+                      'bg-gradient-to-br from-stone-800/50 to-stone-700/30',
+                      'border-2 border-stone-500/60',
+                      'shadow-[0_0_25px_rgba(168,162,158,0.5)]'
+                    )}>
+                      <div className="absolute top-0 right-0 w-20 h-20 bg-stone-500/20 rounded-full blur-3xl animate-pulse"></div>
+                      <div className="relative z-10 w-full flex flex-col items-center justify-center">
+                        <div className="flex items-center gap-2 mb-1.5">
+                          <DollarSign className="w-3.5 h-3.5 text-stone-400 drop-shadow-[0_0_10px_rgba(168,162,158,1)] animate-pulse" />
+                          <div className="text-xs font-bold text-stone-300">总金额</div>
+                        </div>
+                        <div className="flex items-baseline gap-1">
+                          <span className="text-3xl font-black text-stone-400 drop-shadow-[0_0_15px_rgba(214,211,209,1)]">
+                            {phaseStagnations.reduce((sum, p) => sum + p.amount, 0).toFixed(0)}
+                          </span>
+                          <span className="text-xs text-stone-300/80">万</span>
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* 推进处理按钮 - 增强效果 */}
+                    <div className={cn(
+                      'relative rounded-xl p-2 overflow-hidden cursor-pointer group h-full flex flex-col items-center justify-center',
+                      'border-2 border-slate-500/70',
+                      'bg-gradient-to-br from-slate-800/30 to-stone-900/20',
+                      'hover:from-slate-800/50 hover:to-stone-900/30',
+                      'shadow-[0_0_30px_rgba(148,163,184,0.5)]',
+                      'hover:shadow-[0_0_40px_rgba(148,163,184,0.7)]',
+                      'transition-all duration-300'
+                    )}
+                         onClick={() => openDialog({
+                           title: '推进处理',
+                           description: `确定要推进停滞项目吗？\n\n共 ${phaseStagnations.length} 个项目，总金额 ${phaseStagnations.reduce((sum, p) => sum + p.amount, 0).toFixed(0)} 万元`,
+                           confirmText: '确认推进',
+                           cancelText: '取消',
+                           onConfirm: async () => {
+                             // TODO: 实际的推进逻辑
+                             console.log('推进操作已执行');
+                           },
+                           type: 'info'
+                         })}>
+                      {/* 按钮发光效果 */}
+                      <div className="absolute inset-0 bg-gradient-to-r from-slate-500/30 to-stone-500/30 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                      <div className="absolute inset-0 border-2 border-slate-500/50 rounded-xl animate-pulse"></div>
+
+                      <div className="relative z-10 w-full flex flex-col items-center justify-center">
+                        <div className="flex items-center gap-1.5 mb-1.5">
+                          <div className="w-8 h-8 rounded-full bg-slate-500/40 border-2 border-slate-400/60 flex items-center justify-center group-hover:scale-110 transition-transform shadow-[0_0_15px_rgba(148,163,184,0.8)]">
+                            <Play className="w-4 h-4 text-slate-400 drop-shadow-[0_0_8px_rgba(148,163,184,1)]" />
+                          </div>
+                          <div className="text-base font-black text-slate-400 drop-shadow-[0_0_12px_rgba(203,213,225,1)]">推进处理</div>
+                        </div>
+                        <div className="flex items-center gap-1">
+                          <div className="w-1.5 h-1.5 bg-slate-400 rounded-full animate-bounce" style={{animationDelay: '0ms'}}></div>
+                          <div className="w-1.5 h-1.5 bg-slate-400 rounded-full animate-bounce" style={{animationDelay: '150ms'}}></div>
+                          <div className="w-1.5 h-1.5 bg-slate-400 rounded-full animate-bounce" style={{animationDelay: '300ms'}}></div>
+                          <div className="text-xs text-slate-300 font-semibold">全部 {phaseStagnations.length} 个项目</div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                {/* 表格区域 */}
+                <div className="flex-1 overflow-auto p-3 bg-gradient-to-b from-slate-900/50 to-transparent">
+                  <table className="w-full">
+                    <thead className="sticky top-0 bg-slate-900/95 backdrop-blur-sm z-10">
+                      <tr className={cn('text-sm border-b border-slate-500/30', 'border-slate-500/20')}>
+                        <th className={cn('text-center py-2 px-3 font-medium w-16 text-slate-300 drop-shadow-[0_0_5px_rgba(148,163,184,0.5)]')}>序号</th>
+                        <th className={cn('text-left py-2 px-3 font-medium text-slate-300 drop-shadow-[0_0_5px_rgba(148,163,184,0.5)]')}>项目名称</th>
+                        <th className={cn('text-left py-2 px-3 font-medium hidden lg:table-cell text-slate-300 drop-shadow-[0_0_5px_rgba(148,163,184,0.5)]')}>当前阶段</th>
+                        <th className={cn('text-left py-2 px-3 font-medium hidden md:table-cell text-slate-300 drop-shadow-[0_0_5px_rgba(148,163,184,0.5)]')}>大区</th>
+                        <th className={cn('text-right py-2 px-3 font-medium text-slate-300 drop-shadow-[0_0_5px_rgba(148,163,184,0.5)]')}>停留天数</th>
+                        <th className={cn('text-right py-2 px-3 font-medium text-slate-300 drop-shadow-[0_0_5px_rgba(148,163,184,0.5)]')}>金额</th>
+                        <th className={cn('text-right py-2 px-3 font-medium text-slate-300 drop-shadow-[0_0_5px_rgba(148,163,184,0.5)]')}>风险等级</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {phaseStagnations.map((item, index) => (
+                        <tr
+                          key={index}
+                          className={cn(
+                            'align-middle border-b border-slate-500/10 hover:bg-gradient-to-r hover:from-slate-500/10 hover:to-stone-500/10 transition-all duration-200',
+                            index === phaseStagnations.length - 1 && 'border-b-0'
+                          )}
+                        >
+                          {/* 序号 */}
+                          <td className={cn('text-center py-2 px-3 text-sm text-slate-300 align-middle')}>
+                            <div className="inline-flex items-center justify-center w-6 h-6 rounded-full bg-slate-500/10 border border-slate-500/30">
+                              {index + 1}
+                            </div>
+                          </td>
+
+                          {/* 项目名称 */}
+                          <td className={cn('py-2 px-3 text-sm', 'text-slate-200', 'align-middle')}>
+                            <div className="font-medium leading-snug text-slate-100">{item.projectName}</div>
+                          </td>
+
+                          {/* 当前阶段 */}
+                          <td className={cn('hidden lg:table-cell py-2 px-3 text-sm text-slate-200 align-middle')}>
+                            <span className={cn('px-2 py-1 rounded text-xs font-medium bg-slate-500/20 text-slate-300')}>{item.currentPhase}</span>
+                          </td>
+
+                          {/* 大区 */}
+                          <td className={cn('hidden md:table-cell py-2 px-3 text-sm text-slate-200 align-middle')}>
+                            {item.region || '-'}
+                          </td>
+
+                          {/* 停留天数 */}
+                          <td className={cn('text-right py-2 px-3 whitespace-nowrap text-slate-200 align-middle')}>
+                            <span className={cn(
+                              'font-bold',
+                              item.stayDays >= 20 ? 'text-red-400' : item.stayDays >= 15 ? 'text-orange-400' : 'text-slate-300'
+                            )}>{item.stayDays}</span>
+                            <span className="text-sm ml-1 text-slate-300/70">天</span>
+                          </td>
+
+                          {/* 金额 */}
+                          <td className={cn('text-right py-2 px-3 whitespace-nowrap', 'text-slate-200', 'align-middle')}>
+                            <span className="font-black text-slate-300">{item.amount.toFixed(0)}</span>
+                            <span className={cn('text-sm ml-1 text-slate-300/70')}>万</span>
+                          </td>
+
+                          {/* 风险等级 */}
+                          <td className={cn('text-right py-2 px-3 whitespace-nowrap text-slate-200 align-middle')}>
+                            <span className={cn(
+                              'px-2 py-1 rounded text-xs font-bold',
+                              item.riskLevel === 'high' ? 'bg-red-500/20 text-red-400' :
+                              item.riskLevel === 'medium' ? 'bg-orange-500/20 text-orange-400' :
+                              'bg-green-500/20 text-green-400'
+                            )}>
+                              {item.riskLevel === 'high' ? '高' : item.riskLevel === 'medium' ? '中' : '低'}
+                            </span>
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+
+                {/* 分页 */}
+                <div className="px-4 py-2 border-t border-slate-500/20 flex justify-between items-center bg-gradient-to-r from-slate-900/50 to-transparent">
+                  <div className={cn('text-xs flex items-center gap-2', 'text-slate-300/70')}>
+                    <Activity className="w-3 h-3 text-slate-400/70" />
+                    共 {phaseStagnations.length} 条记录
                   </div>
                 </div>
               </div>
