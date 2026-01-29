@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect, useMemo } from 'react';
-import { AlertTriangle, Building2, Clock, TrendingDown, Users, ChevronRight, ChevronLeft, PauseCircle, Gauge, Circle, Target, BarChart3, ArrowLeft, Activity, DollarSign, XCircle, Send } from 'lucide-react';
+import { AlertTriangle, Building2, Clock, TrendingDown, Users, ChevronRight, ChevronLeft, PauseCircle, Gauge, Circle, Target, BarChart3, ArrowLeft, Activity, DollarSign, XCircle, Send, FileText, PlusCircle } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import ConfirmDialog from '@/components/ui/confirm-dialog';
 
@@ -500,7 +500,8 @@ export default function RiskIdentificationPanel({
   const allTabs = [
     { id: 2, label: '预测不足', icon: TrendingDown },
     { id: 0, label: '未按计划下单', icon: XCircle },
-    { id: 1, label: '大项目依赖', icon: Building2 }
+    { id: 1, label: '大项目依赖', icon: Building2 },
+    { id: 3, label: '报项目', icon: PlusCircle }
   ];
 
   // 根据时间维度显示的 Tabs
@@ -644,6 +645,7 @@ export default function RiskIdentificationPanel({
                 const Icon = tab.icon;
                 const isUnorderedProjects = tab.id === 0; // 未按计划下单
                 const isForecastGap = tab.id === 2; // 预测不足
+                const isReportProject = tab.id === 3; // 报项目
 
                 // 计算角标数量
                 const badgeCount = isUnorderedProjects 
@@ -670,6 +672,10 @@ export default function RiskIdentificationPanel({
                         ? 'bg-orange-500/40 text-orange-200 border-2 border-orange-500/60 shadow-[0_0_20px_rgba(249,115,22,0.6)]'
                         : isForecastGap
                         ? 'bg-orange-100 text-orange-700 border-2 border-orange-400 shadow-[0_0_15px_rgba(249,115,22,0.5)]'
+                        : isReportProject && theme === 'dashboard'
+                        ? 'bg-purple-500/40 text-purple-200 border-2 border-purple-500/60 shadow-[0_0_20px_rgba(168,85,247,0.6)]'
+                        : isReportProject
+                        ? 'bg-purple-100 text-purple-700 border-2 border-purple-400 shadow-[0_0_15px_rgba(168,85,247,0.5)]'
                         : currentTab === tab.id
                         ? theme === 'dashboard'
                           ? 'bg-cyan-500/30 text-cyan-300 border border-cyan-500/50 shadow-[0_0_10px_rgba(6,182,212,0.4)]'
@@ -690,6 +696,11 @@ export default function RiskIdentificationPanel({
                       <Icon className={cn(
                         'w-4 h-4',
                         theme === 'dashboard' ? 'text-orange-400 drop-shadow-[0_0_8px_rgba(249,115,22,1)]' : 'text-orange-600'
+                      )} />
+                    ) : isReportProject ? (
+                      <Icon className={cn(
+                        'w-4 h-4',
+                        theme === 'dashboard' ? 'text-purple-400 drop-shadow-[0_0_8px_rgba(168,85,247,1)]' : 'text-purple-600'
                       )} />
                     ) : (
                       <Icon className="w-3.5 h-3.5" />
@@ -1262,6 +1273,174 @@ export default function RiskIdentificationPanel({
                 <div className="px-4 py-2 border-t border-yellow-500/20 flex justify-between items-center bg-gradient-to-r from-slate-900/50 to-transparent">
                   <div className={cn('text-xs flex items-center gap-2', 'text-yellow-300/70 invisible')}>
                     <Activity className="w-3 h-3 text-yellow-400/70" />
+                    占位分页信息
+                  </div>
+                  <div className="invisible">
+                    {/* 占位分页控件 */}
+                    <span className="text-sm">◀ 1 / 1 ▶</span>
+                  </div>
+                </div>
+              </div>
+            )}
+
+        {/* ============ Tab 3: 报项目 ============ */}
+        {currentTab === 3 && (
+          // 明细视图
+          <div className="h-full flex flex-col animate-in fade-in duration-300">
+                {/* 顶部仪表盘风格指标卡片 - 紫色效果 */}
+                <div className={cn(
+                  'p-3 relative overflow-hidden',
+                  'bg-gradient-to-br from-purple-950/40 via-slate-900 to-slate-900',
+                  'border-b-2 border-purple-500/50',
+                  'shadow-[0_0_20px_rgba(168,85,247,0.3)]'
+                )}>
+                  {/* 背景装饰网格 */}
+                  <div className="absolute inset-0 opacity-10" style={{
+                    backgroundImage: `
+                      linear-gradient(rgba(168,85,247,0.2) 1px, transparent 1px),
+                      linear-gradient(90deg, rgba(168,85,247,0.2) 1px, transparent 1px)
+                    `,
+                    backgroundSize: '20px 20px'
+                  }}></div>
+
+                  {/* 顶部发光线条 - 紫色 */}
+                  <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-transparent via-purple-500 to-transparent animate-pulse"></div>
+                  
+                  <div className="relative z-10 grid grid-cols-3 gap-3">
+                    {/* 待报项目数卡片 */}
+                    <div className={cn(
+                      'relative rounded-xl p-2 overflow-hidden h-full flex flex-col items-center justify-center',
+                      'bg-gradient-to-br from-purple-900/50 to-purple-800/30',
+                      'border-2 border-purple-500/60',
+                      'shadow-[0_0_25px_rgba(168,85,247,0.5)]'
+                    )}>
+                      <div className="absolute top-0 right-0 w-20 h-20 bg-purple-500/20 rounded-full blur-3xl animate-pulse"></div>
+                      <div className="relative z-10 w-full flex flex-col items-center justify-center">
+                        <div className="flex items-center gap-2 mb-1.5">
+                          <FileText className="w-3.5 h-3.5 text-purple-400 drop-shadow-[0_0_10px_rgba(168,85,247,1)] animate-pulse" />
+                          <div className="text-xs font-bold text-purple-300">待报项目数</div>
+                        </div>
+                        <div className="flex items-baseline gap-1">
+                          <span className="text-3xl font-black text-purple-400 drop-shadow-[0_0_15px_rgba(192,132,252,1)]">
+                            3
+                          </span>
+                          <span className="text-xs text-purple-300/80">个</span>
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* 总金额卡片 */}
+                    <div className={cn(
+                      'relative rounded-xl p-2 overflow-hidden h-full flex flex-col items-center justify-center',
+                      'bg-gradient-to-br from-indigo-900/50 to-indigo-800/30',
+                      'border-2 border-indigo-500/60',
+                      'shadow-[0_0_25px_rgba(99,102,241,0.5)]'
+                    )}>
+                      <div className="absolute top-0 right-0 w-20 h-20 bg-indigo-500/20 rounded-full blur-3xl animate-pulse"></div>
+                      <div className="relative z-10 w-full flex flex-col items-center justify-center">
+                        <div className="flex items-center gap-2 mb-1.5">
+                          <DollarSign className="w-3.5 h-3.5 text-indigo-400 drop-shadow-[0_0_10px_rgba(99,102,241,1)] animate-pulse" />
+                          <div className="text-xs font-bold text-indigo-300">总金额</div>
+                        </div>
+                        <div className="flex items-baseline gap-1">
+                          <span className="text-3xl font-black text-indigo-400 drop-shadow-[0_0_15px_rgba(129,140,248,1)]">
+                            450
+                          </span>
+                          <span className="text-xs text-indigo-300/80">万</span>
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* 立即上报按钮 - 增强效果 */}
+                    <div className={cn(
+                      'relative rounded-xl p-2 overflow-hidden cursor-pointer group h-full flex flex-col items-center justify-center',
+                      'border-2 border-purple-500/70',
+                      'bg-gradient-to-br from-purple-900/30 to-indigo-900/20',
+                      'hover:from-purple-900/50 hover:to-indigo-900/30',
+                      'shadow-[0_0_30px_rgba(168,85,247,0.5)]',
+                      'hover:shadow-[0_0_40px_rgba(168,85,247,0.7)]',
+                      'transition-all duration-300'
+                    )}
+                         onClick={() => openDialog({
+                           title: '立即上报',
+                           description: `确定要立即上报待报项目吗？\n\n共 3 个待报项目，总金额 450 万元`,
+                           confirmText: '确认上报',
+                           cancelText: '取消',
+                           onConfirm: async () => {
+                             // TODO: 实际的上报逻辑
+                             console.log('上报操作已执行');
+                           },
+                           type: 'info'
+                         })}>
+                      {/* 按钮发光效果 */}
+                      <div className="absolute inset-0 bg-gradient-to-r from-purple-500/30 to-indigo-500/30 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                      <div className="absolute inset-0 border-2 border-purple-500/50 rounded-xl animate-pulse"></div>
+
+                      <div className="relative z-10 w-full flex flex-col items-center justify-center">
+                        <div className="flex items-center gap-1.5 mb-1.5">
+                          <div className="w-8 h-8 rounded-full bg-purple-500/40 border-2 border-purple-400/60 flex items-center justify-center group-hover:scale-110 transition-transform shadow-[0_0_15px_rgba(168,85,247,0.8)]">
+                            <Send className="w-4 h-4 text-purple-400 drop-shadow-[0_0_8px_rgba(168,85,247,1)]" />
+                          </div>
+                          <div className="text-base font-black text-purple-400 drop-shadow-[0_0_12px_rgba(192,132,252,1)]">立即上报</div>
+                        </div>
+                        <div className="flex items-center gap-1">
+                          <div className="w-1.5 h-1.5 bg-purple-400 rounded-full animate-bounce" style={{animationDelay: '0ms'}}></div>
+                          <div className="w-1.5 h-1.5 bg-purple-400 rounded-full animate-bounce" style={{animationDelay: '150ms'}}></div>
+                          <div className="w-1.5 h-1.5 bg-purple-400 rounded-full animate-bounce" style={{animationDelay: '300ms'}}></div>
+                          <div className="text-xs text-purple-300 font-semibold">全部 3 个项目</div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                {/* 占位区域 - 保持宽度一致但不显示内容 */}
+                <div className="flex-1 overflow-auto p-3 bg-gradient-to-b from-slate-900/50 to-transparent">
+                  <table className="w-full invisible">
+                    <thead className="sticky top-0 bg-slate-900/95 backdrop-blur-sm z-10">
+                      <tr className={cn('text-sm border-b border-purple-500/30', 'border-purple-500/20')}>
+                        <th className={cn('text-center py-2 px-3 font-medium w-16 text-purple-300 drop-shadow-[0_0_5px_rgba(168,85,247,0.5)]')}>序号</th>
+                        <th className={cn('text-left py-2 px-3 font-medium text-purple-300 drop-shadow-[0_0_5px_rgba(168,85,247,0.5)]')}>项目名称</th>
+                        <th className={cn('text-left py-2 px-3 font-medium hidden lg:table-cell text-purple-300 drop-shadow-[0_0_5px_rgba(168,85,247,0.5)]')}>大区</th>
+                        <th className={cn('text-left py-2 px-3 font-medium hidden md:table-cell text-purple-300 drop-shadow-[0_0_5px_rgba(168,85,247,0.5)]')}>负责人</th>
+                        <th className={cn('text-right py-2 px-3 font-medium text-purple-300 drop-shadow-[0_0_5px_rgba(168,85,247,0.5)]')}>金额</th>
+                        <th className={cn('text-right py-2 px-3 font-medium text-purple-300 drop-shadow-[0_0_5px_rgba(168,85,247,0.5)]')}>预计报单</th>
+                        <th className={cn('text-right py-2 px-3 font-medium text-purple-300 drop-shadow-[0_0_5px_rgba(168,85,247,0.5)]')}>状态</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {[...Array(3)].map((_, index) => (
+                        <tr key={index} className={cn('align-middle border-b border-purple-500/10', index === 2 && 'border-b-0')}>
+                          <td className={cn('text-center py-2 px-3 text-sm text-purple-300 align-middle')}>
+                            <div className="inline-flex items-center justify-center w-6 h-6 rounded-full bg-purple-500/10 border border-purple-500/30">
+                              {index + 1}
+                            </div>
+                          </td>
+                          <td className={cn('py-2 px-3 text-sm text-purple-200 align-middle')}>
+                            <div className="font-medium leading-snug text-purple-100">待报项目名称</div>
+                          </td>
+                          <td className={cn('hidden lg:table-cell py-2 px-3 text-sm text-purple-200 align-middle')}>-</td>
+                          <td className={cn('hidden md:table-cell py-2 px-3 text-sm text-purple-200 align-middle')}>-</td>
+                          <td className={cn('text-right py-2 px-3 whitespace-nowrap text-purple-200 align-middle')}>
+                            <span className="font-medium text-purple-300">0</span>
+                            <span className="text-sm ml-1 text-purple-300/70">万</span>
+                          </td>
+                          <td className={cn('text-right py-2 px-3 whitespace-nowrap text-purple-200 align-middle')}>
+                            <span className="font-medium text-purple-300">-</span>
+                          </td>
+                          <td className={cn('text-right py-2 px-3 whitespace-nowrap text-purple-200 align-middle')}>
+                            <span className={cn('px-2 py-1 rounded text-xs font-bold', 'bg-purple-500/20 text-purple-400')}>待报</span>
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+
+                {/* 分页 - 占位，保持高度一致 */}
+                <div className="px-4 py-2 border-t border-purple-500/20 flex justify-between items-center bg-gradient-to-r from-slate-900/50 to-transparent">
+                  <div className={cn('text-xs flex items-center gap-2', 'text-purple-300/70 invisible')}>
+                    <Activity className="w-3 h-3 text-purple-400/70" />
                     占位分页信息
                   </div>
                   <div className="invisible">
