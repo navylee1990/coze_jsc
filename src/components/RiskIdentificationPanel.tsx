@@ -17,6 +17,106 @@ const DASHBOARD_STYLES = {
   warningGlow: 'shadow-[0_0_15px_rgba(239,68,68,0.6)]',
 };
 
+// Tab颜色方案 - 专业驾驶舱设计
+const TAB_COLOR_SCHEMES = {
+  0: { // 未按计划下单 - 红色（严重警告）
+    primary: 'red',
+    primaryHex: '239,68,68',
+    bgGradient: 'from-red-950/40 via-slate-900 to-slate-900',
+    cardGradient: 'from-red-900/50 to-red-800/30',
+    border: 'border-red-500/60',
+    text: 'text-red-200',
+    textMuted: 'text-red-300/70',
+    textHighlight: 'text-red-400',
+    neon: 'text-red-400 drop-shadow-[0_0_8px_rgba(239,68,68,0.8)]',
+    glow: 'shadow-[0_0_15px_rgba(239,68,68,0.6)]',
+    buttonGradient: 'from-red-900/30 to-rose-900/20',
+    buttonHover: 'hover:from-red-900/50 hover:to-rose-900/30',
+    shadow: 'shadow-[0_0_25px_rgba(239,68,68,0.5)]',
+    hoverShadow: 'hover:shadow-[0_0_40px_rgba(239,68,68,0.7)]',
+  },
+  1: { // 大项目依赖 - 蓝色（结构、依赖）
+    primary: 'blue',
+    primaryHex: '59,130,246',
+    bgGradient: 'from-blue-950/40 via-slate-900 to-slate-900',
+    cardGradient: 'from-blue-900/50 to-blue-800/30',
+    border: 'border-blue-500/60',
+    text: 'text-blue-200',
+    textMuted: 'text-blue-300/70',
+    textHighlight: 'text-blue-400',
+    neon: 'text-blue-400 drop-shadow-[0_0_8px_rgba(59,130,246,0.8)]',
+    glow: 'shadow-[0_0_15px_rgba(59,130,246,0.6)]',
+    buttonGradient: 'from-blue-900/30 to-indigo-900/20',
+    buttonHover: 'hover:from-blue-900/50 hover:to-indigo-900/30',
+    shadow: 'shadow-[0_0_25px_rgba(59,130,246,0.5)]',
+    hoverShadow: 'hover:shadow-[0_0_40px_rgba(59,130,246,0.7)]',
+  },
+  2: { // 预测不足 - 橙色（警告）
+    primary: 'orange',
+    primaryHex: '249,115,22',
+    bgGradient: 'from-orange-950/40 via-slate-900 to-slate-900',
+    cardGradient: 'from-orange-900/50 to-orange-800/30',
+    border: 'border-orange-500/60',
+    text: 'text-orange-200',
+    textMuted: 'text-orange-300/70',
+    textHighlight: 'text-orange-400',
+    neon: 'text-orange-400 drop-shadow-[0_0_8px_rgba(249,115,22,0.8)]',
+    glow: 'shadow-[0_0_15px_rgba(249,115,22,0.6)]',
+    buttonGradient: 'from-orange-900/30 to-amber-900/20',
+    buttonHover: 'hover:from-orange-900/50 hover:to-amber-900/30',
+    shadow: 'shadow-[0_0_25px_rgba(249,115,22,0.5)]',
+    hoverShadow: 'hover:shadow-[0_0_40px_rgba(249,115,22,0.7)]',
+  },
+  3: { // 报备不足 - 紫色（流程）
+    primary: 'purple',
+    primaryHex: '168,85,247',
+    bgGradient: 'from-purple-950/40 via-slate-900 to-slate-900',
+    cardGradient: 'from-purple-900/50 to-purple-800/30',
+    border: 'border-purple-500/60',
+    text: 'text-purple-200',
+    textMuted: 'text-purple-300/70',
+    textHighlight: 'text-purple-400',
+    neon: 'text-purple-400 drop-shadow-[0_0_8px_rgba(168,85,247,0.8)]',
+    glow: 'shadow-[0_0_15px_rgba(168,85,247,0.6)]',
+    buttonGradient: 'from-purple-900/30 to-violet-900/20',
+    buttonHover: 'hover:from-purple-900/50 hover:to-violet-900/30',
+    shadow: 'shadow-[0_0_25px_rgba(168,85,247,0.5)]',
+    hoverShadow: 'hover:shadow-[0_0_40px_rgba(168,85,247,0.7)]',
+  },
+  4: { // 转化不足 - 粉色（机会）
+    primary: 'pink',
+    primaryHex: '236,72,153',
+    bgGradient: 'from-pink-950/40 via-slate-900 to-slate-900',
+    cardGradient: 'from-pink-900/50 to-pink-800/30',
+    border: 'border-pink-500/60',
+    text: 'text-pink-200',
+    textMuted: 'text-pink-300/70',
+    textHighlight: 'text-pink-400',
+    neon: 'text-pink-400 drop-shadow-[0_0_8px_rgba(236,72,153,0.8)]',
+    glow: 'shadow-[0_0_15px_rgba(236,72,153,0.6)]',
+    buttonGradient: 'from-pink-900/30 to-rose-900/20',
+    buttonHover: 'hover:from-pink-900/50 hover:to-rose-900/30',
+    shadow: 'shadow-[0_0_25px_rgba(236,72,153,0.5)]',
+    hoverShadow: 'hover:shadow-[0_0_40px_rgba(236,72,153,0.7)]',
+  },
+  5: { // 阶段停滞 - 灰色（停滞）
+    primary: 'slate',
+    primaryHex: '148,163,184',
+    bgGradient: 'from-slate-800/40 via-slate-900 to-slate-900',
+    cardGradient: 'from-slate-800/50 to-slate-700/30',
+    border: 'border-slate-500/60',
+    text: 'text-slate-200',
+    textMuted: 'text-slate-300/70',
+    textHighlight: 'text-slate-400',
+    neon: 'text-slate-400 drop-shadow-[0_0_8px_rgba(148,163,184,0.8)]',
+    glow: 'shadow-[0_0_15px_rgba(148,163,184,0.6)]',
+    buttonGradient: 'from-slate-800/30 to-stone-900/20',
+    buttonHover: 'hover:from-slate-800/50 hover:to-stone-900/30',
+    shadow: 'shadow-[0_0_25px_rgba(148,163,184,0.5)]',
+    hoverShadow: 'hover:shadow-[0_0_40px_rgba(148,163,184,0.7)]',
+  },
+};
+
 // ==================== 数据类型定义 ====================
 
 // 1. 大项目依赖数据
@@ -801,55 +901,51 @@ export default function RiskIdentificationPanel({
                 // 是否闪烁（数量>0且非当前Tab）
                 const shouldPulse = badgeCount > 0 && tab.id !== currentTab;
 
+                // 获取当前tab的颜色方案
+                const colorScheme = TAB_COLOR_SCHEMES[tab.id as keyof typeof TAB_COLOR_SCHEMES] || TAB_COLOR_SCHEMES[0];
+                const isActive = currentTab === tab.id;
+
                 return (
                   <button
                     key={tab.id}
                     onClick={() => setCurrentTab(tab.id)}
                     className={cn(
                       'flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium transition-all relative',
-                      // 未按计划下单使用红色主题
-                      isUnorderedProjects && theme === 'dashboard'
-                        ? 'bg-red-500/40 text-red-200 border-2 border-red-500/60 shadow-[0_0_20px_rgba(239,68,68,0.6)] animate-pulse'
-                        : isUnorderedProjects
-                        ? 'bg-red-100 text-red-700 border-2 border-red-400 shadow-[0_0_15px_rgba(239,68,68,0.5)]'
-                        : isForecastGap && theme === 'dashboard'
-                        ? 'bg-orange-500/40 text-orange-200 border-2 border-orange-500/60 shadow-[0_0_20px_rgba(249,115,22,0.6)]'
-                        : isForecastGap
-                        ? 'bg-orange-100 text-orange-700 border-2 border-orange-400 shadow-[0_0_15px_rgba(249,115,22,0.5)]'
-                        : isReportProject && theme === 'dashboard'
-                        ? 'bg-purple-500/40 text-purple-200 border-2 border-purple-500/60 shadow-[0_0_20px_rgba(168,85,247,0.6)]'
-                        : isReportProject
-                        ? 'bg-purple-100 text-purple-700 border-2 border-purple-400 shadow-[0_0_15px_rgba(168,85,247,0.5)]'
-                        : currentTab === tab.id
-                        ? theme === 'dashboard'
-                          ? 'bg-cyan-500/30 text-cyan-300 border border-cyan-500/50 shadow-[0_0_10px_rgba(6,182,212,0.4)]'
-                          : 'bg-cyan-100 text-cyan-700 border border-cyan-300'
+                      // 激活状态
+                      isActive && theme === 'dashboard'
+                        ? cn(
+                            `bg-${colorScheme.primary}-500/40 text-${colorScheme.primary}-200 border-2 ${colorScheme.border} ${colorScheme.shadow}`,
+                            'animate-pulse'
+                          )
+                        : isActive
+                        ? cn(`bg-${colorScheme.primary}-100 text-${colorScheme.primary}-700 border-2 border-${colorScheme.primary}-400 shadow-[0_0_15px_rgba(239,68,68,0.5)]`)
                         : theme === 'dashboard'
                         ? 'bg-slate-800/30 text-cyan-400/70 border border-cyan-400/20'
                         : 'bg-slate-100 text-slate-600 border border-slate-300',
                       // 闪烁效果
                       shouldPulse && 'animate-pulse'
                     )}
+                    style={isActive && theme === 'dashboard' ? {
+                      backgroundColor: `rgba(${colorScheme.primaryHex}, 0.4)`,
+                      borderColor: `rgba(${colorScheme.primaryHex}, 0.6)`,
+                      boxShadow: `0 0 20px rgba(${colorScheme.primaryHex}, 0.6)`
+                    } : undefined}
                   >
-                    {isUnorderedProjects ? (
-                      <Icon className={cn(
+                    <Icon 
+                      className={cn(
                         'w-4 h-4',
-                        theme === 'dashboard' ? 'text-red-400 drop-shadow-[0_0_8px_rgba(239,68,68,1)]' : 'text-red-600'
-                      )} />
-                    ) : isForecastGap ? (
-                      <Icon className={cn(
-                        'w-4 h-4',
-                        theme === 'dashboard' ? 'text-orange-400 drop-shadow-[0_0_8px_rgba(249,115,22,1)]' : 'text-orange-600'
-                      )} />
-                    ) : isReportProject ? (
-                      <Icon className={cn(
-                        'w-4 h-4',
-                        theme === 'dashboard' ? 'text-purple-400 drop-shadow-[0_0_8px_rgba(168,85,247,1)]' : 'text-purple-600'
-                      )} />
-                    ) : (
-                      <Icon className="w-3.5 h-3.5" />
-                    )}
-                    <span className={isUnorderedProjects && theme === 'dashboard' ? 'font-bold text-xs' : ''}>
+                        theme === 'dashboard' 
+                          ? isActive 
+                            ? cn(colorScheme.neon)
+                            : 'text-slate-400'
+                          : `text-${colorScheme.primary}-600`
+                      )}
+                      style={isActive && theme === 'dashboard' ? {
+                        color: `rgb(${colorScheme.primaryHex})`,
+                        textShadow: `0 0 8px rgba(${colorScheme.primaryHex}, 1)`
+                      } : undefined}
+                    />
+                    <span className={isActive && theme === 'dashboard' ? 'font-bold text-xs' : ''}>
                       {tab.label}
                     </span>
                     {/* 角标 */}
@@ -898,49 +994,74 @@ export default function RiskIdentificationPanel({
         {currentTab === 0 && (
           // 明细视图
           <div className="h-full flex flex-col animate-in fade-in duration-300">
-                {/* 顶部仪表盘风格指标卡片 - 增强红色警告效果 */}
+                {/* 顶部仪表盘风格指标卡片 - 红色警告效果 */}
                 <div className={cn(
                   'p-3 relative overflow-hidden',
-                  'bg-gradient-to-br from-red-950/40 via-slate-900 to-slate-900',
-                  'border-b-2 border-red-500/50',
-                  'shadow-[0_0_20px_rgba(239,68,68,0.3)]'
+                  TAB_COLOR_SCHEMES[0].bgGradient,
+                  `border-b-2 ${TAB_COLOR_SCHEMES[0].border}`,
+                  TAB_COLOR_SCHEMES[0].glow
                 )}>
                   {/* 背景装饰网格 */}
                   <div className="absolute inset-0 opacity-10" style={{
                     backgroundImage: `
-                      linear-gradient(rgba(239,68,68,0.2) 1px, transparent 1px),
-                      linear-gradient(90deg, rgba(239,68,68,0.2) 1px, transparent 1px)
+                      linear-gradient(rgba(${TAB_COLOR_SCHEMES[0].primaryHex},0.2) 1px, transparent 1px),
+                      linear-gradient(90deg, rgba(${TAB_COLOR_SCHEMES[0].primaryHex},0.2) 1px, transparent 1px)
                     `,
                     backgroundSize: '20px 20px'
                   }}></div>
 
-                  {/* 顶部发光线条 - 红色 */}
-                  <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-transparent via-red-500 to-transparent animate-pulse"></div>
+                  {/* 顶部发光线条 */}
+                  <div 
+                    className="absolute top-0 left-0 right-0 h-1 animate-pulse"
+                    style={{
+                      background: `linear-gradient(to right, transparent, rgba(${TAB_COLOR_SCHEMES[0].primaryHex},1), transparent)`
+                    }}
+                  ></div>
                   
                   <div className="relative z-10 grid grid-cols-3 gap-3">
-                    {/* 项目数量卡片 - 增强效果 */}
+                    {/* 项目数量卡片 */}
                     <div className={cn(
                       'relative rounded-xl p-2 overflow-hidden h-full flex flex-col items-center justify-center',
-                      'bg-gradient-to-br from-red-900/50 to-red-800/30',
-                      'border-2 border-red-500/60',
-                      'shadow-[0_0_25px_rgba(239,68,68,0.5)]'
+                      TAB_COLOR_SCHEMES[0].cardGradient,
+                      `border-2 ${TAB_COLOR_SCHEMES[0].border}`,
+                      TAB_COLOR_SCHEMES[0].shadow
                     )}>
-                      <div className="absolute top-0 right-0 w-20 h-20 bg-red-500/20 rounded-full blur-3xl animate-pulse"></div>
+                      <div 
+                        className="absolute top-0 right-0 w-20 h-20 rounded-full blur-3xl animate-pulse"
+                        style={{ backgroundColor: `rgba(${TAB_COLOR_SCHEMES[0].primaryHex},0.2)` }}
+                      ></div>
                       <div className="relative z-10 w-full flex flex-col items-center justify-center">
                         <div className="flex items-center gap-2 mb-1.5">
-                          <AlertTriangle className="w-3.5 h-3.5 text-red-400 drop-shadow-[0_0_10px_rgba(239,68,68,1)] animate-pulse" />
-                          <div className="text-xs font-bold text-red-300">项目数量</div>
+                          <AlertTriangle className={cn('w-3.5 h-3.5 animate-pulse', TAB_COLOR_SCHEMES[0].textHighlight)} 
+                            style={{ 
+                              color: `rgb(${TAB_COLOR_SCHEMES[0].primaryHex})`,
+                              textShadow: `0 0 10px rgba(${TAB_COLOR_SCHEMES[0].primaryHex},1)` 
+                            }}
+                          />
+                          <div 
+                            className="text-xs font-bold"
+                            style={{ color: `rgba(${TAB_COLOR_SCHEMES[0].primaryHex},0.9)` }}
+                          >项目数量</div>
                         </div>
                         <div className="flex items-baseline gap-1">
-                          <span className="text-3xl font-black text-red-400 drop-shadow-[0_0_15px_rgba(248,113,113,1)]">
+                          <span 
+                            className="text-3xl font-black"
+                            style={{ 
+                              color: `rgb(${TAB_COLOR_SCHEMES[0].primaryHex})`,
+                              textShadow: `0 0 15px rgba(${TAB_COLOR_SCHEMES[0].primaryHex},1)` 
+                            }}
+                          >
                             {filteredUnorderedProjects.length}
                           </span>
-                          <span className="text-xs text-red-300/80">个</span>
+                          <span 
+                            className="text-xs"
+                            style={{ color: `rgba(${TAB_COLOR_SCHEMES[0].primaryHex},0.8)` }}
+                          >个</span>
                         </div>
                       </div>
                     </div>
 
-                    {/* 总金额卡片 - 增强效果 */}
+                    {/* 总金额卡片 */}
                     <div className={cn(
                       'relative rounded-xl p-2 overflow-hidden h-full flex flex-col items-center justify-center',
                       'bg-gradient-to-br from-orange-900/50 to-orange-800/30',
@@ -962,14 +1083,14 @@ export default function RiskIdentificationPanel({
                       </div>
                     </div>
 
-                    {/* 催下单按钮 - 增强效果 */}
+                    {/* 催下单按钮 */}
                     <div className={cn(
                       'relative rounded-xl p-2 overflow-hidden cursor-pointer group h-full flex flex-col items-center justify-center',
-                      'border-2 border-red-500/70',
-                      'bg-gradient-to-br from-red-900/30 to-orange-900/20',
-                      'hover:from-red-900/50 hover:to-orange-900/30',
-                      'shadow-[0_0_30px_rgba(239,68,68,0.5)]',
-                      'hover:shadow-[0_0_40px_rgba(239,68,68,0.7)]',
+                      `border-2 ${TAB_COLOR_SCHEMES[0].border}`,
+                      TAB_COLOR_SCHEMES[0].buttonGradient,
+                      TAB_COLOR_SCHEMES[0].buttonHover,
+                      TAB_COLOR_SCHEMES[0].shadow,
+                      TAB_COLOR_SCHEMES[0].hoverShadow,
                       'transition-all duration-300'
                     )}
                          onClick={() => openDialog({
@@ -1085,23 +1206,28 @@ export default function RiskIdentificationPanel({
         {currentTab === 1 && (
           // 明细视图
           <div className="h-full flex flex-col animate-in fade-in duration-300">
-            {/* 顶部仪表盘风格指标卡片 */}
+            {/* 顶部仪表盘风格指标卡片 - 蓝色 */}
             <div className={cn(
               'p-3 relative overflow-hidden',
-              'bg-gradient-to-br from-cyan-950/40 via-slate-900 to-slate-900',
-              'border-b-2 border-cyan-500/50',
-              'shadow-[0_0_20px_rgba(6,182,212,0.3)]'
+              TAB_COLOR_SCHEMES[1].bgGradient,
+              `border-b-2 ${TAB_COLOR_SCHEMES[1].border}`,
+              TAB_COLOR_SCHEMES[1].glow
             )}>
               {/* 背景装饰网格 */}
               <div className="absolute inset-0 opacity-10" style={{
                 backgroundImage: `
-                  linear-gradient(rgba(6,182,212,0.2) 1px, transparent 1px),
-                  linear-gradient(90deg, rgba(6,182,212,0.2) 1px, transparent 1px)
+                  linear-gradient(rgba(${TAB_COLOR_SCHEMES[1].primaryHex},0.2) 1px, transparent 1px),
+                  linear-gradient(90deg, rgba(${TAB_COLOR_SCHEMES[1].primaryHex},0.2) 1px, transparent 1px)
                 `,
                 backgroundSize: '20px 20px'
               }}></div>
               {/* 顶部发光线条 */}
-              <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-transparent via-cyan-500 to-transparent animate-pulse"></div>
+              <div 
+                className="absolute top-0 left-0 right-0 h-1 animate-pulse"
+                style={{
+                  background: `linear-gradient(to right, transparent, rgba(${TAB_COLOR_SCHEMES[1].primaryHex},1), transparent)`
+                }}
+              ></div>
 
               <div className="relative z-10 grid grid-cols-3 gap-3">
                 {/* 大项目数卡片 */}
@@ -1257,24 +1383,29 @@ export default function RiskIdentificationPanel({
         {currentTab === 2 && (
           // 明细视图
           <div className="h-full flex flex-col animate-in fade-in duration-300">
-                {/* 顶部仪表盘风格指标卡片 - 黄色警告效果 */}
+                {/* 顶部仪表盘风格指标卡片 - 橙色警告 */}
                 <div className={cn(
                   'p-3 relative overflow-hidden',
-                  'bg-gradient-to-br from-yellow-950/40 via-slate-900 to-slate-900',
-                  'border-b-2 border-yellow-500/50',
-                  'shadow-[0_0_20px_rgba(234,179,8,0.3)]'
+                  TAB_COLOR_SCHEMES[2].bgGradient,
+                  `border-b-2 ${TAB_COLOR_SCHEMES[2].border}`,
+                  TAB_COLOR_SCHEMES[2].glow
                 )}>
                   {/* 背景装饰网格 */}
                   <div className="absolute inset-0 opacity-10" style={{
                     backgroundImage: `
-                      linear-gradient(rgba(234,179,8,0.2) 1px, transparent 1px),
-                      linear-gradient(90deg, rgba(234,179,8,0.2) 1px, transparent 1px)
+                      linear-gradient(rgba(${TAB_COLOR_SCHEMES[2].primaryHex},0.2) 1px, transparent 1px),
+                      linear-gradient(90deg, rgba(${TAB_COLOR_SCHEMES[2].primaryHex},0.2) 1px, transparent 1px)
                     `,
                     backgroundSize: '20px 20px'
                   }}></div>
 
-                  {/* 顶部发光线条 - 黄色 */}
-                  <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-transparent via-yellow-500 to-transparent animate-pulse"></div>
+                  {/* 顶部发光线条 */}
+                  <div 
+                    className="absolute top-0 left-0 right-0 h-1 animate-pulse"
+                    style={{
+                      background: `linear-gradient(to right, transparent, rgba(${TAB_COLOR_SCHEMES[2].primaryHex},1), transparent)`
+                    }}
+                  ></div>
                   
                   <div className="relative z-10 grid grid-cols-3 gap-3">
                     {/* 预计缺口金额卡片 */}
@@ -1431,24 +1562,29 @@ export default function RiskIdentificationPanel({
         {currentTab === 3 && (
           // 明细视图
           <div className="h-full flex flex-col animate-in fade-in duration-300">
-                {/* 顶部仪表盘风格指标卡片 - 紫色效果 */}
+                {/* 顶部仪表盘风格指标卡片 - 紫色 */}
                 <div className={cn(
                   'p-3 relative overflow-hidden',
-                  'bg-gradient-to-br from-purple-950/40 via-slate-900 to-slate-900',
-                  'border-b-2 border-purple-500/50',
-                  'shadow-[0_0_20px_rgba(168,85,247,0.3)]'
+                  TAB_COLOR_SCHEMES[3].bgGradient,
+                  `border-b-2 ${TAB_COLOR_SCHEMES[3].border}`,
+                  TAB_COLOR_SCHEMES[3].glow
                 )}>
                   {/* 背景装饰网格 */}
                   <div className="absolute inset-0 opacity-10" style={{
                     backgroundImage: `
-                      linear-gradient(rgba(168,85,247,0.2) 1px, transparent 1px),
-                      linear-gradient(90deg, rgba(168,85,247,0.2) 1px, transparent 1px)
+                      linear-gradient(rgba(${TAB_COLOR_SCHEMES[3].primaryHex},0.2) 1px, transparent 1px),
+                      linear-gradient(90deg, rgba(${TAB_COLOR_SCHEMES[3].primaryHex},0.2) 1px, transparent 1px)
                     `,
                     backgroundSize: '20px 20px'
                   }}></div>
 
-                  {/* 顶部发光线条 - 紫色 */}
-                  <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-transparent via-purple-500 to-transparent animate-pulse"></div>
+                  {/* 顶部发光线条 */}
+                  <div 
+                    className="absolute top-0 left-0 right-0 h-1 animate-pulse"
+                    style={{
+                      background: `linear-gradient(to right, transparent, rgba(${TAB_COLOR_SCHEMES[3].primaryHex},1), transparent)`
+                    }}
+                  ></div>
                   
                   <div className="relative z-10 grid grid-cols-3 gap-3">
                     {/* 待报项目数卡片 */}
@@ -1599,24 +1735,29 @@ export default function RiskIdentificationPanel({
         {currentTab === 4 && (
           // 明细视图
           <div className="h-full flex flex-col animate-in fade-in duration-300">
-                {/* 顶部仪表盘风格指标卡片 - 粉色效果 */}
+                {/* 顶部仪表盘风格指标卡片 - 粉色 */}
                 <div className={cn(
                   'p-3 relative overflow-hidden',
-                  'bg-gradient-to-br from-pink-950/40 via-slate-900 to-slate-900',
-                  'border-b-2 border-pink-500/50',
-                  'shadow-[0_0_20px_rgba(236,72,153,0.3)]'
+                  TAB_COLOR_SCHEMES[4].bgGradient,
+                  `border-b-2 ${TAB_COLOR_SCHEMES[4].border}`,
+                  TAB_COLOR_SCHEMES[4].glow
                 )}>
                   {/* 背景装饰网格 */}
                   <div className="absolute inset-0 opacity-10" style={{
                     backgroundImage: `
-                      linear-gradient(rgba(236,72,153,0.2) 1px, transparent 1px),
-                      linear-gradient(90deg, rgba(236,72,153,0.2) 1px, transparent 1px)
+                      linear-gradient(rgba(${TAB_COLOR_SCHEMES[4].primaryHex},0.2) 1px, transparent 1px),
+                      linear-gradient(90deg, rgba(${TAB_COLOR_SCHEMES[4].primaryHex},0.2) 1px, transparent 1px)
                     `,
                     backgroundSize: '20px 20px'
                   }}></div>
 
-                  {/* 顶部发光线条 - 粉色 */}
-                  <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-transparent via-pink-500 to-transparent animate-pulse"></div>
+                  {/* 顶部发光线条 */}
+                  <div 
+                    className="absolute top-0 left-0 right-0 h-1 animate-pulse"
+                    style={{
+                      background: `linear-gradient(to right, transparent, rgba(${TAB_COLOR_SCHEMES[4].primaryHex},1), transparent)`
+                    }}
+                  ></div>
                   
                   <div className="relative z-10 grid grid-cols-3 gap-3">
                     {/* 待转化项目数卡片 */}
@@ -1784,24 +1925,29 @@ export default function RiskIdentificationPanel({
         {currentTab === 5 && (
           // 明细视图
           <div className="h-full flex flex-col animate-in fade-in duration-300">
-                {/* 顶部仪表盘风格指标卡片 - 蓝灰色效果 */}
+                {/* 顶部仪表盘风格指标卡片 - 灰色 */}
                 <div className={cn(
                   'p-3 relative overflow-hidden',
-                  'bg-gradient-to-br from-slate-800/40 via-slate-900 to-slate-900',
-                  'border-b-2 border-slate-500/50',
-                  'shadow-[0_0_20px_rgba(148,163,184,0.3)]'
+                  TAB_COLOR_SCHEMES[5].bgGradient,
+                  `border-b-2 ${TAB_COLOR_SCHEMES[5].border}`,
+                  TAB_COLOR_SCHEMES[5].glow
                 )}>
                   {/* 背景装饰网格 */}
                   <div className="absolute inset-0 opacity-10" style={{
                     backgroundImage: `
-                      linear-gradient(rgba(148,163,184,0.2) 1px, transparent 1px),
-                      linear-gradient(90deg, rgba(148,163,184,0.2) 1px, transparent 1px)
+                      linear-gradient(rgba(${TAB_COLOR_SCHEMES[5].primaryHex},0.2) 1px, transparent 1px),
+                      linear-gradient(90deg, rgba(${TAB_COLOR_SCHEMES[5].primaryHex},0.2) 1px, transparent 1px)
                     `,
                     backgroundSize: '20px 20px'
                   }}></div>
 
-                  {/* 顶部发光线条 - 蓝灰色 */}
-                  <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-transparent via-slate-500 to-transparent animate-pulse"></div>
+                  {/* 顶部发光线条 */}
+                  <div 
+                    className="absolute top-0 left-0 right-0 h-1 animate-pulse"
+                    style={{
+                      background: `linear-gradient(to right, transparent, rgba(${TAB_COLOR_SCHEMES[5].primaryHex},1), transparent)`
+                    }}
+                  ></div>
                   
                   <div className="relative z-10 grid grid-cols-3 gap-3">
                     {/* 停滞项目数卡片 */}
