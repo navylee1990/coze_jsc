@@ -349,6 +349,15 @@ const salespersonData: Record<string, any[]> = {
 export default function GMDashboard() {
   const [selectedTimeRange, setSelectedTimeRange] = useState<'current' | 'quarter' | 'year'>('current');
 
+  // 禁止页面缩放
+  useEffect(() => {
+    // 设置viewport meta标签禁止缩放
+    const viewportMeta = document.querySelector('meta[name="viewport"]');
+    if (viewportMeta) {
+      viewportMeta.setAttribute('content', 'width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no');
+    }
+  }, []);
+
   // 页面初始化动画 state
 
 
