@@ -725,82 +725,6 @@ export default function RiskIdentificationPanel({
     setDialogOpen(true);
   };
 
-  // 根据时间范围获取按钮配置
-  const getButtonConfig = (tabId: number, dataCount: number, totalAmount: number) => {
-    const isQuarter = timeRange === 'quarter';
-
-    if (isQuarter) {
-      // 季度模式：记录风险，需要周记录和月度闭环
-      return {
-        title: '记录风险',
-        description: `检测到 ${dataCount} 个项目存在风险，总金额 ${totalAmount.toFixed(0)} 万元\n\n建议进行周记录跟踪，实现月度闭环管理`,
-        confirmText: '确认记录',
-        actionText: '记录风险',
-        hintText: '周记录 · 月度闭环'
-      };
-    }
-
-    // 月度/年度模式：立即执行动作
-    switch (tabId) {
-      case 0: // 未按计划下单
-        return {
-          title: '催下单提醒',
-          description: `确定要向所有未下单项目的销售工程师发送催办提醒吗？\n\n共 ${dataCount} 个项目，总金额 ${totalAmount.toFixed(0)} 万元`,
-          confirmText: '确认发送',
-          actionText: '催下单',
-          hintText: ''
-        };
-      case 1: // 大项目依赖
-        return {
-          title: '在线确认',
-          description: `确定要向大项目依赖的负责人发送确认提醒吗？\n\n共 ${dataCount} 个大项目，总金额 ${totalAmount.toFixed(0)} 万元`,
-          confirmText: '确认发送',
-          actionText: '在线确认',
-          hintText: ''
-        };
-      case 2: // 预测不足
-        return {
-          title: '补预测',
-          description: `确定要生成预测不足项目的补充预测方案吗？\n\n共 ${dataCount} 个项目，预计缺口 ${totalAmount.toFixed(0)} 万元`,
-          confirmText: '确认生成',
-          actionText: '补预测',
-          hintText: ''
-        };
-      case 3: // 报备不足
-        return {
-          title: '立即上报',
-          description: `确定要立即上报待报备项目吗？\n\n共 ${dataCount} 个待报备项目，总金额 ${totalAmount.toFixed(0)} 万元`,
-          confirmText: '确认上报',
-          actionText: '立即上报',
-          hintText: ''
-        };
-      case 4: // 转化不足
-        return {
-          title: '立即跟进',
-          description: `确定要立即跟进待转化项目吗？\n\n共 ${dataCount} 个项目，总金额 ${totalAmount.toFixed(0)} 万元`,
-          confirmText: '确认跟进',
-          actionText: '立即跟进',
-          hintText: ''
-        };
-      case 5: // 阶段停滞
-        return {
-          title: '推进处理',
-          description: `确定要推进停滞项目吗？\n\n共 ${dataCount} 个项目，总金额 ${totalAmount.toFixed(0)} 万元`,
-          confirmText: '确认推进',
-          actionText: '推进处理',
-          hintText: ''
-        };
-      default:
-        return {
-          title: '确认操作',
-          description: `共 ${dataCount} 个项目`,
-          confirmText: '确认',
-          actionText: '执行',
-          hintText: ''
-        };
-    }
-  };
-
   // 当时间维度变化时，重置当前 Tab 到对应的第一个Tab
   useEffect(() => {
     if (timeRange === 'current') {
@@ -1175,52 +1099,45 @@ export default function RiskIdentificationPanel({
                     </div>
 
                     {/* 催下单按钮 */}
-                    {(() => {
-                      const buttonConfig = getButtonConfig(0, filteredUnorderedProjects.length, filteredUnorderedProjects.reduce((sum, p) => sum + p.amount, 0));
-                      return (
-                        <div className={cn(
-                          'relative rounded-xl p-2 overflow-hidden cursor-pointer group h-full flex flex-col items-center justify-center',
-                          `border-2 ${TAB_COLOR_SCHEMES[0].border}`,
-                          TAB_COLOR_SCHEMES[0].buttonGradient,
-                          TAB_COLOR_SCHEMES[0].buttonHover,
-                          TAB_COLOR_SCHEMES[0].shadow,
-                          TAB_COLOR_SCHEMES[0].hoverShadow,
-                          'transition-all duration-300'
-                        )}
-                             onClick={() => openDialog({
-                               title: buttonConfig.title,
-                               description: buttonConfig.description,
-                               confirmText: buttonConfig.confirmText,
-                               cancelText: '取消',
-                               onConfirm: async () => {
-                                 // TODO: 根据按钮配置执行不同逻辑
-                                 console.log('操作已执行:', buttonConfig.actionText);
-                               },
-                               type: timeRange === 'quarter' ? 'info' : 'warning'
-                             })}>
-                          {/* 按钮发光效果 */}
-                          <div className="absolute inset-0 bg-gradient-to-r from-red-500/30 to-orange-500/30 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-                          <div className="absolute inset-0 border-2 border-red-500/50 rounded-xl animate-pulse"></div>
+                    <div className={cn(
+                      'relative rounded-xl p-2 overflow-hidden cursor-pointer group h-full flex flex-col items-center justify-center',
+                      `border-2 ${TAB_COLOR_SCHEMES[0].border}`,
+                      TAB_COLOR_SCHEMES[0].buttonGradient,
+                      TAB_COLOR_SCHEMES[0].buttonHover,
+                      TAB_COLOR_SCHEMES[0].shadow,
+                      TAB_COLOR_SCHEMES[0].hoverShadow,
+                      'transition-all duration-300'
+                    )}
+                         onClick={() => openDialog({
+                           title: '催下单提醒',
+                           description: `确定要向所有未下单项目的销售工程师发送催办提醒吗？\n\n共 ${filteredUnorderedProjects.length} 个项目，总金额 ${filteredUnorderedProjects.reduce((sum, p) => sum + p.amount, 0).toFixed(0)} 万元`,
+                           confirmText: '确认发送',
+                           cancelText: '取消',
+                           onConfirm: async () => {
+                             // TODO: 实际的催下单逻辑
+                             console.log('催下单操作已执行');
+                           },
+                           type: 'warning'
+                         })}>
+                      {/* 按钮发光效果 */}
+                      <div className="absolute inset-0 bg-gradient-to-r from-red-500/30 to-orange-500/30 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                      <div className="absolute inset-0 border-2 border-red-500/50 rounded-xl animate-pulse"></div>
 
-                          <div className="relative z-10 w-full flex flex-col items-center justify-center">
-                            <div className="flex items-center gap-1.5 mb-1.5">
-                              <div className="w-8 h-8 rounded-full bg-red-500/40 border-2 border-red-400/60 flex items-center justify-center group-hover:scale-110 transition-transform shadow-[0_0_15px_rgba(239,68,68,0.8)]">
-                                <Send className="w-4 h-4 text-red-400 drop-shadow-[0_0_8px_rgba(248,113,113,1)]" />
-                              </div>
-                              <div className="text-base font-black text-red-400 drop-shadow-[0_0_12px_rgba(248,113,113,1)]">{buttonConfig.actionText}</div>
-                            </div>
-                            <div className="flex items-center gap-1">
-                              <div className="w-1.5 h-1.5 bg-red-400 rounded-full animate-bounce" style={{animationDelay: '0ms'}}></div>
-                              <div className="w-1.5 h-1.5 bg-red-400 rounded-full animate-bounce" style={{animationDelay: '150ms'}}></div>
-                              <div className="w-1.5 h-1.5 bg-red-400 rounded-full animate-bounce" style={{animationDelay: '300ms'}}></div>
-                              <div className="text-xs text-red-300 font-semibold">
-                                {buttonConfig.hintText ? buttonConfig.hintText : `全部 ${filteredUnorderedProjects.length} 个项目`}
-                              </div>
-                            </div>
+                      <div className="relative z-10 w-full flex flex-col items-center justify-center">
+                        <div className="flex items-center gap-1.5 mb-1.5">
+                          <div className="w-8 h-8 rounded-full bg-red-500/40 border-2 border-red-400/60 flex items-center justify-center group-hover:scale-110 transition-transform shadow-[0_0_15px_rgba(239,68,68,0.8)]">
+                            <Send className="w-4 h-4 text-red-400 drop-shadow-[0_0_8px_rgba(248,113,113,1)]" />
                           </div>
+                          <div className="text-base font-black text-red-400 drop-shadow-[0_0_12px_rgba(248,113,113,1)]">催下单</div>
                         </div>
-                      );
-                    })()}
+                        <div className="flex items-center gap-1">
+                          <div className="w-1.5 h-1.5 bg-red-400 rounded-full animate-bounce" style={{animationDelay: '0ms'}}></div>
+                          <div className="w-1.5 h-1.5 bg-red-400 rounded-full animate-bounce" style={{animationDelay: '150ms'}}></div>
+                          <div className="w-1.5 h-1.5 bg-red-400 rounded-full animate-bounce" style={{animationDelay: '300ms'}}></div>
+                          <div className="text-xs text-red-300 font-semibold">全部 {filteredUnorderedProjects.length} 个项目</div>
+                        </div>
+                      </div>
+                    </div>
                   </div>
                 </div>
 
@@ -1373,51 +1290,45 @@ export default function RiskIdentificationPanel({
                 </div>
 
                 {/* 在线确认按钮 */}
-                {(() => {
-                  const buttonConfig = getButtonConfig(1, largeProjectDependencies.length, largeProjectDependencies.reduce((sum, p) => sum + p.amount, 0));
-                  return (
-                    <div className={cn(
-                      'relative rounded-xl p-2 overflow-hidden cursor-pointer group h-full flex flex-col items-center justify-center',
-                      'border-2 border-cyan-500/70',
-                      'bg-gradient-to-br from-cyan-900/30 to-blue-900/20',
-                      'hover:from-cyan-900/50 hover:to-blue-900/30',
-                      'shadow-[0_0_30px_rgba(6,182,212,0.5)]',
-                      'hover:shadow-[0_0_40px_rgba(6,182,212,0.7)]',
-                      'transition-all duration-300'
-                    )}
-                         onClick={() => openDialog({
-                           title: buttonConfig.title,
-                           description: buttonConfig.description,
-                           confirmText: buttonConfig.confirmText,
-                           cancelText: '取消',
-                           onConfirm: async () => {
-                             console.log('操作已执行:', buttonConfig.actionText);
-                           },
-                           type: timeRange === 'quarter' ? 'info' : 'info'
-                         })}>
-                      {/* 按钮发光效果 */}
-                      <div className="absolute inset-0 bg-gradient-to-r from-cyan-500/30 to-blue-500/30 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-                      <div className="absolute inset-0 border-2 border-cyan-500/50 rounded-xl animate-pulse"></div>
+                <div className={cn(
+                  'relative rounded-xl p-2 overflow-hidden cursor-pointer group h-full flex flex-col items-center justify-center',
+                  'border-2 border-cyan-500/70',
+                  'bg-gradient-to-br from-cyan-900/30 to-blue-900/20',
+                  'hover:from-cyan-900/50 hover:to-blue-900/30',
+                  'shadow-[0_0_30px_rgba(6,182,212,0.5)]',
+                  'hover:shadow-[0_0_40px_rgba(6,182,212,0.7)]',
+                  'transition-all duration-300'
+                )}
+                     onClick={() => openDialog({
+                       title: '在线确认',
+                       description: `确定要向大项目依赖的负责人发送确认提醒吗？\n\n共 ${largeProjectDependencies.length} 个大项目，总金额 ${largeProjectDependencies.reduce((sum, p) => sum + p.amount, 0).toFixed(0)} 万元`,
+                       confirmText: '确认发送',
+                       cancelText: '取消',
+                       onConfirm: async () => {
+                         // TODO: 实际的在线确认逻辑
+                         console.log('在线确认操作已执行');
+                       },
+                       type: 'info'
+                     })}>
+                  {/* 按钮发光效果 */}
+                  <div className="absolute inset-0 bg-gradient-to-r from-cyan-500/30 to-blue-500/30 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                  <div className="absolute inset-0 border-2 border-cyan-500/50 rounded-xl animate-pulse"></div>
 
-                      <div className="relative z-10 w-full flex flex-col items-center justify-center">
-                        <div className="flex items-center gap-1.5 mb-1.5">
-                          <div className="w-8 h-8 rounded-full bg-cyan-500/40 border-2 border-cyan-400/60 flex items-center justify-center group-hover:scale-110 transition-transform shadow-[0_0_15px_rgba(6,182,212,0.8)]">
-                            <Send className="w-4 h-4 text-cyan-400 drop-shadow-[0_0_8px_rgba(34,211,238,1)]" />
-                          </div>
-                          <div className="text-base font-black text-cyan-400 drop-shadow-[0_0_12px_rgba(34,211,238,1)]">{buttonConfig.actionText}</div>
-                        </div>
-                        <div className="flex items-center gap-1">
-                          <div className="w-1.5 h-1.5 bg-cyan-400 rounded-full animate-bounce" style={{animationDelay: '0ms'}}></div>
-                          <div className="w-1.5 h-1.5 bg-cyan-400 rounded-full animate-bounce" style={{animationDelay: '150ms'}}></div>
-                          <div className="w-1.5 h-1.5 bg-cyan-400 rounded-full animate-bounce" style={{animationDelay: '300ms'}}></div>
-                          <div className="text-xs text-cyan-300 font-semibold">
-                            {buttonConfig.hintText ? buttonConfig.hintText : `全部 ${largeProjectDependencies.length} 个项目`}
-                          </div>
-                        </div>
+                  <div className="relative z-10 w-full flex flex-col items-center justify-center">
+                    <div className="flex items-center gap-1.5 mb-1.5">
+                      <div className="w-8 h-8 rounded-full bg-cyan-500/40 border-2 border-cyan-400/60 flex items-center justify-center group-hover:scale-110 transition-transform shadow-[0_0_15px_rgba(6,182,212,0.8)]">
+                        <Send className="w-4 h-4 text-cyan-400 drop-shadow-[0_0_8px_rgba(34,211,238,1)]" />
                       </div>
+                      <div className="text-base font-black text-cyan-400 drop-shadow-[0_0_12px_rgba(34,211,238,1)]">在线确认</div>
                     </div>
-                  );
-                })()}
+                    <div className="flex items-center gap-1">
+                      <div className="w-1.5 h-1.5 bg-cyan-400 rounded-full animate-bounce" style={{animationDelay: '0ms'}}></div>
+                      <div className="w-1.5 h-1.5 bg-cyan-400 rounded-full animate-bounce" style={{animationDelay: '150ms'}}></div>
+                      <div className="w-1.5 h-1.5 bg-cyan-400 rounded-full animate-bounce" style={{animationDelay: '300ms'}}></div>
+                      <div className="text-xs text-cyan-300 font-semibold">全部 {largeProjectDependencies.length} 个项目</div>
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
 
@@ -1556,52 +1467,46 @@ export default function RiskIdentificationPanel({
                       </div>
                     </div>
 
-                    {/* 补预测按钮 */}
-                    {(() => {
-                      const buttonConfig = getButtonConfig(2, forecastGaps.length, forecastGaps.reduce((sum, p) => sum + p.gapAmount, 0));
-                      return (
-                        <div className={cn(
-                          'relative rounded-xl p-2 overflow-hidden cursor-pointer group h-full flex flex-col items-center justify-center',
-                          'border-2 border-yellow-500/70',
-                          'bg-gradient-to-br from-yellow-900/30 to-orange-900/20',
-                          'hover:from-yellow-900/50 hover:to-orange-900/30',
-                          'shadow-[0_0_30px_rgba(234,179,8,0.5)]',
-                          'hover:shadow-[0_0_40px_rgba(234,179,8,0.7)]',
-                          'transition-all duration-300'
-                        )}
-                             onClick={() => openDialog({
-                               title: buttonConfig.title,
-                               description: buttonConfig.description,
-                               confirmText: buttonConfig.confirmText,
-                               cancelText: '取消',
-                               onConfirm: async () => {
-                                 console.log('操作已执行:', buttonConfig.actionText);
-                               },
-                               type: timeRange === 'quarter' ? 'info' : 'warning'
-                             })}>
-                          {/* 按钮发光效果 */}
-                          <div className="absolute inset-0 bg-gradient-to-r from-yellow-500/30 to-orange-500/30 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-                          <div className="absolute inset-0 border-2 border-yellow-500/50 rounded-xl animate-pulse"></div>
+                    {/* 补预测按钮 - 增强效果 */}
+                    <div className={cn(
+                      'relative rounded-xl p-2 overflow-hidden cursor-pointer group h-full flex flex-col items-center justify-center',
+                      'border-2 border-yellow-500/70',
+                      'bg-gradient-to-br from-yellow-900/30 to-orange-900/20',
+                      'hover:from-yellow-900/50 hover:to-orange-900/30',
+                      'shadow-[0_0_30px_rgba(234,179,8,0.5)]',
+                      'hover:shadow-[0_0_40px_rgba(234,179,8,0.7)]',
+                      'transition-all duration-300'
+                    )}
+                         onClick={() => openDialog({
+                           title: '补预测',
+                           description: `确定要生成预测不足项目的补充预测方案吗？\n\n共 ${forecastGaps.length} 个项目，预计缺口 ${forecastGaps.reduce((sum, p) => sum + p.gapAmount, 0).toFixed(0)} 万元`,
+                           confirmText: '确认生成',
+                           cancelText: '取消',
+                           onConfirm: async () => {
+                             // TODO: 实际的补预测逻辑
+                             console.log('补预测操作已执行');
+                           },
+                           type: 'warning'
+                         })}>
+                      {/* 按钮发光效果 */}
+                      <div className="absolute inset-0 bg-gradient-to-r from-yellow-500/30 to-orange-500/30 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                      <div className="absolute inset-0 border-2 border-yellow-500/50 rounded-xl animate-pulse"></div>
 
-                          <div className="relative z-10 w-full flex flex-col items-center justify-center">
-                            <div className="flex items-center gap-1.5 mb-1.5">
-                              <div className="w-8 h-8 rounded-full bg-yellow-500/40 border-2 border-yellow-400/60 flex items-center justify-center group-hover:scale-110 transition-transform shadow-[0_0_15px_rgba(234,179,8,0.8)]">
-                                <TrendingDown className="w-4 h-4 text-yellow-400 drop-shadow-[0_0_8px_rgba(250,204,21,1)]" />
-                              </div>
-                              <div className="text-base font-black text-yellow-400 drop-shadow-[0_0_12px_rgba(250,204,21,1)]">{buttonConfig.actionText}</div>
-                            </div>
-                            <div className="flex items-center gap-1">
-                              <div className="w-1.5 h-1.5 bg-yellow-400 rounded-full animate-bounce" style={{animationDelay: '0ms'}}></div>
-                              <div className="w-1.5 h-1.5 bg-yellow-400 rounded-full animate-bounce" style={{animationDelay: '150ms'}}></div>
-                              <div className="w-1.5 h-1.5 bg-yellow-400 rounded-full animate-bounce" style={{animationDelay: '300ms'}}></div>
-                              <div className="text-xs text-yellow-300 font-semibold">
-                                {buttonConfig.hintText ? buttonConfig.hintText : `全部 ${forecastGaps.length} 个项目`}
-                              </div>
-                            </div>
+                      <div className="relative z-10 w-full flex flex-col items-center justify-center">
+                        <div className="flex items-center gap-1.5 mb-1.5">
+                          <div className="w-8 h-8 rounded-full bg-yellow-500/40 border-2 border-yellow-400/60 flex items-center justify-center group-hover:scale-110 transition-transform shadow-[0_0_15px_rgba(234,179,8,0.8)]">
+                            <TrendingDown className="w-4 h-4 text-yellow-400 drop-shadow-[0_0_8px_rgba(250,204,21,1)]" />
                           </div>
+                          <div className="text-base font-black text-yellow-400 drop-shadow-[0_0_12px_rgba(250,204,21,1)]">补预测</div>
                         </div>
-                      );
-                    })()}
+                        <div className="flex items-center gap-1">
+                          <div className="w-1.5 h-1.5 bg-yellow-400 rounded-full animate-bounce" style={{animationDelay: '0ms'}}></div>
+                          <div className="w-1.5 h-1.5 bg-yellow-400 rounded-full animate-bounce" style={{animationDelay: '150ms'}}></div>
+                          <div className="w-1.5 h-1.5 bg-yellow-400 rounded-full animate-bounce" style={{animationDelay: '300ms'}}></div>
+                          <div className="text-xs text-yellow-300 font-semibold">全部 {forecastGaps.length} 个项目</div>
+                        </div>
+                      </div>
+                    </div>
                   </div>
                 </div>
 
@@ -1741,52 +1646,46 @@ export default function RiskIdentificationPanel({
                       </div>
                     </div>
 
-                    {/* 立即上报按钮 */}
-                    {(() => {
-                      const buttonConfig = getButtonConfig(3, 3, 450);
-                      return (
-                        <div className={cn(
-                          'relative rounded-xl p-2 overflow-hidden cursor-pointer group h-full flex flex-col items-center justify-center',
-                          'border-2 border-purple-500/70',
-                          'bg-gradient-to-br from-purple-900/30 to-indigo-900/20',
-                          'hover:from-purple-900/50 hover:to-indigo-900/30',
-                          'shadow-[0_0_30px_rgba(168,85,247,0.5)]',
-                          'hover:shadow-[0_0_40px_rgba(168,85,247,0.7)]',
-                          'transition-all duration-300'
-                        )}
-                             onClick={() => openDialog({
-                               title: buttonConfig.title,
-                               description: buttonConfig.description,
-                               confirmText: buttonConfig.confirmText,
-                               cancelText: '取消',
-                               onConfirm: async () => {
-                                 console.log('操作已执行:', buttonConfig.actionText);
-                               },
-                               type: timeRange === 'quarter' ? 'info' : 'info'
-                             })}>
-                          {/* 按钮发光效果 */}
-                          <div className="absolute inset-0 bg-gradient-to-r from-purple-500/30 to-indigo-500/30 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-                          <div className="absolute inset-0 border-2 border-purple-500/50 rounded-xl animate-pulse"></div>
+                    {/* 立即上报按钮 - 增强效果 */}
+                    <div className={cn(
+                      'relative rounded-xl p-2 overflow-hidden cursor-pointer group h-full flex flex-col items-center justify-center',
+                      'border-2 border-purple-500/70',
+                      'bg-gradient-to-br from-purple-900/30 to-indigo-900/20',
+                      'hover:from-purple-900/50 hover:to-indigo-900/30',
+                      'shadow-[0_0_30px_rgba(168,85,247,0.5)]',
+                      'hover:shadow-[0_0_40px_rgba(168,85,247,0.7)]',
+                      'transition-all duration-300'
+                    )}
+                         onClick={() => openDialog({
+                           title: '立即上报',
+                           description: `确定要立即上报待报备项目吗？\n\n共 3 个待报备项目，总金额 450 万元`,
+                           confirmText: '确认上报',
+                           cancelText: '取消',
+                           onConfirm: async () => {
+                             // TODO: 实际的上报逻辑
+                             console.log('上报操作已执行');
+                           },
+                           type: 'info'
+                         })}>
+                      {/* 按钮发光效果 */}
+                      <div className="absolute inset-0 bg-gradient-to-r from-purple-500/30 to-indigo-500/30 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                      <div className="absolute inset-0 border-2 border-purple-500/50 rounded-xl animate-pulse"></div>
 
-                          <div className="relative z-10 w-full flex flex-col items-center justify-center">
-                            <div className="flex items-center gap-1.5 mb-1.5">
-                              <div className="w-8 h-8 rounded-full bg-purple-500/40 border-2 border-purple-400/60 flex items-center justify-center group-hover:scale-110 transition-transform shadow-[0_0_15px_rgba(168,85,247,0.8)]">
-                                <Send className="w-4 h-4 text-purple-400 drop-shadow-[0_0_8px_rgba(168,85,247,1)]" />
-                              </div>
-                              <div className="text-base font-black text-purple-400 drop-shadow-[0_0_12px_rgba(192,132,252,1)]">{buttonConfig.actionText}</div>
-                            </div>
-                            <div className="flex items-center gap-1">
-                              <div className="w-1.5 h-1.5 bg-purple-400 rounded-full animate-bounce" style={{animationDelay: '0ms'}}></div>
-                              <div className="w-1.5 h-1.5 bg-purple-400 rounded-full animate-bounce" style={{animationDelay: '150ms'}}></div>
-                              <div className="w-1.5 h-1.5 bg-purple-400 rounded-full animate-bounce" style={{animationDelay: '300ms'}}></div>
-                              <div className="text-xs text-purple-300 font-semibold">
-                                {buttonConfig.hintText ? buttonConfig.hintText : '全部 3 个项目'}
-                              </div>
-                            </div>
+                      <div className="relative z-10 w-full flex flex-col items-center justify-center">
+                        <div className="flex items-center gap-1.5 mb-1.5">
+                          <div className="w-8 h-8 rounded-full bg-purple-500/40 border-2 border-purple-400/60 flex items-center justify-center group-hover:scale-110 transition-transform shadow-[0_0_15px_rgba(168,85,247,0.8)]">
+                            <Send className="w-4 h-4 text-purple-400 drop-shadow-[0_0_8px_rgba(168,85,247,1)]" />
                           </div>
+                          <div className="text-base font-black text-purple-400 drop-shadow-[0_0_12px_rgba(192,132,252,1)]">立即上报</div>
                         </div>
-                      );
-                    })()}
+                        <div className="flex items-center gap-1">
+                          <div className="w-1.5 h-1.5 bg-purple-400 rounded-full animate-bounce" style={{animationDelay: '0ms'}}></div>
+                          <div className="w-1.5 h-1.5 bg-purple-400 rounded-full animate-bounce" style={{animationDelay: '150ms'}}></div>
+                          <div className="w-1.5 h-1.5 bg-purple-400 rounded-full animate-bounce" style={{animationDelay: '300ms'}}></div>
+                          <div className="text-xs text-purple-300 font-semibold">全部 3 个项目</div>
+                        </div>
+                      </div>
+                    </div>
                   </div>
                 </div>
 
@@ -1920,52 +1819,46 @@ export default function RiskIdentificationPanel({
                       </div>
                     </div>
 
-                    {/* 立即跟进按钮 */}
-                    {(() => {
-                      const buttonConfig = getButtonConfig(4, insufficientConversions.length, insufficientConversions.reduce((sum, p) => sum + p.amount, 0));
-                      return (
-                        <div className={cn(
-                          'relative rounded-xl p-2 overflow-hidden cursor-pointer group h-full flex flex-col items-center justify-center',
-                          'border-2 border-pink-500/70',
-                          'bg-gradient-to-br from-pink-900/30 to-rose-900/20',
-                          'hover:from-pink-900/50 hover:to-rose-900/30',
-                          'shadow-[0_0_30px_rgba(236,72,153,0.5)]',
-                          'hover:shadow-[0_0_40px_rgba(236,72,153,0.7)]',
-                          'transition-all duration-300'
-                        )}
-                             onClick={() => openDialog({
-                               title: buttonConfig.title,
-                               description: buttonConfig.description,
-                               confirmText: buttonConfig.confirmText,
-                               cancelText: '取消',
-                               onConfirm: async () => {
-                                 console.log('操作已执行:', buttonConfig.actionText);
-                               },
-                               type: timeRange === 'quarter' ? 'info' : 'info'
-                             })}>
-                          {/* 按钮发光效果 */}
-                          <div className="absolute inset-0 bg-gradient-to-r from-pink-500/30 to-rose-500/30 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-                          <div className="absolute inset-0 border-2 border-pink-500/50 rounded-xl animate-pulse"></div>
+                    {/* 立即跟进按钮 - 增强效果 */}
+                    <div className={cn(
+                      'relative rounded-xl p-2 overflow-hidden cursor-pointer group h-full flex flex-col items-center justify-center',
+                      'border-2 border-pink-500/70',
+                      'bg-gradient-to-br from-pink-900/30 to-rose-900/20',
+                      'hover:from-pink-900/50 hover:to-rose-900/30',
+                      'shadow-[0_0_30px_rgba(236,72,153,0.5)]',
+                      'hover:shadow-[0_0_40px_rgba(236,72,153,0.7)]',
+                      'transition-all duration-300'
+                    )}
+                         onClick={() => openDialog({
+                           title: '立即跟进',
+                           description: `确定要立即跟进待转化项目吗？\n\n共 ${insufficientConversions.length} 个项目，总金额 ${insufficientConversions.reduce((sum, p) => sum + p.amount, 0).toFixed(0)} 万元`,
+                           confirmText: '确认跟进',
+                           cancelText: '取消',
+                           onConfirm: async () => {
+                             // TODO: 实际的跟进逻辑
+                             console.log('跟进操作已执行');
+                           },
+                           type: 'info'
+                         })}>
+                      {/* 按钮发光效果 */}
+                      <div className="absolute inset-0 bg-gradient-to-r from-pink-500/30 to-rose-500/30 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                      <div className="absolute inset-0 border-2 border-pink-500/50 rounded-xl animate-pulse"></div>
 
-                          <div className="relative z-10 w-full flex flex-col items-center justify-center">
-                            <div className="flex items-center gap-1.5 mb-1.5">
-                              <div className="w-8 h-8 rounded-full bg-pink-500/40 border-2 border-pink-400/60 flex items-center justify-center group-hover:scale-110 transition-transform shadow-[0_0_15px_rgba(236,72,153,0.8)]">
-                                <Send className="w-4 h-4 text-pink-400 drop-shadow-[0_0_8px_rgba(236,72,153,1)]" />
-                              </div>
-                              <div className="text-base font-black text-pink-400 drop-shadow-[0_0_12px_rgba(244,114,182,1)]">{buttonConfig.actionText}</div>
-                            </div>
-                            <div className="flex items-center gap-1">
-                              <div className="w-1.5 h-1.5 bg-pink-400 rounded-full animate-bounce" style={{animationDelay: '0ms'}}></div>
-                              <div className="w-1.5 h-1.5 bg-pink-400 rounded-full animate-bounce" style={{animationDelay: '150ms'}}></div>
-                              <div className="w-1.5 h-1.5 bg-pink-400 rounded-full animate-bounce" style={{animationDelay: '300ms'}}></div>
-                              <div className="text-xs text-pink-300 font-semibold">
-                                {buttonConfig.hintText ? buttonConfig.hintText : `全部 ${insufficientConversions.length} 个项目`}
-                              </div>
-                            </div>
+                      <div className="relative z-10 w-full flex flex-col items-center justify-center">
+                        <div className="flex items-center gap-1.5 mb-1.5">
+                          <div className="w-8 h-8 rounded-full bg-pink-500/40 border-2 border-pink-400/60 flex items-center justify-center group-hover:scale-110 transition-transform shadow-[0_0_15px_rgba(236,72,153,0.8)]">
+                            <Send className="w-4 h-4 text-pink-400 drop-shadow-[0_0_8px_rgba(236,72,153,1)]" />
                           </div>
+                          <div className="text-base font-black text-pink-400 drop-shadow-[0_0_12px_rgba(244,114,182,1)]">立即跟进</div>
                         </div>
-                      );
-                    })()}
+                        <div className="flex items-center gap-1">
+                          <div className="w-1.5 h-1.5 bg-pink-400 rounded-full animate-bounce" style={{animationDelay: '0ms'}}></div>
+                          <div className="w-1.5 h-1.5 bg-pink-400 rounded-full animate-bounce" style={{animationDelay: '150ms'}}></div>
+                          <div className="w-1.5 h-1.5 bg-pink-400 rounded-full animate-bounce" style={{animationDelay: '300ms'}}></div>
+                          <div className="text-xs text-pink-300 font-semibold">全部 {insufficientConversions.length} 个项目</div>
+                        </div>
+                      </div>
+                    </div>
                   </div>
                 </div>
 
@@ -2116,52 +2009,46 @@ export default function RiskIdentificationPanel({
                       </div>
                     </div>
 
-                    {/* 推进处理按钮 */}
-                    {(() => {
-                      const buttonConfig = getButtonConfig(5, phaseStagnations.length, phaseStagnations.reduce((sum, p) => sum + p.amount, 0));
-                      return (
-                        <div className={cn(
-                          'relative rounded-xl p-2 overflow-hidden cursor-pointer group h-full flex flex-col items-center justify-center',
-                          'border-2 border-slate-500/70',
-                          'bg-gradient-to-br from-slate-800/30 to-stone-900/20',
-                          'hover:from-slate-800/50 hover:to-stone-900/30',
-                          'shadow-[0_0_30px_rgba(148,163,184,0.5)]',
-                          'hover:shadow-[0_0_40px_rgba(148,163,184,0.7)]',
-                          'transition-all duration-300'
-                        )}
-                             onClick={() => openDialog({
-                               title: buttonConfig.title,
-                               description: buttonConfig.description,
-                               confirmText: buttonConfig.confirmText,
-                               cancelText: '取消',
-                               onConfirm: async () => {
-                                 console.log('操作已执行:', buttonConfig.actionText);
-                               },
-                               type: timeRange === 'quarter' ? 'info' : 'info'
-                             })}>
-                          {/* 按钮发光效果 */}
-                          <div className="absolute inset-0 bg-gradient-to-r from-slate-500/30 to-stone-500/30 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-                          <div className="absolute inset-0 border-2 border-slate-500/50 rounded-xl animate-pulse"></div>
+                    {/* 推进处理按钮 - 增强效果 */}
+                    <div className={cn(
+                      'relative rounded-xl p-2 overflow-hidden cursor-pointer group h-full flex flex-col items-center justify-center',
+                      'border-2 border-slate-500/70',
+                      'bg-gradient-to-br from-slate-800/30 to-stone-900/20',
+                      'hover:from-slate-800/50 hover:to-stone-900/30',
+                      'shadow-[0_0_30px_rgba(148,163,184,0.5)]',
+                      'hover:shadow-[0_0_40px_rgba(148,163,184,0.7)]',
+                      'transition-all duration-300'
+                    )}
+                         onClick={() => openDialog({
+                           title: '推进处理',
+                           description: `确定要推进停滞项目吗？\n\n共 ${phaseStagnations.length} 个项目，总金额 ${phaseStagnations.reduce((sum, p) => sum + p.amount, 0).toFixed(0)} 万元`,
+                           confirmText: '确认推进',
+                           cancelText: '取消',
+                           onConfirm: async () => {
+                             // TODO: 实际的推进逻辑
+                             console.log('推进操作已执行');
+                           },
+                           type: 'info'
+                         })}>
+                      {/* 按钮发光效果 */}
+                      <div className="absolute inset-0 bg-gradient-to-r from-slate-500/30 to-stone-500/30 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                      <div className="absolute inset-0 border-2 border-slate-500/50 rounded-xl animate-pulse"></div>
 
-                          <div className="relative z-10 w-full flex flex-col items-center justify-center">
-                            <div className="flex items-center gap-1.5 mb-1.5">
-                              <div className="w-8 h-8 rounded-full bg-slate-500/40 border-2 border-slate-400/60 flex items-center justify-center group-hover:scale-110 transition-transform shadow-[0_0_15px_rgba(148,163,184,0.8)]">
-                                <Play className="w-4 h-4 text-slate-400 drop-shadow-[0_0_8px_rgba(148,163,184,1)]" />
-                              </div>
-                              <div className="text-base font-black text-slate-400 drop-shadow-[0_0_12px_rgba(203,213,225,1)]">{buttonConfig.actionText}</div>
-                            </div>
-                            <div className="flex items-center gap-1">
-                              <div className="w-1.5 h-1.5 bg-slate-400 rounded-full animate-bounce" style={{animationDelay: '0ms'}}></div>
-                              <div className="w-1.5 h-1.5 bg-slate-400 rounded-full animate-bounce" style={{animationDelay: '150ms'}}></div>
-                              <div className="w-1.5 h-1.5 bg-slate-400 rounded-full animate-bounce" style={{animationDelay: '300ms'}}></div>
-                              <div className="text-xs text-slate-300 font-semibold">
-                                {buttonConfig.hintText ? buttonConfig.hintText : `全部 ${phaseStagnations.length} 个项目`}
-                              </div>
-                            </div>
+                      <div className="relative z-10 w-full flex flex-col items-center justify-center">
+                        <div className="flex items-center gap-1.5 mb-1.5">
+                          <div className="w-8 h-8 rounded-full bg-slate-500/40 border-2 border-slate-400/60 flex items-center justify-center group-hover:scale-110 transition-transform shadow-[0_0_15px_rgba(148,163,184,0.8)]">
+                            <Play className="w-4 h-4 text-slate-400 drop-shadow-[0_0_8px_rgba(148,163,184,1)]" />
                           </div>
+                          <div className="text-base font-black text-slate-400 drop-shadow-[0_0_12px_rgba(203,213,225,1)]">推进处理</div>
                         </div>
-                      );
-                    })()}
+                        <div className="flex items-center gap-1">
+                          <div className="w-1.5 h-1.5 bg-slate-400 rounded-full animate-bounce" style={{animationDelay: '0ms'}}></div>
+                          <div className="w-1.5 h-1.5 bg-slate-400 rounded-full animate-bounce" style={{animationDelay: '150ms'}}></div>
+                          <div className="w-1.5 h-1.5 bg-slate-400 rounded-full animate-bounce" style={{animationDelay: '300ms'}}></div>
+                          <div className="text-xs text-slate-300 font-semibold">全部 {phaseStagnations.length} 个项目</div>
+                        </div>
+                      </div>
+                    </div>
                   </div>
                 </div>
 
