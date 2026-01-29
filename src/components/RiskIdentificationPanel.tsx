@@ -738,11 +738,11 @@ export default function RiskIdentificationPanel({
       )}
 
       {/* 内容区域 */}
-      <div className="flex-1 overflow-hidden">
+      <div className="flex-1 w-full min-w-0 overflow-hidden">
         {/* ============ Tab 0: 未按计划下单 ============ */}
         {currentTab === 0 && (
           // 明细视图
-          <div className="h-full flex flex-col animate-in fade-in duration-300">
+          <div className="h-full w-full min-w-0 flex flex-col animate-in fade-in duration-300">
                 {/* 顶部仪表盘风格指标卡片 - 增强红色警告效果 */}
                 <div className={cn(
                   'p-3 relative overflow-hidden',
@@ -929,7 +929,7 @@ export default function RiskIdentificationPanel({
         {/* ============ Tab 1: 大项目依赖 ============ */}
         {currentTab === 1 && (
           // 明细视图
-          <div className="h-full flex flex-col animate-in fade-in duration-300">
+          <div className="h-full w-full min-w-0 flex flex-col animate-in fade-in duration-300">
             {/* 顶部仪表盘风格指标卡片 */}
             <div className={cn(
               'p-3 relative overflow-hidden',
@@ -1101,7 +1101,7 @@ export default function RiskIdentificationPanel({
         {/* ============ Tab 2: 预测不足 ============ */}
         {currentTab === 2 && (
           // 明细视图
-          <div className="h-full flex flex-col animate-in fade-in duration-300">
+          <div className="h-full w-full min-w-0 flex flex-col animate-in fade-in duration-300">
                 {/* 顶部仪表盘风格指标卡片 - 黄色警告效果 */}
                 <div className={cn(
                   'p-3 relative overflow-hidden',
