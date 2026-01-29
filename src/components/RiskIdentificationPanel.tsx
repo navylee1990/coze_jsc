@@ -851,8 +851,8 @@ export default function RiskIdentificationPanel({
                 </div>
 
                 {/* 表格区域 */}
-                <div className="flex-1 overflow-auto p-3 bg-gradient-to-b from-slate-900/50 to-transparent">
-                  <table className="w-full">
+                <div className="flex-1 overflow-auto p-3 bg-gradient-to-b from-slate-900/50 to-transparent min-w-full">
+                  <table className="w-full min-w-full">
                     <thead className="sticky top-0 bg-slate-900/95 backdrop-blur-sm z-10">
                       <tr className={cn('text-sm border-b border-cyan-500/30', DASHBOARD_STYLES.cardBorder)}>
                         <th className={cn('text-center py-2 px-3 font-medium w-16 text-cyan-300 drop-shadow-[0_0_5px_rgba(6,182,212,0.5)]')}>序号</th>
@@ -916,7 +916,7 @@ export default function RiskIdentificationPanel({
                 </div>
 
                 {/* 分页 */}
-                <div className="px-4 py-2 border-t border-cyan-500/20 flex justify-between items-center bg-gradient-to-r from-slate-900/50 to-transparent">
+                <div className="px-4 py-2 border-t border-cyan-500/20 flex justify-between items-center bg-gradient-to-r from-slate-900/50 to-transparent min-w-full">
                   <div className={cn('text-xs flex items-center gap-2', DASHBOARD_STYLES.textMuted)}>
                     <Activity className="w-3 h-3 text-cyan-400/70" />
                     共 {filteredUnorderedProjects.length} 条记录，当前第 {currentPage} / {totalPages} 页
@@ -1037,8 +1037,8 @@ export default function RiskIdentificationPanel({
             </div>
 
             {/* 表格区域 */}
-            <div className="flex-1 overflow-auto p-3 bg-gradient-to-b from-slate-900/50 to-transparent">
-                  <table className="w-full">
+            <div className="flex-1 overflow-auto p-3 bg-gradient-to-b from-slate-900/50 to-transparent min-w-full">
+                  <table className="w-full min-w-full">
                     <thead className="sticky top-0 bg-slate-900/95 backdrop-blur-sm z-10">
                       <tr className={cn('text-sm border-b border-cyan-500/30', DASHBOARD_STYLES.cardBorder)}>
                         <th className={cn('text-center py-2 px-3 font-medium text-cyan-300 drop-shadow-[0_0_5px_rgba(6,182,212,0.5)]')}>序号</th>
@@ -1088,7 +1088,7 @@ export default function RiskIdentificationPanel({
                   </table>
                 </div>
 
-                <div className="px-4 py-2 border-t border-cyan-500/20 flex justify-between items-center bg-gradient-to-r from-slate-900/50 to-transparent">
+                <div className="px-4 py-2 border-t border-cyan-500/20 flex justify-between items-center bg-gradient-to-r from-slate-900/50 to-transparent min-w-full">
                   <div className={cn('text-sm flex items-center gap-2', DASHBOARD_STYLES.textMuted)}>
                     <Activity className="w-3 h-3 text-cyan-400/70" />
                     共 {largeProjectDependencies.length} 条记录，当前第 {currentPage} / {totalPages} 页
@@ -1210,8 +1210,8 @@ export default function RiskIdentificationPanel({
                 </div>
 
                 {/* 表格区域 - 占位，保持宽度一致 */}
-                <div className="flex-1 overflow-auto p-3 bg-gradient-to-b from-slate-900/50 to-transparent">
-                  <table className="w-full invisible">
+                <div className="flex-1 overflow-auto p-3 bg-gradient-to-b from-slate-900/50 to-transparent min-w-full">
+                  <table className="w-full min-w-full invisible">
                     <thead className="sticky top-0 bg-slate-900/95 backdrop-blur-sm z-10">
                       <tr className={cn('text-sm border-b border-yellow-500/30', 'border-yellow-500/20')}>
                         <th className={cn('text-center py-2 px-3 font-medium w-16 text-yellow-300 drop-shadow-[0_0_5px_rgba(234,179,8,0.5)]')}>序号</th>
@@ -1252,7 +1252,7 @@ export default function RiskIdentificationPanel({
                 </div>
 
                 {/* 分页 - 占位，保持高度一致 */}
-                <div className="px-4 py-2 border-t border-yellow-500/20 flex justify-between items-center bg-gradient-to-r from-slate-900/50 to-transparent">
+                <div className="px-4 py-2 border-t border-yellow-500/20 flex justify-between items-center bg-gradient-to-r from-slate-900/50 to-transparent min-w-full">
                   <div className={cn('text-xs flex items-center gap-2', 'text-yellow-300/70 invisible')}>
                     <Activity className="w-3 h-3 text-yellow-400/70" />
                     占位分页信息
