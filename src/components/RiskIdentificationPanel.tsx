@@ -993,7 +993,7 @@ export default function RiskIdentificationPanel({
                   </div>
                 </div>
 
-                {/* 在线沟通按钮 */}
+                {/* 在线确认按钮 */}
                 <div className={cn(
                   'relative rounded-xl p-2 overflow-hidden cursor-pointer group h-full flex flex-col items-center justify-center',
                   'border-2 border-cyan-500/70',
@@ -1004,13 +1004,13 @@ export default function RiskIdentificationPanel({
                   'transition-all duration-300'
                 )}
                      onClick={() => openDialog({
-                       title: '在线沟通',
-                       description: `确定要向大项目依赖的负责人发送沟通提醒吗？\n\n共 ${largeProjectDependencies.length} 个大项目，总金额 ${largeProjectDependencies.reduce((sum, p) => sum + p.amount, 0).toFixed(0)} 万元`,
+                       title: '在线确认',
+                       description: `确定要向大项目依赖的负责人发送确认提醒吗？\n\n共 ${largeProjectDependencies.length} 个大项目，总金额 ${largeProjectDependencies.reduce((sum, p) => sum + p.amount, 0).toFixed(0)} 万元`,
                        confirmText: '确认发送',
                        cancelText: '取消',
                        onConfirm: async () => {
-                         // TODO: 实际的在线沟通逻辑
-                         console.log('在线沟通操作已执行');
+                         // TODO: 实际的在线确认逻辑
+                         console.log('在线确认操作已执行');
                        },
                        type: 'info'
                      })}>
@@ -1023,7 +1023,7 @@ export default function RiskIdentificationPanel({
                       <div className="w-8 h-8 rounded-full bg-cyan-500/40 border-2 border-cyan-400/60 flex items-center justify-center group-hover:scale-110 transition-transform shadow-[0_0_15px_rgba(6,182,212,0.8)]">
                         <Send className="w-4 h-4 text-cyan-400 drop-shadow-[0_0_8px_rgba(34,211,238,1)]" />
                       </div>
-                      <div className="text-base font-black text-cyan-400 drop-shadow-[0_0_12px_rgba(34,211,238,1)]">在线沟通</div>
+                      <div className="text-base font-black text-cyan-400 drop-shadow-[0_0_12px_rgba(34,211,238,1)]">在线确认</div>
                     </div>
                     <div className="flex items-center gap-1">
                       <div className="w-1.5 h-1.5 bg-cyan-400 rounded-full animate-bounce" style={{animationDelay: '0ms'}}></div>
