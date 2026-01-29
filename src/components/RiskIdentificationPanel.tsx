@@ -1215,13 +1215,11 @@ export default function RiskIdentificationPanel({
                     <thead className="sticky top-0 bg-slate-900/95 backdrop-blur-sm z-10">
                       <tr className={cn('text-sm border-b border-yellow-500/30', 'border-yellow-500/20')}>
                         <th className={cn('text-center py-2 px-3 font-medium w-16 text-yellow-300 drop-shadow-[0_0_5px_rgba(234,179,8,0.5)]')}>序号</th>
+                        <th className={cn('text-left py-2 px-3 font-medium text-yellow-300 drop-shadow-[0_0_5px_rgba(234,179,8,0.5)]')}>预计下单</th>
                         <th className={cn('text-left py-2 px-3 font-medium text-yellow-300 drop-shadow-[0_0_5px_rgba(234,179,8,0.5)]')}>项目名称</th>
                         <th className={cn('text-left py-2 px-3 font-medium hidden lg:table-cell text-yellow-300 drop-shadow-[0_0_5px_rgba(234,179,8,0.5)]')}>大区</th>
                         <th className={cn('text-left py-2 px-3 font-medium hidden md:table-cell text-yellow-300 drop-shadow-[0_0_5px_rgba(234,179,8,0.5)]')}>负责人</th>
-                        <th className={cn('text-right py-2 px-3 font-medium text-yellow-300 drop-shadow-[0_0_5px_rgba(234,179,8,0.5)]')}>当前预测</th>
-                        <th className={cn('text-right py-2 px-3 font-medium text-yellow-300 drop-shadow-[0_0_5px_rgba(234,179,8,0.5)]')}>目标预测</th>
-                        <th className={cn('text-right py-2 px-3 font-medium text-yellow-300 drop-shadow-[0_0_5px_rgba(234,179,8,0.5)]')}>缺口金额</th>
-                        <th className={cn('text-right py-2 px-3 font-medium text-yellow-300 drop-shadow-[0_0_5px_rgba(234,179,8,0.5)]')}>缺口比例</th>
+                        <th className={cn('text-right py-2 px-3 font-medium text-yellow-300 drop-shadow-[0_0_5px_rgba(234,179,8,0.5)]')}>金额</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -1232,25 +1230,20 @@ export default function RiskIdentificationPanel({
                               {index + 1}
                             </div>
                           </td>
+                          <td className={cn('py-2 px-3 text-sm whitespace-nowrap text-yellow-200 align-middle')}>
+                            <div className="flex items-center gap-1.5">
+                              <Clock className="w-3 h-3 text-yellow-400/70" />
+                              -
+                            </div>
+                          </td>
                           <td className={cn('py-2 px-3 text-sm text-yellow-200 align-middle')}>
                             <div className="font-medium leading-snug text-yellow-100">占位项目名称</div>
                           </td>
                           <td className={cn('hidden lg:table-cell py-2 px-3 text-sm text-yellow-200 align-middle')}>-</td>
                           <td className={cn('hidden md:table-cell py-2 px-3 text-sm text-yellow-200 align-middle')}>-</td>
                           <td className={cn('text-right py-2 px-3 whitespace-nowrap text-yellow-200 align-middle')}>
-                            <span className="font-medium text-yellow-300">0</span>
-                            <span className="text-sm ml-1 text-yellow-300/70">万</span>
-                          </td>
-                          <td className={cn('text-right py-2 px-3 whitespace-nowrap text-yellow-200 align-middle')}>
-                            <span className="font-medium text-yellow-300">0</span>
-                            <span className="text-sm ml-1 text-yellow-300/70">万</span>
-                          </td>
-                          <td className={cn('text-right py-2 px-3 whitespace-nowrap text-yellow-200 align-middle')}>
                             <span className="font-black text-orange-400 drop-shadow-[0_0_6px_rgba(251,146,60,0.6)]">0</span>
                             <span className={cn('text-sm ml-1 text-orange-300/70')}>万</span>
-                          </td>
-                          <td className={cn('text-right py-2 px-3 whitespace-nowrap text-yellow-200 align-middle')}>
-                            <span className={cn('px-2 py-1 rounded text-xs font-bold', 'bg-yellow-500/20 text-yellow-400')}>0%</span>
                           </td>
                         </tr>
                       ))}
