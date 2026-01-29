@@ -643,7 +643,7 @@ export default function RiskIdentificationPanel({
     { id: 2, label: '预测不足', icon: TrendingDown },
     { id: 0, label: '未按计划下单', icon: XCircle },
     { id: 1, label: '大项目依赖', icon: Building2 },
-    { id: 3, label: '报项目', icon: PlusCircle },
+    { id: 3, label: '报备不足', icon: PlusCircle },
     { id: 4, label: '转化不足', icon: Zap },
     { id: 5, label: '阶段停滞', icon: Pause }
   ];
@@ -789,7 +789,7 @@ export default function RiskIdentificationPanel({
                 const Icon = tab.icon;
                 const isUnorderedProjects = tab.id === 0; // 未按计划下单
                 const isForecastGap = tab.id === 2; // 预测不足
-                const isReportProject = tab.id === 3; // 报项目
+                const isReportProject = tab.id === 3; // 报备不足
 
                 // 计算角标数量
                 const badgeCount = isUnorderedProjects 
@@ -1427,7 +1427,7 @@ export default function RiskIdentificationPanel({
               </div>
             )}
 
-        {/* ============ Tab 3: 报项目 ============ */}
+        {/* ============ Tab 3: 报备不足 ============ */}
         {currentTab === 3 && (
           // 明细视图
           <div className="h-full flex flex-col animate-in fade-in duration-300">
@@ -1462,7 +1462,7 @@ export default function RiskIdentificationPanel({
                       <div className="relative z-10 w-full flex flex-col items-center justify-center">
                         <div className="flex items-center gap-2 mb-1.5">
                           <FileText className="w-3.5 h-3.5 text-purple-400 drop-shadow-[0_0_10px_rgba(168,85,247,1)] animate-pulse" />
-                          <div className="text-xs font-bold text-purple-300">待报项目数</div>
+                          <div className="text-xs font-bold text-purple-300">待报备项目数</div>
                         </div>
                         <div className="flex items-baseline gap-1">
                           <span className="text-3xl font-black text-purple-400 drop-shadow-[0_0_15px_rgba(192,132,252,1)]">
@@ -1507,7 +1507,7 @@ export default function RiskIdentificationPanel({
                     )}
                          onClick={() => openDialog({
                            title: '立即上报',
-                           description: `确定要立即上报待报项目吗？\n\n共 3 个待报项目，总金额 450 万元`,
+                           description: `确定要立即上报待报备项目吗？\n\n共 3 个待报备项目，总金额 450 万元`,
                            confirmText: '确认上报',
                            cancelText: '取消',
                            onConfirm: async () => {
@@ -1561,7 +1561,7 @@ export default function RiskIdentificationPanel({
                             </div>
                           </td>
                           <td className={cn('py-2 px-3 text-sm text-purple-200 align-middle')}>
-                            <div className="font-medium leading-snug text-purple-100">待报项目名称</div>
+                            <div className="font-medium leading-snug text-purple-100">待报备项目名称</div>
                           </td>
                           <td className={cn('hidden lg:table-cell py-2 px-3 text-sm text-purple-200 align-middle')}>-</td>
                           <td className={cn('hidden md:table-cell py-2 px-3 text-sm text-purple-200 align-middle')}>-</td>
