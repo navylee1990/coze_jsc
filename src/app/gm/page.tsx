@@ -367,7 +367,7 @@ export default function GMDashboard() {
   }, [selectedTimeRange]);
 
   return (
-    <div className={`${DASHBOARD_STYLES.bg} ${DASHBOARD_STYLES.text} min-h-screen flex flex-col`}>
+    <div className={`${DASHBOARD_STYLES.bg} ${DASHBOARD_STYLES.text} min-h-screen flex flex-col w-full overflow-hidden`}>
       {/* 顶部导航栏 */}
       <header
         className={cn(
@@ -376,7 +376,7 @@ export default function GMDashboard() {
           'opacity-100 translate-y-0'
         )}
       >
-        <div className="max-w-[1920px] mx-auto px-6 py-4">
+        <div className="max-w-[1920px] min-w-[1280px] mx-auto px-6 py-4">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-4">
               <Link href="/" className={`${DASHBOARD_STYLES.textMuted} hover:text-white transition-colors`}>
@@ -440,9 +440,9 @@ export default function GMDashboard() {
       </header>
 
       {/* 主要内容区 - 自适应流式布局 */}
-      <main className="flex-1 flex flex-col">
-        {/* 流式容器 - 根据分辨率自动适配，不限制高度 */}
-        <div className="max-w-[1920px] mx-auto p-4 sm:p-6">
+      <main className="flex-1 flex flex-col w-full overflow-hidden">
+        {/* 流式容器 - 固定宽度，防止内容变化导致缩放 */}
+        <div className="w-full max-w-[1920px] min-w-[1280px] mx-auto p-4 sm:p-6">
             {/* 驾驶舱风格布局 - 响应式网格 */}
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-2 sm:gap-4">
 
