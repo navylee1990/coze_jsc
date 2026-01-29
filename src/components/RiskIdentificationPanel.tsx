@@ -725,17 +725,20 @@ export default function RiskIdentificationPanel({
     setDialogOpen(true);
   };
 
-  // 当时间维度变化时，重置当前 Tab
+  // 当时间维度变化时，重置当前 Tab 到对应的第一个Tab
   useEffect(() => {
     if (timeRange === 'current') {
-      setCurrentTab(0);
-      setCurrentPage(1);
-      setViewMode('summary');
+      // 月度：选中预测不足
+      setCurrentTab(2);
+    } else if (timeRange === 'quarter') {
+      // 季度：选中报备不足
+      setCurrentTab(3);
     } else {
-      setCurrentTab(1);
-      setCurrentPage(1);
-      setViewMode('summary');
+      // 年度：选中第一个Tab
+      setCurrentTab(2);
     }
+    setCurrentPage(1);
+    setViewMode('summary');
   }, [timeRange]);
 
   // 所有 Tab 定义
@@ -749,8 +752,20 @@ export default function RiskIdentificationPanel({
   ];
 
   // 根据时间维度显示的 Tabs
-  // 本月、本季度、本年度：都显示所有 Tabs
-  const visibleTabs = allTabs;
+  const visibleTabs = useMemo(() => {
+    // 月度：关注预测不足、未按计划下单、大项目依赖
+    if (timeRange === 'current') {
+      return allTabs.filter(tab => [2, 0, 1].includes(tab.id));
+    }
+    // 季度：关注报备不足、转化不足、阶段停滞
+    else if (timeRange === 'quarter') {
+      return allTabs.filter(tab => [3, 4, 5].includes(tab.id));
+    }
+    // 年度：显示所有Tabs
+    else {
+      return allTabs;
+    }
+  }, [timeRange]);
 
   // 根据时间维度过滤数据
   const filteredUnorderedProjects = useMemo(() => {
