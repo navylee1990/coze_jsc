@@ -897,6 +897,14 @@ export default function RiskIdentificationPanel({
     const result = insufficientReports.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage);
     return result;
   };
+  const getPaginatedInsufficientConversions = () => {
+    const result = insufficientConversions.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage);
+    return result;
+  };
+  const getPaginatedPhaseStagnations = () => {
+    const result = phaseStagnations.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage);
+    return result;
+  };
   const getPaginatedUnorderedProjects = () => {
     return filteredUnorderedProjects.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage);
   };
@@ -2064,23 +2072,23 @@ export default function RiskIdentificationPanel({
                       </tr>
                     </thead>
                     <tbody>
-                      {insufficientConversions.map((item, index) => (
+                      {getPaginatedInsufficientConversions().map((item, index) => (
                         <tr
                           key={index}
                           className={cn(
                             'align-middle border-b border-pink-500/10 hover:bg-gradient-to-r hover:from-pink-500/10 hover:to-rose-500/10 transition-all duration-200',
-                            index === insufficientConversions.length - 1 && 'border-b-0'
+                            index === getPaginatedInsufficientConversions().length - 1 && 'border-b-0'
                           )}
                         >
                           {/* 序号 */}
                           <td className={cn('text-center py-2 px-3 text-sm text-pink-300 align-middle')}>
                             <div className="inline-flex items-center justify-center w-6 h-6 rounded-full bg-pink-500/10 border border-pink-500/30">
-                              {index + 1}
+                              {(currentPage - 1) * 5 + index + 1}
                             </div>
                           </td>
 
                           {/* 项目名称 */}
-                          <td className={cn('py-2 px-3 text-sm', 'text-pink-200', 'align-middle')}>
+                          <td className={cn('py-2 px-3 text-sm', DASHBOARD_STYLES.textSecondary, 'align-middle')}>
                             <div className="font-medium leading-snug text-pink-100">{item.projectName}</div>
                           </td>
 
@@ -2104,7 +2112,7 @@ export default function RiskIdentificationPanel({
                           </td>
 
                           {/* 金额 */}
-                          <td className={cn('text-right py-2 px-3 whitespace-nowrap', 'text-pink-200', 'align-middle')}>
+                          <td className={cn('text-right py-2 px-3 whitespace-nowrap', DASHBOARD_STYLES.textSecondary, 'align-middle')}>
                             <span className="font-black text-pink-300">{item.amount.toFixed(0)}</span>
                             <span className={cn('text-sm ml-1 text-pink-300/70')}>万</span>
                           </td>
@@ -2116,10 +2124,11 @@ export default function RiskIdentificationPanel({
 
                 {/* 分页 */}
                 <div className="px-4 py-2 border-t border-pink-500/20 flex justify-between items-center bg-gradient-to-r from-slate-900/50 to-transparent">
-                  <div className={cn('text-xs flex items-center gap-2', 'text-pink-300/70')}>
+                  <div className={cn('text-xs flex items-center gap-2', DASHBOARD_STYLES.textMuted)}>
                     <Activity className="w-3 h-3 text-pink-400/70" />
-                    共 {insufficientConversions.length} 条记录
+                    共 {insufficientConversions.length} 条记录，当前第 {currentPage} / {totalPages} 页
                   </div>
+                  <Pagination currentPage={currentPage} totalPages={totalPages} onPageChange={setCurrentPage} />
                 </div>
               </div>
             )}
@@ -2283,23 +2292,23 @@ export default function RiskIdentificationPanel({
                       </tr>
                     </thead>
                     <tbody>
-                      {phaseStagnations.map((item, index) => (
+                      {getPaginatedPhaseStagnations().map((item, index) => (
                         <tr
                           key={index}
                           className={cn(
                             'align-middle border-b border-indigo-500/10 hover:bg-gradient-to-r hover:from-indigo-500/10 hover:to-violet-500/10 transition-all duration-200',
-                            index === phaseStagnations.length - 1 && 'border-b-0'
+                            index === getPaginatedPhaseStagnations().length - 1 && 'border-b-0'
                           )}
                         >
                           {/* 序号 */}
                           <td className={cn('text-center py-2 px-3 text-sm text-indigo-300 align-middle')}>
                             <div className="inline-flex items-center justify-center w-6 h-6 rounded-full bg-indigo-500/10 border border-indigo-500/30">
-                              {index + 1}
+                              {(currentPage - 1) * 5 + index + 1}
                             </div>
                           </td>
 
                           {/* 项目名称 */}
-                          <td className={cn('py-2 px-3 text-sm', 'text-indigo-200', 'align-middle')}>
+                          <td className={cn('py-2 px-3 text-sm', DASHBOARD_STYLES.textSecondary, 'align-middle')}>
                             <div className="font-medium leading-snug text-indigo-100">{item.projectName}</div>
                           </td>
 
@@ -2323,13 +2332,13 @@ export default function RiskIdentificationPanel({
                           </td>
 
                           {/* 金额 */}
-                          <td className={cn('text-right py-2 px-3 whitespace-nowrap', 'text-indigo-200', 'align-middle')}>
+                          <td className={cn('text-right py-2 px-3 whitespace-nowrap', DASHBOARD_STYLES.textSecondary, 'align-middle')}>
                             <span className="font-black text-indigo-300">{item.amount.toFixed(0)}</span>
                             <span className={cn('text-sm ml-1 text-indigo-300/70')}>万</span>
                           </td>
 
                           {/* 风险等级 */}
-                          <td className={cn('text-right py-2 px-3 whitespace-nowrap text-indigo-200 align-middle')}>
+                          <td className={cn('text-right py-2 px-3 whitespace-nowrap', DASHBOARD_STYLES.textSecondary, 'align-middle')}>
                             <span className={cn(
                               'px-2 py-1 rounded text-xs font-bold',
                               item.riskLevel === 'high' ? 'bg-red-500/20 text-red-400' :
@@ -2347,10 +2356,11 @@ export default function RiskIdentificationPanel({
 
                 {/* 分页 */}
                 <div className="px-4 py-2 border-t border-indigo-500/20 flex justify-between items-center bg-gradient-to-r from-slate-900/50 to-transparent">
-                  <div className={cn('text-xs flex items-center gap-2', 'text-indigo-300/70')}>
+                  <div className={cn('text-xs flex items-center gap-2', DASHBOARD_STYLES.textMuted)}>
                     <Activity className="w-3 h-3 text-indigo-400/70" />
-                    共 {phaseStagnations.length} 条记录
+                    共 {phaseStagnations.length} 条记录，当前第 {currentPage} / {totalPages} 页
                   </div>
+                  <Pagination currentPage={currentPage} totalPages={totalPages} onPageChange={setCurrentPage} />
                 </div>
               </div>
             )}
