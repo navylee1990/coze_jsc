@@ -439,9 +439,9 @@ export default function GMDashboard() {
       </header>
 
       {/* 主要内容区 - 自适应流式布局 */}
-      <main className="flex-1 flex flex-col w-full overflow-hidden px-4 sm:px-6 lg:px-8 py-2 sm:py-3 lg:py-4">
+      <main className="flex-1 flex flex-col w-full px-2 sm:px-4 md:px-6 lg:px-8 py-1 sm:py-2 lg:py-3">
         {/* 驾驶舱风格布局 - 响应式网格 */}
-        <div className="grid grid-cols-1 xl:grid-cols-12 gap-2 sm:gap-3 lg:gap-4 h-full flex-1">
+        <div className="grid grid-cols-1 xl:grid-cols-12 gap-1 sm:gap-2 md:gap-3 lg:gap-4 flex-1">
 
           {/* 核心预测决策卡片 - 使用新的汽车驾驶舱风格组件 */}
           <div className={cn(
@@ -452,7 +452,7 @@ export default function GMDashboard() {
           )}>
             <div className={cn(
               `${DASHBOARD_STYLES.cardBg} ${DASHBOARD_STYLES.cardBorder} rounded-xl p-0 ${DASHBOARD_STYLES.glow}`,
-              'flex-1 min-h-0'
+              'flex-1 min-h-0 flex flex-col'
             )}>
               <PredictionDecisionCard theme="dashboard" timeRange={selectedTimeRange} />
             </div>
@@ -471,7 +471,7 @@ export default function GMDashboard() {
               'shadow-[0_0_40px_rgba(239,68,68,0.4)]',
               'hover:shadow-[0_0_50px_rgba(239,68,68,0.5)]',
               'transition-shadow duration-300',
-              'flex-1 min-h-0'
+              'flex-1 min-h-0 flex flex-col'
             )}>
               <RiskIdentificationPanel theme="dashboard" timeRange={selectedTimeRange} />
             </div>
@@ -481,9 +481,13 @@ export default function GMDashboard() {
           <div className={cn(
             'col-span-1 lg:col-span-12',
             'transition-all duration-500',
-            'opacity-100 translate-y-0'
+            'opacity-100 translate-y-0',
+            'flex flex-col min-h-0'
           )}>
-            <div className={`${DASHBOARD_STYLES.cardBg} ${DASHBOARD_STYLES.cardBorder} rounded-xl p-0 ${DASHBOARD_STYLES.glow}`}>
+            <div className={cn(
+              `${DASHBOARD_STYLES.cardBg} ${DASHBOARD_STYLES.cardBorder} rounded-xl p-0 ${DASHBOARD_STYLES.glow}`,
+              'flex-1 min-h-0 flex flex-col'
+            )}>
               <RegionMatrix
                 data={currentData}
                 title="区域达成"
@@ -499,9 +503,12 @@ export default function GMDashboard() {
           <div className={cn(
             'col-span-1 lg:col-span-12',
             'transition-all duration-500',
-            'opacity-100 translate-y-0'
+            'opacity-100 translate-y-0',
+            'flex flex-col min-h-0'
           )}>
-            <FutureSupportAdequacyPanel theme="dashboard" timeRange={selectedTimeRange} />
+            <div className="flex-1 min-h-0 flex flex-col">
+              <FutureSupportAdequacyPanel theme="dashboard" timeRange={selectedTimeRange} />
+            </div>
           </div>
         </div>
       </main>

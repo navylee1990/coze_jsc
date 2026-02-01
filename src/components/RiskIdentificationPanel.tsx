@@ -924,32 +924,32 @@ export default function RiskIdentificationPanel({
       {/* 标题栏 */}
       <div
         className={cn(
-          'px-4 sm:px-6 py-2 sm:py-3 border-b flex items-center justify-between flex-shrink-0',
+          'px-2 sm:px-3 md:px-4 py-1 sm:py-1.5 md:py-2 border-b flex items-center justify-between flex-shrink-0',
           theme === 'dashboard' ? `${DASHBOARD_STYLES.cardBorder} bg-slate-900/60` : 'border-slate-200 bg-white'
         )}
       >
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-1.5 sm:gap-2">
           {viewMode === 'detail' && (
             <button
               onClick={() => setViewMode('summary')}
               className={cn(
-                'p-1.5 rounded-lg transition-all mr-2',
+                'p-1 sm:p-1.5 rounded-lg transition-all mr-1 sm:mr-2',
                 theme === 'dashboard'
                   ? 'bg-slate-800/50 text-cyan-400 hover:bg-cyan-500/20'
                   : 'bg-slate-100 text-slate-700 hover:bg-slate-200'
               )}
             >
-              <ArrowLeft className="w-4 h-4" />
+              <ArrowLeft className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
             </button>
           )}
           <AlertTriangle className={cn(
-            'w-5 h-5 sm:w-6 sm:h-6',
-            theme === 'dashboard' 
-              ? 'text-red-500 drop-shadow-[0_0_10px_rgba(239,68,68,1)]' 
+            'w-4 h-4 sm:w-5 sm:h-5',
+            theme === 'dashboard'
+              ? 'text-red-500 drop-shadow-[0_0_10px_rgba(239,68,68,1)]'
               : 'text-slate-700'
           )} />
-          <h3 className={cn('font-bold text-lg sm:text-xl', theme === 'dashboard' 
-            ? 'text-red-400 drop-shadow-[0_0_12px_rgba(239,68,68,0.9)]' 
+          <h3 className={cn('font-bold text-sm sm:text-base md:text-lg', theme === 'dashboard'
+            ? 'text-red-400 drop-shadow-[0_0_12px_rgba(239,68,68,0.9)]'
             : 'text-slate-900')}>
             风险识别
           </h3>
@@ -958,7 +958,7 @@ export default function RiskIdentificationPanel({
 
       {/* Tab切换栏 - 仅在汇总视图显示 */}
       {viewMode === 'summary' && visibleTabs.length >= 1 && (
-        <div className="px-6 py-2 border-b border-cyan-500/20">
+        <div className="px-2 sm:px-3 md:px-4 py-1 sm:py-1.5 border-b border-cyan-500/20">
           <div className="flex items-center justify-between">
             <button
               onClick={() => {
@@ -967,13 +967,13 @@ export default function RiskIdentificationPanel({
                 setCurrentTab(visibleTabs[newIndex].id);
               }}
               className={cn(
-                'p-1 sm:p-1.5 rounded-lg transition-all',
+                'p-0.5 sm:p-1 rounded-lg transition-all',
                 theme === 'dashboard'
                   ? 'bg-slate-800/50 text-cyan-400 hover:bg-cyan-500/20 hover:text-cyan-300'
                   : 'bg-slate-100 text-slate-700 hover:bg-slate-200'
               )}
             >
-              <ChevronLeft className="w-3 h-3 sm:w-4 sm:h-4" />
+              <ChevronLeft className="w-3 h-3 sm:w-3.5 sm:h-3.5 md:w-4 md:h-4" />
             </button>
 
             <div className="flex items-center gap-1 sm:gap-2">
@@ -1002,7 +1002,7 @@ export default function RiskIdentificationPanel({
                     key={tab.id}
                     onClick={() => setCurrentTab(tab.id)}
                     className={cn(
-                      'flex items-center gap-1 sm:gap-1.5 px-2 sm:px-3 py-1 sm:py-1.5 rounded-lg text-[10px] sm:text-xs font-medium transition-all relative',
+                      'flex items-center gap-0.5 sm:gap-1 px-1 sm:px-2 md:px-3 py-0.5 sm:py-1 rounded-lg text-[8px] sm:text-[10px] md:text-xs font-medium transition-all relative',
                       // 激活状态
                       isActive && theme === 'dashboard'
                         ? cn(
@@ -1068,13 +1068,13 @@ export default function RiskIdentificationPanel({
                 setCurrentTab(visibleTabs[newIndex].id);
               }}
               className={cn(
-                'p-1 sm:p-1.5 rounded-lg transition-all',
+                'p-0.5 sm:p-1 rounded-lg transition-all',
                 theme === 'dashboard'
                   ? 'bg-slate-800/50 text-cyan-400 hover:bg-cyan-500/20 hover:text-cyan-300'
                   : 'bg-slate-100 text-slate-700 hover:bg-slate-200'
               )}
             >
-              <ChevronRight className="w-3 h-3 sm:w-4 sm:h-4" />
+              <ChevronRight className="w-3 h-3 sm:w-3.5 sm:h-3.5 md:w-4 md:h-4" />
             </button>
           </div>
         </div>
