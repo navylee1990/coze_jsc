@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect, useMemo } from 'react';
-import { AlertTriangle, Building2, Clock, TrendingDown, Users, ChevronRight, ChevronLeft, PauseCircle, Gauge, Circle, Target, BarChart3, ArrowLeft, Activity, DollarSign, XCircle, Send, FileText, PlusCircle, Zap, Pause, Play } from 'lucide-react';
+import { AlertTriangle, Building2, Clock, TrendingDown, Users, ChevronRight, ChevronLeft, PauseCircle, Gauge, Circle, Target, BarChart3, ArrowLeft, Activity, DollarSign, XCircle, Send, FileText, PlusCircle, Zap, Pause, Play, Calendar } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import ConfirmDialog from '@/components/ui/confirm-dialog';
 
@@ -171,6 +171,17 @@ interface InsufficientConversion {
   riskReason: string; // 转化不足原因
 }
 
+// 7.5 报备不足数据（项目已确认意向但未报备）
+interface InsufficientReport {
+  projectName: string;
+  region: string;
+  salesEngineer: string;
+  cityManager: string;
+  amount: number; // 金额
+  expectedReportDate: string; // 预计报备日期
+  status: 'pending' | 'overdue' | 'urgent'; // 状态
+}
+
 // 8. 阶段停滞数据（项目在某个阶段停滞）
 interface PhaseStagnation {
   projectName: string;
@@ -190,6 +201,7 @@ interface RiskIdentificationPanelProps {
   forecastGaps?: ForecastGap[];
   unorderedProjects?: UnorderedProject[];
   insufficientConversions?: InsufficientConversion[];
+  insufficientReports?: InsufficientReport[];
   phaseStagnations?: PhaseStagnation[];
   theme?: 'dashboard' | 'light' | 'dark';
   timeRange?: 'current' | 'quarter' | 'year';
@@ -264,6 +276,55 @@ const defaultInsufficientConversions: InsufficientConversion[] = [
     stayDays: 18,
     amount: 250,
     riskReason: '方案设计反复修改，客户要求不明确'
+  }
+];
+
+// 默认报备不足数据
+const defaultInsufficientReports: InsufficientReport[] = [
+  {
+    projectName: '上海虹桥国际机场扩建项目',
+    region: '一区',
+    salesEngineer: '刘洋',
+    cityManager: '陈明',
+    amount: 180,
+    expectedReportDate: '2025-01-15',
+    status: 'overdue'
+  },
+  {
+    projectName: '广州白云国际机场T4航站楼',
+    region: '华南',
+    salesEngineer: '陈静',
+    cityManager: '林婷',
+    amount: 150,
+    expectedReportDate: '2025-01-18',
+    status: 'urgent'
+  },
+  {
+    projectName: '深圳前海金融中心',
+    region: '华南',
+    salesEngineer: '赵雪',
+    cityManager: '黄磊',
+    amount: 120,
+    expectedReportDate: '2025-01-20',
+    status: 'pending'
+  },
+  {
+    projectName: '北京大兴国际机场配套项目',
+    region: '华北',
+    salesEngineer: '马龙',
+    cityManager: '张伟',
+    amount: 200,
+    expectedReportDate: '2025-01-22',
+    status: 'pending'
+  },
+  {
+    projectName: '杭州亚运会场馆配套项目',
+    region: '二区',
+    salesEngineer: '杨帆',
+    cityManager: '郑浩',
+    amount: 100,
+    expectedReportDate: '2025-01-25',
+    status: 'pending'
   }
 ];
 
@@ -698,6 +759,7 @@ export default function RiskIdentificationPanel({
   forecastGaps = defaultForecastGaps,
   unorderedProjects = defaultUnorderedProjects,
   insufficientConversions = defaultInsufficientConversions,
+  insufficientReports = defaultInsufficientReports,
   phaseStagnations = defaultPhaseStagnations,
   theme = 'dashboard',
   timeRange = 'current'
@@ -812,6 +874,9 @@ export default function RiskIdentificationPanel({
       case 0: return filteredUnorderedProjects;
       case 1: return largeProjectDependencies;
       case 2: return forecastGaps;
+      case 3: return insufficientReports;
+      case 4: return insufficientConversions;
+      case 5: return phaseStagnations;
       default: return [];
     }
   };
@@ -826,6 +891,10 @@ export default function RiskIdentificationPanel({
   const getPaginatedForecastGaps = () => {
     const result = forecastGaps.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage);
     console.log('getPaginatedForecastGaps:', { currentPage, itemsPerPage, forecastGaps: forecastGaps.length, result: result.length });
+    return result;
+  };
+  const getPaginatedInsufficientReports = () => {
+    const result = insufficientReports.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage);
     return result;
   };
   const getPaginatedUnorderedProjects = () => {
@@ -1510,11 +1579,11 @@ export default function RiskIdentificationPanel({
                   </div>
                 </div>
 
-                {/* 表格区域 - 占位，保持宽度一致 */}
+                {/* 表格区域 */}
                 <div className="flex-1 overflow-auto p-3 bg-gradient-to-b from-slate-900/50 to-transparent">
-                  <table className="w-full invisible">
+                  <table className="w-full">
                     <thead className="sticky top-0 bg-slate-900/95 backdrop-blur-sm z-10">
-                      <tr className={cn('text-sm border-b border-yellow-500/30', 'border-yellow-500/20')}>
+                      <tr className={cn('text-sm border-b border-yellow-500/30', DASHBOARD_STYLES.cardBorder)}>
                         <th className={cn('text-center py-2 px-3 font-medium w-16 text-yellow-300 drop-shadow-[0_0_5px_rgba(234,179,8,0.5)]')}>序号</th>
                         <th className={cn('text-left py-2 px-3 font-medium text-yellow-300 drop-shadow-[0_0_5px_rgba(234,179,8,0.5)]')}>项目名称</th>
                         <th className={cn('text-left py-2 px-3 font-medium hidden lg:table-cell text-yellow-300 drop-shadow-[0_0_5px_rgba(234,179,8,0.5)]')}>大区</th>
@@ -1526,32 +1595,66 @@ export default function RiskIdentificationPanel({
                       </tr>
                     </thead>
                     <tbody>
-                      {[...Array(Math.min(5, forecastGaps.length))].map((_, index) => (
-                        <tr key={index} className={cn('align-middle border-b border-yellow-500/10', index === Math.min(5, forecastGaps.length) - 1 && 'border-b-0')}>
+                      {getPaginatedForecastGaps().map((item, index) => (
+                        <tr
+                          key={index}
+                          className={cn(
+                            'align-middle border-b border-yellow-500/10 hover:bg-gradient-to-r hover:from-yellow-500/10 hover:to-orange-500/10 transition-all duration-200',
+                            index === getPaginatedForecastGaps().length - 1 && 'border-b-0'
+                          )}
+                        >
+                          {/* 序号 */}
                           <td className={cn('text-center py-2 px-3 text-sm text-yellow-300 align-middle')}>
                             <div className="inline-flex items-center justify-center w-6 h-6 rounded-full bg-yellow-500/10 border border-yellow-500/30">
-                              {index + 1}
+                              {(currentPage - 1) * 5 + index + 1}
                             </div>
                           </td>
-                          <td className={cn('py-2 px-3 text-sm text-yellow-200 align-middle')}>
-                            <div className="font-medium leading-snug text-yellow-100">占位项目名称</div>
+
+                          {/* 项目名称 */}
+                          <td className={cn('py-2 px-3 text-sm', DASHBOARD_STYLES.textSecondary, 'align-middle')}>
+                            <div className="font-medium leading-snug text-yellow-100">{item.projectName}</div>
                           </td>
-                          <td className={cn('hidden lg:table-cell py-2 px-3 text-sm text-yellow-200 align-middle')}>-</td>
-                          <td className={cn('hidden md:table-cell py-2 px-3 text-sm text-yellow-200 align-middle')}>-</td>
+
+                          {/* 大区 */}
+                          <td className={cn('hidden lg:table-cell py-2 px-3 text-sm text-yellow-200 align-middle')}>
+                            {item.region || '-'}
+                          </td>
+
+                          {/* 负责人 */}
+                          <td className={cn('hidden md:table-cell py-2 px-3 text-sm text-yellow-200 align-middle')}>
+                            {item.owner || '-'}
+                          </td>
+
+                          {/* 当前预测 */}
                           <td className={cn('text-right py-2 px-3 whitespace-nowrap text-yellow-200 align-middle')}>
-                            <span className="font-medium text-yellow-300">0</span>
+                            <span className="font-medium text-yellow-300">{item.currentForecast}</span>
                             <span className="text-sm ml-1 text-yellow-300/70">万</span>
                           </td>
+
+                          {/* 目标预测 */}
                           <td className={cn('text-right py-2 px-3 whitespace-nowrap text-yellow-200 align-middle')}>
-                            <span className="font-medium text-yellow-300">0</span>
+                            <span className="font-medium text-yellow-300">{item.targetForecast}</span>
                             <span className="text-sm ml-1 text-yellow-300/70">万</span>
                           </td>
-                          <td className={cn('text-right py-2 px-3 whitespace-nowrap text-yellow-200 align-middle')}>
-                            <span className="font-black text-orange-400 drop-shadow-[0_0_6px_rgba(251,146,60,0.6)]">0</span>
+
+                          {/* 缺口金额 */}
+                          <td className={cn('text-right py-2 px-3 whitespace-nowrap', DASHBOARD_STYLES.textSecondary, 'align-middle')}>
+                            <span className="font-black text-orange-400 drop-shadow-[0_0_6px_rgba(251,146,60,0.6)]">
+                              {item.gapAmount.toFixed(2)}
+                            </span>
                             <span className={cn('text-sm ml-1 text-orange-300/70')}>万</span>
                           </td>
-                          <td className={cn('text-right py-2 px-3 whitespace-nowrap text-yellow-200 align-middle')}>
-                            <span className={cn('px-2 py-1 rounded text-xs font-bold', 'bg-yellow-500/20 text-yellow-400')}>0%</span>
+
+                          {/* 缺口比例 */}
+                          <td className={cn('text-right py-2 px-3 whitespace-nowrap', DASHBOARD_STYLES.textSecondary, 'align-middle')}>
+                            <span className={cn(
+                              'px-2 py-1 rounded text-xs font-bold',
+                              item.gapPercentage >= 50 ? 'bg-red-500/20 text-red-400' :
+                              item.gapPercentage >= 40 ? 'bg-orange-500/20 text-orange-400' :
+                              'bg-yellow-500/20 text-yellow-400'
+                            )}>
+                              {item.gapPercentage}%
+                            </span>
                           </td>
                         </tr>
                       ))}
@@ -1559,16 +1662,13 @@ export default function RiskIdentificationPanel({
                   </table>
                 </div>
 
-                {/* 分页 - 占位，保持高度一致 */}
+                {/* 分页 */}
                 <div className="px-4 py-2 border-t border-yellow-500/20 flex justify-between items-center bg-gradient-to-r from-slate-900/50 to-transparent">
-                  <div className={cn('text-xs flex items-center gap-2', 'text-yellow-300/70 invisible')}>
+                  <div className={cn('text-xs flex items-center gap-2', DASHBOARD_STYLES.textMuted)}>
                     <Activity className="w-3 h-3 text-yellow-400/70" />
-                    占位分页信息
+                    共 {forecastGaps.length} 条记录，当前第 {currentPage} / {totalPages} 页
                   </div>
-                  <div className="invisible">
-                    {/* 占位分页控件 */}
-                    <span className="text-sm">◀ 1 / 1 ▶</span>
-                  </div>
+                  <Pagination currentPage={currentPage} totalPages={totalPages} onPageChange={setCurrentPage} />
                 </div>
               </div>
             )}
@@ -1617,7 +1717,7 @@ export default function RiskIdentificationPanel({
                         </div>
                         <div className="flex items-baseline gap-1">
                           <span className="text-3xl font-black text-purple-400 drop-shadow-[0_0_15px_rgba(192,132,252,1)]">
-                            3
+                            {insufficientReports.length}
                           </span>
                           <span className="text-xs text-purple-300/80">个</span>
                         </div>
@@ -1639,7 +1739,7 @@ export default function RiskIdentificationPanel({
                         </div>
                         <div className="flex items-baseline gap-1">
                           <span className="text-3xl font-black text-indigo-400 drop-shadow-[0_0_15px_rgba(129,140,248,1)]">
-                            450
+                            {insufficientReports.reduce((sum, p) => sum + p.amount, 0).toFixed(0)}
                           </span>
                           <span className="text-xs text-indigo-300/80">万</span>
                         </div>
@@ -1685,7 +1785,7 @@ export default function RiskIdentificationPanel({
                       )}
                            onClick={() => openDialog({
                              title: '立即上报',
-                             description: `确定要立即上报待报备项目吗？\n\n共 3 个待报备项目，总金额 450 万元`,
+                             description: `确定要立即上报待报备项目吗？\n\n共 ${insufficientReports.length} 个待报备项目，总金额 ${insufficientReports.reduce((sum, p) => sum + p.amount, 0).toFixed(0)} 万元`,
                              confirmText: '确认上报',
                              cancelText: '取消',
                              onConfirm: async () => {
@@ -1709,7 +1809,7 @@ export default function RiskIdentificationPanel({
                             <div className="w-1.5 h-1.5 bg-purple-400 rounded-full animate-bounce" style={{animationDelay: '0ms'}}></div>
                             <div className="w-1.5 h-1.5 bg-purple-400 rounded-full animate-bounce" style={{animationDelay: '150ms'}}></div>
                             <div className="w-1.5 h-1.5 bg-purple-400 rounded-full animate-bounce" style={{animationDelay: '300ms'}}></div>
-                            <div className="text-xs text-purple-300 font-semibold">全部 3 个项目</div>
+                            <div className="text-xs text-purple-300 font-semibold">全部 {insufficientReports.length} 个项目</div>
                           </div>
                         </div>
                       </div>
@@ -1717,42 +1817,77 @@ export default function RiskIdentificationPanel({
                   </div>
                 </div>
 
-                {/* 占位区域 - 保持宽度一致但不显示内容 */}
+                {/* 表格区域 */}
                 <div className="flex-1 overflow-auto p-3 bg-gradient-to-b from-slate-900/50 to-transparent">
-                  <table className="w-full invisible">
+                  <table className="w-full">
                     <thead className="sticky top-0 bg-slate-900/95 backdrop-blur-sm z-10">
-                      <tr className={cn('text-sm border-b border-purple-500/30', 'border-purple-500/20')}>
+                      <tr className={cn('text-sm border-b border-purple-500/30', DASHBOARD_STYLES.cardBorder)}>
                         <th className={cn('text-center py-2 px-3 font-medium w-16 text-purple-300 drop-shadow-[0_0_5px_rgba(168,85,247,0.5)]')}>序号</th>
                         <th className={cn('text-left py-2 px-3 font-medium text-purple-300 drop-shadow-[0_0_5px_rgba(168,85,247,0.5)]')}>项目名称</th>
                         <th className={cn('text-left py-2 px-3 font-medium hidden lg:table-cell text-purple-300 drop-shadow-[0_0_5px_rgba(168,85,247,0.5)]')}>大区</th>
                         <th className={cn('text-left py-2 px-3 font-medium hidden md:table-cell text-purple-300 drop-shadow-[0_0_5px_rgba(168,85,247,0.5)]')}>负责人</th>
                         <th className={cn('text-right py-2 px-3 font-medium text-purple-300 drop-shadow-[0_0_5px_rgba(168,85,247,0.5)]')}>金额</th>
-                        <th className={cn('text-right py-2 px-3 font-medium text-purple-300 drop-shadow-[0_0_5px_rgba(168,85,247,0.5)]')}>预计报单</th>
+                        <th className={cn('text-right py-2 px-3 font-medium text-purple-300 drop-shadow-[0_0_5px_rgba(168,85,247,0.5)]')}>预计报备</th>
                         <th className={cn('text-right py-2 px-3 font-medium text-purple-300 drop-shadow-[0_0_5px_rgba(168,85,247,0.5)]')}>状态</th>
                       </tr>
                     </thead>
                     <tbody>
-                      {[...Array(3)].map((_, index) => (
-                        <tr key={index} className={cn('align-middle border-b border-purple-500/10', index === 2 && 'border-b-0')}>
+                      {getPaginatedInsufficientReports().map((item, index) => (
+                        <tr
+                          key={index}
+                          className={cn(
+                            'align-middle border-b border-purple-500/10 hover:bg-gradient-to-r hover:from-purple-500/10 hover:to-indigo-500/10 transition-all duration-200',
+                            index === getPaginatedInsufficientReports().length - 1 && 'border-b-0'
+                          )}
+                        >
+                          {/* 序号 */}
                           <td className={cn('text-center py-2 px-3 text-sm text-purple-300 align-middle')}>
                             <div className="inline-flex items-center justify-center w-6 h-6 rounded-full bg-purple-500/10 border border-purple-500/30">
-                              {index + 1}
+                              {(currentPage - 1) * 5 + index + 1}
                             </div>
                           </td>
-                          <td className={cn('py-2 px-3 text-sm text-purple-200 align-middle')}>
-                            <div className="font-medium leading-snug text-purple-100">待报备项目名称</div>
+
+                          {/* 项目名称 */}
+                          <td className={cn('py-2 px-3 text-sm', DASHBOARD_STYLES.textSecondary, 'align-middle')}>
+                            <div className="font-medium leading-snug text-purple-100">{item.projectName}</div>
                           </td>
-                          <td className={cn('hidden lg:table-cell py-2 px-3 text-sm text-purple-200 align-middle')}>-</td>
-                          <td className={cn('hidden md:table-cell py-2 px-3 text-sm text-purple-200 align-middle')}>-</td>
-                          <td className={cn('text-right py-2 px-3 whitespace-nowrap text-purple-200 align-middle')}>
-                            <span className="font-medium text-purple-300">0</span>
-                            <span className="text-sm ml-1 text-purple-300/70">万</span>
+
+                          {/* 大区 */}
+                          <td className={cn('hidden lg:table-cell py-2 px-3 text-sm text-purple-200 align-middle')}>
+                            {item.region || '-'}
                           </td>
-                          <td className={cn('text-right py-2 px-3 whitespace-nowrap text-purple-200 align-middle')}>
-                            <span className="font-medium text-purple-300">-</span>
+
+                          {/* 负责人 */}
+                          <td className={cn('hidden md:table-cell py-2 px-3 text-sm text-purple-200 align-middle')}>
+                            {item.salesEngineer || '-'}
                           </td>
+
+                          {/* 金额 */}
+                          <td className={cn('text-right py-2 px-3 whitespace-nowrap', DASHBOARD_STYLES.textSecondary, 'align-middle')}>
+                            <span className="font-black text-purple-400 drop-shadow-[0_0_6px_rgba(192,132,252,0.6)]">
+                              {item.amount.toFixed(2)}
+                            </span>
+                            <span className={cn('text-sm ml-1 text-purple-300/70')}>万</span>
+                          </td>
+
+                          {/* 预计报备日期 */}
                           <td className={cn('text-right py-2 px-3 whitespace-nowrap text-purple-200 align-middle')}>
-                            <span className={cn('px-2 py-1 rounded text-xs font-bold', 'bg-purple-500/20 text-purple-400')}>待报</span>
+                            <div className="flex items-center gap-1.5 justify-end">
+                              <Calendar className="w-3 h-3 text-purple-400/70" />
+                              {item.expectedReportDate || '-'}
+                            </div>
+                          </td>
+
+                          {/* 状态 */}
+                          <td className={cn('text-right py-2 px-3 whitespace-nowrap', DASHBOARD_STYLES.textSecondary, 'align-middle')}>
+                            <span className={cn(
+                              'px-2 py-1 rounded text-xs font-bold',
+                              item.status === 'overdue' ? 'bg-red-500/20 text-red-400' :
+                              item.status === 'urgent' ? 'bg-orange-500/20 text-orange-400' :
+                              'bg-purple-500/20 text-purple-400'
+                            )}>
+                              {item.status === 'overdue' ? '已逾期' : item.status === 'urgent' ? '紧急' : '待报'}
+                            </span>
                           </td>
                         </tr>
                       ))}
@@ -1760,16 +1895,13 @@ export default function RiskIdentificationPanel({
                   </table>
                 </div>
 
-                {/* 分页 - 占位，保持高度一致 */}
+                {/* 分页 */}
                 <div className="px-4 py-2 border-t border-purple-500/20 flex justify-between items-center bg-gradient-to-r from-slate-900/50 to-transparent">
-                  <div className={cn('text-xs flex items-center gap-2', 'text-purple-300/70 invisible')}>
+                  <div className={cn('text-xs flex items-center gap-2', DASHBOARD_STYLES.textMuted)}>
                     <Activity className="w-3 h-3 text-purple-400/70" />
-                    占位分页信息
+                    共 {insufficientReports.length} 条记录，当前第 {currentPage} / {totalPages} 页
                   </div>
-                  <div className="invisible">
-                    {/* 占位分页控件 */}
-                    <span className="text-sm">◀ 1 / 1 ▶</span>
-                  </div>
+                  <Pagination currentPage={currentPage} totalPages={totalPages} onPageChange={setCurrentPage} />
                 </div>
               </div>
             )}
