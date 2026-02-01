@@ -916,8 +916,8 @@ export default function RiskIdentificationPanel({
                 // 是否闪烁（数量>0且非当前Tab）
                 const shouldPulse = badgeCount > 0 && tab.id !== currentTab;
 
-                // 所有Tab都使用红色主题（未按计划下单的样式）
-                const colorScheme = TAB_COLOR_SCHEMES[0];
+                // 获取当前tab的颜色方案
+                const colorScheme = TAB_COLOR_SCHEMES[tab.id as keyof typeof TAB_COLOR_SCHEMES] || TAB_COLOR_SCHEMES[0];
                 const isActive = currentTab === tab.id;
 
                 return (
@@ -1079,42 +1079,21 @@ export default function RiskIdentificationPanel({
                     {/* 总金额卡片 */}
                     <div className={cn(
                       'relative rounded-xl p-2 overflow-hidden h-full flex flex-col items-center justify-center',
-                      TAB_COLOR_SCHEMES[0].cardGradient,
-                      `border-2 ${TAB_COLOR_SCHEMES[0].border}`,
-                      TAB_COLOR_SCHEMES[0].shadow
+                      'bg-gradient-to-br from-orange-900/50 to-orange-800/30',
+                      'border-2 border-orange-500/60',
+                      'shadow-[0_0_25px_rgba(251,146,60,0.5)]'
                     )}>
-                      <div 
-                        className="absolute top-0 right-0 w-20 h-20 rounded-full blur-3xl animate-pulse"
-                        style={{ backgroundColor: `rgba(${TAB_COLOR_SCHEMES[0].primaryHex},0.2)` }}
-                      ></div>
+                      <div className="absolute top-0 right-0 w-20 h-20 bg-orange-500/20 rounded-full blur-3xl animate-pulse"></div>
                       <div className="relative z-10 w-full flex flex-col items-center justify-center">
                         <div className="flex items-center gap-2 mb-1.5">
-                          <DollarSign 
-                            className={cn('w-3.5 h-3.5 animate-pulse', TAB_COLOR_SCHEMES[0].textHighlight)}
-                            style={{
-                              color: `rgb(${TAB_COLOR_SCHEMES[0].primaryHex})`,
-                              textShadow: `0 0 10px rgba(${TAB_COLOR_SCHEMES[0].primaryHex},1)`
-                            }}
-                          />
-                          <div 
-                            className="text-xs font-bold"
-                            style={{ color: `rgba(${TAB_COLOR_SCHEMES[0].primaryHex},0.9)` }}
-                          >总金额</div>
+                          <DollarSign className="w-3.5 h-3.5 text-orange-400 drop-shadow-[0_0_10px_rgba(251,146,60,1)]" />
+                          <div className="text-xs font-bold text-orange-300">总金额</div>
                         </div>
                         <div className="flex items-baseline gap-1">
-                          <span 
-                            className="text-3xl font-black"
-                            style={{
-                              color: `rgb(${TAB_COLOR_SCHEMES[0].primaryHex})`,
-                              textShadow: `0 0 15px rgba(${TAB_COLOR_SCHEMES[0].primaryHex},1)`
-                            }}
-                          >
+                          <span className="text-3xl font-black text-orange-400 drop-shadow-[0_0_15px_rgba(251,146,60,1)]">
                             {filteredUnorderedProjects.reduce((sum, p) => sum + p.amount, 0).toFixed(0)}
                           </span>
-                          <span 
-                            className="text-xs"
-                            style={{ color: `rgba(${TAB_COLOR_SCHEMES[0].primaryHex},0.8)` }}
-                          >万</span>
+                          <span className="text-xs text-orange-300/80">万</span>
                         </div>
                       </div>
                     </div>
@@ -1242,18 +1221,18 @@ export default function RiskIdentificationPanel({
         {currentTab === 1 && (
           // 明细视图
           <div className="h-full flex flex-col animate-in fade-in duration-300">
-            {/* 顶部仪表盘风格指标卡片 - 红色 */}
+            {/* 顶部仪表盘风格指标卡片 - 蓝色 */}
             <div className={cn(
               'p-3 relative overflow-hidden',
-              TAB_COLOR_SCHEMES[0].bgGradient,
-              `border-b-2 ${TAB_COLOR_SCHEMES[0].border}`,
-              TAB_COLOR_SCHEMES[0].glow
+              TAB_COLOR_SCHEMES[1].bgGradient,
+              `border-b-2 ${TAB_COLOR_SCHEMES[1].border}`,
+              TAB_COLOR_SCHEMES[1].glow
             )}>
               {/* 背景装饰网格 */}
               <div className="absolute inset-0 opacity-10" style={{
                 backgroundImage: `
-                  linear-gradient(rgba(${TAB_COLOR_SCHEMES[0].primaryHex},0.2) 1px, transparent 1px),
-                  linear-gradient(90deg, rgba(${TAB_COLOR_SCHEMES[0].primaryHex},0.2) 1px, transparent 1px)
+                  linear-gradient(rgba(${TAB_COLOR_SCHEMES[1].primaryHex},0.2) 1px, transparent 1px),
+                  linear-gradient(90deg, rgba(${TAB_COLOR_SCHEMES[1].primaryHex},0.2) 1px, transparent 1px)
                 `,
                 backgroundSize: '20px 20px'
               }}></div>
@@ -1261,7 +1240,7 @@ export default function RiskIdentificationPanel({
               <div 
                 className="absolute top-0 left-0 right-0 h-1 animate-pulse"
                 style={{
-                  background: `linear-gradient(to right, transparent, rgba(${TAB_COLOR_SCHEMES[0].primaryHex},1), transparent)`
+                  background: `linear-gradient(to right, transparent, rgba(${TAB_COLOR_SCHEMES[1].primaryHex},1), transparent)`
                 }}
               ></div>
 
@@ -1269,42 +1248,21 @@ export default function RiskIdentificationPanel({
                 {/* 大项目数卡片 */}
                 <div className={cn(
                   'relative rounded-xl p-2 overflow-hidden h-full flex flex-col items-center justify-center',
-                  TAB_COLOR_SCHEMES[0].cardGradient,
-                  `border-2 ${TAB_COLOR_SCHEMES[0].border}`,
-                  TAB_COLOR_SCHEMES[0].shadow
+                  'bg-gradient-to-br from-cyan-900/50 to-cyan-800/30',
+                  'border-2 border-cyan-500/60',
+                  'shadow-[0_0_25px_rgba(6,182,212,0.5)]'
                 )}>
-                  <div 
-                    className="absolute top-0 right-0 w-20 h-20 rounded-full blur-3xl animate-pulse"
-                    style={{ backgroundColor: `rgba(${TAB_COLOR_SCHEMES[0].primaryHex},0.2)` }}
-                  ></div>
+                  <div className="absolute top-0 right-0 w-20 h-20 bg-cyan-500/20 rounded-full blur-3xl animate-pulse"></div>
                   <div className="relative z-10 w-full flex flex-col items-center justify-center">
                     <div className="flex items-center gap-2 mb-1.5">
-                      <Building2 
-                        className={cn('w-3.5 h-3.5 animate-pulse', TAB_COLOR_SCHEMES[0].textHighlight)}
-                        style={{
-                          color: `rgb(${TAB_COLOR_SCHEMES[0].primaryHex})`,
-                          textShadow: `0 0 10px rgba(${TAB_COLOR_SCHEMES[0].primaryHex},1)`
-                        }}
-                      />
-                      <div 
-                        className="text-xs font-bold"
-                        style={{ color: `rgba(${TAB_COLOR_SCHEMES[0].primaryHex},0.9)` }}
-                      >大项目数</div>
+                      <Building2 className="w-3.5 h-3.5 text-cyan-400 drop-shadow-[0_0_10px_rgba(6,182,212,1)] animate-pulse" />
+                      <div className="text-xs font-bold text-cyan-300">大项目数</div>
                     </div>
                     <div className="flex items-baseline gap-1">
-                      <span 
-                        className="text-3xl font-black"
-                        style={{
-                          color: `rgb(${TAB_COLOR_SCHEMES[0].primaryHex})`,
-                          textShadow: `0 0 15px rgba(${TAB_COLOR_SCHEMES[0].primaryHex},1)`
-                        }}
-                      >
+                      <span className="text-3xl font-black text-cyan-400 drop-shadow-[0_0_15px_rgba(34,211,238,1)]">
                         {largeProjectDependencies.length}
                       </span>
-                      <span 
-                        className="text-xs"
-                        style={{ color: `rgba(${TAB_COLOR_SCHEMES[0].primaryHex},0.8)` }}
-                      >个</span>
+                      <span className="text-xs text-cyan-300/80">个</span>
                     </div>
                   </div>
                 </div>
@@ -1312,42 +1270,21 @@ export default function RiskIdentificationPanel({
                 {/* 总金额卡片 */}
                 <div className={cn(
                   'relative rounded-xl p-2 overflow-hidden h-full flex flex-col items-center justify-center',
-                  TAB_COLOR_SCHEMES[0].cardGradient,
-                  `border-2 ${TAB_COLOR_SCHEMES[0].border}`,
-                  TAB_COLOR_SCHEMES[0].shadow
+                  'bg-gradient-to-br from-orange-900/50 to-orange-800/30',
+                  'border-2 border-orange-500/60',
+                  'shadow-[0_0_25px_rgba(249,115,22,0.5)]'
                 )}>
-                  <div 
-                    className="absolute top-0 right-0 w-20 h-20 rounded-full blur-3xl animate-pulse"
-                    style={{ backgroundColor: `rgba(${TAB_COLOR_SCHEMES[0].primaryHex},0.2)` }}
-                  ></div>
+                  <div className="absolute top-0 right-0 w-20 h-20 bg-orange-500/20 rounded-full blur-3xl animate-pulse"></div>
                   <div className="relative z-10 w-full flex flex-col items-center justify-center">
                     <div className="flex items-center gap-2 mb-1.5">
-                      <DollarSign 
-                        className={cn('w-3.5 h-3.5 animate-pulse', TAB_COLOR_SCHEMES[0].textHighlight)}
-                        style={{
-                          color: `rgb(${TAB_COLOR_SCHEMES[0].primaryHex})`,
-                          textShadow: `0 0 10px rgba(${TAB_COLOR_SCHEMES[0].primaryHex},1)`
-                        }}
-                      />
-                      <div 
-                        className="text-xs font-bold"
-                        style={{ color: `rgba(${TAB_COLOR_SCHEMES[0].primaryHex},0.9)` }}
-                      >总金额</div>
+                      <DollarSign className="w-3.5 h-3.5 text-orange-400 drop-shadow-[0_0_10px_rgba(249,115,22,1)] animate-pulse" />
+                      <div className="text-xs font-bold text-orange-300">总金额</div>
                     </div>
                     <div className="flex items-baseline gap-1">
-                      <span 
-                        className="text-3xl font-black"
-                        style={{
-                          color: `rgb(${TAB_COLOR_SCHEMES[0].primaryHex})`,
-                          textShadow: `0 0 15px rgba(${TAB_COLOR_SCHEMES[0].primaryHex},1)`
-                        }}
-                      >
+                      <span className="text-3xl font-black text-orange-400 drop-shadow-[0_0_15px_rgba(251,146,60,1)]">
                         {largeProjectDependencies.reduce((sum, p) => sum + p.amount, 0).toFixed(0)}
                       </span>
-                      <span 
-                        className="text-xs"
-                        style={{ color: `rgba(${TAB_COLOR_SCHEMES[0].primaryHex},0.8)` }}
-                      >万</span>
+                      <span className="text-xs text-orange-300/80">万</span>
                     </div>
                   </div>
                 </div>
@@ -1355,11 +1292,11 @@ export default function RiskIdentificationPanel({
                 {/* 在线确认按钮 */}
                 <div className={cn(
                   'relative rounded-xl p-2 overflow-hidden cursor-pointer group h-full flex flex-col items-center justify-center',
-                  `border-2 ${TAB_COLOR_SCHEMES[0].border}`,
-                  TAB_COLOR_SCHEMES[0].buttonGradient,
-                  TAB_COLOR_SCHEMES[0].buttonHover,
-                  TAB_COLOR_SCHEMES[0].shadow,
-                  TAB_COLOR_SCHEMES[0].hoverShadow,
+                  'border-2 border-cyan-500/70',
+                  'bg-gradient-to-br from-cyan-900/30 to-blue-900/20',
+                  'hover:from-cyan-900/50 hover:to-blue-900/30',
+                  'shadow-[0_0_30px_rgba(6,182,212,0.5)]',
+                  'hover:shadow-[0_0_40px_rgba(6,182,212,0.7)]',
                   'transition-all duration-300'
                 )}
                      onClick={() => openDialog({
@@ -1374,67 +1311,21 @@ export default function RiskIdentificationPanel({
                        type: 'info'
                      })}>
                   {/* 按钮发光效果 */}
-                  <div 
-                    className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
-                    style={{ background: TAB_COLOR_SCHEMES[0].buttonHover }}
-                  ></div>
-                  <div 
-                    className="absolute inset-0 border-2 rounded-xl animate-pulse"
-                    style={{ borderColor: `rgba(${TAB_COLOR_SCHEMES[0].primaryHex},0.5)` }}
-                  ></div>
+                  <div className="absolute inset-0 bg-gradient-to-r from-cyan-500/30 to-blue-500/30 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                  <div className="absolute inset-0 border-2 border-cyan-500/50 rounded-xl animate-pulse"></div>
 
                   <div className="relative z-10 w-full flex flex-col items-center justify-center">
                     <div className="flex items-center gap-1.5 mb-1.5">
-                      <div 
-                        className="w-8 h-8 rounded-full border-2 flex items-center justify-center group-hover:scale-110 transition-transform"
-                        style={{
-                          backgroundColor: `rgba(${TAB_COLOR_SCHEMES[0].primaryHex},0.4)`,
-                          borderColor: `rgba(${TAB_COLOR_SCHEMES[0].primaryHex},0.6)`,
-                          boxShadow: `0 0 15px rgba(${TAB_COLOR_SCHEMES[0].primaryHex},0.8)`
-                        }}
-                      >
-                        <Send 
-                          className="w-4 h-4"
-                          style={{
-                            color: `rgb(${TAB_COLOR_SCHEMES[0].primaryHex})`,
-                            textShadow: `0 0 8px rgba(${TAB_COLOR_SCHEMES[0].primaryHex},1)`
-                          }}
-                        />
+                      <div className="w-8 h-8 rounded-full bg-cyan-500/40 border-2 border-cyan-400/60 flex items-center justify-center group-hover:scale-110 transition-transform shadow-[0_0_15px_rgba(6,182,212,0.8)]">
+                        <Send className="w-4 h-4 text-cyan-400 drop-shadow-[0_0_8px_rgba(34,211,238,1)]" />
                       </div>
-                      <div 
-                        className="text-base font-black"
-                        style={{
-                          color: `rgb(${TAB_COLOR_SCHEMES[0].primaryHex})`,
-                          textShadow: `0 0 12px rgba(${TAB_COLOR_SCHEMES[0].primaryHex},1)`
-                        }}
-                      >在线确认</div>
+                      <div className="text-base font-black text-cyan-400 drop-shadow-[0_0_12px_rgba(34,211,238,1)]">在线确认</div>
                     </div>
                     <div className="flex items-center gap-1">
-                      <div 
-                        className="w-1.5 h-1.5 rounded-full animate-bounce" 
-                        style={{
-                          backgroundColor: `rgb(${TAB_COLOR_SCHEMES[0].primaryHex})`,
-                          animationDelay: '0ms'
-                        }}
-                      ></div>
-                      <div 
-                        className="w-1.5 h-1.5 rounded-full animate-bounce" 
-                        style={{
-                          backgroundColor: `rgb(${TAB_COLOR_SCHEMES[0].primaryHex})`,
-                          animationDelay: '150ms'
-                        }}
-                      ></div>
-                      <div 
-                        className="w-1.5 h-1.5 rounded-full animate-bounce" 
-                        style={{
-                          backgroundColor: `rgb(${TAB_COLOR_SCHEMES[0].primaryHex})`,
-                          animationDelay: '300ms'
-                        }}
-                      ></div>
-                      <div 
-                        className="text-xs font-semibold"
-                        style={{ color: `rgba(${TAB_COLOR_SCHEMES[0].primaryHex},0.9)` }}
-                      >全部 {largeProjectDependencies.length} 个项目</div>
+                      <div className="w-1.5 h-1.5 bg-cyan-400 rounded-full animate-bounce" style={{animationDelay: '0ms'}}></div>
+                      <div className="w-1.5 h-1.5 bg-cyan-400 rounded-full animate-bounce" style={{animationDelay: '150ms'}}></div>
+                      <div className="w-1.5 h-1.5 bg-cyan-400 rounded-full animate-bounce" style={{animationDelay: '300ms'}}></div>
+                      <div className="text-xs text-cyan-300 font-semibold">全部 {largeProjectDependencies.length} 个项目</div>
                     </div>
                   </div>
                 </div>
@@ -1507,18 +1398,18 @@ export default function RiskIdentificationPanel({
         {currentTab === 2 && (
           // 明细视图
           <div className="h-full flex flex-col animate-in fade-in duration-300">
-                {/* 顶部仪表盘风格指标卡片 - 红色 */}
+                {/* 顶部仪表盘风格指标卡片 - 橙色警告 */}
                 <div className={cn(
                   'p-3 relative overflow-hidden',
-                  TAB_COLOR_SCHEMES[0].bgGradient,
-                  `border-b-2 ${TAB_COLOR_SCHEMES[0].border}`,
-                  TAB_COLOR_SCHEMES[0].glow
+                  TAB_COLOR_SCHEMES[2].bgGradient,
+                  `border-b-2 ${TAB_COLOR_SCHEMES[2].border}`,
+                  TAB_COLOR_SCHEMES[2].glow
                 )}>
                   {/* 背景装饰网格 */}
                   <div className="absolute inset-0 opacity-10" style={{
                     backgroundImage: `
-                      linear-gradient(rgba(${TAB_COLOR_SCHEMES[0].primaryHex},0.2) 1px, transparent 1px),
-                      linear-gradient(90deg, rgba(${TAB_COLOR_SCHEMES[0].primaryHex},0.2) 1px, transparent 1px)
+                      linear-gradient(rgba(${TAB_COLOR_SCHEMES[2].primaryHex},0.2) 1px, transparent 1px),
+                      linear-gradient(90deg, rgba(${TAB_COLOR_SCHEMES[2].primaryHex},0.2) 1px, transparent 1px)
                     `,
                     backgroundSize: '20px 20px'
                   }}></div>
@@ -1527,7 +1418,7 @@ export default function RiskIdentificationPanel({
                   <div 
                     className="absolute top-0 left-0 right-0 h-1 animate-pulse"
                     style={{
-                      background: `linear-gradient(to right, transparent, rgba(${TAB_COLOR_SCHEMES[0].primaryHex},1), transparent)`
+                      background: `linear-gradient(to right, transparent, rgba(${TAB_COLOR_SCHEMES[2].primaryHex},1), transparent)`
                     }}
                   ></div>
                   
@@ -1535,42 +1426,21 @@ export default function RiskIdentificationPanel({
                     {/* 预计缺口金额卡片 */}
                     <div className={cn(
                       'relative rounded-xl p-2 overflow-hidden h-full flex flex-col items-center justify-center',
-                      TAB_COLOR_SCHEMES[0].cardGradient,
-                      `border-2 ${TAB_COLOR_SCHEMES[0].border}`,
-                      TAB_COLOR_SCHEMES[0].shadow
+                      'bg-gradient-to-br from-yellow-900/50 to-yellow-800/30',
+                      'border-2 border-yellow-500/60',
+                      'shadow-[0_0_25px_rgba(234,179,8,0.5)]'
                     )}>
-                      <div 
-                        className="absolute top-0 right-0 w-20 h-20 rounded-full blur-3xl animate-pulse"
-                        style={{ backgroundColor: `rgba(${TAB_COLOR_SCHEMES[0].primaryHex},0.2)` }}
-                      ></div>
+                      <div className="absolute top-0 right-0 w-20 h-20 bg-yellow-500/20 rounded-full blur-3xl animate-pulse"></div>
                       <div className="relative z-10 w-full flex flex-col items-center justify-center">
                         <div className="flex items-center gap-2 mb-1.5">
-                          <DollarSign 
-                            className={cn('w-3.5 h-3.5 animate-pulse', TAB_COLOR_SCHEMES[0].textHighlight)}
-                            style={{
-                              color: `rgb(${TAB_COLOR_SCHEMES[0].primaryHex})`,
-                              textShadow: `0 0 10px rgba(${TAB_COLOR_SCHEMES[0].primaryHex},1)`
-                            }}
-                          />
-                          <div 
-                            className="text-xs font-bold"
-                            style={{ color: `rgba(${TAB_COLOR_SCHEMES[0].primaryHex},0.9)` }}
-                          >预计缺口金额</div>
+                          <DollarSign className="w-3.5 h-3.5 text-yellow-400 drop-shadow-[0_0_10px_rgba(234,179,8,1)] animate-pulse" />
+                          <div className="text-xs font-bold text-yellow-300">预计缺口金额</div>
                         </div>
                         <div className="flex items-baseline gap-1">
-                          <span 
-                            className="text-3xl font-black"
-                            style={{
-                              color: `rgb(${TAB_COLOR_SCHEMES[0].primaryHex})`,
-                              textShadow: `0 0 15px rgba(${TAB_COLOR_SCHEMES[0].primaryHex},1)`
-                            }}
-                          >
+                          <span className="text-3xl font-black text-yellow-400 drop-shadow-[0_0_15px_rgba(250,204,21,1)]">
                             {forecastGaps.reduce((sum, p) => sum + p.gapAmount, 0).toFixed(0)}
                           </span>
-                          <span 
-                            className="text-xs"
-                            style={{ color: `rgba(${TAB_COLOR_SCHEMES[0].primaryHex},0.8)` }}
-                          >万</span>
+                          <span className="text-xs text-yellow-300/80">万</span>
                         </div>
                       </div>
                     </div>
@@ -1578,42 +1448,21 @@ export default function RiskIdentificationPanel({
                     {/* 缺口数量卡片 */}
                     <div className={cn(
                       'relative rounded-xl p-2 overflow-hidden h-full flex flex-col items-center justify-center',
-                      TAB_COLOR_SCHEMES[0].cardGradient,
-                      `border-2 ${TAB_COLOR_SCHEMES[0].border}`,
-                      TAB_COLOR_SCHEMES[0].shadow
+                      'bg-gradient-to-br from-orange-900/50 to-orange-800/30',
+                      'border-2 border-orange-500/60',
+                      'shadow-[0_0_25px_rgba(251,146,60,0.5)]'
                     )}>
-                      <div 
-                        className="absolute top-0 right-0 w-20 h-20 rounded-full blur-3xl animate-pulse"
-                        style={{ backgroundColor: `rgba(${TAB_COLOR_SCHEMES[0].primaryHex},0.2)` }}
-                      ></div>
+                      <div className="absolute top-0 right-0 w-20 h-20 bg-orange-500/20 rounded-full blur-3xl animate-pulse"></div>
                       <div className="relative z-10 w-full flex flex-col items-center justify-center">
                         <div className="flex items-center gap-2 mb-1.5">
-                          <AlertTriangle 
-                            className={cn('w-3.5 h-3.5 animate-pulse', TAB_COLOR_SCHEMES[0].textHighlight)}
-                            style={{
-                              color: `rgb(${TAB_COLOR_SCHEMES[0].primaryHex})`,
-                              textShadow: `0 0 10px rgba(${TAB_COLOR_SCHEMES[0].primaryHex},1)`
-                            }}
-                          />
-                          <div 
-                            className="text-xs font-bold"
-                            style={{ color: `rgba(${TAB_COLOR_SCHEMES[0].primaryHex},0.9)` }}
-                          >缺口数量</div>
+                          <AlertTriangle className="w-3.5 h-3.5 text-orange-400 drop-shadow-[0_0_10px_rgba(251,146,60,1)] animate-pulse" />
+                          <div className="text-xs font-bold text-orange-300">缺口数量</div>
                         </div>
                         <div className="flex items-baseline gap-1">
-                          <span 
-                            className="text-3xl font-black"
-                            style={{
-                              color: `rgb(${TAB_COLOR_SCHEMES[0].primaryHex})`,
-                              textShadow: `0 0 15px rgba(${TAB_COLOR_SCHEMES[0].primaryHex},1)`
-                            }}
-                          >
+                          <span className="text-3xl font-black text-orange-400 drop-shadow-[0_0_15px_rgba(251,146,60,1)]">
                             {forecastGaps.length}
                           </span>
-                          <span 
-                            className="text-xs"
-                            style={{ color: `rgba(${TAB_COLOR_SCHEMES[0].primaryHex},0.8)` }}
-                          >个</span>
+                          <span className="text-xs text-orange-300/80">个</span>
                         </div>
                       </div>
                     </div>
@@ -1621,11 +1470,11 @@ export default function RiskIdentificationPanel({
                     {/* 补预测按钮 - 增强效果 */}
                     <div className={cn(
                       'relative rounded-xl p-2 overflow-hidden cursor-pointer group h-full flex flex-col items-center justify-center',
-                      `border-2 ${TAB_COLOR_SCHEMES[0].border}`,
-                      TAB_COLOR_SCHEMES[0].buttonGradient,
-                      TAB_COLOR_SCHEMES[0].buttonHover,
-                      TAB_COLOR_SCHEMES[0].shadow,
-                      TAB_COLOR_SCHEMES[0].hoverShadow,
+                      'border-2 border-yellow-500/70',
+                      'bg-gradient-to-br from-yellow-900/30 to-orange-900/20',
+                      'hover:from-yellow-900/50 hover:to-orange-900/30',
+                      'shadow-[0_0_30px_rgba(234,179,8,0.5)]',
+                      'hover:shadow-[0_0_40px_rgba(234,179,8,0.7)]',
                       'transition-all duration-300'
                     )}
                          onClick={() => openDialog({
@@ -1640,67 +1489,21 @@ export default function RiskIdentificationPanel({
                            type: 'warning'
                          })}>
                       {/* 按钮发光效果 */}
-                      <div 
-                        className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
-                        style={{ background: TAB_COLOR_SCHEMES[0].buttonHover }}
-                      ></div>
-                      <div 
-                        className="absolute inset-0 border-2 rounded-xl animate-pulse"
-                        style={{ borderColor: `rgba(${TAB_COLOR_SCHEMES[0].primaryHex},0.5)` }}
-                      ></div>
+                      <div className="absolute inset-0 bg-gradient-to-r from-yellow-500/30 to-orange-500/30 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                      <div className="absolute inset-0 border-2 border-yellow-500/50 rounded-xl animate-pulse"></div>
 
                       <div className="relative z-10 w-full flex flex-col items-center justify-center">
                         <div className="flex items-center gap-1.5 mb-1.5">
-                          <div 
-                            className="w-8 h-8 rounded-full border-2 flex items-center justify-center group-hover:scale-110 transition-transform"
-                            style={{
-                              backgroundColor: `rgba(${TAB_COLOR_SCHEMES[0].primaryHex},0.4)`,
-                              borderColor: `rgba(${TAB_COLOR_SCHEMES[0].primaryHex},0.6)`,
-                              boxShadow: `0 0 15px rgba(${TAB_COLOR_SCHEMES[0].primaryHex},0.8)`
-                            }}
-                          >
-                            <TrendingDown 
-                              className="w-4 h-4"
-                              style={{
-                                color: `rgb(${TAB_COLOR_SCHEMES[0].primaryHex})`,
-                                textShadow: `0 0 8px rgba(${TAB_COLOR_SCHEMES[0].primaryHex},1)`
-                              }}
-                            />
+                          <div className="w-8 h-8 rounded-full bg-yellow-500/40 border-2 border-yellow-400/60 flex items-center justify-center group-hover:scale-110 transition-transform shadow-[0_0_15px_rgba(234,179,8,0.8)]">
+                            <TrendingDown className="w-4 h-4 text-yellow-400 drop-shadow-[0_0_8px_rgba(250,204,21,1)]" />
                           </div>
-                          <div 
-                            className="text-base font-black"
-                            style={{
-                              color: `rgb(${TAB_COLOR_SCHEMES[0].primaryHex})`,
-                              textShadow: `0 0 12px rgba(${TAB_COLOR_SCHEMES[0].primaryHex},1)`
-                            }}
-                          >补预测</div>
+                          <div className="text-base font-black text-yellow-400 drop-shadow-[0_0_12px_rgba(250,204,21,1)]">补预测</div>
                         </div>
                         <div className="flex items-center gap-1">
-                          <div 
-                            className="w-1.5 h-1.5 rounded-full animate-bounce" 
-                            style={{
-                              backgroundColor: `rgb(${TAB_COLOR_SCHEMES[0].primaryHex})`,
-                              animationDelay: '0ms'
-                            }}
-                          ></div>
-                          <div 
-                            className="w-1.5 h-1.5 rounded-full animate-bounce" 
-                            style={{
-                              backgroundColor: `rgb(${TAB_COLOR_SCHEMES[0].primaryHex})`,
-                              animationDelay: '150ms'
-                            }}
-                          ></div>
-                          <div 
-                            className="w-1.5 h-1.5 rounded-full animate-bounce" 
-                            style={{
-                              backgroundColor: `rgb(${TAB_COLOR_SCHEMES[0].primaryHex})`,
-                              animationDelay: '300ms'
-                            }}
-                          ></div>
-                          <div 
-                            className="text-xs font-semibold"
-                            style={{ color: `rgba(${TAB_COLOR_SCHEMES[0].primaryHex},0.9)` }}
-                          >全部 {forecastGaps.length} 个项目</div>
+                          <div className="w-1.5 h-1.5 bg-yellow-400 rounded-full animate-bounce" style={{animationDelay: '0ms'}}></div>
+                          <div className="w-1.5 h-1.5 bg-yellow-400 rounded-full animate-bounce" style={{animationDelay: '150ms'}}></div>
+                          <div className="w-1.5 h-1.5 bg-yellow-400 rounded-full animate-bounce" style={{animationDelay: '300ms'}}></div>
+                          <div className="text-xs text-yellow-300 font-semibold">全部 {forecastGaps.length} 个项目</div>
                         </div>
                       </div>
                     </div>
@@ -1774,18 +1577,18 @@ export default function RiskIdentificationPanel({
         {currentTab === 3 && (
           // 明细视图
           <div className="h-full flex flex-col animate-in fade-in duration-300">
-                {/* 顶部仪表盘风格指标卡片 - 红色 */}
+                {/* 顶部仪表盘风格指标卡片 - 紫色 */}
                 <div className={cn(
                   'p-3 relative overflow-hidden',
-                  TAB_COLOR_SCHEMES[0].bgGradient,
-                  `border-b-2 ${TAB_COLOR_SCHEMES[0].border}`,
-                  TAB_COLOR_SCHEMES[0].glow
+                  TAB_COLOR_SCHEMES[3].bgGradient,
+                  `border-b-2 ${TAB_COLOR_SCHEMES[3].border}`,
+                  TAB_COLOR_SCHEMES[3].glow
                 )}>
                   {/* 背景装饰网格 */}
                   <div className="absolute inset-0 opacity-10" style={{
                     backgroundImage: `
-                      linear-gradient(rgba(${TAB_COLOR_SCHEMES[0].primaryHex},0.2) 1px, transparent 1px),
-                      linear-gradient(90deg, rgba(${TAB_COLOR_SCHEMES[0].primaryHex},0.2) 1px, transparent 1px)
+                      linear-gradient(rgba(${TAB_COLOR_SCHEMES[3].primaryHex},0.2) 1px, transparent 1px),
+                      linear-gradient(90deg, rgba(${TAB_COLOR_SCHEMES[3].primaryHex},0.2) 1px, transparent 1px)
                     `,
                     backgroundSize: '20px 20px'
                   }}></div>
@@ -1794,7 +1597,7 @@ export default function RiskIdentificationPanel({
                   <div 
                     className="absolute top-0 left-0 right-0 h-1 animate-pulse"
                     style={{
-                      background: `linear-gradient(to right, transparent, rgba(${TAB_COLOR_SCHEMES[0].primaryHex},1), transparent)`
+                      background: `linear-gradient(to right, transparent, rgba(${TAB_COLOR_SCHEMES[3].primaryHex},1), transparent)`
                     }}
                   ></div>
                   
@@ -1802,42 +1605,21 @@ export default function RiskIdentificationPanel({
                     {/* 待报项目数卡片 */}
                     <div className={cn(
                       'relative rounded-xl p-2 overflow-hidden h-full flex flex-col items-center justify-center',
-                      TAB_COLOR_SCHEMES[0].cardGradient,
-                      `border-2 ${TAB_COLOR_SCHEMES[0].border}`,
-                      TAB_COLOR_SCHEMES[0].shadow
+                      'bg-gradient-to-br from-purple-900/50 to-purple-800/30',
+                      'border-2 border-purple-500/60',
+                      'shadow-[0_0_25px_rgba(168,85,247,0.5)]'
                     )}>
-                      <div 
-                        className="absolute top-0 right-0 w-20 h-20 rounded-full blur-3xl animate-pulse"
-                        style={{ backgroundColor: `rgba(${TAB_COLOR_SCHEMES[0].primaryHex},0.2)` }}
-                      ></div>
+                      <div className="absolute top-0 right-0 w-20 h-20 bg-purple-500/20 rounded-full blur-3xl animate-pulse"></div>
                       <div className="relative z-10 w-full flex flex-col items-center justify-center">
                         <div className="flex items-center gap-2 mb-1.5">
-                          <FileText 
-                            className={cn('w-3.5 h-3.5 animate-pulse', TAB_COLOR_SCHEMES[0].textHighlight)}
-                            style={{
-                              color: `rgb(${TAB_COLOR_SCHEMES[0].primaryHex})`,
-                              textShadow: `0 0 10px rgba(${TAB_COLOR_SCHEMES[0].primaryHex},1)`
-                            }}
-                          />
-                          <div 
-                            className="text-xs font-bold"
-                            style={{ color: `rgba(${TAB_COLOR_SCHEMES[0].primaryHex},0.9)` }}
-                          >待报备项目数</div>
+                          <FileText className="w-3.5 h-3.5 text-purple-400 drop-shadow-[0_0_10px_rgba(168,85,247,1)] animate-pulse" />
+                          <div className="text-xs font-bold text-purple-300">待报备项目数</div>
                         </div>
                         <div className="flex items-baseline gap-1">
-                          <span 
-                            className="text-3xl font-black"
-                            style={{
-                              color: `rgb(${TAB_COLOR_SCHEMES[0].primaryHex})`,
-                              textShadow: `0 0 15px rgba(${TAB_COLOR_SCHEMES[0].primaryHex},1)`
-                            }}
-                          >
+                          <span className="text-3xl font-black text-purple-400 drop-shadow-[0_0_15px_rgba(192,132,252,1)]">
                             3
                           </span>
-                          <span 
-                            className="text-xs"
-                            style={{ color: `rgba(${TAB_COLOR_SCHEMES[0].primaryHex},0.8)` }}
-                          >个</span>
+                          <span className="text-xs text-purple-300/80">个</span>
                         </div>
                       </div>
                     </div>
@@ -1845,42 +1627,21 @@ export default function RiskIdentificationPanel({
                     {/* 总金额卡片 */}
                     <div className={cn(
                       'relative rounded-xl p-2 overflow-hidden h-full flex flex-col items-center justify-center',
-                      TAB_COLOR_SCHEMES[0].cardGradient,
-                      `border-2 ${TAB_COLOR_SCHEMES[0].border}`,
-                      TAB_COLOR_SCHEMES[0].shadow
+                      'bg-gradient-to-br from-indigo-900/50 to-indigo-800/30',
+                      'border-2 border-indigo-500/60',
+                      'shadow-[0_0_25px_rgba(99,102,241,0.5)]'
                     )}>
-                      <div 
-                        className="absolute top-0 right-0 w-20 h-20 rounded-full blur-3xl animate-pulse"
-                        style={{ backgroundColor: `rgba(${TAB_COLOR_SCHEMES[0].primaryHex},0.2)` }}
-                      ></div>
+                      <div className="absolute top-0 right-0 w-20 h-20 bg-indigo-500/20 rounded-full blur-3xl animate-pulse"></div>
                       <div className="relative z-10 w-full flex flex-col items-center justify-center">
                         <div className="flex items-center gap-2 mb-1.5">
-                          <DollarSign 
-                            className={cn('w-3.5 h-3.5 animate-pulse', TAB_COLOR_SCHEMES[0].textHighlight)}
-                            style={{
-                              color: `rgb(${TAB_COLOR_SCHEMES[0].primaryHex})`,
-                              textShadow: `0 0 10px rgba(${TAB_COLOR_SCHEMES[0].primaryHex},1)`
-                            }}
-                          />
-                          <div 
-                            className="text-xs font-bold"
-                            style={{ color: `rgba(${TAB_COLOR_SCHEMES[0].primaryHex},0.9)` }}
-                          >总金额</div>
+                          <DollarSign className="w-3.5 h-3.5 text-indigo-400 drop-shadow-[0_0_10px_rgba(99,102,241,1)] animate-pulse" />
+                          <div className="text-xs font-bold text-indigo-300">总金额</div>
                         </div>
                         <div className="flex items-baseline gap-1">
-                          <span 
-                            className="text-3xl font-black"
-                            style={{
-                              color: `rgb(${TAB_COLOR_SCHEMES[0].primaryHex})`,
-                              textShadow: `0 0 15px rgba(${TAB_COLOR_SCHEMES[0].primaryHex},1)`
-                            }}
-                          >
+                          <span className="text-3xl font-black text-indigo-400 drop-shadow-[0_0_15px_rgba(129,140,248,1)]">
                             450
                           </span>
-                          <span 
-                            className="text-xs"
-                            style={{ color: `rgba(${TAB_COLOR_SCHEMES[0].primaryHex},0.8)` }}
-                          >万</span>
+                          <span className="text-xs text-indigo-300/80">万</span>
                         </div>
                       </div>
                     </div>
@@ -1889,59 +1650,25 @@ export default function RiskIdentificationPanel({
                     {timeRange === 'quarter' ? (
                       <div className={cn(
                         'relative rounded-xl p-2 overflow-hidden h-full flex flex-col items-center justify-center',
-                        `border-2 ${TAB_COLOR_SCHEMES[0].border}`,
-                        TAB_COLOR_SCHEMES[0].buttonGradient,
-                        TAB_COLOR_SCHEMES[0].shadow
+                        'border-2 border-purple-500/70',
+                        'bg-gradient-to-br from-purple-900/30 to-indigo-900/20',
+                        'shadow-[0_0_30px_rgba(168,85,247,0.5)]'
                       )}>
                         {/* 提醒发光效果 */}
-                        <div 
-                          className="absolute inset-0 border-2 rounded-xl animate-pulse"
-                          style={{ borderColor: `rgba(${TAB_COLOR_SCHEMES[0].primaryHex},0.5)` }}
-                        ></div>
+                        <div className="absolute inset-0 border-2 border-purple-500/50 rounded-xl animate-pulse"></div>
 
                         <div className="relative z-10 w-full flex flex-col items-center justify-center">
                           <div className="flex items-center gap-1.5 mb-1.5">
-                            <div 
-                              className="w-8 h-8 rounded-full border-2 flex items-center justify-center"
-                              style={{
-                                backgroundColor: `rgba(${TAB_COLOR_SCHEMES[0].primaryHex},0.4)`,
-                                borderColor: `rgba(${TAB_COLOR_SCHEMES[0].primaryHex},0.6)`,
-                                boxShadow: `0 0 15px rgba(${TAB_COLOR_SCHEMES[0].primaryHex},0.8)`
-                              }}
-                            >
-                              <AlertTriangle 
-                                className="w-4 h-4"
-                                style={{
-                                  color: `rgb(${TAB_COLOR_SCHEMES[0].primaryHex})`,
-                                  textShadow: `0 0 8px rgba(${TAB_COLOR_SCHEMES[0].primaryHex},1)`
-                                }}
-                              />
+                            <div className="w-8 h-8 rounded-full bg-purple-500/40 border-2 border-purple-400/60 flex items-center justify-center shadow-[0_0_15px_rgba(168,85,247,0.8)]">
+                              <AlertTriangle className="w-4 h-4 text-purple-400 drop-shadow-[0_0_8px_rgba(168,85,247,1)]" />
                             </div>
-                            <div 
-                              className="text-base font-black"
-                              style={{
-                                color: `rgb(${TAB_COLOR_SCHEMES[0].primaryHex})`,
-                                textShadow: `0 0 12px rgba(${TAB_COLOR_SCHEMES[0].primaryHex},1)`
-                              }}
-                            >月度闭环</div>
+                            <div className="text-base font-black text-purple-400 drop-shadow-[0_0_12px_rgba(192,132,252,1)]">月度闭环</div>
                           </div>
                           <div className="flex items-center gap-1">
-                            <div 
-                              className="w-1.5 h-1.5 rounded-full"
-                              style={{ backgroundColor: `rgb(${TAB_COLOR_SCHEMES[0].primaryHex})` }}
-                            ></div>
-                            <div 
-                              className="w-1.5 h-1.5 rounded-full"
-                              style={{ backgroundColor: `rgb(${TAB_COLOR_SCHEMES[0].primaryHex})` }}
-                            ></div>
-                            <div 
-                              className="w-1.5 h-1.5 rounded-full"
-                              style={{ backgroundColor: `rgb(${TAB_COLOR_SCHEMES[0].primaryHex})` }}
-                            ></div>
-                            <div 
-                              className="text-xs font-semibold"
-                              style={{ color: `rgba(${TAB_COLOR_SCHEMES[0].primaryHex},0.9)` }}
-                            >待周记录确认</div>
+                            <div className="w-1.5 h-1.5 bg-purple-400 rounded-full"></div>
+                            <div className="w-1.5 h-1.5 bg-purple-400 rounded-full"></div>
+                            <div className="w-1.5 h-1.5 bg-purple-400 rounded-full"></div>
+                            <div className="text-xs text-purple-300 font-semibold">待周记录确认</div>
                           </div>
                         </div>
                       </div>
@@ -1949,11 +1676,11 @@ export default function RiskIdentificationPanel({
                       /* 月度模式：立即上报按钮 - 增强效果 */
                       <div className={cn(
                         'relative rounded-xl p-2 overflow-hidden cursor-pointer group h-full flex flex-col items-center justify-center',
-                        `border-2 ${TAB_COLOR_SCHEMES[0].border}`,
-                        TAB_COLOR_SCHEMES[0].buttonGradient,
-                        TAB_COLOR_SCHEMES[0].buttonHover,
-                        TAB_COLOR_SCHEMES[0].shadow,
-                        TAB_COLOR_SCHEMES[0].hoverShadow,
+                        'border-2 border-purple-500/70',
+                        'bg-gradient-to-br from-purple-900/30 to-indigo-900/20',
+                        'hover:from-purple-900/50 hover:to-indigo-900/30',
+                        'shadow-[0_0_30px_rgba(168,85,247,0.5)]',
+                        'hover:shadow-[0_0_40px_rgba(168,85,247,0.7)]',
                         'transition-all duration-300'
                       )}
                            onClick={() => openDialog({
@@ -1968,67 +1695,21 @@ export default function RiskIdentificationPanel({
                              type: 'info'
                            })}>
                         {/* 按钮发光效果 */}
-                        <div 
-                          className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
-                          style={{ background: TAB_COLOR_SCHEMES[0].buttonHover }}
-                        ></div>
-                        <div 
-                          className="absolute inset-0 border-2 rounded-xl animate-pulse"
-                          style={{ borderColor: `rgba(${TAB_COLOR_SCHEMES[0].primaryHex},0.5)` }}
-                        ></div>
+                        <div className="absolute inset-0 bg-gradient-to-r from-purple-500/30 to-indigo-500/30 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                        <div className="absolute inset-0 border-2 border-purple-500/50 rounded-xl animate-pulse"></div>
 
                         <div className="relative z-10 w-full flex flex-col items-center justify-center">
                           <div className="flex items-center gap-1.5 mb-1.5">
-                            <div 
-                              className="w-8 h-8 rounded-full border-2 flex items-center justify-center group-hover:scale-110 transition-transform"
-                              style={{
-                                backgroundColor: `rgba(${TAB_COLOR_SCHEMES[0].primaryHex},0.4)`,
-                                borderColor: `rgba(${TAB_COLOR_SCHEMES[0].primaryHex},0.6)`,
-                                boxShadow: `0 0 15px rgba(${TAB_COLOR_SCHEMES[0].primaryHex},0.8)`
-                              }}
-                            >
-                              <Send 
-                                className="w-4 h-4"
-                                style={{
-                                  color: `rgb(${TAB_COLOR_SCHEMES[0].primaryHex})`,
-                                  textShadow: `0 0 8px rgba(${TAB_COLOR_SCHEMES[0].primaryHex},1)`
-                                }}
-                              />
+                            <div className="w-8 h-8 rounded-full bg-purple-500/40 border-2 border-purple-400/60 flex items-center justify-center group-hover:scale-110 transition-transform shadow-[0_0_15px_rgba(168,85,247,0.8)]">
+                              <Send className="w-4 h-4 text-purple-400 drop-shadow-[0_0_8px_rgba(168,85,247,1)]" />
                             </div>
-                            <div 
-                              className="text-base font-black"
-                              style={{
-                                color: `rgb(${TAB_COLOR_SCHEMES[0].primaryHex})`,
-                                textShadow: `0 0 12px rgba(${TAB_COLOR_SCHEMES[0].primaryHex},1)`
-                              }}
-                            >立即上报</div>
+                            <div className="text-base font-black text-purple-400 drop-shadow-[0_0_12px_rgba(192,132,252,1)]">立即上报</div>
                           </div>
                           <div className="flex items-center gap-1">
-                            <div 
-                              className="w-1.5 h-1.5 rounded-full animate-bounce" 
-                              style={{
-                                backgroundColor: `rgb(${TAB_COLOR_SCHEMES[0].primaryHex})`,
-                                animationDelay: '0ms'
-                              }}
-                            ></div>
-                            <div 
-                              className="w-1.5 h-1.5 rounded-full animate-bounce" 
-                              style={{
-                                backgroundColor: `rgb(${TAB_COLOR_SCHEMES[0].primaryHex})`,
-                                animationDelay: '150ms'
-                              }}
-                            ></div>
-                            <div 
-                              className="w-1.5 h-1.5 rounded-full animate-bounce" 
-                              style={{
-                                backgroundColor: `rgb(${TAB_COLOR_SCHEMES[0].primaryHex})`,
-                                animationDelay: '300ms'
-                              }}
-                            ></div>
-                            <div 
-                              className="text-xs font-semibold"
-                              style={{ color: `rgba(${TAB_COLOR_SCHEMES[0].primaryHex},0.9)` }}
-                            >全部 3 个项目</div>
+                            <div className="w-1.5 h-1.5 bg-purple-400 rounded-full animate-bounce" style={{animationDelay: '0ms'}}></div>
+                            <div className="w-1.5 h-1.5 bg-purple-400 rounded-full animate-bounce" style={{animationDelay: '150ms'}}></div>
+                            <div className="w-1.5 h-1.5 bg-purple-400 rounded-full animate-bounce" style={{animationDelay: '300ms'}}></div>
+                            <div className="text-xs text-purple-300 font-semibold">全部 3 个项目</div>
                           </div>
                         </div>
                       </div>
@@ -2097,18 +1778,18 @@ export default function RiskIdentificationPanel({
         {currentTab === 4 && (
           // 明细视图
           <div className="h-full flex flex-col animate-in fade-in duration-300">
-                {/* 顶部仪表盘风格指标卡片 - 红色 */}
+                {/* 顶部仪表盘风格指标卡片 - 粉色 */}
                 <div className={cn(
                   'p-3 relative overflow-hidden',
-                  TAB_COLOR_SCHEMES[0].bgGradient,
-                  `border-b-2 ${TAB_COLOR_SCHEMES[0].border}`,
-                  TAB_COLOR_SCHEMES[0].glow
+                  TAB_COLOR_SCHEMES[4].bgGradient,
+                  `border-b-2 ${TAB_COLOR_SCHEMES[4].border}`,
+                  TAB_COLOR_SCHEMES[4].glow
                 )}>
                   {/* 背景装饰网格 */}
                   <div className="absolute inset-0 opacity-10" style={{
                     backgroundImage: `
-                      linear-gradient(rgba(${TAB_COLOR_SCHEMES[0].primaryHex},0.2) 1px, transparent 1px),
-                      linear-gradient(90deg, rgba(${TAB_COLOR_SCHEMES[0].primaryHex},0.2) 1px, transparent 1px)
+                      linear-gradient(rgba(${TAB_COLOR_SCHEMES[4].primaryHex},0.2) 1px, transparent 1px),
+                      linear-gradient(90deg, rgba(${TAB_COLOR_SCHEMES[4].primaryHex},0.2) 1px, transparent 1px)
                     `,
                     backgroundSize: '20px 20px'
                   }}></div>
@@ -2117,7 +1798,7 @@ export default function RiskIdentificationPanel({
                   <div 
                     className="absolute top-0 left-0 right-0 h-1 animate-pulse"
                     style={{
-                      background: `linear-gradient(to right, transparent, rgba(${TAB_COLOR_SCHEMES[0].primaryHex},1), transparent)`
+                      background: `linear-gradient(to right, transparent, rgba(${TAB_COLOR_SCHEMES[4].primaryHex},1), transparent)`
                     }}
                   ></div>
                   
@@ -2125,9 +1806,9 @@ export default function RiskIdentificationPanel({
                     {/* 待转化项目数卡片 */}
                     <div className={cn(
                       'relative rounded-xl p-2 overflow-hidden h-full flex flex-col items-center justify-center',
-                      TAB_COLOR_SCHEMES[0].cardGradient,
-                      `border-2 ${TAB_COLOR_SCHEMES[0].border}`,
-                      TAB_COLOR_SCHEMES[0].shadow
+                      'bg-gradient-to-br from-pink-900/50 to-pink-800/30',
+                      'border-2 border-pink-500/60',
+                      'shadow-[0_0_25px_rgba(236,72,153,0.5)]'
                     )}>
                       <div className="absolute top-0 right-0 w-20 h-20 bg-pink-500/20 rounded-full blur-3xl animate-pulse"></div>
                       <div className="relative z-10 w-full flex flex-col items-center justify-center">
@@ -2147,9 +1828,9 @@ export default function RiskIdentificationPanel({
                     {/* 总金额卡片 */}
                     <div className={cn(
                       'relative rounded-xl p-2 overflow-hidden h-full flex flex-col items-center justify-center',
-                      TAB_COLOR_SCHEMES[0].cardGradient,
-                      `border-2 ${TAB_COLOR_SCHEMES[0].border}`,
-                      TAB_COLOR_SCHEMES[0].shadow
+                      'bg-gradient-to-br from-rose-900/50 to-rose-800/30',
+                      'border-2 border-rose-500/60',
+                      'shadow-[0_0_25px_rgba(244,63,94,0.5)]'
                     )}>
                       <div className="absolute top-0 right-0 w-20 h-20 bg-rose-500/20 rounded-full blur-3xl animate-pulse"></div>
                       <div className="relative z-10 w-full flex flex-col items-center justify-center">
@@ -2315,18 +1996,18 @@ export default function RiskIdentificationPanel({
         {currentTab === 5 && (
           // 明细视图
           <div className="h-full flex flex-col animate-in fade-in duration-300">
-                {/* 顶部仪表盘风格指标卡片 - 红色 */}
+                {/* 顶部仪表盘风格指标卡片 - 灰色 */}
                 <div className={cn(
                   'p-3 relative overflow-hidden',
-                  TAB_COLOR_SCHEMES[0].bgGradient,
-                  `border-b-2 ${TAB_COLOR_SCHEMES[0].border}`,
-                  TAB_COLOR_SCHEMES[0].glow
+                  TAB_COLOR_SCHEMES[5].bgGradient,
+                  `border-b-2 ${TAB_COLOR_SCHEMES[5].border}`,
+                  TAB_COLOR_SCHEMES[5].glow
                 )}>
                   {/* 背景装饰网格 */}
                   <div className="absolute inset-0 opacity-10" style={{
                     backgroundImage: `
-                      linear-gradient(rgba(${TAB_COLOR_SCHEMES[0].primaryHex},0.2) 1px, transparent 1px),
-                      linear-gradient(90deg, rgba(${TAB_COLOR_SCHEMES[0].primaryHex},0.2) 1px, transparent 1px)
+                      linear-gradient(rgba(${TAB_COLOR_SCHEMES[5].primaryHex},0.2) 1px, transparent 1px),
+                      linear-gradient(90deg, rgba(${TAB_COLOR_SCHEMES[5].primaryHex},0.2) 1px, transparent 1px)
                     `,
                     backgroundSize: '20px 20px'
                   }}></div>
@@ -2335,7 +2016,7 @@ export default function RiskIdentificationPanel({
                   <div 
                     className="absolute top-0 left-0 right-0 h-1 animate-pulse"
                     style={{
-                      background: `linear-gradient(to right, transparent, rgba(${TAB_COLOR_SCHEMES[0].primaryHex},1), transparent)`
+                      background: `linear-gradient(to right, transparent, rgba(${TAB_COLOR_SCHEMES[5].primaryHex},1), transparent)`
                     }}
                   ></div>
                   
@@ -2343,9 +2024,9 @@ export default function RiskIdentificationPanel({
                     {/* 停滞项目数卡片 */}
                     <div className={cn(
                       'relative rounded-xl p-2 overflow-hidden h-full flex flex-col items-center justify-center',
-                      TAB_COLOR_SCHEMES[0].cardGradient,
-                      `border-2 ${TAB_COLOR_SCHEMES[0].border}`,
-                      TAB_COLOR_SCHEMES[0].shadow
+                      'bg-gradient-to-br from-indigo-900/50 to-indigo-800/30',
+                      'border-2 border-indigo-500/60',
+                      'shadow-[0_0_25px_rgba(99,102,241,0.5)]'
                     )}>
                       <div className="absolute top-0 right-0 w-20 h-20 bg-indigo-500/20 rounded-full blur-3xl animate-pulse"></div>
                       <div className="relative z-10 w-full flex flex-col items-center justify-center">
