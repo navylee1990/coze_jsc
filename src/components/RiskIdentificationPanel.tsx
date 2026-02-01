@@ -843,11 +843,11 @@ export default function RiskIdentificationPanel({
   })();
 
   return (
-    <div className={cn('w-full flex flex-col')}>
+    <div className={cn('w-full flex flex-col h-full')}>
       {/* 标题栏 */}
       <div
         className={cn(
-          'px-6 py-3 border-b flex items-center justify-between',
+          'px-4 sm:px-6 py-2 sm:py-3 border-b flex items-center justify-between flex-shrink-0',
           theme === 'dashboard' ? `${DASHBOARD_STYLES.cardBorder} bg-slate-900/60` : 'border-slate-200 bg-white'
         )}
       >
@@ -866,12 +866,12 @@ export default function RiskIdentificationPanel({
             </button>
           )}
           <AlertTriangle className={cn(
-            'w-6 h-6',
+            'w-5 h-5 sm:w-6 sm:h-6',
             theme === 'dashboard' 
               ? 'text-red-500 drop-shadow-[0_0_10px_rgba(239,68,68,1)]' 
               : 'text-slate-700'
           )} />
-          <h3 className={cn('font-bold text-xl', theme === 'dashboard' 
+          <h3 className={cn('font-bold text-lg sm:text-xl', theme === 'dashboard' 
             ? 'text-red-400 drop-shadow-[0_0_12px_rgba(239,68,68,0.9)]' 
             : 'text-slate-900')}>
             风险识别
@@ -890,16 +890,16 @@ export default function RiskIdentificationPanel({
                 setCurrentTab(visibleTabs[newIndex].id);
               }}
               className={cn(
-                'p-1.5 rounded-lg transition-all',
+                'p-1 sm:p-1.5 rounded-lg transition-all',
                 theme === 'dashboard'
                   ? 'bg-slate-800/50 text-cyan-400 hover:bg-cyan-500/20 hover:text-cyan-300'
                   : 'bg-slate-100 text-slate-700 hover:bg-slate-200'
               )}
             >
-              <ChevronLeft className="w-4 h-4" />
+              <ChevronLeft className="w-3 h-3 sm:w-4 sm:h-4" />
             </button>
 
-            <div className="flex items-center gap-2">
+            <div className="flex items-center gap-1 sm:gap-2">
               {visibleTabs.map((tab) => {
                 const Icon = tab.icon;
                 const isUnorderedProjects = tab.id === 0; // 未按计划下单
@@ -925,7 +925,7 @@ export default function RiskIdentificationPanel({
                     key={tab.id}
                     onClick={() => setCurrentTab(tab.id)}
                     className={cn(
-                      'flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium transition-all relative',
+                      'flex items-center gap-1 sm:gap-1.5 px-2 sm:px-3 py-1 sm:py-1.5 rounded-lg text-[10px] sm:text-xs font-medium transition-all relative',
                       // 激活状态
                       isActive && theme === 'dashboard'
                         ? cn(
@@ -991,20 +991,20 @@ export default function RiskIdentificationPanel({
                 setCurrentTab(visibleTabs[newIndex].id);
               }}
               className={cn(
-                'p-1.5 rounded-lg transition-all',
+                'p-1 sm:p-1.5 rounded-lg transition-all',
                 theme === 'dashboard'
                   ? 'bg-slate-800/50 text-cyan-400 hover:bg-cyan-500/20 hover:text-cyan-300'
                   : 'bg-slate-100 text-slate-700 hover:bg-slate-200'
               )}
             >
-              <ChevronRight className="w-4 h-4" />
+              <ChevronRight className="w-3 h-3 sm:w-4 sm:h-4" />
             </button>
           </div>
         </div>
       )}
 
       {/* 内容区域 */}
-      <div className="flex-1 overflow-hidden">
+      <div className="flex-1 overflow-hidden min-h-0">
         {/* ============ Tab 0: 未按计划下单 ============ */}
         {currentTab === 0 && (
           // 明细视图
