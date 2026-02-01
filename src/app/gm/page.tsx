@@ -381,6 +381,12 @@ export default function GMDashboard() {
               <Link href="/" className={`${DASHBOARD_STYLES.textMuted} hover:text-white transition-colors`}>
                 <ChevronLeft className="w-5 h-5" />
               </Link>
+              <Badge
+                variant="outline"
+                className="text-xs sm:text-sm bg-cyan-500/20 border-cyan-500/50 text-cyan-300"
+              >
+                张晖
+              </Badge>
               <div>
                 <h1 className={`text-xl sm:text-2xl lg:text-3xl font-bold ${DASHBOARD_STYLES.neon}`}>{PAGE_TITLE}</h1>
                 <p className={`text-xs sm:text-sm ${DASHBOARD_STYLES.textSecondary}`}>预测驱动 · 数据赋能 · 精准决策</p>
@@ -424,15 +430,6 @@ export default function GMDashboard() {
                   本年度
                 </button>
               </div>
-            </div>
-
-            <div className="flex items-center gap-4">
-              <Badge
-                variant="outline"
-                className="text-xs sm:text-sm bg-cyan-500/20 border-cyan-500/50 text-cyan-300"
-              >
-                张晖
-              </Badge>
             </div>
           </div>
         </div>
