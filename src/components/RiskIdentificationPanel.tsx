@@ -1731,8 +1731,8 @@ export default function RiskIdentificationPanel({
                       </div>
                     </div>
 
-                    {/* 季度模式：月度闭环状态提醒 */}
-                    {timeRange === 'quarter' ? (
+                    {/* 月度模式：月度闭环状态提醒 */}
+                    {timeRange === 'current' ? (
                       <div className={cn(
                         'relative rounded-xl p-2 overflow-hidden h-full flex flex-col items-center justify-center',
                         'border-2 border-purple-500/70',
@@ -1758,7 +1758,7 @@ export default function RiskIdentificationPanel({
                         </div>
                       </div>
                     ) : (
-                      /* 月度模式：立即上报按钮 */
+                      /* 季度/年度模式：立即上报按钮 */
                       <div className={cn(
                         'relative rounded-xl p-2 overflow-hidden cursor-pointer group h-full flex flex-col items-center justify-center',
                         'border-2 border-cyan-500/70',
@@ -1963,8 +1963,8 @@ export default function RiskIdentificationPanel({
                       </div>
                     </div>
 
-                    {/* 季度模式：月度闭环状态提醒 */}
-                    {timeRange === 'quarter' ? (
+                    {/* 月度模式：月度闭环状态提醒 */}
+                    {timeRange === 'current' ? (
                       <div className={cn(
                         'relative rounded-xl p-2 overflow-hidden h-full flex flex-col items-center justify-center',
                         'border-2 border-cyan-500/70',
@@ -1990,7 +1990,7 @@ export default function RiskIdentificationPanel({
                         </div>
                       </div>
                     ) : (
-                      /* 月度模式：立即跟进按钮 - 增强效果 */
+                      /* 季度/年度模式：推进接洽按钮 - 增强效果 */
                       <div className={cn(
                         'relative rounded-xl p-2 overflow-hidden cursor-pointer group h-full flex flex-col items-center justify-center',
                         'border-2 border-cyan-500/70',
@@ -2182,8 +2182,8 @@ export default function RiskIdentificationPanel({
                       </div>
                     </div>
 
-                    {/* 季度模式：月度闭环状态提醒 */}
-                    {timeRange === 'quarter' ? (
+                    {/* 月度模式：月度闭环状态提醒 */}
+                    {timeRange === 'current' ? (
                       <div className={cn(
                         'relative rounded-xl p-2 overflow-hidden h-full flex flex-col items-center justify-center',
                         'border-2 border-cyan-500/70',
@@ -2209,7 +2209,7 @@ export default function RiskIdentificationPanel({
                         </div>
                       </div>
                     ) : (
-                      /* 月度模式：推进处理按钮 */
+                      /* 季度/年度模式：推进处理按钮 */
                       <div className={cn(
                         'relative rounded-xl p-2 overflow-hidden cursor-pointer group h-full flex flex-col items-center justify-center',
                         'border-2 border-cyan-500/70',
