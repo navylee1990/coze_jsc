@@ -1754,7 +1754,7 @@ export default function RiskIdentificationPanel({
                       onClick={() => openDialog({
                         title: '立即上报',
                         description: '暂无模板内容',
-                        confirmText: '确认上报',
+                        confirmText: '确认发送',
                         cancelText: '取消',
                         onConfirm: async () => {
                           // TODO: 实际的上报逻辑
@@ -1953,7 +1953,7 @@ export default function RiskIdentificationPanel({
                       onClick={() => openDialog({
                         title: '推进接洽',
                         description: '暂无模板内容',
-                        confirmText: '确认跟进',
+                        confirmText: '确认发送',
                         cancelText: '取消',
                         onConfirm: async () => {
                           // TODO: 实际的跟进逻辑
