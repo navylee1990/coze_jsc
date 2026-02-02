@@ -242,40 +242,40 @@ const defaultInsufficientConversions: InsufficientConversion[] = [
     region: '华南',
     salesEngineer: '陈静',
     cityManager: '林婷',
-    currentPhase: '初步接洽',
-    stayDays: 12,
+    currentPhase: '项目报备',
+    stayDays: 18,
     amount: 220,
-    riskReason: '初步接洽后客户反馈不及时'
+    riskReason: '报备后未及时跟进，客户兴趣下降'
   },
   {
     projectName: '深圳前海自贸区',
     region: '华南',
     salesEngineer: '赵雪',
     cityManager: '黄磊',
-    currentPhase: '现场勘察',
-    stayDays: 8,
+    currentPhase: '项目报备',
+    stayDays: 20,
     amount: 150,
-    riskReason: '现场勘察未完成，技术方案待确认'
+    riskReason: '报备信息不完整，需补充资料'
   },
   {
     projectName: '杭州阿里巴巴园区',
     region: '二区',
     salesEngineer: '杨帆',
     cityManager: '郑浩',
-    currentPhase: '需求意向',
-    stayDays: 10,
+    currentPhase: '项目报备',
+    stayDays: 12,
     amount: 200,
-    riskReason: '需求意向不明确，客户预算未确定'
+    riskReason: '客户内部流程复杂，报备后未推进'
   },
   {
     projectName: '北京中关村科技园',
     region: '华北',
     salesEngineer: '马龙',
     cityManager: '张伟',
-    currentPhase: '方案设计',
-    stayDays: 18,
+    currentPhase: '项目报备',
+    stayDays: 16,
     amount: 250,
-    riskReason: '方案设计反复修改，客户要求不明确'
+    riskReason: '报备后客户对接人变更，需重新建立联系'
   }
 ];
 
@@ -1930,7 +1930,7 @@ export default function RiskIdentificationPanel({
                       <div className="relative z-10 w-full flex flex-col items-center justify-center">
                         <div className="flex items-center gap-2 mb-1.5">
                           <Zap className="w-3.5 h-3.5 text-cyan-400 drop-shadow-[0_0_10px_rgba(6,182,212,1)] animate-pulse" />
-                          <div className="text-sm font-bold text-cyan-300">待转化项目数</div>
+                          <div className="text-sm font-bold text-cyan-300">项目报备</div>
                         </div>
                         <div className="flex items-baseline gap-1">
                           <span className="text-3xl font-black text-cyan-400 drop-shadow-[0_0_15px_rgba(34,211,238,1)]">
@@ -1982,10 +1982,10 @@ export default function RiskIdentificationPanel({
                             <div className="text-base font-black text-cyan-400 drop-shadow-[0_0_12px_rgba(34,211,238,1)]">月度闭环</div>
                           </div>
                           <div className="flex items-center gap-1">
-                            <div className="w-1.5 h-1.5 bg-pink-400 rounded-full"></div>
-                            <div className="w-1.5 h-1.5 bg-pink-400 rounded-full"></div>
-                            <div className="w-1.5 h-1.5 bg-pink-400 rounded-full"></div>
-                            <div className="text-xs text-pink-300 font-semibold">待周记录确认</div>
+                            <div className="w-1.5 h-1.5 bg-cyan-400 rounded-full"></div>
+                            <div className="w-1.5 h-1.5 bg-cyan-400 rounded-full"></div>
+                            <div className="w-1.5 h-1.5 bg-cyan-400 rounded-full"></div>
+                            <div className="text-xs text-cyan-300 font-semibold">待周记录确认</div>
                           </div>
                         </div>
                       </div>
@@ -2002,7 +2002,7 @@ export default function RiskIdentificationPanel({
                       )}
                            onClick={() => openDialog({
                              title: '立即跟进',
-                             description: `确定要立即跟进待转化项目吗？\n\n共 ${insufficientConversions.length} 个项目，总金额 ${insufficientConversions.reduce((sum, p) => sum + p.amount, 0).toFixed(0)} 万元`,
+                             description: `确定要立即跟进项目报备阶段的项目吗？\n推动项目快速进入【初步接洽】阶段\n\n共 ${insufficientConversions.length} 个项目，总金额 ${insufficientConversions.reduce((sum, p) => sum + p.amount, 0).toFixed(0)} 万元`,
                              confirmText: '确认跟进',
                              cancelText: '取消',
                              onConfirm: async () => {
@@ -2020,13 +2020,13 @@ export default function RiskIdentificationPanel({
                             <div className="w-8 h-8 rounded-full bg-cyan-500/40 border-2 border-cyan-400/60 flex items-center justify-center group-hover:scale-110 transition-transform shadow-[0_0_15px_rgba(6,182,212,0.8)]">
                               <Send className="w-4 h-4 text-cyan-400 drop-shadow-[0_0_8px_rgba(34,211,238,1)]" />
                             </div>
-                            <div className="text-base font-black text-cyan-400 drop-shadow-[0_0_12px_rgba(34,211,238,1)]">立即跟进</div>
+                            <div className="text-base font-black text-cyan-400 drop-shadow-[0_0_12px_rgba(34,211,238,1)]">推进接洽</div>
                           </div>
                           <div className="flex items-center gap-1">
                             <div className="w-1.5 h-1.5 bg-cyan-400 rounded-full animate-bounce" style={{animationDelay: '0ms'}}></div>
-                            <div className="w-1.5 h-1.5 bg-pink-400 rounded-full animate-bounce" style={{animationDelay: '150ms'}}></div>
-                            <div className="w-1.5 h-1.5 bg-pink-400 rounded-full animate-bounce" style={{animationDelay: '300ms'}}></div>
-                            <div className="text-xs text-pink-300 font-semibold">全部 {insufficientConversions.length} 个项目</div>
+                            <div className="w-1.5 h-1.5 bg-cyan-400 rounded-full animate-bounce" style={{animationDelay: '150ms'}}></div>
+                            <div className="w-1.5 h-1.5 bg-cyan-400 rounded-full animate-bounce" style={{animationDelay: '300ms'}}></div>
+                            <div className="text-xs text-cyan-300 font-semibold">全部 {insufficientConversions.length} 个项目</div>
                           </div>
                         </div>
                       </div>
