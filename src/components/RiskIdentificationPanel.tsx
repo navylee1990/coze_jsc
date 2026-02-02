@@ -174,15 +174,13 @@ interface InsufficientConversion {
   riskReason: string; // 转化不足原因
 }
 
-// 7.5 报备不足数据（项目已确认意向但未报备）
+// 7.5 报备不足数据（报备项目数不足）
 interface InsufficientReport {
-  projectName: string;
-  region: string;
-  salesEngineer: string;
-  cityManager: string;
-  amount: number; // 金额
-  expectedReportDate: string; // 预计报备日期
-  status: 'pending' | 'overdue' | 'urgent'; // 状态
+  owner: string; // 负责人
+  region: string; // 大区
+  newReportedCount: number; // 新报备项目数
+  gapCount: number; // 缺口项目数
+  feedback?: string; // 情况反馈
 }
 
 // 8. 阶段停滞数据（项目在某个阶段停滞）
@@ -285,49 +283,39 @@ const defaultInsufficientConversions: InsufficientConversion[] = [
 // 默认报备不足数据
 const defaultInsufficientReports: InsufficientReport[] = [
   {
-    projectName: '上海虹桥国际机场扩建项目',
+    owner: '张明',
     region: '一区',
-    salesEngineer: '刘洋',
-    cityManager: '陈明',
-    amount: 180,
-    expectedReportDate: '2025-01-15',
-    status: 'overdue'
+    newReportedCount: 2,
+    gapCount: 3,
+    feedback: '正在跟进3个项目，预计下周报备'
   },
   {
-    projectName: '广州白云国际机场T4航站楼',
+    owner: '李娜',
     region: '华南',
-    salesEngineer: '陈静',
-    cityManager: '林婷',
-    amount: 150,
-    expectedReportDate: '2025-01-18',
-    status: 'urgent'
+    newReportedCount: 1,
+    gapCount: 4,
+    feedback: '客户决策流程延迟'
   },
   {
-    projectName: '深圳前海金融中心',
+    owner: '王强',
     region: '华南',
-    salesEngineer: '赵雪',
-    cityManager: '黄磊',
-    amount: 120,
-    expectedReportDate: '2025-01-20',
-    status: 'pending'
+    newReportedCount: 0,
+    gapCount: 5,
+    feedback: '需要总部技术支持'
   },
   {
-    projectName: '北京大兴国际机场配套项目',
+    owner: '赵芳',
     region: '华北',
-    salesEngineer: '马龙',
-    cityManager: '张伟',
-    amount: 200,
-    expectedReportDate: '2025-01-22',
-    status: 'pending'
+    newReportedCount: 3,
+    gapCount: 2,
+    feedback: '正在整理项目资料'
   },
   {
-    projectName: '杭州亚运会场馆配套项目',
+    owner: '孙伟',
     region: '二区',
-    salesEngineer: '杨帆',
-    cityManager: '郑浩',
-    amount: 100,
-    expectedReportDate: '2025-01-25',
-    status: 'pending'
+    newReportedCount: 1,
+    gapCount: 3,
+    feedback: '等待客户预算确认'
   }
 ];
 
@@ -1766,7 +1754,7 @@ export default function RiskIdentificationPanel({
                   ></div>
                   
                   <div className="relative z-10 grid grid-cols-3 gap-3">
-                    {/* 待报项目数卡片 */}
+                    {/* 新报备项目数卡片 */}
                     <div className={cn(
                       'relative rounded-xl p-2 overflow-hidden h-full flex flex-col items-center justify-center',
                       'bg-gradient-to-br from-cyan-900/50 to-cyan-800/30',
@@ -1777,18 +1765,18 @@ export default function RiskIdentificationPanel({
                       <div className="relative z-10 w-full flex flex-col items-center justify-center">
                         <div className="flex items-center gap-2 mb-1.5">
                           <FileText className="w-3.5 h-3.5 text-cyan-400 drop-shadow-[0_0_10px_rgba(6,182,212,1)] animate-pulse" />
-                          <div className="text-sm font-bold text-cyan-300">待报备项目数</div>
+                          <div className="text-sm font-bold text-cyan-300">新报备项目数</div>
                         </div>
                         <div className="flex items-baseline gap-1">
                           <span className="text-3xl font-black text-cyan-400 drop-shadow-[0_0_15px_rgba(34,211,238,1)]">
-                            {insufficientReports.length}
+                            {insufficientReports.reduce((sum, p) => sum + p.newReportedCount, 0)}
                           </span>
                           <span className="text-xs text-cyan-300/80">个</span>
                         </div>
                       </div>
                     </div>
 
-                    {/* 总金额卡片 */}
+                    {/* 缺口项目数卡片 */}
                     <div className={cn(
                       'relative rounded-xl p-2 overflow-hidden h-full flex flex-col items-center justify-center',
                       'bg-gradient-to-br from-cyan-900/50 to-cyan-800/30',
@@ -1798,14 +1786,14 @@ export default function RiskIdentificationPanel({
                       <div className="absolute top-0 right-0 w-20 h-20 bg-cyan-500/20 rounded-full blur-3xl animate-pulse"></div>
                       <div className="relative z-10 w-full flex flex-col items-center justify-center">
                         <div className="flex items-center gap-2 mb-1.5">
-                          <DollarSign className="w-3.5 h-3.5 text-cyan-400 drop-shadow-[0_0_10px_rgba(6,182,212,1)] animate-pulse" />
-                          <div className="text-sm font-bold text-cyan-300">总金额</div>
+                          <AlertTriangle className="w-3.5 h-3.5 text-cyan-400 drop-shadow-[0_0_10px_rgba(6,182,212,1)] animate-pulse" />
+                          <div className="text-sm font-bold text-cyan-300">缺口项目数</div>
                         </div>
                         <div className="flex items-baseline gap-1">
                           <span className="text-3xl font-black text-cyan-400 drop-shadow-[0_0_15px_rgba(34,211,238,1)]">
-                            {insufficientReports.reduce((sum, p) => sum + p.amount, 0).toFixed(0)}
+                            {insufficientReports.reduce((sum, p) => sum + p.gapCount, 0)}
                           </span>
-                          <span className="text-xs text-cyan-300/80">万</span>
+                          <span className="text-xs text-cyan-300/80">个</span>
                         </div>
                       </div>
                     </div>
@@ -1823,7 +1811,7 @@ export default function RiskIdentificationPanel({
                       )}
                       onClick={() => openDialog({
                         title: '立即上报',
-                        description: `确定要立即上报待报备项目吗？\n\n共 ${insufficientReports.length} 个待报备项目，总金额 ${insufficientReports.reduce((sum, p) => sum + p.amount, 0).toFixed(0)} 万元`,
+                        description: `请尽快补充报备项目，当前缺口 ${insufficientReports.reduce((sum, p) => sum + p.gapCount, 0)} 个项目`,
                         confirmText: '确认上报',
                         cancelText: '取消',
                         onConfirm: async () => {
@@ -1847,7 +1835,7 @@ export default function RiskIdentificationPanel({
                         <div className="flex items-center gap-1">
                           <div className="w-1.5 h-1.5 bg-cyan-400 rounded-full animate-bounce" style={{animationDelay: '150ms'}}></div>
                           <div className="w-1.5 h-1.5 bg-cyan-400 rounded-full animate-bounce" style={{animationDelay: '300ms'}}></div>
-                          <div className="text-xs text-cyan-300 font-semibold">全部 {insufficientReports.length} 个项目</div>
+                          <div className="text-xs text-cyan-300 font-semibold">全部 {insufficientReports.reduce((sum, p) => sum + p.gapCount, 0)} 个缺口</div>
                         </div>
                       </div>
                     </div>
@@ -1860,12 +1848,11 @@ export default function RiskIdentificationPanel({
                     <thead className="sticky top-0 bg-slate-900/95 backdrop-blur-sm z-10">
                       <tr className={cn('text-sm border-b border-cyan-500/30', DASHBOARD_STYLES.cardBorder)}>
                         <th className={cn('text-center py-2 px-3 font-medium w-16 text-cyan-300 drop-shadow-[0_0_5px_rgba(6,182,212,0.5)] whitespace-nowrap')}>序号</th>
-                        <th className={cn('text-left py-2 px-3 font-medium text-cyan-300 drop-shadow-[0_0_5px_rgba(6,182,212,0.5)] whitespace-nowrap')}>项目名称</th>
                         <th className={cn('text-left py-2 px-3 font-medium hidden lg:table-cell text-cyan-300 drop-shadow-[0_0_5px_rgba(6,182,212,0.5)] whitespace-nowrap')}>大区</th>
-                        <th className={cn('text-left py-2 px-3 font-medium hidden md:table-cell text-cyan-300 drop-shadow-[0_0_5px_rgba(6,182,212,0.5)] whitespace-nowrap')}>负责人</th>
-                        <th className={cn('text-right py-2 px-3 font-medium text-cyan-300 drop-shadow-[0_0_5px_rgba(6,182,212,0.5)] whitespace-nowrap')}>金额</th>
-                        <th className={cn('text-right py-2 px-3 font-medium text-cyan-300 drop-shadow-[0_0_5px_rgba(6,182,212,0.5)] whitespace-nowrap')}>预计报备</th>
-                        <th className={cn('text-right py-2 px-3 font-medium text-cyan-300 drop-shadow-[0_0_5px_rgba(6,182,212,0.5)] whitespace-nowrap')}>状态</th>
+                        <th className={cn('text-left py-2 px-3 font-medium text-cyan-300 drop-shadow-[0_0_5px_rgba(6,182,212,0.5)] whitespace-nowrap')}>负责人</th>
+                        <th className={cn('text-right py-2 px-3 font-medium text-cyan-300 drop-shadow-[0_0_5px_rgba(6,182,212,0.5)] whitespace-nowrap')}>新报备项目数</th>
+                        <th className={cn('text-right py-2 px-3 font-medium text-cyan-300 drop-shadow-[0_0_5px_rgba(6,182,212,0.5)] whitespace-nowrap')}>缺口项目数</th>
+                        <th className={cn('text-left py-2 px-3 font-medium text-cyan-300 drop-shadow-[0_0_5px_rgba(6,182,212,0.5)] whitespace-nowrap')}>情况反馈</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -1884,46 +1871,40 @@ export default function RiskIdentificationPanel({
                             </div>
                           </td>
 
-                          {/* 项目名称 */}
-                          <td className={cn('py-2 px-3 text-sm', DASHBOARD_STYLES.textSecondary, 'align-middle')}>
-                            <div className="font-medium leading-snug text-cyan-100 whitespace-nowrap" title={item.projectName}>{item.projectName}</div>
-                          </td>
-
                           {/* 大区 */}
                           <td className={cn('hidden lg:table-cell py-2 px-3 text-sm text-cyan-200 align-middle')}>
                             {item.region || '-'}
                           </td>
 
                           {/* 负责人 */}
-                          <td className={cn('hidden md:table-cell py-2 px-3 text-sm text-cyan-200 align-middle')}>
-                            {item.salesEngineer || '-'}
+                          <td className={cn('py-2 px-3 text-sm text-cyan-200 align-middle')}>
+                            {item.owner || '-'}
                           </td>
 
-                          {/* 金额 */}
-                          <td className={cn('text-right py-2 px-3 whitespace-nowrap', DASHBOARD_STYLES.textSecondary, 'align-middle')}>
-                            <span className="font-black text-cyan-400 drop-shadow-[0_0_6px_rgba(34,211,238,0.6)]">
-                              {item.amount.toFixed(2)}
+                          {/* 新报备项目数 */}
+                          <td className={cn('text-right py-2 px-3 whitespace-nowrap text-sm text-cyan-200 align-middle')}>
+                            <span className="font-bold text-cyan-400 drop-shadow-[0_0_6px_rgba(34,211,238,0.6)]">
+                              {item.newReportedCount}
                             </span>
-                            <span className={cn('text-sm ml-1 text-cyan-300/70')}>万</span>
                           </td>
 
-                          {/* 预计报备日期 */}
-                          <td className={cn('text-right py-2 px-3 whitespace-nowrap text-purple-200 align-middle')}>
-                            <div className="flex items-center gap-1.5 justify-end">
-                              <Calendar className="w-3 h-3 text-purple-400/70" />
-                              {item.expectedReportDate || '-'}
-                            </div>
-                          </td>
-
-                          {/* 状态 */}
-                          <td className={cn('text-right py-2 px-3 whitespace-nowrap', DASHBOARD_STYLES.textSecondary, 'align-middle')}>
+                          {/* 缺口项目数 */}
+                          <td className={cn('text-right py-2 px-3 whitespace-nowrap text-sm', DASHBOARD_STYLES.textSecondary, 'align-middle')}>
                             <span className={cn(
-                              'px-2 py-1 rounded text-xs font-bold',
-                              item.status === 'overdue' ? 'bg-red-500/20 text-red-400' :
-                              item.status === 'urgent' ? 'bg-orange-500/20 text-orange-400' :
-                              'bg-cyan-500/20 text-cyan-400'
+                              'font-bold px-2 py-1 rounded text-xs',
+                              item.gapCount > 0 ? 'bg-orange-500/20 text-orange-400' : 'bg-cyan-500/20 text-cyan-400'
                             )}>
-                              {item.status === 'overdue' ? '已逾期' : item.status === 'urgent' ? '紧急' : '待报'}
+                              {item.gapCount}
+                            </span>
+                          </td>
+
+                          {/* 情况反馈 */}
+                          <td className={cn('text-left py-2 px-3 text-sm text-cyan-200 align-middle max-w-[200px]')}>
+                            <span
+                              className="text-cyan-300/90 text-sm block whitespace-nowrap overflow-hidden truncate"
+                              title={item.feedback || '-'}
+                            >
+                              {item.feedback || '-'}
                             </span>
                           </td>
                         </tr>
