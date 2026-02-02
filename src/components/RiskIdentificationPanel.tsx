@@ -1037,7 +1037,7 @@ export default function RiskIdentificationPanel({
                         textShadow: `0 0 8px rgba(${colorScheme.primaryHex}, 1)`
                       } : undefined}
                     />
-                    <span className={isActive && theme === 'dashboard' ? 'font-bold text-xs' : ''}>
+                    <span className={isActive && theme === 'dashboard' ? 'font-bold text-sm' : ''}>
                       {tab.label}
                     </span>
                     {/* 角标 */}
