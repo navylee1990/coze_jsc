@@ -203,7 +203,7 @@ export default function ConfirmDialog({
           </div>
         </div>
 
-        <DialogFooter className="relative z-10 gap-3 pt-4">
+        <DialogFooter className="relative z-10 gap-3 pt-4 justify-center">
           {!loading && !success && (
             <Button
               variant="outline"
