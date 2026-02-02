@@ -181,15 +181,10 @@ interface InsufficientReport {
 
 // 8. 阶段停滞数据（项目在某个阶段停滞）
 interface PhaseStagnation {
-  projectName: string;
-  region: string;
-  salesEngineer: string;
-  cityManager: string;
-  currentPhase: string; // 当前阶段
-  stayDays: number; // 停留天数
-  amount: number; // 金额
-  riskLevel: 'high' | 'medium' | 'low'; // 风险等级
-  nextPhase?: string; // 下一阶段
+  owner: string; // 负责人
+  region: string; // 大区
+  stagnationCount: number; // 停滞阶段项目数
+  feedback?: string; // 情况反馈
 }
 
 // 组件属性
@@ -298,59 +293,34 @@ const defaultInsufficientReports: InsufficientReport[] = [
 // 默认阶段停滞数据
 const defaultPhaseStagnations: PhaseStagnation[] = [
   {
-    projectName: '成都天府新区',
+    owner: '胡燕',
     region: '西南',
-    salesEngineer: '胡燕',
-    cityManager: '吴敏',
-    currentPhase: '方案设计',
-    stayDays: 25,
-    amount: 120,
-    riskLevel: 'high',
-    nextPhase: '项目采购'
+    stagnationCount: 3,
+    feedback: '客户决策流程复杂，需要高层支持'
   },
   {
-    projectName: '重庆江北国际机场',
+    owner: '杨洋',
     region: '西南',
-    salesEngineer: '杨洋',
-    cityManager: '孙丽',
-    currentPhase: '项目采购',
-    stayDays: 20,
-    amount: 300,
-    riskLevel: 'high',
-    nextPhase: '项目合同'
+    stagnationCount: 2,
+    feedback: '正在协调技术部门完善方案'
   },
   {
-    projectName: '西安高新区',
+    owner: '赵峰',
     region: '西南',
-    salesEngineer: '赵峰',
-    cityManager: '王芳',
-    currentPhase: '项目合同',
-    stayDays: 15,
-    amount: 180,
-    riskLevel: 'medium',
-    nextPhase: '赢单'
+    stagnationCount: 4,
+    feedback: '竞争对手介入，需要调整报价策略'
   },
   {
-    projectName: '武汉绿地中心',
+    owner: '郑浩',
     region: '华中',
-    salesEngineer: '郑浩',
-    cityManager: '李强',
-    currentPhase: '需求意向',
-    stayDays: 12,
-    amount: 150,
-    riskLevel: 'medium',
-    nextPhase: '方案设计'
+    stagnationCount: 2,
+    feedback: '客户预算审批中，保持跟进'
   },
   {
-    projectName: '长沙五一广场',
+    owner: '吴敏',
     region: '华中',
-    salesEngineer: '吴敏',
-    cityManager: '王伟',
-    currentPhase: '初步接洽',
-    stayDays: 10,
-    amount: 100,
-    riskLevel: 'low',
-    nextPhase: '现场勘察'
+    stagnationCount: 3,
+    feedback: '需要安排高层拜访推进项目'
   }
 ];
 
@@ -2136,14 +2106,14 @@ export default function RiskIdentificationPanel({
                         </div>
                         <div className="flex items-baseline gap-1">
                           <span className="text-3xl font-black text-cyan-400 drop-shadow-[0_0_15px_rgba(34,211,238,1)]">
-                            {phaseStagnations.length}
+                            {phaseStagnations.reduce((sum, p) => sum + p.stagnationCount, 0)}
                           </span>
                           <span className="text-xs text-cyan-300/80">个</span>
                         </div>
                       </div>
                     </div>
 
-                    {/* 总金额卡片 */}
+                    {/* 涉及负责人卡片 */}
                     <div className={cn(
                       'relative rounded-xl p-2 overflow-hidden h-full flex flex-col items-center justify-center',
                       'bg-gradient-to-br from-cyan-900/50 to-cyan-800/30',
@@ -2153,14 +2123,14 @@ export default function RiskIdentificationPanel({
                       <div className="absolute top-0 right-0 w-20 h-20 bg-cyan-500/20 rounded-full blur-3xl animate-pulse"></div>
                       <div className="relative z-10 w-full flex flex-col items-center justify-center">
                         <div className="flex items-center gap-2 mb-1.5">
-                          <DollarSign className="w-3.5 h-3.5 text-cyan-400 drop-shadow-[0_0_10px_rgba(6,182,212,1)] animate-pulse" />
-                          <div className="text-sm font-bold text-cyan-300">总金额</div>
+                          <Users className="w-3.5 h-3.5 text-cyan-400 drop-shadow-[0_0_10px_rgba(6,182,212,1)] animate-pulse" />
+                          <div className="text-sm font-bold text-cyan-300">涉及负责人</div>
                         </div>
                         <div className="flex items-baseline gap-1">
                           <span className="text-3xl font-black text-cyan-400 drop-shadow-[0_0_15px_rgba(34,211,238,1)]">
-                            {phaseStagnations.reduce((sum, p) => sum + p.amount, 0).toFixed(0)}
+                            {phaseStagnations.length}
                           </span>
-                          <span className="text-xs text-cyan-300/80">万</span>
+                          <span className="text-xs text-cyan-300/80">人</span>
                         </div>
                       </div>
                     </div>
@@ -2178,7 +2148,7 @@ export default function RiskIdentificationPanel({
                       )}
                       onClick={() => openDialog({
                         title: '推进处理',
-                        description: `XX，你好：你名下共计X个项目阶段停滞（预计成交日期为近1季度内的项目），请及时更新项目进展。【数据来源：企业微信工作台-渠道运营-销售机会（预计下单日期、项目阶段）。更新路径：企业微信工作台-渠道运营-跟进记录、销售机会机会】`,
+                        description: `XX，你好：你名下共计 ${phaseStagnations.reduce((sum, p) => sum + p.stagnationCount, 0)} 个项目阶段停滞，请及时更新项目进展。【数据来源：企业微信工作台-渠道运营-销售机会（预计下单日期、项目阶段）。更新路径：企业微信工作台-渠道运营-跟进记录、销售机会机会】`,
                         confirmText: '确认发送',
                         cancelText: '取消',
                         onConfirm: async () => {
@@ -2203,7 +2173,7 @@ export default function RiskIdentificationPanel({
                           <div className="w-1.5 h-1.5 bg-cyan-400 rounded-full animate-bounce" style={{animationDelay: '0ms'}}></div>
                           <div className="w-1.5 h-1.5 bg-cyan-400 rounded-full animate-bounce" style={{animationDelay: '150ms'}}></div>
                           <div className="w-1.5 h-1.5 bg-cyan-400 rounded-full animate-bounce" style={{animationDelay: '300ms'}}></div>
-                          <div className="text-xs text-cyan-300 font-semibold">全部 {phaseStagnations.length} 个项目</div>
+                          <div className="text-xs text-cyan-300 font-semibold">全部 {phaseStagnations.reduce((sum, p) => sum + p.stagnationCount, 0)} 个项目</div>
                         </div>
                       </div>
                     </div>
@@ -2216,12 +2186,10 @@ export default function RiskIdentificationPanel({
                     <thead className="sticky top-0 bg-slate-900/95 backdrop-blur-sm z-10">
                       <tr className={cn('text-sm border-b border-cyan-500/30', 'border-cyan-500/20')}>
                         <th className={cn('text-center py-2 px-3 font-medium w-16 text-cyan-300 drop-shadow-[0_0_5px_rgba(6,182,212,0.5)] whitespace-nowrap')}>序号</th>
-                        <th className={cn('text-left py-2 px-3 font-medium text-cyan-300 drop-shadow-[0_0_5px_rgba(6,182,212,0.5)] whitespace-nowrap')}>项目名称</th>
-                        <th className={cn('text-left py-2 px-3 font-medium hidden lg:table-cell text-cyan-300 drop-shadow-[0_0_5px_rgba(6,182,212,0.5)] whitespace-nowrap')}>当前阶段</th>
-                        <th className={cn('text-left py-2 px-3 font-medium hidden md:table-cell text-cyan-300 drop-shadow-[0_0_5px_rgba(6,182,212,0.5)] whitespace-nowrap')}>大区</th>
-                        <th className={cn('text-right py-2 px-3 font-medium text-cyan-300 drop-shadow-[0_0_5px_rgba(6,182,212,0.5)] whitespace-nowrap')}>停留天数</th>
-                        <th className={cn('text-right py-2 px-3 font-medium text-cyan-300 drop-shadow-[0_0_5px_rgba(6,182,212,0.5)] whitespace-nowrap')}>金额</th>
-                        <th className={cn('text-right py-2 px-3 font-medium text-cyan-300 drop-shadow-[0_0_5px_rgba(6,182,212,0.5)] whitespace-nowrap')}>风险等级</th>
+                        <th className={cn('text-left py-2 px-3 font-medium hidden lg:table-cell text-cyan-300 drop-shadow-[0_0_5px_rgba(6,182,212,0.5)] whitespace-nowrap')}>大区</th>
+                        <th className={cn('text-left py-2 px-3 font-medium text-cyan-300 drop-shadow-[0_0_5px_rgba(6,182,212,0.5)] whitespace-nowrap')}>负责人</th>
+                        <th className={cn('text-right py-2 px-3 font-medium text-cyan-300 drop-shadow-[0_0_5px_rgba(6,182,212,0.5)] whitespace-nowrap')}>停滞阶段项目数</th>
+                        <th className={cn('text-left py-2 px-3 font-medium text-cyan-300 drop-shadow-[0_0_5px_rgba(6,182,212,0.5)] whitespace-nowrap')}>情况反馈</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -2241,44 +2209,32 @@ export default function RiskIdentificationPanel({
                           </td>
 
                           {/* 项目名称 */}
-                          <td className={cn('py-2 px-3 text-sm', DASHBOARD_STYLES.textSecondary, 'align-middle')}>
-                            <div className="font-medium leading-snug text-cyan-100 whitespace-nowrap" title={item.projectName}>{item.projectName}</div>
-                          </td>
-
-                          {/* 当前阶段 */}
                           <td className={cn('hidden lg:table-cell py-2 px-3 text-sm text-cyan-200 align-middle')}>
-                            <span className={cn('px-2 py-1 rounded text-xs font-medium bg-cyan-500/20 text-cyan-300')}>{item.currentPhase}</span>
-                          </td>
-
-                          {/* 大区 */}
-                          <td className={cn('hidden md:table-cell py-2 px-3 text-sm text-cyan-200 align-middle')}>
                             {item.region || '-'}
                           </td>
 
-                          {/* 停留天数 */}
-                          <td className={cn('text-right py-2 px-3 whitespace-nowrap text-cyan-200 align-middle')}>
-                            <span className={cn(
-                              'font-bold',
-                              item.stayDays >= 20 ? 'text-red-400' : item.stayDays >= 15 ? 'text-orange-400' : 'text-cyan-300'
-                            )}>{item.stayDays}</span>
-                            <span className="text-sm ml-1 text-cyan-300/70">天</span>
+                          {/* 负责人 */}
+                          <td className={cn('py-2 px-3 text-sm text-cyan-200 align-middle')}>
+                            {item.owner || '-'}
                           </td>
 
-                          {/* 金额 */}
-                          <td className={cn('text-right py-2 px-3 whitespace-nowrap', DASHBOARD_STYLES.textSecondary, 'align-middle')}>
-                            <span className="font-black text-cyan-300">{item.amount.toFixed(0)}</span>
-                            <span className={cn('text-sm ml-1 text-cyan-300/70')}>万</span>
-                          </td>
-
-                          {/* 风险等级 */}
-                          <td className={cn('text-right py-2 px-3 whitespace-nowrap', DASHBOARD_STYLES.textSecondary, 'align-middle')}>
+                          {/* 停滞阶段项目数 */}
+                          <td className={cn('text-right py-2 px-3 whitespace-nowrap text-sm text-cyan-200 align-middle')}>
                             <span className={cn(
-                              'px-2 py-1 rounded text-xs font-bold',
-                              item.riskLevel === 'high' ? 'bg-red-500/20 text-red-400' :
-                              item.riskLevel === 'medium' ? 'bg-orange-500/20 text-orange-400' :
-                              'bg-green-500/20 text-green-400'
+                              'font-bold px-2 py-1 rounded text-xs',
+                              item.stagnationCount > 0 ? 'bg-orange-500/20 text-orange-400' : 'bg-cyan-500/20 text-cyan-400'
                             )}>
-                              {item.riskLevel === 'high' ? '高' : item.riskLevel === 'medium' ? '中' : '低'}
+                              {item.stagnationCount}
+                            </span>
+                          </td>
+
+                          {/* 情况反馈 */}
+                          <td className={cn('text-left py-2 px-3 text-sm text-cyan-200 align-middle max-w-[200px]')}>
+                            <span
+                              className="text-cyan-300/90 text-sm block whitespace-nowrap overflow-hidden truncate"
+                              title={item.feedback || '-'}
+                            >
+                              {item.feedback || '-'}
                             </span>
                           </td>
                         </tr>
