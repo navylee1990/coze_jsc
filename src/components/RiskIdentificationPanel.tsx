@@ -157,6 +157,7 @@ interface ForecastGap {
   currentForecast: number; // 当前预测金额
   targetForecast: number; // 目标预测金额
   gapPercentage: number; // 缺口百分比
+  feedback?: string; // 情况反馈
 }
 
 // 7. 转化不足数据（项目报备一直没有进入下一阶段）
@@ -218,11 +219,11 @@ const defaultLargeProjectDependencies: LargeProjectDependency[] = [
 ];
 
 const defaultForecastGaps: ForecastGap[] = [
-  { projectName: '深圳前海自贸区综合项目', region: '华南', owner: '周杰', gapAmount: 200, currentForecast: 300, targetForecast: 500, gapPercentage: 40 },
-  { projectName: '天津天河城扩建项目', region: '华北', owner: '李明', gapAmount: 150, currentForecast: 250, targetForecast: 400, gapPercentage: 37.5 },
-  { projectName: '杭州阿里巴巴园区二期', region: '二区', owner: '刘芳', gapAmount: 180, currentForecast: 220, targetForecast: 400, gapPercentage: 45 },
-  { projectName: '广州白云机场T3扩建', region: '华南', owner: '王强', gapAmount: 120, currentForecast: 180, targetForecast: 300, gapPercentage: 40 },
-  { projectName: '北京大兴机场配套二期', region: '华北', owner: '张伟', gapAmount: 100, currentForecast: 150, targetForecast: 250, gapPercentage: 40 }
+  { projectName: '深圳前海自贸区综合项目', region: '华南', owner: '周杰', gapAmount: 200, currentForecast: 300, targetForecast: 500, gapPercentage: 40, feedback: '预计3月会有新增项目补充' },
+  { projectName: '天津天河城扩建项目', region: '华北', owner: '李明', gapAmount: 150, currentForecast: 250, targetForecast: 400, gapPercentage: 37.5, feedback: '正在洽谈两个大型项目' },
+  { projectName: '杭州阿里巴巴园区二期', region: '二区', owner: '刘芳', gapAmount: 180, currentForecast: 220, targetForecast: 400, gapPercentage: 45, feedback: '客户决策流程延期' },
+  { projectName: '广州白云机场T3扩建', region: '华南', owner: '王强', gapAmount: 120, currentForecast: 180, targetForecast: 300, gapPercentage: 40, feedback: '待确认最终方案' },
+  { projectName: '北京大兴机场配套二期', region: '华北', owner: '张伟', gapAmount: 100, currentForecast: 150, targetForecast: 250, gapPercentage: 40, feedback: '正在等待预算批复' }
 ];
 
 // 默认转化不足数据
@@ -1582,6 +1583,7 @@ export default function RiskIdentificationPanel({
                         <th className={cn('text-right py-2 px-3 font-medium text-cyan-300 drop-shadow-[0_0_5px_rgba(6,182,212,0.5)]')}>目标预测</th>
                         <th className={cn('text-right py-2 px-3 font-medium text-cyan-300 drop-shadow-[0_0_5px_rgba(6,182,212,0.5)]')}>缺口金额</th>
                         <th className={cn('text-right py-2 px-3 font-medium text-cyan-300 drop-shadow-[0_0_5px_rgba(6,182,212,0.5)]')}>缺口比例</th>
+                        <th className={cn('text-left py-2 px-3 font-medium text-cyan-300 drop-shadow-[0_0_5px_rgba(6,182,212,0.5)]')}>情况反馈</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -1640,6 +1642,11 @@ export default function RiskIdentificationPanel({
                             )}>
                               {item.gapPercentage}%
                             </span>
+                          </td>
+
+                          {/* 情况反馈 */}
+                          <td className={cn('text-left py-2 px-3 text-sm text-cyan-200 align-middle')}>
+                            <span className="text-cyan-300/90 text-xs">{item.feedback || '-'}</span>
                           </td>
                         </tr>
                       ))}
