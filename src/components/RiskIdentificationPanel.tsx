@@ -1579,8 +1579,8 @@ export default function RiskIdentificationPanel({
                         <th className={cn('text-center py-2 px-3 font-medium w-16 text-cyan-300 drop-shadow-[0_0_5px_rgba(6,182,212,0.5)] whitespace-nowrap')}>序号</th>
                         <th className={cn('text-left py-2 px-3 font-medium hidden lg:table-cell text-cyan-300 drop-shadow-[0_0_5px_rgba(6,182,212,0.5)] whitespace-nowrap')}>大区</th>
                         <th className={cn('text-left py-2 px-3 font-medium hidden md:table-cell text-cyan-300 drop-shadow-[0_0_5px_rgba(6,182,212,0.5)] whitespace-nowrap')}>负责人</th>
-                        <th className={cn('text-right py-2 px-3 font-medium text-cyan-300 drop-shadow-[0_0_5px_rgba(6,182,212,0.5)] whitespace-nowrap')}>当前预测</th>
-                        <th className={cn('text-right py-2 px-3 font-medium text-cyan-300 drop-shadow-[0_0_5px_rgba(6,182,212,0.5)] whitespace-nowrap')}>目标预测</th>
+                        <th className={cn('text-right py-2 px-3 font-medium text-cyan-300 drop-shadow-[0_0_5px_rgba(6,182,212,0.5)] whitespace-nowrap')}>当前预测（万）</th>
+                        <th className={cn('text-right py-2 px-3 font-medium text-cyan-300 drop-shadow-[0_0_5px_rgba(6,182,212,0.5)] whitespace-nowrap')}>目标预测（万）</th>
                         <th className={cn('text-right py-2 px-3 font-medium text-cyan-300 drop-shadow-[0_0_5px_rgba(6,182,212,0.5)] whitespace-nowrap')}>缺口金额（万）</th>
                         <th className={cn('text-right py-2 px-3 font-medium text-cyan-300 drop-shadow-[0_0_5px_rgba(6,182,212,0.5)] whitespace-nowrap')}>缺口比例</th>
                         <th className={cn('text-left py-2 px-3 font-medium text-cyan-300 drop-shadow-[0_0_5px_rgba(6,182,212,0.5)] whitespace-nowrap')}>情况反馈</th>
@@ -1615,13 +1615,11 @@ export default function RiskIdentificationPanel({
                           {/* 当前预测 */}
                           <td className={cn('text-right py-2 px-3 whitespace-nowrap text-cyan-200 align-middle')}>
                             <span className="font-medium text-cyan-300">{item.currentForecast}</span>
-                            <span className="text-sm ml-1 text-cyan-300/70">万</span>
                           </td>
 
                           {/* 目标预测 */}
                           <td className={cn('text-right py-2 px-3 whitespace-nowrap text-cyan-200 align-middle')}>
                             <span className="font-medium text-cyan-300">{item.targetForecast}</span>
-                            <span className="text-sm ml-1 text-cyan-300/70">万</span>
                           </td>
 
                           {/* 缺口金额 */}
