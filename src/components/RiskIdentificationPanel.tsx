@@ -770,6 +770,11 @@ export default function RiskIdentificationPanel({
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 3;
 
+  // 钻取层级状态
+  const [drillDownLevel, setDrillDownLevel] = useState<'region' | 'city'>('region');
+  const [selectedRegion, setSelectedRegion] = useState<string>('');
+  const [selectedCity, setSelectedCity] = useState<string>('');
+
   // 模态框状态
   const [dialogOpen, setDialogOpen] = useState(false);
   const [dialogConfig, setDialogConfig] = useState<{
@@ -785,6 +790,58 @@ export default function RiskIdentificationPanel({
   const openDialog = (config: typeof dialogConfig) => {
     setDialogConfig(config);
     setDialogOpen(true);
+  };
+
+  // 按大区分组数据
+  const groupDataByRegion = (data: any[]) => {
+    const grouped: Record<string, any[]> = {};
+    data.forEach(item => {
+      const region = item.region || '未知';
+      if (!grouped[region]) {
+        grouped[region] = [];
+      }
+      grouped[region].push(item);
+    });
+    return grouped;
+  };
+
+  // 按城市分组数据
+  const groupDataByCity = (data: any[], region: string) => {
+    const grouped: Record<string, any[]> = {};
+    data.forEach(item => {
+      if (item.region !== region) return;
+      const city = item.city || item.cityManager || '未知';
+      if (!grouped[city]) {
+        grouped[city] = [];
+      }
+      grouped[city].push(item);
+    });
+    return grouped;
+  };
+
+  // 处理大区点击
+  const handleRegionClick = (region: string) => {
+    setSelectedRegion(region);
+    setDrillDownLevel('city');
+    setCurrentPage(1);
+  };
+
+  // 处理返回操作
+  const handleBack = () => {
+    if (drillDownLevel === 'city') {
+      setSelectedRegion('');
+      setDrillDownLevel('region');
+      setCurrentPage(1);
+    }
+  };
+
+  // 获取面包屑
+  const getBreadcrumbs = () => {
+    const crumbs = [{ label: '大区', level: 'region' }];
+    if (drillDownLevel === 'city' && selectedRegion) {
+      crumbs.push({ label: selectedRegion, level: 'city' });
+    }
+    return crumbs;
   };
 
   // 当时间维度变化时，重置当前 Tab 到对应的第一个Tab
@@ -873,9 +930,48 @@ export default function RiskIdentificationPanel({
     switch (currentTab) {
       case 0: return filteredUnorderedProjects;
       case 1: return largeProjectDependencies;
-      case 2: return forecastGaps;
-      case 3: return insufficientReports;
-      case 4: return insufficientConversions;
+      case 2:
+        // 预测不足Tab：根据钻取层级返回不同的数据
+        if (drillDownLevel === 'region') {
+          // 返回按大区分组的摘要数据
+          const regionData = groupDataByRegion(forecastGaps);
+          return Object.keys(regionData).map(region => ({
+            region,
+            count: regionData[region].length,
+            gapAmount: regionData[region].reduce((sum, p) => sum + p.gapAmount, 0)
+          })).sort((a, b) => b.gapAmount - a.gapAmount);
+        } else {
+          // 返回选定大区的详细数据
+          return forecastGaps.filter(p => p.region === selectedRegion);
+        }
+      case 3:
+        // 报备不足Tab：根据钻取层级返回不同的数据
+        if (drillDownLevel === 'region') {
+          // 返回按大区分组的摘要数据
+          const regionData = groupDataByRegion(insufficientReports);
+          return Object.keys(regionData).map(region => ({
+            region,
+            count: regionData[region].length,
+            amount: regionData[region].reduce((sum, p) => sum + p.amount, 0)
+          })).sort((a, b) => b.amount - a.amount);
+        } else {
+          // 返回选定大区的详细数据
+          return insufficientReports.filter(p => p.region === selectedRegion);
+        }
+      case 4:
+        // 转化不足Tab：根据钻取层级返回不同的数据
+        if (drillDownLevel === 'region') {
+          // 返回按大区分组的摘要数据
+          const regionData = groupDataByRegion(insufficientConversions);
+          return Object.keys(regionData).map(region => ({
+            region,
+            count: regionData[region].length,
+            amount: regionData[region].reduce((sum, p) => sum + p.amount, 0)
+          })).sort((a, b) => b.amount - a.amount);
+        } else {
+          // 返回选定大区的详细数据
+          return insufficientConversions.filter(p => p.region === selectedRegion);
+        }
       case 5: return phaseStagnations;
       default: return [];
     }
@@ -889,16 +985,30 @@ export default function RiskIdentificationPanel({
     return largeProjectDependencies.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage);
   };
   const getPaginatedForecastGaps = () => {
-    const result = forecastGaps.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage);
-    console.log('getPaginatedForecastGaps:', { currentPage, itemsPerPage, forecastGaps: forecastGaps.length, result: result.length });
+    // 根据钻取层级过滤数据
+    let filteredData = forecastGaps;
+    if (drillDownLevel === 'city' && selectedRegion) {
+      filteredData = forecastGaps.filter(p => p.region === selectedRegion);
+    }
+    const result = filteredData.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage);
     return result;
   };
   const getPaginatedInsufficientReports = () => {
-    const result = insufficientReports.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage);
+    // 根据钻取层级过滤数据
+    let filteredData = insufficientReports;
+    if (drillDownLevel === 'city' && selectedRegion) {
+      filteredData = insufficientReports.filter(p => p.region === selectedRegion);
+    }
+    const result = filteredData.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage);
     return result;
   };
   const getPaginatedInsufficientConversions = () => {
-    const result = insufficientConversions.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage);
+    // 根据钻取层级过滤数据
+    let filteredData = insufficientConversions;
+    if (drillDownLevel === 'city' && selectedRegion) {
+      filteredData = insufficientConversions.filter(p => p.region === selectedRegion);
+    }
+    const result = filteredData.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage);
     return result;
   };
   const getPaginatedPhaseStagnations = () => {
@@ -1572,77 +1682,149 @@ export default function RiskIdentificationPanel({
 
                 {/* 表格区域 */}
                 <div className="flex-1 overflow-auto p-3 bg-gradient-to-b from-slate-900/50 to-transparent">
+                  {/* 面包屑导航 */}
+                  {currentTab === 2 && (drillDownLevel !== 'region' || selectedRegion) && (
+                    <div className="flex items-center gap-2 mb-3 pb-2 border-b border-cyan-500/20">
+                      <button
+                        onClick={() => {
+                          setSelectedRegion('');
+                          setDrillDownLevel('region');
+                          setCurrentPage(1);
+                        }}
+                        className="flex items-center gap-1 text-xs text-cyan-400 hover:text-cyan-300 transition-colors"
+                      >
+                        <ArrowLeft className="w-3 h-3" />
+                        <span>返回大区</span>
+                      </button>
+                      {selectedRegion && (
+                        <span className="text-cyan-300/70">/</span>
+                      )}
+                      {selectedRegion && (
+                        <span className="text-sm text-cyan-300 font-medium">{selectedRegion}</span>
+                      )}
+                    </div>
+                  )}
                   <table className="w-full">
                     <thead className="sticky top-0 bg-slate-900/95 backdrop-blur-sm z-10">
                       <tr className={cn('text-sm border-b border-cyan-500/30', DASHBOARD_STYLES.cardBorder)}>
                         <th className={cn('text-center py-2 px-3 font-medium w-16 text-cyan-300 drop-shadow-[0_0_5px_rgba(6,182,212,0.5)]')}>序号</th>
-                        <th className={cn('text-left py-2 px-3 font-medium hidden lg:table-cell text-cyan-300 drop-shadow-[0_0_5px_rgba(6,182,212,0.5)]')}>大区</th>
-                        <th className={cn('text-left py-2 px-3 font-medium hidden md:table-cell text-cyan-300 drop-shadow-[0_0_5px_rgba(6,182,212,0.5)]')}>负责人</th>
-                        <th className={cn('text-right py-2 px-3 font-medium text-cyan-300 drop-shadow-[0_0_5px_rgba(6,182,212,0.5)]')}>当前预测</th>
-                        <th className={cn('text-right py-2 px-3 font-medium text-cyan-300 drop-shadow-[0_0_5px_rgba(6,182,212,0.5)]')}>目标预测</th>
-                        <th className={cn('text-right py-2 px-3 font-medium text-cyan-300 drop-shadow-[0_0_5px_rgba(6,182,212,0.5)]')}>缺口金额</th>
-                        <th className={cn('text-right py-2 px-3 font-medium text-cyan-300 drop-shadow-[0_0_5px_rgba(6,182,212,0.5)]')}>缺口比例</th>
+                        {drillDownLevel === 'region' ? (
+                          <>
+                            <th className={cn('text-left py-2 px-3 font-medium text-cyan-300 drop-shadow-[0_0_5px_rgba(6,182,212,0.5)]')}>大区</th>
+                            <th className={cn('text-right py-2 px-3 font-medium text-cyan-300 drop-shadow-[0_0_5px_rgba(6,182,212,0.5)]')}>项目数</th>
+                            <th className={cn('text-right py-2 px-3 font-medium text-cyan-300 drop-shadow-[0_0_5px_rgba(6,182,212,0.5)]')}>缺口金额</th>
+                          </>
+                        ) : (
+                          <>
+                            <th className={cn('text-left py-2 px-3 font-medium hidden lg:table-cell text-cyan-300 drop-shadow-[0_0_5px_rgba(6,182,212,0.5)]')}>负责人</th>
+                            <th className={cn('text-right py-2 px-3 font-medium text-cyan-300 drop-shadow-[0_0_5px_rgba(6,182,212,0.5)]')}>当前预测</th>
+                            <th className={cn('text-right py-2 px-3 font-medium text-cyan-300 drop-shadow-[0_0_5px_rgba(6,182,212,0.5)]')}>目标预测</th>
+                            <th className={cn('text-right py-2 px-3 font-medium text-cyan-300 drop-shadow-[0_0_5px_rgba(6,182,212,0.5)]')}>缺口金额</th>
+                            <th className={cn('text-right py-2 px-3 font-medium text-cyan-300 drop-shadow-[0_0_5px_rgba(6,182,212,0.5)]')}>缺口比例</th>
+                          </>
+                        )}
                       </tr>
                     </thead>
                     <tbody>
-                      {getPaginatedForecastGaps().map((item, index) => (
-                        <tr
-                          key={index}
-                          className={cn(
-                            'align-middle border-b border-cyan-500/10 hover:bg-gradient-to-r hover:from-cyan-500/10 hover:to-blue-500/10 transition-all duration-200',
-                            index === getPaginatedForecastGaps().length - 1 && 'border-b-0'
-                          )}
-                        >
-                          {/* 序号 */}
-                          <td className={cn('text-center py-2 px-3 text-sm text-cyan-300 align-middle')}>
-                            <div className="inline-flex items-center justify-center w-6 h-6 rounded-full bg-cyan-500/10 border border-cyan-500/30">
-                              {(currentPage - 1) * 5 + index + 1}
-                            </div>
-                          </td>
+                      {drillDownLevel === 'region' ? (
+                        // 大区视图
+                        (() => {
+                          const regionData = groupDataByRegion(forecastGaps);
+                          const regions = Object.keys(regionData).sort((a, b) => {
+                            const gapA = regionData[a].reduce((sum, p) => sum + p.gapAmount, 0);
+                            const gapB = regionData[b].reduce((sum, p) => sum + p.gapAmount, 0);
+                            return gapB - gapA;
+                          });
+                          return regions.map((region, index) => {
+                            const items = regionData[region];
+                            const totalGap = items.reduce((sum, p) => sum + p.gapAmount, 0);
+                            return (
+                              <tr
+                                key={region}
+                                className={cn(
+                                  'align-middle border-b border-cyan-500/10 hover:bg-gradient-to-r hover:from-cyan-500/10 hover:to-blue-500/10 transition-all duration-200 cursor-pointer',
+                                  index === regions.length - 1 && 'border-b-0'
+                                )}
+                                onClick={() => handleRegionClick(region)}
+                              >
+                                <td className={cn('text-center py-2 px-3 text-sm text-cyan-300 align-middle')}>
+                                  <div className="inline-flex items-center justify-center w-6 h-6 rounded-full bg-cyan-500/10 border border-cyan-500/30">
+                                    {index + 1}
+                                  </div>
+                                </td>
+                                <td className={cn('py-2 px-3 text-sm text-cyan-100 align-middle font-medium')}>
+                                  <ChevronRight className="w-4 h-4 inline mr-1 text-cyan-400/70" />
+                                  {region}
+                                </td>
+                                <td className={cn('text-right py-2 px-3 text-sm text-cyan-300 align-middle')}>
+                                  {items.length}
+                                </td>
+                                <td className={cn('text-right py-2 px-3 text-cyan-300 align-middle')}>
+                                  <span className="font-black text-cyan-400 drop-shadow-[0_0_6px_rgba(34,211,238,0.6)]">
+                                    {totalGap.toFixed(2)}
+                                  </span>
+                                  <span className={cn('text-sm ml-1 text-cyan-300/70')}>万</span>
+                                </td>
+                              </tr>
+                            );
+                          });
+                        })()
+                      ) : (
+                        // 城市/项目详情视图
+                        getPaginatedForecastGaps().map((item, index) => (
+                          <tr
+                            key={index}
+                            className={cn(
+                              'align-middle border-b border-cyan-500/10 hover:bg-gradient-to-r hover:from-cyan-500/10 hover:to-blue-500/10 transition-all duration-200',
+                              index === getPaginatedForecastGaps().length - 1 && 'border-b-0'
+                            )}
+                          >
+                            {/* 序号 */}
+                            <td className={cn('text-center py-2 px-3 text-sm text-cyan-300 align-middle')}>
+                              <div className="inline-flex items-center justify-center w-6 h-6 rounded-full bg-cyan-500/10 border border-cyan-500/30">
+                                {(currentPage - 1) * 5 + index + 1}
+                              </div>
+                            </td>
 
-                          {/* 大区 */}
-                          <td className={cn('hidden lg:table-cell py-2 px-3 text-sm text-cyan-200 align-middle')}>
-                            {item.region || '-'}
-                          </td>
+                            {/* 负责人 */}
+                            <td className={cn('hidden lg:table-cell py-2 px-3 text-sm text-cyan-200 align-middle')}>
+                              {item.owner || '-'}
+                            </td>
 
-                          {/* 负责人 */}
-                          <td className={cn('hidden md:table-cell py-2 px-3 text-sm text-cyan-200 align-middle')}>
-                            {item.owner || '-'}
-                          </td>
+                            {/* 当前预测 */}
+                            <td className={cn('text-right py-2 px-3 whitespace-nowrap text-cyan-200 align-middle')}>
+                              <span className="font-medium text-cyan-300">{item.currentForecast}</span>
+                              <span className="text-sm ml-1 text-cyan-300/70">万</span>
+                            </td>
 
-                          {/* 当前预测 */}
-                          <td className={cn('text-right py-2 px-3 whitespace-nowrap text-cyan-200 align-middle')}>
-                            <span className="font-medium text-cyan-300">{item.currentForecast}</span>
-                            <span className="text-sm ml-1 text-cyan-300/70">万</span>
-                          </td>
+                            {/* 目标预测 */}
+                            <td className={cn('text-right py-2 px-3 whitespace-nowrap text-cyan-200 align-middle')}>
+                              <span className="font-medium text-cyan-300">{item.targetForecast}</span>
+                              <span className="text-sm ml-1 text-cyan-300/70">万</span>
+                            </td>
 
-                          {/* 目标预测 */}
-                          <td className={cn('text-right py-2 px-3 whitespace-nowrap text-cyan-200 align-middle')}>
-                            <span className="font-medium text-cyan-300">{item.targetForecast}</span>
-                            <span className="text-sm ml-1 text-cyan-300/70">万</span>
-                          </td>
+                            {/* 缺口金额 */}
+                            <td className={cn('text-right py-2 px-3 whitespace-nowrap', DASHBOARD_STYLES.textSecondary, 'align-middle')}>
+                              <span className="font-black text-cyan-400 drop-shadow-[0_0_6px_rgba(34,211,238,0.6)]">
+                                {item.gapAmount.toFixed(2)}
+                              </span>
+                              <span className={cn('text-sm ml-1 text-cyan-300/70')}>万</span>
+                            </td>
 
-                          {/* 缺口金额 */}
-                          <td className={cn('text-right py-2 px-3 whitespace-nowrap', DASHBOARD_STYLES.textSecondary, 'align-middle')}>
-                            <span className="font-black text-cyan-400 drop-shadow-[0_0_6px_rgba(34,211,238,0.6)]">
-                              {item.gapAmount.toFixed(2)}
-                            </span>
-                            <span className={cn('text-sm ml-1 text-cyan-300/70')}>万</span>
-                          </td>
-
-                          {/* 缺口比例 */}
-                          <td className={cn('text-right py-2 px-3 whitespace-nowrap', DASHBOARD_STYLES.textSecondary, 'align-middle')}>
-                            <span className={cn(
-                              'px-2 py-1 rounded text-xs font-bold',
-                              item.gapPercentage >= 50 ? 'bg-red-500/20 text-red-400' :
-                              item.gapPercentage >= 40 ? 'bg-orange-500/20 text-orange-400' :
-                              'bg-cyan-500/20 text-cyan-400'
-                            )}>
-                              {item.gapPercentage}%
-                            </span>
-                          </td>
-                        </tr>
-                      ))}
+                            {/* 缺口比例 */}
+                            <td className={cn('text-right py-2 px-3 whitespace-nowrap', DASHBOARD_STYLES.textSecondary, 'align-middle')}>
+                              <span className={cn(
+                                'px-2 py-1 rounded text-xs font-bold',
+                                item.gapPercentage >= 50 ? 'bg-red-500/20 text-red-400' :
+                                item.gapPercentage >= 40 ? 'bg-orange-500/20 text-orange-400' :
+                                'bg-cyan-500/20 text-cyan-400'
+                              )}>
+                                {item.gapPercentage}%
+                              </span>
+                            </td>
+                          </tr>
+                        ))
+                      )}
                     </tbody>
                   </table>
                 </div>
