@@ -1558,10 +1558,8 @@ export default function RiskIdentificationPanel({
                           'group-hover:scale-110 group-hover:shadow-[0_0_40px_rgba(6,182,212,1)]',
                           'transition-all duration-300 cursor-pointer'
                         )}>
-                          {/* 启动图标 */}
-                          <svg className="w-8 h-8 text-white drop-shadow-md" fill="currentColor" viewBox="0 0 24 24">
-                            <path d="M8 5v14l11-7z"/>
-                          </svg>
+                          {/* 发送图标 */}
+                          <Send className="w-8 h-8 text-white drop-shadow-md" />
                         </div>
 
                         {/* 按钮文字 */}
