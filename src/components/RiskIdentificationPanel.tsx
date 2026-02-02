@@ -1133,8 +1133,19 @@ export default function RiskIdentificationPanel({
                            type: 'warning'
                          })}>
                       {/* 按钮发光效果 */}
-                      <div className="absolute inset-0 bg-gradient-to-r from-cyan-500/30 to-blue-500/30 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-                      <div className="absolute inset-0 border-2 border-cyan-500/50 rounded-xl animate-pulse"></div>
+                      <div className="absolute inset-0 bg-gradient-to-r from-red-500/30 to-cyan-500/30 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                      <div className="absolute inset-0 border-2 border-red-500/50 rounded-xl animate-pulse"></div>
+
+                      {/* 右上角角标 - 缺口数量 */}
+                      <div className="absolute top-2 right-2">
+                        <div className="relative">
+                          <div className="w-6 h-6 bg-red-500 rounded-full flex items-center justify-center animate-pulse shadow-[0_0_15px_rgba(239,68,68,0.8)]">
+                            <span className="text-xs font-bold text-white">{forecastGaps.length}</span>
+                          </div>
+                          {/* 脉冲光晕效果 */}
+                          <div className="absolute inset-0 bg-red-500/40 rounded-full animate-ping"></div>
+                        </div>
+                      </div>
 
                       <div className="relative z-10 w-full flex flex-col items-center justify-center">
                         <div className="flex items-center gap-1.5 mb-1.5">
@@ -1531,11 +1542,11 @@ export default function RiskIdentificationPanel({
                     {/* 补预测按钮 */}
                     <div className={cn(
                       'relative rounded-xl p-2 overflow-hidden cursor-pointer group h-full flex flex-col items-center justify-center',
-                      'border-2 border-cyan-500/70',
+                      'border-2 border-red-500/70',
                       'bg-gradient-to-br from-cyan-900/30 to-blue-900/20',
                       'hover:from-cyan-900/50 hover:to-blue-900/30',
-                      'shadow-[0_0_30px_rgba(6,182,212,0.5)]',
-                      'hover:shadow-[0_0_40px_rgba(6,182,212,0.7)]',
+                      'shadow-[0_0_30px_rgba(239,68,68,0.5)]',
+                      'hover:shadow-[0_0_40px_rgba(239,68,68,0.7)]',
                       'transition-all duration-300'
                     )}
                          onClick={() => openDialog({
@@ -1555,16 +1566,36 @@ export default function RiskIdentificationPanel({
 
                       <div className="relative z-10 w-full flex flex-col items-center justify-center">
                         <div className="flex items-center gap-1.5 mb-1.5">
-                          <div className="w-8 h-8 rounded-full bg-cyan-500/40 border-2 border-cyan-400/60 flex items-center justify-center group-hover:scale-110 transition-transform shadow-[0_0_15px_rgba(6,182,212,0.8)]">
-                            <Send className="w-4 h-4 text-cyan-400 drop-shadow-[0_0_8px_rgba(34,211,238,1)]" />
+                          <div className="w-8 h-8 rounded-full bg-red-500/40 border-2 border-red-400/60 flex items-center justify-center group-hover:scale-110 transition-transform shadow-[0_0_15px_rgba(239,68,68,0.8)]">
+                            <Send className="w-4 h-4 text-red-400 drop-shadow-[0_0_8px_rgba(239,68,68,1)]" />
                           </div>
-                          <div className="text-base font-black text-cyan-400 drop-shadow-[0_0_12px_rgba(34,211,238,1)]">补预测</div>
+                          <div className="text-base font-black text-red-400 drop-shadow-[0_0_12px_rgba(239,68,68,0.9)]">补预测</div>
                         </div>
                         <div className="flex items-center gap-1">
-                          <div className="w-1.5 h-1.5 bg-cyan-400 rounded-full animate-bounce" style={{animationDelay: '0ms'}}></div>
-                          <div className="w-1.5 h-1.5 bg-cyan-400 rounded-full animate-bounce" style={{animationDelay: '150ms'}}></div>
-                          <div className="w-1.5 h-1.5 bg-cyan-400 rounded-full animate-bounce" style={{animationDelay: '300ms'}}></div>
+                          <div className="w-1.5 h-1.5 bg-red-400 rounded-full animate-bounce" style={{animationDelay: '0ms'}}></div>
+                          <div className="w-1.5 h-1.5 bg-red-400 rounded-full animate-bounce" style={{animationDelay: '150ms'}}></div>
+                          <div className="w-1.5 h-1.5 bg-red-400 rounded-full animate-bounce" style={{animationDelay: '300ms'}}></div>
                           <div className="text-xs text-cyan-300 font-semibold">全部 {forecastGaps.length} 个项目</div>
+                        </div>
+
+                        {/* 底部进度条 - 缺口比例 */}
+                        <div className="mt-2 w-full px-2">
+                          <div className="flex items-center justify-between text-xs mb-1">
+                            <span className="text-cyan-300/70">缺口比例</span>
+                            <span className="text-red-400 font-bold">{Math.round(forecastGaps.reduce((sum, p) => sum + p.gapPercentage, 0) / forecastGaps.length)}%</span>
+                          </div>
+                          <div className="h-1.5 bg-slate-700/50 rounded-full overflow-hidden">
+                            <div
+                              className={cn(
+                                'h-full rounded-full transition-all duration-500',
+                                'bg-gradient-to-r from-red-500 via-orange-500 to-red-500',
+                                'shadow-[0_0_10px_rgba(239,68,68,0.6)]'
+                              )}
+                              style={{
+                                width: `${Math.round(forecastGaps.reduce((sum, p) => sum + p.gapPercentage, 0) / forecastGaps.length)}%`
+                              }}
+                            ></div>
+                          </div>
                         </div>
                       </div>
                     </div>
