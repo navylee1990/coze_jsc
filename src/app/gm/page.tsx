@@ -377,7 +377,7 @@ export default function GMDashboard() {
       >
         <div className="max-w-[1920px] min-w-[1280px] mx-auto px-6 py-4">
           <div className="grid grid-cols-3 items-center">
-            {/* 左侧：返回箭头 + 标题 */}
+            {/* 左侧：返回箭头 + 标题 + 登录人 */}
             <div className="flex items-center gap-4">
               <Link href="/" className={`${DASHBOARD_STYLES.textMuted} hover:text-white transition-colors`}>
                 <ChevronLeft className="w-5 h-5" />
@@ -386,6 +386,12 @@ export default function GMDashboard() {
                 <h1 className={`text-xl sm:text-2xl lg:text-3xl font-bold ${DASHBOARD_STYLES.neon}`}>{PAGE_TITLE}</h1>
                 <p className={`text-xs sm:text-sm ${DASHBOARD_STYLES.textSecondary}`}>预测驱动 · 数据赋能 · 精准决策</p>
               </div>
+              <Badge
+                variant="outline"
+                className="text-xs sm:text-sm bg-cyan-500/20 border-cyan-500/50 text-cyan-300"
+              >
+                张晖
+              </Badge>
             </div>
 
             {/* 中间：时间维度选择器居中 */}
@@ -427,14 +433,8 @@ export default function GMDashboard() {
               </div>
             </div>
 
-            {/* 右侧：登录人Badge */}
+            {/* 右侧：空占位 */}
             <div className="flex items-center justify-end">
-              <Badge
-                variant="outline"
-                className="text-xs sm:text-sm bg-cyan-500/20 border-cyan-500/50 text-cyan-300"
-              >
-                张晖
-              </Badge>
             </div>
           </div>
         </div>
