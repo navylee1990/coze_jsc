@@ -1263,7 +1263,7 @@ export default function RiskIdentificationPanel({
 
                           {/* 项目名称 */}
                           <td className={cn('py-2 px-3 text-sm', DASHBOARD_STYLES.textSecondary, 'align-middle')}>
-                            <div className="font-medium leading-snug text-cyan-100">{item.name}</div>
+                            <div className="font-medium leading-snug text-cyan-100 whitespace-nowrap" title={item.name}>{item.name}</div>
                           </td>
 
                           {/* 预计下单时间 */}
@@ -1290,7 +1290,7 @@ export default function RiskIdentificationPanel({
                           {/* 情况反馈 */}
                           <td className={cn('text-left py-2 px-3 text-sm text-cyan-200 align-middle max-w-[200px]')}>
                             <span
-                              className="text-cyan-300/90 text-xs block truncate"
+                              className="text-cyan-300/90 text-sm block whitespace-nowrap overflow-hidden truncate"
                               title={item.feedback || '-'}
                             >
                               {item.feedback || '-'}
@@ -1458,7 +1458,7 @@ export default function RiskIdentificationPanel({
                             </div>
                           </td>
                           <td className={cn('py-2 px-3 text-sm', DASHBOARD_STYLES.textSecondary, 'align-middle')}>
-                            <div className="font-medium leading-snug text-cyan-100">{item.projectName}</div>
+                            <div className="font-medium leading-snug text-cyan-100 whitespace-nowrap" title={item.projectName}>{item.projectName}</div>
                           </td>
                           <td className={cn('py-2 px-3 text-sm text-cyan-200 align-middle')}>{item.amount.toFixed(0)}万</td>
                           <td className={cn('py-2 px-3 text-sm text-cyan-200 align-middle')}>{item.predictionAmount}万</td>
@@ -1682,7 +1682,7 @@ export default function RiskIdentificationPanel({
                           {/* 情况反馈 */}
                           <td className={cn('text-left py-2 px-3 text-sm text-cyan-200 align-middle max-w-[200px]')}>
                             <span
-                              className="text-cyan-300/90 text-xs block truncate"
+                              className="text-cyan-300/90 text-sm block whitespace-nowrap overflow-hidden truncate"
                               title={item.feedback || '-'}
                             >
                               {item.feedback || '-'}
@@ -1854,7 +1854,7 @@ export default function RiskIdentificationPanel({
 
                           {/* 项目名称 */}
                           <td className={cn('py-2 px-3 text-sm', DASHBOARD_STYLES.textSecondary, 'align-middle')}>
-                            <div className="font-medium leading-snug text-cyan-100">{item.projectName}</div>
+                            <div className="font-medium leading-snug text-cyan-100 whitespace-nowrap" title={item.projectName}>{item.projectName}</div>
                           </td>
 
                           {/* 大区 */}
@@ -2060,7 +2060,7 @@ export default function RiskIdentificationPanel({
 
                           {/* 项目名称 */}
                           <td className={cn('py-2 px-3 text-sm', DASHBOARD_STYLES.textSecondary, 'align-middle')}>
-                            <div className="font-medium leading-snug text-cyan-100">{item.projectName}</div>
+                            <div className="font-medium leading-snug text-cyan-100 whitespace-nowrap" title={item.projectName}>{item.projectName}</div>
                           </td>
 
                           {/* 当前阶段 */}
@@ -2254,7 +2254,7 @@ export default function RiskIdentificationPanel({
 
                           {/* 项目名称 */}
                           <td className={cn('py-2 px-3 text-sm', DASHBOARD_STYLES.textSecondary, 'align-middle')}>
-                            <div className="font-medium leading-snug text-cyan-100">{item.projectName}</div>
+                            <div className="font-medium leading-snug text-cyan-100 whitespace-nowrap" title={item.projectName}>{item.projectName}</div>
                           </td>
 
                           {/* 当前阶段 */}
