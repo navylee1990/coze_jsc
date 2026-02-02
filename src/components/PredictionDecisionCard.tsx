@@ -812,9 +812,9 @@ export default function PredictionDecisionCard({
                 actualValue={animatedCompleted}
                 targetValue={target}
                 showPercentage={false}
-                size={60}
+                size={80}
               />
-              <div className="mt-0.5">
+              <div className="mt-1">
                 <div className="text-[8px] sm:text-[10px] font-semibold text-green-400">实际达成率</div>
                 <div className="text-xs sm:text-sm md:text-base font-black" style={{ color: '#22c55e', textShadow: '0 0 10px rgba(74,222,128,0.8)' }}>
                   {mounted ? Math.round((completed / target) * 100) : 0}%
@@ -823,7 +823,7 @@ export default function PredictionDecisionCard({
             </div>
 
             {/* 预计达成率仪表盘 */}
-            <div className="text-center">
+            <div className="text-center flex-shrink-0">
               <MainGauge
                 actualValue={animatedForecast}
                 targetValue={target}
