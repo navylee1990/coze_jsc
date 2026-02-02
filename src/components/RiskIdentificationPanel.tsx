@@ -1118,9 +1118,9 @@ export default function RiskIdentificationPanel({
                       'bg-gradient-to-br from-cyan-900/30 to-blue-900/20',
                       'hover:from-cyan-900/50 hover:to-blue-900/30',
                       'hover:border-cyan-400',
-                      'shadow-[0_0_30px_rgba(6,182,212,0.5)]',
-                      'hover:shadow-[0_0_50px_rgba(6,182,212,0.9)]',
-                      'transition-all duration-300'
+                      'shadow-[0_0_30px_rgba(6,182,212,0.3)]',
+                      'hover:shadow-[0_0_60px_rgba(6,182,212,0.9)]',
+                      'transition-all duration-300 animate-pulse-subtle'
                     )}
                          onClick={() => openDialog({
                            title: '催下单提醒',
@@ -1134,12 +1134,19 @@ export default function RiskIdentificationPanel({
                            type: 'warning'
                          })}>
                       {/* 按钮发光效果 */}
-                      <div className="absolute inset-0 bg-gradient-to-r from-cyan-500/30 to-blue-500/30 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                      <div className="absolute inset-0 bg-gradient-to-r from-cyan-500/20 to-blue-500/20 opacity-100 animate-gradient"></div>
                       <div className="absolute inset-0 border-2 border-cyan-500/50 rounded-xl animate-pulse"></div>
+
+                      {/* 可点击指示器 */}
+                      <div className="absolute -top-1 -right-1 w-5 h-5 bg-cyan-500 rounded-full flex items-center justify-center animate-bounce shadow-[0_0_10px_rgba(6,182,212,0.8)]">
+                        <svg className="w-3 h-3 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3">
+                          <path d="M12 19V5M5 12l7-7 7 7"/>
+                        </svg>
+                      </div>
 
                       <div className="relative z-10 w-full flex flex-col items-center justify-center">
                         <div className="flex items-center gap-1.5 mb-1.5">
-                          <div className="w-8 h-8 rounded-full bg-cyan-500/40 border-2 border-cyan-400/60 flex items-center justify-center group-hover:scale-110 transition-transform shadow-[0_0_15px_rgba(6,182,212,0.8)]">
+                          <div className="w-8 h-8 rounded-full bg-cyan-500/40 border-2 border-cyan-400/60 flex items-center justify-center group-hover:scale-110 transition-transform shadow-[0_0_15px_rgba(6,182,212,0.8)] animate-bounce" style={{animationDuration: '2s'}}>
                             <Send className="w-4 h-4 text-cyan-400 drop-shadow-[0_0_8px_rgba(34,211,238,1)]" />
                           </div>
                           <div className="text-base font-black text-cyan-400 drop-shadow-[0_0_12px_rgba(34,211,238,1)]">催下单</div>
@@ -1149,9 +1156,6 @@ export default function RiskIdentificationPanel({
                           <div className="w-1.5 h-1.5 bg-cyan-400 rounded-full animate-bounce" style={{animationDelay: '150ms'}}></div>
                           <div className="w-1.5 h-1.5 bg-cyan-400 rounded-full animate-bounce" style={{animationDelay: '300ms'}}></div>
                           <div className="text-xs text-cyan-300 font-semibold">全部 {filteredUnorderedProjects.length} 个项目</div>
-                        </div>
-                        <div className={cn('text-[10px] text-cyan-400/60 mt-0.5 opacity-0 group-hover:opacity-100 transition-opacity')}>
-                          点击发送消息
                         </div>
                       </div>
                     </div>
@@ -1329,9 +1333,9 @@ export default function RiskIdentificationPanel({
                   'bg-gradient-to-br from-cyan-900/30 to-blue-900/20',
                   'hover:from-cyan-900/50 hover:to-blue-900/30',
                   'hover:border-cyan-400',
-                  'shadow-[0_0_30px_rgba(6,182,212,0.5)]',
-                  'hover:shadow-[0_0_50px_rgba(6,182,212,0.9)]',
-                  'transition-all duration-300'
+                  'shadow-[0_0_30px_rgba(6,182,212,0.3)]',
+                  'hover:shadow-[0_0_60px_rgba(6,182,212,0.9)]',
+                  'transition-all duration-300 animate-pulse-subtle'
                 )}
                      onClick={() => openDialog({
                        title: '在线确认',
@@ -1345,12 +1349,19 @@ export default function RiskIdentificationPanel({
                        type: 'info'
                      })}>
                   {/* 按钮发光效果 */}
-                  <div className="absolute inset-0 bg-gradient-to-r from-cyan-500/30 to-blue-500/30 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                  <div className="absolute inset-0 bg-gradient-to-r from-cyan-500/20 to-blue-500/20 opacity-100 animate-gradient"></div>
                   <div className="absolute inset-0 border-2 border-cyan-500/50 rounded-xl animate-pulse"></div>
+
+                  {/* 可点击指示器 */}
+                  <div className="absolute -top-1 -right-1 w-5 h-5 bg-cyan-500 rounded-full flex items-center justify-center animate-bounce shadow-[0_0_10px_rgba(6,182,212,0.8)]">
+                    <svg className="w-3 h-3 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3">
+                      <path d="M12 19V5M5 12l7-7 7 7"/>
+                    </svg>
+                  </div>
 
                   <div className="relative z-10 w-full flex flex-col items-center justify-center">
                     <div className="flex items-center gap-1.5 mb-1.5">
-                      <div className="w-8 h-8 rounded-full bg-cyan-500/40 border-2 border-cyan-400/60 flex items-center justify-center group-hover:scale-110 transition-transform shadow-[0_0_15px_rgba(6,182,212,0.8)]">
+                      <div className="w-8 h-8 rounded-full bg-cyan-500/40 border-2 border-cyan-400/60 flex items-center justify-center group-hover:scale-110 transition-transform shadow-[0_0_15px_rgba(6,182,212,0.8)] animate-bounce" style={{animationDuration: '2s'}}>
                         <Send className="w-4 h-4 text-cyan-400 drop-shadow-[0_0_8px_rgba(34,211,238,1)]" />
                       </div>
                       <div className="text-base font-black text-cyan-400 drop-shadow-[0_0_12px_rgba(34,211,238,1)]">在线确认</div>
@@ -1360,9 +1371,6 @@ export default function RiskIdentificationPanel({
                       <div className="w-1.5 h-1.5 bg-cyan-400 rounded-full animate-bounce" style={{animationDelay: '150ms'}}></div>
                       <div className="w-1.5 h-1.5 bg-cyan-400 rounded-full animate-bounce" style={{animationDelay: '300ms'}}></div>
                       <div className="text-xs text-cyan-300 font-semibold">全部 {largeProjectDependencies.length} 个项目</div>
-                    </div>
-                    <div className={cn('text-[10px] text-cyan-400/60 mt-0.5 opacity-0 group-hover:opacity-100 transition-opacity')}>
-                      点击发送消息
                     </div>
                   </div>
                 </div>
@@ -1543,9 +1551,9 @@ export default function RiskIdentificationPanel({
                       'bg-gradient-to-br from-cyan-900/30 to-blue-900/20',
                       'hover:from-cyan-900/50 hover:to-blue-900/30',
                       'hover:border-cyan-400',
-                      'shadow-[0_0_30px_rgba(6,182,212,0.5)]',
-                      'hover:shadow-[0_0_50px_rgba(6,182,212,0.9)]',
-                      'transition-all duration-300'
+                      'shadow-[0_0_30px_rgba(6,182,212,0.3)]',
+                      'hover:shadow-[0_0_60px_rgba(6,182,212,0.9)]',
+                      'transition-all duration-300 animate-pulse-subtle'
                     )}
                          onClick={() => openDialog({
                            title: '补预测',
@@ -1559,12 +1567,19 @@ export default function RiskIdentificationPanel({
                            type: 'warning'
                          })}>
                       {/* 按钮发光效果 */}
-                      <div className="absolute inset-0 bg-gradient-to-r from-cyan-500/30 to-blue-500/30 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                      <div className="absolute inset-0 bg-gradient-to-r from-cyan-500/20 to-blue-500/20 opacity-100 animate-gradient"></div>
                       <div className="absolute inset-0 border-2 border-cyan-500/50 rounded-xl animate-pulse"></div>
+
+                      {/* 可点击指示器 */}
+                      <div className="absolute -top-1 -right-1 w-5 h-5 bg-cyan-500 rounded-full flex items-center justify-center animate-bounce shadow-[0_0_10px_rgba(6,182,212,0.8)]">
+                        <svg className="w-3 h-3 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3">
+                          <path d="M12 19V5M5 12l7-7 7 7"/>
+                        </svg>
+                      </div>
 
                       <div className="relative z-10 w-full flex flex-col items-center justify-center">
                         <div className="flex items-center gap-1.5 mb-1.5">
-                          <div className="w-8 h-8 rounded-full bg-cyan-500/40 border-2 border-cyan-400/60 flex items-center justify-center group-hover:scale-110 transition-transform shadow-[0_0_15px_rgba(6,182,212,0.8)]">
+                          <div className="w-8 h-8 rounded-full bg-cyan-500/40 border-2 border-cyan-400/60 flex items-center justify-center group-hover:scale-110 transition-transform shadow-[0_0_15px_rgba(6,182,212,0.8)] animate-bounce" style={{animationDuration: '2s'}}>
                             <TrendingDown className="w-4 h-4 text-cyan-400 drop-shadow-[0_0_8px_rgba(34,211,238,1)]" />
                           </div>
                           <div className="text-base font-black text-cyan-400 drop-shadow-[0_0_12px_rgba(34,211,238,1)]">补预测</div>
@@ -1574,9 +1589,6 @@ export default function RiskIdentificationPanel({
                           <div className="w-1.5 h-1.5 bg-cyan-400 rounded-full animate-bounce" style={{animationDelay: '150ms'}}></div>
                           <div className="w-1.5 h-1.5 bg-cyan-400 rounded-full animate-bounce" style={{animationDelay: '300ms'}}></div>
                           <div className="text-xs text-cyan-300 font-semibold">全部 {forecastGaps.length} 个项目</div>
-                        </div>
-                        <div className={cn('text-[10px] text-cyan-400/60 mt-0.5 opacity-0 group-hover:opacity-100 transition-opacity')}>
-                          点击发送消息
                         </div>
                       </div>
                     </div>
@@ -1760,9 +1772,9 @@ export default function RiskIdentificationPanel({
                         'bg-gradient-to-br from-cyan-900/30 to-blue-900/20',
                         'hover:from-cyan-900/50 hover:to-blue-900/30',
                         'hover:border-cyan-400',
-                        'shadow-[0_0_30px_rgba(6,182,212,0.5)]',
-                        'hover:shadow-[0_0_50px_rgba(6,182,212,0.9)]',
-                        'transition-all duration-300'
+                        'shadow-[0_0_30px_rgba(6,182,212,0.3)]',
+                        'hover:shadow-[0_0_60px_rgba(6,182,212,0.9)]',
+                        'transition-all duration-300 animate-pulse-subtle'
                       )}
                       onClick={() => openDialog({
                         title: '立即上报',
@@ -1777,12 +1789,19 @@ export default function RiskIdentificationPanel({
                       })}
                     >
                       {/* 按钮发光效果 */}
-                      <div className="absolute inset-0 bg-gradient-to-r from-cyan-500/30 to-blue-500/30 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                      <div className="absolute inset-0 bg-gradient-to-r from-cyan-500/20 to-blue-500/20 opacity-100 animate-gradient"></div>
                       <div className="absolute inset-0 border-2 border-cyan-500/50 rounded-xl animate-pulse"></div>
+
+                      {/* 可点击指示器 */}
+                      <div className="absolute -top-1 -right-1 w-5 h-5 bg-cyan-500 rounded-full flex items-center justify-center animate-bounce shadow-[0_0_10px_rgba(6,182,212,0.8)]">
+                        <svg className="w-3 h-3 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3">
+                          <path d="M12 19V5M5 12l7-7 7 7"/>
+                        </svg>
+                      </div>
 
                       <div className="relative z-10 w-full flex flex-col items-center justify-center">
                         <div className="flex items-center gap-1.5 mb-1.5">
-                          <div className="w-8 h-8 rounded-full bg-cyan-500/40 border-2 border-cyan-400/60 flex items-center justify-center group-hover:scale-110 transition-transform shadow-[0_0_15px_rgba(6,182,212,0.8)]">
+                          <div className="w-8 h-8 rounded-full bg-cyan-500/40 border-2 border-cyan-400/60 flex items-center justify-center group-hover:scale-110 transition-transform shadow-[0_0_15px_rgba(6,182,212,0.8)] animate-bounce" style={{animationDuration: '2s'}}>
                             <Send className="w-4 h-4 text-cyan-400 drop-shadow-[0_0_8px_rgba(34,211,238,1)]" />
                           </div>
                           <div className="text-base font-black text-cyan-400 drop-shadow-[0_0_12px_rgba(34,211,238,1)]">立即上报</div>
@@ -1791,9 +1810,6 @@ export default function RiskIdentificationPanel({
                           <div className="w-1.5 h-1.5 bg-cyan-400 rounded-full animate-bounce" style={{animationDelay: '150ms'}}></div>
                           <div className="w-1.5 h-1.5 bg-cyan-400 rounded-full animate-bounce" style={{animationDelay: '300ms'}}></div>
                           <div className="text-xs text-cyan-300 font-semibold">全部 {insufficientReports.reduce((sum, p) => sum + p.gapCount, 0)} 个缺口</div>
-                        </div>
-                        <div className={cn('text-[10px] text-cyan-400/60 mt-0.5 opacity-0 group-hover:opacity-100 transition-opacity')}>
-                          点击发送消息
                         </div>
                       </div>
                     </div>
@@ -1963,9 +1979,9 @@ export default function RiskIdentificationPanel({
                         'bg-gradient-to-br from-cyan-900/30 to-blue-900/20',
                         'hover:from-cyan-900/50 hover:to-blue-900/30',
                         'hover:border-cyan-400',
-                        'shadow-[0_0_30px_rgba(6,182,212,0.5)]',
-                        'hover:shadow-[0_0_50px_rgba(6,182,212,0.9)]',
-                        'transition-all duration-300'
+                        'shadow-[0_0_30px_rgba(6,182,212,0.3)]',
+                        'hover:shadow-[0_0_60px_rgba(6,182,212,0.9)]',
+                        'transition-all duration-300 animate-pulse-subtle'
                       )}
                       onClick={() => openDialog({
                         title: '推进接洽',
@@ -1980,12 +1996,19 @@ export default function RiskIdentificationPanel({
                       })}
                     >
                       {/* 按钮发光效果 */}
-                      <div className="absolute inset-0 bg-gradient-to-r from-cyan-500/30 to-blue-500/30 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                      <div className="absolute inset-0 bg-gradient-to-r from-cyan-500/20 to-blue-500/20 opacity-100 animate-gradient"></div>
                       <div className="absolute inset-0 border-2 border-cyan-500/50 rounded-xl animate-pulse"></div>
+
+                      {/* 可点击指示器 */}
+                      <div className="absolute -top-1 -right-1 w-5 h-5 bg-cyan-500 rounded-full flex items-center justify-center animate-bounce shadow-[0_0_10px_rgba(6,182,212,0.8)]">
+                        <svg className="w-3 h-3 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3">
+                          <path d="M12 19V5M5 12l7-7 7 7"/>
+                        </svg>
+                      </div>
 
                       <div className="relative z-10 w-full flex flex-col items-center justify-center">
                         <div className="flex items-center gap-1.5 mb-1.5">
-                          <div className="w-8 h-8 rounded-full bg-cyan-500/40 border-2 border-cyan-400/60 flex items-center justify-center group-hover:scale-110 transition-transform shadow-[0_0_15px_rgba(6,182,212,0.8)]">
+                          <div className="w-8 h-8 rounded-full bg-cyan-500/40 border-2 border-cyan-400/60 flex items-center justify-center group-hover:scale-110 transition-transform shadow-[0_0_15px_rgba(6,182,212,0.8)] animate-bounce" style={{animationDuration: '2s'}}>
                             <Send className="w-4 h-4 text-cyan-400 drop-shadow-[0_0_8px_rgba(34,211,238,1)]" />
                           </div>
                           <div className="text-base font-black text-cyan-400 drop-shadow-[0_0_12px_rgba(34,211,238,1)]">推进接洽</div>
@@ -1995,9 +2018,6 @@ export default function RiskIdentificationPanel({
                           <div className="w-1.5 h-1.5 bg-cyan-400 rounded-full animate-bounce" style={{animationDelay: '150ms'}}></div>
                           <div className="w-1.5 h-1.5 bg-cyan-400 rounded-full animate-bounce" style={{animationDelay: '300ms'}}></div>
                           <div className="text-xs text-cyan-300 font-semibold">全部 {insufficientConversions.reduce((sum, p) => sum + p.uncontactedCount, 0)} 个项目</div>
-                        </div>
-                        <div className={cn('text-[10px] text-cyan-400/60 mt-0.5 opacity-0 group-hover:opacity-100 transition-opacity')}>
-                          点击发送消息
                         </div>
                       </div>
                     </div>
@@ -2159,9 +2179,9 @@ export default function RiskIdentificationPanel({
                         'bg-gradient-to-br from-cyan-900/30 to-blue-900/20',
                         'hover:from-cyan-900/50 hover:to-blue-900/30',
                         'hover:border-cyan-400',
-                        'shadow-[0_0_30px_rgba(6,182,212,0.5)]',
-                        'hover:shadow-[0_0_50px_rgba(6,182,212,0.9)]',
-                        'transition-all duration-300'
+                        'shadow-[0_0_30px_rgba(6,182,212,0.3)]',
+                        'hover:shadow-[0_0_60px_rgba(6,182,212,0.9)]',
+                        'transition-all duration-300 animate-pulse-subtle'
                       )}
                       onClick={() => openDialog({
                         title: '推进处理',
@@ -2176,12 +2196,19 @@ export default function RiskIdentificationPanel({
                       })}
                     >
                       {/* 按钮发光效果 */}
-                      <div className="absolute inset-0 bg-gradient-to-r from-cyan-500/30 to-blue-500/30 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                      <div className="absolute inset-0 bg-gradient-to-r from-cyan-500/20 to-blue-500/20 opacity-100 animate-gradient"></div>
                       <div className="absolute inset-0 border-2 border-cyan-500/50 rounded-xl animate-pulse"></div>
+
+                      {/* 可点击指示器 */}
+                      <div className="absolute -top-1 -right-1 w-5 h-5 bg-cyan-500 rounded-full flex items-center justify-center animate-bounce shadow-[0_0_10px_rgba(6,182,212,0.8)]">
+                        <svg className="w-3 h-3 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3">
+                          <path d="M12 19V5M5 12l7-7 7 7"/>
+                        </svg>
+                      </div>
 
                       <div className="relative z-10 w-full flex flex-col items-center justify-center">
                         <div className="flex items-center gap-1.5 mb-1.5">
-                          <div className="w-8 h-8 rounded-full bg-cyan-500/40 border-2 border-cyan-400/60 flex items-center justify-center group-hover:scale-110 transition-transform shadow-[0_0_15px_rgba(6,182,212,0.8)]">
+                          <div className="w-8 h-8 rounded-full bg-cyan-500/40 border-2 border-cyan-400/60 flex items-center justify-center group-hover:scale-110 transition-transform shadow-[0_0_15px_rgba(6,182,212,0.8)] animate-bounce" style={{animationDuration: '2s'}}>
                             <Play className="w-4 h-4 text-cyan-400 drop-shadow-[0_0_8px_rgba(34,211,238,1)]" />
                           </div>
                           <div className="text-base font-black text-cyan-400 drop-shadow-[0_0_12px_rgba(34,211,238,1)]">推进处理</div>
@@ -2191,9 +2218,6 @@ export default function RiskIdentificationPanel({
                           <div className="w-1.5 h-1.5 bg-cyan-400 rounded-full animate-bounce" style={{animationDelay: '150ms'}}></div>
                           <div className="w-1.5 h-1.5 bg-cyan-400 rounded-full animate-bounce" style={{animationDelay: '300ms'}}></div>
                           <div className="text-xs text-cyan-300 font-semibold">全部 {phaseStagnations.reduce((sum, p) => sum + p.stagnationCount, 0)} 个项目</div>
-                        </div>
-                        <div className={cn('text-[10px] text-cyan-400/60 mt-0.5 opacity-0 group-hover:opacity-100 transition-opacity')}>
-                          点击发送消息
                         </div>
                       </div>
                     </div>
