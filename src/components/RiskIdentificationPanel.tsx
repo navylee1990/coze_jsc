@@ -1164,7 +1164,7 @@ export default function RiskIdentificationPanel({
                         <th className={cn('text-left py-2 px-3 font-medium hidden md:table-cell text-cyan-300 drop-shadow-[0_0_5px_rgba(6,182,212,0.5)] whitespace-nowrap')}>项目编号</th>
                         <th className={cn('text-left py-2 px-3 font-medium text-cyan-300 drop-shadow-[0_0_5px_rgba(6,182,212,0.5)] whitespace-nowrap')}>项目名称</th>
                         <th className={cn('text-left py-2 px-3 font-medium text-cyan-300 drop-shadow-[0_0_5px_rgba(6,182,212,0.5)] whitespace-nowrap')}>预计下单</th>
-                        <th className={cn('text-left py-2 px-3 font-medium hidden md:table-cell text-cyan-300 drop-shadow-[0_0_5px_rgba(6,182,212,0.5)] whitespace-nowrap')}>销售（工程师）</th>
+                        <th className={cn('text-left py-2 px-3 font-medium hidden md:table-cell text-cyan-300 drop-shadow-[0_0_5px_rgba(6,182,212,0.5)] whitespace-nowrap')}>销售</th>
                         <th className={cn('text-right py-2 px-3 font-medium text-cyan-300 drop-shadow-[0_0_5px_rgba(6,182,212,0.5)] whitespace-nowrap')}>金额</th>
                         <th className={cn('text-left py-2 px-3 font-medium text-cyan-300 drop-shadow-[0_0_5px_rgba(6,182,212,0.5)] whitespace-nowrap')}>情况反馈</th>
                       </tr>
@@ -1371,7 +1371,7 @@ export default function RiskIdentificationPanel({
                         <th className={cn('text-left py-2 px-3 font-medium hidden lg:table-cell text-cyan-300 drop-shadow-[0_0_5px_rgba(6,182,212,0.5)] whitespace-nowrap')}>大区</th>
                         <th className={cn('text-left py-2 px-3 font-medium hidden md:table-cell text-cyan-300 drop-shadow-[0_0_5px_rgba(6,182,212,0.5)] whitespace-nowrap')}>项目编号</th>
                         <th className={cn('text-left py-2 px-3 font-medium text-cyan-300 drop-shadow-[0_0_5px_rgba(6,182,212,0.5)] whitespace-nowrap')}>项目名称</th>
-                        <th className={cn('text-left py-2 px-3 font-medium hidden md:table-cell text-cyan-300 drop-shadow-[0_0_5px_rgba(6,182,212,0.5)] whitespace-nowrap')}>销售（工程师）</th>
+                        <th className={cn('text-left py-2 px-3 font-medium hidden md:table-cell text-cyan-300 drop-shadow-[0_0_5px_rgba(6,182,212,0.5)] whitespace-nowrap')}>销售</th>
                         <th className={cn('text-right py-2 px-3 font-medium text-cyan-300 drop-shadow-[0_0_5px_rgba(6,182,212,0.5)] whitespace-nowrap')}>金额</th>
                         <th className={cn('text-right py-2 px-3 font-medium text-cyan-300 drop-shadow-[0_0_5px_rgba(6,182,212,0.5)] whitespace-nowrap')}>占总预测%</th>
                         <th className={cn('text-left py-2 px-3 font-medium text-cyan-300 drop-shadow-[0_0_5px_rgba(6,182,212,0.5)] whitespace-nowrap')}>情况反馈</th>
