@@ -1170,7 +1170,7 @@ export default function RiskIdentificationPanel({
                     )}
                          onClick={() => openDialog({
                            title: '催下单提醒',
-                           description: `确定要向所有未下单项目的销售工程师发送催办提醒吗？\n\n共 ${filteredUnorderedProjects.length} 个项目，总金额 ${filteredUnorderedProjects.reduce((sum, p) => sum + p.amount, 0).toFixed(0)} 万元`,
+                           description: `XX，你好：您名下XX项目（编码、名称、预计下单日期、数量、金额）截止到当前仍未找到对应的订单信息。【数据来源：企业微信工作台-渠道运营-销售机会（预计下单日期）】请关注订单进展，确保按承诺执行。请在沟通后反馈本任务单，当前的最新情况。`,
                            confirmText: '确认发送',
                            cancelText: '取消',
                            onConfirm: async () => {
