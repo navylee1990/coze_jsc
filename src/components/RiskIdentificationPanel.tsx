@@ -2169,21 +2169,21 @@ export default function RiskIdentificationPanel({
                     {/* 总金额卡片 */}
                     <div className={cn(
                       'relative rounded-xl p-2 overflow-hidden h-full flex flex-col items-center justify-center',
-                      'bg-gradient-to-br from-violet-900/50 to-violet-800/30',
-                      'border-2 border-violet-500/60',
-                      'shadow-[0_0_25px_rgba(139,92,246,0.5)]'
+                      'bg-gradient-to-br from-cyan-900/50 to-cyan-800/30',
+                      'border-2 border-cyan-500/60',
+                      'shadow-[0_0_25px_rgba(6,182,212,0.5)]'
                     )}>
-                      <div className="absolute top-0 right-0 w-20 h-20 bg-violet-500/20 rounded-full blur-3xl animate-pulse"></div>
+                      <div className="absolute top-0 right-0 w-20 h-20 bg-cyan-500/20 rounded-full blur-3xl animate-pulse"></div>
                       <div className="relative z-10 w-full flex flex-col items-center justify-center">
                         <div className="flex items-center gap-2 mb-1.5">
-                          <DollarSign className="w-3.5 h-3.5 text-violet-400 drop-shadow-[0_0_10px_rgba(139,92,246,1)] animate-pulse" />
-                          <div className="text-xs font-bold text-violet-300">总金额</div>
+                          <DollarSign className="w-3.5 h-3.5 text-cyan-400 drop-shadow-[0_0_10px_rgba(6,182,212,1)] animate-pulse" />
+                          <div className="text-xs font-bold text-cyan-300">总金额</div>
                         </div>
                         <div className="flex items-baseline gap-1">
-                          <span className="text-3xl font-black text-violet-400 drop-shadow-[0_0_15px_rgba(167,139,250,1)]">
+                          <span className="text-3xl font-black text-cyan-400 drop-shadow-[0_0_15px_rgba(34,211,238,1)]">
                             {phaseStagnations.reduce((sum, p) => sum + p.amount, 0).toFixed(0)}
                           </span>
-                          <span className="text-xs text-violet-300/80">万</span>
+                          <span className="text-xs text-cyan-300/80">万</span>
                         </div>
                       </div>
                     </div>
