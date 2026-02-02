@@ -1731,35 +1731,9 @@ export default function RiskIdentificationPanel({
                       </div>
                     </div>
 
-                    {/* 月度模式：月度闭环状态提醒 */}
-                    {timeRange === 'current' ? (
-                      <div className={cn(
-                        'relative rounded-xl p-2 overflow-hidden h-full flex flex-col items-center justify-center',
-                        'border-2 border-purple-500/70',
-                        'bg-gradient-to-br from-purple-900/30 to-indigo-900/20',
-                        'shadow-[0_0_30px_rgba(168,85,247,0.5)]'
-                      )}>
-                        {/* 提醒发光效果 */}
-                        <div className="absolute inset-0 border-2 border-purple-500/50 rounded-xl animate-pulse"></div>
-
-                        <div className="relative z-10 w-full flex flex-col items-center justify-center">
-                          <div className="flex items-center gap-1.5 mb-1.5">
-                            <div className="w-8 h-8 rounded-full bg-purple-500/40 border-2 border-purple-400/60 flex items-center justify-center shadow-[0_0_15px_rgba(168,85,247,0.8)]">
-                              <AlertTriangle className="w-4 h-4 text-purple-400 drop-shadow-[0_0_8px_rgba(168,85,247,1)]" />
-                            </div>
-                            <div className="text-base font-black text-purple-400 drop-shadow-[0_0_12px_rgba(192,132,252,1)]">月度闭环</div>
-                          </div>
-                          <div className="flex items-center gap-1">
-                            <div className="w-1.5 h-1.5 bg-purple-400 rounded-full"></div>
-                            <div className="w-1.5 h-1.5 bg-purple-400 rounded-full"></div>
-                            <div className="w-1.5 h-1.5 bg-purple-400 rounded-full"></div>
-                            <div className="text-xs text-purple-300 font-semibold">待周记录确认</div>
-                          </div>
-                        </div>
-                      </div>
-                    ) : (
-                      /* 季度/年度模式：立即上报按钮 */
-                      <div className={cn(
+                    {/* 立即上报按钮 */}
+                    <div
+                      className={cn(
                         'relative rounded-xl p-2 overflow-hidden cursor-pointer group h-full flex flex-col items-center justify-center',
                         'border-2 border-cyan-500/70',
                         'bg-gradient-to-br from-cyan-900/30 to-blue-900/20',
@@ -1768,36 +1742,36 @@ export default function RiskIdentificationPanel({
                         'hover:shadow-[0_0_40px_rgba(6,182,212,0.7)]',
                         'transition-all duration-300'
                       )}
-                           onClick={() => openDialog({
-                             title: '立即上报',
-                             description: `确定要立即上报待报备项目吗？\n\n共 ${insufficientReports.length} 个待报备项目，总金额 ${insufficientReports.reduce((sum, p) => sum + p.amount, 0).toFixed(0)} 万元`,
-                             confirmText: '确认上报',
-                             cancelText: '取消',
-                             onConfirm: async () => {
-                               // TODO: 实际的上报逻辑
-                               console.log('上报操作已执行');
-                             },
-                             type: 'info'
-                           })}>
-                        {/* 按钮发光效果 */}
-                        <div className="absolute inset-0 bg-gradient-to-r from-cyan-500/30 to-blue-500/30 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-                        <div className="absolute inset-0 border-2 border-cyan-500/50 rounded-xl animate-pulse"></div>
+                      onClick={() => openDialog({
+                        title: '立即上报',
+                        description: `确定要立即上报待报备项目吗？\n\n共 ${insufficientReports.length} 个待报备项目，总金额 ${insufficientReports.reduce((sum, p) => sum + p.amount, 0).toFixed(0)} 万元`,
+                        confirmText: '确认上报',
+                        cancelText: '取消',
+                        onConfirm: async () => {
+                          // TODO: 实际的上报逻辑
+                          console.log('上报操作已执行');
+                        },
+                        type: 'info'
+                      })}
+                    >
+                      {/* 按钮发光效果 */}
+                      <div className="absolute inset-0 bg-gradient-to-r from-cyan-500/30 to-blue-500/30 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                      <div className="absolute inset-0 border-2 border-cyan-500/50 rounded-xl animate-pulse"></div>
 
-                        <div className="relative z-10 w-full flex flex-col items-center justify-center">
-                          <div className="flex items-center gap-1.5 mb-1.5">
-                            <div className="w-8 h-8 rounded-full bg-cyan-500/40 border-2 border-cyan-400/60 flex items-center justify-center group-hover:scale-110 transition-transform shadow-[0_0_15px_rgba(6,182,212,0.8)]">
-                              <Send className="w-4 h-4 text-cyan-400 drop-shadow-[0_0_8px_rgba(34,211,238,1)]" />
-                            </div>
-                            <div className="text-base font-black text-cyan-400 drop-shadow-[0_0_12px_rgba(34,211,238,1)]">立即上报</div>
+                      <div className="relative z-10 w-full flex flex-col items-center justify-center">
+                        <div className="flex items-center gap-1.5 mb-1.5">
+                          <div className="w-8 h-8 rounded-full bg-cyan-500/40 border-2 border-cyan-400/60 flex items-center justify-center group-hover:scale-110 transition-transform shadow-[0_0_15px_rgba(6,182,212,0.8)]">
+                            <Send className="w-4 h-4 text-cyan-400 drop-shadow-[0_0_8px_rgba(34,211,238,1)]" />
                           </div>
-                          <div className="flex items-center gap-1">
-                            <div className="w-1.5 h-1.5 bg-cyan-400 rounded-full animate-bounce" style={{animationDelay: '150ms'}}></div>
-                            <div className="w-1.5 h-1.5 bg-cyan-400 rounded-full animate-bounce" style={{animationDelay: '300ms'}}></div>
-                            <div className="text-xs text-cyan-300 font-semibold">全部 {insufficientReports.length} 个项目</div>
-                          </div>
+                          <div className="text-base font-black text-cyan-400 drop-shadow-[0_0_12px_rgba(34,211,238,1)]">立即上报</div>
+                        </div>
+                        <div className="flex items-center gap-1">
+                          <div className="w-1.5 h-1.5 bg-cyan-400 rounded-full animate-bounce" style={{animationDelay: '150ms'}}></div>
+                          <div className="w-1.5 h-1.5 bg-cyan-400 rounded-full animate-bounce" style={{animationDelay: '300ms'}}></div>
+                          <div className="text-xs text-cyan-300 font-semibold">全部 {insufficientReports.length} 个项目</div>
                         </div>
                       </div>
-                    )}
+                    </div>
                   </div>
                 </div>
 
@@ -1963,35 +1937,9 @@ export default function RiskIdentificationPanel({
                       </div>
                     </div>
 
-                    {/* 月度模式：月度闭环状态提醒 */}
-                    {timeRange === 'current' ? (
-                      <div className={cn(
-                        'relative rounded-xl p-2 overflow-hidden h-full flex flex-col items-center justify-center',
-                        'border-2 border-cyan-500/70',
-                        'bg-gradient-to-br from-cyan-900/30 to-blue-900/20',
-                        'shadow-[0_0_30px_rgba(6,182,212,0.5)]'
-                      )}>
-                        {/* 提醒发光效果 */}
-                        <div className="absolute inset-0 border-2 border-cyan-500/50 rounded-xl animate-pulse"></div>
-
-                        <div className="relative z-10 w-full flex flex-col items-center justify-center">
-                          <div className="flex items-center gap-1.5 mb-1.5">
-                            <div className="w-8 h-8 rounded-full bg-cyan-500/40 border-2 border-cyan-400/60 flex items-center justify-center shadow-[0_0_15px_rgba(6,182,212,0.8)]">
-                              <AlertTriangle className="w-4 h-4 text-cyan-400 drop-shadow-[0_0_8px_rgba(34,211,238,1)]" />
-                            </div>
-                            <div className="text-base font-black text-cyan-400 drop-shadow-[0_0_12px_rgba(34,211,238,1)]">月度闭环</div>
-                          </div>
-                          <div className="flex items-center gap-1">
-                            <div className="w-1.5 h-1.5 bg-cyan-400 rounded-full"></div>
-                            <div className="w-1.5 h-1.5 bg-cyan-400 rounded-full"></div>
-                            <div className="w-1.5 h-1.5 bg-cyan-400 rounded-full"></div>
-                            <div className="text-xs text-cyan-300 font-semibold">待周记录确认</div>
-                          </div>
-                        </div>
-                      </div>
-                    ) : (
-                      /* 季度/年度模式：推进接洽按钮 - 增强效果 */
-                      <div className={cn(
+                    {/* 推进接洽按钮 */}
+                    <div
+                      className={cn(
                         'relative rounded-xl p-2 overflow-hidden cursor-pointer group h-full flex flex-col items-center justify-center',
                         'border-2 border-cyan-500/70',
                         'bg-gradient-to-br from-cyan-900/30 to-blue-900/20',
@@ -2000,37 +1948,37 @@ export default function RiskIdentificationPanel({
                         'hover:shadow-[0_0_40px_rgba(6,182,212,0.7)]',
                         'transition-all duration-300'
                       )}
-                           onClick={() => openDialog({
-                             title: '立即跟进',
-                             description: `确定要立即跟进项目报备阶段的项目吗？\n推动项目快速进入【初步接洽】阶段\n\n共 ${insufficientConversions.length} 个项目，总金额 ${insufficientConversions.reduce((sum, p) => sum + p.amount, 0).toFixed(0)} 万元`,
-                             confirmText: '确认跟进',
-                             cancelText: '取消',
-                             onConfirm: async () => {
-                               // TODO: 实际的跟进逻辑
-                               console.log('跟进操作已执行');
-                             },
-                             type: 'info'
-                           })}>
-                        {/* 按钮发光效果 */}
-                        <div className="absolute inset-0 bg-gradient-to-r from-cyan-500/30 to-blue-500/30 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-                        <div className="absolute inset-0 border-2 border-cyan-500/50 rounded-xl animate-pulse"></div>
+                      onClick={() => openDialog({
+                        title: '立即跟进',
+                        description: `确定要立即跟进项目报备阶段的项目吗？\n推动项目快速进入【初步接洽】阶段\n\n共 ${insufficientConversions.length} 个项目，总金额 ${insufficientConversions.reduce((sum, p) => sum + p.amount, 0).toFixed(0)} 万元`,
+                        confirmText: '确认跟进',
+                        cancelText: '取消',
+                        onConfirm: async () => {
+                          // TODO: 实际的跟进逻辑
+                          console.log('跟进操作已执行');
+                        },
+                        type: 'info'
+                      })}
+                    >
+                      {/* 按钮发光效果 */}
+                      <div className="absolute inset-0 bg-gradient-to-r from-cyan-500/30 to-blue-500/30 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                      <div className="absolute inset-0 border-2 border-cyan-500/50 rounded-xl animate-pulse"></div>
 
-                        <div className="relative z-10 w-full flex flex-col items-center justify-center">
-                          <div className="flex items-center gap-1.5 mb-1.5">
-                            <div className="w-8 h-8 rounded-full bg-cyan-500/40 border-2 border-cyan-400/60 flex items-center justify-center group-hover:scale-110 transition-transform shadow-[0_0_15px_rgba(6,182,212,0.8)]">
-                              <Send className="w-4 h-4 text-cyan-400 drop-shadow-[0_0_8px_rgba(34,211,238,1)]" />
-                            </div>
-                            <div className="text-base font-black text-cyan-400 drop-shadow-[0_0_12px_rgba(34,211,238,1)]">推进接洽</div>
+                      <div className="relative z-10 w-full flex flex-col items-center justify-center">
+                        <div className="flex items-center gap-1.5 mb-1.5">
+                          <div className="w-8 h-8 rounded-full bg-cyan-500/40 border-2 border-cyan-400/60 flex items-center justify-center group-hover:scale-110 transition-transform shadow-[0_0_15px_rgba(6,182,212,0.8)]">
+                            <Send className="w-4 h-4 text-cyan-400 drop-shadow-[0_0_8px_rgba(34,211,238,1)]" />
                           </div>
-                          <div className="flex items-center gap-1">
-                            <div className="w-1.5 h-1.5 bg-cyan-400 rounded-full animate-bounce" style={{animationDelay: '0ms'}}></div>
-                            <div className="w-1.5 h-1.5 bg-cyan-400 rounded-full animate-bounce" style={{animationDelay: '150ms'}}></div>
-                            <div className="w-1.5 h-1.5 bg-cyan-400 rounded-full animate-bounce" style={{animationDelay: '300ms'}}></div>
-                            <div className="text-xs text-cyan-300 font-semibold">全部 {insufficientConversions.length} 个项目</div>
-                          </div>
+                          <div className="text-base font-black text-cyan-400 drop-shadow-[0_0_12px_rgba(34,211,238,1)]">推进接洽</div>
+                        </div>
+                        <div className="flex items-center gap-1">
+                          <div className="w-1.5 h-1.5 bg-cyan-400 rounded-full animate-bounce" style={{animationDelay: '0ms'}}></div>
+                          <div className="w-1.5 h-1.5 bg-cyan-400 rounded-full animate-bounce" style={{animationDelay: '150ms'}}></div>
+                          <div className="w-1.5 h-1.5 bg-cyan-400 rounded-full animate-bounce" style={{animationDelay: '300ms'}}></div>
+                          <div className="text-xs text-cyan-300 font-semibold">全部 {insufficientConversions.length} 个项目</div>
                         </div>
                       </div>
-                    )}
+                    </div>
                   </div>
                 </div>
 
@@ -2182,35 +2130,9 @@ export default function RiskIdentificationPanel({
                       </div>
                     </div>
 
-                    {/* 月度模式：月度闭环状态提醒 */}
-                    {timeRange === 'current' ? (
-                      <div className={cn(
-                        'relative rounded-xl p-2 overflow-hidden h-full flex flex-col items-center justify-center',
-                        'border-2 border-cyan-500/70',
-                        'bg-gradient-to-br from-cyan-900/30 to-blue-900/20',
-                        'shadow-[0_0_30px_rgba(6,182,212,0.5)]'
-                      )}>
-                        {/* 提醒发光效果 */}
-                        <div className="absolute inset-0 border-2 border-cyan-500/50 rounded-xl animate-pulse"></div>
-
-                        <div className="relative z-10 w-full flex flex-col items-center justify-center">
-                          <div className="flex items-center gap-1.5 mb-1.5">
-                            <div className="w-8 h-8 rounded-full bg-cyan-500/40 border-2 border-cyan-400/60 flex items-center justify-center shadow-[0_0_15px_rgba(6,182,212,0.8)]">
-                              <AlertTriangle className="w-4 h-4 text-cyan-400 drop-shadow-[0_0_8px_rgba(34,211,238,1)]" />
-                            </div>
-                            <div className="text-base font-black text-cyan-400 drop-shadow-[0_0_12px_rgba(34,211,238,1)]">月度闭环</div>
-                          </div>
-                          <div className="flex items-center gap-1">
-                            <div className="w-1.5 h-1.5 bg-cyan-400 rounded-full"></div>
-                            <div className="w-1.5 h-1.5 bg-cyan-400 rounded-full"></div>
-                            <div className="w-1.5 h-1.5 bg-cyan-400 rounded-full"></div>
-                            <div className="text-xs text-cyan-300 font-semibold">待周记录确认</div>
-                          </div>
-                        </div>
-                      </div>
-                    ) : (
-                      /* 季度/年度模式：推进处理按钮 */
-                      <div className={cn(
+                    {/* 推进处理按钮 */}
+                    <div
+                      className={cn(
                         'relative rounded-xl p-2 overflow-hidden cursor-pointer group h-full flex flex-col items-center justify-center',
                         'border-2 border-cyan-500/70',
                         'bg-gradient-to-br from-cyan-900/30 to-blue-900/20',
@@ -2219,37 +2141,37 @@ export default function RiskIdentificationPanel({
                         'hover:shadow-[0_0_40px_rgba(6,182,212,0.7)]',
                         'transition-all duration-300'
                       )}
-                           onClick={() => openDialog({
-                             title: '推进处理',
-                             description: `确定要推进停滞项目吗？\n\n共 ${phaseStagnations.length} 个项目，总金额 ${phaseStagnations.reduce((sum, p) => sum + p.amount, 0).toFixed(0)} 万元`,
-                             confirmText: '确认推进',
-                             cancelText: '取消',
-                             onConfirm: async () => {
-                               // TODO: 实际的推进逻辑
-                               console.log('推进操作已执行');
-                             },
-                             type: 'info'
-                           })}>
-                        {/* 按钮发光效果 */}
-                        <div className="absolute inset-0 bg-gradient-to-r from-cyan-500/30 to-blue-500/30 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-                        <div className="absolute inset-0 border-2 border-cyan-500/50 rounded-xl animate-pulse"></div>
+                      onClick={() => openDialog({
+                        title: '推进处理',
+                        description: `确定要推进停滞项目吗？\n\n共 ${phaseStagnations.length} 个项目，总金额 ${phaseStagnations.reduce((sum, p) => sum + p.amount, 0).toFixed(0)} 万元`,
+                        confirmText: '确认推进',
+                        cancelText: '取消',
+                        onConfirm: async () => {
+                          // TODO: 实际的推进逻辑
+                          console.log('推进操作已执行');
+                        },
+                        type: 'info'
+                      })}
+                    >
+                      {/* 按钮发光效果 */}
+                      <div className="absolute inset-0 bg-gradient-to-r from-cyan-500/30 to-blue-500/30 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                      <div className="absolute inset-0 border-2 border-cyan-500/50 rounded-xl animate-pulse"></div>
 
-                        <div className="relative z-10 w-full flex flex-col items-center justify-center">
-                          <div className="flex items-center gap-1.5 mb-1.5">
-                            <div className="w-8 h-8 rounded-full bg-cyan-500/40 border-2 border-cyan-400/60 flex items-center justify-center group-hover:scale-110 transition-transform shadow-[0_0_15px_rgba(6,182,212,0.8)]">
-                              <Play className="w-4 h-4 text-cyan-400 drop-shadow-[0_0_8px_rgba(34,211,238,1)]" />
-                            </div>
-                            <div className="text-base font-black text-cyan-400 drop-shadow-[0_0_12px_rgba(34,211,238,1)]">推进处理</div>
+                      <div className="relative z-10 w-full flex flex-col items-center justify-center">
+                        <div className="flex items-center gap-1.5 mb-1.5">
+                          <div className="w-8 h-8 rounded-full bg-cyan-500/40 border-2 border-cyan-400/60 flex items-center justify-center group-hover:scale-110 transition-transform shadow-[0_0_15px_rgba(6,182,212,0.8)]">
+                            <Play className="w-4 h-4 text-cyan-400 drop-shadow-[0_0_8px_rgba(34,211,238,1)]" />
                           </div>
-                          <div className="flex items-center gap-1">
-                            <div className="w-1.5 h-1.5 bg-cyan-400 rounded-full animate-bounce" style={{animationDelay: '0ms'}}></div>
-                            <div className="w-1.5 h-1.5 bg-cyan-400 rounded-full animate-bounce" style={{animationDelay: '150ms'}}></div>
-                            <div className="w-1.5 h-1.5 bg-cyan-400 rounded-full animate-bounce" style={{animationDelay: '300ms'}}></div>
-                            <div className="text-xs text-cyan-300 font-semibold">全部 {phaseStagnations.length} 个项目</div>
-                          </div>
+                          <div className="text-base font-black text-cyan-400 drop-shadow-[0_0_12px_rgba(34,211,238,1)]">推进处理</div>
+                        </div>
+                        <div className="flex items-center gap-1">
+                          <div className="w-1.5 h-1.5 bg-cyan-400 rounded-full animate-bounce" style={{animationDelay: '0ms'}}></div>
+                          <div className="w-1.5 h-1.5 bg-cyan-400 rounded-full animate-bounce" style={{animationDelay: '150ms'}}></div>
+                          <div className="w-1.5 h-1.5 bg-cyan-400 rounded-full animate-bounce" style={{animationDelay: '300ms'}}></div>
+                          <div className="text-xs text-cyan-300 font-semibold">全部 {phaseStagnations.length} 个项目</div>
                         </div>
                       </div>
-                    )}
+                    </div>
                   </div>
                 </div>
 
