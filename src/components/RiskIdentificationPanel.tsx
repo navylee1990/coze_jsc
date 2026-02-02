@@ -1721,7 +1721,6 @@ export default function RiskIdentificationPanel({
                             <th className={cn('text-right py-2 px-3 font-medium text-cyan-300 drop-shadow-[0_0_5px_rgba(6,182,212,0.5)]')}>目标预测</th>
                             <th className={cn('text-right py-2 px-3 font-medium text-cyan-300 drop-shadow-[0_0_5px_rgba(6,182,212,0.5)]')}>缺口金额</th>
                             <th className={cn('text-right py-2 px-3 font-medium text-cyan-300 drop-shadow-[0_0_5px_rgba(6,182,212,0.5)]')}>缺口比例</th>
-                            <th className={cn('text-left py-2 px-3 font-medium text-cyan-300 drop-shadow-[0_0_5px_rgba(6,182,212,0.5)]')}>情况反馈</th>
                           </>
                         )}
                       </tr>
@@ -1823,21 +1822,6 @@ export default function RiskIdentificationPanel({
                                 {item.gapPercentage}%
                               </span>
                             </td>
-
-                            {/* 情况反馈 */}
-                            <td className={cn('py-2 px-3 text-sm text-cyan-200 align-middle')}>
-                              <input
-                                type="text"
-                                placeholder="请输入反馈"
-                                className={cn(
-                                  'w-full px-2 py-1 text-xs',
-                                  'bg-slate-800/50 border border-cyan-500/30 rounded',
-                                  'text-cyan-100 placeholder-cyan-400/50',
-                                  'focus:outline-none focus:border-cyan-400 focus:ring-1 focus:ring-cyan-400',
-                                  'transition-all duration-200'
-                                )}
-                              />
-                            </td>
                           </tr>
                         ))
                       )}
@@ -1849,7 +1833,7 @@ export default function RiskIdentificationPanel({
                 <div className="px-4 py-2 border-t border-cyan-500/20 flex justify-between items-center bg-gradient-to-r from-slate-900/50 to-transparent">
                   <div className={cn('text-xs flex items-center gap-2', DASHBOARD_STYLES.textMuted)}>
                     <Activity className="w-3 h-3 text-cyan-400/70" />
-                    共 {drillDownLevel === 'region' ? forecastGaps.length : forecastGaps.filter(p => p.region === selectedRegion).length} 条记录，当前第 {currentPage} / {totalPages} 页
+                    共 {forecastGaps.length} 条记录，当前第 {currentPage} / {totalPages} 页
                   </div>
                   <Pagination currentPage={currentPage} totalPages={totalPages} onPageChange={setCurrentPage} />
                 </div>
