@@ -162,16 +162,12 @@ interface ForecastGap {
   feedback?: string; // 情况反馈
 }
 
-// 7. 转化不足数据（项目报备一直没有进入下一阶段）
+// 7. 转化不足数据（项目未初步接洽）
 interface InsufficientConversion {
-  projectName: string;
-  region: string;
-  salesEngineer: string;
-  cityManager: string;
-  currentPhase: string; // 当前阶段
-  stayDays: number; // 停留天数
-  amount: number; // 金额
-  riskReason: string; // 转化不足原因
+  owner: string; // 负责人
+  region: string; // 大区
+  uncontactedCount: number; // 未初步接洽项目数
+  feedback?: string; // 情况反馈
 }
 
 // 7.5 报备不足数据（报备项目数不足）
@@ -229,54 +225,34 @@ const defaultForecastGaps: ForecastGap[] = [
 // 默认转化不足数据
 const defaultInsufficientConversions: InsufficientConversion[] = [
   {
-    projectName: '上海浦东国际博览中心项目',
+    owner: '刘洋',
     region: '一区',
-    salesEngineer: '刘洋',
-    cityManager: '陈明',
-    currentPhase: '项目报备',
-    stayDays: 15,
-    amount: 180,
-    riskReason: '报备后无跟进，客户需求不明确'
+    uncontactedCount: 3,
+    feedback: '正在整理客户资料，预计下周完成初步接洽'
   },
   {
-    projectName: '广州天河城购物中心',
+    owner: '陈静',
     region: '华南',
-    salesEngineer: '陈静',
-    cityManager: '林婷',
-    currentPhase: '项目报备',
-    stayDays: 18,
-    amount: 220,
-    riskReason: '报备后未及时跟进，客户兴趣下降'
+    uncontactedCount: 5,
+    feedback: '客户预约时间紧张，正在协调'
   },
   {
-    projectName: '深圳前海自贸区',
+    owner: '赵雪',
     region: '华南',
-    salesEngineer: '赵雪',
-    cityManager: '黄磊',
-    currentPhase: '项目报备',
-    stayDays: 20,
-    amount: 150,
-    riskReason: '报备信息不完整，需补充资料'
+    uncontactedCount: 2,
+    feedback: '已安排初次拜访，等待客户确认'
   },
   {
-    projectName: '杭州阿里巴巴园区',
+    owner: '杨帆',
     region: '二区',
-    salesEngineer: '杨帆',
-    cityManager: '郑浩',
-    currentPhase: '项目报备',
-    stayDays: 12,
-    amount: 200,
-    riskReason: '客户内部流程复杂，报备后未推进'
+    uncontactedCount: 4,
+    feedback: '需要产品经理支持技术方案'
   },
   {
-    projectName: '北京中关村科技园',
+    owner: '马龙',
     region: '华北',
-    salesEngineer: '马龙',
-    cityManager: '张伟',
-    currentPhase: '项目报备',
-    stayDays: 16,
-    amount: 250,
-    riskReason: '报备后客户对接人变更，需重新建立联系'
+    uncontactedCount: 3,
+    feedback: '客户在评估期，保持定期沟通'
   }
 ];
 
@@ -1953,7 +1929,7 @@ export default function RiskIdentificationPanel({
                   ></div>
                   
                   <div className="relative z-10 grid grid-cols-3 gap-3">
-                    {/* 待转化项目数卡片 */}
+                    {/* 待初步接洽项目数卡片 */}
                     <div className={cn(
                       'relative rounded-xl p-2 overflow-hidden h-full flex flex-col items-center justify-center',
                       'bg-gradient-to-br from-cyan-900/50 to-cyan-800/30',
@@ -1964,18 +1940,18 @@ export default function RiskIdentificationPanel({
                       <div className="relative z-10 w-full flex flex-col items-center justify-center">
                         <div className="flex items-center gap-2 mb-1.5">
                           <Zap className="w-3.5 h-3.5 text-cyan-400 drop-shadow-[0_0_10px_rgba(6,182,212,1)] animate-pulse" />
-                          <div className="text-sm font-bold text-cyan-300">项目报备</div>
+                          <div className="text-sm font-bold text-cyan-300">未初步接洽</div>
                         </div>
                         <div className="flex items-baseline gap-1">
                           <span className="text-3xl font-black text-cyan-400 drop-shadow-[0_0_15px_rgba(34,211,238,1)]">
-                            {insufficientConversions.length}
+                            {insufficientConversions.reduce((sum, p) => sum + p.uncontactedCount, 0)}
                           </span>
                           <span className="text-xs text-cyan-300/80">个</span>
                         </div>
                       </div>
                     </div>
 
-                    {/* 总金额卡片 */}
+                    {/* 涉及负责人卡片 */}
                     <div className={cn(
                       'relative rounded-xl p-2 overflow-hidden h-full flex flex-col items-center justify-center',
                       'bg-gradient-to-br from-cyan-900/50 to-cyan-800/30',
@@ -1985,14 +1961,14 @@ export default function RiskIdentificationPanel({
                       <div className="absolute top-0 right-0 w-20 h-20 bg-cyan-500/20 rounded-full blur-3xl animate-pulse"></div>
                       <div className="relative z-10 w-full flex flex-col items-center justify-center">
                         <div className="flex items-center gap-2 mb-1.5">
-                          <DollarSign className="w-3.5 h-3.5 text-cyan-400 drop-shadow-[0_0_10px_rgba(6,182,212,1)] animate-pulse" />
-                          <div className="text-sm font-bold text-cyan-300">总金额</div>
+                          <Users className="w-3.5 h-3.5 text-cyan-400 drop-shadow-[0_0_10px_rgba(6,182,212,1)] animate-pulse" />
+                          <div className="text-sm font-bold text-cyan-300">涉及负责人</div>
                         </div>
                         <div className="flex items-baseline gap-1">
                           <span className="text-3xl font-black text-cyan-400 drop-shadow-[0_0_15px_rgba(34,211,238,1)]">
-                            {insufficientConversions.reduce((sum, p) => sum + p.amount, 0).toFixed(0)}
+                            {insufficientConversions.length}
                           </span>
-                          <span className="text-xs text-cyan-300/80">万</span>
+                          <span className="text-xs text-cyan-300/80">人</span>
                         </div>
                       </div>
                     </div>
@@ -2009,8 +1985,8 @@ export default function RiskIdentificationPanel({
                         'transition-all duration-300'
                       )}
                       onClick={() => openDialog({
-                        title: '立即跟进',
-                        description: `确定要立即跟进项目报备阶段的项目吗？\n推动项目快速进入【初步接洽】阶段\n\n共 ${insufficientConversions.length} 个项目，总金额 ${insufficientConversions.reduce((sum, p) => sum + p.amount, 0).toFixed(0)} 万元`,
+                        title: '推进接洽',
+                        description: `请尽快推进未初步接洽项目，当前共有 ${insufficientConversions.reduce((sum, p) => sum + p.uncontactedCount, 0)} 个项目需要跟进`,
                         confirmText: '确认跟进',
                         cancelText: '取消',
                         onConfirm: async () => {
@@ -2035,7 +2011,7 @@ export default function RiskIdentificationPanel({
                           <div className="w-1.5 h-1.5 bg-cyan-400 rounded-full animate-bounce" style={{animationDelay: '0ms'}}></div>
                           <div className="w-1.5 h-1.5 bg-cyan-400 rounded-full animate-bounce" style={{animationDelay: '150ms'}}></div>
                           <div className="w-1.5 h-1.5 bg-cyan-400 rounded-full animate-bounce" style={{animationDelay: '300ms'}}></div>
-                          <div className="text-xs text-cyan-300 font-semibold">全部 {insufficientConversions.length} 个项目</div>
+                          <div className="text-xs text-cyan-300 font-semibold">全部 {insufficientConversions.reduce((sum, p) => sum + p.uncontactedCount, 0)} 个项目</div>
                         </div>
                       </div>
                     </div>
@@ -2048,11 +2024,10 @@ export default function RiskIdentificationPanel({
                     <thead className="sticky top-0 bg-slate-900/95 backdrop-blur-sm z-10">
                       <tr className={cn('text-sm border-b border-cyan-500/30', 'border-cyan-500/20')}>
                         <th className={cn('text-center py-2 px-3 font-medium w-16 text-cyan-300 drop-shadow-[0_0_5px_rgba(6,182,212,0.5)] whitespace-nowrap')}>序号</th>
-                        <th className={cn('text-left py-2 px-3 font-medium text-cyan-300 drop-shadow-[0_0_5px_rgba(6,182,212,0.5)] whitespace-nowrap')}>项目名称</th>
-                        <th className={cn('text-left py-2 px-3 font-medium hidden lg:table-cell text-cyan-300 drop-shadow-[0_0_5px_rgba(6,182,212,0.5)] whitespace-nowrap')}>当前阶段</th>
-                        <th className={cn('text-left py-2 px-3 font-medium hidden md:table-cell text-cyan-300 drop-shadow-[0_0_5px_rgba(6,182,212,0.5)] whitespace-nowrap')}>大区</th>
-                        <th className={cn('text-right py-2 px-3 font-medium text-cyan-300 drop-shadow-[0_0_5px_rgba(6,182,212,0.5)] whitespace-nowrap')}>停留天数</th>
-                        <th className={cn('text-right py-2 px-3 font-medium text-cyan-300 drop-shadow-[0_0_5px_rgba(6,182,212,0.5)] whitespace-nowrap')}>金额</th>
+                        <th className={cn('text-left py-2 px-3 font-medium hidden lg:table-cell text-cyan-300 drop-shadow-[0_0_5px_rgba(6,182,212,0.5)] whitespace-nowrap')}>大区</th>
+                        <th className={cn('text-left py-2 px-3 font-medium text-cyan-300 drop-shadow-[0_0_5px_rgba(6,182,212,0.5)] whitespace-nowrap')}>负责人</th>
+                        <th className={cn('text-right py-2 px-3 font-medium text-cyan-300 drop-shadow-[0_0_5px_rgba(6,182,212,0.5)] whitespace-nowrap')}>未初步接洽项目数</th>
+                        <th className={cn('text-left py-2 px-3 font-medium text-cyan-300 drop-shadow-[0_0_5px_rgba(6,182,212,0.5)] whitespace-nowrap')}>情况反馈</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -2071,34 +2046,34 @@ export default function RiskIdentificationPanel({
                             </div>
                           </td>
 
-                          {/* 项目名称 */}
-                          <td className={cn('py-2 px-3 text-sm', DASHBOARD_STYLES.textSecondary, 'align-middle')}>
-                            <div className="font-medium leading-snug text-cyan-100 whitespace-nowrap" title={item.projectName}>{item.projectName}</div>
-                          </td>
-
-                          {/* 当前阶段 */}
-                          <td className={cn('hidden lg:table-cell py-2 px-3 text-sm text-cyan-200 align-middle')}>
-                            <span className={cn('px-2 py-1 rounded text-xs font-medium bg-cyan-500/20 text-cyan-300')}>{item.currentPhase}</span>
-                          </td>
-
                           {/* 大区 */}
-                          <td className={cn('hidden md:table-cell py-2 px-3 text-sm text-cyan-200 align-middle')}>
+                          <td className={cn('hidden lg:table-cell py-2 px-3 text-sm text-cyan-200 align-middle')}>
                             {item.region || '-'}
                           </td>
 
-                          {/* 停留天数 */}
-                          <td className={cn('text-right py-2 px-3 whitespace-nowrap text-cyan-200 align-middle')}>
-                            <span className={cn(
-                              'font-bold',
-                              item.stayDays >= 15 ? 'text-red-400' : item.stayDays >= 10 ? 'text-orange-400' : 'text-cyan-300'
-                            )}>{item.stayDays}</span>
-                            <span className="text-sm ml-1 text-cyan-300/70">天</span>
+                          {/* 负责人 */}
+                          <td className={cn('py-2 px-3 text-sm text-cyan-200 align-middle')}>
+                            {item.owner || '-'}
                           </td>
 
-                          {/* 金额 */}
-                          <td className={cn('text-right py-2 px-3 whitespace-nowrap', DASHBOARD_STYLES.textSecondary, 'align-middle')}>
-                            <span className="font-black text-pink-300">{item.amount.toFixed(0)}</span>
-                            <span className={cn('text-sm ml-1 text-pink-300/70')}>万</span>
+                          {/* 未初步接洽项目数 */}
+                          <td className={cn('text-right py-2 px-3 whitespace-nowrap text-sm text-cyan-200 align-middle')}>
+                            <span className={cn(
+                              'font-bold px-2 py-1 rounded text-xs',
+                              item.uncontactedCount > 0 ? 'bg-orange-500/20 text-orange-400' : 'bg-cyan-500/20 text-cyan-400'
+                            )}>
+                              {item.uncontactedCount}
+                            </span>
+                          </td>
+
+                          {/* 情况反馈 */}
+                          <td className={cn('text-left py-2 px-3 text-sm text-cyan-200 align-middle max-w-[200px]')}>
+                            <span
+                              className="text-cyan-300/90 text-sm block whitespace-nowrap overflow-hidden truncate"
+                              title={item.feedback || '-'}
+                            >
+                              {item.feedback || '-'}
+                            </span>
                           </td>
                         </tr>
                       ))}
