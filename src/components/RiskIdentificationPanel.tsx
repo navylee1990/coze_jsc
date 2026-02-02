@@ -2143,8 +2143,8 @@ export default function RiskIdentificationPanel({
                       )}
                       onClick={() => openDialog({
                         title: '推进处理',
-                        description: `确定要推进停滞项目吗？\n\n共 ${phaseStagnations.length} 个项目，总金额 ${phaseStagnations.reduce((sum, p) => sum + p.amount, 0).toFixed(0)} 万元`,
-                        confirmText: '确认推进',
+                        description: `XX，你好：你名下共计X个项目阶段停滞（预计成交日期为近1季度内的项目），请及时更新项目进展。【数据来源：企业微信工作台-渠道运营-销售机会（预计下单日期、项目阶段）。更新路径：企业微信工作台-渠道运营-跟进记录、销售机会机会】`,
+                        confirmText: '确认发送',
                         cancelText: '取消',
                         onConfirm: async () => {
                           // TODO: 实际的推进逻辑
