@@ -29,24 +29,24 @@ const TIME_RANGE_DATA = {
   current: {
     target: 1500,
     forecast: 1140,
-    completed: 800,
+    completed: 950,  // 2月已有部分完成
   },
   quarter: {
     target: 4500,
     forecast: 3510,  // 78%达成率
-    completed: 2250, // 50%达成率
+    completed: 2400, // 更新后包含2月完成
   },
   year: {
     target: 9000,
     forecast: 7380,  // 82%达成率
-    completed: 5850, // 65%达成率
+    completed: 6000, // 更新后包含2月完成
   },
 };
 
 // 月度趋势数据（固定显示12个月，不受时间范围影响）
 const monthlyTrendData = [
   { month: '1月', businessTarget: 1500, financialTarget: 1200, completed: 800, forecast: 900 },
-  { month: '2月', businessTarget: 1500, financialTarget: 1200, completed: 0, forecast: 1550 },
+  { month: '2月', businessTarget: 1500, financialTarget: 1200, completed: 150, forecast: 1550 },
   { month: '3月', businessTarget: 1500, financialTarget: 1200, completed: 0, forecast: 1350 },
   { month: '4月', businessTarget: 1500, financialTarget: 1200, completed: 0, forecast: 1100 },
   { month: '5月', businessTarget: 1500, financialTarget: 1200, completed: 0, forecast: 1580 },
