@@ -1222,17 +1222,17 @@ export default function RiskIdentificationPanel({
 
                 {/* 表格区域 */}
                 <div className="flex-1 overflow-auto p-3 bg-gradient-to-b from-slate-900/50 to-transparent">
-                  <table className="w-full table-fixed">
+                  <table className="w-full">
                     <thead className="sticky top-0 bg-slate-900/95 backdrop-blur-sm z-10">
                       <tr className={cn('text-sm border-b border-cyan-500/30', DASHBOARD_STYLES.cardBorder)}>
-                        <th className={cn('text-center py-2 px-2 font-medium w-12 text-cyan-300 drop-shadow-[0_0_5px_rgba(6,182,212,0.5)] whitespace-nowrap')}>序号</th>
-                        <th className={cn('text-left py-2 px-2 font-medium hidden lg:table-cell text-cyan-300 drop-shadow-[0_0_5px_rgba(6,182,212,0.5)] whitespace-nowrap w-20')}>大区</th>
-                        <th className={cn('text-left py-2 px-2 font-medium hidden xl:table-cell text-cyan-300 drop-shadow-[0_0_5px_rgba(6,182,212,0.5)] whitespace-nowrap w-24')}>项目编号</th>
-                        <th className={cn('text-left py-2 px-2 font-medium text-cyan-300 drop-shadow-[0_0_5px_rgba(6,182,212,0.5)] whitespace-nowrap')}>项目名称</th>
-                        <th className={cn('text-left py-2 px-2 font-medium text-cyan-300 drop-shadow-[0_0_5px_rgba(6,182,212,0.5)] whitespace-nowrap w-28')}>预计下单</th>
-                        <th className={cn('text-left py-2 px-2 font-medium hidden lg:table-cell text-cyan-300 drop-shadow-[0_0_5px_rgba(6,182,212,0.5)] whitespace-nowrap w-24')}>销售</th>
-                        <th className={cn('text-right py-2 px-2 font-medium text-cyan-300 drop-shadow-[0_0_5px_rgba(6,182,212,0.5)] whitespace-nowrap w-20')}>金额</th>
-                        <th className={cn('text-left py-2 px-2 font-medium hidden lg:table-cell text-cyan-300 drop-shadow-[0_0_5px_rgba(6,182,212,0.5)] whitespace-nowrap')}>情况反馈</th>
+                        <th className={cn('text-center py-2 px-3 font-medium w-16 text-cyan-300 drop-shadow-[0_0_5px_rgba(6,182,212,0.5)] whitespace-nowrap')}>序号</th>
+                        <th className={cn('text-left py-2 px-3 font-medium hidden lg:table-cell text-cyan-300 drop-shadow-[0_0_5px_rgba(6,182,212,0.5)] whitespace-nowrap')}>大区</th>
+                        <th className={cn('text-left py-2 px-3 font-medium hidden md:table-cell text-cyan-300 drop-shadow-[0_0_5px_rgba(6,182,212,0.5)] whitespace-nowrap')}>项目编号</th>
+                        <th className={cn('text-left py-2 px-3 font-medium text-cyan-300 drop-shadow-[0_0_5px_rgba(6,182,212,0.5)] whitespace-nowrap')}>项目名称</th>
+                        <th className={cn('text-left py-2 px-3 font-medium text-cyan-300 drop-shadow-[0_0_5px_rgba(6,182,212,0.5)] whitespace-nowrap')}>预计下单</th>
+                        <th className={cn('text-left py-2 px-3 font-medium hidden md:table-cell text-cyan-300 drop-shadow-[0_0_5px_rgba(6,182,212,0.5)] whitespace-nowrap')}>销售（工程师）</th>
+                        <th className={cn('text-right py-2 px-3 font-medium text-cyan-300 drop-shadow-[0_0_5px_rgba(6,182,212,0.5)] whitespace-nowrap')}>金额</th>
+                        <th className={cn('text-left py-2 px-3 font-medium text-cyan-300 drop-shadow-[0_0_5px_rgba(6,182,212,0.5)] whitespace-nowrap')}>情况反馈</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -1245,52 +1245,52 @@ export default function RiskIdentificationPanel({
                           )}
                         >
                           {/* 序号 */}
-                          <td className={cn('text-center py-2 px-2 text-xs text-cyan-300 align-middle')}>
-                            <div className="inline-flex items-center justify-center w-5 h-5 rounded-full bg-cyan-500/10 border border-cyan-500/30 text-xs">
+                          <td className={cn('text-center py-2 px-3 text-sm text-cyan-300 align-middle')}>
+                            <div className="inline-flex items-center justify-center w-6 h-6 rounded-full bg-cyan-500/10 border border-cyan-500/30">
                               {(currentPage - 1) * 5 + index + 1}
                             </div>
                           </td>
 
                           {/* 大区 */}
-                          <td className={cn('hidden lg:table-cell py-2 px-2 text-xs text-cyan-200 align-middle')}>
+                          <td className={cn('hidden lg:table-cell py-2 px-3 text-sm text-cyan-200 align-middle')}>
                             {item.region || '-'}
                           </td>
 
                           {/* 项目编号 */}
-                          <td className={cn('hidden xl:table-cell py-2 px-2 text-xs text-cyan-200 align-middle font-mono truncate')}>
-                            {item.projectCode || '-'}
+                          <td className={cn('hidden md:table-cell py-2 px-3 text-sm text-cyan-200 align-middle')}>
+                            <span className="text-cyan-300/80 font-mono text-xs">{item.projectCode || '-'}</span>
                           </td>
 
                           {/* 项目名称 */}
-                          <td className={cn('py-2 px-2 text-xs', DASHBOARD_STYLES.textSecondary, 'align-middle truncate')}>
+                          <td className={cn('py-2 px-3 text-sm', DASHBOARD_STYLES.textSecondary, 'align-middle')}>
                             <div className="font-medium leading-snug text-cyan-100 whitespace-nowrap" title={item.name}>{item.name}</div>
                           </td>
 
                           {/* 预计下单时间 */}
-                          <td className={cn('py-2 px-2 text-xs whitespace-nowrap text-cyan-200 align-middle')}>
-                            <div className="flex items-center gap-1">
-                              <Clock className="w-3 h-3 text-cyan-400/70 flex-shrink-0" />
-                              <span className="truncate">{item.expectedOrderDate || '-'}</span>
+                          <td className={cn('py-2 px-3 text-sm whitespace-nowrap text-cyan-200 align-middle')}>
+                            <div className="flex items-center gap-1.5">
+                              <Clock className="w-3 h-3 text-cyan-400/70" />
+                              {item.expectedOrderDate || '-'}
                             </div>
                           </td>
 
                           {/* 销售工程师 */}
-                          <td className={cn('hidden lg:table-cell py-2 px-2 text-xs text-cyan-200 align-middle truncate')}>
+                          <td className={cn('hidden md:table-cell py-2 px-3 text-sm text-cyan-200 align-middle')}>
                             {item.salesEngineer || '-'}
                           </td>
 
                           {/* 金额 */}
-                          <td className={cn('text-right py-2 px-2 whitespace-nowrap text-xs', DASHBOARD_STYLES.textSecondary, 'align-middle')}>
-                            <span className="font-bold text-cyan-400 drop-shadow-[0_0_6px_rgba(34,211,238,0.6)]">
+                          <td className={cn('text-right py-2 px-3 whitespace-nowrap', DASHBOARD_STYLES.textSecondary, 'align-middle')}>
+                            <span className="font-black text-cyan-400 drop-shadow-[0_0_6px_rgba(34,211,238,0.6)]">
                               {item.amount.toFixed(2)}
                             </span>
-                            <span className={cn('text-xs ml-1 text-cyan-300/70')}>万</span>
+                            <span className={cn('text-sm ml-1 text-cyan-300/70')}>万</span>
                           </td>
 
                           {/* 情况反馈 */}
-                          <td className={cn('hidden lg:table-cell text-left py-2 px-2 text-xs text-cyan-200 align-middle max-w-[180px]')}>
+                          <td className={cn('text-left py-2 px-3 text-sm text-cyan-200 align-middle max-w-[200px]')}>
                             <span
-                              className="text-cyan-300/90 text-xs block whitespace-nowrap overflow-hidden truncate"
+                              className="text-cyan-300/90 text-sm block whitespace-nowrap overflow-hidden truncate"
                               title={item.feedback || '-'}
                             >
                               {item.feedback || '-'}
@@ -1430,17 +1430,17 @@ export default function RiskIdentificationPanel({
 
             {/* 表格区域 */}
             <div className="flex-1 overflow-auto p-3 bg-gradient-to-b from-slate-900/50 to-transparent">
-                  <table className="w-full table-fixed">
+                  <table className="w-full">
                     <thead className="sticky top-0 bg-slate-900/95 backdrop-blur-sm z-10">
                       <tr className={cn('text-sm border-b border-cyan-500/30', DASHBOARD_STYLES.cardBorder)}>
-                        <th className={cn('text-center py-2 px-2 font-medium w-12 text-cyan-300 drop-shadow-[0_0_5px_rgba(6,182,212,0.5)] whitespace-nowrap')}>序号</th>
-                        <th className={cn('text-left py-2 px-2 font-medium hidden lg:table-cell text-cyan-300 drop-shadow-[0_0_5px_rgba(6,182,212,0.5)] whitespace-nowrap w-20')}>大区</th>
-                        <th className={cn('text-left py-2 px-2 font-medium hidden xl:table-cell text-cyan-300 drop-shadow-[0_0_5px_rgba(6,182,212,0.5)] whitespace-nowrap w-24')}>项目编号</th>
-                        <th className={cn('text-left py-2 px-2 font-medium text-cyan-300 drop-shadow-[0_0_5px_rgba(6,182,212,0.5)] whitespace-nowrap')}>项目名称</th>
-                        <th className={cn('text-left py-2 px-2 font-medium hidden lg:table-cell text-cyan-300 drop-shadow-[0_0_5px_rgba(6,182,212,0.5)] whitespace-nowrap w-24')}>销售</th>
-                        <th className={cn('text-right py-2 px-2 font-medium text-cyan-300 drop-shadow-[0_0_5px_rgba(6,182,212,0.5)] whitespace-nowrap w-20')}>金额</th>
-                        <th className={cn('text-right py-2 px-2 font-medium text-cyan-300 drop-shadow-[0_0_5px_rgba(6,182,212,0.5)] whitespace-nowrap w-24')}>占比%</th>
-                        <th className={cn('text-left py-2 px-2 font-medium hidden lg:table-cell text-cyan-300 drop-shadow-[0_0_5px_rgba(6,182,212,0.5)] whitespace-nowrap')}>情况反馈</th>
+                        <th className={cn('text-center py-2 px-3 font-medium w-16 text-cyan-300 drop-shadow-[0_0_5px_rgba(6,182,212,0.5)] whitespace-nowrap')}>序号</th>
+                        <th className={cn('text-left py-2 px-3 font-medium hidden lg:table-cell text-cyan-300 drop-shadow-[0_0_5px_rgba(6,182,212,0.5)] whitespace-nowrap')}>大区</th>
+                        <th className={cn('text-left py-2 px-3 font-medium hidden md:table-cell text-cyan-300 drop-shadow-[0_0_5px_rgba(6,182,212,0.5)] whitespace-nowrap')}>项目编号</th>
+                        <th className={cn('text-left py-2 px-3 font-medium text-cyan-300 drop-shadow-[0_0_5px_rgba(6,182,212,0.5)] whitespace-nowrap')}>项目名称</th>
+                        <th className={cn('text-left py-2 px-3 font-medium hidden md:table-cell text-cyan-300 drop-shadow-[0_0_5px_rgba(6,182,212,0.5)] whitespace-nowrap')}>销售（工程师）</th>
+                        <th className={cn('text-right py-2 px-3 font-medium text-cyan-300 drop-shadow-[0_0_5px_rgba(6,182,212,0.5)] whitespace-nowrap')}>金额</th>
+                        <th className={cn('text-right py-2 px-3 font-medium text-cyan-300 drop-shadow-[0_0_5px_rgba(6,182,212,0.5)] whitespace-nowrap')}>占总预测%</th>
+                        <th className={cn('text-left py-2 px-3 font-medium text-cyan-300 drop-shadow-[0_0_5px_rgba(6,182,212,0.5)] whitespace-nowrap')}>情况反馈</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -1453,36 +1453,35 @@ export default function RiskIdentificationPanel({
                           )}
                         >
                           {/* 序号 */}
-                          <td className={cn('text-center py-2 px-2 text-xs text-cyan-300 align-middle')}>
-                            <div className="inline-flex items-center justify-center w-5 h-5 rounded-full bg-cyan-500/10 border border-cyan-500/30 text-xs">
+                          <td className={cn('text-center py-2 px-3 text-sm text-cyan-300 align-middle')}>
+                            <div className="inline-flex items-center justify-center w-6 h-6 rounded-full bg-cyan-500/10 border border-cyan-500/30">
                               {(currentPage - 1) * 5 + index + 1}
                             </div>
                           </td>
                           {/* 大区 */}
-                          <td className={cn('hidden lg:table-cell py-2 px-2 text-xs text-cyan-200 align-middle')}>
+                          <td className={cn('hidden lg:table-cell py-2 px-3 text-sm text-cyan-200 align-middle')}>
                             {item.region || '-'}
                           </td>
                           {/* 项目编号 */}
-                          <td className={cn('hidden xl:table-cell py-2 px-2 text-xs text-cyan-200 align-middle font-mono truncate')}>
+                          <td className={cn('hidden md:table-cell py-2 px-3 text-sm text-cyan-200 align-middle')}>
                             {item.projectId || '-'}
                           </td>
                           {/* 项目名称 */}
-                          <td className={cn('py-2 px-2 text-xs', DASHBOARD_STYLES.textSecondary, 'align-middle truncate')}>
+                          <td className={cn('py-2 px-3 text-sm', DASHBOARD_STYLES.textSecondary, 'align-middle')}>
                             <div className="font-medium leading-snug text-cyan-100 whitespace-nowrap" title={item.projectName}>{item.projectName}</div>
                           </td>
                           {/* 销售（工程师） */}
-                          <td className={cn('hidden lg:table-cell py-2 px-2 text-xs text-cyan-200 align-middle truncate')}>
+                          <td className={cn('hidden md:table-cell py-2 px-3 text-sm text-cyan-200 align-middle')}>
                             {item.owner || '-'}
                           </td>
                           {/* 金额 */}
-                          <td className={cn('text-right py-2 px-2 whitespace-nowrap text-xs text-cyan-200 align-middle')}>
-                            <span className="font-bold text-cyan-400">{item.amount.toFixed(0)}</span>
-                            <span className="text-xs ml-1 text-cyan-300/70">万</span>
+                          <td className={cn('text-right py-2 px-3 whitespace-nowrap text-sm text-cyan-200 align-middle')}>
+                            {item.amount.toFixed(0)}万
                           </td>
                           {/* 占总预测% */}
-                          <td className={cn('text-right py-2 px-2 whitespace-nowrap text-xs', DASHBOARD_STYLES.textSecondary, 'align-middle')}>
+                          <td className={cn('text-right py-2 px-3 whitespace-nowrap text-sm', DASHBOARD_STYLES.textSecondary, 'align-middle')}>
                             <span className={cn(
-                              'px-1.5 py-0.5 rounded text-xs font-medium',
+                              'px-2 py-1 rounded text-xs font-medium',
                               item.predictionRatio >= 60 ? 'bg-red-500/20 text-red-400' :
                               item.predictionRatio >= 55 ? 'bg-orange-500/20 text-orange-400' :
                               'bg-yellow-500/20 text-yellow-400'
@@ -1491,9 +1490,9 @@ export default function RiskIdentificationPanel({
                             </span>
                           </td>
                           {/* 情况反馈 */}
-                          <td className={cn('hidden lg:table-cell text-left py-2 px-2 text-xs text-cyan-200 align-middle max-w-[160px]')}>
+                          <td className={cn('text-left py-2 px-3 text-sm text-cyan-200 align-middle max-w-[200px]')}>
                             <span
-                              className={cn('text-xs block whitespace-nowrap overflow-hidden truncate',
+                              className={cn('text-cyan-300/90 text-sm block whitespace-nowrap overflow-hidden truncate',
                                 item.status === 'critical' ? 'text-red-400' :
                                 item.status === 'highRisk' ? 'text-orange-400' :
                                 'text-cyan-300'
@@ -1502,8 +1501,8 @@ export default function RiskIdentificationPanel({
                                      item.status === 'highRisk' ? '占比偏高，需关注项目进展' :
                                      '正常'}
                             >
-                              {item.status === 'critical' ? '占比过高' :
-                               item.status === 'highRisk' ? '占比偏高' :
+                              {item.status === 'critical' ? '占比过高，建议增加项目储备' :
+                               item.status === 'highRisk' ? '占比偏高，需关注项目进展' :
                                '正常'}
                             </span>
                           </td>
@@ -1641,17 +1640,17 @@ export default function RiskIdentificationPanel({
 
                 {/* 表格区域 */}
                 <div className="flex-1 overflow-auto p-3 bg-gradient-to-b from-slate-900/50 to-transparent">
-                  <table className="w-full table-fixed">
+                  <table className="w-full">
                     <thead className="sticky top-0 bg-slate-900/95 backdrop-blur-sm z-10">
                       <tr className={cn('text-sm border-b border-cyan-500/30', DASHBOARD_STYLES.cardBorder)}>
-                        <th className={cn('text-center py-2 px-2 font-medium w-12 text-cyan-300 drop-shadow-[0_0_5px_rgba(6,182,212,0.5)] whitespace-nowrap')}>序号</th>
-                        <th className={cn('text-left py-2 px-2 font-medium hidden lg:table-cell text-cyan-300 drop-shadow-[0_0_5px_rgba(6,182,212,0.5)] whitespace-nowrap w-20')}>大区</th>
-                        <th className={cn('text-left py-2 px-2 font-medium hidden xl:table-cell text-cyan-300 drop-shadow-[0_0_5px_rgba(6,182,212,0.5)] whitespace-nowrap w-20')}>负责人</th>
-                        <th className={cn('text-right py-2 px-2 font-medium text-cyan-300 drop-shadow-[0_0_5px_rgba(6,182,212,0.5)] whitespace-nowrap w-20')}>当前预测</th>
-                        <th className={cn('text-right py-2 px-2 font-medium text-cyan-300 drop-shadow-[0_0_5px_rgba(6,182,212,0.5)] whitespace-nowrap w-20')}>目标预测</th>
-                        <th className={cn('text-right py-2 px-2 font-medium text-cyan-300 drop-shadow-[0_0_5px_rgba(6,182,212,0.5)] whitespace-nowrap w-20')}>缺口金额</th>
-                        <th className={cn('text-right py-2 px-2 font-medium text-cyan-300 drop-shadow-[0_0_5px_rgba(6,182,212,0.5)] whitespace-nowrap w-20')}>缺口比例</th>
-                        <th className={cn('text-left py-2 px-2 font-medium hidden lg:table-cell text-cyan-300 drop-shadow-[0_0_5px_rgba(6,182,212,0.5)] whitespace-nowrap')}>情况反馈</th>
+                        <th className={cn('text-center py-2 px-3 font-medium w-16 text-cyan-300 drop-shadow-[0_0_5px_rgba(6,182,212,0.5)] whitespace-nowrap')}>序号</th>
+                        <th className={cn('text-left py-2 px-3 font-medium hidden lg:table-cell text-cyan-300 drop-shadow-[0_0_5px_rgba(6,182,212,0.5)] whitespace-nowrap')}>大区</th>
+                        <th className={cn('text-left py-2 px-3 font-medium hidden md:table-cell text-cyan-300 drop-shadow-[0_0_5px_rgba(6,182,212,0.5)] whitespace-nowrap')}>负责人</th>
+                        <th className={cn('text-right py-2 px-3 font-medium text-cyan-300 drop-shadow-[0_0_5px_rgba(6,182,212,0.5)] whitespace-nowrap')}>当前预测</th>
+                        <th className={cn('text-right py-2 px-3 font-medium text-cyan-300 drop-shadow-[0_0_5px_rgba(6,182,212,0.5)] whitespace-nowrap')}>目标预测</th>
+                        <th className={cn('text-right py-2 px-3 font-medium text-cyan-300 drop-shadow-[0_0_5px_rgba(6,182,212,0.5)] whitespace-nowrap')}>缺口金额</th>
+                        <th className={cn('text-right py-2 px-3 font-medium text-cyan-300 drop-shadow-[0_0_5px_rgba(6,182,212,0.5)] whitespace-nowrap')}>缺口比例</th>
+                        <th className={cn('text-left py-2 px-3 font-medium text-cyan-300 drop-shadow-[0_0_5px_rgba(6,182,212,0.5)] whitespace-nowrap')}>情况反馈</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -1857,16 +1856,16 @@ export default function RiskIdentificationPanel({
 
                 {/* 表格区域 */}
                 <div className="flex-1 overflow-auto p-3 bg-gradient-to-b from-slate-900/50 to-transparent">
-                  <table className="w-full table-fixed">
+                  <table className="w-full">
                     <thead className="sticky top-0 bg-slate-900/95 backdrop-blur-sm z-10">
                       <tr className={cn('text-sm border-b border-cyan-500/30', DASHBOARD_STYLES.cardBorder)}>
-                        <th className={cn('text-center py-2 px-2 font-medium w-12 text-cyan-300 drop-shadow-[0_0_5px_rgba(6,182,212,0.5)] whitespace-nowrap')}>序号</th>
-                        <th className={cn('text-left py-2 px-2 font-medium text-cyan-300 drop-shadow-[0_0_5px_rgba(6,182,212,0.5)] whitespace-nowrap')}>项目名称</th>
-                        <th className={cn('text-left py-2 px-2 font-medium hidden lg:table-cell text-cyan-300 drop-shadow-[0_0_5px_rgba(6,182,212,0.5)] whitespace-nowrap w-20')}>大区</th>
-                        <th className={cn('text-left py-2 px-2 font-medium hidden xl:table-cell text-cyan-300 drop-shadow-[0_0_5px_rgba(6,182,212,0.5)] whitespace-nowrap w-20')}>负责人</th>
-                        <th className={cn('text-right py-2 px-2 font-medium text-cyan-300 drop-shadow-[0_0_5px_rgba(6,182,212,0.5)] whitespace-nowrap w-20')}>金额</th>
-                        <th className={cn('text-right py-2 px-2 font-medium text-cyan-300 drop-shadow-[0_0_5px_rgba(6,182,212,0.5)] whitespace-nowrap w-24')}>预计报备</th>
-                        <th className={cn('text-right py-2 px-2 font-medium text-cyan-300 drop-shadow-[0_0_5px_rgba(6,182,212,0.5)] whitespace-nowrap w-16')}>状态</th>
+                        <th className={cn('text-center py-2 px-3 font-medium w-16 text-cyan-300 drop-shadow-[0_0_5px_rgba(6,182,212,0.5)] whitespace-nowrap')}>序号</th>
+                        <th className={cn('text-left py-2 px-3 font-medium text-cyan-300 drop-shadow-[0_0_5px_rgba(6,182,212,0.5)] whitespace-nowrap')}>项目名称</th>
+                        <th className={cn('text-left py-2 px-3 font-medium hidden lg:table-cell text-cyan-300 drop-shadow-[0_0_5px_rgba(6,182,212,0.5)] whitespace-nowrap')}>大区</th>
+                        <th className={cn('text-left py-2 px-3 font-medium hidden md:table-cell text-cyan-300 drop-shadow-[0_0_5px_rgba(6,182,212,0.5)] whitespace-nowrap')}>负责人</th>
+                        <th className={cn('text-right py-2 px-3 font-medium text-cyan-300 drop-shadow-[0_0_5px_rgba(6,182,212,0.5)] whitespace-nowrap')}>金额</th>
+                        <th className={cn('text-right py-2 px-3 font-medium text-cyan-300 drop-shadow-[0_0_5px_rgba(6,182,212,0.5)] whitespace-nowrap')}>预计报备</th>
+                        <th className={cn('text-right py-2 px-3 font-medium text-cyan-300 drop-shadow-[0_0_5px_rgba(6,182,212,0.5)] whitespace-nowrap')}>状态</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -2064,15 +2063,15 @@ export default function RiskIdentificationPanel({
 
                 {/* 表格区域 */}
                 <div className="flex-1 overflow-auto p-3 bg-gradient-to-b from-slate-900/50 to-transparent">
-                  <table className="w-full table-fixed">
+                  <table className="w-full">
                     <thead className="sticky top-0 bg-slate-900/95 backdrop-blur-sm z-10">
-                      <tr className={cn('text-sm border-b border-cyan-500/30', DASHBOARD_STYLES.cardBorder)}>
-                        <th className={cn('text-center py-2 px-2 font-medium w-12 text-cyan-300 drop-shadow-[0_0_5px_rgba(6,182,212,0.5)] whitespace-nowrap')}>序号</th>
-                        <th className={cn('text-left py-2 px-2 font-medium text-cyan-300 drop-shadow-[0_0_5px_rgba(6,182,212,0.5)] whitespace-nowrap')}>项目名称</th>
-                        <th className={cn('text-left py-2 px-2 font-medium hidden lg:table-cell text-cyan-300 drop-shadow-[0_0_5px_rgba(6,182,212,0.5)] whitespace-nowrap w-24')}>当前阶段</th>
-                        <th className={cn('text-left py-2 px-2 font-medium hidden xl:table-cell text-cyan-300 drop-shadow-[0_0_5px_rgba(6,182,212,0.5)] whitespace-nowrap w-20')}>大区</th>
-                        <th className={cn('text-right py-2 px-2 font-medium text-cyan-300 drop-shadow-[0_0_5px_rgba(6,182,212,0.5)] whitespace-nowrap w-16')}>停留天数</th>
-                        <th className={cn('text-right py-2 px-2 font-medium text-cyan-300 drop-shadow-[0_0_5px_rgba(6,182,212,0.5)] whitespace-nowrap w-20')}>金额</th>
+                      <tr className={cn('text-sm border-b border-cyan-500/30', 'border-cyan-500/20')}>
+                        <th className={cn('text-center py-2 px-3 font-medium w-16 text-cyan-300 drop-shadow-[0_0_5px_rgba(6,182,212,0.5)] whitespace-nowrap')}>序号</th>
+                        <th className={cn('text-left py-2 px-3 font-medium text-cyan-300 drop-shadow-[0_0_5px_rgba(6,182,212,0.5)] whitespace-nowrap')}>项目名称</th>
+                        <th className={cn('text-left py-2 px-3 font-medium hidden lg:table-cell text-cyan-300 drop-shadow-[0_0_5px_rgba(6,182,212,0.5)] whitespace-nowrap')}>当前阶段</th>
+                        <th className={cn('text-left py-2 px-3 font-medium hidden md:table-cell text-cyan-300 drop-shadow-[0_0_5px_rgba(6,182,212,0.5)] whitespace-nowrap')}>大区</th>
+                        <th className={cn('text-right py-2 px-3 font-medium text-cyan-300 drop-shadow-[0_0_5px_rgba(6,182,212,0.5)] whitespace-nowrap')}>停留天数</th>
+                        <th className={cn('text-right py-2 px-3 font-medium text-cyan-300 drop-shadow-[0_0_5px_rgba(6,182,212,0.5)] whitespace-nowrap')}>金额</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -2257,16 +2256,16 @@ export default function RiskIdentificationPanel({
 
                 {/* 表格区域 */}
                 <div className="flex-1 overflow-auto p-3 bg-gradient-to-b from-slate-900/50 to-transparent">
-                  <table className="w-full table-fixed">
+                  <table className="w-full">
                     <thead className="sticky top-0 bg-slate-900/95 backdrop-blur-sm z-10">
-                      <tr className={cn('text-sm border-b border-cyan-500/30', DASHBOARD_STYLES.cardBorder)}>
-                        <th className={cn('text-center py-2 px-2 font-medium w-12 text-cyan-300 drop-shadow-[0_0_5px_rgba(6,182,212,0.5)] whitespace-nowrap')}>序号</th>
-                        <th className={cn('text-left py-2 px-2 font-medium text-cyan-300 drop-shadow-[0_0_5px_rgba(6,182,212,0.5)] whitespace-nowrap')}>项目名称</th>
-                        <th className={cn('text-left py-2 px-2 font-medium hidden lg:table-cell text-cyan-300 drop-shadow-[0_0_5px_rgba(6,182,212,0.5)] whitespace-nowrap w-24')}>当前阶段</th>
-                        <th className={cn('text-left py-2 px-2 font-medium hidden xl:table-cell text-cyan-300 drop-shadow-[0_0_5px_rgba(6,182,212,0.5)] whitespace-nowrap w-20')}>大区</th>
-                        <th className={cn('text-right py-2 px-2 font-medium text-cyan-300 drop-shadow-[0_0_5px_rgba(6,182,212,0.5)] whitespace-nowrap w-16')}>停留天数</th>
-                        <th className={cn('text-right py-2 px-2 font-medium text-cyan-300 drop-shadow-[0_0_5px_rgba(6,182,212,0.5)] whitespace-nowrap w-20')}>金额</th>
-                        <th className={cn('text-right py-2 px-2 font-medium text-cyan-300 drop-shadow-[0_0_5px_rgba(6,182,212,0.5)] whitespace-nowrap w-20')}>风险等级</th>
+                      <tr className={cn('text-sm border-b border-cyan-500/30', 'border-cyan-500/20')}>
+                        <th className={cn('text-center py-2 px-3 font-medium w-16 text-cyan-300 drop-shadow-[0_0_5px_rgba(6,182,212,0.5)] whitespace-nowrap')}>序号</th>
+                        <th className={cn('text-left py-2 px-3 font-medium text-cyan-300 drop-shadow-[0_0_5px_rgba(6,182,212,0.5)] whitespace-nowrap')}>项目名称</th>
+                        <th className={cn('text-left py-2 px-3 font-medium hidden lg:table-cell text-cyan-300 drop-shadow-[0_0_5px_rgba(6,182,212,0.5)] whitespace-nowrap')}>当前阶段</th>
+                        <th className={cn('text-left py-2 px-3 font-medium hidden md:table-cell text-cyan-300 drop-shadow-[0_0_5px_rgba(6,182,212,0.5)] whitespace-nowrap')}>大区</th>
+                        <th className={cn('text-right py-2 px-3 font-medium text-cyan-300 drop-shadow-[0_0_5px_rgba(6,182,212,0.5)] whitespace-nowrap')}>停留天数</th>
+                        <th className={cn('text-right py-2 px-3 font-medium text-cyan-300 drop-shadow-[0_0_5px_rgba(6,182,212,0.5)] whitespace-nowrap')}>金额</th>
+                        <th className={cn('text-right py-2 px-3 font-medium text-cyan-300 drop-shadow-[0_0_5px_rgba(6,182,212,0.5)] whitespace-nowrap')}>风险等级</th>
                       </tr>
                     </thead>
                     <tbody>
