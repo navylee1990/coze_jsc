@@ -1113,14 +1113,13 @@ export default function RiskIdentificationPanel({
 
                     {/* 催下单按钮 */}
                     <div className={cn(
-                      'relative rounded-2xl p-3 overflow-hidden cursor-pointer h-full flex flex-col items-center justify-center',
-                      'border-4 border-cyan-600/80',
-                      'bg-gradient-to-br from-cyan-900/40 to-slate-900/60',
-                      'shadow-[0_8px_24px_rgba(0,0,0,0.4),inset_0_1px_0_rgba(255,255,255,0.1)]',
-                      'hover:border-cyan-500',
-                      'hover:shadow-[0_4px_12px_rgba(0,0,0,0.3),inset_0_2px_4px_rgba(6,182,212,0.2)]',
-                      'hover:translate-y-[2px]',
-                      'transition-all duration-150 ease-out'
+                      'relative rounded-xl p-2 overflow-hidden cursor-pointer group h-full flex flex-col items-center justify-center',
+                      'border-2 border-cyan-500/70',
+                      'bg-gradient-to-br from-cyan-900/30 to-blue-900/20',
+                      'hover:from-cyan-900/50 hover:to-blue-900/30',
+                      'shadow-[0_0_30px_rgba(6,182,212,0.5)]',
+                      'hover:shadow-[0_0_40px_rgba(6,182,212,0.7)]',
+                      'transition-all duration-300'
                     )}
                          onClick={() => openDialog({
                            title: '催下单提醒',
@@ -1133,17 +1132,23 @@ export default function RiskIdentificationPanel({
                            },
                            type: 'warning'
                          })}>
-                      {/* 内圈装饰 */}
-                      <div className="absolute inset-2 rounded-xl border border-cyan-500/30"></div>
-                      <div className="absolute inset-4 rounded-lg border border-cyan-400/20"></div>
+                      {/* 按钮发光效果 */}
+                      <div className="absolute inset-0 bg-gradient-to-r from-cyan-500/30 to-blue-500/30 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                      <div className="absolute inset-0 border-2 border-cyan-500/50 rounded-xl animate-pulse"></div>
 
                       <div className="relative z-10 w-full flex flex-col items-center justify-center">
-                        {/* 主图标圆形按钮 */}
-                        <div className="w-12 h-12 rounded-full bg-gradient-to-br from-cyan-500/20 to-cyan-600/10 border-3 border-cyan-500/60 flex items-center justify-center mb-2 shadow-[0_4px_12px_rgba(6,182,212,0.4)]">
-                          <Send className="w-6 h-6 text-cyan-400" />
+                        <div className="flex items-center gap-1.5 mb-1.5">
+                          <div className="w-8 h-8 rounded-full bg-cyan-500/40 border-2 border-cyan-400/60 flex items-center justify-center group-hover:scale-110 transition-transform shadow-[0_0_15px_rgba(6,182,212,0.8)]">
+                            <Send className="w-4 h-4 text-cyan-400 drop-shadow-[0_0_8px_rgba(34,211,238,1)]" />
+                          </div>
+                          <div className="text-base font-black text-cyan-400 drop-shadow-[0_0_12px_rgba(34,211,238,1)]">催下单</div>
                         </div>
-                        <div className="text-sm font-bold text-cyan-300 tracking-wide">催下单</div>
-                        <div className="text-xs text-cyan-400/70 mt-0.5">{filteredUnorderedProjects.length} 个项目</div>
+                        <div className="flex items-center gap-1">
+                          <div className="w-1.5 h-1.5 bg-cyan-400 rounded-full animate-bounce" style={{animationDelay: '0ms'}}></div>
+                          <div className="w-1.5 h-1.5 bg-cyan-400 rounded-full animate-bounce" style={{animationDelay: '150ms'}}></div>
+                          <div className="w-1.5 h-1.5 bg-cyan-400 rounded-full animate-bounce" style={{animationDelay: '300ms'}}></div>
+                          <div className="text-xs text-cyan-300 font-semibold">全部 {filteredUnorderedProjects.length} 个项目</div>
+                        </div>
                       </div>
                     </div>
                   </div>
@@ -1315,14 +1320,13 @@ export default function RiskIdentificationPanel({
 
                 {/* 在线确认按钮 */}
                 <div className={cn(
-                  'relative rounded-2xl p-3 overflow-hidden cursor-pointer h-full flex flex-col items-center justify-center',
-                  'border-4 border-cyan-600/80',
-                  'bg-gradient-to-br from-cyan-900/40 to-slate-900/60',
-                  'shadow-[0_8px_24px_rgba(0,0,0,0.4),inset_0_1px_0_rgba(255,255,255,0.1)]',
-                  'hover:border-cyan-500',
-                  'hover:shadow-[0_4px_12px_rgba(0,0,0,0.3),inset_0_2px_4px_rgba(6,182,212,0.2)]',
-                  'hover:translate-y-[2px]',
-                  'transition-all duration-150 ease-out'
+                  'relative rounded-xl p-2 overflow-hidden cursor-pointer group h-full flex flex-col items-center justify-center',
+                  'border-2 border-cyan-500/70',
+                  'bg-gradient-to-br from-cyan-900/30 to-blue-900/20',
+                  'hover:from-cyan-900/50 hover:to-blue-900/30',
+                  'shadow-[0_0_30px_rgba(6,182,212,0.5)]',
+                  'hover:shadow-[0_0_40px_rgba(6,182,212,0.7)]',
+                  'transition-all duration-300'
                 )}
                      onClick={() => openDialog({
                        title: '在线确认',
@@ -1335,17 +1339,23 @@ export default function RiskIdentificationPanel({
                        },
                        type: 'info'
                      })}>
-                  {/* 内圈装饰 */}
-                  <div className="absolute inset-2 rounded-xl border border-cyan-500/30"></div>
-                  <div className="absolute inset-4 rounded-lg border border-cyan-400/20"></div>
+                  {/* 按钮发光效果 */}
+                  <div className="absolute inset-0 bg-gradient-to-r from-cyan-500/30 to-blue-500/30 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                  <div className="absolute inset-0 border-2 border-cyan-500/50 rounded-xl animate-pulse"></div>
 
                   <div className="relative z-10 w-full flex flex-col items-center justify-center">
-                    {/* 主图标圆形按钮 */}
-                    <div className="w-12 h-12 rounded-full bg-gradient-to-br from-cyan-500/20 to-cyan-600/10 border-3 border-cyan-500/60 flex items-center justify-center mb-2 shadow-[0_4px_12px_rgba(6,182,212,0.4)]">
-                      <Send className="w-6 h-6 text-cyan-400" />
+                    <div className="flex items-center gap-1.5 mb-1.5">
+                      <div className="w-8 h-8 rounded-full bg-cyan-500/40 border-2 border-cyan-400/60 flex items-center justify-center group-hover:scale-110 transition-transform shadow-[0_0_15px_rgba(6,182,212,0.8)]">
+                        <Send className="w-4 h-4 text-cyan-400 drop-shadow-[0_0_8px_rgba(34,211,238,1)]" />
+                      </div>
+                      <div className="text-base font-black text-cyan-400 drop-shadow-[0_0_12px_rgba(34,211,238,1)]">在线确认</div>
                     </div>
-                    <div className="text-sm font-bold text-cyan-300 tracking-wide">在线确认</div>
-                    <div className="text-xs text-cyan-400/70 mt-0.5">{largeProjectDependencies.length} 个项目</div>
+                    <div className="flex items-center gap-1">
+                      <div className="w-1.5 h-1.5 bg-cyan-400 rounded-full animate-bounce" style={{animationDelay: '0ms'}}></div>
+                      <div className="w-1.5 h-1.5 bg-cyan-400 rounded-full animate-bounce" style={{animationDelay: '150ms'}}></div>
+                      <div className="w-1.5 h-1.5 bg-cyan-400 rounded-full animate-bounce" style={{animationDelay: '300ms'}}></div>
+                      <div className="text-xs text-cyan-300 font-semibold">全部 {largeProjectDependencies.length} 个项目</div>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -1520,14 +1530,13 @@ export default function RiskIdentificationPanel({
 
                     {/* 补预测按钮 */}
                     <div className={cn(
-                      'relative rounded-2xl p-3 overflow-hidden cursor-pointer h-full flex flex-col items-center justify-center',
-                      'border-4 border-cyan-600/80',
-                      'bg-gradient-to-br from-cyan-900/40 to-slate-900/60',
-                      'shadow-[0_8px_24px_rgba(0,0,0,0.4),inset_0_1px_0_rgba(255,255,255,0.1)]',
-                      'hover:border-cyan-500',
-                      'hover:shadow-[0_4px_12px_rgba(0,0,0,0.3),inset_0_2px_4px_rgba(6,182,212,0.2)]',
-                      'hover:translate-y-[2px]',
-                      'transition-all duration-150 ease-out'
+                      'relative rounded-xl p-2 overflow-hidden cursor-pointer group h-full flex flex-col items-center justify-center',
+                      'border-2 border-cyan-500/70',
+                      'bg-gradient-to-br from-cyan-900/30 to-blue-900/20',
+                      'hover:from-cyan-900/50 hover:to-blue-900/30',
+                      'shadow-[0_0_30px_rgba(6,182,212,0.5)]',
+                      'hover:shadow-[0_0_40px_rgba(6,182,212,0.7)]',
+                      'transition-all duration-300'
                     )}
                          onClick={() => openDialog({
                            title: '补预测',
@@ -1540,17 +1549,23 @@ export default function RiskIdentificationPanel({
                            },
                            type: 'warning'
                          })}>
-                      {/* 内圈装饰 */}
-                      <div className="absolute inset-2 rounded-xl border border-cyan-500/30"></div>
-                      <div className="absolute inset-4 rounded-lg border border-cyan-400/20"></div>
+                      {/* 按钮发光效果 */}
+                      <div className="absolute inset-0 bg-gradient-to-r from-cyan-500/30 to-blue-500/30 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                      <div className="absolute inset-0 border-2 border-cyan-500/50 rounded-xl animate-pulse"></div>
 
                       <div className="relative z-10 w-full flex flex-col items-center justify-center">
-                        {/* 主图标圆形按钮 */}
-                        <div className="w-12 h-12 rounded-full bg-gradient-to-br from-cyan-500/20 to-cyan-600/10 border-3 border-cyan-500/60 flex items-center justify-center mb-2 shadow-[0_4px_12px_rgba(6,182,212,0.4)]">
-                          <TrendingDown className="w-6 h-6 text-cyan-400" />
+                        <div className="flex items-center gap-1.5 mb-1.5">
+                          <div className="w-8 h-8 rounded-full bg-cyan-500/40 border-2 border-cyan-400/60 flex items-center justify-center group-hover:scale-110 transition-transform shadow-[0_0_15px_rgba(6,182,212,0.8)]">
+                            <TrendingDown className="w-4 h-4 text-cyan-400 drop-shadow-[0_0_8px_rgba(34,211,238,1)]" />
+                          </div>
+                          <div className="text-base font-black text-cyan-400 drop-shadow-[0_0_12px_rgba(34,211,238,1)]">补预测</div>
                         </div>
-                        <div className="text-sm font-bold text-cyan-300 tracking-wide">补预测</div>
-                        <div className="text-xs text-cyan-400/70 mt-0.5">{forecastGaps.length} 个项目</div>
+                        <div className="flex items-center gap-1">
+                          <div className="w-1.5 h-1.5 bg-cyan-400 rounded-full animate-bounce" style={{animationDelay: '0ms'}}></div>
+                          <div className="w-1.5 h-1.5 bg-cyan-400 rounded-full animate-bounce" style={{animationDelay: '150ms'}}></div>
+                          <div className="w-1.5 h-1.5 bg-cyan-400 rounded-full animate-bounce" style={{animationDelay: '300ms'}}></div>
+                          <div className="text-xs text-cyan-300 font-semibold">全部 {forecastGaps.length} 个项目</div>
+                        </div>
                       </div>
                     </div>
                   </div>
@@ -1728,14 +1743,13 @@ export default function RiskIdentificationPanel({
                     {/* 立即上报按钮 */}
                     <div
                       className={cn(
-                        'relative rounded-2xl p-3 overflow-hidden cursor-pointer h-full flex flex-col items-center justify-center',
-                        'border-4 border-cyan-600/80',
-                        'bg-gradient-to-br from-cyan-900/40 to-slate-900/60',
-                        'shadow-[0_8px_24px_rgba(0,0,0,0.4),inset_0_1px_0_rgba(255,255,255,0.1)]',
-                        'hover:border-cyan-500',
-                        'hover:shadow-[0_4px_12px_rgba(0,0,0,0.3),inset_0_2px_4px_rgba(6,182,212,0.2)]',
-                        'hover:translate-y-[2px]',
-                        'transition-all duration-150 ease-out'
+                        'relative rounded-xl p-2 overflow-hidden cursor-pointer group h-full flex flex-col items-center justify-center',
+                        'border-2 border-cyan-500/70',
+                        'bg-gradient-to-br from-cyan-900/30 to-blue-900/20',
+                        'hover:from-cyan-900/50 hover:to-blue-900/30',
+                        'shadow-[0_0_30px_rgba(6,182,212,0.5)]',
+                        'hover:shadow-[0_0_40px_rgba(6,182,212,0.7)]',
+                        'transition-all duration-300'
                       )}
                       onClick={() => openDialog({
                         title: '立即上报',
@@ -1749,17 +1763,22 @@ export default function RiskIdentificationPanel({
                         type: 'info'
                       })}
                     >
-                      {/* 内圈装饰 */}
-                      <div className="absolute inset-2 rounded-xl border border-cyan-500/30"></div>
-                      <div className="absolute inset-4 rounded-lg border border-cyan-400/20"></div>
+                      {/* 按钮发光效果 */}
+                      <div className="absolute inset-0 bg-gradient-to-r from-cyan-500/30 to-blue-500/30 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                      <div className="absolute inset-0 border-2 border-cyan-500/50 rounded-xl animate-pulse"></div>
 
                       <div className="relative z-10 w-full flex flex-col items-center justify-center">
-                        {/* 主图标圆形按钮 */}
-                        <div className="w-12 h-12 rounded-full bg-gradient-to-br from-cyan-500/20 to-cyan-600/10 border-3 border-cyan-500/60 flex items-center justify-center mb-2 shadow-[0_4px_12px_rgba(6,182,212,0.4)]">
-                          <Send className="w-6 h-6 text-cyan-400" />
+                        <div className="flex items-center gap-1.5 mb-1.5">
+                          <div className="w-8 h-8 rounded-full bg-cyan-500/40 border-2 border-cyan-400/60 flex items-center justify-center group-hover:scale-110 transition-transform shadow-[0_0_15px_rgba(6,182,212,0.8)]">
+                            <Send className="w-4 h-4 text-cyan-400 drop-shadow-[0_0_8px_rgba(34,211,238,1)]" />
+                          </div>
+                          <div className="text-base font-black text-cyan-400 drop-shadow-[0_0_12px_rgba(34,211,238,1)]">立即上报</div>
                         </div>
-                        <div className="text-sm font-bold text-cyan-300 tracking-wide">立即上报</div>
-                        <div className="text-xs text-cyan-400/70 mt-0.5">{insufficientReports.reduce((sum, p) => sum + p.gapCount, 0)} 个缺口</div>
+                        <div className="flex items-center gap-1">
+                          <div className="w-1.5 h-1.5 bg-cyan-400 rounded-full animate-bounce" style={{animationDelay: '150ms'}}></div>
+                          <div className="w-1.5 h-1.5 bg-cyan-400 rounded-full animate-bounce" style={{animationDelay: '300ms'}}></div>
+                          <div className="text-xs text-cyan-300 font-semibold">全部 {insufficientReports.reduce((sum, p) => sum + p.gapCount, 0)} 个缺口</div>
+                        </div>
                       </div>
                     </div>
                   </div>
@@ -1923,14 +1942,13 @@ export default function RiskIdentificationPanel({
                     {/* 推进接洽按钮 */}
                     <div
                       className={cn(
-                        'relative rounded-2xl p-3 overflow-hidden cursor-pointer h-full flex flex-col items-center justify-center',
-                        'border-4 border-cyan-600/80',
-                        'bg-gradient-to-br from-cyan-900/40 to-slate-900/60',
-                        'shadow-[0_8px_24px_rgba(0,0,0,0.4),inset_0_1px_0_rgba(255,255,255,0.1)]',
-                        'hover:border-cyan-500',
-                        'hover:shadow-[0_4px_12px_rgba(0,0,0,0.3),inset_0_2px_4px_rgba(6,182,212,0.2)]',
-                        'hover:translate-y-[2px]',
-                        'transition-all duration-150 ease-out'
+                        'relative rounded-xl p-2 overflow-hidden cursor-pointer group h-full flex flex-col items-center justify-center',
+                        'border-2 border-cyan-500/70',
+                        'bg-gradient-to-br from-cyan-900/30 to-blue-900/20',
+                        'hover:from-cyan-900/50 hover:to-blue-900/30',
+                        'shadow-[0_0_30px_rgba(6,182,212,0.5)]',
+                        'hover:shadow-[0_0_40px_rgba(6,182,212,0.7)]',
+                        'transition-all duration-300'
                       )}
                       onClick={() => openDialog({
                         title: '推进接洽',
@@ -1944,17 +1962,23 @@ export default function RiskIdentificationPanel({
                         type: 'info'
                       })}
                     >
-                      {/* 内圈装饰 */}
-                      <div className="absolute inset-2 rounded-xl border border-cyan-500/30"></div>
-                      <div className="absolute inset-4 rounded-lg border border-cyan-400/20"></div>
+                      {/* 按钮发光效果 */}
+                      <div className="absolute inset-0 bg-gradient-to-r from-cyan-500/30 to-blue-500/30 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                      <div className="absolute inset-0 border-2 border-cyan-500/50 rounded-xl animate-pulse"></div>
 
                       <div className="relative z-10 w-full flex flex-col items-center justify-center">
-                        {/* 主图标圆形按钮 */}
-                        <div className="w-12 h-12 rounded-full bg-gradient-to-br from-cyan-500/20 to-cyan-600/10 border-3 border-cyan-500/60 flex items-center justify-center mb-2 shadow-[0_4px_12px_rgba(6,182,212,0.4)]">
-                          <Send className="w-6 h-6 text-cyan-400" />
+                        <div className="flex items-center gap-1.5 mb-1.5">
+                          <div className="w-8 h-8 rounded-full bg-cyan-500/40 border-2 border-cyan-400/60 flex items-center justify-center group-hover:scale-110 transition-transform shadow-[0_0_15px_rgba(6,182,212,0.8)]">
+                            <Send className="w-4 h-4 text-cyan-400 drop-shadow-[0_0_8px_rgba(34,211,238,1)]" />
+                          </div>
+                          <div className="text-base font-black text-cyan-400 drop-shadow-[0_0_12px_rgba(34,211,238,1)]">推进接洽</div>
                         </div>
-                        <div className="text-sm font-bold text-cyan-300 tracking-wide">推进接洽</div>
-                        <div className="text-xs text-cyan-400/70 mt-0.5">{insufficientConversions.reduce((sum, p) => sum + p.uncontactedCount, 0)} 个项目</div>
+                        <div className="flex items-center gap-1">
+                          <div className="w-1.5 h-1.5 bg-cyan-400 rounded-full animate-bounce" style={{animationDelay: '0ms'}}></div>
+                          <div className="w-1.5 h-1.5 bg-cyan-400 rounded-full animate-bounce" style={{animationDelay: '150ms'}}></div>
+                          <div className="w-1.5 h-1.5 bg-cyan-400 rounded-full animate-bounce" style={{animationDelay: '300ms'}}></div>
+                          <div className="text-xs text-cyan-300 font-semibold">全部 {insufficientConversions.reduce((sum, p) => sum + p.uncontactedCount, 0)} 个项目</div>
+                        </div>
                       </div>
                     </div>
                   </div>
@@ -2110,14 +2134,13 @@ export default function RiskIdentificationPanel({
                     {/* 推进处理按钮 */}
                     <div
                       className={cn(
-                        'relative rounded-2xl p-3 overflow-hidden cursor-pointer h-full flex flex-col items-center justify-center',
-                        'border-4 border-cyan-600/80',
-                        'bg-gradient-to-br from-cyan-900/40 to-slate-900/60',
-                        'shadow-[0_8px_24px_rgba(0,0,0,0.4),inset_0_1px_0_rgba(255,255,255,0.1)]',
-                        'hover:border-cyan-500',
-                        'hover:shadow-[0_4px_12px_rgba(0,0,0,0.3),inset_0_2px_4px_rgba(6,182,212,0.2)]',
-                        'hover:translate-y-[2px]',
-                        'transition-all duration-150 ease-out'
+                        'relative rounded-xl p-2 overflow-hidden cursor-pointer group h-full flex flex-col items-center justify-center',
+                        'border-2 border-cyan-500/70',
+                        'bg-gradient-to-br from-cyan-900/30 to-blue-900/20',
+                        'hover:from-cyan-900/50 hover:to-blue-900/30',
+                        'shadow-[0_0_30px_rgba(6,182,212,0.5)]',
+                        'hover:shadow-[0_0_40px_rgba(6,182,212,0.7)]',
+                        'transition-all duration-300'
                       )}
                       onClick={() => openDialog({
                         title: '推进处理',
@@ -2131,17 +2154,23 @@ export default function RiskIdentificationPanel({
                         type: 'info'
                       })}
                     >
-                      {/* 内圈装饰 */}
-                      <div className="absolute inset-2 rounded-xl border border-cyan-500/30"></div>
-                      <div className="absolute inset-4 rounded-lg border border-cyan-400/20"></div>
+                      {/* 按钮发光效果 */}
+                      <div className="absolute inset-0 bg-gradient-to-r from-cyan-500/30 to-blue-500/30 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                      <div className="absolute inset-0 border-2 border-cyan-500/50 rounded-xl animate-pulse"></div>
 
                       <div className="relative z-10 w-full flex flex-col items-center justify-center">
-                        {/* 主图标圆形按钮 */}
-                        <div className="w-12 h-12 rounded-full bg-gradient-to-br from-cyan-500/20 to-cyan-600/10 border-3 border-cyan-500/60 flex items-center justify-center mb-2 shadow-[0_4px_12px_rgba(6,182,212,0.4)]">
-                          <Play className="w-6 h-6 text-cyan-400" />
+                        <div className="flex items-center gap-1.5 mb-1.5">
+                          <div className="w-8 h-8 rounded-full bg-cyan-500/40 border-2 border-cyan-400/60 flex items-center justify-center group-hover:scale-110 transition-transform shadow-[0_0_15px_rgba(6,182,212,0.8)]">
+                            <Play className="w-4 h-4 text-cyan-400 drop-shadow-[0_0_8px_rgba(34,211,238,1)]" />
+                          </div>
+                          <div className="text-base font-black text-cyan-400 drop-shadow-[0_0_12px_rgba(34,211,238,1)]">推进处理</div>
                         </div>
-                        <div className="text-sm font-bold text-cyan-300 tracking-wide">推进处理</div>
-                        <div className="text-xs text-cyan-400/70 mt-0.5">{phaseStagnations.reduce((sum, p) => sum + p.stagnationCount, 0)} 个项目</div>
+                        <div className="flex items-center gap-1">
+                          <div className="w-1.5 h-1.5 bg-cyan-400 rounded-full animate-bounce" style={{animationDelay: '0ms'}}></div>
+                          <div className="w-1.5 h-1.5 bg-cyan-400 rounded-full animate-bounce" style={{animationDelay: '150ms'}}></div>
+                          <div className="w-1.5 h-1.5 bg-cyan-400 rounded-full animate-bounce" style={{animationDelay: '300ms'}}></div>
+                          <div className="text-xs text-cyan-300 font-semibold">全部 {phaseStagnations.reduce((sum, p) => sum + p.stagnationCount, 0)} 个项目</div>
+                        </div>
                       </div>
                     </div>
                   </div>
