@@ -1753,7 +1753,7 @@ export default function RiskIdentificationPanel({
                       )}
                       onClick={() => openDialog({
                         title: '立即上报',
-                        description: `请尽快补充报备项目，当前缺口 ${insufficientReports.reduce((sum, p) => sum + p.gapCount, 0)} 个项目`,
+                        description: '暂无模板内容',
                         confirmText: '确认上报',
                         cancelText: '取消',
                         onConfirm: async () => {
@@ -1952,7 +1952,7 @@ export default function RiskIdentificationPanel({
                       )}
                       onClick={() => openDialog({
                         title: '推进接洽',
-                        description: `请尽快推进未初步接洽项目，当前共有 ${insufficientConversions.reduce((sum, p) => sum + p.uncontactedCount, 0)} 个项目需要跟进`,
+                        description: '暂无模板内容',
                         confirmText: '确认跟进',
                         cancelText: '取消',
                         onConfirm: async () => {
