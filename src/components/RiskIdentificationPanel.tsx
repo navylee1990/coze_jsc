@@ -1539,8 +1539,8 @@ export default function RiskIdentificationPanel({
                     )}
                          onClick={() => openDialog({
                            title: '补预测',
-                           description: `确定要生成预测不足项目的补充预测方案吗？\n\n共 ${forecastGaps.length} 个项目，预计缺口 ${forecastGaps.reduce((sum, p) => sum + p.gapAmount, 0).toFixed(0)} 万元`,
-                           confirmText: '确认生成',
+                           description: `XX 大区经理：您负责的大区X月的预测金额XXX万元无法支撑本月的XXX万元目标金额，请尽快进行补充。【数据来源：企业微信工作台-渠道运营-销售机会（预计下单日期）。更新路径：企业微信工作台-渠道运行-销售机会（预计下单日期、数量、金额）】。您区域预测更新完毕后请反馈本任务单，当前的最新情况。`,
+                           confirmText: '确认发送',
                            cancelText: '取消',
                            onConfirm: async () => {
                              // TODO: 实际的补预测逻辑
