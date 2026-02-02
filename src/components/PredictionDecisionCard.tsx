@@ -815,7 +815,7 @@ export default function PredictionDecisionCard({
                 size={80}
               />
               <div className="mt-1">
-                <div className="text-[8px] sm:text-[10px] font-semibold text-green-400">实际达成率</div>
+                <div className="text-xs sm:text-sm font-semibold text-green-400">实际达成率</div>
                 <div className="text-xs sm:text-sm md:text-base font-black" style={{ color: '#22c55e', textShadow: '0 0 10px rgba(74,222,128,0.8)' }}>
                   {mounted ? Math.round((completed / target) * 100) : 0}%
                 </div>
@@ -831,7 +831,7 @@ export default function PredictionDecisionCard({
                 size={80}
               />
               <div className="mt-1">
-                <div className="text-[10px] sm:text-xs font-semibold text-cyan-300">预计达成率</div>
+                <div className="text-xs sm:text-sm font-semibold text-cyan-300">预计达成率</div>
                 <div className="text-sm sm:text-lg font-black" style={{ color: '#22d3ee', textShadow: '0 0 10px rgba(34,211,238,0.8)' }}>
                   {mounted ? Math.round((forecast / target) * 100) : 0}%
                 </div>
