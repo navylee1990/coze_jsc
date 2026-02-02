@@ -134,6 +134,7 @@ interface LargeProjectDependency {
 // 5. 未按计划下单数据
 interface UnorderedProject {
   id: number;
+  projectCode?: string; // 项目编号
   name: string; // 项目名称
   amount: number; // 金额
   probability: 'high' | 'medium' | 'low'; // 成交概率
@@ -146,6 +147,7 @@ interface UnorderedProject {
   expectedOrderDate: string; // 预计下单时间
   delayDays?: number; // 延迟天数
   riskReason: string; // 未下单原因
+  feedback?: string; // 情况反馈
 }
 
 // 6. 预测不足数据
@@ -391,6 +393,7 @@ const defaultPhaseStagnations: PhaseStagnation[] = [
 const defaultUnorderedProjects: UnorderedProject[] = [
   {
     id: 1,
+    projectCode: 'P202601001',
     name: '扬州万达广场租赁项目',
     amount: 25.5,
     probability: 'medium',
@@ -402,10 +405,12 @@ const defaultUnorderedProjects: UnorderedProject[] = [
     detail: '商业广场租赁服务',
     expectedOrderDate: '2026/1/15',
     delayDays: 3,
-    riskReason: '合同条款待确认'
+    riskReason: '合同条款待确认',
+    feedback: '预计本周内完成合同确认'
   },
   {
     id: 2,
+    projectCode: 'P202601002',
     name: '天津天河城净水项目',
     amount: 100,
     probability: 'high',
@@ -417,10 +422,12 @@ const defaultUnorderedProjects: UnorderedProject[] = [
     detail: '商业综合体净水系统',
     expectedOrderDate: '2026/1/20',
     delayDays: 15,
-    riskReason: '客户需求变更，方案需调整'
+    riskReason: '客户需求变更，方案需调整',
+    feedback: '正在根据新需求调整方案'
   },
   {
     id: 3,
+    projectCode: 'P202601003',
     name: '广州白云机场航站楼项目',
     amount: 80,
     probability: 'high',
@@ -432,10 +439,12 @@ const defaultUnorderedProjects: UnorderedProject[] = [
     detail: '机场航站楼净化系统',
     expectedOrderDate: '2026/1/25',
     delayDays: 8,
-    riskReason: '商务合同待审批'
+    riskReason: '商务合同待审批',
+    feedback: '合同已提交审批流程'
   },
   {
     id: 4,
+    projectCode: 'P202602001',
     name: '北京大兴国际机场配套项目',
     amount: 60,
     probability: 'medium',
@@ -447,10 +456,12 @@ const defaultUnorderedProjects: UnorderedProject[] = [
     detail: '机场配套设施净化系统',
     expectedOrderDate: '2026/2/1',
     delayDays: 20,
-    riskReason: '客户决策延迟，商务谈判暂停'
+    riskReason: '客户决策延迟，商务谈判暂停',
+    feedback: '等待客户高层决策'
   },
   {
     id: 5,
+    projectCode: 'P202602002',
     name: '重庆环球金融中心项目',
     amount: 150,
     probability: 'medium',
@@ -462,10 +473,12 @@ const defaultUnorderedProjects: UnorderedProject[] = [
     detail: '商业中心净化系统',
     expectedOrderDate: '2026/2/10',
     delayDays: 12,
-    riskReason: '客户决策延迟，商务谈判暂停'
+    riskReason: '客户决策延迟，商务谈判暂停',
+    feedback: '计划下周重新启动谈判'
   },
   {
     id: 6,
+    projectCode: 'P202602003',
     name: '杭州阿里巴巴园区项目',
     amount: 130,
     probability: 'low',
@@ -477,10 +490,12 @@ const defaultUnorderedProjects: UnorderedProject[] = [
     detail: '企业园区净水设备',
     expectedOrderDate: '2026/2/15',
     delayDays: 8,
-    riskReason: '需求变更延迟'
+    riskReason: '需求变更延迟',
+    feedback: '正在协调内部资源'
   },
   {
     id: 7,
+    projectCode: 'P202603001',
     name: '上海浦东国际博览中心项目',
     amount: 40,
     probability: 'low',
@@ -492,10 +507,12 @@ const defaultUnorderedProjects: UnorderedProject[] = [
     detail: '展览中心净水设备',
     expectedOrderDate: '2026/3/1',
     delayDays: 5,
-    riskReason: '项目风险较高，客户资金链紧张'
+    riskReason: '项目风险较高，客户资金链紧张',
+    feedback: '需评估风险后决定是否继续'
   },
   {
     id: 8,
+    projectCode: 'P202603002',
     name: '深圳前海自贸区综合项目',
     amount: 20,
     probability: 'medium',
@@ -507,7 +524,8 @@ const defaultUnorderedProjects: UnorderedProject[] = [
     detail: '自贸区综合项目净水系统',
     expectedOrderDate: '2026/3/5',
     delayDays: 10,
-    riskReason: '项目未最终确认，处于意向阶段'
+    riskReason: '项目未最终确认，处于意向阶段',
+    feedback: '待客户确认项目可行性'
   }
 ];
 
@@ -1208,11 +1226,13 @@ export default function RiskIdentificationPanel({
                     <thead className="sticky top-0 bg-slate-900/95 backdrop-blur-sm z-10">
                       <tr className={cn('text-sm border-b border-cyan-500/30', DASHBOARD_STYLES.cardBorder)}>
                         <th className={cn('text-center py-2 px-3 font-medium w-16 text-cyan-300 drop-shadow-[0_0_5px_rgba(6,182,212,0.5)]')}>序号</th>
-                        <th className={cn('text-left py-2 px-3 font-medium text-cyan-300 drop-shadow-[0_0_5px_rgba(6,182,212,0.5)]')}>预计下单</th>
-                        <th className={cn('text-left py-2 px-3 font-medium text-cyan-300 drop-shadow-[0_0_5px_rgba(6,182,212,0.5)]')}>项目名称</th>
                         <th className={cn('text-left py-2 px-3 font-medium hidden lg:table-cell text-cyan-300 drop-shadow-[0_0_5px_rgba(6,182,212,0.5)]')}>大区</th>
-                        <th className={cn('text-left py-2 px-3 font-medium hidden md:table-cell text-cyan-300 drop-shadow-[0_0_5px_rgba(6,182,212,0.5)]')}>销售</th>
+                        <th className={cn('text-left py-2 px-3 font-medium hidden md:table-cell text-cyan-300 drop-shadow-[0_0_5px_rgba(6,182,212,0.5)]')}>项目编号</th>
+                        <th className={cn('text-left py-2 px-3 font-medium text-cyan-300 drop-shadow-[0_0_5px_rgba(6,182,212,0.5)]')}>项目名称</th>
+                        <th className={cn('text-left py-2 px-3 font-medium text-cyan-300 drop-shadow-[0_0_5px_rgba(6,182,212,0.5)]')}>预计下单</th>
+                        <th className={cn('text-left py-2 px-3 font-medium hidden md:table-cell text-cyan-300 drop-shadow-[0_0_5px_rgba(6,182,212,0.5)]')}>销售（工程师）</th>
                         <th className={cn('text-right py-2 px-3 font-medium text-cyan-300 drop-shadow-[0_0_5px_rgba(6,182,212,0.5)]')}>金额</th>
+                        <th className={cn('text-left py-2 px-3 font-medium text-cyan-300 drop-shadow-[0_0_5px_rgba(6,182,212,0.5)]')}>情况反馈</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -1231,12 +1251,14 @@ export default function RiskIdentificationPanel({
                             </div>
                           </td>
 
-                          {/* 预计下单时间 */}
-                          <td className={cn('py-2 px-3 text-sm whitespace-nowrap text-cyan-200 align-middle')}>
-                            <div className="flex items-center gap-1.5">
-                              <Clock className="w-3 h-3 text-cyan-400/70" />
-                              {item.expectedOrderDate || '-'}
-                            </div>
+                          {/* 大区 */}
+                          <td className={cn('hidden lg:table-cell py-2 px-3 text-sm text-cyan-200 align-middle')}>
+                            {item.region || '-'}
+                          </td>
+
+                          {/* 项目编号 */}
+                          <td className={cn('hidden md:table-cell py-2 px-3 text-sm text-cyan-200 align-middle')}>
+                            <span className="text-cyan-300/80 font-mono text-xs">{item.projectCode || '-'}</span>
                           </td>
 
                           {/* 项目名称 */}
@@ -1244,9 +1266,12 @@ export default function RiskIdentificationPanel({
                             <div className="font-medium leading-snug text-cyan-100">{item.name}</div>
                           </td>
 
-                          {/* 大区 */}
-                          <td className={cn('hidden lg:table-cell py-2 px-3 text-sm text-cyan-200 align-middle')}>
-                            {item.region || '-'}
+                          {/* 预计下单时间 */}
+                          <td className={cn('py-2 px-3 text-sm whitespace-nowrap text-cyan-200 align-middle')}>
+                            <div className="flex items-center gap-1.5">
+                              <Clock className="w-3 h-3 text-cyan-400/70" />
+                              {item.expectedOrderDate || '-'}
+                            </div>
                           </td>
 
                           {/* 销售工程师 */}
@@ -1260,6 +1285,16 @@ export default function RiskIdentificationPanel({
                               {item.amount.toFixed(2)}
                             </span>
                             <span className={cn('text-sm ml-1 text-cyan-300/70')}>万</span>
+                          </td>
+
+                          {/* 情况反馈 */}
+                          <td className={cn('text-left py-2 px-3 text-sm text-cyan-200 align-middle max-w-[200px]')}>
+                            <span
+                              className="text-cyan-300/90 text-xs block truncate"
+                              title={item.feedback || '-'}
+                            >
+                              {item.feedback || '-'}
+                            </span>
                           </td>
                         </tr>
                       ))}
