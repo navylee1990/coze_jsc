@@ -1240,7 +1240,7 @@ export default function RiskIdentificationPanel({
                         <tr
                           key={index}
                           className={cn(
-                            'align-middle border-b border-cyan-500/10 hover:bg-gradient-to-r hover:from-cyan-500/10 hover:to-blue-500/10 transition-all duration-200',
+                            'align-middle border-b border-cyan-500/10 hover:bg-gradient-to-r hover:from-cyan-500/10 hover:to-blue-500/10 transition-all duration-200 h-[44px]',
                             index === getPaginatedUnorderedProjects().length - 1 && 'border-b-0'
                           )}
                         >
@@ -1448,7 +1448,7 @@ export default function RiskIdentificationPanel({
                         <tr
                           key={index}
                           className={cn(
-                            'align-middle border-b border-cyan-500/10 hover:bg-gradient-to-r hover:from-cyan-500/10 hover:to-cyan-500/5 transition-all duration-200',
+                            'align-middle border-b border-cyan-500/10 hover:bg-gradient-to-r hover:from-cyan-500/10 hover:to-cyan-500/5 transition-all duration-200 h-[44px]',
                             index === getPaginatedLargeProjectDependencies().length - 1 && 'border-b-0'
                           )}
                         >
@@ -1658,7 +1658,7 @@ export default function RiskIdentificationPanel({
                         <tr
                           key={index}
                           className={cn(
-                            'align-middle border-b border-cyan-500/10 hover:bg-gradient-to-r hover:from-cyan-500/10 hover:to-blue-500/10 transition-all duration-200',
+                            'align-middle border-b border-cyan-500/10 hover:bg-gradient-to-r hover:from-cyan-500/10 hover:to-blue-500/10 transition-all duration-200 h-[44px]',
                             index === getPaginatedForecastGaps().length - 1 && 'border-b-0'
                           )}
                         >
@@ -1873,7 +1873,7 @@ export default function RiskIdentificationPanel({
                         <tr
                           key={index}
                           className={cn(
-                            'align-middle border-b border-cyan-500/10 hover:bg-gradient-to-r hover:from-cyan-500/10 hover:to-blue-500/10 transition-all duration-200',
+                            'align-middle border-b border-cyan-500/10 hover:bg-gradient-to-r hover:from-cyan-500/10 hover:to-blue-500/10 transition-all duration-200 h-[44px]',
                             index === getPaginatedInsufficientReports().length - 1 && 'border-b-0'
                           )}
                         >
@@ -2079,7 +2079,7 @@ export default function RiskIdentificationPanel({
                         <tr
                           key={index}
                           className={cn(
-                            'align-middle border-b border-cyan-500/10 hover:bg-gradient-to-r hover:from-cyan-500/10 hover:to-blue-500/10 transition-all duration-200',
+                            'align-middle border-b border-cyan-500/10 hover:bg-gradient-to-r hover:from-cyan-500/10 hover:to-blue-500/10 transition-all duration-200 h-[44px]',
                             index === getPaginatedInsufficientConversions().length - 1 && 'border-b-0'
                           )}
                         >
@@ -2273,7 +2273,7 @@ export default function RiskIdentificationPanel({
                         <tr
                           key={index}
                           className={cn(
-                            'align-middle border-b border-cyan-500/10 hover:bg-gradient-to-r hover:from-cyan-500/10 hover:to-blue-500/10 transition-all duration-200',
+                            'align-middle border-b border-cyan-500/10 hover:bg-gradient-to-r hover:from-cyan-500/10 hover:to-blue-500/10 transition-all duration-200 h-[44px]',
                             index === getPaginatedPhaseStagnations().length - 1 && 'border-b-0'
                           )}
                         >
