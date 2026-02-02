@@ -1128,7 +1128,7 @@ export default function RiskIdentificationPanel({
                           <div className="text-xs font-bold text-cyan-300">项目数量</div>
                         </div>
                         <div className="flex items-baseline gap-1">
-                          <span className="text-3xl font-black text-cyan-400 drop-shadow-[0_0_15px_rgba(6,182,212,1)]">
+                          <span className="text-2xl font-black text-cyan-400 drop-shadow-[0_0_15px_rgba(6,182,212,1)]">
                             {filteredUnorderedProjects.length}
                           </span>
                           <span className="text-xs text-cyan-300/80">个</span>
@@ -1150,7 +1150,7 @@ export default function RiskIdentificationPanel({
                           <div className="text-xs font-bold text-cyan-300">总金额</div>
                         </div>
                         <div className="flex items-baseline gap-1">
-                          <span className="text-3xl font-black text-cyan-400 drop-shadow-[0_0_15px_rgba(34,211,238,1)]">
+                          <span className="text-2xl font-black text-cyan-400 drop-shadow-[0_0_15px_rgba(34,211,238,1)]">
                             {filteredUnorderedProjects.reduce((sum, p) => sum + p.amount, 0).toFixed(0)}
                           </span>
                           <span className="text-xs text-cyan-300/80">万</span>
@@ -1188,7 +1188,7 @@ export default function RiskIdentificationPanel({
                           <div className="w-8 h-8 rounded-full bg-cyan-500/40 border-2 border-cyan-400/60 flex items-center justify-center group-hover:scale-110 transition-transform shadow-[0_0_15px_rgba(6,182,212,0.8)]">
                             <Send className="w-4 h-4 text-cyan-400 drop-shadow-[0_0_8px_rgba(34,211,238,1)]" />
                           </div>
-                          <div className="text-base font-black text-cyan-400 drop-shadow-[0_0_12px_rgba(34,211,238,1)]">催下单</div>
+                          <div className="text-xl font-black text-cyan-400 drop-shadow-[0_0_12px_rgba(34,211,238,1)]">催下单</div>
                         </div>
                         <div className="flex items-center gap-1">
                           <div className="w-1.5 h-1.5 bg-cyan-400 rounded-full animate-bounce" style={{animationDelay: '0ms'}}></div>
@@ -1319,7 +1319,7 @@ export default function RiskIdentificationPanel({
                       <div className="text-xs font-bold text-cyan-300">大项目数</div>
                     </div>
                     <div className="flex items-baseline gap-1">
-                      <span className="text-3xl font-black text-cyan-400 drop-shadow-[0_0_15px_rgba(34,211,238,1)]">
+                      <span className="text-2xl font-black text-cyan-400 drop-shadow-[0_0_15px_rgba(34,211,238,1)]">
                         {largeProjectDependencies.length}
                       </span>
                       <span className="text-xs text-cyan-300/80">个</span>
@@ -1341,7 +1341,7 @@ export default function RiskIdentificationPanel({
                       <div className="text-xs font-bold text-cyan-300">总金额</div>
                     </div>
                     <div className="flex items-baseline gap-1">
-                      <span className="text-3xl font-black text-cyan-400 drop-shadow-[0_0_15px_rgba(34,211,238,1)]">
+                      <span className="text-2xl font-black text-cyan-400 drop-shadow-[0_0_15px_rgba(34,211,238,1)]">
                         {largeProjectDependencies.reduce((sum, p) => sum + p.amount, 0).toFixed(0)}
                       </span>
                       <span className="text-xs text-cyan-300/80">万</span>
@@ -1379,7 +1379,7 @@ export default function RiskIdentificationPanel({
                       <div className="w-8 h-8 rounded-full bg-cyan-500/40 border-2 border-cyan-400/60 flex items-center justify-center group-hover:scale-110 transition-transform shadow-[0_0_15px_rgba(6,182,212,0.8)]">
                         <Send className="w-4 h-4 text-cyan-400 drop-shadow-[0_0_8px_rgba(34,211,238,1)]" />
                       </div>
-                      <div className="text-base font-black text-cyan-400 drop-shadow-[0_0_12px_rgba(34,211,238,1)]">在线确认</div>
+                      <div className="text-xl font-black text-cyan-400 drop-shadow-[0_0_12px_rgba(34,211,238,1)]">在线确认</div>
                     </div>
                     <div className="flex items-center gap-1">
                       <div className="w-1.5 h-1.5 bg-cyan-400 rounded-full animate-bounce" style={{animationDelay: '0ms'}}></div>
@@ -1497,7 +1497,7 @@ export default function RiskIdentificationPanel({
                           <div className="text-xs font-bold text-cyan-300">预计缺口金额</div>
                         </div>
                         <div className="flex items-baseline gap-1">
-                          <span className="text-3xl font-black text-cyan-400 drop-shadow-[0_0_15px_rgba(34,211,238,1)]">
+                          <span className="text-2xl font-black text-cyan-400 drop-shadow-[0_0_15px_rgba(34,211,238,1)]">
                             {forecastGaps.reduce((sum, p) => sum + p.gapAmount, 0).toFixed(0)}
                           </span>
                           <span className="text-xs text-cyan-300/80">万</span>
@@ -1519,7 +1519,7 @@ export default function RiskIdentificationPanel({
                           <div className="text-xs font-bold text-cyan-300">缺口数量</div>
                         </div>
                         <div className="flex items-baseline gap-1">
-                          <span className="text-3xl font-black text-cyan-400 drop-shadow-[0_0_15px_rgba(34,211,238,1)]">
+                          <span className="text-2xl font-black text-cyan-400 drop-shadow-[0_0_15px_rgba(34,211,238,1)]">
                             {forecastGaps.length}
                           </span>
                           <span className="text-xs text-cyan-300/80">个</span>
@@ -1557,7 +1557,7 @@ export default function RiskIdentificationPanel({
                           <div className="w-8 h-8 rounded-full bg-cyan-500/40 border-2 border-cyan-400/60 flex items-center justify-center group-hover:scale-110 transition-transform shadow-[0_0_15px_rgba(6,182,212,0.8)]">
                             <TrendingDown className="w-4 h-4 text-cyan-400 drop-shadow-[0_0_8px_rgba(34,211,238,1)]" />
                           </div>
-                          <div className="text-base font-black text-cyan-400 drop-shadow-[0_0_12px_rgba(34,211,238,1)]">补预测</div>
+                          <div className="text-xl font-black text-cyan-400 drop-shadow-[0_0_12px_rgba(34,211,238,1)]">补预测</div>
                         </div>
                         <div className="flex items-center gap-1">
                           <div className="w-1.5 h-1.5 bg-cyan-400 rounded-full animate-bounce" style={{animationDelay: '0ms'}}></div>
@@ -1701,7 +1701,7 @@ export default function RiskIdentificationPanel({
                           <div className="text-xs font-bold text-cyan-300">待报备项目数</div>
                         </div>
                         <div className="flex items-baseline gap-1">
-                          <span className="text-3xl font-black text-cyan-400 drop-shadow-[0_0_15px_rgba(34,211,238,1)]">
+                          <span className="text-2xl font-black text-cyan-400 drop-shadow-[0_0_15px_rgba(34,211,238,1)]">
                             {insufficientReports.length}
                           </span>
                           <span className="text-xs text-cyan-300/80">个</span>
@@ -1723,7 +1723,7 @@ export default function RiskIdentificationPanel({
                           <div className="text-xs font-bold text-cyan-300">总金额</div>
                         </div>
                         <div className="flex items-baseline gap-1">
-                          <span className="text-3xl font-black text-cyan-400 drop-shadow-[0_0_15px_rgba(34,211,238,1)]">
+                          <span className="text-2xl font-black text-cyan-400 drop-shadow-[0_0_15px_rgba(34,211,238,1)]">
                             {insufficientReports.reduce((sum, p) => sum + p.amount, 0).toFixed(0)}
                           </span>
                           <span className="text-xs text-cyan-300/80">万</span>
@@ -1747,7 +1747,7 @@ export default function RiskIdentificationPanel({
                             <div className="w-8 h-8 rounded-full bg-purple-500/40 border-2 border-purple-400/60 flex items-center justify-center shadow-[0_0_15px_rgba(168,85,247,0.8)]">
                               <AlertTriangle className="w-4 h-4 text-purple-400 drop-shadow-[0_0_8px_rgba(168,85,247,1)]" />
                             </div>
-                            <div className="text-base font-black text-purple-400 drop-shadow-[0_0_12px_rgba(192,132,252,1)]">月度闭环</div>
+                            <div className="text-xl font-black text-purple-400 drop-shadow-[0_0_12px_rgba(192,132,252,1)]">月度闭环</div>
                           </div>
                           <div className="flex items-center gap-1">
                             <div className="w-1.5 h-1.5 bg-purple-400 rounded-full"></div>
@@ -1788,7 +1788,7 @@ export default function RiskIdentificationPanel({
                             <div className="w-8 h-8 rounded-full bg-cyan-500/40 border-2 border-cyan-400/60 flex items-center justify-center group-hover:scale-110 transition-transform shadow-[0_0_15px_rgba(6,182,212,0.8)]">
                               <Send className="w-4 h-4 text-cyan-400 drop-shadow-[0_0_8px_rgba(34,211,238,1)]" />
                             </div>
-                            <div className="text-base font-black text-cyan-400 drop-shadow-[0_0_12px_rgba(34,211,238,1)]">立即上报</div>
+                            <div className="text-xl font-black text-cyan-400 drop-shadow-[0_0_12px_rgba(34,211,238,1)]">立即上报</div>
                           </div>
                           <div className="flex items-center gap-1">
                             <div className="w-1.5 h-1.5 bg-cyan-400 rounded-full animate-bounce" style={{animationDelay: '150ms'}}></div>
@@ -1933,7 +1933,7 @@ export default function RiskIdentificationPanel({
                           <div className="text-xs font-bold text-cyan-300">待转化项目数</div>
                         </div>
                         <div className="flex items-baseline gap-1">
-                          <span className="text-3xl font-black text-cyan-400 drop-shadow-[0_0_15px_rgba(34,211,238,1)]">
+                          <span className="text-2xl font-black text-cyan-400 drop-shadow-[0_0_15px_rgba(34,211,238,1)]">
                             {insufficientConversions.length}
                           </span>
                           <span className="text-xs text-cyan-300/80">个</span>
@@ -1955,7 +1955,7 @@ export default function RiskIdentificationPanel({
                           <div className="text-xs font-bold text-cyan-300">总金额</div>
                         </div>
                         <div className="flex items-baseline gap-1">
-                          <span className="text-3xl font-black text-cyan-400 drop-shadow-[0_0_15px_rgba(34,211,238,1)]">
+                          <span className="text-2xl font-black text-cyan-400 drop-shadow-[0_0_15px_rgba(34,211,238,1)]">
                             {insufficientConversions.reduce((sum, p) => sum + p.amount, 0).toFixed(0)}
                           </span>
                           <span className="text-xs text-cyan-300/80">万</span>
@@ -1979,7 +1979,7 @@ export default function RiskIdentificationPanel({
                             <div className="w-8 h-8 rounded-full bg-cyan-500/40 border-2 border-cyan-400/60 flex items-center justify-center shadow-[0_0_15px_rgba(6,182,212,0.8)]">
                               <AlertTriangle className="w-4 h-4 text-cyan-400 drop-shadow-[0_0_8px_rgba(34,211,238,1)]" />
                             </div>
-                            <div className="text-base font-black text-cyan-400 drop-shadow-[0_0_12px_rgba(34,211,238,1)]">月度闭环</div>
+                            <div className="text-xl font-black text-cyan-400 drop-shadow-[0_0_12px_rgba(34,211,238,1)]">月度闭环</div>
                           </div>
                           <div className="flex items-center gap-1">
                             <div className="w-1.5 h-1.5 bg-pink-400 rounded-full"></div>
@@ -2020,7 +2020,7 @@ export default function RiskIdentificationPanel({
                             <div className="w-8 h-8 rounded-full bg-cyan-500/40 border-2 border-cyan-400/60 flex items-center justify-center group-hover:scale-110 transition-transform shadow-[0_0_15px_rgba(6,182,212,0.8)]">
                               <Send className="w-4 h-4 text-cyan-400 drop-shadow-[0_0_8px_rgba(34,211,238,1)]" />
                             </div>
-                            <div className="text-base font-black text-cyan-400 drop-shadow-[0_0_12px_rgba(34,211,238,1)]">立即跟进</div>
+                            <div className="text-xl font-black text-cyan-400 drop-shadow-[0_0_12px_rgba(34,211,238,1)]">立即跟进</div>
                           </div>
                           <div className="flex items-center gap-1">
                             <div className="w-1.5 h-1.5 bg-cyan-400 rounded-full animate-bounce" style={{animationDelay: '0ms'}}></div>
@@ -2152,7 +2152,7 @@ export default function RiskIdentificationPanel({
                           <div className="text-xs font-bold text-cyan-300">停滞项目数</div>
                         </div>
                         <div className="flex items-baseline gap-1">
-                          <span className="text-3xl font-black text-cyan-400 drop-shadow-[0_0_15px_rgba(34,211,238,1)]">
+                          <span className="text-2xl font-black text-cyan-400 drop-shadow-[0_0_15px_rgba(34,211,238,1)]">
                             {phaseStagnations.length}
                           </span>
                           <span className="text-xs text-cyan-300/80">个</span>
@@ -2174,7 +2174,7 @@ export default function RiskIdentificationPanel({
                           <div className="text-xs font-bold text-cyan-300">总金额</div>
                         </div>
                         <div className="flex items-baseline gap-1">
-                          <span className="text-3xl font-black text-cyan-400 drop-shadow-[0_0_15px_rgba(34,211,238,1)]">
+                          <span className="text-2xl font-black text-cyan-400 drop-shadow-[0_0_15px_rgba(34,211,238,1)]">
                             {phaseStagnations.reduce((sum, p) => sum + p.amount, 0).toFixed(0)}
                           </span>
                           <span className="text-xs text-cyan-300/80">万</span>
@@ -2198,7 +2198,7 @@ export default function RiskIdentificationPanel({
                             <div className="w-8 h-8 rounded-full bg-cyan-500/40 border-2 border-cyan-400/60 flex items-center justify-center shadow-[0_0_15px_rgba(6,182,212,0.8)]">
                               <AlertTriangle className="w-4 h-4 text-cyan-400 drop-shadow-[0_0_8px_rgba(34,211,238,1)]" />
                             </div>
-                            <div className="text-base font-black text-cyan-400 drop-shadow-[0_0_12px_rgba(34,211,238,1)]">月度闭环</div>
+                            <div className="text-xl font-black text-cyan-400 drop-shadow-[0_0_12px_rgba(34,211,238,1)]">月度闭环</div>
                           </div>
                           <div className="flex items-center gap-1">
                             <div className="w-1.5 h-1.5 bg-cyan-400 rounded-full"></div>
@@ -2239,7 +2239,7 @@ export default function RiskIdentificationPanel({
                             <div className="w-8 h-8 rounded-full bg-cyan-500/40 border-2 border-cyan-400/60 flex items-center justify-center group-hover:scale-110 transition-transform shadow-[0_0_15px_rgba(6,182,212,0.8)]">
                               <Play className="w-4 h-4 text-cyan-400 drop-shadow-[0_0_8px_rgba(34,211,238,1)]" />
                             </div>
-                            <div className="text-base font-black text-cyan-400 drop-shadow-[0_0_12px_rgba(34,211,238,1)]">推进处理</div>
+                            <div className="text-xl font-black text-cyan-400 drop-shadow-[0_0_12px_rgba(34,211,238,1)]">推进处理</div>
                           </div>
                           <div className="flex items-center gap-1">
                             <div className="w-1.5 h-1.5 bg-cyan-400 rounded-full animate-bounce" style={{animationDelay: '0ms'}}></div>
