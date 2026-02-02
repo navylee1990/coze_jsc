@@ -1433,13 +1433,14 @@ export default function RiskIdentificationPanel({
                   <table className="w-full">
                     <thead className="sticky top-0 bg-slate-900/95 backdrop-blur-sm z-10">
                       <tr className={cn('text-sm border-b border-cyan-500/30', DASHBOARD_STYLES.cardBorder)}>
-                        <th className={cn('text-center py-2 px-3 font-medium text-cyan-300 drop-shadow-[0_0_5px_rgba(6,182,212,0.5)] whitespace-nowrap')}>序号</th>
+                        <th className={cn('text-center py-2 px-3 font-medium w-16 text-cyan-300 drop-shadow-[0_0_5px_rgba(6,182,212,0.5)] whitespace-nowrap')}>序号</th>
+                        <th className={cn('text-left py-2 px-3 font-medium hidden lg:table-cell text-cyan-300 drop-shadow-[0_0_5px_rgba(6,182,212,0.5)] whitespace-nowrap')}>大区</th>
+                        <th className={cn('text-left py-2 px-3 font-medium hidden md:table-cell text-cyan-300 drop-shadow-[0_0_5px_rgba(6,182,212,0.5)] whitespace-nowrap')}>项目编号</th>
                         <th className={cn('text-left py-2 px-3 font-medium text-cyan-300 drop-shadow-[0_0_5px_rgba(6,182,212,0.5)] whitespace-nowrap')}>项目名称</th>
-                        <th className={cn('text-left py-2 px-3 font-medium text-cyan-300 drop-shadow-[0_0_5px_rgba(6,182,212,0.5)] whitespace-nowrap')}>金额</th>
-                        <th className={cn('text-left py-2 px-3 font-medium text-cyan-300 drop-shadow-[0_0_5px_rgba(6,182,212,0.5)] whitespace-nowrap')}>预测金额</th>
-                        <th className={cn('text-left py-2 px-3 font-medium text-cyan-300 drop-shadow-[0_0_5px_rgba(6,182,212,0.5)] whitespace-nowrap')}>占比</th>
-                        <th className={cn('text-left py-2 px-3 font-medium text-cyan-300 drop-shadow-[0_0_5px_rgba(6,182,212,0.5)] whitespace-nowrap')}>区域</th>
-                        <th className={cn('text-left py-2 px-3 font-medium text-cyan-300 drop-shadow-[0_0_5px_rgba(6,182,212,0.5)] whitespace-nowrap')}>负责人</th>
+                        <th className={cn('text-left py-2 px-3 font-medium hidden md:table-cell text-cyan-300 drop-shadow-[0_0_5px_rgba(6,182,212,0.5)] whitespace-nowrap')}>销售（工程师）</th>
+                        <th className={cn('text-right py-2 px-3 font-medium text-cyan-300 drop-shadow-[0_0_5px_rgba(6,182,212,0.5)] whitespace-nowrap')}>金额</th>
+                        <th className={cn('text-right py-2 px-3 font-medium text-cyan-300 drop-shadow-[0_0_5px_rgba(6,182,212,0.5)] whitespace-nowrap')}>占总预测%</th>
+                        <th className={cn('text-left py-2 px-3 font-medium text-cyan-300 drop-shadow-[0_0_5px_rgba(6,182,212,0.5)] whitespace-nowrap')}>情况反馈</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -1457,12 +1458,28 @@ export default function RiskIdentificationPanel({
                               {(currentPage - 1) * 5 + index + 1}
                             </div>
                           </td>
+                          {/* 大区 */}
+                          <td className={cn('hidden lg:table-cell py-2 px-3 text-sm text-cyan-200 align-middle')}>
+                            {item.region || '-'}
+                          </td>
+                          {/* 项目编号 */}
+                          <td className={cn('hidden md:table-cell py-2 px-3 text-sm text-cyan-200 align-middle')}>
+                            {item.projectId || '-'}
+                          </td>
+                          {/* 项目名称 */}
                           <td className={cn('py-2 px-3 text-sm', DASHBOARD_STYLES.textSecondary, 'align-middle')}>
                             <div className="font-medium leading-snug text-cyan-100 whitespace-nowrap" title={item.projectName}>{item.projectName}</div>
                           </td>
-                          <td className={cn('py-2 px-3 text-sm text-cyan-200 align-middle')}>{item.amount.toFixed(0)}万</td>
-                          <td className={cn('py-2 px-3 text-sm text-cyan-200 align-middle')}>{item.predictionAmount}万</td>
-                          <td className={cn('py-2 px-3 text-sm', DASHBOARD_STYLES.textSecondary, 'align-middle')}>
+                          {/* 销售（工程师） */}
+                          <td className={cn('hidden md:table-cell py-2 px-3 text-sm text-cyan-200 align-middle')}>
+                            {item.owner || '-'}
+                          </td>
+                          {/* 金额 */}
+                          <td className={cn('text-right py-2 px-3 whitespace-nowrap text-sm text-cyan-200 align-middle')}>
+                            {item.amount.toFixed(0)}万
+                          </td>
+                          {/* 占总预测% */}
+                          <td className={cn('text-right py-2 px-3 whitespace-nowrap text-sm', DASHBOARD_STYLES.textSecondary, 'align-middle')}>
                             <span className={cn(
                               'px-2 py-1 rounded text-xs font-medium',
                               item.predictionRatio >= 60 ? 'bg-red-500/20 text-red-400' :
@@ -1472,8 +1489,16 @@ export default function RiskIdentificationPanel({
                               {item.predictionRatio}%
                             </span>
                           </td>
-                          <td className={cn('py-2 px-3 text-sm text-cyan-200 align-middle')}>{item.region}</td>
-                          <td className={cn('py-2 px-3 text-sm text-cyan-200 align-middle')}>{item.owner}</td>
+                          {/* 情况反馈 */}
+                          <td className={cn('py-2 px-3 text-sm', DASHBOARD_STYLES.textSecondary, 'align-middle')}>
+                            {item.status === 'critical' ? (
+                              <span className="text-red-400">占比过高，建议增加项目储备</span>
+                            ) : item.status === 'highRisk' ? (
+                              <span className="text-orange-400">占比偏高，需关注项目进展</span>
+                            ) : (
+                              <span className="text-cyan-300">正常</span>
+                            )}
+                          </td>
                         </tr>
                       ))}
                     </tbody>
