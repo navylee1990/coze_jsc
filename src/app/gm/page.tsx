@@ -390,7 +390,7 @@ export default function GMDashboard() {
                 variant="outline"
                 className="text-xs sm:text-sm bg-cyan-500/20 border-cyan-500/50 text-cyan-300"
               >
-                张晖
+                张晖，您好
               </Badge>
             </div>
 
