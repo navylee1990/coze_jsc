@@ -1576,12 +1576,11 @@ export default function RiskIdentificationPanel({
                     <thead className="sticky top-0 bg-slate-900/95 backdrop-blur-sm z-10">
                       <tr className={cn('text-sm border-b border-cyan-500/30', DASHBOARD_STYLES.cardBorder)}>
                         <th className={cn('text-center py-2 px-3 font-medium w-16 text-cyan-300 drop-shadow-[0_0_5px_rgba(6,182,212,0.5)]')}>序号</th>
-                        <th className={cn('text-left py-2 px-3 font-medium text-cyan-300 drop-shadow-[0_0_5px_rgba(6,182,212,0.5)]')}>项目名称</th>
                         <th className={cn('text-left py-2 px-3 font-medium hidden lg:table-cell text-cyan-300 drop-shadow-[0_0_5px_rgba(6,182,212,0.5)]')}>大区</th>
-                        <th className={cn('text-left py-2 px-3 font-medium hidden md:table-cell text-yellow-300 drop-shadow-[0_0_5px_rgba(234,179,8,0.5)]')}>负责人</th>
-                        <th className={cn('text-right py-2 px-3 font-medium text-yellow-300 drop-shadow-[0_0_5px_rgba(234,179,8,0.5)]')}>当前预测</th>
-                        <th className={cn('text-right py-2 px-3 font-medium text-yellow-300 drop-shadow-[0_0_5px_rgba(234,179,8,0.5)]')}>目标预测</th>
-                        <th className={cn('text-right py-2 px-3 font-medium text-yellow-300 drop-shadow-[0_0_5px_rgba(234,179,8,0.5)]')}>缺口金额</th>
+                        <th className={cn('text-left py-2 px-3 font-medium hidden md:table-cell text-cyan-300 drop-shadow-[0_0_5px_rgba(6,182,212,0.5)]')}>负责人</th>
+                        <th className={cn('text-right py-2 px-3 font-medium text-cyan-300 drop-shadow-[0_0_5px_rgba(6,182,212,0.5)]')}>当前预测</th>
+                        <th className={cn('text-right py-2 px-3 font-medium text-cyan-300 drop-shadow-[0_0_5px_rgba(6,182,212,0.5)]')}>目标预测</th>
+                        <th className={cn('text-right py-2 px-3 font-medium text-cyan-300 drop-shadow-[0_0_5px_rgba(6,182,212,0.5)]')}>缺口金额</th>
                         <th className={cn('text-right py-2 px-3 font-medium text-cyan-300 drop-shadow-[0_0_5px_rgba(6,182,212,0.5)]')}>缺口比例</th>
                       </tr>
                     </thead>
@@ -1599,11 +1598,6 @@ export default function RiskIdentificationPanel({
                             <div className="inline-flex items-center justify-center w-6 h-6 rounded-full bg-cyan-500/10 border border-cyan-500/30">
                               {(currentPage - 1) * 5 + index + 1}
                             </div>
-                          </td>
-
-                          {/* 项目名称 */}
-                          <td className={cn('py-2 px-3 text-sm', DASHBOARD_STYLES.textSecondary, 'align-middle')}>
-                            <div className="font-medium leading-snug text-cyan-100">{item.projectName}</div>
                           </td>
 
                           {/* 大区 */}
@@ -1642,7 +1636,7 @@ export default function RiskIdentificationPanel({
                               'px-2 py-1 rounded text-xs font-bold',
                               item.gapPercentage >= 50 ? 'bg-red-500/20 text-red-400' :
                               item.gapPercentage >= 40 ? 'bg-orange-500/20 text-orange-400' :
-                              'bg-yellow-500/20 text-yellow-400'
+                              'bg-cyan-500/20 text-cyan-400'
                             )}>
                               {item.gapPercentage}%
                             </span>
