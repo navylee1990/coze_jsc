@@ -203,14 +203,17 @@ export default function ConfirmDialog({
           </div>
         </div>
 
-        <DialogFooter className="relative z-10 gap-3 pt-2">
+        <DialogFooter className="relative z-10 gap-3 pt-4">
           {!loading && !success && (
             <Button
               variant="outline"
               onClick={handleClose}
               className={cn(
-                'border-slate-600 text-slate-300 hover:bg-slate-800',
-                'shadow-[0_0_10px_rgba(0,0,0,0.3)]'
+                'px-6 py-2 font-medium min-w-[100px]',
+                'border-cyan-500/60 text-cyan-300',
+                'hover:bg-cyan-500/20 hover:border-cyan-500/80',
+                'shadow-[0_0_10px_rgba(6,182,212,0.3)]',
+                'transition-all duration-300'
               )}
             >
               {cancelText}
@@ -221,11 +224,13 @@ export default function ConfirmDialog({
               onClick={handleConfirm}
               disabled={loading}
               className={cn(
-                'flex-1 font-semibold',
+                'px-8 py-2 font-semibold min-w-[120px]',
                 styles.confirmBg,
-                'text-white shadow-lg',
-                'hover:shadow-[0_0_20px_rgba(0,0,0,0.5)]',
-                'transition-all duration-300'
+                'text-white border border-white/20',
+                'shadow-lg shadow-black/30',
+                'hover:shadow-[0_0_25px_rgba(0,0,0,0.5)]',
+                'transition-all duration-300',
+                'hover:scale-105 active:scale-95'
               )}
             >
               {loading ? (
