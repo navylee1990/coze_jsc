@@ -1551,7 +1551,7 @@ export default function RiskIdentificationPanel({
                       {/* 圆形启动按钮 */}
                       <div className="relative z-10 flex flex-col items-center justify-center gap-2">
                         <div className={cn(
-                          'relative w-16 h-16 rounded-full flex items-center justify-center',
+                          'relative w-12 h-12 rounded-full flex items-center justify-center',
                           'bg-gradient-to-br from-cyan-400 to-blue-600',
                           'border-4 border-cyan-300/50',
                           'shadow-[0_0_25px_rgba(6,182,212,0.8),inset_0_2px_4px_rgba(255,255,255,0.3)]',
@@ -1559,7 +1559,7 @@ export default function RiskIdentificationPanel({
                           'transition-all duration-300 cursor-pointer'
                         )}>
                           {/* 发送图标 */}
-                          <Send className="w-8 h-8 text-white drop-shadow-md" />
+                          <Send className="w-6 h-6 text-white drop-shadow-md" />
                         </div>
 
                         {/* 按钮文字 */}
