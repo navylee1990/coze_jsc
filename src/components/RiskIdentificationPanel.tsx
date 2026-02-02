@@ -1490,14 +1490,21 @@ export default function RiskIdentificationPanel({
                             </span>
                           </td>
                           {/* 情况反馈 */}
-                          <td className={cn('py-2 px-3 text-sm', DASHBOARD_STYLES.textSecondary, 'align-middle')}>
-                            {item.status === 'critical' ? (
-                              <span className="text-red-400">占比过高，建议增加项目储备</span>
-                            ) : item.status === 'highRisk' ? (
-                              <span className="text-orange-400">占比偏高，需关注项目进展</span>
-                            ) : (
-                              <span className="text-cyan-300">正常</span>
-                            )}
+                          <td className={cn('text-left py-2 px-3 text-sm text-cyan-200 align-middle max-w-[200px]')}>
+                            <span
+                              className={cn('text-cyan-300/90 text-sm block whitespace-nowrap overflow-hidden truncate',
+                                item.status === 'critical' ? 'text-red-400' :
+                                item.status === 'highRisk' ? 'text-orange-400' :
+                                'text-cyan-300'
+                              )}
+                              title={item.status === 'critical' ? '占比过高，建议增加项目储备' :
+                                     item.status === 'highRisk' ? '占比偏高，需关注项目进展' :
+                                     '正常'}
+                            >
+                              {item.status === 'critical' ? '占比过高，建议增加项目储备' :
+                               item.status === 'highRisk' ? '占比偏高，需关注项目进展' :
+                               '正常'}
+                            </span>
                           </td>
                         </tr>
                       ))}
