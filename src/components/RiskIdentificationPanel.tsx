@@ -1361,7 +1361,7 @@ export default function RiskIdentificationPanel({
                 )}
                      onClick={() => openDialog({
                        title: '在线确认',
-                       description: `确定要向大项目依赖的负责人发送确认提醒吗？\n\n共 ${largeProjectDependencies.length} 个大项目，总金额 ${largeProjectDependencies.reduce((sum, p) => sum + p.amount, 0).toFixed(0)} 万元`,
+                       description: `XX 大区经理：您负责区域下的XX项目存在大项目依赖（编码、名称、预计下单日期、数量、金额），因金额涉及较大，请回复本任务单，当前的最新情况，是否存在风险。`,
                        confirmText: '确认发送',
                        cancelText: '取消',
                        onConfirm: async () => {
