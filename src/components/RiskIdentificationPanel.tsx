@@ -1645,8 +1645,13 @@ export default function RiskIdentificationPanel({
                           </td>
 
                           {/* 情况反馈 */}
-                          <td className={cn('text-left py-2 px-3 text-sm text-cyan-200 align-middle')}>
-                            <span className="text-cyan-300/90 text-xs">{item.feedback || '-'}</span>
+                          <td className={cn('text-left py-2 px-3 text-sm text-cyan-200 align-middle max-w-[200px]')}>
+                            <span
+                              className="text-cyan-300/90 text-xs block truncate"
+                              title={item.feedback || '-'}
+                            >
+                              {item.feedback || '-'}
+                            </span>
                           </td>
                         </tr>
                       ))}
