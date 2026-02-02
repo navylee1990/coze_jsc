@@ -795,7 +795,7 @@ export default function PredictionDecisionCard({
       <div className="mb-2 sm:mb-3 flex items-center flex-shrink-0">
         <div className="flex items-center gap-1.5 sm:gap-2">
           <TrendingUp className={cn('w-3.5 h-3.5 sm:w-4 sm:h-4', DASHBOARD_STYLES.neon)} />
-          <h2 className={cn('text-xs sm:text-sm md:text-base font-bold', DASHBOARD_STYLES.neon)}>
+          <h2 className={cn('text-sm sm:text-base md:text-lg font-bold', DASHBOARD_STYLES.neon)}>
             核心预测
           </h2>
         </div>
