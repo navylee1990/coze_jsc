@@ -990,8 +990,8 @@ export default function RiskIdentificationPanel({
                   ? forecastGaps.length 
                   : 0;
 
-                // 是否闪烁（数量>0且非当前Tab）
-                const shouldPulse = badgeCount > 0 && tab.id !== currentTab;
+                // 是否闪烁（数量>0且是当前Tab）
+                const shouldPulse = badgeCount > 0 && tab.id === currentTab;
 
                 // 获取当前tab的颜色方案
                 const colorScheme = TAB_COLOR_SCHEMES[tab.id as keyof typeof TAB_COLOR_SCHEMES] || TAB_COLOR_SCHEMES[0];
@@ -1007,7 +1007,7 @@ export default function RiskIdentificationPanel({
                       isActive && theme === 'dashboard'
                         ? cn(
                             `bg-${colorScheme.primary}-500/40 text-${colorScheme.primary}-200 border-2 ${colorScheme.border} ${colorScheme.shadow}`,
-                            'animate-pulse'
+                            shouldPulse && 'animate-pulse'
                           )
                         : isActive
                         ? cn(`bg-${colorScheme.primary}-100 text-${colorScheme.primary}-700 border-2 border-${colorScheme.primary}-400 shadow-[0_0_15px_rgba(239,68,68,0.5)]`)
