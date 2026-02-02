@@ -2082,9 +2082,9 @@ export default function RiskIdentificationPanel({
                           <td className={cn('text-right py-2 px-3 whitespace-nowrap text-cyan-200 align-middle')}>
                             <span className={cn(
                               'font-bold',
-                              item.stayDays >= 15 ? 'text-red-400' : item.stayDays >= 10 ? 'text-orange-400' : 'text-pink-300'
+                              item.stayDays >= 15 ? 'text-red-400' : item.stayDays >= 10 ? 'text-orange-400' : 'text-cyan-300'
                             )}>{item.stayDays}</span>
-                            <span className="text-sm ml-1 text-pink-300/70">天</span>
+                            <span className="text-sm ml-1 text-cyan-300/70">天</span>
                           </td>
 
                           {/* 金额 */}
@@ -2257,14 +2257,14 @@ export default function RiskIdentificationPanel({
                 <div className="flex-1 overflow-auto p-3 bg-gradient-to-b from-slate-900/50 to-transparent">
                   <table className="w-full">
                     <thead className="sticky top-0 bg-slate-900/95 backdrop-blur-sm z-10">
-                      <tr className={cn('text-sm border-b border-indigo-500/30', 'border-indigo-500/20')}>
-                        <th className={cn('text-center py-2 px-3 font-medium w-16 text-indigo-300 drop-shadow-[0_0_5px_rgba(99,102,241,0.5)]')}>序号</th>
-                        <th className={cn('text-left py-2 px-3 font-medium text-indigo-300 drop-shadow-[0_0_5px_rgba(99,102,241,0.5)]')}>项目名称</th>
-                        <th className={cn('text-left py-2 px-3 font-medium hidden lg:table-cell text-indigo-300 drop-shadow-[0_0_5px_rgba(99,102,241,0.5)]')}>当前阶段</th>
-                        <th className={cn('text-left py-2 px-3 font-medium hidden md:table-cell text-indigo-300 drop-shadow-[0_0_5px_rgba(99,102,241,0.5)]')}>大区</th>
-                        <th className={cn('text-right py-2 px-3 font-medium text-indigo-300 drop-shadow-[0_0_5px_rgba(99,102,241,0.5)]')}>停留天数</th>
-                        <th className={cn('text-right py-2 px-3 font-medium text-indigo-300 drop-shadow-[0_0_5px_rgba(99,102,241,0.5)]')}>金额</th>
-                        <th className={cn('text-right py-2 px-3 font-medium text-indigo-300 drop-shadow-[0_0_5px_rgba(99,102,241,0.5)]')}>风险等级</th>
+                      <tr className={cn('text-sm border-b border-cyan-500/30', 'border-cyan-500/20')}>
+                        <th className={cn('text-center py-2 px-3 font-medium w-16 text-cyan-300 drop-shadow-[0_0_5px_rgba(6,182,212,0.5)]')}>序号</th>
+                        <th className={cn('text-left py-2 px-3 font-medium text-cyan-300 drop-shadow-[0_0_5px_rgba(6,182,212,0.5)]')}>项目名称</th>
+                        <th className={cn('text-left py-2 px-3 font-medium hidden lg:table-cell text-cyan-300 drop-shadow-[0_0_5px_rgba(6,182,212,0.5)]')}>当前阶段</th>
+                        <th className={cn('text-left py-2 px-3 font-medium hidden md:table-cell text-cyan-300 drop-shadow-[0_0_5px_rgba(6,182,212,0.5)]')}>大区</th>
+                        <th className={cn('text-right py-2 px-3 font-medium text-cyan-300 drop-shadow-[0_0_5px_rgba(6,182,212,0.5)]')}>停留天数</th>
+                        <th className={cn('text-right py-2 px-3 font-medium text-cyan-300 drop-shadow-[0_0_5px_rgba(6,182,212,0.5)]')}>金额</th>
+                        <th className={cn('text-right py-2 px-3 font-medium text-cyan-300 drop-shadow-[0_0_5px_rgba(6,182,212,0.5)]')}>风险等级</th>
                       </tr>
                     </thead>
                     <tbody>
