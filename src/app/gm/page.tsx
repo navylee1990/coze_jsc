@@ -400,7 +400,7 @@ export default function GMDashboard() {
                 <button
                   onClick={() => setSelectedTimeRange('current')}
                   className={cn(
-                    'px-2 sm:px-3 py-1 text-xs font-medium rounded-md transition-all',
+                    'px-2 sm:px-3 py-1 text-sm font-medium rounded-md transition-all',
                     selectedTimeRange === 'current'
                       ? 'bg-cyan-500/20 text-cyan-300 border border-cyan-500/50 shadow-[0_0_8px_rgba(34,211,238,0.3)]'
                       : 'text-cyan-400/60 hover:text-cyan-300 hover:bg-cyan-500/10'
@@ -411,7 +411,7 @@ export default function GMDashboard() {
                 <button
                   onClick={() => setSelectedTimeRange('quarter')}
                   className={cn(
-                    'px-2 sm:px-3 py-1 text-xs font-medium rounded-md transition-all',
+                    'px-2 sm:px-3 py-1 text-sm font-medium rounded-md transition-all',
                     selectedTimeRange === 'quarter'
                       ? 'bg-cyan-500/20 text-cyan-300 border border-cyan-500/50 shadow-[0_0_8px_rgba(34,211,238,0.3)]'
                       : 'text-cyan-400/60 hover:text-cyan-300 hover:bg-cyan-500/10'
@@ -422,7 +422,7 @@ export default function GMDashboard() {
                 <button
                   onClick={() => setSelectedTimeRange('year')}
                   className={cn(
-                    'px-2 sm:px-3 py-1 text-xs font-medium rounded-md transition-all',
+                    'px-2 sm:px-3 py-1 text-sm font-medium rounded-md transition-all',
                     selectedTimeRange === 'year'
                       ? 'bg-cyan-500/20 text-cyan-300 border border-cyan-500/50 shadow-[0_0_8px_rgba(34,211,238,0.3)]'
                       : 'text-cyan-400/60 hover:text-cyan-300 hover:bg-cyan-500/10'
