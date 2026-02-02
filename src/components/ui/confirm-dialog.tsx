@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { CheckCircle2, X, Loader2 } from 'lucide-react';
+import { CheckCircle2, X, Loader2, AlertCircle, Info, AlertTriangle, Zap } from 'lucide-react';
 import {
   Dialog,
   DialogContent,
@@ -61,107 +61,156 @@ export default function ConfirmDialog({
     }
   };
 
-  // 根据类型获取样式
+  // 根据类型获取样式和图标
   const getTypeStyles = () => {
     switch (type) {
       case 'danger':
         return {
           iconBg: 'bg-red-500/20',
           iconColor: 'text-red-400',
-          borderColor: 'border-red-500/50',
-          confirmBg: 'bg-red-500 hover:bg-red-600',
+          borderColor: 'border-red-500/60',
+          confirmBg: 'bg-gradient-to-r from-red-600 to-red-500 hover:from-red-500 hover:to-red-400',
+          glowColor: 'rgba(239,68,68,0.6)',
+          icon: AlertCircle
         };
       case 'warning':
         return {
           iconBg: 'bg-orange-500/20',
           iconColor: 'text-orange-400',
-          borderColor: 'border-orange-500/50',
-          confirmBg: 'bg-orange-500 hover:bg-orange-600',
+          borderColor: 'border-orange-500/60',
+          confirmBg: 'bg-gradient-to-r from-orange-600 to-orange-500 hover:from-orange-500 hover:to-orange-400',
+          glowColor: 'rgba(249,115,22,0.6)',
+          icon: AlertTriangle
         };
       case 'success':
         return {
           iconBg: 'bg-green-500/20',
           iconColor: 'text-green-400',
-          borderColor: 'border-green-500/50',
-          confirmBg: 'bg-green-500 hover:bg-green-600',
+          borderColor: 'border-green-500/60',
+          confirmBg: 'bg-gradient-to-r from-green-600 to-green-500 hover:from-green-500 hover:to-green-400',
+          glowColor: 'rgba(74,222,128,0.6)',
+          icon: CheckCircle2
         };
       case 'info':
         return {
           iconBg: 'bg-cyan-500/20',
           iconColor: 'text-cyan-400',
-          borderColor: 'border-cyan-500/50',
-          confirmBg: 'bg-cyan-500 hover:bg-cyan-600',
+          borderColor: 'border-cyan-500/60',
+          confirmBg: 'bg-gradient-to-r from-cyan-600 to-cyan-500 hover:from-cyan-500 hover:to-cyan-400',
+          glowColor: 'rgba(6,182,212,0.6)',
+          icon: Info
         };
       default:
         return {
           iconBg: 'bg-slate-500/20',
           iconColor: 'text-slate-400',
-          borderColor: 'border-slate-500/50',
-          confirmBg: 'bg-slate-500 hover:bg-slate-600',
+          borderColor: 'border-slate-500/60',
+          confirmBg: 'bg-gradient-to-r from-slate-600 to-slate-500 hover:from-slate-500 hover:to-slate-400',
+          glowColor: 'rgba(148,163,184,0.6)',
+          icon: Info
         };
     }
   };
 
   const styles = getTypeStyles();
+  const IconComponent = styles.icon;
 
   return (
     <Dialog open={open} onOpenChange={handleClose}>
       <DialogContent
         className={cn(
-          'max-w-md bg-gradient-to-br from-slate-900/95 to-slate-800/95',
+          'max-w-2xl bg-gradient-to-br from-slate-950/98 via-slate-900/98 to-slate-950/98',
           'border-2',
           styles.borderColor,
-          'shadow-[0_0_30px_rgba(0,0,0,0.5)]'
+          'shadow-[0_0_50px_rgba(0,0,0,0.8)]'
         )}
+        style={{
+          boxShadow: `0 0 40px ${styles.glowColor}, 0 0 80px rgba(0,0,0,0.5)`
+        }}
       >
-        <DialogHeader>
-          <div className="flex items-center gap-3">
+        {/* 背景装饰 */}
+        <div className="absolute inset-0 opacity-5 pointer-events-none" style={{
+          backgroundImage: `
+            linear-gradient(${styles.glowColor} 1px, transparent 1px),
+            linear-gradient(90deg, ${styles.glowColor} 1px, transparent 1px)
+          `,
+          backgroundSize: '30px 30px'
+        }}></div>
+
+        {/* 顶部发光条 */}
+        <div
+          className="absolute top-0 left-0 right-0 h-0.5 animate-pulse"
+          style={{
+            background: `linear-gradient(to right, transparent, ${styles.glowColor}, transparent)`
+          }}
+        ></div>
+
+        <DialogHeader className="relative z-10 pb-2">
+          <div className="flex items-start gap-4">
             {success ? (
               <div className={cn(
-                'w-12 h-12 rounded-full flex items-center justify-center',
-                'bg-green-500/20 border-2 border-green-500/50'
+                'w-14 h-14 rounded-full flex items-center justify-center flex-shrink-0',
+                'bg-green-500/20 border-2 border-green-500/60',
+                'shadow-[0_0_20px_rgba(74,222,128,0.5)]'
               )}>
-                <CheckCircle2 className="w-6 h-6 text-green-400 animate-bounce" />
+                <CheckCircle2 className="w-7 h-7 text-green-400 drop-shadow-[0_0_8px_rgba(74,222,128,0.8)]" />
               </div>
             ) : (
               <div className={cn(
-                'w-12 h-12 rounded-full flex items-center justify-center',
+                'w-14 h-14 rounded-full flex items-center justify-center flex-shrink-0',
                 styles.iconBg,
                 'border-2',
-                styles.borderColor
+                styles.borderColor,
+                'shadow-[0_0_20px_rgba(0,0,0,0.5)]'
               )}>
                 {loading ? (
-                  <Loader2 className="w-6 h-6 animate-spin text-slate-400" />
+                  <Loader2 className="w-7 h-7 animate-spin text-cyan-400" />
                 ) : (
-                  <div className="w-2 h-2 rounded-full bg-current" />
+                  <IconComponent className="w-7 h-7 drop-shadow-[0_0_8px_rgba(255,255,255,0.3)]" />
                 )}
               </div>
             )}
-            <DialogTitle className={cn(
-              'text-xl font-bold',
-              success ? 'text-green-400' : 'text-cyan-100'
-            )}>
-              {success ? '操作成功' : title}
-            </DialogTitle>
+            <div className="flex-1">
+              <DialogTitle className={cn(
+                'text-xl font-bold mb-2',
+                success ? 'text-green-400 drop-shadow-[0_0_8px_rgba(74,222,128,0.6)]' : styles.iconColor,
+                'drop-shadow-[0_0_4px_rgba(0,0,0,0.5)]'
+              )}>
+                {success ? '操作成功' : title}
+              </DialogTitle>
+              {!success && type === 'warning' && (
+                <div className="flex items-center gap-2 text-xs text-orange-300/70 mb-1">
+                  <Zap className="w-3 h-3" />
+                  <span>请注意：此操作将发送消息提醒</span>
+                </div>
+              )}
+            </div>
           </div>
         </DialogHeader>
 
-        <div className="py-4">
-          <p className={cn(
-            'text-sm leading-relaxed',
-            success ? 'text-green-300' : 'text-slate-300'
+        <div className="relative z-10 py-4">
+          <div className={cn(
+            'rounded-lg p-4 border',
+            styles.borderColor,
+            'bg-slate-900/50 backdrop-blur-sm'
           )}>
-            {success ? description : description}
-          </p>
+            <p className={cn(
+              'text-sm leading-relaxed whitespace-pre-wrap break-words',
+              success ? 'text-green-300' : 'text-slate-200'
+            )}>
+              {description}
+            </p>
+          </div>
         </div>
 
-        <DialogFooter className="gap-2">
+        <DialogFooter className="relative z-10 gap-3 pt-2">
           {!loading && !success && (
             <Button
               variant="outline"
               onClick={handleClose}
               className={cn(
-                'border-slate-600 text-slate-300 hover:bg-slate-800'
+                'border-slate-600 text-slate-300 hover:bg-slate-800',
+                'shadow-[0_0_10px_rgba(0,0,0,0.3)]'
               )}
             >
               {cancelText}
@@ -172,9 +221,11 @@ export default function ConfirmDialog({
               onClick={handleConfirm}
               disabled={loading}
               className={cn(
-                'flex-1',
+                'flex-1 font-semibold',
                 styles.confirmBg,
-                'text-white shadow-[0_0_15px_rgba(0,0,0,0.3)]'
+                'text-white shadow-lg',
+                'hover:shadow-[0_0_20px_rgba(0,0,0,0.5)]',
+                'transition-all duration-300'
               )}
             >
               {loading ? (
@@ -182,10 +233,11 @@ export default function ConfirmDialog({
                   <Loader2 className="w-4 h-4 animate-spin" />
                   <span>处理中...</span>
                 </div>
-              ) : success ? (
-                '完成'
               ) : (
-                confirmText
+                <div className="flex items-center gap-2">
+                  {type === 'warning' && <Zap className="w-4 h-4" />}
+                  <span>{confirmText}</span>
+                </div>
               )}
             </Button>
           )}
