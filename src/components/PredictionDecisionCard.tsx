@@ -839,12 +839,17 @@ export default function PredictionDecisionCard({
             </div>
 
             {/* 预计缺口卡片 */}
-            <div className="w-full bg-slate-800/40 rounded-lg p-1.5 sm:p-2 border border-red-500/30">
-              <div className="flex items-center justify-between">
-                <div className="text-[10px] sm:text-xs font-semibold text-cyan-400/70">预计缺口</div>
-                <div className="text-base sm:text-xl font-black text-red-400">
+            <div className="mx-auto w-4/5 sm:w-3/5 max-w-[200px] bg-gradient-to-br from-red-500/20 to-red-900/10 rounded-xl p-2 sm:p-2.5 border border-red-500/40 shadow-lg shadow-red-500/20">
+              <div className="flex flex-col items-center gap-1">
+                <div className="flex items-center gap-1.5">
+                  <svg className="w-3.5 h-3.5 text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+                  </svg>
+                  <div className="text-[10px] sm:text-[11px] font-semibold text-red-300/90">预计缺口</div>
+                </div>
+                <div className="text-lg sm:text-xl font-black text-red-400" style={{ textShadow: '0 0 12px rgba(248,113,113,0.8)' }}>
                   {mounted ? Math.round(animatedForecastGap) : 0}
-                  <span className="text-[10px] sm:text-xs font-semibold ml-1">万</span>
+                  <span className="text-[10px] sm:text-xs font-semibold ml-1 text-red-300/80">万</span>
                 </div>
               </div>
             </div>
