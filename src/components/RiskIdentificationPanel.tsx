@@ -1556,7 +1556,7 @@ export default function RiskIdentificationPanel({
                       <div className="relative z-10 w-full flex flex-col items-center justify-center">
                         <div className="flex items-center gap-1.5 mb-1.5">
                           <div className="w-8 h-8 rounded-full bg-cyan-500/40 border-2 border-cyan-400/60 flex items-center justify-center group-hover:scale-110 transition-transform shadow-[0_0_15px_rgba(6,182,212,0.8)]">
-                            <TrendingDown className="w-4 h-4 text-cyan-400 drop-shadow-[0_0_8px_rgba(34,211,238,1)]" />
+                            <Send className="w-4 h-4 text-cyan-400 drop-shadow-[0_0_8px_rgba(34,211,238,1)]" />
                           </div>
                           <div className="text-base font-black text-cyan-400 drop-shadow-[0_0_12px_rgba(34,211,238,1)]">补预测</div>
                         </div>
