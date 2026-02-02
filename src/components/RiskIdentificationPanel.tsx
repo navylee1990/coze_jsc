@@ -1458,12 +1458,12 @@ export default function RiskIdentificationPanel({
         {currentTab === 2 && (
           // 明细视图
           <div className="h-full flex flex-col animate-in fade-in duration-300">
-                {/* 顶部仪表盘风格指标卡片 - 橙色警告 */}
+                {/* 顶部仪表盘风格指标卡片 */}
                 <div className={cn(
                   'p-3 relative overflow-hidden',
-                  TAB_COLOR_SCHEMES[2].bgGradient,
-                  `border-b-2 ${TAB_COLOR_SCHEMES[2].border}`,
-                  TAB_COLOR_SCHEMES[2].glow
+                  'bg-gradient-to-b from-cyan-950/40 via-slate-900 to-slate-900',
+                  'border-b-2 border-cyan-500/60',
+                  'shadow-[0_0_15px_rgba(6,182,212,0.6)]'
                 )}>
                   {/* 背景装饰网格 */}
                   <div className="absolute inset-0 opacity-10" style={{
