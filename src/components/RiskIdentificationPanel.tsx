@@ -1125,7 +1125,7 @@ export default function RiskIdentificationPanel({
                       <div className="relative z-10 w-full flex flex-col items-center justify-center">
                         <div className="flex items-center gap-2 mb-1.5">
                           <AlertTriangle className="w-3.5 h-3.5 text-cyan-400 animate-pulse drop-shadow-[0_0_8px_rgba(6,182,212,1)]" />
-                          <div className="text-xs font-bold text-cyan-300">项目数量</div>
+                          <div className="text-sm font-bold text-cyan-300">项目数量</div>
                         </div>
                         <div className="flex items-baseline gap-1">
                           <span className="text-3xl font-black text-cyan-400 drop-shadow-[0_0_15px_rgba(6,182,212,1)]">
@@ -1147,7 +1147,7 @@ export default function RiskIdentificationPanel({
                       <div className="relative z-10 w-full flex flex-col items-center justify-center">
                         <div className="flex items-center gap-2 mb-1.5">
                           <DollarSign className="w-3.5 h-3.5 text-cyan-400 drop-shadow-[0_0_10px_rgba(6,182,212,1)]" />
-                          <div className="text-xs font-bold text-cyan-300">总金额</div>
+                          <div className="text-sm font-bold text-cyan-300">总金额</div>
                         </div>
                         <div className="flex items-baseline gap-1">
                           <span className="text-3xl font-black text-cyan-400 drop-shadow-[0_0_15px_rgba(34,211,238,1)]">
@@ -1316,7 +1316,7 @@ export default function RiskIdentificationPanel({
                   <div className="relative z-10 w-full flex flex-col items-center justify-center">
                     <div className="flex items-center gap-2 mb-1.5">
                       <Building2 className="w-3.5 h-3.5 text-cyan-400 drop-shadow-[0_0_10px_rgba(6,182,212,1)] animate-pulse" />
-                      <div className="text-xs font-bold text-cyan-300">大项目数</div>
+                      <div className="text-sm font-bold text-cyan-300">大项目数</div>
                     </div>
                     <div className="flex items-baseline gap-1">
                       <span className="text-3xl font-black text-cyan-400 drop-shadow-[0_0_15px_rgba(34,211,238,1)]">
@@ -1338,7 +1338,7 @@ export default function RiskIdentificationPanel({
                   <div className="relative z-10 w-full flex flex-col items-center justify-center">
                     <div className="flex items-center gap-2 mb-1.5">
                       <DollarSign className="w-3.5 h-3.5 text-cyan-400 drop-shadow-[0_0_10px_rgba(6,182,212,1)] animate-pulse" />
-                      <div className="text-xs font-bold text-cyan-300">总金额</div>
+                      <div className="text-sm font-bold text-cyan-300">总金额</div>
                     </div>
                     <div className="flex items-baseline gap-1">
                       <span className="text-3xl font-black text-cyan-400 drop-shadow-[0_0_15px_rgba(34,211,238,1)]">
@@ -1494,7 +1494,7 @@ export default function RiskIdentificationPanel({
                       <div className="relative z-10 w-full flex flex-col items-center justify-center">
                         <div className="flex items-center gap-2 mb-1.5">
                           <DollarSign className="w-3.5 h-3.5 text-cyan-400 drop-shadow-[0_0_10px_rgba(6,182,212,1)] animate-pulse" />
-                          <div className="text-xs font-bold text-cyan-300">预计缺口金额</div>
+                          <div className="text-sm font-bold text-cyan-300">预计缺口金额</div>
                         </div>
                         <div className="flex items-baseline gap-1">
                           <span className="text-3xl font-black text-cyan-400 drop-shadow-[0_0_15px_rgba(34,211,238,1)]">
@@ -1516,7 +1516,7 @@ export default function RiskIdentificationPanel({
                       <div className="relative z-10 w-full flex flex-col items-center justify-center">
                         <div className="flex items-center gap-2 mb-1.5">
                           <AlertTriangle className="w-3.5 h-3.5 text-cyan-400 drop-shadow-[0_0_10px_rgba(6,182,212,1)] animate-pulse" />
-                          <div className="text-xs font-bold text-cyan-300">缺口数量</div>
+                          <div className="text-sm font-bold text-cyan-300">缺口数量</div>
                         </div>
                         <div className="flex items-baseline gap-1">
                           <span className="text-3xl font-black text-cyan-400 drop-shadow-[0_0_15px_rgba(34,211,238,1)]">
@@ -1698,7 +1698,7 @@ export default function RiskIdentificationPanel({
                       <div className="relative z-10 w-full flex flex-col items-center justify-center">
                         <div className="flex items-center gap-2 mb-1.5">
                           <FileText className="w-3.5 h-3.5 text-cyan-400 drop-shadow-[0_0_10px_rgba(6,182,212,1)] animate-pulse" />
-                          <div className="text-xs font-bold text-cyan-300">待报备项目数</div>
+                          <div className="text-sm font-bold text-cyan-300">待报备项目数</div>
                         </div>
                         <div className="flex items-baseline gap-1">
                           <span className="text-3xl font-black text-cyan-400 drop-shadow-[0_0_15px_rgba(34,211,238,1)]">
@@ -1720,7 +1720,7 @@ export default function RiskIdentificationPanel({
                       <div className="relative z-10 w-full flex flex-col items-center justify-center">
                         <div className="flex items-center gap-2 mb-1.5">
                           <DollarSign className="w-3.5 h-3.5 text-cyan-400 drop-shadow-[0_0_10px_rgba(6,182,212,1)] animate-pulse" />
-                          <div className="text-xs font-bold text-cyan-300">总金额</div>
+                          <div className="text-sm font-bold text-cyan-300">总金额</div>
                         </div>
                         <div className="flex items-baseline gap-1">
                           <span className="text-3xl font-black text-cyan-400 drop-shadow-[0_0_15px_rgba(34,211,238,1)]">
@@ -1930,7 +1930,7 @@ export default function RiskIdentificationPanel({
                       <div className="relative z-10 w-full flex flex-col items-center justify-center">
                         <div className="flex items-center gap-2 mb-1.5">
                           <Zap className="w-3.5 h-3.5 text-cyan-400 drop-shadow-[0_0_10px_rgba(6,182,212,1)] animate-pulse" />
-                          <div className="text-xs font-bold text-cyan-300">待转化项目数</div>
+                          <div className="text-sm font-bold text-cyan-300">待转化项目数</div>
                         </div>
                         <div className="flex items-baseline gap-1">
                           <span className="text-3xl font-black text-cyan-400 drop-shadow-[0_0_15px_rgba(34,211,238,1)]">
@@ -1952,7 +1952,7 @@ export default function RiskIdentificationPanel({
                       <div className="relative z-10 w-full flex flex-col items-center justify-center">
                         <div className="flex items-center gap-2 mb-1.5">
                           <DollarSign className="w-3.5 h-3.5 text-cyan-400 drop-shadow-[0_0_10px_rgba(6,182,212,1)] animate-pulse" />
-                          <div className="text-xs font-bold text-cyan-300">总金额</div>
+                          <div className="text-sm font-bold text-cyan-300">总金额</div>
                         </div>
                         <div className="flex items-baseline gap-1">
                           <span className="text-3xl font-black text-cyan-400 drop-shadow-[0_0_15px_rgba(34,211,238,1)]">
@@ -2149,7 +2149,7 @@ export default function RiskIdentificationPanel({
                       <div className="relative z-10 w-full flex flex-col items-center justify-center">
                         <div className="flex items-center gap-2 mb-1.5">
                           <Pause className="w-3.5 h-3.5 text-cyan-400 drop-shadow-[0_0_10px_rgba(6,182,212,1)] animate-pulse" />
-                          <div className="text-xs font-bold text-cyan-300">停滞项目数</div>
+                          <div className="text-sm font-bold text-cyan-300">停滞项目数</div>
                         </div>
                         <div className="flex items-baseline gap-1">
                           <span className="text-3xl font-black text-cyan-400 drop-shadow-[0_0_15px_rgba(34,211,238,1)]">
@@ -2171,7 +2171,7 @@ export default function RiskIdentificationPanel({
                       <div className="relative z-10 w-full flex flex-col items-center justify-center">
                         <div className="flex items-center gap-2 mb-1.5">
                           <DollarSign className="w-3.5 h-3.5 text-cyan-400 drop-shadow-[0_0_10px_rgba(6,182,212,1)] animate-pulse" />
-                          <div className="text-xs font-bold text-cyan-300">总金额</div>
+                          <div className="text-sm font-bold text-cyan-300">总金额</div>
                         </div>
                         <div className="flex items-baseline gap-1">
                           <span className="text-3xl font-black text-cyan-400 drop-shadow-[0_0_15px_rgba(34,211,238,1)]">
