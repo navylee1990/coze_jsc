@@ -1528,12 +1528,11 @@ export default function RiskIdentificationPanel({
                       </div>
                     </div>
 
-                    {/* 补预测按钮 - 跑车启动按钮风格 */}
+                    {/* 补预测按钮 - 经典跑车启动按钮风格 */}
                     <div className={cn(
                       'relative rounded-xl p-2 overflow-hidden cursor-pointer group h-full flex flex-col items-center justify-center',
                       'border-2 border-cyan-500/70',
-                      'bg-gradient-to-br from-slate-900/80 to-slate-800/60',
-                      'hover:from-slate-900 hover:to-slate-800',
+                      'bg-gradient-to-br from-slate-900 to-slate-800',
                       'shadow-[0_0_30px_rgba(6,182,212,0.5)]',
                       'hover:shadow-[0_0_50px_rgba(6,182,212,0.8)]',
                       'transition-all duration-300'
@@ -1549,62 +1548,28 @@ export default function RiskIdentificationPanel({
                            },
                            type: 'warning'
                          })}>
-                      {/* 背景光晕 */}
-                      <div className="absolute inset-0 bg-gradient-to-br from-cyan-500/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
-
-                      {/* 旋转外光圈 */}
-                      <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-                        <div className="absolute w-20 h-20 border-2 border-cyan-500/30 rounded-full animate-spin" style={{animationDuration: '3s'}}></div>
-                        <div className="absolute w-24 h-24 border border-cyan-500/20 rounded-full animate-spin" style={{animationDuration: '4s', animationDirection: 'reverse'}}></div>
-                      </div>
-
-                      {/* 脉冲内光圈 */}
-                      <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-                        <div className="w-16 h-16 bg-cyan-500/20 rounded-full animate-pulse"></div>
-                      </div>
-
-                      {/* 主启动按钮 */}
+                      {/* 圆形启动按钮 */}
                       <div className="relative z-10 flex flex-col items-center justify-center gap-2">
-                        {/* 圆形启动键 */}
                         <div className={cn(
-                          'relative w-14 h-14 rounded-full flex items-center justify-center',
-                          'bg-gradient-to-br from-cyan-600 to-blue-700',
-                          'border-3 border-cyan-400',
-                          'shadow-[0_0_30px_rgba(6,182,212,0.6)]',
-                          'group-hover:shadow-[0_0_50px_rgba(6,182,212,1)]',
-                          'group-hover:scale-105',
+                          'relative w-16 h-16 rounded-full flex items-center justify-center',
+                          'bg-gradient-to-br from-cyan-400 to-blue-600',
+                          'border-4 border-cyan-300/50',
+                          'shadow-[0_0_25px_rgba(6,182,212,0.8),inset_0_2px_4px_rgba(255,255,255,0.3)]',
+                          'group-hover:scale-110 group-hover:shadow-[0_0_40px_rgba(6,182,212,1)]',
                           'transition-all duration-300 cursor-pointer'
                         )}>
-                          {/* 按钮内发光 */}
-                          <div className="absolute inset-0 rounded-full bg-cyan-400/20 blur-sm animate-pulse"></div>
-
                           {/* 启动图标 */}
-                          <div className="relative z-10">
-                            <svg className="w-7 h-7 text-white drop-shadow-[0_0_10px_rgba(255,255,255,0.8)]" fill="currentColor" viewBox="0 0 24 24">
-                              <path d="M13 5L13 3L21 12L13 21L13 19C8.02944 19 4 14.9706 4 10C4 5.02944 8.02944 1 13 1C13.7 1 14.37 1.07 15 1.2C12.21 1.71 10 4.28 10 7.5C10 10.72 12.21 13.29 15 13.8C14.37 13.93 13.7 14 13 14C9.13401 14 6 10.866 6 7C6 6.34 6.07 5.7 6.2 5.1C7.93 3.74 10.34 3 13 3L13 5Z" />
-                            </svg>
-                          </div>
-
-                          {/* 底部高光 */}
-                          <div className="absolute top-1 left-1/2 -translate-x-1/2 w-8 h-2 bg-white/30 rounded-full blur-[1px]"></div>
+                          <svg className="w-8 h-8 text-white drop-shadow-md" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M8 5v14l11-7z"/>
+                          </svg>
                         </div>
 
                         {/* 按钮文字 */}
                         <div className="text-center">
-                          <div className="text-base font-black text-cyan-300 drop-shadow-[0_0_12px_rgba(34,211,238,1)] tracking-wide">
-                            补预测
-                          </div>
-                          <div className="flex items-center gap-1 mt-0.5">
-                            <div className="w-1 h-1 bg-cyan-400 rounded-full animate-pulse"></div>
-                            <div className="text-xs text-cyan-400/80 font-medium">
-                              {forecastGaps.length} 个缺口
-                            </div>
-                          </div>
+                          <div className="text-lg font-bold text-cyan-300">补预测</div>
+                          <div className="text-xs text-cyan-400/80">{forecastGaps.length} 个缺口</div>
                         </div>
                       </div>
-
-                      {/* 底部装饰线 */}
-                      <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-gradient-to-r from-transparent via-cyan-500/50 to-transparent"></div>
                     </div>
                   </div>
                 </div>
