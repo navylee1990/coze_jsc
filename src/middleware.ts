@@ -7,8 +7,16 @@ import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
 
 export function middleware(request: NextRequest) {
+  // 检查是否启用企业微信认证（默认禁用，开发模式下直接放行）
+  const weworkEnabled = process.env.WEWORK_ENABLED === 'true';
+
   // 只对需要认证的页面进行检查
   if (request.nextUrl.pathname.startsWith('/gm')) {
+    // 如果未启用企业微信认证，直接放行
+    if (!weworkEnabled) {
+      return NextResponse.next();
+    }
+
     const session = request.cookies.get('session');
 
     if (!session) {
