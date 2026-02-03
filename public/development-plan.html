@@ -1,0 +1,495 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Next.js + 企业微信集成开发计划</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Microsoft YaHei', 'PingFang SC', sans-serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            color: #e0e0e0;
+            padding: 40px 20px;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        h1 {
+            text-align: center;
+            color: #00d4ff;
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            text-shadow: 0 0 20px rgba(0, 212, 255, 0.3);
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #888;
+            margin-bottom: 40px;
+            font-size: 1.1em;
+        }
+
+        .section {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 12px;
+            padding: 30px;
+            margin-bottom: 30px;
+            border: 1px solid rgba(0, 212, 255, 0.1);
+        }
+
+        h2 {
+            color: #00d4ff;
+            margin-bottom: 20px;
+            font-size: 1.8em;
+            border-bottom: 2px solid rgba(0, 212, 255, 0.3);
+            padding-bottom: 10px;
+        }
+
+        h3 {
+            color: #64d2ff;
+            margin: 25px 0 15px 0;
+            font-size: 1.4em;
+        }
+
+        h4 {
+            color: #88d4ff;
+            margin: 20px 0 10px 0;
+            font-size: 1.2em;
+        }
+
+        p {
+            margin-bottom: 15px;
+        }
+
+        ul, ol {
+            margin-left: 30px;
+            margin-bottom: 15px;
+        }
+
+        li {
+            margin-bottom: 8px;
+        }
+
+        .code-block {
+            background: rgba(0, 0, 0, 0.5);
+            border-radius: 8px;
+            padding: 20px;
+            margin: 15px 0;
+            overflow-x: auto;
+            border: 1px solid rgba(0, 212, 255, 0.2);
+        }
+
+        .code-block pre {
+            font-family: 'Consolas', 'Monaco', monospace;
+            font-size: 0.9em;
+            line-height: 1.5;
+            color: #e0e0e0;
+        }
+
+        .code-block code {
+            color: #00d4ff;
+        }
+
+        .file-name {
+            color: #00ff88;
+            font-weight: bold;
+            margin-bottom: 10px;
+            display: block;
+        }
+
+        .task-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .task-list li {
+            background: rgba(0, 0, 0, 0.3);
+            padding: 15px 20px;
+            margin: 10px 0;
+            border-radius: 8px;
+            border-left: 4px solid #00d4ff;
+        }
+
+        .timeline {
+            position: relative;
+            padding-left: 30px;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 10px;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: rgba(0, 212, 255, 0.3);
+        }
+
+        .timeline-item {
+            position: relative;
+            padding: 15px 20px;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 8px;
+            margin-bottom: 20px;
+            margin-left: 20px;
+        }
+
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -30px;
+            top: 20px;
+            width: 12px;
+            height: 12px;
+            background: #00d4ff;
+            border-radius: 50%;
+            box-shadow: 0 0 10px rgba(0, 212, 255, 0.5);
+        }
+
+        .timeline-time {
+            color: #00ff88;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .table-container {
+            overflow-x: auto;
+            margin: 20px 0;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        th, td {
+            padding: 15px;
+            text-align: left;
+            border: 1px solid rgba(0, 212, 255, 0.2);
+        }
+
+        th {
+            background: rgba(0, 212, 255, 0.1);
+            color: #00d4ff;
+            font-weight: bold;
+        }
+
+        tr:hover {
+            background: rgba(0, 212, 255, 0.05);
+        }
+
+        .highlight {
+            color: #00ff88;
+            font-weight: bold;
+        }
+
+        .warning {
+            color: #ffa500;
+        }
+
+        .footer {
+            text-align: center;
+            color: #888;
+            margin-top: 40px;
+            padding-top: 20px;
+            border-top: 1px solid rgba(0, 212, 255, 0.2);
+        }
+
+        @media print {
+            body {
+                background: white;
+                color: black;
+            }
+            .section {
+                background: white;
+                border: 1px solid #ccc;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🚀 Next.js + 企业微信集成开发计划</h1>
+        <p class="subtitle">商用总经理驾驶舱 - 完整开发方案</p>
+
+        <div class="section">
+            <h2>📋 项目概述</h2>
+            <ul>
+                <li><strong>技术栈</strong>: Next.js 16 + React 19 + TypeScript + Tailwind CSS</li>
+                <li><strong>部署</strong>: 企业微信工作台</li>
+                <li><strong>集成</strong>: 企业微信OAuth认证</li>
+                <li><strong>预计工期</strong>: <span class="highlight">5-7天</span></li>
+            </ul>
+        </div>
+
+        <div class="section">
+            <h2>🎯 开发阶段总览</h2>
+            <div class="timeline">
+                <div class="timeline-item">
+                    <div class="timeline-time">第一阶段（1-2天）</div>
+                    <h3>数据层开发</h3>
+                    <p>定义数据库表结构、创建Manager类、实现CRUD操作</p>
+                </div>
+
+                <div class="timeline-item">
+                    <div class="timeline-time">第二阶段（1-2天）</div>
+                    <h3>API Routes开发</h3>
+                    <p>创建业务API接口、实现数据查询、计算、预测逻辑</p>
+                </div>
+
+                <div class="timeline-item">
+                    <div class="timeline-time">第三阶段（1-2天）</div>
+                    <h3>企业微信集成</h3>
+                    <p>实现OAuth认证、工作台集成、用户权限管理</p>
+                </div>
+
+                <div class="timeline-item">
+                    <div class="timeline-time">第四阶段（1天）</div>
+                    <h3>前端集成</h3>
+                    <p>前端调用API获取真实数据、完善交互逻辑</p>
+                </div>
+
+                <div class="timeline-item">
+                    <div class="timeline-time">第五阶段（0.5天）</div>
+                    <h3>企业微信工作台配置</h3>
+                    <p>配置应用主页、测试访问流程</p>
+                </div>
+
+                <div class="timeline-item">
+                    <div class="timeline-time">第六阶段（0.5天）</div>
+                    <h3>部署上线</h3>
+                    <p>构建生产版本、配置服务器、SSL证书</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>📊 开发内容详解</h2>
+
+            <h3>一、数据层开发（1-2天）</h3>
+            <p><strong>需要创建的文件：</strong></p>
+            <ul>
+                <li><code>src/storage/database/shared/schema.ts</code> - 数据库表结构定义</li>
+                <li><code>src/storage/database/userManager.ts</code> - 用户数据访问层</li>
+                <li><code>src/storage/database/projectManager.ts</code> - 项目数据访问层</li>
+                <li><code>src/storage/database/riskManager.ts</code> - 风险识别数据访问层</li>
+            </ul>
+            <p><strong>主要功能：</strong></p>
+            <ul>
+                <li>定义用户表、项目表、风险识别表、数据快照表</li>
+                <li>实现Manager类封装数据访问逻辑</li>
+                <li>使用Drizzle ORM进行数据库操作</li>
+                <li>配置数据库连接和环境变量</li>
+            </ul>
+
+            <h3>二、API Routes开发（1-2天）</h3>
+            <p><strong>需要创建的API接口：</strong></p>
+            <ul>
+                <li><code>GET /api/projects</code> - 获取项目列表</li>
+                <li><code>POST /api/projects</code> - 创建项目</li>
+                <li><code>GET /api/dashboard/summary</code> - 获取驾驶舱汇总数据</li>
+                <li><code>GET /api/risks?type=xxx</code> - 获取风险识别数据</li>
+                <li><code>POST /api/messages/send</code> - 发送消息</li>
+            </ul>
+            <p><strong>主要功能：</strong></p>
+            <ul>
+                <li>实现项目数据的CRUD操作</li>
+                <li>实现驾驶舱汇总数据查询</li>
+                <li>实现风险识别逻辑（预测不足、催下单等）</li>
+                <li>实现消息发送功能</li>
+            </ul>
+
+            <h3>三、企业微信集成（1-2天）</h3>
+            <p><strong>需要创建的文件：</strong></p>
+            <ul>
+                <li><code>src/lib/wework-auth.ts</code> - 企业微信认证封装</li>
+                <li><code>src/app/api/auth/wework/route.ts</code> - OAuth回调接口</li>
+                <li><code>src/app/api/auth/user/route.ts</code> - 获取当前用户</li>
+                <li><code>src/middleware.ts</code> - 中间件验证用户</li>
+            </ul>
+            <p><strong>主要功能：</strong></p>
+            <ul>
+                <li>实现企业微信OAuth2.0认证流程</li>
+                <li>获取企业微信用户信息</li>
+                <li>创建本地用户并建立关联</li>
+                <li>实现会话管理</li>
+                <li>实现消息推送功能</li>
+            </ul>
+
+            <h3>四、前端集成（1天）</h3>
+            <p><strong>需要修改的文件：</strong></p>
+            <ul>
+                <li><code>src/app/gm/page.tsx</code> - 驾驶舱主页</li>
+                <li><code>src/components/RiskIdentificationPanel.tsx</code> - 风险识别面板</li>
+            </ul>
+            <p><strong>主要功能：</strong></p>
+            <ul>
+                <li>调用API获取真实数据</li>
+                <li>实现数据绑定和状态更新</li>
+                <li>完善交互逻辑</li>
+                <li>实现消息发送功能</li>
+            </ul>
+
+            <h3>五、企业微信工作台配置（0.5天）</h3>
+            <p><strong>配置内容：</strong></p>
+            <ul>
+                <li>创建企业微信应用</li>
+                <li>配置应用主页URL</li>
+                <li>配置可信域名</li>
+                <li>设置可见范围</li>
+                <li>测试访问流程</li>
+            </ul>
+
+            <h3>六、部署上线（0.5天）</h3>
+            <p><strong>部署步骤：</strong></p>
+            <ul>
+                <li>构建生产版本（pnpm build）</li>
+                <li>创建Docker镜像</li>
+                <li>部署到服务器</li>
+                <li>配置Nginx反向代理</li>
+                <li>配置SSL证书</li>
+            </ul>
+        </div>
+
+        <div class="section">
+            <h2>📅 详细时间表</h2>
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>阶段</th>
+                            <th>任务</th>
+                            <th>预计时间</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>第一阶段</strong></td>
+                            <td>数据层开发</td>
+                            <td>1-2天</td>
+                        </tr>
+                        <tr>
+                            <td><strong>第二阶段</strong></td>
+                            <td>API Routes开发</td>
+                            <td>1-2天</td>
+                        </tr>
+                        <tr>
+                            <td><strong>第三阶段</strong></td>
+                            <td>企业微信集成</td>
+                            <td>1-2天</td>
+                        </tr>
+                        <tr>
+                            <td><strong>第四阶段</strong></td>
+                            <td>前端集成</td>
+                            <td>1天</td>
+                        </tr>
+                        <tr>
+                            <td><strong>第五阶段</strong></td>
+                            <td>工作台配置</td>
+                            <td>0.5天</td>
+                        </tr>
+                        <tr>
+                            <td><strong>第六阶段</strong></td>
+                            <td>部署上线</td>
+                            <td>0.5天</td>
+                        </tr>
+                        <tr>
+                            <td colspan="2"><strong>总计</strong></td>
+                            <td class="highlight"><strong>5-7天</strong></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>🎁 额外功能（可选）</h2>
+            <h3>功能1：消息推送（1-2天）</h3>
+            <ul>
+                <li>实现企业微信消息推送</li>
+                <li>支持定时任务提醒</li>
+                <li>支持批量发送消息</li>
+            </ul>
+
+            <h3>功能2：数据导出（1天）</h3>
+            <ul>
+                <li>导出Excel</li>
+                <li>导出PDF</li>
+                <li>导出图片</li>
+            </ul>
+
+            <h3>功能3：权限管理（1-2天）</h3>
+            <ul>
+                <li>角色权限控制</li>
+                <li>数据权限控制</li>
+                <li>操作日志记录</li>
+            </ul>
+        </div>
+
+        <div class="section">
+            <h2>📝 注意事项</h2>
+            <h3>1. 数据库设计</h3>
+            <ul>
+                <li>根据实际业务需求调整表结构</li>
+                <li>添加必要的索引</li>
+                <li>考虑数据分区（如果数据量大）</li>
+            </ul>
+
+            <h3>2. 企业微信集成</h3>
+            <ul>
+                <li>确保企业微信应用配置正确</li>
+                <li>测试OAuth登录流程</li>
+                <li>测试消息推送功能</li>
+            </ul>
+
+            <h3>3. 性能优化</h3>
+            <ul>
+                <li>使用Redis缓存热点数据</li>
+                <li>数据库查询优化</li>
+                <li>前端加载优化</li>
+            </ul>
+
+            <h3>4. 安全性</h3>
+            <ul>
+                <li>使用HTTPS</li>
+                <li>配置CORS</li>
+                <li>验证用户权限</li>
+                <li>防止SQL注入</li>
+            </ul>
+        </div>
+
+        <div class="section">
+            <h2>🚀 下一步行动</h2>
+            <ol>
+                <li><strong>配置企业微信应用</strong> - 在企业微信管理后台创建应用</li>
+                <li><strong>配置数据库</strong> - 准备PostgreSQL数据库，配置连接</li>
+                <li><strong>开始第一阶段</strong> - 实现数据层开发</li>
+                <li><strong>逐步完成</strong> - 按照计划完成各个阶段</li>
+                <li><strong>测试上线</strong> - 在企业微信工作台测试访问</li>
+            </ol>
+            <p class="highlight" style="margin-top: 20px;">
+                💡 提示：如果你需要我帮你实现具体的某个部分，请告诉我！
+            </p>
+        </div>
+
+        <div class="footer">
+            <p><strong>文档生成时间</strong>: 2024年</p>
+            <p><strong>项目</strong>: 商用总经理驾驶舱</p>
+            <p><strong>技术栈</strong>: Next.js 16 + React 19 + TypeScript + 企业微信</p>
+        </div>
+    </div>
+</body>
+</html>
