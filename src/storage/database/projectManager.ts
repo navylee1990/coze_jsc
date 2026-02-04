@@ -35,10 +35,7 @@ export class ProjectManager {
       const page = params?.page || 1;
       const pageSize = params?.pageSize || 20;
 
-      // 构建查询
-      let query = db.select().from(projects).orderBy(desc(projects.updatedAt));
-
-      // 添加过滤条件
+      // 构建过滤条件
       const conditions = [];
       if (params?.industry) {
         conditions.push(eq(projects.industry, params.industry));
@@ -62,9 +59,11 @@ export class ProjectManager {
         conditions.push(eq(projects.riskLevel, params.riskLevel));
       }
 
-      if (conditions.length > 0) {
-        query = query.where(and(...conditions));
-      }
+      // 构建查询（使用条件表达式）
+      const baseQuery = db.select().from(projects);
+      const query = conditions.length > 0
+        ? baseQuery.where(and(...conditions)).orderBy(desc(projects.updatedAt))
+        : baseQuery.orderBy(desc(projects.updatedAt));
 
       // 获取总数
       const allResults = await query;
@@ -206,7 +205,7 @@ export class ProjectManager {
       const result = await db
         .select()
         .from(projects)
-        .where(gte(projects.amount, 1000000))
+        .where(gte(projects.amount, "1000000"))
         .orderBy(desc(projects.amount))
         .limit(100);
       return result;
@@ -246,7 +245,7 @@ export class ProjectManager {
       const result = await db
         .select()
         .from(projects)
-        .where(lte(projects.conversionRate, 0.2))
+        .where(lte(projects.conversionRate, "0.2"))
         .orderBy(projects.conversionRate)
         .limit(100);
       return result;

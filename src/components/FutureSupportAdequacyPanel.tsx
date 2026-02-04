@@ -4,7 +4,6 @@ import { useState, useEffect } from 'react';
 import { ArrowUp, ArrowDown, ArrowRight, AlertTriangle, CheckCircle2, XCircle, TrendingUp, Activity, Clock, Target, DollarSign, Zap, Flame, Lightbulb, Compass, BarChart3, ChevronDown, MapPin, ChevronRight, X } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, ResponsiveContainer, Tooltip as RechartsTooltip } from 'recharts';
-import DrillDownModal from '@/components/DrillDownModal';
 
 // 主题类型
 type Theme = 'dark' | 'dashboard';

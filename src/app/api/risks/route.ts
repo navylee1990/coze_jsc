@@ -15,7 +15,7 @@ export async function GET(request: NextRequest) {
     const type = searchParams.get('type') || 'prediction';
 
     const db = await getDb();
-    let result;
+    let result: any[] = [];
 
     switch (type) {
       case 'prediction':
@@ -63,7 +63,7 @@ export async function GET(request: NextRequest) {
         result = await db
           .select()
           .from(projects)
-          .where(lte(projects.conversionRate, 0.2))
+          .where(sql`${projects.conversionRate} < 0.2`)
           .orderBy(projects.conversionRate)
           .limit(100);
         break;
@@ -73,7 +73,7 @@ export async function GET(request: NextRequest) {
         result = await db
           .select()
           .from(projects)
-          .where(gte(projects.amount, 1000000))
+          .where(sql`${projects.amount} >= 1000000`)
           .orderBy(sql`${projects.amount} DESC`)
           .limit(100);
         break;
