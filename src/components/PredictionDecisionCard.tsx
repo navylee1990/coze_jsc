@@ -46,8 +46,8 @@ const TIME_RANGE_DATA = {
 // 月度趋势数据（固定显示12个月，不受时间范围影响）
 const monthlyTrendData = [
   { month: '1月', businessTarget: 2130, financialTarget: 3008, completed: 800, forecast: 3139.9 },
-  { month: '2月', businessTarget: 1380, financialTarget: 2005.3, completed: 150, forecast: 2305.3 },
-  { month: '3月', businessTarget: 4180, financialTarget: 6015.9, completed: 0, forecast: 5815.9 },
+  { month: '2月', businessTarget: 1380, financialTarget: 2005.3, completed: 0, forecast: 0 },
+  { month: '3月', businessTarget: 4180, financialTarget: 6015.9, completed: 0, forecast: 0 },
   { month: '4月', businessTarget: 2421, financialTarget: 3509.3, completed: 0, forecast: 0 },
   { month: '5月', businessTarget: 2844, financialTarget: 4010.6, completed: 0, forecast: 0 },
   { month: '6月', businessTarget: 3690, financialTarget: 5013.3, completed: 0, forecast: 0 },
