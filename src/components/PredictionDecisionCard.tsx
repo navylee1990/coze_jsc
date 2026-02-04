@@ -510,7 +510,21 @@ export default function PredictionDecisionCard({
                 dot={(props: any) => {
                   const { cx, cy, payload } = props;
                   const isBelowTarget = payload.forecast < 1200;
-                  
+                  const isZero = payload.forecast === 0;
+
+                  // 预测完成为0时，返回不可见的点
+                  if (isZero) {
+                    return (
+                      <circle
+                        cx={cx}
+                        cy={cy}
+                        r={0}
+                        fill="transparent"
+                        stroke="transparent"
+                      />
+                    );
+                  }
+
                   if (isBelowTarget) {
                     // 风险点：更大、更醒目的红色
                     return (
@@ -553,7 +567,7 @@ export default function PredictionDecisionCard({
                       </g>
                     );
                   }
-                  
+
                   // 正常点：青色
                   return (
                     <circle
@@ -572,7 +586,21 @@ export default function PredictionDecisionCard({
                 activeDot={(props: any) => {
                   const { cx, cy, payload } = props;
                   const isBelowTarget = payload.forecast < 1200;
-                  
+                  const isZero = payload.forecast === 0;
+
+                  // 预测完成为0时，返回不可见的点
+                  if (isZero) {
+                    return (
+                      <circle
+                        cx={cx}
+                        cy={cy}
+                        r={0}
+                        fill="transparent"
+                        stroke="transparent"
+                      />
+                    );
+                  }
+
                   if (isBelowTarget) {
                     // 风险点悬停：超大、超醒目
                     return (
@@ -615,7 +643,7 @@ export default function PredictionDecisionCard({
                       </g>
                     );
                   }
-                  
+
                   // 正常点悬停
                   return (
                     <circle
