@@ -27,9 +27,9 @@ interface PredictionDecisionCardProps {
 // 不同时间范围的数据
 const TIME_RANGE_DATA = {
   current: {
-    target: 2130,
-    forecast: 3139.9,
-    completed: 3140,  // 1月完成
+    target: 1380,
+    forecast: 2305.3,
+    completed: 2072,  // 2月完成
   },
   quarter: {
     target: 7690,  // 1-3月业务目标总和（2130+1380+4180）

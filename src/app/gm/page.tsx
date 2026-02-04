@@ -190,8 +190,7 @@ const forecastOverviewData = {
 
 
 // 预测趋势图数据
-// 当前时间：2026-1-24，只有1月有实际已完成数据（800万）
-// 2-12月还未发生，已完成为0
+// 当前时间：2026-2-24，1-2月有实际已完成数据，3-12月还未发生，已完成为0
 const forecastTrendData = [
   { month: '1月', businessTarget: 2130, financialTarget: 1566.1, completed: 3140, forecast: 3139.9 },
   { month: '2月', businessTarget: 1380, financialTarget: 493.1, completed: 2072, forecast: 2305.3 },
