@@ -27,36 +27,36 @@ interface PredictionDecisionCardProps {
 // 不同时间范围的数据
 const TIME_RANGE_DATA = {
   current: {
-    target: 1500,
-    forecast: 1140,
-    completed: 950,  // 2月已有部分完成
+    target: 2130,
+    forecast: 1600,
+    completed: 800,  // 1月完成
   },
   quarter: {
-    target: 4500,
-    forecast: 3510,  // 78%达成率
-    completed: 2400, // 更新后包含2月完成
+    target: 7690,  // 1-3月业务目标总和
+    forecast: 5900,
+    completed: 800, // 1月完成
   },
   year: {
-    target: 9000,
-    forecast: 7380,  // 82%达成率
-    completed: 6000, // 更新后包含2月完成
+    target: 35300,  // 1-12月业务目标总和
+    forecast: 27000,
+    completed: 800, // 1月完成
   },
 };
 
 // 月度趋势数据（固定显示12个月，不受时间范围影响）
 const monthlyTrendData = [
-  { month: '1月', businessTarget: 1500, financialTarget: 1200, completed: 800, forecast: 900 },
-  { month: '2月', businessTarget: 1500, financialTarget: 1200, completed: 150, forecast: 1550 },
-  { month: '3月', businessTarget: 1500, financialTarget: 1200, completed: 0, forecast: 1350 },
-  { month: '4月', businessTarget: 1500, financialTarget: 1200, completed: 0, forecast: 1100 },
-  { month: '5月', businessTarget: 1500, financialTarget: 1200, completed: 0, forecast: 1580 },
-  { month: '6月', businessTarget: 1500, financialTarget: 1200, completed: 0, forecast: 950 },
-  { month: '7月', businessTarget: 1500, financialTarget: 1200, completed: 0, forecast: 1520 },
-  { month: '8月', businessTarget: 1500, financialTarget: 1200, completed: 0, forecast: 1280 },
-  { month: '9月', businessTarget: 1500, financialTarget: 1200, completed: 0, forecast: 1150 },
-  { month: '10月', businessTarget: 1500, financialTarget: 1200, completed: 0, forecast: 1560 },
-  { month: '11月', businessTarget: 1500, financialTarget: 1200, completed: 0, forecast: 1320 },
-  { month: '12月', businessTarget: 1500, financialTarget: 1200, completed: 0, forecast: 1050 },
+  { month: '1月', businessTarget: 2130, financialTarget: 3008, completed: 800, forecast: 900 },
+  { month: '2月', businessTarget: 1380, financialTarget: 2005.3, completed: 150, forecast: 1550 },
+  { month: '3月', businessTarget: 4180, financialTarget: 6015.9, completed: 0, forecast: 1350 },
+  { month: '4月', businessTarget: 2421, financialTarget: 3509.3, completed: 0, forecast: 1100 },
+  { month: '5月', businessTarget: 2844, financialTarget: 4010.6, completed: 0, forecast: 1580 },
+  { month: '6月', businessTarget: 3690, financialTarget: 5013.3, completed: 0, forecast: 950 },
+  { month: '7月', businessTarget: 2720, financialTarget: 4010.6, completed: 0, forecast: 1520 },
+  { month: '8月', businessTarget: 3135, financialTarget: 4511.9, completed: 0, forecast: 1280 },
+  { month: '9月', businessTarget: 3965, financialTarget: 5514.6, completed: 0, forecast: 1150 },
+  { month: '10月', businessTarget: 2082, financialTarget: 3008, completed: 0, forecast: 1560 },
+  { month: '11月', businessTarget: 2808, financialTarget: 4010.6, completed: 0, forecast: 1320 },
+  { month: '12月', businessTarget: 3945, financialTarget: 5514.6, completed: 0, forecast: 1050 },
 ];
 
 export default function PredictionDecisionCard({
