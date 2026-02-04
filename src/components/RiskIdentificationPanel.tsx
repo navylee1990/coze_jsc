@@ -520,14 +520,35 @@ function CircularGauge({
   return (
     <div className="relative flex flex-col items-center">
       <svg width={size} height={size} viewBox="0 0 100 100" className="transform -rotate-90">
+        <defs>
+          {/* 背景圆渐变 */}
+          <linearGradient id={`bgGradient-${color}`} x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stopColor="rgba(15, 23, 42, 0.9)" />
+            <stop offset="100%" stopColor="rgba(30, 41, 59, 0.9)" />
+          </linearGradient>
+          {/* 进度圆渐变 */}
+          <linearGradient id={`progressGradient-${color}`} x1="0%" y1="0%" x2="100%" y2="0%">
+            <stop offset="0%" stopColor={strokeColor} />
+            <stop offset="100%" stopColor={`${strokeColor}CC`} />
+          </linearGradient>
+          {/* 发光滤镜 */}
+          <filter id={`glow-${color}`}>
+            <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
+            <feMerge>
+              <feMergeNode in="coloredBlur"/>
+              <feMergeNode in="SourceGraphic"/>
+            </feMerge>
+          </filter>
+        </defs>
         {/* 背景圆 */}
         <circle
           cx="50"
           cy="50"
           r={radius}
           fill="none"
-          stroke="rgba(30, 41, 59, 0.8)"
+          stroke={`url(#bgGradient-${color})`}
           strokeWidth="8"
+          opacity="0.6"
         />
         {/* 进度圆 */}
         <circle
@@ -535,13 +556,13 @@ function CircularGauge({
           cy="50"
           r={radius}
           fill="none"
-          stroke={strokeColor}
+          stroke={`url(#progressGradient-${color})`}
           strokeWidth="8"
           strokeLinecap="round"
           strokeDasharray={circumference}
           strokeDashoffset={offset}
-          style={{ 
-            filter: `drop-shadow(0 0 8px ${strokeColor}80)`,
+          filter={`url(#glow-${color})`}
+          style={{
             transition: 'stroke-dashoffset 1s ease-out'
           }}
         />
@@ -574,23 +595,39 @@ function HalfGauge({
     <div className="relative flex flex-col items-center">
       <div className="w-24 h-12">
         <svg viewBox="0 0 100 50" className="w-full h-full overflow-visible">
+          <defs>
+            {/* 背景弧线渐变 */}
+            <linearGradient id="halfBgGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+              <stop offset="0%" stopColor="rgba(15, 23, 42, 0.8)" />
+              <stop offset="100%" stopColor="rgba(30, 41, 59, 0.8)" />
+            </linearGradient>
+            {/* 进度弧线渐变 */}
+            <linearGradient id="halfProgressGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+              <stop offset="0%" stopColor="#22d3ee" />
+              <stop offset="100%" stopColor="#06b6d4" />
+            </linearGradient>
+          </defs>
           {/* 背景弧线 */}
           <path
             d="M 10 50 A 40 40 0 0 1 90 50"
             fill="none"
-            stroke="rgba(6,182,212,0.2)"
+            stroke="url(#halfBgGradient)"
             strokeWidth="8"
             strokeLinecap="round"
+            opacity="0.6"
           />
           {/* 进度弧线 */}
           <path
             d="M 10 50 A 40 40 0 0 1 90 50"
             fill="none"
-            className="stroke-cyan-400 drop-shadow-[0_0_8px_rgba(34,211,238,0.8)]"
+            stroke="url(#halfProgressGradient)"
             strokeWidth="8"
             strokeLinecap="round"
             strokeDasharray={strokeDasharray}
-            style={{ transition: 'stroke-dasharray 0.5s ease-out' }}
+            style={{
+              filter: 'drop-shadow(0 0 6px rgba(34,211,238,0.6))',
+              transition: 'stroke-dasharray 0.5s ease-out'
+            }}
           />
         </svg>
       </div>
