@@ -15,7 +15,7 @@ import { LineChart, Line, AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip,
 import { cn } from '@/lib/utils';
 
 // 页面标题
-const PAGE_TITLE = '商用总经理驾驶舱';
+const PAGE_TITLE = '商净销售预测';
 
 // ========== 项目数据结构与延迟计算逻辑 ==========
 

@@ -1,4 +1,4 @@
-// 商用总经理驾驶舱系统 - 主页
+// 商净销售预测系统 - 主页
 import Link from 'next/link';
 import { Activity, Zap, Layers, ArrowRight } from 'lucide-react';
 import { Card, CardContent } from '@/components/ui/card';
@@ -10,7 +10,7 @@ export default function HomePage() {
       <div className="max-w-4xl w-full">
         {/* 页面标题 */}
         <div className="text-center mb-12">
-          <h1 className="text-4xl font-bold text-gray-900 mb-3">商用总经理驾驶舱系统</h1>
+          <h1 className="text-4xl font-bold text-gray-900 mb-3">商净销售预测系统</h1>
           <p className="text-gray-600">预测驱动，数据赋能，全面掌握业务运营</p>
         </div>
 
@@ -28,7 +28,7 @@ export default function HomePage() {
 
                 {/* 文字内容 */}
                 <div className="flex-grow text-center md:text-left">
-                  <h2 className="text-3xl font-bold text-gray-900 mb-3">商用总经理驾驶舱</h2>
+                  <h2 className="text-3xl font-bold text-gray-900 mb-3">商净销售预测</h2>
                   <p className="text-gray-600 mb-4">
                     基于预测模型的经营看板，实时追踪销售目标达成、项目储备、人员贡献等关键指标
                   </p>
@@ -62,7 +62,7 @@ export default function HomePage() {
 
         {/* 底部说明 */}
         <div className="text-center mt-12 text-gray-400 text-sm">
-          <p>© 2026 商用总经理驾驶舱系统</p>
+          <p>© 2026 商净销售预测系统</p>
         </div>
       </div>
     </div>
