@@ -193,7 +193,7 @@ const forecastOverviewData = {
 // 当前时间：2026-1-24，只有1月有实际已完成数据（800万）
 // 2-12月还未发生，已完成为0
 const forecastTrendData = [
-  { month: '1月', businessTarget: 2130, financialTarget: 3008, completed: 800, forecast: 3139.9 },
+  { month: '1月', businessTarget: 2130, financialTarget: 3008, completed: 3139.9, forecast: 3139.9 },
   { month: '2月', businessTarget: 1380, financialTarget: 2005.3, completed: 0, forecast: 0 },
   { month: '3月', businessTarget: 4180, financialTarget: 6015.9, completed: 0, forecast: 0 },
   { month: '4月', businessTarget: 2421, financialTarget: 3509.3, completed: 0, forecast: 0 },

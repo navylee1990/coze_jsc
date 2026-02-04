@@ -28,24 +28,24 @@ interface PredictionDecisionCardProps {
 const TIME_RANGE_DATA = {
   current: {
     target: 2130,
-    forecast: 1600,
-    completed: 800,  // 1月完成
+    forecast: 3139.9,
+    completed: 3139.9,  // 1月完成
   },
   quarter: {
     target: 7690,  // 1-3月业务目标总和
-    forecast: 5900,
-    completed: 800, // 1月完成
+    forecast: 3139.9,
+    completed: 3139.9, // 1月完成
   },
   year: {
     target: 35300,  // 1-12月业务目标总和
-    forecast: 27000,
-    completed: 800, // 1月完成
+    forecast: 3139.9,
+    completed: 3139.9, // 1月完成
   },
 };
 
 // 月度趋势数据（固定显示12个月，不受时间范围影响）
 const monthlyTrendData = [
-  { month: '1月', businessTarget: 2130, financialTarget: 3008, completed: 800, forecast: 3139.9 },
+  { month: '1月', businessTarget: 2130, financialTarget: 3008, completed: 3139.9, forecast: 3139.9 },
   { month: '2月', businessTarget: 1380, financialTarget: 2005.3, completed: 0, forecast: 0 },
   { month: '3月', businessTarget: 4180, financialTarget: 6015.9, completed: 0, forecast: 0 },
   { month: '4月', businessTarget: 2421, financialTarget: 3509.3, completed: 0, forecast: 0 },
