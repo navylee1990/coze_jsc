@@ -1,3 +1,4 @@
+// 商用总经理驾驶舱系统 - 主页
 import Link from 'next/link';
 import { Activity, Zap, Layers, ArrowRight } from 'lucide-react';
 import { Card, CardContent } from '@/components/ui/card';
