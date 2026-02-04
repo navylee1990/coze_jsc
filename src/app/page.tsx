@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import { Activity, Zap, Layers, ArrowRight } from 'lucide-react';
-import { Card, CardContent, Button } from '@/components/ui/card';
+import { Card, CardContent } from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
 
 export default function HomePage() {
   return (
