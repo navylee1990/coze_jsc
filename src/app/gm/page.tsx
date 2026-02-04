@@ -465,7 +465,7 @@ export default function GMDashboard() {
             'col-span-1 xl:col-span-5',
             'transition-all duration-500 delay-100',
             'opacity-100 translate-y-0',
-            'flex flex-col min-h-0 h-[90%]'
+            'flex flex-col min-h-0'
           )}>
             <div className={cn(
               'bg-slate-900/60 backdrop-blur-sm rounded-xl p-0',
