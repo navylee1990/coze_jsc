@@ -34,19 +34,19 @@ const TIME_RANGE_DATA = {
   quarter: {
     target: 11029.2,  // 1-3月业务目标总和（3008+2005.3+6015.9）
     forecast: 11261.1,  // 1-3月预测完成总和（3139.9+2305.3+5815.9）
-    completed: 3140, // 1月完成
+    completed: 5212, // 1-2月已完成总和（3140+2072）
   },
   year: {
     target: 47712.2,  // 1-12月业务目标总和
     forecast: 11261.1,  // 1-3月预测完成总和
-    completed: 3140, // 1月完成
+    completed: 5212, // 1-2月已完成总和
   },
 };
 
 // 月度趋势数据（固定显示12个月，不受时间范围影响）
 const monthlyTrendData = [
   { month: '1月', businessTarget: 3008, financialTarget: 2130, completed: 3140, forecast: 3139.9 },
-  { month: '2月', businessTarget: 2005.3, financialTarget: 1380, completed: 0, forecast: 2305.3 },
+  { month: '2月', businessTarget: 2005.3, financialTarget: 1380, completed: 2072, forecast: 2305.3 },
   { month: '3月', businessTarget: 6015.9, financialTarget: 4180, completed: 0, forecast: 5815.9 },
   { month: '4月', businessTarget: 3509.3, financialTarget: 2421, completed: 0, forecast: 0 },
   { month: '5月', businessTarget: 4010.6, financialTarget: 2844, completed: 0, forecast: 0 },

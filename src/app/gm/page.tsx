@@ -194,7 +194,7 @@ const forecastOverviewData = {
 // 2-12月还未发生，已完成为0
 const forecastTrendData = [
   { month: '1月', businessTarget: 3008, financialTarget: 2130, completed: 3140, forecast: 3139.9 },
-  { month: '2月', businessTarget: 2005.3, financialTarget: 1380, completed: 0, forecast: 2305.3 },
+  { month: '2月', businessTarget: 2005.3, financialTarget: 1380, completed: 2072, forecast: 2305.3 },
   { month: '3月', businessTarget: 6015.9, financialTarget: 4180, completed: 0, forecast: 5815.9 },
   { month: '4月', businessTarget: 3509.3, financialTarget: 2421, completed: 0, forecast: 0 },
   { month: '5月', businessTarget: 4010.6, financialTarget: 2844, completed: 0, forecast: 0 },
