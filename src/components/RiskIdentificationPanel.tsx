@@ -1100,7 +1100,7 @@ export default function RiskIdentificationPanel({
                     }}
                   ></div>
 
-                  <div className="relative z-10 grid grid-cols-2 gap-3">
+                  <div className="relative z-10 grid grid-cols-3 gap-3">
                     {/* 项目数量卡片 */}
                     <div className={cn(
                       'relative rounded-xl p-2 overflow-hidden h-full flex flex-col items-center justify-center',
@@ -1520,7 +1520,7 @@ export default function RiskIdentificationPanel({
                     }}
                   ></div>
                   
-                  <div className="relative z-10 grid grid-cols-2 gap-3">
+                  <div className="relative z-10 grid grid-cols-3 gap-3">
                     {/* 预计缺口金额卡片 */}
                     <div className={cn(
                       'relative rounded-xl p-2 overflow-hidden h-full flex flex-col items-center justify-center',
@@ -1732,7 +1732,7 @@ export default function RiskIdentificationPanel({
                     }}
                   ></div>
                   
-                  <div className="relative z-10 grid grid-cols-3 gap-3">
+                  <div className="relative z-10 grid grid-cols-2 gap-3">
                     {/* 新报备项目数卡片 */}
                     <div className={cn(
                       'relative rounded-xl p-2 overflow-hidden h-full flex flex-col items-center justify-center',
