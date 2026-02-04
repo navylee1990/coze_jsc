@@ -1100,7 +1100,7 @@ export default function RiskIdentificationPanel({
                     }}
                   ></div>
 
-                  <div className="relative z-10 grid grid-cols-3 gap-3">
+                  <div className="relative z-10 grid grid-cols-2 gap-3">
                     {/* 项目数量卡片 */}
                     <div className={cn(
                       'relative rounded-xl p-2 overflow-hidden h-full flex flex-col items-center justify-center',
@@ -1520,7 +1520,7 @@ export default function RiskIdentificationPanel({
                     }}
                   ></div>
                   
-                  <div className="relative z-10 grid grid-cols-3 gap-3">
+                  <div className="relative z-10 grid grid-cols-2 gap-3">
                     {/* 预计缺口金额卡片 */}
                     <div className={cn(
                       'relative rounded-xl p-2 overflow-hidden h-full flex flex-col items-center justify-center',
@@ -1776,48 +1776,6 @@ export default function RiskIdentificationPanel({
                         </div>
                       </div>
                     </div>
-
-                    {/* 立即上报按钮 */}
-                    <div
-                      className={cn(
-                        'relative rounded-xl p-2 overflow-hidden cursor-pointer group h-full flex flex-col items-center justify-center',
-                        'border-2 border-cyan-500/70',
-                        'bg-gradient-to-br from-cyan-900/30 to-blue-900/20',
-                        'hover:from-cyan-900/50 hover:to-blue-900/30',
-                        'shadow-[0_0_30px_rgba(6,182,212,0.5)]',
-                        'hover:shadow-[0_0_40px_rgba(6,182,212,0.7)]',
-                        'transition-all duration-300'
-                      )}
-                      onClick={() => openDialog({
-                        title: '立即上报',
-                        description: '暂无模板内容',
-                        confirmText: '确认发送',
-                        cancelText: '取消',
-                        onConfirm: async () => {
-                          // TODO: 实际的上报逻辑
-                          console.log('上报操作已执行');
-                        },
-                        type: 'info'
-                      })}
-                    >
-                      {/* 按钮发光效果 */}
-                      <div className="absolute inset-0 bg-gradient-to-r from-cyan-500/30 to-blue-500/30 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-                      <div className="absolute inset-0 border-2 border-cyan-500/50 rounded-xl animate-pulse"></div>
-
-                      <div className="relative z-10 w-full flex flex-col items-center justify-center">
-                        <div className="flex items-center gap-1.5 mb-1.5">
-                          <div className="w-8 h-8 rounded-full bg-cyan-500/40 border-2 border-cyan-400/60 flex items-center justify-center group-hover:scale-110 transition-transform shadow-[0_0_15px_rgba(6,182,212,0.8)]">
-                            <Send className="w-4 h-4 text-cyan-400 drop-shadow-[0_0_8px_rgba(34,211,238,1)]" />
-                          </div>
-                          <div className="text-base font-black text-cyan-400 drop-shadow-[0_0_12px_rgba(34,211,238,1)]">立即上报</div>
-                        </div>
-                        <div className="flex items-center gap-1">
-                          <div className="w-1.5 h-1.5 bg-cyan-400 rounded-full animate-bounce" style={{animationDelay: '150ms'}}></div>
-                          <div className="w-1.5 h-1.5 bg-cyan-400 rounded-full animate-bounce" style={{animationDelay: '300ms'}}></div>
-                          <div className="text-xs text-cyan-300 font-semibold">全部 {insufficientReports.reduce((sum, p) => sum + p.gapCount, 0)} 个缺口</div>
-                        </div>
-                      </div>
-                    </div>
                   </div>
                 </div>
 
@@ -1931,7 +1889,7 @@ export default function RiskIdentificationPanel({
                     }}
                   ></div>
                   
-                  <div className="relative z-10 grid grid-cols-3 gap-3">
+                  <div className="relative z-10 grid grid-cols-2 gap-3">
                     {/* 待初步接洽项目数卡片 */}
                     <div className={cn(
                       'relative rounded-xl p-2 overflow-hidden h-full flex flex-col items-center justify-center',
@@ -1976,50 +1934,8 @@ export default function RiskIdentificationPanel({
                       </div>
                     </div>
 
-                    {/* 推进接洽按钮 */}
-                    <div
-                      className={cn(
-                        'relative rounded-xl p-2 overflow-hidden cursor-pointer group h-full flex flex-col items-center justify-center',
-                        'border-2 border-cyan-500/70',
-                        'bg-gradient-to-br from-cyan-900/30 to-blue-900/20',
-                        'hover:from-cyan-900/50 hover:to-blue-900/30',
-                        'shadow-[0_0_30px_rgba(6,182,212,0.5)]',
-                        'hover:shadow-[0_0_40px_rgba(6,182,212,0.7)]',
-                        'transition-all duration-300'
-                      )}
-                      onClick={() => openDialog({
-                        title: '推进接洽',
-                        description: '暂无模板内容',
-                        confirmText: '确认发送',
-                        cancelText: '取消',
-                        onConfirm: async () => {
-                          // TODO: 实际的跟进逻辑
-                          console.log('跟进操作已执行');
-                        },
-                        type: 'info'
-                      })}
-                    >
-                      {/* 按钮发光效果 */}
-                      <div className="absolute inset-0 bg-gradient-to-r from-cyan-500/30 to-blue-500/30 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-                      <div className="absolute inset-0 border-2 border-cyan-500/50 rounded-xl animate-pulse"></div>
-
-                      <div className="relative z-10 w-full flex flex-col items-center justify-center">
-                        <div className="flex items-center gap-1.5 mb-1.5">
-                          <div className="w-8 h-8 rounded-full bg-cyan-500/40 border-2 border-cyan-400/60 flex items-center justify-center group-hover:scale-110 transition-transform shadow-[0_0_15px_rgba(6,182,212,0.8)]">
-                            <Send className="w-4 h-4 text-cyan-400 drop-shadow-[0_0_8px_rgba(34,211,238,1)]" />
-                          </div>
-                          <div className="text-base font-black text-cyan-400 drop-shadow-[0_0_12px_rgba(34,211,238,1)]">推进接洽</div>
-                        </div>
-                        <div className="flex items-center gap-1">
-                          <div className="w-1.5 h-1.5 bg-cyan-400 rounded-full animate-bounce" style={{animationDelay: '0ms'}}></div>
-                          <div className="w-1.5 h-1.5 bg-cyan-400 rounded-full animate-bounce" style={{animationDelay: '150ms'}}></div>
-                          <div className="w-1.5 h-1.5 bg-cyan-400 rounded-full animate-bounce" style={{animationDelay: '300ms'}}></div>
-                          <div className="text-xs text-cyan-300 font-semibold">全部 {insufficientConversions.reduce((sum, p) => sum + p.uncontactedCount, 0)} 个项目</div>
-                        </div>
-                      </div>
                     </div>
                   </div>
-                </div>
 
                 {/* 表格区域 */}
                 <div className="flex-1 overflow-auto p-3 bg-gradient-to-b from-slate-900/50 to-transparent min-h-[250px]">
