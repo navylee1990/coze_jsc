@@ -1,5 +1,6 @@
 'use client';
 
+// 风险识别模块 - 科技感驾驶舱样式（深色背景 + 青色霓虹发光效果）
 import { useState, useEffect, useMemo } from 'react';
 import { AlertTriangle, Building2, Clock, TrendingDown, Users, ChevronRight, ChevronLeft, PauseCircle, Gauge, Circle, Target, BarChart3, ArrowLeft, Activity, DollarSign, XCircle, Send, FileText, PlusCircle, Zap, Pause, Play, Calendar } from 'lucide-react';
 import { cn } from '@/lib/utils';
