@@ -192,21 +192,19 @@ const forecastOverviewData = {
 // 预测趋势图数据
 // 当前时间：2026-1-24，只有1月有实际已完成数据（800万）
 // 2-12月还未发生，已完成为0
-// 财务目标比业务目标小20%: 1500 * 0.8 = 1200
-// 预测完成比财务目标低15%~30%: 1200 * (0.7~0.85) = 840~1020万
 const forecastTrendData = [
-  { month: '1月', businessTarget: 1500, financialTarget: 1200, completed: 800, forecast: 900 },
-  { month: '2月', businessTarget: 1500, financialTarget: 1200, completed: 0, forecast: 950 },
-  { month: '3月', businessTarget: 1500, financialTarget: 1200, completed: 0, forecast: 880 },
-  { month: '4月', businessTarget: 1500, financialTarget: 1200, completed: 0, forecast: 920 },
-  { month: '5月', businessTarget: 1500, financialTarget: 1200, completed: 0, forecast: 960 },
-  { month: '6月', businessTarget: 1500, financialTarget: 1200, completed: 0, forecast: 910 },
-  { month: '7月', businessTarget: 1500, financialTarget: 1200, completed: 0, forecast: 930 },
-  { month: '8月', businessTarget: 1500, financialTarget: 1200, completed: 0, forecast: 890 },
-  { month: '9月', businessTarget: 1500, financialTarget: 1200, completed: 0, forecast: 940 },
-  { month: '10月', businessTarget: 1500, financialTarget: 1200, completed: 0, forecast: 970 },
-  { month: '11月', businessTarget: 1500, financialTarget: 1200, completed: 0, forecast: 920 },
-  { month: '12月', businessTarget: 1500, financialTarget: 1200, completed: 0, forecast: 880 },
+  { month: '1月', businessTarget: 2130, financialTarget: 3008, completed: 800, forecast: 900 },
+  { month: '2月', businessTarget: 1380, financialTarget: 2005.3, completed: 0, forecast: 950 },
+  { month: '3月', businessTarget: 4180, financialTarget: 6015.9, completed: 0, forecast: 880 },
+  { month: '4月', businessTarget: 2421, financialTarget: 3509.3, completed: 0, forecast: 920 },
+  { month: '5月', businessTarget: 2844, financialTarget: 4010.6, completed: 0, forecast: 960 },
+  { month: '6月', businessTarget: 3690, financialTarget: 5013.3, completed: 0, forecast: 910 },
+  { month: '7月', businessTarget: 2720, financialTarget: 4010.6, completed: 0, forecast: 930 },
+  { month: '8月', businessTarget: 3135, financialTarget: 4511.9, completed: 0, forecast: 890 },
+  { month: '9月', businessTarget: 3965, financialTarget: 5514.6, completed: 0, forecast: 940 },
+  { month: '10月', businessTarget: 2082, financialTarget: 3008, completed: 0, forecast: 970 },
+  { month: '11月', businessTarget: 2808, financialTarget: 4010.6, completed: 0, forecast: 920 },
+  { month: '12月', businessTarget: 3945, financialTarget: 5514.6, completed: 0, forecast: 880 },
 ];
 
 // 大区维度数据
