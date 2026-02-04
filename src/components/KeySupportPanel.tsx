@@ -340,7 +340,10 @@ export default function KeySupportPanel({
                         )}
                         onMouseEnter={() => onProjectHover?.(project)}
                       >
-                        <div className="flex items-center justify-center w-6 h-6 rounded-full bg-slate-200 text-xs font-bold text-slate-700">
+                        <div className={cn(
+                          'flex items-center justify-center w-6 h-6 rounded-full text-xs font-bold',
+                          theme === 'dark' ? 'bg-slate-700 text-cyan-300' : 'bg-slate-200 text-slate-700'
+                        )}>
                           {index + 1}
                         </div>
                         <div className="flex-1 min-w-0">
@@ -365,7 +368,10 @@ export default function KeySupportPanel({
                               </div>
                             </div>
                             <div className="flex-1 ml-4">
-                              <div className="h-1.5 bg-slate-200 rounded-full overflow-hidden">
+                              <div className={cn(
+                                'h-1.5 rounded-full overflow-hidden',
+                                theme === 'dark' ? 'bg-slate-700' : 'bg-slate-200'
+                              )}>
                                 <div
                                   className={cn('h-full', getProbabilityColor(project.probability).bg)}
                                   style={{ width: `${project.contribution}%` }}
@@ -433,7 +439,10 @@ export default function KeySupportPanel({
                         )}
                         onMouseEnter={() => onProjectHover?.(project)}
                       >
-                        <div className="flex items-center justify-center w-6 h-6 rounded-full bg-slate-200 text-xs font-bold text-slate-700">
+                        <div className={cn(
+                          'flex items-center justify-center w-6 h-6 rounded-full text-xs font-bold',
+                          theme === 'dark' ? 'bg-slate-700 text-cyan-300' : 'bg-slate-200 text-slate-700'
+                        )}>
                           {index + 1}
                         </div>
                         <div className="flex-1 min-w-0">
@@ -458,7 +467,10 @@ export default function KeySupportPanel({
                               </div>
                             </div>
                             <div className="flex-1 ml-4">
-                              <div className="h-1.5 bg-slate-200 rounded-full overflow-hidden">
+                              <div className={cn(
+                                'h-1.5 rounded-full overflow-hidden',
+                                theme === 'dark' ? 'bg-slate-700' : 'bg-slate-200'
+                              )}>
                                 <div
                                   className={cn('h-full', getProbabilityColor(project.probability).bg)}
                                   style={{ width: `${project.contribution}%` }}
@@ -526,7 +538,10 @@ export default function KeySupportPanel({
                         )}
                         onMouseEnter={() => onProjectHover?.(project)}
                       >
-                        <div className="flex items-center justify-center w-6 h-6 rounded-full bg-slate-200 text-xs font-bold text-slate-700">
+                        <div className={cn(
+                          'flex items-center justify-center w-6 h-6 rounded-full text-xs font-bold',
+                          theme === 'dark' ? 'bg-slate-700 text-cyan-300' : 'bg-slate-200 text-slate-700'
+                        )}>
                           {index + 1}
                         </div>
                         <div className="flex-1 min-w-0">
@@ -551,7 +566,10 @@ export default function KeySupportPanel({
                               </div>
                             </div>
                             <div className="flex-1 ml-4">
-                              <div className="h-1.5 bg-slate-200 rounded-full overflow-hidden">
+                              <div className={cn(
+                                'h-1.5 rounded-full overflow-hidden',
+                                theme === 'dark' ? 'bg-slate-700' : 'bg-slate-200'
+                              )}>
                                 <div
                                   className={cn('h-full', getProbabilityColor(project.probability).bg)}
                                   style={{ width: `${project.contribution}%` }}
