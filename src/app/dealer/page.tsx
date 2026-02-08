@@ -8,6 +8,7 @@ import CoreMetrics from '@/components/dealer/CoreMetrics';
 import DealerFinancialMetrics from '@/components/dealer/DealerFinancialMetrics';
 import MarketInsightsPanel from '@/components/dealer/MarketInsightsPanel';
 import ProjectDevelopmentPanel from '@/components/dealer/ProjectDevelopmentPanel';
+import SeriousOverrunProjects from '@/components/dealer/SeriousOverrunProjects';
 import { cn } from '@/lib/utils';
 import Link from 'next/link';
 
@@ -66,13 +67,14 @@ export default function DealerPage() {
       <main className="flex-1 flex flex-col w-full px-4 py-4">
         {/* 驾驶舱风格布局 - 三栏 */}
         <div className="grid grid-cols-1 xl:grid-cols-12 gap-4 flex-1">
-          {/* 左侧：核心指标 - 占3列 */}
-          <div className="xl:col-span-3 flex flex-col">
+          {/* 左侧：核心指标 + 严重超标项目 - 占3列 */}
+          <div className="xl:col-span-3 flex flex-col gap-4">
+            {/* 核心指标 */}
             <Card className={cn(
-              'backdrop-blur-xl border-2 flex-1 flex flex-col',
+              'backdrop-blur-xl border-2',
               'bg-slate-900/60 border-cyan-500/30 shadow-lg shadow-cyan-500/10'
             )}>
-              <CardContent className="p-4 flex-1">
+              <CardContent className="p-4">
                 <div className="flex items-center gap-2 mb-4">
                   <Target className="h-4 w-4 text-cyan-400" />
                   <h3 className="text-base font-semibold text-cyan-300/90">核心指标</h3>
@@ -80,6 +82,9 @@ export default function DealerPage() {
                 <CoreMetrics timeRange={timeRange} />
               </CardContent>
             </Card>
+
+            {/* 严重超标项目 */}
+            <SeriousOverrunProjects />
           </div>
 
           {/* 中间：月度销售趋势 - 占4列 */}
