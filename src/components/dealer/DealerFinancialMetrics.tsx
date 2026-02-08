@@ -156,26 +156,24 @@ export default function DealerFinancialMetrics() {
         </div>
       </div>
 
-      {/* 核心指标卡片 */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+      {/* 核心指标卡片 - 仪表盘风格 */}
+      <div className="grid grid-cols-3 md:grid-cols-6 gap-3">
         {/* 本月目标 */}
         <Card className={cn(
           'backdrop-blur-xl border-2 transition-all duration-300 hover:scale-105',
           'bg-gradient-to-br from-slate-900/90 to-slate-950/90',
           'border-cyan-500/30 shadow-lg shadow-cyan-500/10'
         )}>
-          <CardHeader className="pb-3">
-            <CardTitle className="text-sm text-cyan-300/80 font-medium flex items-center gap-2">
-              <Target className="h-4 w-4" />
-              {timeRange === 'current' ? '本月目标' : timeRange === 'quarter' ? '季度目标' : '年度目标'}
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="text-3xl font-black text-cyan-50" style={{
-              textShadow: '0 0 20px rgba(6,182,212,0.5)'
+          <CardContent className="p-4 text-center">
+            <div className="flex items-center justify-center gap-1 mb-2">
+              <Target className="h-3 w-3 text-cyan-400" />
+              <span className="text-xs text-cyan-300/80 font-medium">本月目标</span>
+            </div>
+            <div className="text-xl font-black text-cyan-50" style={{
+              textShadow: '0 0 15px rgba(6,182,212,0.4)'
             }}>
               {mounted ? Math.round(animatedTarget) : 0}
-              <span className="text-lg font-semibold text-cyan-400/70 ml-1">万</span>
+              <span className="text-xs font-semibold text-cyan-400/70 ml-1">万</span>
             </div>
           </CardContent>
         </Card>
@@ -186,18 +184,16 @@ export default function DealerFinancialMetrics() {
           'bg-gradient-to-br from-slate-900/90 to-slate-950/90',
           'border-green-500/30 shadow-lg shadow-green-500/10'
         )}>
-          <CardHeader className="pb-3">
-            <CardTitle className="text-sm text-green-300/80 font-medium flex items-center gap-2">
-              <Zap className="h-4 w-4" />
-              已完成
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="text-3xl font-black text-green-400" style={{
-              textShadow: '0 0 20px rgba(74,222,128,0.5)'
+          <CardContent className="p-4 text-center">
+            <div className="flex items-center justify-center gap-1 mb-2">
+              <Zap className="h-3 w-3 text-green-400" />
+              <span className="text-xs text-cyan-300/80 font-medium">已完成</span>
+            </div>
+            <div className="text-xl font-black text-green-400" style={{
+              textShadow: '0 0 15px rgba(74,222,128,0.4)'
             }}>
               {mounted ? Math.round(animatedCompleted) : 0}
-              <span className="text-lg font-semibold text-green-400/70 ml-1">万</span>
+              <span className="text-xs font-semibold text-green-400/70 ml-1">万</span>
             </div>
           </CardContent>
         </Card>
@@ -208,18 +204,16 @@ export default function DealerFinancialMetrics() {
           'bg-gradient-to-br from-slate-900/90 to-slate-950/90',
           getRateBgColor(completionRate)
         )}>
-          <CardHeader className="pb-3">
-            <CardTitle className="text-sm text-cyan-300/80 font-medium flex items-center gap-2">
-              <Gauge className="h-4 w-4" />
-              完成率
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className={cn('text-3xl font-black', getRateColor(completionRate))} style={{
-              textShadow: `0 0 20px ${completionRate < 80 ? 'rgba(239,68,68,0.5)' : completionRate < 100 ? 'rgba(250,204,21,0.5)' : 'rgba(74,222,128,0.5)'}`
+          <CardContent className="p-4 text-center">
+            <div className="flex items-center justify-center gap-1 mb-2">
+              <Gauge className="h-3 w-3 text-cyan-400" />
+              <span className="text-xs text-cyan-300/80 font-medium">完成率</span>
+            </div>
+            <div className={cn('text-xl font-black', getRateColor(completionRate))} style={{
+              textShadow: `0 0 15px ${completionRate < 80 ? 'rgba(239,68,68,0.4)' : completionRate < 100 ? 'rgba(250,204,21,0.4)' : 'rgba(74,222,128,0.4)'}`
             }}>
               {mounted ? completionRate : 0}
-              <span className="text-lg font-semibold ml-1">%</span>
+              <span className="text-xs font-semibold ml-1">%</span>
             </div>
           </CardContent>
         </Card>
@@ -230,18 +224,16 @@ export default function DealerFinancialMetrics() {
           'bg-gradient-to-br from-slate-900/90 to-slate-950/90',
           'border-cyan-500/30 shadow-lg shadow-cyan-500/10'
         )}>
-          <CardHeader className="pb-3">
-            <CardTitle className="text-sm text-cyan-300/80 font-medium flex items-center gap-2">
-              <TrendingUp className="h-4 w-4" />
-              预计完成
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="text-3xl font-black text-cyan-50" style={{
-              textShadow: '0 0 20px rgba(6,182,212,0.5)'
+          <CardContent className="p-4 text-center">
+            <div className="flex items-center justify-center gap-1 mb-2">
+              <TrendingUp className="h-3 w-3 text-cyan-400" />
+              <span className="text-xs text-cyan-300/80 font-medium">预计完成</span>
+            </div>
+            <div className="text-xl font-black text-cyan-50" style={{
+              textShadow: '0 0 15px rgba(6,182,212,0.4)'
             }}>
               {mounted ? Math.round(animatedForecast) : 0}
-              <span className="text-lg font-semibold text-cyan-400/70 ml-1">万</span>
+              <span className="text-xs font-semibold text-cyan-400/70 ml-1">万</span>
             </div>
           </CardContent>
         </Card>
@@ -252,18 +244,16 @@ export default function DealerFinancialMetrics() {
           'bg-gradient-to-br from-slate-900/90 to-slate-950/90',
           getRateBgColor(forecastRate)
         )}>
-          <CardHeader className="pb-3">
-            <CardTitle className="text-sm text-cyan-300/80 font-medium flex items-center gap-2">
-              <Clock className="h-4 w-4" />
-              预计完成率
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className={cn('text-3xl font-black', getRateColor(forecastRate))} style={{
-              textShadow: `0 0 20px ${forecastRate < 80 ? 'rgba(239,68,68,0.5)' : forecastRate < 100 ? 'rgba(250,204,21,0.5)' : 'rgba(74,222,128,0.5)'}`
+          <CardContent className="p-4 text-center">
+            <div className="flex items-center justify-center gap-1 mb-2">
+              <Clock className="h-3 w-3 text-cyan-400" />
+              <span className="text-xs text-cyan-300/80 font-medium">预计完成率</span>
+            </div>
+            <div className={cn('text-xl font-black', getRateColor(forecastRate))} style={{
+              textShadow: `0 0 15px ${forecastRate < 80 ? 'rgba(239,68,68,0.4)' : forecastRate < 100 ? 'rgba(250,204,21,0.4)' : 'rgba(74,222,128,0.4)'}`
             }}>
               {mounted ? forecastRate : 0}
-              <span className="text-lg font-semibold ml-1">%</span>
+              <span className="text-xs font-semibold ml-1">%</span>
             </div>
           </CardContent>
         </Card>
@@ -274,18 +264,16 @@ export default function DealerFinancialMetrics() {
           'bg-gradient-to-br from-slate-900/90 to-slate-950/90',
           gap < 0 ? 'border-green-500/30 shadow-lg shadow-green-500/10' : 'border-red-500/30 shadow-lg shadow-red-500/10'
         )}>
-          <CardHeader className="pb-3">
-            <CardTitle className="text-sm text-cyan-300/80 font-medium flex items-center gap-2">
-              <AlertTriangle className="h-4 w-4" />
-              {gap < 0 ? '超额完成' : '缺口'}
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className={cn('text-3xl font-black', gap < 0 ? 'text-green-400' : 'text-red-400')} style={{
-              textShadow: `0 0 20px ${gap < 0 ? 'rgba(74,222,128,0.5)' : 'rgba(239,68,68,0.5)'}`
+          <CardContent className="p-4 text-center">
+            <div className="flex items-center justify-center gap-1 mb-2">
+              <AlertTriangle className="h-3 w-3 text-cyan-400" />
+              <span className="text-xs text-cyan-300/80 font-medium">{gap < 0 ? '超额' : '缺口'}</span>
+            </div>
+            <div className={cn('text-xl font-black', gap < 0 ? 'text-green-400' : 'text-red-400')} style={{
+              textShadow: `0 0 15px ${gap < 0 ? 'rgba(74,222,128,0.4)' : 'rgba(239,68,68,0.4)'}`
             }}>
               {mounted ? Math.round(Math.abs(gap)) : 0}
-              <span className="text-lg font-semibold ml-1">万</span>
+              <span className="text-xs font-semibold ml-1">万</span>
             </div>
           </CardContent>
         </Card>
