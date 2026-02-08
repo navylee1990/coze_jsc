@@ -5,6 +5,9 @@ import { FolderKanban, TrendingUp, AlertCircle } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { cn } from '@/lib/utils';
 
+// 时间范围类型
+type TimeRange = 'current' | 'quarter' | 'year';
+
 // 项目阶段数据
 const projectStages = [
   { stage: '初报备', percentage: 0, count: 45, color: 'bg-gray-500' },
@@ -47,7 +50,7 @@ const overdueProjects = [
   { id: 'P005', name: 'XX金融机构', stage: '方案确认', overdue: 28, amount: 250 },
 ];
 
-export default function ProjectDevelopmentPanel() {
+export default function ProjectDevelopmentPanel({ timeRange = 'current', showTitle = false }: { timeRange?: TimeRange, showTitle?: boolean }) {
   const [showOverdueDetails, setShowOverdueDetails] = useState(false);
 
   const totalProjects = 250;
@@ -57,11 +60,13 @@ export default function ProjectDevelopmentPanel() {
 
   return (
     <div className="space-y-4">
-      {/* 标题 */}
-      <div className="flex items-center gap-2">
-        <FolderKanban className="h-5 w-5 text-cyan-400" />
-        <h2 className="text-xl font-bold text-cyan-50">项目开发</h2>
-      </div>
+      {/* 标题（可选） */}
+      {showTitle && (
+        <div className="flex items-center gap-2">
+          <FolderKanban className="h-5 w-5 text-cyan-400" />
+          <h2 className="text-xl font-bold text-cyan-50">项目开发分析</h2>
+        </div>
+      )}
 
       {/* 项目情况分析 */}
       <Card className="backdrop-blur-xl border-2 border-cyan-500/30 bg-gradient-to-br from-slate-900/90 to-slate-950/90 shadow-lg shadow-cyan-500/10">

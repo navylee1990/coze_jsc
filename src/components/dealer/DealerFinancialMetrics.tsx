@@ -1,43 +1,9 @@
 'use client';
 
-import { useState, useMemo, useEffect } from 'react';
-import { Target, Clock, AlertTriangle, Zap, Gauge, BarChart3, TrendingUp, Calendar } from 'lucide-react';
+import { BarChart3, TrendingUp, AlertTriangle } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { cn } from '@/lib/utils';
-import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, Area, AreaChart } from 'recharts';
-
-// 主题样式
-const DASHBOARD_STYLES = {
-  bg: 'bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950',
-  text: 'text-cyan-50',
-  textMuted: 'text-cyan-300/70',
-  textSecondary: 'text-cyan-200',
-  neon: 'text-cyan-400 drop-shadow-[0_0_8px_rgba(6,182,212,0.8)]',
-  warningNeon: 'text-red-400 drop-shadow-[0_0_8px_rgba(239,68,68,0.8)]',
-  successNeon: 'text-green-400 drop-shadow-[0_0_8px_rgba(74,222,128,0.8)]',
-};
-
-// 时间范围类型
-type TimeRange = 'current' | 'quarter' | 'year';
-
-// 时间范围数据
-const TIME_RANGE_DATA = {
-  current: {
-    target: 1200,
-    completed: 960,
-    forecast: 1050,
-  },
-  quarter: {
-    target: 3600,
-    completed: 2880,
-    forecast: 3150,
-  },
-  year: {
-    target: 14400,
-    completed: 11520,
-    forecast: 12600,
-  },
-};
+import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 
 // 月度趋势数据
 const monthlyTrendData = [
@@ -79,395 +45,16 @@ const returnRateData = [
   { quarter: 'Q4', rate: 4.1 },
 ];
 
-// 主仪表盘组件
-const MainGauge = ({
-  actualValue,
-  targetValue,
-  showPercentage = true,
-  size = 180,
-  label = ''
-}: {
-  actualValue: number;
-  targetValue: number;
-  showPercentage?: boolean;
-  size?: number;
-  label?: string;
-}) => {
-  const percentage = Math.min((actualValue / targetValue) * 100, 100);
-  const angle = (percentage / 100) * 180 - 90;
-
-  return (
-    <div className="relative flex flex-col items-center justify-center">
-      <div className="relative flex items-center justify-center" style={{ width: size, height: size }}>
-        {/* 外圈发光效果 */}
-        <div
-          className="absolute inset-0 rounded-full"
-          style={{
-            background: percentage >= 90 ? 'radial-gradient(circle, rgba(74,222,128,0.2) 0%, transparent 70%)' :
-                      percentage >= 70 ? 'radial-gradient(circle, rgba(250,204,21,0.2) 0%, transparent 70%)' :
-                      'radial-gradient(circle, rgba(239,68,68,0.2) 0%, transparent 70%)',
-          }}
-        />
-
-        {/* 仪表盘SVG */}
-        <svg viewBox="0 0 200 200" className="w-full h-full">
-          {/* 背景圆环 */}
-          <circle
-            cx="100"
-            cy="100"
-            r="75"
-            fill="none"
-            stroke="rgba(30,41,59,0.8)"
-            strokeWidth="10"
-          />
-
-          {/* 刻度线 */}
-          {[...Array(11)].map((_, i) => {
-            const angle = (i * 18 - 90) * (Math.PI / 180);
-            const innerR = 65;
-            const outerR = 75;
-            const x1 = 100 + innerR * Math.cos(angle);
-            const y1 = 100 + innerR * Math.sin(angle);
-            const x2 = 100 + outerR * Math.cos(angle);
-            const y2 = 100 + outerR * Math.sin(angle);
-
-            // 刻度颜色
-            const tickPercentage = (i / 10) * 100;
-            const strokeColor = tickPercentage >= 90 ? '#22c55e' :
-                               tickPercentage >= 70 ? '#eab308' :
-                               '#ef4444';
-
-            return (
-              <line
-                key={i}
-                x1={x1}
-                y1={y1}
-                x2={x2}
-                y2={y2}
-                stroke={strokeColor}
-                strokeWidth="2"
-                strokeLinecap="round"
-              />
-            );
-          })}
-
-          {/* 进度弧线 */}
-          <circle
-            cx="100"
-            cy="100"
-            r="75"
-            fill="none"
-            stroke={percentage >= 90 ? '#22c55e' :
-                    percentage >= 70 ? '#eab308' :
-                    '#ef4444'}
-            strokeWidth="10"
-            strokeLinecap="round"
-            strokeDasharray={`${percentage * 4.71} 471`}
-            strokeDashoffset={0}
-            transform="rotate(-90 100 100)"
-            style={{
-              filter: percentage >= 90 ? 'drop-shadow(0 0 12px rgba(74,222,128,1))' :
-                     percentage >= 70 ? 'drop-shadow(0 0 12px rgba(250,204,21,1))' :
-                     'drop-shadow(0 0 12px rgba(239,68,68,1))',
-              transition: 'stroke-dasharray 0.1s ease-out',
-            }}
-          />
-
-          {/* 指针 */}
-          <g transform={`translate(100, 100) rotate(${angle})`}>
-            <polygon
-              points="-3,0 0,-55 3,0"
-              fill="#22d3ee"
-              style={{
-                filter: 'drop-shadow(0 0 8px rgba(34,211,238,1))',
-              }}
-            />
-            <circle
-              cx="0"
-              cy="0"
-              r="6"
-              fill="#22d3ee"
-              style={{
-                filter: 'drop-shadow(0 0 6px rgba(34,211,238,0.9))',
-              }}
-            />
-          </g>
-        </svg>
-
-        {/* 中心数值显示 */}
-        <div className="absolute inset-0 flex flex-col items-center justify-center">
-          {showPercentage ? (
-            <>
-              <div className="text-3xl font-black mb-1"
-                   style={{
-                     color: percentage >= 90 ? '#22c55e' :
-                            percentage >= 70 ? '#eab308' :
-                            '#ef4444',
-                     textShadow: percentage >= 90 ? '0 0 15px rgba(74,222,128,0.8)' :
-                                percentage >= 70 ? '0 0 15px rgba(250,204,21,0.8)' :
-                                '0 0 15px rgba(239,68,68,0.8)',
-                   }}
-              >
-                {Math.round(actualValue)}
-              </div>
-              <div className="text-xs font-semibold text-cyan-400/70">%</div>
-            </>
-          ) : (
-            <div className="flex flex-col items-center">
-              <div className="text-xl font-black mb-0.5 text-cyan-50"
-                   style={{
-                     textShadow: '0 0 15px rgba(6,182,212,0.5)',
-                   }}
-              >
-                {Math.round(actualValue)}
-              </div>
-              <div className="text-xs text-cyan-400/60">万</div>
-            </div>
-          )}
-        </div>
-      </div>
-      {label && (
-        <div className="mt-2 text-sm font-medium text-cyan-300/80">{label}</div>
-      )}
-    </div>
-  );
-};
-
-// 小型仪表盘
-const SmallGauge = ({
-  value,
-  maxValue,
-  label,
-  unit = '万',
-  color = 'cyan',
-  size = 140
-}: {
-  value: number;
-  maxValue: number;
-  label: string;
-  unit?: string;
-  color?: 'cyan' | 'red' | 'green' | 'yellow';
-  size?: number;
-}) => {
-  const percentage = Math.min((value / maxValue) * 100, 100);
-  const angle = (percentage / 100) * 180 - 90;
-
-  const colorMap = {
-    cyan: '#22d3ee',
-    red: '#ef4444',
-    green: '#22c55e',
-    yellow: '#eab308',
-  };
-
-  const strokeColor = colorMap[color];
-
-  return (
-    <div className="relative flex flex-col items-center justify-center">
-      <div className="relative flex items-center justify-center" style={{ width: size, height: size }}>
-        <svg viewBox="0 0 200 200" className="w-full h-full">
-          {/* 背景圆环 */}
-          <circle
-            cx="100"
-            cy="100"
-            r="70"
-            fill="none"
-            stroke="rgba(30,41,59,0.8)"
-            strokeWidth="8"
-          />
-
-          {/* 进度弧线 */}
-          <circle
-            cx="100"
-            cy="100"
-            r="70"
-            fill="none"
-            stroke={strokeColor}
-            strokeWidth="8"
-            strokeLinecap="round"
-            strokeDasharray={`${percentage * 4.40} 440`}
-            strokeDashoffset={0}
-            transform="rotate(-90 100 100)"
-            style={{
-              filter: `drop-shadow(0 0 8px ${strokeColor})`,
-              transition: 'stroke-dasharray 0.1s ease-out',
-            }}
-          />
-
-          {/* 指针 */}
-          <g transform={`translate(100, 100) rotate(${angle})`}>
-            <polygon
-              points="-2.5,0 0,-50 2.5,0"
-              fill={strokeColor}
-              style={{
-                filter: `drop-shadow(0 0 6px ${strokeColor})`,
-              }}
-            />
-            <circle cx="0" cy="0" r="5" fill={strokeColor} />
-          </g>
-        </svg>
-
-        {/* 中心数值显示 */}
-        <div className="absolute inset-0 flex flex-col items-center justify-center">
-          <div className="text-2xl font-black text-cyan-50"
-               style={{
-                 textShadow: '0 0 12px rgba(6,182,212,0.5)',
-               }}
-          >
-            {Math.round(value)}
-          </div>
-          <div className="text-xs text-cyan-400/60">{unit}</div>
-        </div>
-      </div>
-      <div className="mt-2 text-xs font-medium text-cyan-300/80">{label}</div>
-    </div>
-  );
-};
-
-export default function DealerFinancialMetrics() {
-  const [timeRange, setTimeRange] = useState<TimeRange>('current');
-  const [mounted, setMounted] = useState(false);
-
-  // 动画状态
-  const [animatedTarget, setAnimatedTarget] = useState(0);
-  const [animatedCompleted, setAnimatedCompleted] = useState(0);
-  const [animatedForecast, setAnimatedForecast] = useState(0);
-
-  useEffect(() => {
-    setMounted(true);
-
-    // 动画效果
-    const data = TIME_RANGE_DATA[timeRange];
-    const duration = 1500;
-    const startTime = Date.now();
-
-    const animate = () => {
-      const elapsed = Date.now() - startTime;
-      const progress = Math.min(elapsed / duration, 1);
-      const easeOut = 1 - Math.pow(1 - progress, 3);
-
-      setAnimatedTarget(data.target * easeOut);
-      setAnimatedCompleted(data.completed * easeOut);
-      setAnimatedForecast(data.forecast * easeOut);
-
-      if (progress < 1) {
-        requestAnimationFrame(animate);
-      }
-    };
-
-    animate();
-  }, [timeRange]);
-
-  const data = TIME_RANGE_DATA[timeRange];
-  const completionRate = Math.round((data.completed / data.target) * 100);
-  const forecastRate = Math.round((data.forecast / data.target) * 100);
-  const gap = data.target - data.forecast;
-
-  // 颜色判断
-  const getRateColor = (rate: number) => {
-    if (rate < 80) return 'text-red-400';
-    if (rate < 100) return 'text-yellow-400';
-    return 'text-green-400';
-  };
-
-  const getRateBgColor = (rate: number) => {
-    if (rate < 80) return 'bg-red-500/20 border-red-500/40';
-    if (rate < 100) return 'bg-yellow-500/20 border-yellow-500/40';
-    return 'bg-green-500/20 border-green-500/40';
-  };
-
+export default function DealerFinancialMetrics({ showTitle = false }: { showTitle?: boolean }) {
   return (
     <div className="space-y-6">
-      {/* 标题和时间范围选择 */}
-      <div className="flex items-center justify-between">
+      {/* 标题（可选） */}
+      {showTitle && (
         <div className="flex items-center gap-2">
-          <Target className="h-5 w-5 text-cyan-400" />
-          <h2 className="text-xl font-bold text-cyan-50">财务指标（签约目标）</h2>
+          <TrendingUp className="h-5 w-5 text-cyan-400" />
+          <h2 className="text-lg font-bold text-cyan-50">月度销售趋势</h2>
         </div>
-        <div className="flex gap-2">
-          {(['current', 'quarter', 'year'] as TimeRange[]).map((range) => (
-            <button
-              key={range}
-              onClick={() => setTimeRange(range)}
-              className={cn(
-                'px-3 py-1.5 rounded-lg text-sm font-medium transition-all duration-200',
-                timeRange === range
-                  ? 'bg-cyan-500/20 text-cyan-400 border border-cyan-500/40 shadow-[0_0_10px_rgba(6,182,212,0.3)]'
-                  : 'bg-slate-800/50 text-cyan-300/70 hover:bg-slate-700/50'
-              )}
-            >
-              {range === 'current' ? '本月' : range === 'quarter' ? '季度' : '年度'}
-            </button>
-          ))}
-        </div>
-      </div>
-
-      {/* 仪表盘区域 */}
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-4 items-center justify-items-center">
-        {/* 本月目标 */}
-        <SmallGauge
-          value={data.target}
-          maxValue={data.target * 1.2}
-          label={timeRange === 'current' ? '本月目标' : timeRange === 'quarter' ? '季度目标' : '年度目标'}
-          unit="万"
-          color="cyan"
-          size={140}
-        />
-
-        {/* 已完成 */}
-        <SmallGauge
-          value={data.completed}
-          maxValue={data.target}
-          label="已完成"
-          unit="万"
-          color="green"
-          size={140}
-        />
-
-        {/* 预计完成 */}
-        <SmallGauge
-          value={data.forecast}
-          maxValue={data.target * 1.2}
-          label="预计完成"
-          unit="万"
-          color="cyan"
-          size={140}
-        />
-
-        {/* 缺口 */}
-        <SmallGauge
-          value={Math.abs(gap)}
-          maxValue={data.target}
-          label={gap < 0 ? '超额' : '缺口'}
-          unit="万"
-          color={gap < 0 ? 'green' : 'red'}
-          size={140}
-        />
-      </div>
-
-      {/* 达成率仪表盘 */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 items-center justify-items-center">
-        {/* 完成率 */}
-        <div className="flex flex-col items-center">
-          <MainGauge
-            actualValue={completionRate}
-            targetValue={100}
-            showPercentage={true}
-            size={180}
-            label="完成率"
-          />
-        </div>
-
-        {/* 预计完成率 */}
-        <div className="flex flex-col items-center">
-          <MainGauge
-            actualValue={forecastRate}
-            targetValue={100}
-            showPercentage={true}
-            size={180}
-            label="预计完成率"
-          />
-        </div>
-      </div>
+      )}
 
       {/* 月度趋势图 */}
       <Card className={cn(
@@ -481,7 +68,7 @@ export default function DealerFinancialMetrics() {
           </CardTitle>
         </CardHeader>
         <CardContent>
-          <ResponsiveContainer width="100%" height={280}>
+          <ResponsiveContainer width="100%" height={400}>
             <LineChart data={monthlyTrendData}>
               <defs>
                 <linearGradient id="colorTarget" x1="0" y1="0" x2="0" y2="1">
@@ -500,13 +87,13 @@ export default function DealerFinancialMetrics() {
               <CartesianGrid strokeDasharray="4 4" stroke="rgba(34,211,238,0.15)" />
               <XAxis
                 dataKey="month"
-                tick={{ fill: 'rgba(34,211,238,0.7)', fontSize: 12, fontWeight: 500 }}
+                tick={{ fill: 'rgba(34,211,238,0.7)', fontSize: 13, fontWeight: 500 }}
                 axisLine={{ stroke: 'rgba(34,211,238,0.3)' }}
                 tickLine={{ stroke: 'rgba(34,211,238,0.3)' }}
                 interval={0}
               />
               <YAxis
-                tick={{ fill: 'rgba(34,211,238,0.7)', fontSize: 12, fontWeight: 500 }}
+                tick={{ fill: 'rgba(34,211,238,0.7)', fontSize: 13, fontWeight: 500 }}
                 axisLine={false}
                 tickLine={false}
                 tickFormatter={(value) => `${value}`}
@@ -529,7 +116,7 @@ export default function DealerFinancialMetrics() {
                 }}
               />
               <Legend
-                wrapperStyle={{ fontSize: '12px', color: '#22d3ee' }}
+                wrapperStyle={{ fontSize: '13px', color: '#22d3ee', paddingTop: '10px' }}
               />
               {/* 目标线 - 虚线 */}
               <Line

@@ -35,14 +35,19 @@ const getRateColor = (rate: number) => {
   return 'text-green-400 bg-green-500/20 border-green-500/40';
 };
 
-export default function MarketInsightsPanel() {
+// 时间范围类型
+type TimeRange = 'current' | 'quarter' | 'year';
+
+export default function MarketInsightsPanel({ timeRange = 'current', showTitle = false }: { timeRange?: TimeRange, showTitle?: boolean }) {
   return (
     <div className="space-y-4">
-      {/* 标题 */}
-      <div className="flex items-center gap-2">
-        <AlertTriangle className="h-5 w-5 text-cyan-400" />
-        <h2 className="text-xl font-bold text-cyan-50">市场洞察及风险分析</h2>
-      </div>
+      {/* 标题（可选） */}
+      {showTitle && (
+        <div className="flex items-center gap-2">
+          <AlertTriangle className="h-5 w-5 text-cyan-400" />
+          <h2 className="text-xl font-bold text-cyan-50">市场洞察及风险分析</h2>
+        </div>
+      )}
 
       {/* 细分行业进展 */}
       <Card className="backdrop-blur-xl border-2 border-cyan-500/30 bg-gradient-to-br from-slate-900/90 to-slate-950/90 shadow-lg shadow-cyan-500/10">
