@@ -101,28 +101,31 @@ export default function DealerPage() {
           </div>
         </div>
 
-        {/* 第二行：业务洞察与指导 */}
-        <div className="mt-4">
-          <Card className={cn(
-            'backdrop-blur-xl border-2',
-            'bg-slate-900/60 border-cyan-500/30 shadow-lg shadow-cyan-500/10'
-          )}>
-            <CardContent className="p-4">
-              <BusinessInsightsPanel timeRange={timeRange} showTitle={true} />
-            </CardContent>
-          </Card>
-        </div>
+        {/* 第二行：业务洞察与指导（左）+ 项目智能分析（右） */}
+        <div className="mt-4 grid grid-cols-1 xl:grid-cols-12 gap-4">
+          {/* 左侧：业务洞察与指导 - 占6列 */}
+          <div className="xl:col-span-6">
+            <Card className={cn(
+              'backdrop-blur-xl border-2 h-full',
+              'bg-slate-900/60 border-cyan-500/30 shadow-lg shadow-cyan-500/10'
+            )}>
+              <CardContent className="p-4">
+                <BusinessInsightsPanel timeRange={timeRange} showTitle={true} />
+              </CardContent>
+            </Card>
+          </div>
 
-        {/* 第三行：项目智能分析 */}
-        <div className="mt-4">
-          <Card className={cn(
-            'backdrop-blur-xl border-2',
-            'bg-slate-900/60 border-cyan-500/30 shadow-lg shadow-cyan-500/10'
-          )}>
-            <CardContent className="p-4">
-              <ProjectInsightsPanel timeRange={timeRange} showTitle={false} />
-            </CardContent>
-          </Card>
+          {/* 右侧：项目智能分析 - 占6列 */}
+          <div className="xl:col-span-6">
+            <Card className={cn(
+              'backdrop-blur-xl border-2 h-full',
+              'bg-slate-900/60 border-cyan-500/30 shadow-lg shadow-cyan-500/10'
+            )}>
+              <CardContent className="p-4">
+                <ProjectInsightsPanel timeRange={timeRange} showTitle={true} />
+              </CardContent>
+            </Card>
+          </div>
         </div>
       </main>
     </div>
