@@ -82,8 +82,8 @@ export default function DealerPage() {
             </Card>
           </div>
 
-          {/* 中间：月度销售趋势 - 占6列 */}
-          <div className="xl:col-span-6 flex flex-col">
+          {/* 中间：月度销售趋势 - 占4列 */}
+          <div className="xl:col-span-4 flex flex-col">
             <Card className={cn(
               'backdrop-blur-xl border-2 flex-1 flex flex-col',
               'bg-slate-900/60 border-cyan-500/30 shadow-lg shadow-cyan-500/10'
@@ -94,8 +94,8 @@ export default function DealerPage() {
             </Card>
           </div>
 
-          {/* 右侧：市场洞察及风险分析 - 占3列 */}
-          <div className="xl:col-span-3 flex flex-col">
+          {/* 右侧：市场洞察及风险分析 - 占5列 */}
+          <div className="xl:col-span-5 flex flex-col">
             <Card className={cn(
               'backdrop-blur-xl border-2 flex-1 flex flex-col',
               'bg-slate-900/60 border-red-500/30 shadow-lg shadow-red-500/10'

@@ -32,7 +32,7 @@ const MainGauge = ({
   targetValue,
   label,
   unit = '万',
-  size = 200
+  size = 160
 }: {
   actualValue: number;
   targetValue: number;
@@ -142,7 +142,7 @@ const MainGauge = ({
 
         {/* 中心数值显示 */}
         <div className="absolute inset-0 flex flex-col items-center justify-center">
-          <div className="text-4xl font-black text-cyan-50 mb-1"
+          <div className="text-3xl font-black text-cyan-50 mb-1"
                style={{
                  textShadow: '0 0 20px rgba(6,182,212,0.6)',
                }}
@@ -152,7 +152,7 @@ const MainGauge = ({
           <div className="text-xs font-semibold text-cyan-400/70">{unit}</div>
         </div>
       </div>
-      <div className="mt-3 text-base font-semibold text-cyan-300/90">{label}</div>
+      <div className="mt-2 text-sm font-semibold text-cyan-300/90">{label}</div>
     </div>
   );
 };
