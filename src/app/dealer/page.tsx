@@ -7,7 +7,7 @@ import { Button } from '@/components/ui/button';
 import CoreMetrics from '@/components/dealer/CoreMetrics';
 import DealerFinancialMetrics from '@/components/dealer/DealerFinancialMetrics';
 import BusinessInsightsPanel from '@/components/dealer/BusinessInsightsPanel';
-import ProjectDevelopmentPanel from '@/components/dealer/ProjectDevelopmentPanel';
+import ProjectInsightsPanel from '@/components/dealer/ProjectInsightsPanel';
 import { cn } from '@/lib/utils';
 import Link from 'next/link';
 
@@ -107,14 +107,14 @@ export default function DealerPage() {
           </div>
         </div>
 
-        {/* 项目开发分析 - 占满整行 */}
+        {/* 项目智能分析 - 占满整行 */}
         <div className="mt-4">
           <Card className={cn(
             'backdrop-blur-xl border-2',
             'bg-slate-900/60 border-cyan-500/30 shadow-lg shadow-cyan-500/10'
           )}>
             <CardContent className="p-4">
-              <ProjectDevelopmentPanel timeRange={timeRange} showTitle={false} />
+              <ProjectInsightsPanel timeRange={timeRange} showTitle={false} />
             </CardContent>
           </Card>
         </div>
