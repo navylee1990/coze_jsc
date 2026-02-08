@@ -14,97 +14,100 @@ export default function HomePage() {
           <p className="text-gray-600">预测驱动，数据赋能，全面掌握业务运营</p>
         </div>
 
-        {/* 驾驶舱卡片 - 商净销售预测 */}
-        <Link href="/gm" className="block group mb-6">
-          <Card className="border-2 border-gray-200 hover:border-green-400 hover:shadow-2xl transition-all duration-300 bg-white">
-            <CardContent className="p-10">
-              <div className="flex flex-col md:flex-row items-center gap-8">
-                {/* 图标 */}
-                <div className="flex-shrink-0">
-                  <div className="w-24 h-24 bg-gradient-to-br from-green-500 to-emerald-600 rounded-3xl flex items-center justify-center group-hover:scale-110 transition-transform">
-                    <Activity className="w-12 h-12 text-white" />
-                  </div>
-                </div>
-
-                {/* 文字内容 */}
-                <div className="flex-grow text-center md:text-left">
-                  <h2 className="text-3xl font-bold text-gray-900 mb-3">商净销售预测</h2>
-                  <p className="text-gray-600 mb-4">
-                    基于预测模型的经营看板，实时追踪销售目标达成、项目储备、人员贡献等关键指标
-                  </p>
-                  <div className="flex flex-wrap items-center justify-center md:justify-start gap-4 text-sm text-gray-500">
-                    <div className="flex items-center gap-1.5">
-                      <Zap className="w-4 h-4 text-green-500" />
-                      <span>预测模型驱动</span>
-                    </div>
-                    <div className="flex items-center gap-1.5">
-                      <Layers className="w-4 h-4 text-emerald-500" />
-                      <span>多维度数据洞察</span>
-                    </div>
-                    <div className="flex items-center gap-1.5">
-                      <Activity className="w-4 h-4 text-blue-500" />
-                      <span>实时风险识别</span>
+        {/* 驾驶舱卡片 */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          {/* 商净销售预测 */}
+          <Link href="/gm" className="block group">
+            <Card className="border-2 border-gray-200 hover:border-green-400 hover:shadow-2xl transition-all duration-300 bg-white">
+              <CardContent className="p-8">
+                <div className="flex flex-col items-center gap-6 text-center">
+                  {/* 图标 */}
+                  <div className="flex-shrink-0">
+                    <div className="w-20 h-20 bg-gradient-to-br from-green-500 to-emerald-600 rounded-2xl flex items-center justify-center group-hover:scale-110 transition-transform">
+                      <Activity className="w-10 h-10 text-white" />
                     </div>
                   </div>
-                </div>
 
-                {/* 箭头 */}
-                <div className="flex-shrink-0">
-                  <Button variant="default" className="group-hover:bg-green-600 transition-colors">
-                    进入驾驶舱
-                    <ArrowRight className="ml-2 w-4 h-4" />
-                  </Button>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
-        </Link>
-
-        {/* 经销商销售预测卡片 */}
-        <Link href="/dealer" className="block group">
-          <Card className="border-2 border-gray-200 hover:border-purple-400 hover:shadow-2xl transition-all duration-300 bg-white">
-            <CardContent className="p-10">
-              <div className="flex flex-col md:flex-row items-center gap-8">
-                {/* 图标 */}
-                <div className="flex-shrink-0">
-                  <div className="w-24 h-24 bg-gradient-to-br from-purple-500 to-pink-600 rounded-3xl flex items-center justify-center group-hover:scale-110 transition-transform">
-                    <BarChart3 className="w-12 h-12 text-white" />
-                  </div>
-                </div>
-
-                {/* 文字内容 */}
-                <div className="flex-grow text-center md:text-left">
-                  <h2 className="text-3xl font-bold text-gray-900 mb-3">经销商销售预测</h2>
-                  <p className="text-gray-600 mb-4">
-                    财务指标追踪、市场洞察分析、项目开发管理，全方位掌控经销商销售数据
-                  </p>
-                  <div className="flex flex-wrap items-center justify-center md:justify-start gap-4 text-sm text-gray-500">
-                    <div className="flex items-center gap-1.5">
-                      <Target className="w-4 h-4 text-purple-500" />
-                      <span>财务指标分析</span>
-                    </div>
-                    <div className="flex items-center gap-1.5">
-                      <Layers className="w-4 h-4 text-pink-500" />
-                      <span>市场洞察洞察</span>
-                    </div>
-                    <div className="flex items-center gap-1.5">
-                      <TrendingUp className="w-4 h-4 text-indigo-500" />
-                      <span>项目开发跟踪</span>
+                  {/* 文字内容 */}
+                  <div className="flex-grow">
+                    <h2 className="text-2xl font-bold text-gray-900 mb-2">商净销售预测</h2>
+                    <p className="text-gray-600 text-sm mb-4 line-clamp-2">
+                      基于预测模型的经营看板，实时追踪销售目标达成、项目储备、人员贡献等关键指标
+                    </p>
+                    <div className="flex flex-wrap items-center justify-center gap-3 text-xs text-gray-500">
+                      <div className="flex items-center gap-1">
+                        <Zap className="w-3 h-3 text-green-500" />
+                        <span>预测模型驱动</span>
+                      </div>
+                      <div className="flex items-center gap-1">
+                        <Layers className="w-3 h-3 text-emerald-500" />
+                        <span>多维度数据洞察</span>
+                      </div>
+                      <div className="flex items-center gap-1">
+                        <Activity className="w-3 h-3 text-blue-500" />
+                        <span>实时风险识别</span>
+                      </div>
                     </div>
                   </div>
-                </div>
 
-                {/* 箭头 */}
-                <div className="flex-shrink-0">
-                  <Button variant="default" className="bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 transition-all">
-                    查看详情
-                    <ArrowRight className="ml-2 w-4 h-4" />
-                  </Button>
+                  {/* 按钮 */}
+                  <div className="flex-shrink-0">
+                    <Button variant="default" className="group-hover:bg-green-600 transition-colors">
+                      进入驾驶舱
+                      <ArrowRight className="ml-1 w-3 h-3" />
+                    </Button>
+                  </div>
                 </div>
-              </div>
-            </CardContent>
-          </Card>
-        </Link>
+              </CardContent>
+            </Card>
+          </Link>
+
+          {/* 经销商销售预测 */}
+          <Link href="/dealer" className="block group">
+            <Card className="border-2 border-gray-200 hover:border-purple-400 hover:shadow-2xl transition-all duration-300 bg-white">
+              <CardContent className="p-8">
+                <div className="flex flex-col items-center gap-6 text-center">
+                  {/* 图标 */}
+                  <div className="flex-shrink-0">
+                    <div className="w-20 h-20 bg-gradient-to-br from-purple-500 to-pink-600 rounded-2xl flex items-center justify-center group-hover:scale-110 transition-transform">
+                      <BarChart3 className="w-10 h-10 text-white" />
+                    </div>
+                  </div>
+
+                  {/* 文字内容 */}
+                  <div className="flex-grow">
+                    <h2 className="text-2xl font-bold text-gray-900 mb-2">经销商销售预测</h2>
+                    <p className="text-gray-600 text-sm mb-4 line-clamp-2">
+                      财务指标追踪、市场洞察分析、项目开发管理，全方位掌控经销商销售数据
+                    </p>
+                    <div className="flex flex-wrap items-center justify-center gap-3 text-xs text-gray-500">
+                      <div className="flex items-center gap-1">
+                        <Target className="w-3 h-3 text-purple-500" />
+                        <span>财务指标分析</span>
+                      </div>
+                      <div className="flex items-center gap-1">
+                        <Layers className="w-3 h-3 text-pink-500" />
+                        <span>市场洞察洞察</span>
+                      </div>
+                      <div className="flex items-center gap-1">
+                        <TrendingUp className="w-3 h-3 text-indigo-500" />
+                        <span>项目开发跟踪</span>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* 按钮 */}
+                  <div className="flex-shrink-0">
+                    <Button variant="default" className="bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 transition-all">
+                      查看详情
+                      <ArrowRight className="ml-1 w-3 h-3" />
+                    </Button>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+          </Link>
+        </div>
 
         {/* 底部说明 */}
         <div className="text-center mt-12 text-gray-400 text-sm">
