@@ -1,14 +1,13 @@
 'use client';
 
 import { useState } from 'react';
-import { ChevronLeft, Target } from 'lucide-react';
+import { TrendingUp, AlertTriangle, ChevronLeft, Target } from 'lucide-react';
 import { Card, CardContent } from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
 import CoreMetrics from '@/components/dealer/CoreMetrics';
-import MonthlySalesTrend from '@/components/dealer/MonthlySalesTrend';
-import IndustryProgressPanel from '@/components/dealer/IndustryProgressPanel';
-import DiscountReturnRateTrend from '@/components/dealer/DiscountReturnRateTrend';
-import NationalIndustryDistribution from '@/components/dealer/NationalIndustryDistribution';
-import CustomerGradingOnline from '@/components/dealer/CustomerGradingOnline';
+import DealerFinancialMetrics from '@/components/dealer/DealerFinancialMetrics';
+import MarketInsightsPanel from '@/components/dealer/MarketInsightsPanel';
+import ProjectDevelopmentPanel from '@/components/dealer/ProjectDevelopmentPanel';
 import { cn } from '@/lib/utils';
 import Link from 'next/link';
 
@@ -63,55 +62,61 @@ export default function DealerPage() {
         </div>
       </div>
 
-      {/* 主内容区域 - 两行三列布局 */}
+      {/* 主内容区域 - 三栏布局 */}
       <main className="flex-1 flex flex-col w-full px-4 py-4">
-        <div className="flex flex-col gap-4 flex-1">
-          {/* 第一行：核心指标 + 月度销售趋势 + 细分行业进展 */}
-          <div className="grid grid-cols-1 xl:grid-cols-12 gap-4 min-h-0">
-            {/* 核心指标 - 占2列 */}
-            <div className="xl:col-span-2 flex flex-col min-h-0">
-              <Card className={cn(
-                'backdrop-blur-xl border-2 flex-1 flex flex-col',
-                'bg-slate-900/60 border-cyan-500/30 shadow-lg shadow-cyan-500/10'
-              )}>
-                <CardContent className="p-4 flex-1">
-                  <div className="flex items-center gap-2 mb-4">
-                    <Target className="h-4 w-4 text-cyan-400" />
-                    <h3 className="text-base font-semibold text-cyan-300/90">核心指标</h3>
-                  </div>
-                  <CoreMetrics timeRange={timeRange} />
-                </CardContent>
-              </Card>
-            </div>
-
-            {/* 月度销售趋势 - 占4列 */}
-            <div className="xl:col-span-4 flex flex-col min-h-0">
-              <MonthlySalesTrend showTitle={false} />
-            </div>
-
-            {/* 细分行业进展 - 占6列 */}
-            <div className="xl:col-span-6 flex flex-col min-h-0">
-              <IndustryProgressPanel showTitle={false} />
-            </div>
+        {/* 驾驶舱风格布局 - 三栏 */}
+        <div className="grid grid-cols-1 xl:grid-cols-12 gap-4 flex-1">
+          {/* 左侧：核心指标 - 占2列 */}
+          <div className="xl:col-span-2 flex flex-col">
+            <Card className={cn(
+              'backdrop-blur-xl border-2 flex-1 flex flex-col',
+              'bg-slate-900/60 border-cyan-500/30 shadow-lg shadow-cyan-500/10'
+            )}>
+              <CardContent className="p-4 flex-1">
+                <div className="flex items-center gap-2 mb-4">
+                  <Target className="h-4 w-4 text-cyan-400" />
+                  <h3 className="text-base font-semibold text-cyan-300/90">核心指标</h3>
+                </div>
+                <CoreMetrics timeRange={timeRange} />
+              </CardContent>
+            </Card>
           </div>
 
-          {/* 第二行：折扣折让率与退机率趋势 + 全国行业分布 + 客户分级在线 */}
-          <div className="grid grid-cols-1 xl:grid-cols-12 gap-4 min-h-0">
-            {/* 折扣折让率与退机率趋势 - 占4列 */}
-            <div className="xl:col-span-4 flex flex-col min-h-0">
-              <DiscountReturnRateTrend showTitle={false} />
-            </div>
-
-            {/* 全国行业分布 - 占4列 */}
-            <div className="xl:col-span-4 flex flex-col min-h-0">
-              <NationalIndustryDistribution showTitle={false} />
-            </div>
-
-            {/* 客户分级在线 - 占4列 */}
-            <div className="xl:col-span-4 flex flex-col min-h-0">
-              <CustomerGradingOnline showTitle={false} />
-            </div>
+          {/* 中间：月度销售趋势 - 占5列 */}
+          <div className="xl:col-span-5 flex flex-col">
+            <Card className={cn(
+              'backdrop-blur-xl border-2 flex-1 flex flex-col',
+              'bg-slate-900/60 border-cyan-500/30 shadow-lg shadow-cyan-500/10'
+            )}>
+              <CardContent className="p-4 flex-1">
+                <DealerFinancialMetrics showTitle={false} />
+              </CardContent>
+            </Card>
           </div>
+
+          {/* 右侧：市场洞察及风险分析 - 占5列 */}
+          <div className="xl:col-span-5 flex flex-col">
+            <Card className={cn(
+              'backdrop-blur-xl border-2 flex-1 flex flex-col',
+              'bg-slate-900/60 border-red-500/30 shadow-lg shadow-red-500/10'
+            )}>
+              <CardContent className="p-4 flex-1">
+                <MarketInsightsPanel timeRange={timeRange} showTitle={false} />
+              </CardContent>
+            </Card>
+          </div>
+        </div>
+
+        {/* 项目开发分析 - 占满整行 */}
+        <div className="mt-4">
+          <Card className={cn(
+            'backdrop-blur-xl border-2',
+            'bg-slate-900/60 border-cyan-500/30 shadow-lg shadow-cyan-500/10'
+          )}>
+            <CardContent className="p-4">
+              <ProjectDevelopmentPanel timeRange={timeRange} showTitle={false} />
+            </CardContent>
+          </Card>
         </div>
       </main>
     </div>
