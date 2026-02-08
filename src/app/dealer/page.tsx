@@ -6,6 +6,7 @@ import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import CoreMetrics from '@/components/dealer/CoreMetrics';
 import DealerFinancialMetrics from '@/components/dealer/DealerFinancialMetrics';
+import TrackAnalysisPanel from '@/components/dealer/TrackAnalysisPanel';
 import BusinessInsightsPanel from '@/components/dealer/BusinessInsightsPanel';
 import ProjectInsightsPanel from '@/components/dealer/ProjectInsightsPanel';
 import { cn } from '@/lib/utils';
@@ -62,10 +63,10 @@ export default function DealerPage() {
         </div>
       </div>
 
-      {/* 主内容区域 - 三栏布局 */}
+      {/* 主内容区域 */}
       <main className="flex-1 flex flex-col w-full px-4 py-4">
-        {/* 驾驶舱风格布局 - 三栏 */}
-        <div className="grid grid-cols-1 xl:grid-cols-12 gap-4 flex-1">
+        {/* 第一行：核心指标、月度销售趋势、赛道定位分析 */}
+        <div className="grid grid-cols-1 xl:grid-cols-12 gap-4">
           {/* 左侧：核心指标 - 占2列 */}
           <div className="xl:col-span-2 flex flex-col">
             <Card className={cn(
@@ -94,20 +95,25 @@ export default function DealerPage() {
             </Card>
           </div>
 
-          {/* 右侧：业务洞察与指导 - 占5列 */}
+          {/* 右侧：赛道定位分析 - 占5列 */}
           <div className="xl:col-span-5 flex flex-col">
-            <Card className={cn(
-              'backdrop-blur-xl border-2 flex-1 flex flex-col',
-              'bg-slate-900/60 border-cyan-500/30 shadow-lg shadow-cyan-500/10'
-            )}>
-              <CardContent className="p-4 flex-1">
-                <BusinessInsightsPanel timeRange={timeRange} showTitle={false} />
-              </CardContent>
-            </Card>
+            <TrackAnalysisPanel />
           </div>
         </div>
 
-        {/* 项目智能分析 - 占满整行 */}
+        {/* 第二行：业务洞察与指导 */}
+        <div className="mt-4">
+          <Card className={cn(
+            'backdrop-blur-xl border-2',
+            'bg-slate-900/60 border-cyan-500/30 shadow-lg shadow-cyan-500/10'
+          )}>
+            <CardContent className="p-4">
+              <BusinessInsightsPanel timeRange={timeRange} showTitle={true} />
+            </CardContent>
+          </Card>
+        </div>
+
+        {/* 第三行：项目智能分析 */}
         <div className="mt-4">
           <Card className={cn(
             'backdrop-blur-xl border-2',
