@@ -8,7 +8,8 @@ import CoreMetrics from '@/components/dealer/CoreMetrics';
 import DealerFinancialMetrics from '@/components/dealer/DealerFinancialMetrics';
 import TrackAnalysisPanel from '@/components/dealer/TrackAnalysisPanel';
 import BusinessInsightsPanel from '@/components/dealer/BusinessInsightsPanel';
-import ProjectInsightsPanel from '@/components/dealer/ProjectInsightsPanel';
+import ProjectFunnelPanel from '@/components/dealer/ProjectFunnelPanel';
+import ProjectRiskPanel from '@/components/dealer/ProjectRiskPanel';
 import { cn } from '@/lib/utils';
 import Link from 'next/link';
 
@@ -101,16 +102,16 @@ export default function DealerPage() {
           </div>
         </div>
 
-        {/* 第二行：业务洞察与指导（左）+ 项目智能分析（右） */}
+        {/* 第二行：项目漏斗分析（左）+ 项目风险分析（右） */}
         <div className="mt-4 grid grid-cols-1 xl:grid-cols-12 gap-4">
-          {/* 左侧：业务洞察与指导 - 占6列 */}
+          {/* 左侧：项目漏斗分析 - 占6列 */}
           <div className="xl:col-span-6 flex flex-col">
-            <BusinessInsightsPanel timeRange={timeRange} />
+            <ProjectFunnelPanel timeRange={timeRange} />
           </div>
 
-          {/* 右侧：项目智能分析 - 占6列 */}
+          {/* 右侧：项目风险分析 - 占6列 */}
           <div className="xl:col-span-6 flex flex-col">
-            <ProjectInsightsPanel timeRange={timeRange} />
+            <ProjectRiskPanel timeRange={timeRange} />
           </div>
         </div>
       </main>
