@@ -21,28 +21,20 @@ const monthlyTrendData = [
   { month: '12月', target: 1200, completed: 0, forecast: 0 },
 ];
 
-// 季度聚合数据（折扣折让率按季度平均）
-const quarterlyData = [
-  {
-    quarter: 'Q1',
-    discountRate: ((8.5 + 7.2 + 9.1) / 3).toFixed(2),
-    returnRate: 3.2,
-  },
-  {
-    quarter: 'Q2',
-    discountRate: ((8.0 + 7.5 + 8.8) / 3).toFixed(2),
-    returnRate: 2.8,
-  },
-  {
-    quarter: 'Q3',
-    discountRate: ((9.2 + 8.3 + 7.8) / 3).toFixed(2),
-    returnRate: 3.5,
-  },
-  {
-    quarter: 'Q4',
-    discountRate: ((8.6 + 8.1 + 9.0) / 3).toFixed(2),
-    returnRate: 4.1,
-  },
+// 月度财务指标数据（12个月）
+const monthlyFinancialData = [
+  { month: '1月', discountRate: 8.5, returnRate: 3.0 },
+  { month: '2月', discountRate: 7.2, returnRate: 3.2 },
+  { month: '3月', discountRate: 9.1, returnRate: 3.4 },
+  { month: '4月', discountRate: 8.0, returnRate: 2.9 },
+  { month: '5月', discountRate: 7.5, returnRate: 2.7 },
+  { month: '6月', discountRate: 8.8, returnRate: 2.8 },
+  { month: '7月', discountRate: 9.2, returnRate: 3.3 },
+  { month: '8月', discountRate: 8.3, returnRate: 3.5 },
+  { month: '9月', discountRate: 7.8, returnRate: 3.7 },
+  { month: '10月', discountRate: 8.6, returnRate: 3.8 },
+  { month: '11月', discountRate: 8.1, returnRate: 4.2 },
+  { month: '12月', discountRate: 9.0, returnRate: 4.3 },
 ];
 
 export default function DealerFinancialMetrics({ showTitle = false }: { showTitle?: boolean }) {
@@ -286,7 +278,7 @@ export default function DealerFinancialMetrics({ showTitle = false }: { showTitl
         </CardHeader>
         <CardContent>
           <ResponsiveContainer width="100%" height={220}>
-            <LineChart data={quarterlyData}>
+            <LineChart data={monthlyFinancialData}>
               <defs>
                 <linearGradient id="colorDiscount" x1="0" y1="0" x2="0" y2="1">
                   <stop offset="5%" stopColor="#eab308" stopOpacity={0.3}/>
@@ -299,14 +291,14 @@ export default function DealerFinancialMetrics({ showTitle = false }: { showTitl
               </defs>
               <CartesianGrid strokeDasharray="4 4" stroke="rgba(34,211,238,0.15)" />
               <XAxis
-                dataKey="quarter"
-                tick={{ fill: 'rgba(34,211,238,0.7)', fontSize: 12, fontWeight: 500 }}
+                dataKey="month"
+                tick={{ fill: 'rgba(34,211,238,0.7)', fontSize: 11, fontWeight: 500 }}
                 axisLine={{ stroke: 'rgba(34,211,238,0.3)' }}
                 tickLine={{ stroke: 'rgba(34,211,238,0.3)' }}
                 interval={0}
               />
               <YAxis
-                tick={{ fill: 'rgba(34,211,238,0.7)', fontSize: 12, fontWeight: 500 }}
+                tick={{ fill: 'rgba(34,211,238,0.7)', fontSize: 11, fontWeight: 500 }}
                 axisLine={false}
                 tickLine={false}
                 domain={[0, 12]}
@@ -328,7 +320,7 @@ export default function DealerFinancialMetrics({ showTitle = false }: { showTitl
                 }}
               />
               <Legend
-                wrapperStyle={{ fontSize: '13px', color: '#22d3ee', paddingTop: '10px' }}
+                wrapperStyle={{ fontSize: '12px', color: '#22d3ee', paddingTop: '8px' }}
               />
               {/* 折扣折让率 - 金色 */}
               <Line
