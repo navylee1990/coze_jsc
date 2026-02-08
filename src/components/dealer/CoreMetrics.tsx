@@ -157,7 +157,7 @@ const MainGauge = ({
   );
 };
 
-export default function CoreMetrics({ timeRange = 'current', horizontal = false }: { timeRange?: TimeRange, horizontal?: boolean }) {
+export default function CoreMetrics({ timeRange = 'current' }: { timeRange?: TimeRange }) {
   const [mounted, setMounted] = useState(false);
 
   // 动画状态
@@ -194,7 +194,7 @@ export default function CoreMetrics({ timeRange = 'current', horizontal = false 
   const gap = data.target - data.forecast;
 
   return (
-    <div className={horizontal ? "flex flex-row gap-6 justify-around" : "flex flex-col gap-6"}>
+    <div className="flex flex-col gap-6">
       {/* 实际达成 */}
       <div className="flex flex-col items-center">
         <MainGauge

@@ -62,53 +62,53 @@ export default function DealerPage() {
         </div>
       </div>
 
-      {/* 主内容区域 */}
+      {/* 主内容区域 - 三栏布局 */}
       <main className="flex-1 flex flex-col w-full px-4 py-4">
-        {/* 第一行：核心指标 - 占满整行 */}
-        <div className="mb-4">
-          <Card className={cn(
-            'backdrop-blur-xl border-2',
-            'bg-slate-900/60 border-cyan-500/30 shadow-lg shadow-cyan-500/10'
-          )}>
-            <CardContent className="p-4">
-              <div className="flex items-center gap-2 mb-3">
-                <Target className="h-4 w-4 text-cyan-400" />
-                <h3 className="text-base font-semibold text-cyan-300/90">核心指标</h3>
-              </div>
-              <CoreMetrics timeRange={timeRange} horizontal={true} />
-            </CardContent>
-          </Card>
-        </div>
-
-        {/* 第二行：双栏布局 */}
-        <div className="grid grid-cols-1 xl:grid-cols-2 gap-4 mb-4">
-          {/* 左侧：月度销售趋势 */}
-          <div className="flex flex-col">
+        {/* 驾驶舱风格布局 - 三栏 */}
+        <div className="grid grid-cols-1 xl:grid-cols-12 gap-4 flex-1">
+          {/* 左侧：核心指标 - 占3列 */}
+          <div className="xl:col-span-3 flex flex-col">
             <Card className={cn(
               'backdrop-blur-xl border-2 flex-1 flex flex-col',
               'bg-slate-900/60 border-cyan-500/30 shadow-lg shadow-cyan-500/10'
             )}>
               <CardContent className="p-4 flex-1">
-                <DealerFinancialMetrics showTitle={true} />
+                <div className="flex items-center gap-2 mb-4">
+                  <Target className="h-4 w-4 text-cyan-400" />
+                  <h3 className="text-base font-semibold text-cyan-300/90">核心指标</h3>
+                </div>
+                <CoreMetrics timeRange={timeRange} />
               </CardContent>
             </Card>
           </div>
 
-          {/* 右侧：市场洞察及风险分析 */}
-          <div className="flex flex-col">
+          {/* 中间：月度销售趋势 - 占4列 */}
+          <div className="xl:col-span-4 flex flex-col">
+            <Card className={cn(
+              'backdrop-blur-xl border-2 flex-1 flex flex-col',
+              'bg-slate-900/60 border-cyan-500/30 shadow-lg shadow-cyan-500/10'
+            )}>
+              <CardContent className="p-4 flex-1">
+                <DealerFinancialMetrics showTitle={false} />
+              </CardContent>
+            </Card>
+          </div>
+
+          {/* 右侧：市场洞察及风险分析 - 占5列 */}
+          <div className="xl:col-span-5 flex flex-col">
             <Card className={cn(
               'backdrop-blur-xl border-2 flex-1 flex flex-col',
               'bg-slate-900/60 border-red-500/30 shadow-lg shadow-red-500/10'
             )}>
               <CardContent className="p-4 flex-1">
-                <MarketInsightsPanel timeRange={timeRange} showTitle={true} />
+                <MarketInsightsPanel timeRange={timeRange} showTitle={false} />
               </CardContent>
             </Card>
           </div>
         </div>
 
-        {/* 第三行：项目开发分析 - 占满整行 */}
-        <div>
+        {/* 项目开发分析 - 占满整行 */}
+        <div className="mt-4">
           <Card className={cn(
             'backdrop-blur-xl border-2',
             'bg-slate-900/60 border-cyan-500/30 shadow-lg shadow-cyan-500/10'
