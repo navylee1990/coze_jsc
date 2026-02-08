@@ -11,10 +11,10 @@ const trackData = [
     name: '教育',
     percentage: 35,
     growth: 12,
+    health: '良好',
     healthScore: 85,
     totalAmount: 10000,
     margin: 18,
-    expanded: true, // 默认展开
     subcategories: [
       {
         industry: '幼教',
@@ -58,10 +58,10 @@ const trackData = [
     name: '企业',
     percentage: 30,
     growth: -5,
+    health: '需关注',
     healthScore: 65,
     totalAmount: 8000,
     margin: 22,
-    expanded: true,
     subcategories: [
       {
         industry: '国央企',
@@ -117,10 +117,10 @@ const trackData = [
     name: '金融',
     percentage: 15,
     growth: 25,
+    health: '优秀',
     healthScore: 92,
     totalAmount: 4500,
     margin: 28,
-    expanded: true,
     subcategories: [
       {
         industry: '银行',
@@ -164,10 +164,10 @@ const trackData = [
     name: '医疗',
     percentage: 12,
     growth: 8,
+    health: '良好',
     healthScore: 78,
     totalAmount: 3000,
     margin: 24,
-    expanded: true,
     subcategories: [
       {
         industry: '医院',
@@ -211,10 +211,10 @@ const trackData = [
     name: '政府',
     percentage: 8,
     growth: -10,
+    health: '风险',
     healthScore: 55,
     totalAmount: 2000,
     margin: 15,
-    expanded: true,
     subcategories: [
       {
         industry: '政府机关',
@@ -267,7 +267,7 @@ const getPriorityColor = (priority: string) => {
 };
 
 export default function TrackAnalysisPanel() {
-  const [expandedTrack, setExpandedTrack] = useState<string | null>(null);
+  const [expandedIndustry, setExpandedIndustry] = useState<string | null>(null);
   const [expandedDetail, setExpandedDetail] = useState<string | null>(null);
 
   return (
@@ -279,49 +279,58 @@ export default function TrackAnalysisPanel() {
         </CardTitle>
       </CardHeader>
       <CardContent className="flex-1 overflow-y-auto">
-        <div className="space-y-4">
+        <div className="space-y-3">
           {trackData.map((track, trackIdx) => (
-            <div key={trackIdx} className="bg-slate-800/20 rounded-lg border border-white/10">
-              {/* 赛道标题 */}
-              <button
-                onClick={() => setExpandedTrack(expandedTrack === track.name ? null : track.name)}
-                className="w-full p-3 text-left hover:bg-slate-700/30 transition-colors flex items-center justify-between"
-              >
-                <div className="flex items-center gap-3">
-                  {expandedTrack === track.name ? (
-                    <ChevronDown className="h-4 w-4 text-cyan-400" />
-                  ) : (
-                    <ChevronRight className="h-4 w-4 text-cyan-400" />
-                  )}
-                  <span className="font-bold text-sm text-cyan-50">{track.name}</span>
-                  {getGrowthIcon(track.growth)}
-                  <span className={cn('text-xs font-medium', track.growth > 0 ? 'text-green-400' : track.growth < 0 ? 'text-red-400' : 'text-cyan-400')}>
-                    {track.growth > 0 ? '+' : ''}{track.growth}%
-                  </span>
-                </div>
-                <div className="flex items-center gap-4 text-xs">
-                  <span className="text-cyan-300/70">{track.subcategories.length}个细分</span>
-                  <span className="text-cyan-300/70">{track.totalAmount}万</span>
+            <div key={trackIdx} className="bg-slate-800/30 rounded-lg border border-white/10">
+              {/* 赛道概览 */}
+              <div className="p-3">
+                <div className="flex items-center justify-between mb-2">
                   <div className="flex items-center gap-2">
-                    <div className="w-12 h-1.5 bg-slate-700/50 rounded-full overflow-hidden">
-                      <div
-                        className={cn('h-full rounded-full transition-all duration-500', getHealthColor(track.healthScore))}
-                        style={{ width: `${track.healthScore}%` }}
-                      />
+                    <button
+                      onClick={() => setExpandedIndustry(expandedIndustry === track.name ? null : track.name)}
+                      className="flex items-center gap-1 hover:opacity-80 transition-opacity"
+                    >
+                      {expandedIndustry === track.name ? (
+                        <ChevronDown className="h-4 w-4 text-cyan-400" />
+                      ) : (
+                        <ChevronRight className="h-4 w-4 text-cyan-400" />
+                      )}
+                      <span className="font-semibold text-sm text-cyan-50">{track.name}</span>
+                    </button>
+                    {getGrowthIcon(track.growth)}
+                    <span className={cn('text-xs font-medium', track.growth > 0 ? 'text-green-400' : track.growth < 0 ? 'text-red-400' : 'text-cyan-400')}>
+                      {track.growth > 0 ? '+' : ''}{track.growth}%
+                    </span>
+                    <span className="text-xs text-cyan-300/70">({track.subcategories.length}个细分)</span>
+                  </div>
+                  <div className="flex items-center gap-3">
+                    <span className="text-xs text-cyan-300/70">健康度</span>
+                    <div className="flex items-center gap-2">
+                      <div className="w-16 h-2 bg-slate-700/50 rounded-full overflow-hidden">
+                        <div
+                          className={cn('h-full rounded-full transition-all duration-500', getHealthColor(track.healthScore))}
+                          style={{ width: `${track.healthScore}%` }}
+                        />
+                      </div>
+                      <span className="text-xs font-semibold text-cyan-50">{track.healthScore}</span>
                     </div>
-                    <span className="text-xs font-semibold text-cyan-50">{track.healthScore}</span>
                   </div>
                 </div>
-              </button>
+                <div className="grid grid-cols-3 gap-2 text-xs">
+                  <div className="text-cyan-300/70">占比: <span className="font-semibold text-cyan-50">{track.percentage}%</span></div>
+                  <div className="text-cyan-300/70">金额: <span className="font-semibold text-cyan-50">{track.totalAmount}万</span></div>
+                  <div className="text-cyan-300/70">毛利率: <span className={cn('font-semibold', track.margin >= 20 ? 'text-green-400' : track.margin >= 15 ? 'text-yellow-400' : 'text-red-400')}>{track.margin}%</span></div>
+                </div>
+              </div>
 
-              {/* 细分行业列表 - 默认展开 */}
-              {(expandedTrack === track.name || track.expanded) && (
-                <div className="px-3 pb-3 space-y-2">
+              {/* 细分行业列表 */}
+              {expandedIndustry === track.name && (
+                <div className="border-t border-white/10">
                   {track.subcategories.map((sub, subIdx) => (
-                    <div key={subIdx} className="bg-slate-800/50 rounded border border-white/10">
+                    <div key={subIdx} className="border-b border-white/5 last:border-0">
                       <button
                         onClick={() => setExpandedDetail(expandedDetail === sub.industry ? null : sub.industry)}
-                        className="w-full p-2.5 text-left hover:bg-slate-700/30 transition-colors flex items-center justify-between"
+                        className="w-full p-3 text-left hover:bg-slate-700/30 transition-colors flex items-center justify-between"
                       >
                         <div className="flex items-center gap-2">
                           {expandedDetail === sub.industry ? (
@@ -329,98 +338,80 @@ export default function TrackAnalysisPanel() {
                           ) : (
                             <ChevronRight className="h-3 w-3 text-cyan-400" />
                           )}
-                          <span className="text-sm font-semibold text-cyan-50">{sub.industry}</span>
-                          <span className={cn('text-xs px-1.5 py-0.5 rounded border', getStatusColor(sub.status))}>
+                          <span className="text-sm font-medium text-cyan-50">{sub.industry}</span>
+                          <span className={cn('text-xs px-2 py-0.5 rounded border', getStatusColor(sub.status))}>
                             {sub.status}
                           </span>
                         </div>
-                        <div className="flex items-center gap-2 text-xs">
-                          <div className="text-center">
-                            <div className="text-cyan-400/60 text-[10px]">目标</div>
-                            <div className="font-semibold text-cyan-50">{sub.target}万</div>
-                          </div>
-                          <div className="text-center">
-                            <div className="text-cyan-400/60 text-[10px]">实际</div>
-                            <div className="font-semibold text-cyan-50">{sub.actual}万</div>
-                          </div>
-                          <div className="text-center">
-                            <div className="text-cyan-400/60 text-[10px]">完成率</div>
-                            <div className={cn('font-semibold', sub.rate >= 100 ? 'text-green-400' : sub.rate >= 80 ? 'text-yellow-400' : 'text-red-400')}>
-                              {sub.rate}%
-                            </div>
-                          </div>
-                          <div className="text-center">
-                            <div className="text-cyan-400/60 text-[10px]">毛利率</div>
-                            <div className={cn('font-semibold', sub.margin >= 20 ? 'text-green-400' : sub.margin >= 15 ? 'text-yellow-400' : 'text-red-400')}>
-                              {sub.margin}%
-                            </div>
-                          </div>
+                        <div className="flex items-center gap-3 text-xs">
+                          <span className="text-cyan-300/70">目标: <span className="font-semibold text-cyan-50">{sub.target}万</span></span>
+                          <span className="text-cyan-300/70">实际: <span className="font-semibold text-cyan-50">{sub.actual}万</span></span>
+                          <span className={cn('font-semibold', sub.rate >= 100 ? 'text-green-400' : sub.rate >= 80 ? 'text-yellow-400' : 'text-red-400')}>
+                            {sub.rate}%
+                          </span>
                         </div>
                       </button>
 
                       {/* 详细信息 */}
                       {expandedDetail === sub.industry && (
-                        <div className="p-3 bg-slate-900/50 space-y-2 border-t border-white/5">
+                        <div className="p-3 bg-slate-900/50 space-y-3">
                           {/* 关键指标 */}
-                          <div className="grid grid-cols-2 gap-2">
-                            <div className="bg-slate-800/50 p-2 rounded flex items-center justify-between">
-                              <span className="text-xs text-cyan-300/70">完成率</span>
-                              <span className={cn('text-base font-bold', sub.rate >= 100 ? 'text-green-400' : sub.rate >= 80 ? 'text-yellow-400' : 'text-red-400')}>
+                          <div className="grid grid-cols-2 gap-2 text-xs">
+                            <div className="bg-slate-800/50 p-2 rounded">
+                              <div className="text-cyan-300/70 mb-1">完成率</div>
+                              <div className={cn('text-lg font-bold', sub.rate >= 100 ? 'text-green-400' : sub.rate >= 80 ? 'text-yellow-400' : 'text-red-400')}>
                                 {sub.rate}%
-                              </span>
+                              </div>
                             </div>
-                            <div className="bg-slate-800/50 p-2 rounded flex items-center justify-between">
-                              <span className="text-xs text-cyan-300/70">毛利率</span>
-                              <span className={cn('text-base font-bold', sub.margin >= 20 ? 'text-green-400' : sub.margin >= 15 ? 'text-yellow-400' : 'text-red-400')}>
+                            <div className="bg-slate-800/50 p-2 rounded">
+                              <div className="text-cyan-300/70 mb-1">毛利率</div>
+                              <div className={cn('text-lg font-bold', sub.margin >= 20 ? 'text-green-400' : sub.margin >= 15 ? 'text-yellow-400' : 'text-red-400')}>
                                 {sub.margin}%
-                              </span>
+                              </div>
                             </div>
                           </div>
 
                           {/* 产品配置 */}
                           <div className="bg-slate-800/50 p-2 rounded">
-                            <div className="text-xs text-cyan-300/70 mb-1.5">产品配置分布</div>
+                            <div className="text-xs text-cyan-300/70 mb-2">产品配置：</div>
                             <div className="flex gap-2 text-xs">
-                              <div className="flex items-center gap-1.5">
-                                <div className="w-2.5 h-2.5 rounded-full bg-green-500"></div>
-                                <span className="text-cyan-300/70">高端</span>
-                                <span className="font-semibold text-cyan-50">{sub.productMix.premium}%</span>
+                              <div className="flex items-center gap-1">
+                                <div className="w-2 h-2 rounded-full bg-green-500"></div>
+                                <span className="text-cyan-300/70">高端 {sub.productMix.premium}%</span>
                               </div>
-                              <div className="flex items-center gap-1.5">
-                                <div className="w-2.5 h-2.5 rounded-full bg-cyan-500"></div>
-                                <span className="text-cyan-300/70">标准</span>
-                                <span className="font-semibold text-cyan-50">{sub.productMix.standard}%</span>
+                              <div className="flex items-center gap-1">
+                                <div className="w-2 h-2 rounded-full bg-cyan-500"></div>
+                                <span className="text-cyan-300/70">标准 {sub.productMix.standard}%</span>
                               </div>
-                              <div className="flex items-center gap-1.5">
-                                <div className="w-2.5 h-2.5 rounded-full bg-yellow-500"></div>
-                                <span className="text-cyan-300/70">预算</span>
-                                <span className="font-semibold text-cyan-50">{sub.productMix.budget}%</span>
+                              <div className="flex items-center gap-1">
+                                <div className="w-2 h-2 rounded-full bg-yellow-500"></div>
+                                <span className="text-cyan-300/70">预算 {sub.productMix.budget}%</span>
                               </div>
                             </div>
                           </div>
 
                           {/* 洞察 */}
                           <div className="bg-slate-800/50 p-2 rounded">
-                            <div className="text-xs text-cyan-400 font-medium mb-1">📊 业务洞察</div>
-                            <div className="text-xs text-cyan-300/70 leading-relaxed">{sub.insight}</div>
+                            <div className="text-xs text-cyan-400 font-medium mb-1">📊 洞察：</div>
+                            <div className="text-xs text-cyan-300/70">{sub.insight}</div>
                           </div>
 
                           {/* 行动建议 */}
                           <div className="bg-slate-800/50 p-2 rounded">
-                            <div className="text-xs text-green-400 font-medium mb-1">✅ 行动建议</div>
+                            <div className="text-xs text-green-400 font-medium mb-1">✅ 行动建议：</div>
                             <ul className="text-xs text-cyan-300/70 space-y-0.5">
                               {sub.actions.map((action, actionIdx) => (
                                 <li key={actionIdx} className="flex items-start gap-2">
-                                  <span className="text-cyan-400 mt-0.5">•</span>
-                                  <span className="leading-relaxed">{action}</span>
+                                  <span className="text-cyan-400">•</span>
+                                  <span>{action}</span>
                                 </li>
                               ))}
                             </ul>
                           </div>
 
                           {/* 优先级 */}
-                          <div className="flex justify-end">
-                            <span className={cn('text-xs px-2 py-1 rounded border', getPriorityColor(sub.priority))}>
+                          <div className="flex items-center justify-between">
+                            <span className={cn('text-xs px-2 py-0.5 rounded border', getPriorityColor(sub.priority))}>
                               优先级: {sub.priority}
                             </span>
                           </div>
