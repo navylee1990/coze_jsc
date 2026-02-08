@@ -202,7 +202,7 @@ export default function CoreMetrics({ timeRange = 'current' }: { timeRange?: Tim
           targetValue={data.target}
           label="实际达成"
           unit="万"
-          size={160}
+          size={140}
         />
       </div>
 
@@ -213,7 +213,7 @@ export default function CoreMetrics({ timeRange = 'current' }: { timeRange?: Tim
           targetValue={data.target}
           label="预计达成"
           unit="万"
-          size={160}
+          size={140}
         />
       </div>
 
@@ -224,7 +224,7 @@ export default function CoreMetrics({ timeRange = 'current' }: { timeRange?: Tim
           targetValue={data.target}
           label={gap < 0 ? '超额' : '缺口'}
           unit="万"
-          size={160}
+          size={140}
         />
       </div>
     </div>

@@ -66,8 +66,8 @@ export default function DealerPage() {
       <main className="flex-1 flex flex-col w-full px-4 py-4">
         {/* 驾驶舱风格布局 - 三栏 */}
         <div className="grid grid-cols-1 xl:grid-cols-12 gap-4 flex-1">
-          {/* 左侧：核心指标 - 占3列 */}
-          <div className="xl:col-span-3 flex flex-col">
+          {/* 左侧：核心指标 - 占2列 */}
+          <div className="xl:col-span-2 flex flex-col">
             <Card className={cn(
               'backdrop-blur-xl border-2 flex-1 flex flex-col',
               'bg-slate-900/60 border-cyan-500/30 shadow-lg shadow-cyan-500/10'
@@ -82,8 +82,8 @@ export default function DealerPage() {
             </Card>
           </div>
 
-          {/* 中间：月度销售趋势 - 占4列 */}
-          <div className="xl:col-span-4 flex flex-col">
+          {/* 中间：月度销售趋势 - 占5列 */}
+          <div className="xl:col-span-5 flex flex-col">
             <Card className={cn(
               'backdrop-blur-xl border-2 flex-1 flex flex-col',
               'bg-slate-900/60 border-cyan-500/30 shadow-lg shadow-cyan-500/10'
