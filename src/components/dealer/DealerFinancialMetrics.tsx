@@ -60,7 +60,7 @@ export default function DealerFinancialMetrics({ showTitle = false }: { showTitl
           </CardTitle>
         </CardHeader>
         <CardContent>
-          <ResponsiveContainer width="100%" height={400}>
+          <ResponsiveContainer width="100%" height={360}>
             <LineChart data={monthlyTrendData}>
               <defs>
                 <linearGradient id="colorTarget" x1="0" y1="0" x2="0" y2="1">
