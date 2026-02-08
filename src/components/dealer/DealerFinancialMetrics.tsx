@@ -21,28 +21,28 @@ const monthlyTrendData = [
   { month: '12月', target: 1200, completed: 0, forecast: 0 },
 ];
 
-// 折扣折让率数据
-const discountData = [
-  { month: '1月', discountRate: 8.5 },
-  { month: '2月', discountRate: 7.2 },
-  { month: '3月', discountRate: 9.1 },
-  { month: '4月', discountRate: 8.0 },
-  { month: '5月', discountRate: 7.5 },
-  { month: '6月', discountRate: 8.8 },
-  { month: '7月', discountRate: 9.2 },
-  { month: '8月', discountRate: 8.3 },
-  { month: '9月', discountRate: 7.8 },
-  { month: '10月', discountRate: 8.6 },
-  { month: '11月', discountRate: 8.1 },
-  { month: '12月', discountRate: 9.0 },
-];
-
-// 4个季度滚动退机率
-const returnRateData = [
-  { quarter: 'Q1', rate: 3.2 },
-  { quarter: 'Q2', rate: 2.8 },
-  { quarter: 'Q3', rate: 3.5 },
-  { quarter: 'Q4', rate: 4.1 },
+// 季度聚合数据（折扣折让率按季度平均）
+const quarterlyData = [
+  {
+    quarter: 'Q1',
+    discountRate: ((8.5 + 7.2 + 9.1) / 3).toFixed(2),
+    returnRate: 3.2,
+  },
+  {
+    quarter: 'Q2',
+    discountRate: ((8.0 + 7.5 + 8.8) / 3).toFixed(2),
+    returnRate: 2.8,
+  },
+  {
+    quarter: 'Q3',
+    discountRate: ((9.2 + 8.3 + 7.8) / 3).toFixed(2),
+    returnRate: 3.5,
+  },
+  {
+    quarter: 'Q4',
+    discountRate: ((8.6 + 8.1 + 9.0) / 3).toFixed(2),
+    returnRate: 4.1,
+  },
 ];
 
 export default function DealerFinancialMetrics({ showTitle = false }: { showTitle?: boolean }) {
@@ -273,7 +273,7 @@ export default function DealerFinancialMetrics({ showTitle = false }: { showTitl
         </CardContent>
       </Card>
 
-      {/* 折扣折让率图 */}
+      {/* 折扣折让率与退机率趋势合并图 */}
       <Card className={cn(
         'backdrop-blur-xl border-2',
         'bg-slate-900/60 border-cyan-500/30 shadow-lg shadow-cyan-500/10'
@@ -281,21 +281,25 @@ export default function DealerFinancialMetrics({ showTitle = false }: { showTitl
         <CardHeader>
           <CardTitle className={cn('text-base font-semibold text-cyan-300/80', 'flex items-center gap-2')}>
             <BarChart3 className="h-4 w-4" />
-            折扣折让率趋势
+            折扣折让率与退机率趋势
           </CardTitle>
         </CardHeader>
         <CardContent>
           <ResponsiveContainer width="100%" height={220}>
-            <LineChart data={discountData}>
+            <LineChart data={quarterlyData}>
               <defs>
                 <linearGradient id="colorDiscount" x1="0" y1="0" x2="0" y2="1">
                   <stop offset="5%" stopColor="#eab308" stopOpacity={0.3}/>
                   <stop offset="95%" stopColor="#eab308" stopOpacity={0}/>
                 </linearGradient>
+                <linearGradient id="colorReturn" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="5%" stopColor="#ef4444" stopOpacity={0.3}/>
+                  <stop offset="95%" stopColor="#ef4444" stopOpacity={0}/>
+                </linearGradient>
               </defs>
               <CartesianGrid strokeDasharray="4 4" stroke="rgba(34,211,238,0.15)" />
               <XAxis
-                dataKey="month"
+                dataKey="quarter"
                 tick={{ fill: 'rgba(34,211,238,0.7)', fontSize: 12, fontWeight: 500 }}
                 axisLine={{ stroke: 'rgba(34,211,238,0.3)' }}
                 tickLine={{ stroke: 'rgba(34,211,238,0.3)' }}
@@ -317,8 +321,16 @@ export default function DealerFinancialMetrics({ showTitle = false }: { showTitl
                   padding: '12px 16px',
                   fontSize: '13px',
                 }}
-                formatter={(value: number) => [<span style={{ color: '#eab308', fontWeight: 600 }}>{value}%</span>, '折扣折让率']}
+                formatter={(value: number, name: string) => {
+                  if (name === '折扣折让率') return [<span style={{ color: '#eab308', fontWeight: 600 }}>{value}%</span>, name];
+                  if (name === '退机率') return [<span style={{ color: '#ef4444', fontWeight: 600 }}>{value}%</span>, name];
+                  return [value, name];
+                }}
               />
+              <Legend
+                wrapperStyle={{ fontSize: '13px', color: '#22d3ee', paddingTop: '10px' }}
+              />
+              {/* 折扣折让率 - 金色 */}
               <Line
                 type="monotone"
                 dataKey="discountRate"
@@ -329,80 +341,30 @@ export default function DealerFinancialMetrics({ showTitle = false }: { showTitl
                   <circle
                     cx={props.cx}
                     cy={props.cy}
-                    r={4}
+                    r={5}
                     fill="#eab308"
                     stroke="#a16207"
                     strokeWidth={2}
-                    style={{ filter: 'drop-shadow(0 0 5px rgba(234,179,8,0.6))' }}
+                    style={{ filter: 'drop-shadow(0 0 6px rgba(234,179,8,0.6))' }}
                   />
                 )}
                 activeDot={(props: any) => (
                   <circle
                     cx={props.cx}
                     cy={props.cy}
-                    r={6}
+                    r={7}
                     fill="#eab308"
                     stroke="#a16207"
                     strokeWidth={2.5}
-                    style={{ filter: 'drop-shadow(0 0 8px rgba(234,179,8,0.8))' }}
+                    style={{ filter: 'drop-shadow(0 0 10px rgba(234,179,8,0.8))' }}
                   />
                 )}
                 animationDuration={1800}
               />
-            </LineChart>
-          </ResponsiveContainer>
-        </CardContent>
-      </Card>
-
-      {/* 退机率图 */}
-      <Card className={cn(
-        'backdrop-blur-xl border-2',
-        'bg-slate-900/60 border-cyan-500/30 shadow-lg shadow-cyan-500/10'
-      )}>
-        <CardHeader>
-          <CardTitle className={cn('text-base font-semibold text-cyan-300/80', 'flex items-center gap-2')}>
-            <AlertTriangle className="h-4 w-4" />
-            4个季度滚动退机率
-          </CardTitle>
-        </CardHeader>
-        <CardContent>
-          <ResponsiveContainer width="100%" height={220}>
-            <LineChart data={returnRateData}>
-              <defs>
-                <linearGradient id="colorReturn" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="5%" stopColor="#ef4444" stopOpacity={0.3}/>
-                  <stop offset="95%" stopColor="#ef4444" stopOpacity={0}/>
-                </linearGradient>
-              </defs>
-              <CartesianGrid strokeDasharray="4 4" stroke="rgba(34,211,238,0.15)" />
-              <XAxis
-                dataKey="quarter"
-                tick={{ fill: 'rgba(34,211,238,0.7)', fontSize: 12, fontWeight: 500 }}
-                axisLine={{ stroke: 'rgba(34,211,238,0.3)' }}
-                tickLine={{ stroke: 'rgba(34,211,238,0.3)' }}
-                interval={0}
-              />
-              <YAxis
-                tick={{ fill: 'rgba(34,211,238,0.7)', fontSize: 12, fontWeight: 500 }}
-                axisLine={false}
-                tickLine={false}
-                domain={[0, 6]}
-                tickFormatter={(value) => `${value}%`}
-              />
-              <Tooltip
-                contentStyle={{
-                  backgroundColor: 'rgba(15,23,42,0.96)',
-                  border: '1px solid #ef4444',
-                  borderRadius: '8px',
-                  boxShadow: '0 0 15px rgba(239,68,68,0.4)',
-                  padding: '12px 16px',
-                  fontSize: '13px',
-                }}
-                formatter={(value: number) => [<span style={{ color: '#ef4444', fontWeight: 600 }}>{value}%</span>, '退机率']}
-              />
+              {/* 退机率 - 红色 */}
               <Line
                 type="monotone"
-                dataKey="rate"
+                dataKey="returnRate"
                 name="退机率"
                 stroke="#ef4444"
                 strokeWidth={3}
@@ -410,22 +372,22 @@ export default function DealerFinancialMetrics({ showTitle = false }: { showTitl
                   <circle
                     cx={props.cx}
                     cy={props.cy}
-                    r={4}
+                    r={5}
                     fill="#ef4444"
                     stroke="#991b1b"
                     strokeWidth={2}
-                    style={{ filter: 'drop-shadow(0 0 5px rgba(239,68,68,0.6))' }}
+                    style={{ filter: 'drop-shadow(0 0 6px rgba(239,68,68,0.6))' }}
                   />
                 )}
                 activeDot={(props: any) => (
                   <circle
                     cx={props.cx}
                     cy={props.cy}
-                    r={6}
+                    r={7}
                     fill="#ef4444"
                     stroke="#991b1b"
                     strokeWidth={2.5}
-                    style={{ filter: 'drop-shadow(0 0 8px rgba(239,68,68,0.8))' }}
+                    style={{ filter: 'drop-shadow(0 0 10px rgba(239,68,68,0.8))' }}
                   />
                 )}
                 animationDuration={1800}
