@@ -430,18 +430,8 @@ export default function GMDashboard() {
               </div>
             </div>
 
-            {/* 右侧：经销商销售预测入口 */}
+            {/* 右侧：空占位 */}
             <div className="flex items-center justify-end">
-              <Link href="/dealer">
-                <Button
-                  variant="outline"
-                  className="text-xs sm:text-sm bg-gradient-to-r from-purple-500/20 to-pink-500/20 border-purple-500/50 text-purple-300 hover:from-purple-500/30 hover:to-pink-500/30 hover:border-purple-500/70 transition-all"
-                >
-                  <BarChart3 className="w-4 h-4 mr-2" />
-                  经销商销售预测
-                  <ChevronRight className="w-4 h-4 ml-2" />
-                </Button>
-              </Link>
             </div>
           </div>
         </div>
