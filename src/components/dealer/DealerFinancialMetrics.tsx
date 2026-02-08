@@ -78,6 +78,250 @@ const returnRateData = [
   { quarter: 'Q4', rate: 4.1 },
 ];
 
+// 主仪表盘组件
+const MainGauge = ({
+  actualValue,
+  targetValue,
+  showPercentage = true,
+  size = 180,
+  label = ''
+}: {
+  actualValue: number;
+  targetValue: number;
+  showPercentage?: boolean;
+  size?: number;
+  label?: string;
+}) => {
+  const percentage = Math.min((actualValue / targetValue) * 100, 100);
+  const angle = (percentage / 100) * 180 - 90;
+
+  return (
+    <div className="relative flex flex-col items-center justify-center">
+      <div className="relative flex items-center justify-center" style={{ width: size, height: size }}>
+        {/* 外圈发光效果 */}
+        <div
+          className="absolute inset-0 rounded-full"
+          style={{
+            background: percentage >= 90 ? 'radial-gradient(circle, rgba(74,222,128,0.2) 0%, transparent 70%)' :
+                      percentage >= 70 ? 'radial-gradient(circle, rgba(250,204,21,0.2) 0%, transparent 70%)' :
+                      'radial-gradient(circle, rgba(239,68,68,0.2) 0%, transparent 70%)',
+          }}
+        />
+
+        {/* 仪表盘SVG */}
+        <svg viewBox="0 0 200 200" className="w-full h-full">
+          {/* 背景圆环 */}
+          <circle
+            cx="100"
+            cy="100"
+            r="75"
+            fill="none"
+            stroke="rgba(30,41,59,0.8)"
+            strokeWidth="10"
+          />
+
+          {/* 刻度线 */}
+          {[...Array(11)].map((_, i) => {
+            const angle = (i * 18 - 90) * (Math.PI / 180);
+            const innerR = 65;
+            const outerR = 75;
+            const x1 = 100 + innerR * Math.cos(angle);
+            const y1 = 100 + innerR * Math.sin(angle);
+            const x2 = 100 + outerR * Math.cos(angle);
+            const y2 = 100 + outerR * Math.sin(angle);
+
+            // 刻度颜色
+            const tickPercentage = (i / 10) * 100;
+            const strokeColor = tickPercentage >= 90 ? '#22c55e' :
+                               tickPercentage >= 70 ? '#eab308' :
+                               '#ef4444';
+
+            return (
+              <line
+                key={i}
+                x1={x1}
+                y1={y1}
+                x2={x2}
+                y2={y2}
+                stroke={strokeColor}
+                strokeWidth="2"
+                strokeLinecap="round"
+              />
+            );
+          })}
+
+          {/* 进度弧线 */}
+          <circle
+            cx="100"
+            cy="100"
+            r="75"
+            fill="none"
+            stroke={percentage >= 90 ? '#22c55e' :
+                    percentage >= 70 ? '#eab308' :
+                    '#ef4444'}
+            strokeWidth="10"
+            strokeLinecap="round"
+            strokeDasharray={`${percentage * 4.71} 471`}
+            strokeDashoffset={0}
+            transform="rotate(-90 100 100)"
+            style={{
+              filter: percentage >= 90 ? 'drop-shadow(0 0 12px rgba(74,222,128,1))' :
+                     percentage >= 70 ? 'drop-shadow(0 0 12px rgba(250,204,21,1))' :
+                     'drop-shadow(0 0 12px rgba(239,68,68,1))',
+              transition: 'stroke-dasharray 0.1s ease-out',
+            }}
+          />
+
+          {/* 指针 */}
+          <g transform={`translate(100, 100) rotate(${angle})`}>
+            <polygon
+              points="-3,0 0,-55 3,0"
+              fill="#22d3ee"
+              style={{
+                filter: 'drop-shadow(0 0 8px rgba(34,211,238,1))',
+              }}
+            />
+            <circle
+              cx="0"
+              cy="0"
+              r="6"
+              fill="#22d3ee"
+              style={{
+                filter: 'drop-shadow(0 0 6px rgba(34,211,238,0.9))',
+              }}
+            />
+          </g>
+        </svg>
+
+        {/* 中心数值显示 */}
+        <div className="absolute inset-0 flex flex-col items-center justify-center">
+          {showPercentage ? (
+            <>
+              <div className="text-3xl font-black mb-1"
+                   style={{
+                     color: percentage >= 90 ? '#22c55e' :
+                            percentage >= 70 ? '#eab308' :
+                            '#ef4444',
+                     textShadow: percentage >= 90 ? '0 0 15px rgba(74,222,128,0.8)' :
+                                percentage >= 70 ? '0 0 15px rgba(250,204,21,0.8)' :
+                                '0 0 15px rgba(239,68,68,0.8)',
+                   }}
+              >
+                {Math.round(actualValue)}
+              </div>
+              <div className="text-xs font-semibold text-cyan-400/70">%</div>
+            </>
+          ) : (
+            <div className="flex flex-col items-center">
+              <div className="text-xl font-black mb-0.5 text-cyan-50"
+                   style={{
+                     textShadow: '0 0 15px rgba(6,182,212,0.5)',
+                   }}
+              >
+                {Math.round(actualValue)}
+              </div>
+              <div className="text-xs text-cyan-400/60">万</div>
+            </div>
+          )}
+        </div>
+      </div>
+      {label && (
+        <div className="mt-2 text-sm font-medium text-cyan-300/80">{label}</div>
+      )}
+    </div>
+  );
+};
+
+// 小型仪表盘
+const SmallGauge = ({
+  value,
+  maxValue,
+  label,
+  unit = '万',
+  color = 'cyan',
+  size = 140
+}: {
+  value: number;
+  maxValue: number;
+  label: string;
+  unit?: string;
+  color?: 'cyan' | 'red' | 'green' | 'yellow';
+  size?: number;
+}) => {
+  const percentage = Math.min((value / maxValue) * 100, 100);
+  const angle = (percentage / 100) * 180 - 90;
+
+  const colorMap = {
+    cyan: '#22d3ee',
+    red: '#ef4444',
+    green: '#22c55e',
+    yellow: '#eab308',
+  };
+
+  const strokeColor = colorMap[color];
+
+  return (
+    <div className="relative flex flex-col items-center justify-center">
+      <div className="relative flex items-center justify-center" style={{ width: size, height: size }}>
+        <svg viewBox="0 0 200 200" className="w-full h-full">
+          {/* 背景圆环 */}
+          <circle
+            cx="100"
+            cy="100"
+            r="70"
+            fill="none"
+            stroke="rgba(30,41,59,0.8)"
+            strokeWidth="8"
+          />
+
+          {/* 进度弧线 */}
+          <circle
+            cx="100"
+            cy="100"
+            r="70"
+            fill="none"
+            stroke={strokeColor}
+            strokeWidth="8"
+            strokeLinecap="round"
+            strokeDasharray={`${percentage * 4.40} 440`}
+            strokeDashoffset={0}
+            transform="rotate(-90 100 100)"
+            style={{
+              filter: `drop-shadow(0 0 8px ${strokeColor})`,
+              transition: 'stroke-dasharray 0.1s ease-out',
+            }}
+          />
+
+          {/* 指针 */}
+          <g transform={`translate(100, 100) rotate(${angle})`}>
+            <polygon
+              points="-2.5,0 0,-50 2.5,0"
+              fill={strokeColor}
+              style={{
+                filter: `drop-shadow(0 0 6px ${strokeColor})`,
+              }}
+            />
+            <circle cx="0" cy="0" r="5" fill={strokeColor} />
+          </g>
+        </svg>
+
+        {/* 中心数值显示 */}
+        <div className="absolute inset-0 flex flex-col items-center justify-center">
+          <div className="text-2xl font-black text-cyan-50"
+               style={{
+                 textShadow: '0 0 12px rgba(6,182,212,0.5)',
+               }}
+          >
+            {Math.round(value)}
+          </div>
+          <div className="text-xs text-cyan-400/60">{unit}</div>
+        </div>
+      </div>
+      <div className="mt-2 text-xs font-medium text-cyan-300/80">{label}</div>
+    </div>
+  );
+};
+
 export default function DealerFinancialMetrics() {
   const [timeRange, setTimeRange] = useState<TimeRange>('current');
   const [mounted, setMounted] = useState(false);
@@ -156,246 +400,263 @@ export default function DealerFinancialMetrics() {
         </div>
       </div>
 
-      {/* 核心指标卡片 - 仪表盘风格 */}
-      <div className="grid grid-cols-3 md:grid-cols-6 gap-3">
+      {/* 仪表盘区域 */}
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-4 items-center justify-items-center">
         {/* 本月目标 */}
-        <Card className={cn(
-          'backdrop-blur-xl border-2 transition-all duration-300 hover:scale-105',
-          'bg-gradient-to-br from-slate-900/90 to-slate-950/90',
-          'border-cyan-500/30 shadow-lg shadow-cyan-500/10'
-        )}>
-          <CardContent className="p-4 text-center">
-            <div className="flex items-center justify-center gap-1 mb-2">
-              <Target className="h-3 w-3 text-cyan-400" />
-              <span className="text-xs text-cyan-300/80 font-medium">本月目标</span>
-            </div>
-            <div className="text-xl font-black text-cyan-50" style={{
-              textShadow: '0 0 15px rgba(6,182,212,0.4)'
-            }}>
-              {mounted ? Math.round(animatedTarget) : 0}
-              <span className="text-xs font-semibold text-cyan-400/70 ml-1">万</span>
-            </div>
-          </CardContent>
-        </Card>
+        <SmallGauge
+          value={data.target}
+          maxValue={data.target * 1.2}
+          label={timeRange === 'current' ? '本月目标' : timeRange === 'quarter' ? '季度目标' : '年度目标'}
+          unit="万"
+          color="cyan"
+          size={140}
+        />
 
         {/* 已完成 */}
-        <Card className={cn(
-          'backdrop-blur-xl border-2 transition-all duration-300 hover:scale-105',
-          'bg-gradient-to-br from-slate-900/90 to-slate-950/90',
-          'border-green-500/30 shadow-lg shadow-green-500/10'
-        )}>
-          <CardContent className="p-4 text-center">
-            <div className="flex items-center justify-center gap-1 mb-2">
-              <Zap className="h-3 w-3 text-green-400" />
-              <span className="text-xs text-cyan-300/80 font-medium">已完成</span>
-            </div>
-            <div className="text-xl font-black text-green-400" style={{
-              textShadow: '0 0 15px rgba(74,222,128,0.4)'
-            }}>
-              {mounted ? Math.round(animatedCompleted) : 0}
-              <span className="text-xs font-semibold text-green-400/70 ml-1">万</span>
-            </div>
-          </CardContent>
-        </Card>
-
-        {/* 完成率 */}
-        <Card className={cn(
-          'backdrop-blur-xl border-2 transition-all duration-300 hover:scale-105',
-          'bg-gradient-to-br from-slate-900/90 to-slate-950/90',
-          getRateBgColor(completionRate)
-        )}>
-          <CardContent className="p-4 text-center">
-            <div className="flex items-center justify-center gap-1 mb-2">
-              <Gauge className="h-3 w-3 text-cyan-400" />
-              <span className="text-xs text-cyan-300/80 font-medium">完成率</span>
-            </div>
-            <div className={cn('text-xl font-black', getRateColor(completionRate))} style={{
-              textShadow: `0 0 15px ${completionRate < 80 ? 'rgba(239,68,68,0.4)' : completionRate < 100 ? 'rgba(250,204,21,0.4)' : 'rgba(74,222,128,0.4)'}`
-            }}>
-              {mounted ? completionRate : 0}
-              <span className="text-xs font-semibold ml-1">%</span>
-            </div>
-          </CardContent>
-        </Card>
+        <SmallGauge
+          value={data.completed}
+          maxValue={data.target}
+          label="已完成"
+          unit="万"
+          color="green"
+          size={140}
+        />
 
         {/* 预计完成 */}
-        <Card className={cn(
-          'backdrop-blur-xl border-2 transition-all duration-300 hover:scale-105',
-          'bg-gradient-to-br from-slate-900/90 to-slate-950/90',
-          'border-cyan-500/30 shadow-lg shadow-cyan-500/10'
-        )}>
-          <CardContent className="p-4 text-center">
-            <div className="flex items-center justify-center gap-1 mb-2">
-              <TrendingUp className="h-3 w-3 text-cyan-400" />
-              <span className="text-xs text-cyan-300/80 font-medium">预计完成</span>
-            </div>
-            <div className="text-xl font-black text-cyan-50" style={{
-              textShadow: '0 0 15px rgba(6,182,212,0.4)'
-            }}>
-              {mounted ? Math.round(animatedForecast) : 0}
-              <span className="text-xs font-semibold text-cyan-400/70 ml-1">万</span>
-            </div>
-          </CardContent>
-        </Card>
-
-        {/* 预计完成率 */}
-        <Card className={cn(
-          'backdrop-blur-xl border-2 transition-all duration-300 hover:scale-105',
-          'bg-gradient-to-br from-slate-900/90 to-slate-950/90',
-          getRateBgColor(forecastRate)
-        )}>
-          <CardContent className="p-4 text-center">
-            <div className="flex items-center justify-center gap-1 mb-2">
-              <Clock className="h-3 w-3 text-cyan-400" />
-              <span className="text-xs text-cyan-300/80 font-medium">预计完成率</span>
-            </div>
-            <div className={cn('text-xl font-black', getRateColor(forecastRate))} style={{
-              textShadow: `0 0 15px ${forecastRate < 80 ? 'rgba(239,68,68,0.4)' : forecastRate < 100 ? 'rgba(250,204,21,0.4)' : 'rgba(74,222,128,0.4)'}`
-            }}>
-              {mounted ? forecastRate : 0}
-              <span className="text-xs font-semibold ml-1">%</span>
-            </div>
-          </CardContent>
-        </Card>
+        <SmallGauge
+          value={data.forecast}
+          maxValue={data.target * 1.2}
+          label="预计完成"
+          unit="万"
+          color="cyan"
+          size={140}
+        />
 
         {/* 缺口 */}
-        <Card className={cn(
-          'backdrop-blur-xl border-2 transition-all duration-300 hover:scale-105',
-          'bg-gradient-to-br from-slate-900/90 to-slate-950/90',
-          gap < 0 ? 'border-green-500/30 shadow-lg shadow-green-500/10' : 'border-red-500/30 shadow-lg shadow-red-500/10'
-        )}>
-          <CardContent className="p-4 text-center">
-            <div className="flex items-center justify-center gap-1 mb-2">
-              <AlertTriangle className="h-3 w-3 text-cyan-400" />
-              <span className="text-xs text-cyan-300/80 font-medium">{gap < 0 ? '超额' : '缺口'}</span>
-            </div>
-            <div className={cn('text-xl font-black', gap < 0 ? 'text-green-400' : 'text-red-400')} style={{
-              textShadow: `0 0 15px ${gap < 0 ? 'rgba(74,222,128,0.4)' : 'rgba(239,68,68,0.4)'}`
-            }}>
-              {mounted ? Math.round(Math.abs(gap)) : 0}
-              <span className="text-xs font-semibold ml-1">万</span>
-            </div>
-          </CardContent>
-        </Card>
+        <SmallGauge
+          value={Math.abs(gap)}
+          maxValue={data.target}
+          label={gap < 0 ? '超额' : '缺口'}
+          unit="万"
+          color={gap < 0 ? 'green' : 'red'}
+          size={140}
+        />
       </div>
 
-      {/* 趋势图 */}
-      <Card className="backdrop-blur-xl border-2 border-cyan-500/30 bg-gradient-to-br from-slate-900/90 to-slate-950/90 shadow-lg shadow-cyan-500/10">
+      {/* 达成率仪表盘 */}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 items-center justify-items-center">
+        {/* 完成率 */}
+        <div className="flex flex-col items-center">
+          <MainGauge
+            actualValue={completionRate}
+            targetValue={100}
+            showPercentage={true}
+            size={180}
+            label="完成率"
+          />
+        </div>
+
+        {/* 预计完成率 */}
+        <div className="flex flex-col items-center">
+          <MainGauge
+            actualValue={forecastRate}
+            targetValue={100}
+            showPercentage={true}
+            size={180}
+            label="预计完成率"
+          />
+        </div>
+      </div>
+
+      {/* 月度趋势图 */}
+      <Card className={cn(
+        'backdrop-blur-xl border-2',
+        'bg-slate-900/60 border-cyan-500/30 shadow-lg shadow-cyan-500/10'
+      )}>
         <CardHeader>
-          <CardTitle className="text-lg text-cyan-50 font-bold flex items-center gap-2">
-            <BarChart3 className="h-5 w-5 text-cyan-400" />
-            业绩趋势图
+          <CardTitle className={cn('text-base font-semibold text-cyan-300/80', 'flex items-center gap-2')}>
+            <TrendingUp className="h-4 w-4" />
+            月度销售趋势
           </CardTitle>
         </CardHeader>
         <CardContent>
-          <div className="h-[300px]">
-            <ResponsiveContainer width="100%" height="100%">
-              <AreaChart data={monthlyTrendData} margin={{ top: 10, right: 30, left: 0, bottom: 0 }}>
-                <defs>
-                  <linearGradient id="colorTarget" x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="5%" stopColor="#fb923c" stopOpacity={0.3}/>
-                    <stop offset="95%" stopColor="#fb923c" stopOpacity={0}/>
-                  </linearGradient>
-                  <linearGradient id="colorCompleted" x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="5%" stopColor="#22c55e" stopOpacity={0.3}/>
-                    <stop offset="95%" stopColor="#22c55e" stopOpacity={0}/>
-                  </linearGradient>
-                  <linearGradient id="colorForecast" x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="5%" stopColor="#22d3ee" stopOpacity={0.3}/>
-                    <stop offset="95%" stopColor="#22d3ee" stopOpacity={0}/>
-                  </linearGradient>
-                </defs>
-                <CartesianGrid strokeDasharray="3 3" stroke="rgba(34,211,238,0.1)" />
-                <XAxis dataKey="month" tick={{ fill: 'rgba(34,211,238,0.7)', fontSize: 12 }} />
-                <YAxis tick={{ fill: 'rgba(34,211,238,0.7)', fontSize: 12 }} />
-                <Tooltip
-                  contentStyle={{
-                    backgroundColor: 'rgba(15,23,42,0.96)',
-                    border: '1px solid #22d3ee',
-                    borderRadius: '8px',
-                    boxShadow: '0 0 15px rgba(34,211,238,0.4)',
-                  }}
-                />
-                <Legend />
-                <Area type="monotone" dataKey="target" stroke="#fb923c" fillOpacity={1} fill="url(#colorTarget)" name="目标" />
-                <Area type="monotone" dataKey="completed" stroke="#22c55e" fillOpacity={1} fill="url(#colorCompleted)" name="已完成" />
-                <Area type="monotone" dataKey="forecast" stroke="#22d3ee" fillOpacity={1} fill="url(#colorForecast)" name="预计完成" />
-              </AreaChart>
-            </ResponsiveContainer>
-          </div>
+          <ResponsiveContainer width="100%" height={250}>
+            <AreaChart data={monthlyTrendData}>
+              <defs>
+                <linearGradient id="colorCompleted" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="5%" stopColor="#22c55e" stopOpacity={0.3}/>
+                  <stop offset="95%" stopColor="#22c55e" stopOpacity={0}/>
+                </linearGradient>
+                <linearGradient id="colorForecast" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="5%" stopColor="#22d3ee" stopOpacity={0.3}/>
+                  <stop offset="95%" stopColor="#22d3ee" stopOpacity={0}/>
+                </linearGradient>
+              </defs>
+              <CartesianGrid strokeDasharray="3 3" stroke="rgba(34,211,238,0.1)" />
+              <XAxis
+                dataKey="month"
+                stroke="#22d3ee"
+                fontSize={12}
+                tickLine={false}
+                axisLine={false}
+              />
+              <YAxis
+                stroke="#22d3ee"
+                fontSize={12}
+                tickLine={false}
+                axisLine={false}
+              />
+              <Tooltip
+                contentStyle={{
+                  backgroundColor: 'rgba(15,23,42,0.9)',
+                  border: '1px solid rgba(34,211,238,0.3)',
+                  borderRadius: '8px',
+                }}
+              />
+              <Legend />
+              <Area
+                type="monotone"
+                dataKey="target"
+                name="目标"
+                stroke="#64748b"
+                strokeWidth={2}
+                fillOpacity={0.1}
+                fill="#64748b"
+              />
+              <Area
+                type="monotone"
+                dataKey="completed"
+                name="已完成"
+                stroke="#22c55e"
+                strokeWidth={2}
+                fill="url(#colorCompleted)"
+              />
+              <Area
+                type="monotone"
+                dataKey="forecast"
+                name="预计"
+                stroke="#22d3ee"
+                strokeWidth={2}
+                fill="url(#colorForecast)"
+              />
+            </AreaChart>
+          </ResponsiveContainer>
         </CardContent>
       </Card>
 
-      {/* 折扣折让率和退机率 */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        {/* 折扣折让率 */}
-        <Card className="backdrop-blur-xl border-2 border-cyan-500/30 bg-gradient-to-br from-slate-900/90 to-slate-950/90 shadow-lg shadow-cyan-500/10">
-          <CardHeader>
-            <CardTitle className="text-lg text-cyan-50 font-bold">折扣折让率趋势</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="h-[250px]">
-              <ResponsiveContainer width="100%" height="100%">
-                <LineChart data={discountData}>
-                  <CartesianGrid strokeDasharray="3 3" stroke="rgba(34,211,238,0.1)" />
-                  <XAxis dataKey="month" tick={{ fill: 'rgba(34,211,238,0.7)', fontSize: 12 }} />
-                  <YAxis tick={{ fill: 'rgba(34,211,238,0.7)', fontSize: 12 }} />
-                  <Tooltip
-                    contentStyle={{
-                      backgroundColor: 'rgba(15,23,42,0.96)',
-                      border: '1px solid #22d3ee',
-                      borderRadius: '8px',
-                    }}
-                    formatter={(value: number) => [`${value}%`, '折扣折让率']}
-                  />
-                  <Line
-                    type="monotone"
-                    dataKey="discountRate"
-                    stroke="#f59e0b"
-                    strokeWidth={2}
-                    dot={{ fill: '#f59e0b', strokeWidth: 2 }}
-                    activeDot={{ r: 6 }}
-                  />
-                </LineChart>
-              </ResponsiveContainer>
-            </div>
-          </CardContent>
-        </Card>
+      {/* 折扣折让率图 */}
+      <Card className={cn(
+        'backdrop-blur-xl border-2',
+        'bg-slate-900/60 border-cyan-500/30 shadow-lg shadow-cyan-500/10'
+      )}>
+        <CardHeader>
+          <CardTitle className={cn('text-base font-semibold text-cyan-300/80', 'flex items-center gap-2')}>
+            <BarChart3 className="h-4 w-4" />
+            折扣折让率趋势
+          </CardTitle>
+        </CardHeader>
+        <CardContent>
+          <ResponsiveContainer width="100%" height={200}>
+            <LineChart data={discountData}>
+              <defs>
+                <linearGradient id="colorDiscount" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="5%" stopColor="#eab308" stopOpacity={0.3}/>
+                  <stop offset="95%" stopColor="#eab308" stopOpacity={0}/>
+                </linearGradient>
+              </defs>
+              <CartesianGrid strokeDasharray="3 3" stroke="rgba(34,211,238,0.1)" />
+              <XAxis
+                dataKey="month"
+                stroke="#22d3ee"
+                fontSize={12}
+                tickLine={false}
+                axisLine={false}
+              />
+              <YAxis
+                stroke="#22d3ee"
+                fontSize={12}
+                tickLine={false}
+                axisLine={false}
+                domain={[0, 12]}
+              />
+              <Tooltip
+                contentStyle={{
+                  backgroundColor: 'rgba(15,23,42,0.9)',
+                  border: '1px solid rgba(34,211,238,0.3)',
+                  borderRadius: '8px',
+                }}
+                formatter={(value: number) => [`${value}%`, '折扣折让率']}
+              />
+              <Line
+                type="monotone"
+                dataKey="discountRate"
+                name="折扣折让率"
+                stroke="#eab308"
+                strokeWidth={2}
+                dot={{ fill: '#eab308', r: 4 }}
+                activeDot={{ r: 6 }}
+              />
+            </LineChart>
+          </ResponsiveContainer>
+        </CardContent>
+      </Card>
 
-        {/* 4个季度滚动退机率 */}
-        <Card className="backdrop-blur-xl border-2 border-cyan-500/30 bg-gradient-to-br from-slate-900/90 to-slate-950/90 shadow-lg shadow-cyan-500/10">
-          <CardHeader>
-            <CardTitle className="text-lg text-cyan-50 font-bold">4个季度滚动退机率</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="h-[250px]">
-              <ResponsiveContainer width="100%" height="100%">
-                <LineChart data={returnRateData}>
-                  <CartesianGrid strokeDasharray="3 3" stroke="rgba(34,211,238,0.1)" />
-                  <XAxis dataKey="quarter" tick={{ fill: 'rgba(34,211,238,0.7)', fontSize: 12 }} />
-                  <YAxis tick={{ fill: 'rgba(34,211,238,0.7)', fontSize: 12 }} />
-                  <Tooltip
-                    contentStyle={{
-                      backgroundColor: 'rgba(15,23,42,0.96)',
-                      border: '1px solid #22d3ee',
-                      borderRadius: '8px',
-                    }}
-                    formatter={(value: number) => [`${value}%`, '退机率']}
-                  />
-                  <Line
-                    type="monotone"
-                    dataKey="rate"
-                    stroke="#ef4444"
-                    strokeWidth={2}
-                    dot={{ fill: '#ef4444', strokeWidth: 2 }}
-                    activeDot={{ r: 6 }}
-                  />
-                </LineChart>
-              </ResponsiveContainer>
-            </div>
-          </CardContent>
-        </Card>
-      </div>
+      {/* 退机率图 */}
+      <Card className={cn(
+        'backdrop-blur-xl border-2',
+        'bg-slate-900/60 border-cyan-500/30 shadow-lg shadow-cyan-500/10'
+      )}>
+        <CardHeader>
+          <CardTitle className={cn('text-base font-semibold text-cyan-300/80', 'flex items-center gap-2')}>
+            <AlertTriangle className="h-4 w-4" />
+            4个季度滚动退机率
+          </CardTitle>
+        </CardHeader>
+        <CardContent>
+          <ResponsiveContainer width="100%" height={200}>
+            <LineChart data={returnRateData}>
+              <defs>
+                <linearGradient id="colorReturn" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="5%" stopColor="#ef4444" stopOpacity={0.3}/>
+                  <stop offset="95%" stopColor="#ef4444" stopOpacity={0}/>
+                </linearGradient>
+              </defs>
+              <CartesianGrid strokeDasharray="3 3" stroke="rgba(34,211,238,0.1)" />
+              <XAxis
+                dataKey="quarter"
+                stroke="#22d3ee"
+                fontSize={12}
+                tickLine={false}
+                axisLine={false}
+              />
+              <YAxis
+                stroke="#22d3ee"
+                fontSize={12}
+                tickLine={false}
+                axisLine={false}
+                domain={[0, 6]}
+              />
+              <Tooltip
+                contentStyle={{
+                  backgroundColor: 'rgba(15,23,42,0.9)',
+                  border: '1px solid rgba(34,211,238,0.3)',
+                  borderRadius: '8px',
+                }}
+                formatter={(value: number) => [`${value}%`, '退机率']}
+              />
+              <Line
+                type="monotone"
+                dataKey="rate"
+                name="退机率"
+                stroke="#ef4444"
+                strokeWidth={2}
+                dot={{ fill: '#ef4444', r: 4 }}
+                activeDot={{ r: 6 }}
+              />
+            </LineChart>
+          </ResponsiveContainer>
+        </CardContent>
+      </Card>
     </div>
   );
 }
