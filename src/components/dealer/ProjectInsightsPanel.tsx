@@ -2,7 +2,7 @@
 
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { cn } from '@/lib/utils';
-import { AlertTriangle, TrendingUp, CheckCircle2, Clock, DollarSign, Target, ArrowUpRight, ArrowDownRight, Lightbulb, Zap, Shield, XCircle, AlertCircle } from 'lucide-react';
+import { AlertTriangle, TrendingUp, DollarSign, Target, ArrowUpRight, ArrowDownRight, Shield, XCircle, AlertCircle } from 'lucide-react';
 
 // 时间范围类型
 type TimeRange = 'current' | 'quarter' | 'year';
@@ -230,85 +230,6 @@ const resourceAllocation = [
   },
 ];
 
-// 整体行动建议
-const overallActions = [
-  {
-    category: '紧急行动',
-    icon: Zap,
-    color: 'text-red-400 bg-red-500/10 border-red-500/30',
-    items: [
-      {
-        title: '清理28个高风险项目',
-        description: '高风险项目超期30天以上，成交概率仅20%，占用大量报备资源',
-        impact: '可释放28个报备名额，用于新项目报备',
-        deadline: '本周内完成评估和清理',
-      },
-      {
-        title: '重点跟进4个关键预警项目',
-        description: 'P001(学校)、P002(医院)等4个项目风险高但价值大，需立即处理',
-        impact: '预计可挽回4个高价值项目，避免损失1500万',
-        deadline: '立即行动',
-      },
-      {
-        title: '优化漏斗转化率',
-        description: '需求确认到方案提交流失率高达32%，需建立快速方案响应机制',
-        impact: '预计可提升转化率至40%，多成交15个项目',
-        deadline: '本月底前建立方案模板库',
-      },
-    ],
-  },
-  {
-    category: '重点优化',
-    icon: TrendingUp,
-    color: 'text-green-400 bg-green-500/10 border-green-500/30',
-    items: [
-      {
-        title: '聚焦35个重点投入项目',
-        description: '高价值+低风险+即将成交的项目，应投入100%资源确保成功',
-        impact: '预计成交率80%，收入5600万，占本月收入的60%',
-        deadline: '持续跟进',
-      },
-      {
-        title: '提升方案响应速度',
-        description: '方案准备时间过长是主要流失原因，需建立标准化方案模板',
-        impact: '缩短方案周期30%，提升客户满意度',
-        deadline: '本季度完成方案模板库建设',
-      },
-      {
-        title: '加强竞争对手分析',
-        description: '竞品方案更优是方案确认阶段的主要流失原因，需建立竞品情报系统',
-        impact: '提升方案竞争力，减少因竞品导致的流失',
-        deadline: '持续进行',
-      },
-    ],
-  },
-  {
-    category: '持续改进',
-    icon: Lightbulb,
-    color: 'text-cyan-400 bg-cyan-500/10 border-cyan-500/30',
-    items: [
-      {
-        title: '建立项目健康度评估体系',
-        description: '定期评估项目风险、进展、成功概率，动态调整资源配置',
-        impact: '提升资源利用效率，降低项目失败率',
-        deadline: '下季度完成体系搭建',
-      },
-      {
-        title: '优化客户需求调研流程',
-        description: '需求不明确导致大量流失，需加强前期调研，使用标准化问卷',
-        impact: '减少因需求不明确导致的流失，提升转化率',
-        deadline: '本月启动',
-      },
-      {
-        title: '加强采购流程协作',
-        description: '采购流程复杂是常见问题，需主动协助客户梳理流程，提供支持',
-        impact: '缩短采购周期，提升成交率',
-        deadline: '持续进行',
-      },
-    ],
-  },
-];
-
 // 辅助函数
 const getRiskColor = (level: string) => {
   switch (level) {
@@ -348,40 +269,6 @@ export default function ProjectInsightsPanel({ timeRange = 'current', showTitle 
           <h2 className="text-xl font-bold text-cyan-50">项目智能分析与指导</h2>
         </div>
       )}
-
-      {/* 整体行动建议 */}
-      <div className="space-y-3">
-        {overallActions.map((action, idx) => (
-          <Card key={idx} className={cn(
-            'backdrop-blur-xl border-2',
-            action.color,
-            'shadow-lg'
-          )}>
-            <CardHeader className="pb-3">
-              <CardTitle className="text-base font-semibold flex items-center gap-2">
-                <action.icon className="h-5 w-5" />
-                {action.category}
-              </CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-2">
-              {action.items.map((item, itemIdx) => (
-                <div key={itemIdx} className="bg-slate-900/50 rounded-lg p-3 border border-white/10">
-                  <div className="flex items-start gap-2">
-                    <div className="flex-1">
-                      <div className="font-semibold text-sm text-cyan-50 mb-1">{item.title}</div>
-                      <div className="text-xs text-cyan-300/70 mb-2">{item.description}</div>
-                      <div className="grid grid-cols-2 gap-2">
-                        <div className="text-xs text-green-400 font-medium">💡 预期收益：{item.impact}</div>
-                        <div className="text-xs text-cyan-300/70">⏰ {item.deadline}</div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              ))}
-            </CardContent>
-          </Card>
-        ))}
-      </div>
 
       {/* 关键项目预警 */}
       <Card className="backdrop-blur-xl border-2 border-red-500/30 bg-gradient-to-br from-slate-900/90 to-slate-950/90 shadow-lg shadow-red-500/10">

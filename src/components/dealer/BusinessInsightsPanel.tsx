@@ -2,7 +2,7 @@
 
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { cn } from '@/lib/utils';
-import { TrendingUp, AlertTriangle, CheckCircle2, DollarSign, Target, BarChart3, Lightbulb, ArrowUpRight, ArrowDownRight, Minus } from 'lucide-react';
+import { DollarSign, Target, BarChart3, ArrowUpRight, ArrowDownRight, Minus } from 'lucide-react';
 
 // 时间范围类型
 type TimeRange = 'current' | 'quarter' | 'year';
@@ -200,76 +200,6 @@ const industryDeepDive = [
   },
 ];
 
-// 整体建议
-const overallRecommendations = [
-  {
-    category: '紧急行动',
-    icon: AlertTriangle,
-    color: 'text-red-400 bg-red-500/10 border-red-500/30',
-    items: [
-      {
-        title: '砍掉低利润业务',
-        description: '水处理业务毛利率仅12%，预算型产品占比60%，建议立即收缩或提高报价门槛',
-        impact: '预计可提升整体毛利率2-3个百分点',
-      },
-      {
-        title: '优化民营客户结构',
-        description: '民营客户预算型产品占比30%，利润率低，应聚焦中高价值客户',
-        impact: '预计可提升民营企业毛利率5个百分点',
-      },
-      {
-        title: '调整政府业务策略',
-        description: '政府业务毛利率15%，预算型产品占比40%，建议降低占比至30%以下',
-        impact: '预计可提升整体毛利率1-2个百分点',
-      },
-    ],
-  },
-  {
-    category: '重点投入',
-    icon: TrendingUp,
-    color: 'text-green-400 bg-green-500/10 border-green-500/30',
-    items: [
-      {
-        title: '扩大金融行业覆盖',
-        description: '金融行业毛利率最高（28%），完成率100%，是优质赛道',
-        impact: '每增加1000万金融业务，可多贡献280万毛利',
-      },
-      {
-        title: '加强外资客户开发',
-        description: '外资客户超额完成，高价值产品占比70%，客户接受度高',
-        impact: '外资客户毛利率26%，应作为重点拓展方向',
-      },
-      {
-        title: '提升国央企业务',
-        description: '国央企稳定、毛利率高（24%），是核心收入来源',
-        impact: '保持当前策略，扩大覆盖范围',
-      },
-    ],
-  },
-  {
-    category: '持续优化',
-    icon: Lightbulb,
-    color: 'text-cyan-400 bg-cyan-500/10 border-cyan-500/30',
-    items: [
-      {
-        title: '优化幼教产品配置',
-        description: '幼教预算型产品占比20%，应减少至10%',
-        impact: '预计可提升幼教毛利率3-4个百分点',
-      },
-      {
-        title: '优化高校项目回款',
-        description: '高校项目周期长影响现金流，需优化回款策略',
-        impact: '预计可缩短回款周期15-20天',
-      },
-      {
-        title: '标准化医疗解决方案',
-        description: '医疗行业项目周期长，需标准化解决方案提升效率',
-        impact: '预计可提升交付效率20%',
-      },
-    ],
-  },
-];
-
 // 辅助函数
 const getHealthColor = (score: number) => {
   if (score >= 85) return 'bg-green-500';
@@ -314,37 +244,6 @@ export default function BusinessInsightsPanel({ timeRange = 'current', showTitle
           <h2 className="text-xl font-bold text-cyan-50">业务洞察与指导</h2>
         </div>
       )}
-
-      {/* 整体建议卡片 */}
-      <div className="space-y-3">
-        {overallRecommendations.map((rec, idx) => (
-          <Card key={idx} className={cn(
-            'backdrop-blur-xl border-2',
-            rec.color,
-            'shadow-lg'
-          )}>
-            <CardHeader className="pb-3">
-              <CardTitle className="text-base font-semibold flex items-center gap-2">
-                <rec.icon className="h-5 w-5" />
-                {rec.category}
-              </CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-2">
-              {rec.items.map((item, itemIdx) => (
-                <div key={itemIdx} className="bg-slate-900/50 rounded-lg p-3 border border-white/10">
-                  <div className="flex items-start gap-2">
-                    <div className="flex-1">
-                      <div className="font-semibold text-sm text-cyan-50 mb-1">{item.title}</div>
-                      <div className="text-xs text-cyan-300/70 mb-2">{item.description}</div>
-                      <div className="text-xs text-green-400 font-medium">💡 预期收益：{item.impact}</div>
-                    </div>
-                  </div>
-                </div>
-              ))}
-            </CardContent>
-          </Card>
-        ))}
-      </div>
 
       {/* 赛道定位分析 */}
       <Card className="backdrop-blur-xl border-2 border-cyan-500/30 bg-gradient-to-br from-slate-900/90 to-slate-950/90 shadow-lg shadow-cyan-500/10">
