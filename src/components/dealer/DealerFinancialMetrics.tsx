@@ -11,6 +11,7 @@ const DASHBOARD_STYLES = {
   bg: 'bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950',
   text: 'text-cyan-50',
   textMuted: 'text-cyan-300/70',
+  textSecondary: 'text-cyan-200',
   neon: 'text-cyan-400 drop-shadow-[0_0_8px_rgba(6,182,212,0.8)]',
   warningNeon: 'text-red-400 drop-shadow-[0_0_8px_rgba(239,68,68,0.8)]',
   successNeon: 'text-green-400 drop-shadow-[0_0_8px_rgba(74,222,128,0.8)]',
@@ -390,7 +391,7 @@ export default function DealerFinancialMetrics() {
               className={cn(
                 'px-3 py-1.5 rounded-lg text-sm font-medium transition-all duration-200',
                 timeRange === range
-                  ? 'bg-cyan-500/20 text-cyan-400 border border-cyan-500/40'
+                  ? 'bg-cyan-500/20 text-cyan-400 border border-cyan-500/40 shadow-[0_0_10px_rgba(6,182,212,0.3)]'
                   : 'bg-slate-800/50 text-cyan-300/70 hover:bg-slate-700/50'
               )}
             >
@@ -480,9 +481,13 @@ export default function DealerFinancialMetrics() {
           </CardTitle>
         </CardHeader>
         <CardContent>
-          <ResponsiveContainer width="100%" height={250}>
-            <AreaChart data={monthlyTrendData}>
+          <ResponsiveContainer width="100%" height={280}>
+            <LineChart data={monthlyTrendData}>
               <defs>
+                <linearGradient id="colorTarget" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="5%" stopColor="#64748b" stopOpacity={0.2}/>
+                  <stop offset="95%" stopColor="#64748b" stopOpacity={0}/>
+                </linearGradient>
                 <linearGradient id="colorCompleted" x1="0" y1="0" x2="0" y2="1">
                   <stop offset="5%" stopColor="#22c55e" stopOpacity={0.3}/>
                   <stop offset="95%" stopColor="#22c55e" stopOpacity={0}/>
@@ -492,54 +497,191 @@ export default function DealerFinancialMetrics() {
                   <stop offset="95%" stopColor="#22d3ee" stopOpacity={0}/>
                 </linearGradient>
               </defs>
-              <CartesianGrid strokeDasharray="3 3" stroke="rgba(34,211,238,0.1)" />
+              <CartesianGrid strokeDasharray="4 4" stroke="rgba(34,211,238,0.15)" />
               <XAxis
                 dataKey="month"
-                stroke="#22d3ee"
-                fontSize={12}
-                tickLine={false}
-                axisLine={false}
+                tick={{ fill: 'rgba(34,211,238,0.7)', fontSize: 12, fontWeight: 500 }}
+                axisLine={{ stroke: 'rgba(34,211,238,0.3)' }}
+                tickLine={{ stroke: 'rgba(34,211,238,0.3)' }}
+                interval={0}
               />
               <YAxis
-                stroke="#22d3ee"
-                fontSize={12}
-                tickLine={false}
+                tick={{ fill: 'rgba(34,211,238,0.7)', fontSize: 12, fontWeight: 500 }}
                 axisLine={false}
+                tickLine={false}
+                tickFormatter={(value) => `${value}`}
+                domain={[0, 1500]}
               />
               <Tooltip
                 contentStyle={{
-                  backgroundColor: 'rgba(15,23,42,0.9)',
-                  border: '1px solid rgba(34,211,238,0.3)',
+                  backgroundColor: 'rgba(15,23,42,0.96)',
+                  border: '1px solid #22d3ee',
                   borderRadius: '8px',
+                  boxShadow: '0 0 15px rgba(34,211,238,0.4)',
+                  padding: '12px 16px',
+                  fontSize: '13px',
+                }}
+                formatter={(value: number, name: string) => {
+                  if (name === '目标') return [<span style={{ color: '#64748b', fontWeight: 600 }}>{value}万</span>, name];
+                  if (name === '已完成') return [<span style={{ color: '#22c55e', fontWeight: 600 }}>{value}万</span>, name];
+                  if (name === '预计') return [<span style={{ color: '#22d3ee', fontWeight: 600 }}>{value}万</span>, name];
+                  return [value, name];
                 }}
               />
-              <Legend />
-              <Area
+              <Legend
+                wrapperStyle={{ fontSize: '12px', color: '#22d3ee' }}
+              />
+              {/* 目标线 - 虚线 */}
+              <Line
                 type="monotone"
                 dataKey="target"
                 name="目标"
                 stroke="#64748b"
-                strokeWidth={2}
-                fillOpacity={0.1}
-                fill="#64748b"
+                strokeWidth={2.5}
+                strokeDasharray="6 4"
+                dot={false}
+                activeDot={false}
+                animationDuration={1500}
               />
-              <Area
+              {/* 已完成线 - 绿色 */}
+              <Line
                 type="monotone"
                 dataKey="completed"
                 name="已完成"
                 stroke="#22c55e"
-                strokeWidth={2}
-                fill="url(#colorCompleted)"
+                strokeWidth={3}
+                dot={(props: any) => {
+                  const { payload } = props;
+                  if (!payload || payload.completed === 0) {
+                    return <circle cx={props.cx} cy={props.cy} r={0} fill="transparent" />;
+                  }
+
+                  const isBelowTarget = payload.completed < payload.target;
+
+                  if (isBelowTarget) {
+                    return (
+                      <g>
+                        <circle cx={props.cx} cy={props.cy} r={10} fill="rgba(239,68,68,0.2)" style={{ filter: 'drop-shadow(0 0 12px rgba(239,68,68,0.9))' }} />
+                        <circle cx={props.cx} cy={props.cy} r={6} fill="rgba(239,68,68,0.4)" style={{ filter: 'drop-shadow(0 0 8px rgba(239,68,68,0.8))' }} />
+                        <circle cx={props.cx} cy={props.cy} r={4} fill="#ef4444" stroke="#7f1d1d" strokeWidth={2} style={{ filter: 'drop-shadow(0 0 6px rgba(239,68,68,1))' }} />
+                      </g>
+                    );
+                  }
+
+                  return (
+                    <circle
+                      cx={props.cx}
+                      cy={props.cy}
+                      r={4}
+                      fill="#22c55e"
+                      stroke="#15803d"
+                      strokeWidth={2}
+                      style={{ filter: 'drop-shadow(0 0 5px rgba(74,222,128,0.6))' }}
+                    />
+                  );
+                }}
+                activeDot={(props: any) => {
+                  const { payload } = props;
+                  if (!payload || payload.completed === 0) {
+                    return <circle cx={props.cx} cy={props.cy} r={0} fill="transparent" />;
+                  }
+
+                  const isBelowTarget = payload.completed < payload.target;
+
+                  if (isBelowTarget) {
+                    return (
+                      <g>
+                        <circle cx={props.cx} cy={props.cy} r={14} fill="rgba(239,68,68,0.25)" style={{ filter: 'drop-shadow(0 0 20px rgba(239,68,68,1))' }} />
+                        <circle cx={props.cx} cy={props.cy} r={9} fill="rgba(239,68,68,0.5)" style={{ filter: 'drop-shadow(0 0 14px rgba(239,68,68,0.9))' }} />
+                        <circle cx={props.cx} cy={props.cy} r={6} fill="#ef4444" stroke="#7f1d1d" strokeWidth={2.5} style={{ filter: 'drop-shadow(0 0 10px rgba(239,68,68,1))' }} />
+                      </g>
+                    );
+                  }
+
+                  return (
+                    <circle
+                      cx={props.cx}
+                      cy={props.cy}
+                      r={6}
+                      fill="#22c55e"
+                      stroke="#15803d"
+                      strokeWidth={2.5}
+                      style={{ filter: 'drop-shadow(0 0 8px rgba(74,222,128,0.8))' }}
+                    />
+                  );
+                }}
+                animationDuration={1800}
               />
-              <Area
+              {/* 预计线 - 青色 */}
+              <Line
                 type="monotone"
                 dataKey="forecast"
                 name="预计"
                 stroke="#22d3ee"
-                strokeWidth={2}
-                fill="url(#colorForecast)"
+                strokeWidth={3}
+                dot={(props: any) => {
+                  const { payload } = props;
+                  if (!payload || payload.forecast === 0) {
+                    return <circle cx={props.cx} cy={props.cy} r={0} fill="transparent" />;
+                  }
+
+                  const isBelowTarget = payload.forecast < payload.target;
+
+                  if (isBelowTarget) {
+                    return (
+                      <g>
+                        <circle cx={props.cx} cy={props.cy} r={10} fill="rgba(239,68,68,0.2)" style={{ filter: 'drop-shadow(0 0 12px rgba(239,68,68,0.9))' }} />
+                        <circle cx={props.cx} cy={props.cy} r={6} fill="rgba(239,68,68,0.4)" style={{ filter: 'drop-shadow(0 0 8px rgba(239,68,68,0.8))' }} />
+                        <circle cx={props.cx} cy={props.cy} r={4} fill="#ef4444" stroke="#7f1d1d" strokeWidth={2} style={{ filter: 'drop-shadow(0 0 6px rgba(239,68,68,1))' }} />
+                      </g>
+                    );
+                  }
+
+                  return (
+                    <circle
+                      cx={props.cx}
+                      cy={props.cy}
+                      r={4}
+                      fill="#22d3ee"
+                      stroke="#0e7490"
+                      strokeWidth={2}
+                      style={{ filter: 'drop-shadow(0 0 5px rgba(34,211,238,0.6))' }}
+                    />
+                  );
+                }}
+                activeDot={(props: any) => {
+                  const { payload } = props;
+                  if (!payload || payload.forecast === 0) {
+                    return <circle cx={props.cx} cy={props.cy} r={0} fill="transparent" />;
+                  }
+
+                  const isBelowTarget = payload.forecast < payload.target;
+
+                  if (isBelowTarget) {
+                    return (
+                      <g>
+                        <circle cx={props.cx} cy={props.cy} r={14} fill="rgba(239,68,68,0.25)" style={{ filter: 'drop-shadow(0 0 20px rgba(239,68,68,1))' }} />
+                        <circle cx={props.cx} cy={props.cy} r={9} fill="rgba(239,68,68,0.5)" style={{ filter: 'drop-shadow(0 0 14px rgba(239,68,68,0.9))' }} />
+                        <circle cx={props.cx} cy={props.cy} r={6} fill="#ef4444" stroke="#7f1d1d" strokeWidth={2.5} style={{ filter: 'drop-shadow(0 0 10px rgba(239,68,68,1))' }} />
+                      </g>
+                    );
+                  }
+
+                  return (
+                    <circle
+                      cx={props.cx}
+                      cy={props.cy}
+                      r={6}
+                      fill="#22d3ee"
+                      stroke="#0e7490"
+                      strokeWidth={2.5}
+                      style={{ filter: 'drop-shadow(0 0 8px rgba(34,211,238,0.8))' }}
+                    />
+                  );
+                }}
+                animationDuration={2000}
               />
-            </AreaChart>
+            </LineChart>
           </ResponsiveContainer>
         </CardContent>
       </Card>
@@ -556,7 +698,7 @@ export default function DealerFinancialMetrics() {
           </CardTitle>
         </CardHeader>
         <CardContent>
-          <ResponsiveContainer width="100%" height={200}>
+          <ResponsiveContainer width="100%" height={220}>
             <LineChart data={discountData}>
               <defs>
                 <linearGradient id="colorDiscount" x1="0" y1="0" x2="0" y2="1">
@@ -564,37 +706,61 @@ export default function DealerFinancialMetrics() {
                   <stop offset="95%" stopColor="#eab308" stopOpacity={0}/>
                 </linearGradient>
               </defs>
-              <CartesianGrid strokeDasharray="3 3" stroke="rgba(34,211,238,0.1)" />
+              <CartesianGrid strokeDasharray="4 4" stroke="rgba(34,211,238,0.15)" />
               <XAxis
                 dataKey="month"
-                stroke="#22d3ee"
-                fontSize={12}
-                tickLine={false}
-                axisLine={false}
+                tick={{ fill: 'rgba(34,211,238,0.7)', fontSize: 12, fontWeight: 500 }}
+                axisLine={{ stroke: 'rgba(34,211,238,0.3)' }}
+                tickLine={{ stroke: 'rgba(34,211,238,0.3)' }}
+                interval={0}
               />
               <YAxis
-                stroke="#22d3ee"
-                fontSize={12}
-                tickLine={false}
+                tick={{ fill: 'rgba(34,211,238,0.7)', fontSize: 12, fontWeight: 500 }}
                 axisLine={false}
+                tickLine={false}
                 domain={[0, 12]}
+                tickFormatter={(value) => `${value}%`}
               />
               <Tooltip
                 contentStyle={{
-                  backgroundColor: 'rgba(15,23,42,0.9)',
-                  border: '1px solid rgba(34,211,238,0.3)',
+                  backgroundColor: 'rgba(15,23,42,0.96)',
+                  border: '1px solid #eab308',
                   borderRadius: '8px',
+                  boxShadow: '0 0 15px rgba(234,179,8,0.4)',
+                  padding: '12px 16px',
+                  fontSize: '13px',
                 }}
-                formatter={(value: number) => [`${value}%`, '折扣折让率']}
+                formatter={(value: number) => [<span style={{ color: '#eab308', fontWeight: 600 }}>{value}%</span>, '折扣折让率']}
               />
               <Line
                 type="monotone"
                 dataKey="discountRate"
                 name="折扣折让率"
                 stroke="#eab308"
-                strokeWidth={2}
-                dot={{ fill: '#eab308', r: 4 }}
-                activeDot={{ r: 6 }}
+                strokeWidth={3}
+                dot={(props: any) => (
+                  <circle
+                    cx={props.cx}
+                    cy={props.cy}
+                    r={4}
+                    fill="#eab308"
+                    stroke="#a16207"
+                    strokeWidth={2}
+                    style={{ filter: 'drop-shadow(0 0 5px rgba(234,179,8,0.6))' }}
+                  />
+                )}
+                activeDot={(props: any) => (
+                  <circle
+                    cx={props.cx}
+                    cy={props.cy}
+                    r={6}
+                    fill="#eab308"
+                    stroke="#a16207"
+                    strokeWidth={2.5}
+                    style={{ filter: 'drop-shadow(0 0 8px rgba(234,179,8,0.8))' }}
+                  />
+                )}
+                animationDuration={1800}
               />
             </LineChart>
           </ResponsiveContainer>
@@ -613,7 +779,7 @@ export default function DealerFinancialMetrics() {
           </CardTitle>
         </CardHeader>
         <CardContent>
-          <ResponsiveContainer width="100%" height={200}>
+          <ResponsiveContainer width="100%" height={220}>
             <LineChart data={returnRateData}>
               <defs>
                 <linearGradient id="colorReturn" x1="0" y1="0" x2="0" y2="1">
@@ -621,37 +787,61 @@ export default function DealerFinancialMetrics() {
                   <stop offset="95%" stopColor="#ef4444" stopOpacity={0}/>
                 </linearGradient>
               </defs>
-              <CartesianGrid strokeDasharray="3 3" stroke="rgba(34,211,238,0.1)" />
+              <CartesianGrid strokeDasharray="4 4" stroke="rgba(34,211,238,0.15)" />
               <XAxis
                 dataKey="quarter"
-                stroke="#22d3ee"
-                fontSize={12}
-                tickLine={false}
-                axisLine={false}
+                tick={{ fill: 'rgba(34,211,238,0.7)', fontSize: 12, fontWeight: 500 }}
+                axisLine={{ stroke: 'rgba(34,211,238,0.3)' }}
+                tickLine={{ stroke: 'rgba(34,211,238,0.3)' }}
+                interval={0}
               />
               <YAxis
-                stroke="#22d3ee"
-                fontSize={12}
-                tickLine={false}
+                tick={{ fill: 'rgba(34,211,238,0.7)', fontSize: 12, fontWeight: 500 }}
                 axisLine={false}
+                tickLine={false}
                 domain={[0, 6]}
+                tickFormatter={(value) => `${value}%`}
               />
               <Tooltip
                 contentStyle={{
-                  backgroundColor: 'rgba(15,23,42,0.9)',
-                  border: '1px solid rgba(34,211,238,0.3)',
+                  backgroundColor: 'rgba(15,23,42,0.96)',
+                  border: '1px solid #ef4444',
                   borderRadius: '8px',
+                  boxShadow: '0 0 15px rgba(239,68,68,0.4)',
+                  padding: '12px 16px',
+                  fontSize: '13px',
                 }}
-                formatter={(value: number) => [`${value}%`, '退机率']}
+                formatter={(value: number) => [<span style={{ color: '#ef4444', fontWeight: 600 }}>{value}%</span>, '退机率']}
               />
               <Line
                 type="monotone"
                 dataKey="rate"
                 name="退机率"
                 stroke="#ef4444"
-                strokeWidth={2}
-                dot={{ fill: '#ef4444', r: 4 }}
-                activeDot={{ r: 6 }}
+                strokeWidth={3}
+                dot={(props: any) => (
+                  <circle
+                    cx={props.cx}
+                    cy={props.cy}
+                    r={4}
+                    fill="#ef4444"
+                    stroke="#991b1b"
+                    strokeWidth={2}
+                    style={{ filter: 'drop-shadow(0 0 5px rgba(239,68,68,0.6))' }}
+                  />
+                )}
+                activeDot={(props: any) => (
+                  <circle
+                    cx={props.cx}
+                    cy={props.cy}
+                    r={6}
+                    fill="#ef4444"
+                    stroke="#991b1b"
+                    strokeWidth={2.5}
+                    style={{ filter: 'drop-shadow(0 0 8px rgba(239,68,68,0.8))' }}
+                  />
+                )}
+                animationDuration={1800}
               />
             </LineChart>
           </ResponsiveContainer>
