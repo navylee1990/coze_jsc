@@ -6,7 +6,7 @@ import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import CoreMetrics from '@/components/dealer/CoreMetrics';
 import DealerFinancialMetrics from '@/components/dealer/DealerFinancialMetrics';
-import MarketInsightsPanel from '@/components/dealer/MarketInsightsPanel';
+import BusinessInsightsPanel from '@/components/dealer/BusinessInsightsPanel';
 import ProjectDevelopmentPanel from '@/components/dealer/ProjectDevelopmentPanel';
 import { cn } from '@/lib/utils';
 import Link from 'next/link';
@@ -94,14 +94,14 @@ export default function DealerPage() {
             </Card>
           </div>
 
-          {/* 右侧：市场洞察及风险分析 - 占5列 */}
+          {/* 右侧：业务洞察与指导 - 占5列 */}
           <div className="xl:col-span-5 flex flex-col">
             <Card className={cn(
               'backdrop-blur-xl border-2 flex-1 flex flex-col',
-              'bg-slate-900/60 border-red-500/30 shadow-lg shadow-red-500/10'
+              'bg-slate-900/60 border-cyan-500/30 shadow-lg shadow-cyan-500/10'
             )}>
               <CardContent className="p-4 flex-1">
-                <MarketInsightsPanel timeRange={timeRange} showTitle={false} />
+                <BusinessInsightsPanel timeRange={timeRange} showTitle={false} />
               </CardContent>
             </Card>
           </div>
