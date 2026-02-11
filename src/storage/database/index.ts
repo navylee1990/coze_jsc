@@ -5,4 +5,3 @@
 export * from './shared/schema';
 export { userManager } from './userManager';
 export { projectManager } from './projectManager';
-export { dealerManager } from './dealerManager';

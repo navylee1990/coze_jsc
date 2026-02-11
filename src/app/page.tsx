@@ -1,6 +1,6 @@
 // 商净销售预测系统 - 主页
 import Link from 'next/link';
-import { Activity, Zap, Layers, ArrowRight, BarChart3, Target, TrendingUp } from 'lucide-react';
+import { Activity, Zap, Layers, ArrowRight } from 'lucide-react';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 
@@ -15,7 +15,7 @@ export default function HomePage() {
         </div>
 
         {/* 驾驶舱卡片 */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div className="grid grid-cols-1 gap-6">
           {/* 商净销售预测 */}
           <Link href="/gm" className="block group">
             <Card className="border-2 border-gray-200 hover:border-green-400 hover:shadow-2xl transition-all duration-300 bg-white">
@@ -54,52 +54,6 @@ export default function HomePage() {
                   <div className="flex-shrink-0">
                     <Button variant="default" className="group-hover:bg-green-600 transition-colors">
                       进入驾驶舱
-                      <ArrowRight className="ml-1 w-3 h-3" />
-                    </Button>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
-          </Link>
-
-          {/* 经销商销售预测 */}
-          <Link href="/dealer" className="block group">
-            <Card className="border-2 border-gray-200 hover:border-purple-400 hover:shadow-2xl transition-all duration-300 bg-white">
-              <CardContent className="p-8">
-                <div className="flex flex-col items-center gap-6 text-center">
-                  {/* 图标 */}
-                  <div className="flex-shrink-0">
-                    <div className="w-20 h-20 bg-gradient-to-br from-purple-500 to-pink-600 rounded-2xl flex items-center justify-center group-hover:scale-110 transition-transform">
-                      <BarChart3 className="w-10 h-10 text-white" />
-                    </div>
-                  </div>
-
-                  {/* 文字内容 */}
-                  <div className="flex-grow">
-                    <h2 className="text-2xl font-bold text-gray-900 mb-2">经销商销售预测</h2>
-                    <p className="text-gray-600 text-sm mb-4 line-clamp-2">
-                      财务指标追踪、市场洞察分析、项目开发管理，全方位掌控经销商销售数据
-                    </p>
-                    <div className="flex flex-wrap items-center justify-center gap-3 text-xs text-gray-500">
-                      <div className="flex items-center gap-1">
-                        <Target className="w-3 h-3 text-purple-500" />
-                        <span>财务指标分析</span>
-                      </div>
-                      <div className="flex items-center gap-1">
-                        <Layers className="w-3 h-3 text-pink-500" />
-                        <span>市场洞察洞察</span>
-                      </div>
-                      <div className="flex items-center gap-1">
-                        <TrendingUp className="w-3 h-3 text-indigo-500" />
-                        <span>项目开发跟踪</span>
-                      </div>
-                    </div>
-                  </div>
-
-                  {/* 按钮 */}
-                  <div className="flex-shrink-0">
-                    <Button variant="default" className="bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 transition-all">
-                      查看详情
                       <ArrowRight className="ml-1 w-3 h-3" />
                     </Button>
                   </div>
