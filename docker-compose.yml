@@ -1,0 +1,21 @@
+services:
+  gm-sales:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: gm-sales-app
+    restart: unless-stopped
+    ports:
+      - "5000:5000"
+    env_file:
+      - .env
+    environment:
+      - NODE_ENV=${NODE_ENV}
+      - PGDATABASE_URL=${PGDATABASE_URL}
+      - PORT=${PORT}
+    networks:
+      - gm-network
+
+networks:
+  gm-network:
+    driver: bridge
