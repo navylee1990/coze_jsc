@@ -144,16 +144,16 @@ const sixMonthNewNeeded = calculateNewProjectsNeeded(sixMonthGap, sixMonthDelaye
 
 // ========== 核心预测总览数据（使用动态计算结果） ==========
 const DASHBOARD_STYLES = {
-  bg: 'bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950',
-  text: 'text-cyan-50',
-  textMuted: 'text-cyan-300/70',
-  textSecondary: 'text-cyan-200',
-  cardBg: 'bg-slate-900/60 backdrop-blur-sm',
-  cardBorder: 'border-cyan-500/30',
-  subCardBg: 'bg-slate-800/40 backdrop-blur-sm',
-  subCardBorder: 'border-cyan-400/20',
-  glow: 'shadow-[0_0_30px_rgba(6,182,212,0.3)]',
-  neon: 'text-cyan-400 drop-shadow-[0_0_8px_rgba(6,182,212,0.8)]',
+  bg: 'bg-gradient-to-br from-slate-50 via-blue-50 to-cyan-50',
+  text: 'text-slate-900',
+  textMuted: 'text-slate-500',
+  textSecondary: 'text-slate-700',
+  cardBg: 'bg-white/80 backdrop-blur-sm',
+  cardBorder: 'border-blue-200',
+  subCardBg: 'bg-slate-50/80 backdrop-blur-sm',
+  subCardBorder: 'border-blue-100',
+  glow: 'shadow-xl',
+  neon: 'text-blue-600',
 };
 
 // 核心预测总览数据（使用动态计算结果）
