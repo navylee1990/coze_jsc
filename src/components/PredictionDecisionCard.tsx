@@ -8,14 +8,14 @@ import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, Responsi
 // 主题类型
 type Theme = 'dark' | 'dashboard';
 
-// 驾驶舱样式
+// 驾驶舱样式 - 浅色系
 const DASHBOARD_STYLES = {
-  bg: 'bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950',
-  text: 'text-cyan-50',
-  textMuted: 'text-cyan-300/70',
-  neon: 'text-cyan-400 drop-shadow-[0_0_8px_rgba(6,182,212,0.8)]',
-  warningNeon: 'text-red-400 drop-shadow-[0_0_8px_rgba(239,68,68,0.8)]',
-  successNeon: 'text-green-400 drop-shadow-[0_0_8px_rgba(74,222,128,0.8)]',
+  bg: 'bg-gradient-to-br from-slate-50 via-blue-50 to-cyan-50',
+  text: 'text-slate-900',
+  textMuted: 'text-slate-500',
+  neon: 'text-blue-600',
+  warningNeon: 'text-red-600',
+  successNeon: 'text-green-600',
 };
 
 // 组件属性
